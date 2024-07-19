@@ -223,7 +223,7 @@
             var id = $(this).data('id');
             $.get("{{ route('states.index') }}" +'/' + id, function (data) {
                 $('#modelHeading').html("Show State");
-                $('#savedata').val("edit-state");
+                $('#savedata').val("show-state");
                 $('#showStatemodal').modal('show');
                 $('#showStateForm #name').val(data.name);
                 $('#showStateForm #code').val(data.code);

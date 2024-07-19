@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ProjectType extends Model
 {
@@ -24,7 +25,10 @@ class ProjectType extends Model
        'project_type_name',
    ];
 
-   //custom timestamps name
-   const CREATED_AT = 'created_at';
-   const UPDATED_AT = 'updated_at';
+   protected function projectTypeName(): Attribute
+   {
+       return Attribute::make(
+           get: fn (string $value) => ucfirst($value),
+       );
+   }
 }

@@ -25,9 +25,10 @@ class Department extends Model
        'department_name',
    ];
 
-   protected function department_name(): Attribute {
-        return Attribute::make(
-            set: fn (string $value) => strtolower($value),
-        );
-    }
+   protected function departmentName(): Attribute
+   {
+       return Attribute::make(
+           get: fn (string $value) => ucfirst($value),
+       );
+   }
 }

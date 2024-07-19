@@ -218,7 +218,7 @@
             var id = $(this).data('id');
             $.get("{{ route('departments.index') }}" +'/' + id, function (data) {
                 $('#modelHeading').html("Show Department");
-                $('#savedata').val("edit-department");
+                $('#savedata').val("show-department");
                 $('#showDepartmentmodal').modal('show');
                 $('#showDepartmentForm #department_name').val(data.department_name);
             });

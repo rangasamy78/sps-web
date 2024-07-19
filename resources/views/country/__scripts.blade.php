@@ -126,7 +126,7 @@
             var id = $(this).data('id');
             $.get("{{ route('countries.index') }}" +'/' + id, function (data) {
                 $('#modelHeading').html("Show Country");
-                $('#savedata').val("edit-country");
+                $('#savedata').val("show-country");
                 $('#showCountrymodal').modal('show');
                 $('#showCountryForm #country_name').val(data.country_name);
                 $('#showCountryForm #country_code').val(data.country_code);

@@ -11,27 +11,21 @@
             responsive: true,
             processing: true,
             serverSide: true,
-            ajax: "{{ route('project_types.list') }}",
+            order: [[0, 'desc']],
+            ajax: {
+                url: "{{ route('project_types.list') }}",
+                data: function (d) {
+                    sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
+                    d.order = [{ column: 0, dir: sort }];
+                }
+            },
             columns: [
-                {
-                    data: 'id',
-                    name: 'id',
-                    orderable: false,
-                    searchable: false
-                }, // Row index column
-                {
-                    data: 'project_type_name',
-                    name: 'project_type_name',
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
-                },
+                { data: 'id', name: 'id', orderable: false, searchable: false },
+                { data: 'project_type_name', name: 'project_type_name' },
+                { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
-            rowCallback: function(row, data, index) {
-                $('td:eq(0)', row).html(index + 1); // Update the index column with the correct row index
+            rowCallback: function (row, data, index) {
+                $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
             }
         });
 
@@ -45,96 +39,38 @@
             $('#projectTypeModel').modal('show');
         });
 
-        $('#savedata').click(function (e) {
-            e.preventDefault();
-            if($("#project_type_id").val() == null || $("#project_type_id").val() == "")
-            {
-                storeProjectType();
-            } else {
-                updateProjectType();
-            }
+        $('#projectTypeForm input').on('input', function () {
+            let fieldName = $(this).attr('name');
+            $('.' + fieldName + '_error').text('');
         });
 
-        function storeProjectType()
-        {
+        $('#savedata').click(function (e) {
+            e.preventDefault();
             $(this).html('Sending..');
-                $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
-                },
+            var url = $('#project_type_id').val() ? "{{ route('project_types.update', ':id') }}".replace(':id', $('#project_type_id').val()) : "{{ route('project_types.store') }}";
+            var type = $('#project_type_id').val() ? "PUT" : "POST";
+            $.ajax({
+                url: url,
+                type: type,
                 data: $('#projectTypeForm').serialize(),
-                url: "{{ route('project_types.store') }}",
-                type: "POST",
                 dataType: 'json',
                 success: function (response) {
-                    if(response.status == "success"){
+                    if (response.status == "success") {
                         $('#projectTypeForm').trigger("reset");
                         $('#projectTypeModel').modal('hide');
                         table.draw();
-                        Swal.fire({
-                            title: 'Created!',
-                            text: 'Project Type Added Successfully!',
-                            type: 'success',
-                            customClass: {
-                            confirmButton: 'btn btn-primary'
-                            },
-                            buttonsStyling: false
-                        });
+                        var successMessage = type === 'POST' ? 'Project Type Added Successfully!' : 'Project Type Updated Successfully!';
+                        var successTitle = type === 'POST' ? 'Created!' : 'Updated!';
+                        showSuccessMessage(successTitle, successMessage);
                     }
                 },
                 error: function(xhr) {
-                    var res = xhr.responseJSON;
-                    if ($.isEmptyObject(res) == false) {
-                        $.each(res.errors, function(prefix, val) {
-                            $('span.' + prefix + '_error').text(val[0]);
-                        });
-                    }
-                    $('#savedata').html('Save Project Type');
+                    handleAjaxError(xhr);
+                    var button = type === 'POST' ? 'Save Project Type' : 'Update Project Type';
+                    $('#savedata').html(button);
                 }
             });
-        }
-
-        function updateProjectType()
-        {
-            $(this).html('Sending..');
-            let url = $('meta[name=app-url]').attr("content") + "/project_types/" + $("#project_type_id").val();
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                url: url,
-                type: "PUT",
-                data: $('#projectTypeForm').serialize(),
-                dataType: 'json',
-                success: function(response) {
-                    console.log(response);
-                    if(response.status == "success"){
-                        $('#projectTypeForm').trigger("reset");
-                        $('#projectTypeModel').modal('hide');
-                        table.draw();
-                        Swal.fire({
-                            title: 'Updated!',
-                            text: 'Project Type Updated Successfully!',
-                            type: 'success',
-                            customClass: {
-                            confirmButton: 'btn btn-primary'
-                            },
-                            buttonsStyling: false
-                        });
-                    }
-                },
-                error: function(xhr) {
-                    var res = xhr.responseJSON;
-                    if ($.isEmptyObject(res) == false) {
-                        $.each(res.errors, function(prefix, val) {
-                            $('span.' + prefix + '_error').text(val[0]);
-                        });
-                    }
-                    console.log('Error:', data);
-                    $('#savedata').html('Update Project Type');
-                }
-            });
-        }
+        });
 
         $('body').on('click', '.editbtn', function () {
             var id = $(this).data('id');
@@ -152,61 +88,41 @@
 
         $('body').on('click', '.deletebtn', function () {
             var id = $(this).data('id');
-            let url = $('meta[name=app-url]').attr("content") + "/project_types/" + id;
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!',
-                customClass: {
-                confirmButton: 'btn btn-primary me-1',
-                cancelButton: 'btn btn-label-secondary'
-                },
-                buttonsStyling: false
-            }).then(function(result) {
-                if (result.value) {
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        url: url,
-                        type: "DELETE",
-                        data: {
-                            id: $("#id").val(),
-                        },
-                        success: function(response) {
-                            if(response.status == "success"){
-                                table.draw();
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Deleted!',
-                                    text: 'Project Type Deleted Successfully!',
-                                    customClass: {
-                                    confirmButton: 'btn btn-success'
-                                    }
-                                });
-                            }
-                        },
-                        error: function(response) {
-                            console.log(response.responseJSON);
-                            Swal.fire({
-                                title: 'Oops!',
-                                text: 'Something went wrong!'
-                            });
-                        }
-                    });
-                }
+            confirmDelete(id, function() {
+                deleteProjectType(id);
             });
         });
+
+        function deleteProjectType(id) {
+            var url = "{{ route('project_types.destroy', ':id') }}".replace(':id', id);
+
+            $.ajax({
+                url: url,
+                type: "DELETE",
+                data: {
+                    id: id,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    if (response.status === "success") {
+                        table.draw(); // Assuming 'table' is defined for DataTables
+                        showSuccessMessage('Deleted!', 'Project Type Deleted Successfully!');
+                    } else {
+                        showError('Deleted!', response.msg);
+                    }
+                },
+                error: function(xhr) {
+                    console.error('Error:', xhr.statusText);
+                    showError('Oops!', 'Failed to fetch data.');
+                }
+            });
+        }
 
         $('body').on('click', '.showbtn', function () {
             var id = $(this).data('id');
             $.get("{{ route('project_types.index') }}" +'/' + id, function (data) {
                 $('#modelHeading').html("Show Project Type");
-                $('#savedata').val("edit-project-type");
+                $('#savedata').val("show-project-type");
                 $('#showProjectTypeModal').modal('show');
                 $('#showProjectTypeForm #project_type_name').val(data.project_type_name);
             });
