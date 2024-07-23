@@ -13,6 +13,7 @@ use App\Http\Controllers\ProductColorController;
 use App\Http\Controllers\ProductGroupController;
 use App\Http\Controllers\SubHeadingController;
 use App\Http\Controllers\CountryController;
+use App\Http\Controllers\EventTypeController;
 use App\Http\Controllers\TransactionStartingController;
 use App\Http\Controllers\OpportunityStageController;
 use App\Http\Controllers\ProbabilityToCloseController;
@@ -79,5 +80,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('probability_to_closes', ProbabilityToCloseController::class);
     Route::get('/probability_to_close/list', [ProbabilityToCloseController::class, 'getProbabilityToCloseDataTableList'])->name('probability_to_closes.list');
+
+    Route::resource('event_types', EventTypeController::class);
+    Route::get('/event_type/list', [EventTypeController::class, 'getEventTypeDataTableList'])->name('event_types.list');
 
 });
