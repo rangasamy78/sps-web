@@ -16,6 +16,7 @@ use App\Http\Controllers\CountryController;
 use App\Http\Controllers\TransactionStartingController;
 use App\Http\Controllers\OpportunityStageController;
 use App\Http\Controllers\ProbabilityToCloseController;
+use App\Http\Controllers\DesignationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -80,4 +81,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('probability_to_closes', ProbabilityToCloseController::class);
     Route::get('/probability_to_close/list', [ProbabilityToCloseController::class, 'getProbabilityToCloseDataTableList'])->name('probability_to_closes.list');
 
+    Route::resource('designations', DesignationController::class);
+    Route::get('/designation/list', [DesignationController::class, 'getDesignationDataTable'])->name('designations.list');
 });
