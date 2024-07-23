@@ -14,6 +14,7 @@ use App\Http\Controllers\ProductGroupController;
 use App\Http\Controllers\SubHeadingController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\TransactionStartingController;
+use App\Http\Controllers\OpportunityStageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,4 +71,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('transaction_startings', TransactionStartingController::class);
     Route::get('/transaction_starting/list', [TransactionStartingController::class, 'getTransactionStartingDataTableList'])->name('transaction_startings.list');
+
+    Route::resource('opportunity_stages', OpportunityStageController::class);
+    Route::get('/opportunity_stage/list', [OpportunityStageController::class, 'getOpportunityStageDataTableList'])->name('opportunity_stages.list');
 });
