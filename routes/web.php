@@ -18,6 +18,7 @@ use App\Http\Controllers\TransactionStartingController;
 use App\Http\Controllers\OpportunityStageController;
 use App\Http\Controllers\ProbabilityToCloseController;
 use App\Http\Controllers\DesignationController;
+use App\Http\Controllers\EndUseSegmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -87,5 +88,9 @@ Route::middleware(['auth'])->group(function () {
    
     Route::resource('event_types', EventTypeController::class);
     Route::get('/event_type/list', [EventTypeController::class, 'getEventTypeDataTableList'])->name('event_types.list');
+
+    Route::resource('end_use_segments', EndUseSegmentController::class);
+    Route::get('/end_use_segment/list', [EndUseSegmentController::class, 'getEndUseSegementDataTableList'])->name('end_use_segments.list');
+
 
 });
