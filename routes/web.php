@@ -15,6 +15,7 @@ use App\Http\Controllers\SubHeadingController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\TransactionStartingController;
 use App\Http\Controllers\OpportunityStageController;
+use App\Http\Controllers\ProbabilityToCloseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
+
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
     Route::resource('states', StateController::class);
@@ -74,4 +76,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('opportunity_stages', OpportunityStageController::class);
     Route::get('/opportunity_stage/list', [OpportunityStageController::class, 'getOpportunityStageDataTableList'])->name('opportunity_stages.list');
+
+    Route::resource('probability_to_closes', ProbabilityToCloseController::class);
+    Route::get('/probability_to_close/list', [ProbabilityToCloseController::class, 'getProbabilityToCloseDataTableList'])->name('probability_to_closes.list');
+
 });
