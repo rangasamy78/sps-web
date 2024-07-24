@@ -31,4 +31,10 @@ class Department extends Model
            get: fn (string $value) => ucfirst($value),
        );
    }
+
+    public static function getDepartmentList($id)
+    {
+        return Department::findOrFail($id)->department_name ?? '';
+    }
+
 }

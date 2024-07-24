@@ -18,6 +18,8 @@ use App\Http\Controllers\EventTypeController;
 use App\Http\Controllers\TransactionStartingController;
 use App\Http\Controllers\OpportunityStageController;
 use App\Http\Controllers\ProbabilityToCloseController;
+use App\Http\Controllers\DesignationController;
+use App\Http\Controllers\EndUseSegmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -82,10 +84,16 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('probability_to_closes', ProbabilityToCloseController::class);
     Route::get('/probability_to_close/list', [ProbabilityToCloseController::class, 'getProbabilityToCloseDataTableList'])->name('probability_to_closes.list');
 
+    Route::resource('designations', DesignationController::class);
+    Route::get('/designation/list', [DesignationController::class, 'getDesignationDataTable'])->name('designations.list');
+
     Route::resource('event_types', EventTypeController::class);
     Route::get('/event_type/list', [EventTypeController::class, 'getEventTypeDataTableList'])->name('event_types.list');
 
     Route::resource('calculate_measurement_labels', CalculateMeasurementLabelController::class);
     Route::get('/calculate_measurement_label/list', [CalculateMeasurementLabelController::class, 'getCalculateMeasurementLabelDataTableList'])->name('calculate_measurement_labels.list');
+
+    Route::resource('end_use_segments', EndUseSegmentController::class);
+    Route::get('/end_use_segment/list', [EndUseSegmentController::class, 'getEndUseSegementDataTableList'])->name('end_use_segments.list');
 
 });
