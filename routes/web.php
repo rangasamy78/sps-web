@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\BinTypeController;
+use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\ProjectTypeController;
@@ -83,5 +84,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('event_types', EventTypeController::class);
     Route::get('/event_type/list', [EventTypeController::class, 'getEventTypeDataTableList'])->name('event_types.list');
+
+    Route::resource('calculate_measurement_labels', CalculateMeasurementLabelController::class);
+    Route::get('/calculate_measurement_label/list', [CalculateMeasurementLabelController::class, 'getCalculateMeasurementLabelDataTableList'])->name('calculate_measurement_labels.list');
 
 });
