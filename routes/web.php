@@ -16,6 +16,8 @@ use App\Http\Controllers\CountryController;
 use App\Http\Controllers\TransactionStartingController;
 use App\Http\Controllers\OpportunityStageController;
 use App\Http\Controllers\ProbabilityToCloseController;
+use App\Http\Controllers\ReleaseReasonCodeController;
+use App\Http\Controllers\ProductThicknessController;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,5 +81,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('probability_to_closes', ProbabilityToCloseController::class);
     Route::get('/probability_to_close/list', [ProbabilityToCloseController::class, 'getProbabilityToCloseDataTableList'])->name('probability_to_closes.list');
+
+    Route::resource('release_reason_codes', ReleaseReasonCodeController::class);
+    Route::get('/release_reason_code/list', [ReleaseReasonCodeController::class, 'getReleaseReasonCodeDataTableList'])->name('release_reason_codes.list');  
+
+    Route::resource('product_thicknesses', ProductThicknessController::class);
+    Route::get('/product_thickness/list', [ProductThicknessController::class, 'getProductThicknessDataTableList'])->name('product_thicknesses.list');
+
 
 });
