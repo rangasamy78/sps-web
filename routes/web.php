@@ -19,13 +19,11 @@ use App\Http\Controllers\EventTypeController;
 use App\Http\Controllers\TransactionStartingController;
 use App\Http\Controllers\OpportunityStageController;
 use App\Http\Controllers\ProbabilityToCloseController;
-<<<<<<< HEAD
 use App\Http\Controllers\ReleaseReasonCodeController;
 use App\Http\Controllers\ProductThicknessController;
-=======
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\EndUseSegmentController;
->>>>>>> b8740debe8a035109ba07e5397fcba9f07e6ed56
+
 
 /*
 |--------------------------------------------------------------------------
