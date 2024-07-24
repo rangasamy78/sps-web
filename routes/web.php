@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\BinTypeController;
+use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\ProjectTypeController;
@@ -13,13 +14,17 @@ use App\Http\Controllers\ProductColorController;
 use App\Http\Controllers\ProductGroupController;
 use App\Http\Controllers\SubHeadingController;
 use App\Http\Controllers\CountryController;
+use App\Http\Controllers\CustomerTypeController;
 use App\Http\Controllers\EventTypeController;
 use App\Http\Controllers\TransactionStartingController;
 use App\Http\Controllers\OpportunityStageController;
 use App\Http\Controllers\ProbabilityToCloseController;
+use App\Http\Controllers\ReleaseReasonCodeController;
+use App\Http\Controllers\ProductThicknessController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\EndUseSegmentController;
 use App\Http\Controllers\AboutUsOptionController;
+use App\Http\Controllers\ShipmentMethodController;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,11 +89,20 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('probability_to_closes', ProbabilityToCloseController::class);
     Route::get('/probability_to_close/list', [ProbabilityToCloseController::class, 'getProbabilityToCloseDataTableList'])->name('probability_to_closes.list');
 
+    Route::resource('release_reason_codes', ReleaseReasonCodeController::class);
+    Route::get('/release_reason_code/list', [ReleaseReasonCodeController::class, 'getReleaseReasonCodeDataTableList'])->name('release_reason_codes.list');  
+
+    Route::resource('product_thicknesses', ProductThicknessController::class);
+    Route::get('/product_thickness/list', [ProductThicknessController::class, 'getProductThicknessDataTableList'])->name('product_thicknesses.list');
+
     Route::resource('designations', DesignationController::class);
     Route::get('/designation/list', [DesignationController::class, 'getDesignationDataTable'])->name('designations.list');
-   
+
     Route::resource('event_types', EventTypeController::class);
     Route::get('/event_type/list', [EventTypeController::class, 'getEventTypeDataTableList'])->name('event_types.list');
+
+    Route::resource('calculate_measurement_labels', CalculateMeasurementLabelController::class);
+    Route::get('/calculate_measurement_label/list', [CalculateMeasurementLabelController::class, 'getCalculateMeasurementLabelDataTableList'])->name('calculate_measurement_labels.list');
 
     Route::resource('end_use_segments', EndUseSegmentController::class);
     Route::get('/end_use_segment/list', [EndUseSegmentController::class, 'getEndUseSegementDataTableList'])->name('end_use_segments.list');
@@ -96,4 +110,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('about_us_options', AboutUsOptionController::class);
     Route::get('/about_us_option/list', [AboutUsOptionController::class, 'getAboutUsOptionDataTableList'])->name('about_us_options.list');
 
+    Route::resource('customer_types', CustomerTypeController::class);
+    Route::get('/customer_type/list', [CustomerTypeController::class, 'getCustomerTypeDataTableList'])->name('customer_types.list');
+
+    Route::resource('shipment_methods', ShipmentMethodController::class);
+    Route::get('/shipment_method/list', [ShipmentMethodController::class, 'getShipmentMethodDataTableList'])->name('shipment_methods.list');
 });

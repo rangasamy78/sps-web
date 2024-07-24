@@ -2,30 +2,29 @@
 
 namespace App\Repositories;
 
-use App\Models\ProjectType;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\CalculateMeasurementLabel;
 use App\Interfaces\CrudRepositoryInterface;
 use App\Interfaces\DatatableRepositoryInterface;
 
-class ProjectTypeRepository implements CrudRepositoryInterface, DatatableRepositoryInterface
+class CalculateMeasurementLabelRepository implements CrudRepositoryInterface, DatatableRepositoryInterface
 {
 
     public function findOrFail(int $id)
     {
-        return ProjectType::query()
+        return CalculateMeasurementLabel::query()
             ->findOrFail($id);
     }
 
     public function store(array $data)
     {
-        return ProjectType::query()
+        return CalculateMeasurementLabel::query()
             ->create($data);
     }
 
     public function update(array $data, int $id)
     {
-        $query = ProjectType::query()
+        $query = CalculateMeasurementLabel::query()
             ->findOrFail($id)
             ->update($data);
         return $query;
@@ -37,9 +36,9 @@ class ProjectTypeRepository implements CrudRepositoryInterface, DatatableReposit
         return $query;
     }
 
-    public function getProjectTypeList()
+    public function getCalculateMeasurementLabelList()
     {
-        $query = ProjectType::query();
+        $query = CalculateMeasurementLabel::query();
         return $query;
     }
 
@@ -56,28 +55,28 @@ class ProjectTypeRepository implements CrudRepositoryInterface, DatatableReposit
         $columnSortOrder = $orderArray[0]['dir'];
         $searchValue = $searchArray['value'];
 
-        $projectTypes = $this->getProjectTypeList();
-        $total = $projectTypes->count();
+        $calculateMeasurementLabel = $this->getCalculateMeasurementLabelList();
+        $total = $calculateMeasurementLabel->count();
 
-        $totalFilter = $this->getProjectTypeList();
+        $totalFilter = $this->getCalculateMeasurementLabelList();
         if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('project_type_name', 'like', '%' . $searchValue . '%');
+            $totalFilter = $totalFilter->where('label_name', 'like', '%' . $searchValue . '%');
         }
         $totalFilter = $totalFilter->count();
 
-        $arrData = $this->getProjectTypeList();
+        $arrData = $this->getCalculateMeasurementLabelList();
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
 
         if (!empty($searchValue)) {
-            $arrData = $arrData->where('project_type_name', 'like', '%' . $searchValue . '%');
+            $arrData = $arrData->where('label_name', 'like', '%' . $searchValue . '%');
         }
         $arrData = $arrData->get();
 
         $arrData->map(function ($value, $i) {
             $value->sno = ++$i;
-            $value->project_type_name = $value->project_type_name ?? '';
-            $value->action = "<button type='button' data-id='" . $value->id . "' class='p-2 m-0 btn btn-warning btn-sm showbtn' data-bs-toggle='modal' ><i class='fa-regular fa-eye fa-fw'></i></button>&nbsp;&nbsp;<button type='button' data-id='" . $value->id . "'  name='btnEdit' class='editbtn btn btn-primary btn-sm p-2 m-0'><i class='fas fa-pencil-alt'></i></button>&nbsp;&nbsp;<button type='button' data-id='" . $value->id . "'  name='btnDelete' class='deletebtn btn btn-danger btn-sm p-2 m-0'><i class='fas fa-trash-alt'></i></button>";
+            $value->label_name = $value->label_name ?? '';
+            $value->action = "<button type='button' data-id='" . $value->id . "' class='p-2 m-0 btn btn-warning btn-sm showbtn'><i class='fa-regular fa-eye fa-fw'></i></button>&nbsp;&nbsp;<button type='button' data-id='" . $value->id . "'  name='btnEdit' class='editbtn btn btn-primary btn-sm p-2 m-0'><i class='fas fa-pencil-alt'></i></button>&nbsp;&nbsp;<button type='button' data-id='" . $value->id . "'  name='btnDelete' class='deletebtn btn btn-danger btn-sm p-2 m-0'><i class='fas fa-trash-alt'></i></button>";
         });
 
         $response = array(

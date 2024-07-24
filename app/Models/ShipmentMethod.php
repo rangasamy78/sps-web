@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Department extends Model
+class ShipmentMethod extends Model
 {
     use HasFactory;
 
@@ -15,26 +15,20 @@ class Department extends Model
     *
     * @var string
     */
-   protected $table = 'departments';
+   protected $table = 'shipment_methods';
    /**
    * The attributes that are mass assignable.
    *
    * @var array<int, string>
    */
    protected $fillable = [
-       'department_name',
+       'shipment_method_name',
    ];
 
-   protected function departmentName(): Attribute
+   protected function shipmentMethodName(): Attribute
    {
        return Attribute::make(
            get: fn (string $value) => ucfirst($value),
        );
    }
-
-    public static function getDepartmentList($id)
-    {
-        return self::findOrFail($id)->department_name ?? '';
-    }
-
 }

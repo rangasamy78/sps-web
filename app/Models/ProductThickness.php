@@ -6,35 +6,29 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Department extends Model
+
+class ProductThickness extends Model
 {
     use HasFactory;
-
     /**
     * The table associated with the model.
     *
     * @var string
     */
-   protected $table = 'departments';
+   protected $table = 'product_thicknesses';
    /**
    * The attributes that are mass assignable.
    *
    * @var array<int, string>
    */
    protected $fillable = [
-       'department_name',
+       'product_thickness_name',
+       'product_thickness_unit',
    ];
-
-   protected function departmentName(): Attribute
+   protected function ProductThickness(): Attribute
    {
        return Attribute::make(
            get: fn (string $value) => ucfirst($value),
        );
-   }
-
-    public static function getDepartmentList($id)
-    {
-        return self::findOrFail($id)->department_name ?? '';
     }
-
 }
