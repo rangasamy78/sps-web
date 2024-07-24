@@ -21,6 +21,7 @@ use App\Http\Controllers\OpportunityStageController;
 use App\Http\Controllers\ProbabilityToCloseController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\EndUseSegmentController;
+use App\Http\Controllers\ShipmentMethodController;
 
 /*
 |--------------------------------------------------------------------------
@@ -99,5 +100,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('customer_types', CustomerTypeController::class);
     Route::get('/customer_type/list', [CustomerTypeController::class, 'getCustomerTypeDataTableList'])->name('customer_types.list');
+
+    Route::resource('shipment_methods', ShipmentMethodController::class);
+    Route::get('/shipment_method/list', [ShipmentMethodController::class, 'getShipmentMethodDataTableList'])->name('shipment_methods.list');
 
 });
