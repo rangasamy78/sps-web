@@ -25,6 +25,7 @@ use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\EndUseSegmentController;
 use App\Http\Controllers\AboutUsOptionController;
 use App\Http\Controllers\ShipmentMethodController;
+use App\Http\Controllers\CustomerContactTitleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -115,4 +116,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('shipment_methods', ShipmentMethodController::class);
     Route::get('/shipment_method/list', [ShipmentMethodController::class, 'getShipmentMethodDataTableList'])->name('shipment_methods.list');
+
+    Route::resource('customer_contact_titles', CustomerContactTitleController::class);
+    Route::get('/customer_contact_title/list', [CustomerContactTitleController::class, 'getCustomerContactTitleDataTableList'])->name('customer_contact_titles.list');
 });
