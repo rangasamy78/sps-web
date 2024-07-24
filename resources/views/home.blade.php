@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Home Page - UI elements')
+@section('title', 'Home Page')
 
 @section('styles')
 <link rel="stylesheet" href="{{asset('public/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />

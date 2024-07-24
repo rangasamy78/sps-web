@@ -14,6 +14,7 @@ use App\Http\Controllers\ProductColorController;
 use App\Http\Controllers\ProductGroupController;
 use App\Http\Controllers\SubHeadingController;
 use App\Http\Controllers\CountryController;
+use App\Http\Controllers\CustomerTypeController;
 use App\Http\Controllers\EventTypeController;
 use App\Http\Controllers\TransactionStartingController;
 use App\Http\Controllers\OpportunityStageController;
@@ -95,5 +96,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('end_use_segments', EndUseSegmentController::class);
     Route::get('/end_use_segment/list', [EndUseSegmentController::class, 'getEndUseSegementDataTableList'])->name('end_use_segments.list');
+
+    Route::resource('customer_types', CustomerTypeController::class);
+    Route::get('/customer_type/list', [CustomerTypeController::class, 'getCustomerTypeDataTableList'])->name('customer_types.list');
 
 });
