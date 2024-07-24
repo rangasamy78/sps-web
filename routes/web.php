@@ -19,6 +19,7 @@ use App\Http\Controllers\OpportunityStageController;
 use App\Http\Controllers\ProbabilityToCloseController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\EndUseSegmentController;
+use App\Http\Controllers\AboutUsOptionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -92,5 +93,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('end_use_segments', EndUseSegmentController::class);
     Route::get('/end_use_segment/list', [EndUseSegmentController::class, 'getEndUseSegementDataTableList'])->name('end_use_segments.list');
 
+    Route::resource('about_us_options', AboutUsOptionController::class);
+    Route::get('/about_us_option/list', [AboutUsOptionController::class, 'getAboutUsOptionDataTableList'])->name('about_us_options.list');
 
 });
