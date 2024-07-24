@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\BinTypeController;
+use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\ProjectTypeController;
@@ -13,11 +14,18 @@ use App\Http\Controllers\ProductColorController;
 use App\Http\Controllers\ProductGroupController;
 use App\Http\Controllers\SubHeadingController;
 use App\Http\Controllers\CountryController;
+use App\Http\Controllers\CustomerTypeController;
+use App\Http\Controllers\EventTypeController;
 use App\Http\Controllers\TransactionStartingController;
 use App\Http\Controllers\OpportunityStageController;
 use App\Http\Controllers\ProbabilityToCloseController;
+<<<<<<< HEAD
 use App\Http\Controllers\ReleaseReasonCodeController;
 use App\Http\Controllers\ProductThicknessController;
+=======
+use App\Http\Controllers\DesignationController;
+use App\Http\Controllers\EndUseSegmentController;
+>>>>>>> b8740debe8a035109ba07e5397fcba9f07e6ed56
 
 /*
 |--------------------------------------------------------------------------
@@ -88,5 +96,19 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('product_thicknesses', ProductThicknessController::class);
     Route::get('/product_thickness/list', [ProductThicknessController::class, 'getProductThicknessDataTableList'])->name('product_thicknesses.list');
 
+    Route::resource('designations', DesignationController::class);
+    Route::get('/designation/list', [DesignationController::class, 'getDesignationDataTable'])->name('designations.list');
+
+    Route::resource('event_types', EventTypeController::class);
+    Route::get('/event_type/list', [EventTypeController::class, 'getEventTypeDataTableList'])->name('event_types.list');
+
+    Route::resource('calculate_measurement_labels', CalculateMeasurementLabelController::class);
+    Route::get('/calculate_measurement_label/list', [CalculateMeasurementLabelController::class, 'getCalculateMeasurementLabelDataTableList'])->name('calculate_measurement_labels.list');
+
+    Route::resource('end_use_segments', EndUseSegmentController::class);
+    Route::get('/end_use_segment/list', [EndUseSegmentController::class, 'getEndUseSegementDataTableList'])->name('end_use_segments.list');
+
+    Route::resource('customer_types', CustomerTypeController::class);
+    Route::get('/customer_type/list', [CustomerTypeController::class, 'getCustomerTypeDataTableList'])->name('customer_types.list');
 
 });

@@ -2,30 +2,29 @@
 
 namespace App\Repositories;
 
-use App\Models\ProjectType;
+use App\Models\EventType;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Model;
 use App\Interfaces\CrudRepositoryInterface;
 use App\Interfaces\DatatableRepositoryInterface;
 
-class ProjectTypeRepository implements CrudRepositoryInterface, DatatableRepositoryInterface
+class EventTypeRepository implements CrudRepositoryInterface, DatatableRepositoryInterface
 {
 
     public function findOrFail(int $id)
     {
-        return ProjectType::query()
+        return EventType::query()
             ->findOrFail($id);
     }
 
     public function store(array $data)
     {
-        return ProjectType::query()
+        return EventType::query()
             ->create($data);
     }
 
     public function update(array $data, int $id)
     {
-        $query = ProjectType::query()
+        $query = EventType::query()
             ->findOrFail($id)
             ->update($data);
         return $query;
@@ -37,9 +36,9 @@ class ProjectTypeRepository implements CrudRepositoryInterface, DatatableReposit
         return $query;
     }
 
-    public function getProjectTypeList()
+    public function getEventTypeList()
     {
-        $query = ProjectType::query();
+        $query = EventType::query();
         return $query;
     }
 
@@ -56,28 +55,30 @@ class ProjectTypeRepository implements CrudRepositoryInterface, DatatableReposit
         $columnSortOrder = $orderArray[0]['dir'];
         $searchValue = $searchArray['value'];
 
-        $projectTypes = $this->getProjectTypeList();
+        $projectTypes = $this->getEventTypeList();
         $total = $projectTypes->count();
 
-        $totalFilter = $this->getProjectTypeList();
+        $totalFilter = $this->getEventTypeList();
         if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('project_type_name', 'like', '%' . $searchValue . '%');
+            $totalFilter = $totalFilter->where('event_type_name', 'like', '%' . $searchValue . '%');
         }
         $totalFilter = $totalFilter->count();
 
-        $arrData = $this->getProjectTypeList();
+        $arrData = $this->getEventTypeList();
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
 
         if (!empty($searchValue)) {
-            $arrData = $arrData->where('project_type_name', 'like', '%' . $searchValue . '%');
+            $arrData = $arrData->where('event_type_name', 'like', '%' . $searchValue . '%');
         }
         $arrData = $arrData->get();
 
         $arrData->map(function ($value, $i) {
             $value->sno = ++$i;
-            $value->project_type_name = $value->project_type_name ?? '';
-            $value->action = "<button type='button' data-id='" . $value->id . "' class='p-2 m-0 btn btn-warning btn-sm showbtn' data-bs-toggle='modal' ><i class='fa-regular fa-eye fa-fw'></i></button>&nbsp;&nbsp;<button type='button' data-id='" . $value->id . "'  name='btnEdit' class='editbtn btn btn-primary btn-sm p-2 m-0'><i class='fas fa-pencil-alt'></i></button>&nbsp;&nbsp;<button type='button' data-id='" . $value->id . "'  name='btnDelete' class='deletebtn btn btn-danger btn-sm p-2 m-0'><i class='fas fa-trash-alt'></i></button>";
+            $value->event_type_name = $value->event_type_name ?? '';
+            $value->event_type_code = $value->event_type_code ?? '';
+            $value->event_category_id = get_event_category_list($value->event_category_id);
+            $value->action = "<button type='button' data-id='" . $value->id . "' class='p-2 m-0 btn btn-warning btn-sm showbtn'><i class='fa-regular fa-eye fa-fw'></i></button>&nbsp;&nbsp;<button type='button' data-id='" . $value->id . "'  name='btnEdit' class='editbtn btn btn-primary btn-sm p-2 m-0'><i class='fas fa-pencil-alt'></i></button>&nbsp;&nbsp;<button type='button' data-id='" . $value->id . "'  name='btnDelete' class='deletebtn btn btn-danger btn-sm p-2 m-0'><i class='fas fa-trash-alt'></i></button>";
         });
 
         $response = array(
@@ -89,4 +90,6 @@ class ProjectTypeRepository implements CrudRepositoryInterface, DatatableReposit
 
         return response()->json($response);
     }
+
+
 }

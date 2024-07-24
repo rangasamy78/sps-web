@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Department extends Model
+class CustomerType extends Model
 {
     use HasFactory;
 
@@ -15,26 +15,22 @@ class Department extends Model
     *
     * @var string
     */
-   protected $table = 'departments';
+   protected $table = 'customer_types';
    /**
    * The attributes that are mass assignable.
    *
    * @var array<int, string>
    */
    protected $fillable = [
-       'department_name',
+       'customer_type_name',
+       'customer_type_code'
    ];
 
-   protected function departmentName(): Attribute
+   protected function customerTypeName(): Attribute
    {
        return Attribute::make(
            get: fn (string $value) => ucfirst($value),
        );
    }
-
-    public static function getDepartmentList($id)
-    {
-        return Department::findOrFail($id)->department_name ?? '';
-    }
 
 }
