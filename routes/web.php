@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\BinTypeController;
-use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\ProjectTypeController;
@@ -27,7 +26,7 @@ use App\Http\Controllers\AboutUsOptionController;
 use App\Http\Controllers\ShipmentMethodController;
 use App\Http\Controllers\ReturnReasonCodeController;
 use App\Http\Controllers\CustomerContactTitleController;
-
+use App\Http\Controllers\CalculateMeasurementLabelController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
