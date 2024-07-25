@@ -24,6 +24,7 @@ use App\Http\Controllers\ProductThicknessController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\EndUseSegmentController;
 use App\Http\Controllers\ShipmentMethodController;
+use App\Http\Controllers\ReturnReasonCodeController;
 
 
 /*
@@ -90,7 +91,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/probability_to_close/list', [ProbabilityToCloseController::class, 'getProbabilityToCloseDataTableList'])->name('probability_to_closes.list');
 
     Route::resource('release_reason_codes', ReleaseReasonCodeController::class);
-    Route::get('/release_reason_code/list', [ReleaseReasonCodeController::class, 'getReleaseReasonCodeDataTableList'])->name('release_reason_codes.list');  
+    Route::get('/release_reason_code/list', [ReleaseReasonCodeController::class, 'getReleaseReasonCodeDataTableList'])->name('release_reason_codes.list');
 
     Route::resource('product_thicknesses', ProductThicknessController::class);
     Route::get('/product_thickness/list', [ProductThicknessController::class, 'getProductThicknessDataTableList'])->name('product_thicknesses.list');
@@ -112,5 +113,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('shipment_methods', ShipmentMethodController::class);
     Route::get('/shipment_method/list', [ShipmentMethodController::class, 'getShipmentMethodDataTableList'])->name('shipment_methods.list');
+
+    Route::resource('return_reason_codes', ReturnReasonCodeController::class);
+    Route::get('/return_reason_code/list', [ReturnReasonCodeController::class, 'getReturnReasonCodeDataTableList'])->name('return_reason_codes.list');
 
 });
