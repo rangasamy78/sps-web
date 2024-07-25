@@ -23,9 +23,10 @@ use App\Http\Controllers\ReleaseReasonCodeController;
 use App\Http\Controllers\ProductThicknessController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\EndUseSegmentController;
+use App\Http\Controllers\AboutUsOptionController;
 use App\Http\Controllers\ShipmentMethodController;
 use App\Http\Controllers\ReturnReasonCodeController;
-
+use App\Http\Controllers\CustomerContactTitleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -108,6 +109,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('end_use_segments', EndUseSegmentController::class);
     Route::get('/end_use_segment/list', [EndUseSegmentController::class, 'getEndUseSegementDataTableList'])->name('end_use_segments.list');
 
+    Route::resource('about_us_options', AboutUsOptionController::class);
+    Route::get('/about_us_option/list', [AboutUsOptionController::class, 'getAboutUsOptionDataTableList'])->name('about_us_options.list');
+
     Route::resource('customer_types', CustomerTypeController::class);
     Route::get('/customer_type/list', [CustomerTypeController::class, 'getCustomerTypeDataTableList'])->name('customer_types.list');
 
@@ -116,5 +120,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('return_reason_codes', ReturnReasonCodeController::class);
     Route::get('/return_reason_code/list', [ReturnReasonCodeController::class, 'getReturnReasonCodeDataTableList'])->name('return_reason_codes.list');
+
+    Route::resource('customer_contact_titles', CustomerContactTitleController::class);
+    Route::get('/customer_contact_title/list', [CustomerContactTitleController::class, 'getCustomerContactTitleDataTableList'])->name('customer_contact_titles.list');
 
 });
