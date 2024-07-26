@@ -61,3 +61,16 @@ function confirmDelete(id, callback) {
         }
     });
 }
+
+function sending(button, reset = false) {
+    if (reset) {
+        return button.html(button.data('original-text'));
+    } else {
+        if (!button.data('original-text')) {
+            console.log(button.data('original-text'));
+            button.data('original-text', button.html());
+        }
+        return button.html('Sending&nbsp;&nbsp;<span class="spinner-border spinner-border-sm"></span>');
+    }
+}
+
