@@ -25,6 +25,9 @@ use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\EndUseSegmentController;
 use App\Http\Controllers\AboutUsOptionController;
 use App\Http\Controllers\ShipmentMethodController;
+use App\Http\Controllers\ProductCategoryController;
+use App\Http\Controllers\ProductTypeController;
+use App\Http\Controllers\ProductPriceRangeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -115,4 +118,16 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('shipment_methods', ShipmentMethodController::class);
     Route::get('/shipment_method/list', [ShipmentMethodController::class, 'getShipmentMethodDataTableList'])->name('shipment_methods.list');
+
+    Route::resource('product_categories', ProductCategoryController::class);
+    Route::get('/product_category/list', [ProductCategoryController::class, 'getProductCategoryDataTableList'])->name('product_categories.list');
+
+    Route::resource('product_types', ProductTypeController::class);
+    Route::get('/product_type/list', [ProductTypeController::class, 'getProductTypeDataTableList'])->name('product_types.list');
+    Route::post('/updateDefaultvalue', [ProductTypeController::class, 'updateDefaultvalue'])->name('product_types.updateDefaultvalue');
+
+    Route::resource('product_price_ranges', ProductPriceRangeController::class);
+    Route::get('/product_price_range/list', [ProductPriceRangeController::class, 'getProductPriceRangeDataTableList'])->name('product_price_ranges.list');
+
+
 });

@@ -80,9 +80,24 @@
                         <div class="text-truncate" data-i18n="Products/Inventory">Products/Inventory</div>
                     </a>
                     <ul class="menu-sub">
+                        <li class="menu-item {{ request()->is('product_types') ? 'active open' : '' }}">
+                            <a href="{{ route('product_types.index') }}" class="menu-link">
+                                <div class="text-truncate" data-i18n="Product Type">Product Type</div>
+                            </a>
+                        </li>
+                        <li class="menu-item {{ request()->is('product_categories') ? 'active open' : '' }}">
+                            <a href="{{ route('product_categories.index') }}" class="menu-link">
+                                <div class="text-truncate" data-i18n="Product Category">Product Category</div>
+                            </a>
+                        </li>
                         <li class="menu-item {{ request()->is('product_groups') ? 'active open' : '' }}">
                             <a href="{{ route('product_groups.index') }}" class="menu-link">
                                 <div class="text-truncate" data-i18n="Product Groups">Product Groups</div>
+                            </a>
+                        </li>
+                        <li class="menu-item {{ request()->is('product_price_ranges') ? 'active open' : '' }}">
+                            <a href="{{ route('product_price_ranges.index') }}" class="menu-link">
+                                <div class="text-truncate" data-i18n="Product Price Ranges">Product Price Ranges</div>
                             </a>
                         </li>
                         <li class="menu-item {{ request()->is('product_colors') ? 'active open' : '' }}">
