@@ -26,6 +26,7 @@ use App\Http\Controllers\EndUseSegmentController;
 use App\Http\Controllers\AboutUsOptionController;
 use App\Http\Controllers\ShipmentMethodController;
 use App\Http\Controllers\CustomerContactTitleController;
+use App\Http\Controllers\PriceListLabelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -119,4 +120,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('customer_contact_titles', CustomerContactTitleController::class);
     Route::get('/customer_contact_title/list', [CustomerContactTitleController::class, 'getCustomerContactTitleDataTableList'])->name('customer_contact_titles.list');
+
+    Route::resource('price_list_labels', PriceListLabelController::class);
+    Route::get('/price_list_label/list', [PriceListLabelController::class, 'getPriceListLabelDataTableList'])->name('price_list_labels.list');
 });
