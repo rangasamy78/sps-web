@@ -100,6 +100,8 @@
                             </a>
                         </li>
                         <li class="menu-item {{ request()->is('product_price_ranges*') ? 'active open' : '' }}">
+                       
+                        <li class="menu-item {{ request()->is('product_price_ranges') ? 'active open' : '' }}">
                             <a href="{{ route('product_price_ranges.index') }}" class="menu-link">
                                 <div class="text-truncate" data-i18n="Product Price Ranges">Product Price Ranges</div>
                             </a>
@@ -152,6 +154,11 @@
                             title="Probability To Close %">Probability To Close %</div>
                             </a>
                         </li>
+                        <li class="menu-item {{ request()->is('event_types') ? 'active open' : '' }}">
+                            <a href="{{ route('event_types.index') }}" class="menu-link">
+                                <div class="text-truncate" data-i18n="CRM Event Type">CRM Event Type</div>
+                            </a>
+                        </li>
                         <li class="menu-item {{ request()->is('project_types') ? 'active open' : '' }}">
                             <a href="{{ route('project_types.index') }}" class="menu-link">
                                 <div class="text-truncate" data-i18n="Project Type">Project Type</div>
@@ -169,11 +176,6 @@
                             title="Calculate Measurement Label">Calculate Measurement Label</div>
                             </a>
                         </li>
-                        <li class="menu-item {{ request()->is('event_types') ? 'active open' : '' }}">
-                            <a href="{{ route('event_types.index') }}" class="menu-link">
-                                <div class="text-truncate" data-i18n="CRM Event Type">CRM Event Type</div>
-                            </a>
-                        </li>
                         <li class="menu-item {{ request()->is('about_us_options') ? 'active open' : '' }}">
                             <a href="{{ route('about_us_options.index') }}" class="menu-link">
                                 <div class="text-truncate" data-i18n="How Did You Hear About Us Options" data-bs-toggle="tooltip"
@@ -181,33 +183,46 @@
                             title="How Did You Hear About Us Options">How Did You Hear About Us Options</div>
                             </a>
                         </li>
+                        <!--<li class="menu-item {{ request()->is('sub_headings') ? 'active open' : '' }}">-->
+                        <!--    <a href="{{ route('sub_headings.index') }}" class="menu-link">-->
+                        <!--        <div class="text-truncate" data-i18n="Commonly Used Subheadings">Commonly Used-->
+                        <!--            Subheadings</div>-->
+                        <!--    </a>-->
+                        <!--</li>-->
+                        <!--<li class="menu-item {{ request()->is('release_reason_codes') ? 'active open' : '' }}">-->
+                        <!--    <a href="{{ route('release_reason_codes.index') }}" class="menu-link">-->
+                        <!--        <div class="text-truncate" data-i18n="Hold Release Reason Codes ">Hold Release Reason Codes </div>-->
+                        <!--    </a>-->
+                        <!--</li>-->
                     </ul>
                 </li>
 
                 <!--  Sales -->
                 <li
-                    class="menu-item {{ request()->is('customer_types*') || request()->is('shipment_methods*')||request()->is('customer_contact_titles*') ? 'active open' : '' }}">
+                    class="menu-item {{ request()->is('customer_types') || request()->is('shipment_methods')||request()->is('customer_contact_titles') ? 'active open' : '' }}">
                     <a href="javascript:void(0);" class="menu-link menu-toggle">
                         <div class="text-truncate" data-i18n="Sales">Sales</div>
                     </a>
                     <ul class="menu-sub">
-                        <li class="menu-item {{ request()->is('customer_contact_titles') ? 'active open' : '' }}">
+                    <li class="menu-item {{ request()->is('customer_contact_titles') ? 'active open' : '' }}">
                             <a href="{{ route('customer_contact_titles.index') }}" class="menu-link">
                                 <div class="text-truncate" data-i18n="Customer Contact Titles " data-bs-toggle="tooltip"
                             data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-secondary"
                             title="Customer Contact Titles">Customer Contact Titles </div>
                             </a>
                         </li>
-                        <li class="menu-item {{ request()->is('customer_types') ? 'active open' : '' }}">
-                            <a href="{{ route('customer_types.index') }}" class="menu-link">
-                                <div class="text-truncate" data-i18n="Customer Type">Customer Type</div>
-                            </a>
-                        </li>
+
+                        <!--<li class="menu-item {{ request()->is('customer_types') ? 'active open' : '' }}">-->
+                        <!--    <a href="{{ route('customer_types.index') }}" class="menu-link">-->
+                        <!--        <div class="text-truncate" data-i18n="Customer Type">Customer Type</div>-->
+                        <!--    </a>-->
+                        <!--</li>-->
                         <li class="menu-item {{ request()->is('shipment_methods') ? 'active open' : '' }}">
                             <a href="{{ route('shipment_methods.index') }}" class="menu-link">
                                 <div class="text-truncate" data-i18n="Shipment Methods">Shipment Methods</div>
                             </a>
                         </li>
+                        
                     </ul>
                 </li>
             </ul>

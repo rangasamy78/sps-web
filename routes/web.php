@@ -29,6 +29,7 @@ use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\ProductPriceRangeController;
 use App\Http\Controllers\ReturnReasonCodeController;
 use App\Http\Controllers\CustomerContactTitleController;
+use App\Http\Controllers\PriceListLabelController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\AdjustmentTypeController;
 
@@ -138,7 +139,12 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('customer_contact_titles', CustomerContactTitleController::class);
     Route::get('/customer_contact_title/list', [CustomerContactTitleController::class, 'getCustomerContactTitleDataTableList'])->name('customer_contact_titles.list');
 
+<<<<<<< HEAD
     Route::resource('adjustment_types', AdjustmentTypeController::class);
     Route::get('/adjustment_type/list', [AdjustmentTypeController::class, 'getAdjustmentTypeDataTableList'])->name('adjustment_types.list');
 
+=======
+    Route::resource('price_list_labels', PriceListLabelController::class);
+    Route::get('/price_list_label/list', [PriceListLabelController::class, 'getPriceListLabelDataTableList'])->name('price_list_labels.list');
+>>>>>>> 6952f41e0ad8cf3c1afcfb0ed7c0b700ee3b021d
 });
