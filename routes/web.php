@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\BinTypeController;
-use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\ProjectTypeController;
@@ -25,8 +24,13 @@ use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\EndUseSegmentController;
 use App\Http\Controllers\AboutUsOptionController;
 use App\Http\Controllers\ShipmentMethodController;
+use App\Http\Controllers\ProductCategoryController;
+use App\Http\Controllers\ProductTypeController;
+use App\Http\Controllers\ProductPriceRangeController;
+use App\Http\Controllers\ReturnReasonCodeController;
 use App\Http\Controllers\CustomerContactTitleController;
 use App\Http\Controllers\PriceListLabelController;
+use App\Http\Controllers\CalculateMeasurementLabelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -92,7 +96,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/probability_to_close/list', [ProbabilityToCloseController::class, 'getProbabilityToCloseDataTableList'])->name('probability_to_closes.list');
 
     Route::resource('release_reason_codes', ReleaseReasonCodeController::class);
-    Route::get('/release_reason_code/list', [ReleaseReasonCodeController::class, 'getReleaseReasonCodeDataTableList'])->name('release_reason_codes.list');  
+    Route::get('/release_reason_code/list', [ReleaseReasonCodeController::class, 'getReleaseReasonCodeDataTableList'])->name('release_reason_codes.list');
 
     Route::resource('product_thicknesses', ProductThicknessController::class);
     Route::get('/product_thickness/list', [ProductThicknessController::class, 'getProductThicknessDataTableList'])->name('product_thicknesses.list');
@@ -117,6 +121,19 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('shipment_methods', ShipmentMethodController::class);
     Route::get('/shipment_method/list', [ShipmentMethodController::class, 'getShipmentMethodDataTableList'])->name('shipment_methods.list');
+
+    Route::resource('product_categories', ProductCategoryController::class);
+    Route::get('/product_category/list', [ProductCategoryController::class, 'getProductCategoryDataTableList'])->name('product_categories.list');
+
+    Route::resource('product_types', ProductTypeController::class);
+    Route::get('/product_type/list', [ProductTypeController::class, 'getProductTypeDataTableList'])->name('product_types.list');
+    Route::post('/updateDefaultvalue', [ProductTypeController::class, 'updateDefaultvalue'])->name('product_types.updateDefaultvalue');
+
+    Route::resource('product_price_ranges', ProductPriceRangeController::class);
+    Route::get('/product_price_range/list', [ProductPriceRangeController::class, 'getProductPriceRangeDataTableList'])->name('product_price_ranges.list');
+
+    Route::resource('return_reason_codes', ReturnReasonCodeController::class);
+    Route::get('/return_reason_code/list', [ReturnReasonCodeController::class, 'getReturnReasonCodeDataTableList'])->name('return_reason_codes.list');
 
     Route::resource('customer_contact_titles', CustomerContactTitleController::class);
     Route::get('/customer_contact_title/list', [CustomerContactTitleController::class, 'getCustomerContactTitleDataTableList'])->name('customer_contact_titles.list');

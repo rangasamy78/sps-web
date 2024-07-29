@@ -11,30 +11,30 @@ class Department extends Model
     use HasFactory;
 
     /**
-    * The table associated with the model.
-    *
-    * @var string
-    */
-   protected $table = 'departments';
-   /**
-   * The attributes that are mass assignable.
-   *
-   * @var array<int, string>
-   */
-   protected $fillable = [
-       'department_name',
-   ];
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'departments';
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'department_name',
+    ];
 
-   protected function departmentName(): Attribute
-   {
-       return Attribute::make(
-           get: fn (string $value) => ucfirst($value),
-       );
-   }
+    protected function departmentName(): Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => ucfirst($value),
+        );
+    }
 
     public static function getDepartmentList($id)
     {
-        return self::findOrFail($id)->department_name ?? '';
+        $department = self::find($id);
+        return $department ? $department->department_name : '';
     }
-
 }
