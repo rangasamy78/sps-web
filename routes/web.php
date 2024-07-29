@@ -30,6 +30,7 @@ use App\Http\Controllers\ProductPriceRangeController;
 use App\Http\Controllers\ReturnReasonCodeController;
 use App\Http\Controllers\CustomerContactTitleController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
+use App\Http\Controllers\AdjustmentTypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -136,5 +137,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('customer_contact_titles', CustomerContactTitleController::class);
     Route::get('/customer_contact_title/list', [CustomerContactTitleController::class, 'getCustomerContactTitleDataTableList'])->name('customer_contact_titles.list');
+
+    Route::resource('adjustment_types', AdjustmentTypeController::class);
+    Route::get('/adjustment_type/list', [AdjustmentTypeController::class, 'getAdjustmentTypeDataTableList'])->name('adjustment_types.list');
 
 });
