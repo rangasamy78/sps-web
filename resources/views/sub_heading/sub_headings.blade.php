@@ -1,7 +1,5 @@
 @extends('layouts.admin')
-
-@section('title', 'Home Page - UI elements')
-
+@section('title', 'Sub Heading')
 @section('styles')
 @endsection
 @section('content')
@@ -23,7 +21,7 @@
                                 </div>
                                 <button class="btn btn-secondary create-new btn-primary" type="button"
                                     id="createSubHeading"><span><i class="bx bx-plus me-1"></i> <span
-                                            class="d-none d-lg-inline-block">Create Sub Heading</span></span></button>
+                                            class="d-none d-lg-inline-block">Create New Sub Heading</span></span></button>
                             </div>
                         </div>
                     </div>
@@ -32,7 +30,6 @@
                             <tr>
                                 <th>S.No</th>
                                 <th>Sub Heading Name</th>
-                                <!-- <th>Default status</th> -->
                                 <th width="150px">Action</th>
                             </tr>
                         </thead>

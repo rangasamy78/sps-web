@@ -27,28 +27,18 @@ class SubHeadingController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        $model = new Subheading();
-        return view('sub_heading.form', compact('model'));
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(CreateSubHeadingRequest $request)
     {
         try {
-            $this->subHeadingRepository->store($request->all());
+            $this->subHeadingRepository->store($request->only('sub_heading_name'));
             return response()->json(['status' => 'success', 'msg' => 'Sub Heading saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error saving sub heading: ' . $e->getMessage());
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the sub heading.']);
         }
-
     }
 
     /**
@@ -74,9 +64,8 @@ class SubHeadingController extends Controller
      */
     public function update(UpdateSubHeadingRequest $request, SubHeading $subHeading)
     {
-        //dd($subHeading);
         try {
-            $subHeading->update($request->only('sub_heading_name')); // Use validated data
+            $this->subHeadingRepository->update($request->only('sub_heading_name'), $subHeading->id); // Use validated data
             return response()->json(['status' => 'success', 'msg' => 'Sub Heading updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
@@ -100,7 +89,7 @@ class SubHeadingController extends Controller
         }
     }
 
-    public function getSubheadingDataTableList(Request $request) {
+    public function getSubHeadingDataTableList(Request $request) {
         return $this->subHeadingRepository->dataTable($request);
     }
 }

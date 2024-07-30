@@ -26,12 +26,13 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="showReleaseReasonCodeModal" tabindex="-1" aria-labelledby="show-release_reason_code-modal-label"
+
+<div class="modal fade" id="showReleaseReasonCodeModal" tabindex="-1" aria-labelledby="show-release-reason-code-modal-label"
     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="show-release_reason_code-modal-label">Show Release Reason Code</h5>
+                <h5 class="modal-title" id="show-release-reason-code-modal-label">Show Release Reason Code</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

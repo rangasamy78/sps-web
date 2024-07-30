@@ -23,6 +23,8 @@ use App\Http\Controllers\ReleaseReasonCodeController;
 use App\Http\Controllers\ProductThicknessController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\EndUseSegmentController;
+use App\Http\Controllers\UnitMeasureController;
+use App\Http\Controllers\SurveyQuestionController;
 
 
 /*
@@ -108,5 +110,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('customer_types', CustomerTypeController::class);
     Route::get('/customer_type/list', [CustomerTypeController::class, 'getCustomerTypeDataTableList'])->name('customer_types.list');
+
+    Route::resource('unit_measures', UnitMeasureController::class);
+    Route::get('/unit_measure/list', [UnitMeasureController::class, 'getUnitMeasureDataTableList'])->name('unit_measures.list');
+
+    Route::resource('survey_questions', SurveyQuestionController::class);
+    Route::get('/survey_question/list', [SurveyQuestionController::class, 'getSurveyQuestionDataTableList'])->name('survey_questions.list');
+    Route::get('/survey_question/transaction_id', [SurveyQuestionController::class, 'getTransactionTypeBasedQuestion'])->name('survey_questions.transaction');
 
 });
