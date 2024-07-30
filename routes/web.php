@@ -27,6 +27,8 @@ use App\Http\Controllers\ShipmentMethodController;
 use App\Http\Controllers\ReturnReasonCodeController;
 use App\Http\Controllers\CustomerContactTitleController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
+use App\Http\Controllers\CompanyController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -122,5 +124,15 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('customer_contact_titles', CustomerContactTitleController::class);
     Route::get('/customer_contact_title/list', [CustomerContactTitleController::class, 'getCustomerContactTitleDataTableList'])->name('customer_contact_titles.list');
+
+    Route::prefix('companies')->name('companies.')->group(function () {
+        Route::get('/', [CompanyController::class, 'index'])->name('index');
+        Route::post('/store', [CompanyController::class, 'store'])->name('store');
+        Route::get('/list', [CompanyController::class, 'getCompanyDataTableList'])->name('list');
+        Route::delete('/{id}/delete', [CompanyController::class, 'destroy'])->name('delete');
+        Route::get('/{id}/edit', [CompanyController::class, 'edit'])->name('edit');
+        Route::post('/{id}/update', [CompanyController::class, 'update'])->name('update');
+        Route::get('/{id}/show', [CompanyController::class, 'show'])->name('show');
+    });
 
 });

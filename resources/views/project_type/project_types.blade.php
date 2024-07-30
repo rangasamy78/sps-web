@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Home Page - UI elements')
+@section('title', 'Project Type Page')
 
 @section('styles')
 @endsection
@@ -49,5 +49,4 @@
 
 @section('scripts')
 @include('project_type.__scripts')
-
 @endsection

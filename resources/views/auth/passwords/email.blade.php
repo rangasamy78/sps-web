@@ -12,7 +12,7 @@
         <form method="POST" action="{{ route('password.email') }}">
             @csrf
             <div class="mb-3">
-                <label for="emailOrUsername" class="form-label">{{ __('Email Address') }} <sup style="color:red"><strong>*</strong></sup></label>
+                <label for="emailOrUsername" class="form-label">{{ __('Email Address') }} <sup style="color: red;font-size:1rem;"><b>*</b></sup></label>
                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" placeholder="Enter your email" autofocus>
                 @error('email')
                     <span class="invalid-feedback" role="alert">

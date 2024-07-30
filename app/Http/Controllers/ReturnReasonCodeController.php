@@ -64,7 +64,7 @@ class ReturnReasonCodeController extends Controller
     public function update(UpdateReturnReasonCodeRequest $request, ReturnReasonCode $returnReasonCode)
     {
         try {
-            $this->returnReasonCodeRepository->update($request->only('return_reason_code'), $returnReasonCode->id); // Use validated data
+            $this->returnReasonCodeRepository->update($request->only('return_code'), $returnReasonCode->id); // Use validated data
             return response()->json(['status' => 'success', 'msg' => 'Return Reason Code Updated Successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes

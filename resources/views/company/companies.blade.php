@@ -1,13 +1,13 @@
 @extends('layouts.admin')
 
-@section('title', 'Customer Type')
+@section('title', 'Company Page')
 
 @section('styles')
 @endsection
 @section('content')
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="py-3 mb-4 float-right"><span class="text-muted fw-light">Home /</span> Customer Type</h4>
+        <h4 class="py-3 mb-4 float-right"><span class="text-muted fw-light">Home /</span> Company</h4>
 
         <!-- Ajax Sourced Server-side -->
         <div class="card">
@@ -20,8 +20,8 @@
                         <div class="dt-action-buttons text-end pt-3 pt-md-0">
                             <div class="dt-buttons btn-group flex-wrap">
                                 <button class="btn btn-secondary create-new btn-primary" type="button"
-                                    id="createCustomerType"><span><i class="bx bx-plus me-1"></i> <span
-                                            class="d-none d-lg-inline-block">Create Customer Type</span></span></button>
+                                    id="createCompany"><span><i class="bx bx-plus me-1"></i> <span
+                                            class="d-none d-lg-inline-block">Create Company</span></span></button>
                             </div>
                         </div>
                     </div>
@@ -29,8 +29,10 @@
                         <thead>
                             <tr>
                                 <th>S.No</th>
-                                <th>Customer Type Name</th>
-                                <th>Customer Type Code</th>
+                                <th>Company Name</th>
+                                <th>Company Logo</th>
+                                <th>Email</th>
+                                <th>Phone</th>
                                 <th width="150px">Action</th>
                             </tr>
                         </thead>
@@ -42,13 +44,12 @@
         </div>
         <!--/ Ajax Sourced Server-side -->
         <!--/ Responsive Datatable -->
-        @include('customer_type.__model')
+        @include('company.__model')
     </div>
 
     <!-- / Content -->
 @endsection
 
 @section('scripts')
-@include('customer_type.__scripts')
-
+@include('company.__scripts')
 @endsection
