@@ -26,7 +26,7 @@
               <thead>
                 <tr class="odd gradeX">
                   <th class="center"><b>Sl.No</b></th>
-                  <th><b>Bin</b></th>
+                  <th><b>Bin Type</b></th>
                   <th><b>Actions</b></th>
                 </tr>
               </thead>
