@@ -29,9 +29,9 @@ use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\ProductPriceRangeController;
 use App\Http\Controllers\ReturnReasonCodeController;
 use App\Http\Controllers\CustomerContactTitleController;
-use App\Http\Controllers\PriceListLabelController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\AdjustmentTypeController;
+use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -142,7 +142,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('adjustment_types', AdjustmentTypeController::class);
     Route::get('/adjustment_type/list', [AdjustmentTypeController::class, 'getAdjustmentTypeDataTableList'])->name('adjustment_types.list');
 
-    Route::resource('price_list_labels', PriceListLabelController::class);
-    Route::get('/price_list_label/list', [PriceListLabelController::class, 'getPriceListLabelDataTableList'])->name('price_list_labels.list');
+    Route::resource('inventory_adjustment_reason_codes', InventoryAdjustmentReasonCodeController::class);
+    Route::get('/inventory_adjustment_reason_code/list', [InventoryAdjustmentReasonCodeController::class, 'getInventoryAdjustmentReasonCodeLabelDataTableList'])->name('inventory_adjustment_reason_codes.list');
 
 });

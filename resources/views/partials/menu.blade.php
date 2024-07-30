@@ -23,7 +23,7 @@
         </li>
 
         <!-- System Setting -->
-        <li class="menu-item {{ request()->is('states*') || request()->is('bin_types*') || request()->is('file_types*') || request()->is('transaction_startings*') || request()->is('currencies*') || request()->is('departments*')|| request()->is('designations*') ||request()->is('product_types*') ||request()->is('product_price_ranges*')|| request()->is('product_categories*') || request()->is('product_groups*') || request()->is('product_colors*') || request()->is('product_finishes*') || request()->is('countries*') || request()->is('project_types*') || request()->is('sub_headings*')||request()->is('calculate_measurement_labels*')||request()->is('event_types*')||request()->is('opportunity_stages*')||request()->is('probability_to_closes*')||request()->is('release_reason_codes*')|| request()->is('end_use_segments*')||request()->is('about_us_options*')||request()->is('product_thicknesses*')||request()->is('customer_types*') || request()->is('shipment_methods*')||request()->is('customer_contact_titles*') ? 'active open' : '' }}">
+        <li class="menu-item {{ request()->is('states*') || request()->is('bin_types*') || request()->is('file_types*') || request()->is('transaction_startings*') || request()->is('currencies*') || request()->is('departments*')|| request()->is('designations*') ||request()->is('product_types*') ||request()->is('product_price_ranges*')|| request()->is('product_categories*') || request()->is('product_groups*') || request()->is('product_colors*') || request()->is('product_finishes*') || request()->is('countries*') || request()->is('project_types*') || request()->is('sub_headings*')||request()->is('calculate_measurement_labels*')||request()->is('event_types*')||request()->is('opportunity_stages*')||request()->is('probability_to_closes*')||request()->is('release_reason_codes*')|| request()->is('inventory_adjustment_reason_codes*')|| request()->is('adjustment_types*')||  request()->is('end_use_segments*')||request()->is('about_us_options*')||request()->is('product_thicknesses*')||request()->is('customer_types*') || request()->is('shipment_methods*')||request()->is('customer_contact_titles*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="bx bx-cog menu-icon"></i>
                 <div class="text-truncate" data-i18n="System Setting">System Setting</div>
@@ -79,7 +79,7 @@
 
                 <!-- Products/Inventory -->
                 <li
-                    class="menu-item {{ request()->is('product_types*') || request()->is('product_categories*') || request()->is('product_price_ranges*') || request()->is('product_groups*') || request()->is('product_colors*') || request()->is('product_finishes*') || request()->is('countries*') || request()->is('product_thicknesses*') ? 'active open' : '' }}">
+                    class="menu-item {{ request()->is('product_types*') || request()->is('product_categories*') || request()->is('product_price_ranges*') || request()->is('product_groups*') || request()->is('product_colors*') || request()->is('product_finishes*') || request()->is('countries*') || request()->is('product_thicknesses*') || request()->is('inventory_adjustment_reason_codes*')|| request()->is('adjustment_types*') ? 'active open' : '' }}">
                     <a href="javascript:void(0);" class="menu-link menu-toggle">
                         <div class="text-truncate" data-i18n="Products/Inventory">Products/Inventory</div>
                     </a>
@@ -124,6 +124,14 @@
                         <li class="menu-item {{ request()->is('adjustment_types*') ? 'active open' : '' }}">
                             <a href="{{ route('adjustment_types.index') }}" class="menu-link">
                                 <div class="text-truncate" data-i18n="Adjustment Type">Adjustment Type</div>
+                            </a>
+                        </li>
+                       
+                        <li class="menu-item {{ request()->is('inventory_adjustment_reason_codes') ? 'active' : '' }}">
+                            <a href="{{ route('inventory_adjustment_reason_codes.index') }}" class="menu-link">
+                                <div class="text-truncate" data-i18n="Inventory Adjustment Reason Code" data-bs-toggle="tooltip"
+                                    data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-secondary"
+                                    title="Inventory Adjustment Reason Code">Inventory Adjustment Reason Code</div>
                             </a>
                         </li>
                         <li class="menu-item {{ request()->is('countries*') ? 'active open' : '' }}">
