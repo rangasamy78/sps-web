@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Home Page - UI elements')
+@section('title', 'State Page')
 
 @section('styles')
 @endsection

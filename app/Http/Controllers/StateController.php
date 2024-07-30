@@ -76,7 +76,7 @@ class StateController extends Controller
     public function update(UpdateStateRequest $request, State $state)
     {
         try {
-            $state->update($request->only('name','code')); // Use validated data
+            $this->stateRepository->update($request->only('name','code'), $state->id);
             return response()->json(['status' => 'success', 'msg' => 'State updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes

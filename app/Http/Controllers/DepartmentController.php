@@ -74,7 +74,7 @@ class DepartmentController extends Controller
     public function update(UpdateDepartmentRequest $request, Department $department)
     {
         try {
-            $department->update($request->only('department_name')); // Use validated data
+            $this->departmentRepository->update($request->only('department_name'), $department->id);
             return response()->json(['status' => 'success', 'msg' => 'Department updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes

@@ -12,7 +12,7 @@
         <form id="formAuthentication" class="mb-3" method="POST" action="{{ route('login') }}">
             @csrf
             <div class="mb-3">
-                <label for="emailOrUsername" class="form-label">{{ __('Email Address') }} <sup style="color:red"><strong>*</strong></sup></label>
+                <label for="emailOrUsername" class="form-label">{{ __('Email Address') }} <sup style="color: red;font-size:1rem;"><b>*</b></sup></label>
                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" placeholder="Enter your email" autofocus>
                 @error('email')
                     <span class="invalid-feedback" role="alert">
@@ -22,7 +22,7 @@
             </div>
             <div class="mb-3 form-password-toggle">
                 <div class="d-flex justify-content-between">
-                    <label class="form-label" for="password">{{ __('Password') }} <sup style="color:red"><strong>*</strong></sup></label>
+                    <label class="form-label" for="password">{{ __('Password') }} <sup style="color: red;font-size:1rem;"><b>*</b></sup></label>
                     <a href="{{ route('password.request') }}">
                         <small>Forgot Password?</small>
                     </a>

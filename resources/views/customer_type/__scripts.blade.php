@@ -22,6 +22,7 @@
             columns: [
                 { data: 'id', name: 'id', orderable: false, searchable: false },
                 { data: 'customer_type_name', name: 'customer_type_name' },
+                { data: 'customer_type_code', name: 'customer_type_code' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
             rowCallback: function (row, data, index) {

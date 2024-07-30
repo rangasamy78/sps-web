@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class BinType extends Model
 {
@@ -13,7 +14,10 @@ class BinType extends Model
         'id',
         'bin_type',
     ];
-    //custom timestamps name
-    const CREATED_AT = 'created_at';
-    const UPDATED_AT = 'updated_at';
+    protected function binType(): Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => ucfirst($value),
+        );
+    }
 }

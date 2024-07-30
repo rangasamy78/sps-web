@@ -7,21 +7,21 @@
             </div>
             <div class="modal-body">
                 <form id="releaseReasonCodeForm" name="releaseReasonCodeForm" class="form-horizontal">
-                    <input type="hidden" name="release_reason_code_id" id="release_reason_code_id">
+                    <input type="hidden" name="return_code_id" id="return_code_id">
                     <div class="form-group">
-                        <label for="Release Reason Code" class="col-sm-4 control-label">Release Reason Code <sup
+                        <label for="Return Reason Code" class="col-sm-4 control-label">Return Reason Code <sup
                                 style="color: red;"><strong>*</strong></sup></label>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control" id="release_reason_code" name="release_reason_code"
-                                placeholder="Enter Release Reason Code" value="">
+                            <input type="text" class="form-control" id="return_code" name="return_code"
+                                placeholder="Enter Return Reason Code" value="">
                         </div>
-                        <span class="text-danger error-text release_reason_code_error"></span>
+                        <span class="text-danger error-text return_code_error"></span>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" id="savedata" value="create">Save Release Reason Code</button>
+                <button type="submit" class="btn btn-primary" id="savedata" value="create">Save Return Reason Code</button>
             </div>
         </div>
     </div>
@@ -36,11 +36,11 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="showReleaseReasonCodeForm" name="showReleaseReasonCodeForm" class="form-horizontal">
+                <form id="showReturnReasonCodeForm" name="showReturnReasonCodeForm" class="form-horizontal">
                     <div class="form-group">
-                        <label for="Release Reason Code" class="col-sm-4 control-label">Release Reason Code</label>
+                        <label for="Return Reason Code" class="col-sm-4 control-label">Return Reason Code</label>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control" id="release_reason_code" name="release_reason_code" disabled
+                            <input type="text" class="form-control" id="return_code" name="return_code" disabled
                                 value="">
                         </div>
                     </div>

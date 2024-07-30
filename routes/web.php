@@ -4,28 +4,39 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\BinTypeController;
-use App\Http\Controllers\CalculateMeasurementLabelController;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\CountryController;
 use App\Http\Controllers\CurrencyController;
-use App\Http\Controllers\DepartmentController;
-use App\Http\Controllers\ProjectTypeController;
 use App\Http\Controllers\FileTypeController;
-use App\Http\Controllers\ProductFinishController;
+use App\Http\Controllers\EventTypeController;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\SubHeadingController;
+use App\Http\Controllers\VendorTypeController;
+use App\Http\Controllers\DesignationController;
+use App\Http\Controllers\ProductTypeController;
+use App\Http\Controllers\ProjectTypeController;
+use App\Http\Controllers\CustomerTypeController;
 use App\Http\Controllers\ProductColorController;
 use App\Http\Controllers\ProductGroupController;
-use App\Http\Controllers\SubHeadingController;
-use App\Http\Controllers\CountryController;
-use App\Http\Controllers\CustomerTypeController;
-use App\Http\Controllers\EventTypeController;
-use App\Http\Controllers\TransactionStartingController;
-use App\Http\Controllers\OpportunityStageController;
-use App\Http\Controllers\ProbabilityToCloseController;
-use App\Http\Controllers\ReleaseReasonCodeController;
-use App\Http\Controllers\ProductThicknessController;
-use App\Http\Controllers\DesignationController;
+use App\Http\Controllers\SupplierTypeController;
+use App\Http\Controllers\AboutUsOptionController;
 use App\Http\Controllers\EndUseSegmentController;
 use App\Http\Controllers\UnitMeasureController;
 use App\Http\Controllers\SurveyQuestionController;
-
+use App\Http\Controllers\ProductFinishController;
+use App\Http\Controllers\AdjustmentTypeController;
+use App\Http\Controllers\ShipmentMethodController;
+use App\Http\Controllers\ProductCategoryController;
+use App\Http\Controllers\OpportunityStageController;
+use App\Http\Controllers\ProductThicknessController;
+use App\Http\Controllers\ReturnReasonCodeController;
+use App\Http\Controllers\ProductPriceRangeController;
+use App\Http\Controllers\ReleaseReasonCodeController;
+use App\Http\Controllers\ProbabilityToCloseController;
+use App\Http\Controllers\TransactionStartingController;
+use App\Http\Controllers\CustomerContactTitleController;
+use App\Http\Controllers\CalculateMeasurementLabelController;
+use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -91,7 +102,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/probability_to_close/list', [ProbabilityToCloseController::class, 'getProbabilityToCloseDataTableList'])->name('probability_to_closes.list');
 
     Route::resource('release_reason_codes', ReleaseReasonCodeController::class);
-    Route::get('/release_reason_code/list', [ReleaseReasonCodeController::class, 'getReleaseReasonCodeDataTableList'])->name('release_reason_codes.list');  
+    Route::get('/release_reason_code/list', [ReleaseReasonCodeController::class, 'getReleaseReasonCodeDataTableList'])->name('release_reason_codes.list');
 
     Route::resource('product_thicknesses', ProductThicknessController::class);
     Route::get('/product_thickness/list', [ProductThicknessController::class, 'getProductThicknessDataTableList'])->name('product_thicknesses.list');
@@ -108,6 +119,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('end_use_segments', EndUseSegmentController::class);
     Route::get('/end_use_segment/list', [EndUseSegmentController::class, 'getEndUseSegementDataTableList'])->name('end_use_segments.list');
 
+    Route::resource('about_us_options', AboutUsOptionController::class);
+    Route::get('/about_us_option/list', [AboutUsOptionController::class, 'getAboutUsOptionDataTableList'])->name('about_us_options.list');
+
     Route::resource('customer_types', CustomerTypeController::class);
     Route::get('/customer_type/list', [CustomerTypeController::class, 'getCustomerTypeDataTableList'])->name('customer_types.list');
 
@@ -117,5 +131,45 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('survey_questions', SurveyQuestionController::class);
     Route::get('/survey_question/list', [SurveyQuestionController::class, 'getSurveyQuestionDataTableList'])->name('survey_questions.list');
     Route::get('/survey_question/transaction_id', [SurveyQuestionController::class, 'getTransactionTypeBasedQuestion'])->name('survey_questions.transaction');
+    Route::resource('shipment_methods', ShipmentMethodController::class);
+    Route::get('/shipment_method/list', [ShipmentMethodController::class, 'getShipmentMethodDataTableList'])->name('shipment_methods.list');
+
+    Route::resource('product_categories', ProductCategoryController::class);
+    Route::get('/product_category/list', [ProductCategoryController::class, 'getProductCategoryDataTableList'])->name('product_categories.list');
+
+    Route::resource('product_types', ProductTypeController::class);
+    Route::get('/product_type/list', [ProductTypeController::class, 'getProductTypeDataTableList'])->name('product_types.list');
+    Route::post('/updateDefaultvalue', [ProductTypeController::class, 'updateDefaultvalue'])->name('product_types.updateDefaultvalue');
+
+    Route::resource('product_price_ranges', ProductPriceRangeController::class);
+    Route::get('/product_price_range/list', [ProductPriceRangeController::class, 'getProductPriceRangeDataTableList'])->name('product_price_ranges.list');
+
+    Route::resource('return_reason_codes', ReturnReasonCodeController::class);
+    Route::get('/return_reason_code/list', [ReturnReasonCodeController::class, 'getReturnReasonCodeDataTableList'])->name('return_reason_codes.list');
+
+    Route::resource('customer_contact_titles', CustomerContactTitleController::class);
+    Route::get('/customer_contact_title/list', [CustomerContactTitleController::class, 'getCustomerContactTitleDataTableList'])->name('customer_contact_titles.list');
+
+    Route::prefix('companies')->name('companies.')->group(function () {
+        Route::get('/', [CompanyController::class, 'index'])->name('index');
+        Route::post('/store', [CompanyController::class, 'store'])->name('store');
+        Route::get('/list', [CompanyController::class, 'getCompanyDataTableList'])->name('list');
+        Route::delete('/{id}/delete', [CompanyController::class, 'destroy'])->name('delete');
+        Route::get('/{id}/edit', [CompanyController::class, 'edit'])->name('edit');
+        Route::post('/{id}/update', [CompanyController::class, 'update'])->name('update');
+        Route::get('/{id}/show', [CompanyController::class, 'show'])->name('show');
+    });
+
+    Route::resource('adjustment_types', AdjustmentTypeController::class);
+    Route::get('/adjustment_type/list', [AdjustmentTypeController::class, 'getAdjustmentTypeDataTableList'])->name('adjustment_types.list');
+
+    Route::resource('inventory_adjustment_reason_codes', InventoryAdjustmentReasonCodeController::class);
+    Route::get('/inventory_adjustment_reason_code/list', [InventoryAdjustmentReasonCodeController::class, 'getInventoryAdjustmentReasonCodeLabelDataTableList'])->name('inventory_adjustment_reason_codes.list');
+
+    Route::resource('supplier_types', SupplierTypeController::class);
+    Route::get('/supplier_type/list', [SupplierTypeController::class, 'getSupplierTypeDataTableList'])->name('supplier_types.list');
+
+    Route::resource('vendor_types', VendorTypeController::class);
+    Route::get('/vendor_type/list', [VendorTypeController::class, 'getVendorTypeDataTableList'])->name('vendor_types.list');
 
 });

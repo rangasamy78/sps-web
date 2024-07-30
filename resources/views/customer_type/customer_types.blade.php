@@ -30,6 +30,7 @@
                             <tr>
                                 <th>S.No</th>
                                 <th>Customer Type Name</th>
+                                <th>Customer Type Code</th>
                                 <th width="150px">Action</th>
                             </tr>
                         </thead>
@@ -41,13 +42,13 @@
         </div>
         <!--/ Ajax Sourced Server-side -->
         <!--/ Responsive Datatable -->
-        @include('Customer_type.__model')
+        @include('customer_type.__model')
     </div>
 
     <!-- / Content -->
 @endsection
 
 @section('scripts')
-@include('Customer_type.__scripts')
+@include('customer_type.__scripts')
 
 @endsection
