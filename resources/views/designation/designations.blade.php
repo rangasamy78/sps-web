@@ -25,10 +25,10 @@
             <table class=" datatables-basic table tables-basic border-top table-striped" id="createDesignation">
               <thead>
                 <tr class="odd gradeX">
-                  <th><b>Sl.No</b></th>
-                  <th><b>Department</b></th>
-                  <th><b>Designation</b></th>
-                  <th><b>Actions</b></th>
+                  <th>Sl.No</th>
+                  <th>Department</th>
+                  <th>Designation</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>

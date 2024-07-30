@@ -11,6 +11,7 @@
             responsive: true,
             processing: true,
             serverSide: true,
+            order: [[0, 'desc']],
             ajax: {
                 url: "{{ route('about_us_options.list') }}",
                 data: function (d) {
