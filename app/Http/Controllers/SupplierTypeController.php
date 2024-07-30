@@ -35,8 +35,8 @@ class SupplierTypeController extends Controller
             return response()->json(['status' => 'success', 'msg' => 'Supplier Type saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error saving project type: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the project type.']);
+            Log::error('Error saving Supplier Type: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Supplier Type.']);
         }
     }
 
@@ -78,7 +78,7 @@ class SupplierTypeController extends Controller
             return response()->json(['status' => 'success', 'msg' => 'Supplier Type updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error updating project type: ' . $e->getMessage());
+            Log::error('Error updating Supplier Type: ' . $e->getMessage());
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the department.']);
         }
     }
@@ -96,7 +96,7 @@ class SupplierTypeController extends Controller
             return response()->json(['status' => 'success', 'msg' => 'Supplier Type deleted successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error deleting project type: ' . $e->getMessage());
+            Log::error('Error deleting Supplier Type: ' . $e->getMessage());
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the department.']);
         }
     }

@@ -24,18 +24,18 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="showSupplierTypeModal" tabindex="-1" aria-labelledby="show-product-type-modal-label"
+<div class="modal fade" id="showSupplierTypeModal" tabindex="-1" aria-labelledby="show-supplier-type-modal-label"
     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="show-product-type-modal-label">Show Supplier Type</h5>
+                <h5 class="modal-title" id="show-supplier-type-modal-label">Show Supplier Type</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="showSupplierTypeForm" name="showSupplierTypeForm" class="form-horizontal">
                     <div class="form-group">
-                        <label for="Supplier Type" class="control-label">Supplier Type Name</label>
+                        <label for="supplier-type-name" class="control-label">Supplier Type Name</label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="supplier_type_name" disabled name="supplier_type_name" placeholder="Enter Supplier Type Name" value="">
                         </div>

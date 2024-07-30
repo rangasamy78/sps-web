@@ -2,29 +2,29 @@
 
 namespace App\Repositories;
 
-use App\Models\SupplierType;
+use App\Models\VendorType;
 use Illuminate\Http\Request;
 use App\Interfaces\CrudRepositoryInterface;
 use App\Interfaces\DatatableRepositoryInterface;
 
-class SupplierTypeRepository implements CrudRepositoryInterface, DatatableRepositoryInterface
+class VendorTypeRepository implements CrudRepositoryInterface, DatatableRepositoryInterface
 {
 
     public function findOrFail(int $id)
     {
-        return SupplierType::query()
+        return VendorType::query()
             ->findOrFail($id);
     }
 
     public function store(array $data)
     {
-        return SupplierType::query()
+        return VendorType::query()
             ->create($data);
     }
 
     public function update(array $data, int $id)
     {
-        $query = SupplierType::query()
+        $query = VendorType::query()
             ->findOrFail($id)
             ->update($data);
         return $query;
@@ -36,9 +36,9 @@ class SupplierTypeRepository implements CrudRepositoryInterface, DatatableReposi
         return $query;
     }
 
-    public function getSupplierTypeList()
+    public function getVendorTypeList()
     {
-        $query = SupplierType::query();
+        $query = VendorType::query();
         return $query;
     }
 
@@ -55,27 +55,27 @@ class SupplierTypeRepository implements CrudRepositoryInterface, DatatableReposi
         $columnSortOrder = $orderArray[0]['dir'];
         $searchValue = $searchArray['value'];
 
-        $supplierTypes = $this->getSupplierTypeList();
-        $total = $supplierTypes->count();
+        $vendorTypes = $this->getVendorTypeList();
+        $total = $vendorTypes->count();
 
-        $totalFilter = $this->getSupplierTypeList();
+        $totalFilter = $this->getVendorTypeList();
         if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('supplier_type_name', 'like', '%' . $searchValue . '%');
+            $totalFilter = $totalFilter->where('vendor_type_name', 'like', '%' . $searchValue . '%');
         }
         $totalFilter = $totalFilter->count();
 
-        $arrData = $this->getSupplierTypeList();
+        $arrData = $this->getVendorTypeList();
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
 
         if (!empty($searchValue)) {
-            $arrData = $arrData->where('supplier_type_name', 'like', '%' . $searchValue . '%');
+            $arrData = $arrData->where('vendor_type_name', 'like', '%' . $searchValue . '%');
         }
         $arrData = $arrData->get();
 
         $arrData->map(function ($value, $i) {
             $value->sno = ++$i;
-            $value->supplier_type_name = $value->supplier_type_name ?? '';
+            $value->vendor_type_name = $value->vendor_type_name ?? '';
             $value->action = "<button type='button' data-id='" . $value->id . "' class='p-2 m-0 btn btn-warning btn-sm showbtn' data-bs-toggle='modal' ><i class='fa-regular fa-eye fa-fw'></i></button>&nbsp;&nbsp;<button type='button' data-id='" . $value->id . "'  name='btnEdit' class='editbtn btn btn-primary btn-sm p-2 m-0'><i class='fas fa-pencil-alt'></i></button>&nbsp;&nbsp;<button type='button' data-id='" . $value->id . "'  name='btnDelete' class='deletebtn btn btn-danger btn-sm p-2 m-0'><i class='fas fa-trash-alt'></i></button>";
         });
 

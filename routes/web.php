@@ -11,6 +11,7 @@ use App\Http\Controllers\FileTypeController;
 use App\Http\Controllers\EventTypeController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\SubHeadingController;
+use App\Http\Controllers\VendorTypeController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\ProjectTypeController;
@@ -159,5 +160,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('supplier_types', SupplierTypeController::class);
     Route::get('/supplier_type/list', [SupplierTypeController::class, 'getSupplierTypeDataTableList'])->name('supplier_types.list');
+
+    Route::resource('vendor_types', VendorTypeController::class);
+    Route::get('/vendor_type/list', [VendorTypeController::class, 'getVendorTypeDataTableList'])->name('vendor_types.list');
 
 });

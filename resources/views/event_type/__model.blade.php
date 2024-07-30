@@ -70,7 +70,6 @@
                                 placeholder="Enter Event Type Code" value="">
                         </div>
                     </div>
-                    {{-- @dd($eventCategories); --}}
                     <div class="form-group mt-3">
                         <label for="event_category_id" class="col-sm-6 control-label">Event Category </label>
                         <div class="col-sm-12">
