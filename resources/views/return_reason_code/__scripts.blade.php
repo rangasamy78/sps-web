@@ -30,7 +30,7 @@
         $('#createReturnReasonCode').click(function () {
             $('.return_reason_code_error').html('');
             $('#savedata').html("Save Return Reason Code");
-            $('#return_reason_code_id').val('');
+            $('#return_code_id').val('');
             $('#returnReasonCodeForm').trigger("reset");
             $('#modelHeading').html("Create New Return Reason Code");
             $('#returnReasonCodeModel').modal('show');
@@ -38,13 +38,13 @@
         $('#returnReasonCodeForm input').on('input', function () {
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');
-        })
+        });
         $('#savedata').click(function (e) {
             e.preventDefault();
             var button = $(this).html();
             $(this).html('Sending..');
-            var url = $('#return_reason_code_id').val() ? "{{ route('return_reason_codes.update', ':id') }}".replace(':id', $('#return_reason_code_id').val()) : "{{ route('return_reason_codes.store') }}";
-            var type = $('#return_reason_code_id').val() ? "PUT" : "POST";
+            var url = $('#return_code_id').val() ? "{{ route('return_reason_codes.update', ':id') }}".replace(':id', $('#return_code_id').val()) : "{{ route('return_reason_codes.store') }}";
+            var type = $('#return_code_id').val() ? "PUT" : "POST";
             $.ajax({
                 url: url,
                 type: type,

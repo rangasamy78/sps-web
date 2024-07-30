@@ -41,13 +41,13 @@
     </div>
     <!--/ Ajax Sourced Server-side -->
     <!--/ Responsive Datatable -->
-    @include('Release_Reason_Code.__model')
+    @include('release_reason_code.__model')
 </div>
 
 <!-- / Content -->
 @endsection
 
 @section('scripts')
-@include('Release_Reason_Code.__scripts')
+@include('release_reason_code.__scripts')
 
 @endsection

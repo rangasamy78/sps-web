@@ -2,8 +2,9 @@
 
 namespace App\Http\Requests\SubHeading;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Foundation\Http\FormRequest;
+
 class UpdateSubHeadingRequest extends FormRequest
 {
     /**
@@ -21,20 +22,14 @@ class UpdateSubHeadingRequest extends FormRequest
      */
     public function rules(): array
     {
-        //$subHeadingId = $this->route('sub_heading');
-        //dd($subHeadingId);
-        // return [
-        //     'sub_heading_name' => 'required|string|max:255|unique:sub_headings,sub_heading_name,' . $subHeadingId,
-        // ];
         $subHeadingId = $this->route('sub_heading')->id; // Assuming your route parameter is named 'subheadings'
-        // dd($subheadId);
-    return [
-        'sub_heading_name' => [
-            'required',
-            'string',
-            'max:255',
-            Rule::unique('sub_headings')->ignore($subHeadingId),
-        ],
-    ];
+        return [
+            'sub_heading_name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('sub_headings')->ignore($subHeadingId),
+            ],
+        ];
     }
 }

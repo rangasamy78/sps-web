@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Models\SubHeading;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Model;
 use App\Interfaces\CrudRepositoryInterface;
 use App\Interfaces\DatatableRepositoryInterface;
 
@@ -54,8 +53,8 @@ Class SubHeadingRepository implements CrudRepositoryInterface, DatatableReposito
         $columnSortOrder 	= 		$orderArray[0]['dir'];
         $searchValue 		= 		$searchArray['value'];
 
-        $SubHeadings = $this->getSubHeadingList();
-        $total = $SubHeadings->count();
+        $subHeadings = $this->getSubHeadingList();
+        $total = $subHeadings->count();
 
         $totalFilter = $this->getSubHeadingList();
         if (!empty($searchValue)) {
@@ -75,7 +74,7 @@ Class SubHeadingRepository implements CrudRepositoryInterface, DatatableReposito
         $arrData->map(function ($value, $i) {
             $value->sno = ++$i;
             $value->sub_heading_name = $value->sub_heading_name ?? '';
-            $value->action = "<button type='button' data-id='".$value->id."' class='p-2 m-0 btn btn-warning btn-sm showbtn' data-bs-toggle='modal' data-bs-target='#show_subheading-modal'><i class='fa-regular fa-eye fa-fw'></i></button>&nbsp;&nbsp;<button type='button' data-id='".$value->id."'  name='btnEdit' class='editbtn btn btn-primary btn-sm p-2 m-0'><i class='fas fa-pencil-alt'></i></button>&nbsp;&nbsp;<button type='button' data-id='".$value->id."'  name='btnEdit' class='deletebtn btn btn-danger btn-sm p-2 m-0'><i class='fas fa-trash-alt'></i></button>";
+            $value->action = "<button type='button' data-id='".$value->id."' class='p-2 m-0 btn btn-warning btn-sm showbtn'><i class='fa-regular fa-eye fa-fw'></i></button>&nbsp;&nbsp;<button type='button' data-id='".$value->id."'  name='btnEdit' class='editbtn btn btn-primary btn-sm p-2 m-0'><i class='fas fa-pencil-alt'></i></button>&nbsp;&nbsp;<button type='button' data-id='".$value->id."'  name='btnDelete' class='deletebtn btn btn-danger btn-sm p-2 m-0'><i class='fas fa-trash-alt'></i></button>";
         });
 
         $response = array(
