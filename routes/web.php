@@ -4,34 +4,35 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\BinTypeController;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\CountryController;
 use App\Http\Controllers\CurrencyController;
-use App\Http\Controllers\DepartmentController;
-use App\Http\Controllers\ProjectTypeController;
 use App\Http\Controllers\FileTypeController;
-use App\Http\Controllers\ProductFinishController;
+use App\Http\Controllers\EventTypeController;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\SubHeadingController;
+use App\Http\Controllers\DesignationController;
+use App\Http\Controllers\ProductTypeController;
+use App\Http\Controllers\ProjectTypeController;
+use App\Http\Controllers\CustomerTypeController;
 use App\Http\Controllers\ProductColorController;
 use App\Http\Controllers\ProductGroupController;
-use App\Http\Controllers\SubHeadingController;
-use App\Http\Controllers\CountryController;
-use App\Http\Controllers\CustomerTypeController;
-use App\Http\Controllers\EventTypeController;
-use App\Http\Controllers\TransactionStartingController;
-use App\Http\Controllers\OpportunityStageController;
-use App\Http\Controllers\ProbabilityToCloseController;
-use App\Http\Controllers\ReleaseReasonCodeController;
-use App\Http\Controllers\ProductThicknessController;
-use App\Http\Controllers\DesignationController;
-use App\Http\Controllers\EndUseSegmentController;
+use App\Http\Controllers\SupplierTypeController;
 use App\Http\Controllers\AboutUsOptionController;
+use App\Http\Controllers\EndUseSegmentController;
+use App\Http\Controllers\ProductFinishController;
+use App\Http\Controllers\AdjustmentTypeController;
 use App\Http\Controllers\ShipmentMethodController;
 use App\Http\Controllers\ProductCategoryController;
-use App\Http\Controllers\ProductTypeController;
-use App\Http\Controllers\ProductPriceRangeController;
+use App\Http\Controllers\OpportunityStageController;
+use App\Http\Controllers\ProductThicknessController;
 use App\Http\Controllers\ReturnReasonCodeController;
+use App\Http\Controllers\ProductPriceRangeController;
+use App\Http\Controllers\ReleaseReasonCodeController;
+use App\Http\Controllers\ProbabilityToCloseController;
+use App\Http\Controllers\TransactionStartingController;
 use App\Http\Controllers\CustomerContactTitleController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
-use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\AdjustmentTypeController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
 
 /*
@@ -155,5 +156,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('inventory_adjustment_reason_codes', InventoryAdjustmentReasonCodeController::class);
     Route::get('/inventory_adjustment_reason_code/list', [InventoryAdjustmentReasonCodeController::class, 'getInventoryAdjustmentReasonCodeLabelDataTableList'])->name('inventory_adjustment_reason_codes.list');
+
+    Route::resource('supplier_types', SupplierTypeController::class);
+    Route::get('/supplier_type/list', [SupplierTypeController::class, 'getSupplierTypeDataTableList'])->name('supplier_types.list');
 
 });
