@@ -1,6 +1,5 @@
 <script type="text/javascript">
     $(function() {
-
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -11,210 +10,115 @@
             responsive: true,
             processing: true,
             serverSide: true,
-            ajax: "{{ route('sub_headings.list') }}",
-            columns: [{
-                    data: 'id',
-                    name: 'id',
-                    orderable: false,
-                    searchable: false
-                }, // Row index column
-                {
-                    data: 'sub_heading_name',
-                    name: 'sub_heading_name'
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
-                },
+            order: [[0, 'desc']],
+            ajax: {
+                url: "{{ route('sub_headings.list') }}",
+                data: function (d) {
+                    sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
+                    d.order = [{ column: 0, dir: sort }];
+                }
+            },
+            columns: [
+                { data: 'id', name: 'id', orderable: false, searchable: false },
+                { data: 'sub_heading_name', name: 'sub_heading_name' },
+                { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
             rowCallback: function(row, data, index) {
                 $('td:eq(0)', row).html(index + 1); // Update the index column with the correct row index
             }
         });
-        setTimeout(() => {
-            $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right',
-                '20px');
-            $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left',
-                '30px');
-        }, 300);
+
+        $('#subHeadingForm input').on('input', function () {
+            let fieldName = $(this).attr('name');
+            $('.' + fieldName + '_error').text('');
+        })
 
         $('#createSubHeading').click(function () {
-            $('#savedata').val("create-Subheading");
-            $('#subheading_id').val('');
+            resetForm();
+            $('#savedata').html("Create Sub Heading");
+            $('#sub_heading_id').val('');
             $('#subHeadingForm').trigger("reset");
             $('#modelHeading').html("Create New Sub Heading");
             $('#subHeadingModel').modal('show');
         });
 
-
         $('#savedata').click(function (e) {
             e.preventDefault();
-            if($("#subheading_id").val() == null || $("#subheading_id").val() == "")
-            {
-                storeSubheading();
-            } else {
-                updateSubheading();
-            }
-        });
-
-        function storeSubheading()
-        {
+            var button = $(this).html();
             $(this).html('Sending..');
-                $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
-                },
+            var url = $('#sub_heading_id').val() ? "{{ route('sub_headings.update', ':id') }}".replace(':id', $('#sub_heading_id').val()) : "{{ route('sub_headings.store') }}";
+            var type = $('#sub_heading_id').val() ? "PUT" : "POST";
+            $.ajax({
+                url: url,
+                type: type,
                 data: $('#subHeadingForm').serialize(),
-                url: "{{ route('sub_headings.store') }}",
-                type: "POST",
                 dataType: 'json',
                 success: function (response) {
-                    if(response.status == "success"){
-                        $('#subHeadingForm').trigger("reset");
-                        $('#subHeadingModel').modal('hide');
-                        $(".sub_heading_name_error").html("");
-                        table.draw();
-                        Swal.fire({
-                            title: 'Created!',
-                            text: 'Sub Heading Added Successfully!',
-                            type: 'success',
-                            customClass: {
-                            confirmButton: 'btn btn-primary'
-                            },
-                            buttonsStyling: false
-                        });
-                    }
-                },
-                error: function(xhr) {
-                    var res = xhr.responseJSON;
-                    if ($.isEmptyObject(res) == false) {
-                        $.each(res.errors, function(prefix, val) {
-                            $('span.' + prefix + '_error').text(val[0]);
-                        });
-                    }
-                    $('#savedata').html('Save Sub Heading');
-                }
-            });
-        }
-        function updateSubheading()
-        {
-            $(this).html('Sending..');
-            let url = $('meta[name=app-url]').attr("content") + "/sub_headings/" + $("#subheading_id").val();           
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                url: url,
-                type: "PUT",
-                data: $('#subHeadingForm').serialize(),
-                dataType: 'json',
-                success: function(response) {
-                    if(response.status == "success"){
+                    if (response.status == "success") {
                         $('#subHeadingForm').trigger("reset");
                         $('#subHeadingModel').modal('hide');
                         table.draw();
-                        Swal.fire({
-                            title: 'Updated!',
-                            text: 'Sub Heading Updated Successfully!',
-                            type: 'success',
-                            customClass: {
-                            confirmButton: 'btn btn-primary'
-                            },
-                            buttonsStyling: false
-                        });
+                        var successMessage = type === 'POST' ? 'Sub Heading Added Successfully!' : 'Sub Heading Updated Successfully!';
+                        var successTitle = type === 'POST' ? 'Created!' : 'Updated!';
+                        showSuccessMessage(successTitle, successMessage);
                     }
                 },
-                error: function(xhr) {
-                    var res = xhr.responseJSON;
-                    if ($.isEmptyObject(res) == false) {
-                        $.each(res.errors, function(prefix, val) {
-                            $('span.' + prefix + '_error').text(val[0]);
-                        });
-                    }
-                    console.log('Error:', data);
-                    $('#savedata').html('Update Sub Heading');
+                error: function (xhr) {
+                    handleAjaxError(xhr);
+                    $('#savedata').html(button);
                 }
             });
-        }
-
-        
+        });
 
         $('body').on('click', '.editbtn', function () {
+            resetForm();
             var id = $(this).data('id');
-            $.get("{{ route('sub_headings.index') }}" +'/' + id +'/edit', function (data) {
-                $(".sub_heading_name_error").html("");
+            $.get("{{ route('sub_headings.index') }}" + '/' + id + '/edit', function (data) {
                 $('#modelHeading').html("Edit Sub Heading");
-                $('#savedata').val("edit-user");
+                $('#savedata').val("edit-sub-heading");
                 $('#savedata').html("Update Sub Heading");
                 $('#subHeadingModel').modal('show');
-                $('#subheading_id').val(data.id);
+                $('#sub_heading_id').val(data.id);
                 $('#sub_heading_name').val(data.sub_heading_name);
             });
         });
 
-
         $('body').on('click', '.deletebtn', function () {
             var id = $(this).data('id');
-            let url = $('meta[name=app-url]').attr("content") + "/sub_headings/" + id;
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!',
-                customClass: {
-                confirmButton: 'btn btn-primary me-1',
-                cancelButton: 'btn btn-label-secondary'
-                },
-                buttonsStyling: false
-            }).then(function(result) {
-                if (result.value) {
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        url: url,
-                        type: "DELETE",
-                        data: {
-                            id: $("#id").val(),
-                        },
-                        success: function(response) {
-                            if(response.status == "success"){
-                                table.draw();
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Deleted!',
-                                    text: 'Sub Heading Deleted Successfully!',
-                                    customClass: {
-                                    confirmButton: 'btn btn-success'
-                                    }
-                                });
-                            }
-                        },
-                        error: function(response) {
-                            console.log(response.responseJSON);
-                            Swal.fire({
-                                title: 'Oops!',
-                                text: 'Something went wrong!'
-                            });
-                        }
-                    });
-                }
+            confirmDelete(id, function () {
+                deleteSubHeading(id);
             });
         });
+
+        function deleteSubHeading(id) {
+            var url = "{{ route('sub_headings.destroy', ':id') }}".replace(':id', id);
+            $.ajax({
+                url: url,
+                type: "DELETE",
+                data: {
+                    id: id,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function (response) {
+                    if (response.status === "success") {
+                        table.draw(); // Assuming 'table' is defined for DataTables
+                        showSuccessMessage('Deleted!', 'Sub Heading Deleted Successfully!');
+                    } else {
+                        showError('Deleted!', response.msg);
+                    }
+                },
+                error: function (xhr) {
+                    console.error('Error:', xhr.statusText);
+                    showError('Oops!', 'Failed to fetch data.');
+                }
+            });
+        }
 
         $('body').on('click', '.showbtn', function () {
             var id = $(this).data('id');
             $.get("{{ route('sub_headings.index') }}" +'/' + id, function (data) {
-                $(".sub_heading_name_error").html("");
-                $('#modelHeading').html("Show Subheading");
-                $('#savedata').val("edit-user");
-                $('#showsubHeadingmodal').modal('show');
-                $('#subHeadingShowForm #sub_heading_name').val(data.sub_heading_name);
+                $('#showSubHeadingModal').modal('show');
+                $('#showSubHeadingForm #sub_heading_name').val(data.sub_heading_name);
             });
         });
 
@@ -222,6 +126,10 @@
             $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
             $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');
         }, 300);
+
+        function resetForm() {
+            $('.sub_heading_name_error').html('');
+        }
 
     });
 </script>

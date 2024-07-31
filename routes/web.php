@@ -22,6 +22,8 @@ use App\Http\Controllers\SupplierPortController;
 use App\Http\Controllers\SupplierTypeController;
 use App\Http\Controllers\AboutUsOptionController;
 use App\Http\Controllers\EndUseSegmentController;
+use App\Http\Controllers\UnitMeasureController;
+use App\Http\Controllers\SurveyQuestionController;
 use App\Http\Controllers\ProductFinishController;
 use App\Http\Controllers\AdjustmentTypeController;
 use App\Http\Controllers\ShipmentMethodController;
@@ -124,6 +126,12 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('customer_types', CustomerTypeController::class);
     Route::get('/customer_type/list', [CustomerTypeController::class, 'getCustomerTypeDataTableList'])->name('customer_types.list');
 
+    Route::resource('unit_measures', UnitMeasureController::class);
+    Route::get('/unit_measure/list', [UnitMeasureController::class, 'getUnitMeasureDataTableList'])->name('unit_measures.list');
+
+    Route::resource('survey_questions', SurveyQuestionController::class);
+    Route::get('/survey_question/list', [SurveyQuestionController::class, 'getSurveyQuestionDataTableList'])->name('survey_questions.list');
+    Route::get('/survey_question/transaction_id', [SurveyQuestionController::class, 'getTransactionTypeBasedQuestion'])->name('survey_questions.transaction');
     Route::resource('shipment_methods', ShipmentMethodController::class);
     Route::get('/shipment_method/list', [ShipmentMethodController::class, 'getShipmentMethodDataTableList'])->name('shipment_methods.list');
 

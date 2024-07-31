@@ -20,7 +20,8 @@ if (!function_exists('plural_from_model')) {
 }
 
 if (!function_exists('get_event_category_list')) {
-    function get_event_category_list($eventId) {
+    function get_event_category_list($eventId)
+    {
         $eventCategories = EventType::getEventCategory();
         return isset($eventCategories[$eventId]) ? $eventCategories[$eventId] : '';
     }

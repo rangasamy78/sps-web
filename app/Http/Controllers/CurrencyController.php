@@ -29,7 +29,6 @@ class CurrencyController extends Controller
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error saving Currency: ' . $e->getMessage());
-            dd($e->getMessage());
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Currency.']);
         }
     }
@@ -49,7 +48,6 @@ class CurrencyController extends Controller
     {
         try {
             $this->currencyRepository->update($request->all(), $currency->id);
-            // $currency->update($request->validated()); // Use validated data
             return response()->json(['status' => 'success', 'msg' => 'Currency updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes

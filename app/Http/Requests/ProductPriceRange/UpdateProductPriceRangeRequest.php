@@ -1,11 +1,9 @@
 <?php
+namespace App\Http\Requests\ProductPriceRange;
 
-namespace App\Http\Requests\SubHeading;
-
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateSubHeadingRequest extends FormRequest
+class UpdateProductPriceRangeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,14 +20,11 @@ class UpdateSubHeadingRequest extends FormRequest
      */
     public function rules(): array
     {
-        $subHeadingId = $this->route('sub_heading')->id; // Assuming your route parameter is named 'subheadings'
+        $product_price_range = $this->route('product_price_range')->id;
         return [
-            'sub_heading_name' => [
-                'required',
-                'string',
-                'max:255',
-                Rule::unique('sub_headings')->ignore($subHeadingId),
-            ],
+            'product_price_range' => 'required|string|max:255|unique:product_price_ranges,product_price_range,' . $product_price_range,
         ];
     }
+
+
 }

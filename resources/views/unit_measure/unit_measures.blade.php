@@ -1,14 +1,11 @@
 @extends('layouts.admin')
-
-@section('title', 'Hold Release Reason Code')
-
+@section('title', 'Unit of Measure')
 @section('styles')
 @endsection
 @section('content')
 <!-- Content -->
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="py-3 mb-4 float-right"><span class="text-muted fw-light">Home /</span> Hold Release Reason Codes</h4>
-
+    <h4 class="py-3 mb-4 float-right"><span class="text-muted fw-light">Home /</span> Unit of Measure</h4>
     <!-- Ajax Sourced Server-side -->
     <div class="card">
         <div class="card-datatable table-responsive" style="overflow:hidden;width:96%;margin:auto;">
@@ -19,18 +16,21 @@
                     </div>
                     <div class="dt-action-buttons text-end pt-3 pt-md-0">
                         <div class="dt-buttons btn-group flex-wrap">
+                            <div class="btn-group">
+                            </div>
                             <button class="btn btn-secondary create-new btn-primary" type="button"
-                                id="createReleaseReasonCode"><span><i class="bx bx-plus me-1"></i> <span
-                                        class="d-none d-lg-inline-block">Create Release Reason Code</span></span></button>
+                                id="createUnitMeasure"><span><i class="bx bx-plus me-1"></i> <span
+                                        class="d-none d-lg-inline-block">Create New Unit Measure</span></span></button>
                         </div>
                     </div>
                 </div>
                 <table class="table table-bordered data-table  table-striped" id="datatable" style="width: 100%">
                     <thead>
                         <tr>
-                            <th><b>S.No</b></th>
-                            <th><b>Release Reason Code</b></th>
-                            <th width="150px"><b>Action</b></th>
+                            <th>S.No</th>
+                            <th>Unit Measure Entity</th>
+                            <th>Unit Measure Name</th>
+                            <th width="150px">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,13 +41,14 @@
     </div>
     <!--/ Ajax Sourced Server-side -->
     <!--/ Responsive Datatable -->
-    @include('release_reason_code.__model')
+    @include('unit_measure.__model')
 </div>
 
 <!-- / Content -->
 @endsection
-
 @section('scripts')
-@include('release_reason_code.__scripts')
-
+    @include('unit_measure.__scripts')
 @endsection
+
+
+

@@ -12,10 +12,10 @@
                         <table class="datatables-basic table tables-basic border-top table-striped" id="designationTable">
                             <thead>
                                 <tr class="odd gradeX">
-                                    <th><b>Sl.No</b></th>
-                                    <th><b>Department</b></th>
-                                    <th><b>Designation</b></th>
-                                    <th><b>Action</b></th>
+                                    <th>Sl.No</th>
+                                    <th>Department</th>
+                                    <th>Designation</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -42,7 +42,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <input type="hidden" id="lastrow" name="lastrow" value="0">
+                        <input type="hidden" id="last_row" name="last_row" value="0">
                     </div>
                 </form>
             </div>
@@ -67,7 +67,7 @@
                 <form id="designationUpdateForm" class="form-horizontal">
                     <input type="hidden" name="designation_id" id="designation_id">
                     <div class="form-group mb-2 p-1">
-                    <label for="name" class="col-sm-2 control-label">Department<sup style="color: red;font-size:1rem;"><b>*</b></sup></label>
+                        <label for="name" class="col-sm-2 control-label">Department<sup style="color: red;"><b>*</b></sup></label>
                         <div class="col-sm-12">
                             <select class="form-select " name="department_id" id="department_id">
                                 <option value="">Select Department</option>
@@ -79,7 +79,7 @@
                         <span class="text-danger error-text department_id_error"></span>
                     </div>
                     <div class="form-group mb-2 p-1">
-                        <label for="name" class=" control-label pb-1">Designation<sup style="color: red;font-size:1rem;"><b>*</b></sup></label>
+                        <label for="name" class=" control-label pb-1">Designation<sup style="color: red;"><b>*</b></sup></label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" name="designation_name" id="designation_name">
                         </div>

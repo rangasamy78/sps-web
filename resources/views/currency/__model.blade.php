@@ -16,7 +16,7 @@
                         <span class="text-danger error-text currency_code_error"></span>
                     </div>
                     <div class="form-group mb-2 p-1">
-                        <label for="name" class=" control-label pb-1">Name<sup style="color:red"><strong>*</strong></sup></label>
+                        <label for="name" class=" control-label pb-1">Currency Name<sup style="color:red"><strong>*</strong></sup></label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="currency_name" name="currency_name" placeholder="Enter Currency Name" value="">
                         </div>
@@ -39,7 +39,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" id="saveCurrency" name="saveCurrency" value="Save">Save</button>
+                <button type="submit" class="btn btn-primary" id="savedata" name="savedata" value="Save">Save</button>
                 <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
@@ -57,27 +57,27 @@
             <div class="modal-body">
                 <form id="currencyShowForm" name="currencyShowForm" class="form-horizontal">
                     <div class="form-group mb-2 p-1">
-                        <label for="name" class=" control-label pb-1">Code</label>
+                        <label for="name" class=" control-label pb-1">Currency Code</label>
                         <div class="col-sm-12">
-                            <input type="text" readonly class="form-control" id="currency_code" name="currency_code" value="">
+                            <input type="text" disabled class="form-control" id="currency_code" name="currency_code" value="">
                         </div>
                     </div>
                     <div class="form-group mb-2 p-1">
-                        <label for="name" class=" control-label pb-1">Name</label>
+                        <label for="name" class=" control-label pb-1">Currency Name</label>
                         <div class="col-sm-12">
-                            <input type="text" readonly class="form-control" id="currency_name" name="currency_name" value="">
+                            <input type="text" disabled class="form-control" id="currency_name" name="currency_name" value="">
                         </div>
                     </div>
                     <div class="form-group mb-2 p-1">
                         <label for="name" class=" control-label pb-1">Currency (Symbol)</label>
                         <div class="col-sm-12">
-                            <input type="text" readonly class="form-control" id="currency_symbol" name="currency_symbol" value="">
+                            <input type="text" disabled class="form-control" id="currency_symbol" name="currency_symbol" value="">
                         </div>
                     </div>
                     <div class="form-group mb-2 p-1">
                         <label for="name" class=" control-label pb-1">Exchange Rate</label>
                         <div class="col-sm-12">
-                            <input type="text" readonly class="form-control" id="currency_exchange_rate" name="currency_exchange_rate" value="">
+                            <input type="text" disabled class="form-control" id="currency_exchange_rate" name="currency_exchange_rate" value="">
                         </div>
                     </div>
                 </form>
