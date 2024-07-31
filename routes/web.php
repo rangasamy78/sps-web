@@ -37,6 +37,7 @@ use App\Http\Controllers\TransactionStartingController;
 use App\Http\Controllers\CustomerContactTitleController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
+use App\Http\Controllers\ShipmentTermController;
 
 /*
 |--------------------------------------------------------------------------
@@ -171,5 +172,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('vendor_types', VendorTypeController::class);
     Route::get('/vendor_type/list', [VendorTypeController::class, 'getVendorTypeDataTableList'])->name('vendor_types.list');
+
+    Route::resource('shipment_terms', ShipmentTermController::class);
+    Route::get('/shipment_term/list', [ShipmentTermController::class, 'getShipmentTermDataTableList'])->name('shipment_terms.list');
+
 
 });
