@@ -18,6 +18,7 @@ use App\Http\Controllers\ProjectTypeController;
 use App\Http\Controllers\CustomerTypeController;
 use App\Http\Controllers\ProductColorController;
 use App\Http\Controllers\ProductGroupController;
+use App\Http\Controllers\SupplierPortController;
 use App\Http\Controllers\SupplierTypeController;
 use App\Http\Controllers\AboutUsOptionController;
 use App\Http\Controllers\EndUseSegmentController;
@@ -163,5 +164,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('vendor_types', VendorTypeController::class);
     Route::get('/vendor_type/list', [VendorTypeController::class, 'getVendorTypeDataTableList'])->name('vendor_types.list');
+
+    Route::resource('supplier_ports', SupplierPortController::class);
+    Route::get('/supplier_port/list', [SupplierPortController::class, 'getSupplierPortDataTableList'])->name('supplier_ports.list');
 
 });
