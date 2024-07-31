@@ -2,29 +2,26 @@
 
 namespace App\Repositories;
 
+use App\Models\SupplierPort;
 use Illuminate\Http\Request;
-use App\Models\ShipmentMethod;
-use App\Interfaces\CrudRepositoryInterface;
-use App\Interfaces\DatatableRepositoryInterface;
-
-class ShipmentMethodRepository implements CrudRepositoryInterface, DatatableRepositoryInterface
+use App\Interfaces\{ CrudRepositoryInterface, DatatableRepositoryInterface };
+class SupplierPortRepository implements CrudRepositoryInterface, DatatableRepositoryInterface
 {
-
     public function findOrFail(int $id)
     {
-        return ShipmentMethod::query()
+        return SupplierPort::query()
             ->findOrFail($id);
     }
 
     public function store(array $data)
     {
-        return ShipmentMethod::query()
+        return SupplierPort::query()
             ->create($data);
     }
 
     public function update(array $data, int $id)
     {
-        $query = ShipmentMethod::query()
+        $query = SupplierPort::query()
             ->findOrFail($id)
             ->update($data);
         return $query;
@@ -36,9 +33,9 @@ class ShipmentMethodRepository implements CrudRepositoryInterface, DatatableRepo
         return $query;
     }
 
-    public function getShipmentMethodList()
+    public function getSupplierPortList()
     {
-        $query = ShipmentMethod::query();
+        $query = SupplierPort::query()->with('country');
         return $query;
     }
 
@@ -55,27 +52,29 @@ class ShipmentMethodRepository implements CrudRepositoryInterface, DatatableRepo
         $columnSortOrder = $orderArray[0]['dir'];
         $searchValue = $searchArray['value'];
 
-        $shipmentMethods = $this->getShipmentMethodList();
-        $total = $shipmentMethods->count();
+        $supplierPort = $this->getSupplierPortList();
+        $total = $supplierPort->count();
 
-        $totalFilter = $this->getShipmentMethodList();
+        $totalFilter = $this->getSupplierPortList();
         if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('shipment_method_name', 'like', '%' . $searchValue . '%');
+            $totalFilter = $totalFilter->where('supplier_port_name', 'like', '%' . $searchValue . '%');
         }
         $totalFilter = $totalFilter->count();
 
-        $arrData = $this->getShipmentMethodList();
+        $arrData = $this->getSupplierPortList();
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
 
         if (!empty($searchValue)) {
-            $arrData = $arrData->where('shipment_method_name', 'like', '%' . $searchValue . '%');
+            $arrData = $arrData->where('supplier_port_name', 'like', '%' . $searchValue . '%');
         }
         $arrData = $arrData->get();
 
         $arrData->map(function ($value, $i) {
             $value->sno = ++$i;
-            $value->shipment_method_name = $value->shipment_method_name ?? '';
+            $value->supplier_port_name = $value->supplier_port_name ?? '';
+            $value->avg_days = $value->avg_days ?? '';
+            $value->country_name = $value->country ? $value->country->country_name : '';
             $value->action = "<button type='button' data-id='" . $value->id . "' class='p-2 m-0 btn btn-warning btn-sm showbtn'><i class='fa-regular fa-eye fa-fw'></i></button>&nbsp;&nbsp;<button type='button' data-id='" . $value->id . "'  name='btnEdit' class='editbtn btn btn-primary btn-sm p-2 m-0'><i class='fas fa-pencil-alt'></i></button>&nbsp;&nbsp;<button type='button' data-id='" . $value->id . "'  name='btnDelete' class='deletebtn btn btn-danger btn-sm p-2 m-0'><i class='fas fa-trash-alt'></i></button>";
         });
 
