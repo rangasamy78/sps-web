@@ -15,6 +15,7 @@ use App\Http\Controllers\VendorTypeController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\ProjectTypeController;
+use App\Http\Controllers\UnitMeasureController;
 use App\Http\Controllers\CustomerTypeController;
 use App\Http\Controllers\ProductColorController;
 use App\Http\Controllers\ProductGroupController;
@@ -22,11 +23,10 @@ use App\Http\Controllers\SupplierPortController;
 use App\Http\Controllers\SupplierTypeController;
 use App\Http\Controllers\AboutUsOptionController;
 use App\Http\Controllers\EndUseSegmentController;
-use App\Http\Controllers\UnitMeasureController;
-use App\Http\Controllers\SurveyQuestionController;
 use App\Http\Controllers\ProductFinishController;
 use App\Http\Controllers\AdjustmentTypeController;
 use App\Http\Controllers\ShipmentMethodController;
+use App\Http\Controllers\SurveyQuestionController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\OpportunityStageController;
 use App\Http\Controllers\ProductThicknessController;
@@ -36,6 +36,7 @@ use App\Http\Controllers\ReleaseReasonCodeController;
 use App\Http\Controllers\ProbabilityToCloseController;
 use App\Http\Controllers\TransactionStartingController;
 use App\Http\Controllers\CustomerContactTitleController;
+use App\Http\Controllers\SupplierReturnStatusController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
 
@@ -175,5 +176,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('supplier_ports', SupplierPortController::class);
     Route::get('/supplier_port/list', [SupplierPortController::class, 'getSupplierPortDataTableList'])->name('supplier_ports.list');
+
+    Route::resource('supplier_return_statuses', SupplierReturnStatusController::class);
+    Route::get('/supplier_return_status/list', [SupplierReturnStatusController::class, 'getSupplierReturnStatusDataTableList'])->name('supplier_return_statuses.list');
 
 });
