@@ -43,8 +43,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="showSupplierPortModal" tabindex="-1" aria-labelledby="show-supplier-port-modal-label"
-    aria-hidden="true">
+<div class="modal fade" id="showSupplierPortModal" tabindex="-1" aria-labelledby="show-supplier-port-modal-label" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -64,7 +63,6 @@
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="avg_days" disabled name="avg_days" placeholder="Enter Avg days" value="">
                         </div>
-                        <span class="text-danger error-text avg_days_error"></span>
                     </div>
                     <div class="form-group mt-3">
                         <label for="country_id" class="col-sm-6 control-label">Country </label>
@@ -76,10 +74,11 @@
                                 @endforeach
                             </select>
                         </div>
-                        <span class="text-danger error-text country_id_error"></span>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+

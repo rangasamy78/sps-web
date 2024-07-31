@@ -4,18 +4,9 @@ namespace App\Repositories;
 
 use App\Models\SupplierPort;
 use Illuminate\Http\Request;
-use App\Interfaces\{ CrudRepositoryInterface, DatatableRepositoryInterface, DropDownRepositoryInterface };
-use App\Services\Country\CountryService;
-
+use App\Interfaces\{ CrudRepositoryInterface, DatatableRepositoryInterface };
 class SupplierPortRepository implements CrudRepositoryInterface, DatatableRepositoryInterface
 {
-    public $countryService;
-
-    public function __construct(CountryService $countryService)
-    {
-        $this->countryService = $countryService;
-    }
-
     public function findOrFail(int $id)
     {
         return SupplierPort::query()
@@ -44,7 +35,7 @@ class SupplierPortRepository implements CrudRepositoryInterface, DatatableReposi
 
     public function getSupplierPortList()
     {
-        $query = SupplierPort::query();
+        $query = SupplierPort::query()->with('country');
         return $query;
     }
 
@@ -83,8 +74,8 @@ class SupplierPortRepository implements CrudRepositoryInterface, DatatableReposi
             $value->sno = ++$i;
             $value->supplier_port_name = $value->supplier_port_name ?? '';
             $value->avg_days = $value->avg_days ?? '';
-            $value->country_id = $this->countryService->getCountryNameById($value->country_id) ?? '';
-            $value->action = "<button type='button' data-id='" . $value->id . "' class='p-2 m-0 btn btn-warning btn-sm showbtn' data-bs-toggle='modal'><i class='fa-regular fa-eye fa-fw'></i></button>&nbsp;&nbsp;<button type='button' data-id='" . $value->id . "'  name='btnEdit' class='editbtn btn btn-primary btn-sm p-2 m-0'><i class='fas fa-pencil-alt'></i></button>&nbsp;&nbsp;<button type='button' data-id='" . $value->id . "'  name='btnDelete' class='deletebtn btn btn-danger btn-sm p-2 m-0'><i class='fas fa-trash-alt'></i></button>";
+            $value->country_name = $value->country ? $value->country->country_name : '';
+            $value->action = "<button type='button' data-id='" . $value->id . "' class='p-2 m-0 btn btn-warning btn-sm showbtn'><i class='fa-regular fa-eye fa-fw'></i></button>&nbsp;&nbsp;<button type='button' data-id='" . $value->id . "'  name='btnEdit' class='editbtn btn btn-primary btn-sm p-2 m-0'><i class='fas fa-pencil-alt'></i></button>&nbsp;&nbsp;<button type='button' data-id='" . $value->id . "'  name='btnDelete' class='deletebtn btn btn-danger btn-sm p-2 m-0'><i class='fas fa-trash-alt'></i></button>";
         });
 
         $response = array(

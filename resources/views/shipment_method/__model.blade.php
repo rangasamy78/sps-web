@@ -27,11 +27,11 @@
     </div>
 </div>
 
-<div class="modal fade" id="showShipmentMethodModal" tabindex="-1" aria-labelledby="show-project-type-modal-label" aria-hidden="true">
+<div class="modal fade" id="showShipmentMethodModal" tabindex="-1" aria-labelledby="show-shipment-method-modal-label" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="show-project-type-modal-label">Show Shipment Method</h5>
+                <h5 class="modal-title" id="show-shipment-method-modal-label">Show Shipment Method</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

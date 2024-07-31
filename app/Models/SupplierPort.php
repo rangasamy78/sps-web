@@ -32,4 +32,9 @@ class SupplierPort extends Model
             get: fn (string $value) => ucfirst($value),
         );
     }
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
 }

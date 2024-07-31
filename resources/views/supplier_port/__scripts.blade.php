@@ -22,7 +22,7 @@
                 { data: 'id', name: 'id', orderable: false, searchable: false },
                 { data: 'supplier_port_name', name: 'supplier_port_name' },
                 { data: 'avg_days', name: 'avg_days' },
-                { data: 'country_id', name: 'country_id' },
+                { data: 'country_name', name: 'country_name' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
             rowCallback: function (row, data, index) {
