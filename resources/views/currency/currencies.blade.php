@@ -26,13 +26,13 @@
             <table class=" datatables-basic table tables-basic border-top table-striped" id="currencyTable">
               <thead>
                 <tr class="odd gradeX">
-                  <th><b>Sl.No</b></th>
-                  <th><b>Currency (Symbol)</b></th>
-                  <th><b>Code</b></th>
-                  <th><b>name</b></th>
-                  <th><b>Exchange Rate</b></th>
-                  <th><b>Last Updated</b></th>
-                  <th><b>Actions</b></th>
+                  <th>Sl.No</th>
+                  <th>Currency (Symbol)</th>
+                  <th>Code</th>
+                  <th>name</th>
+                  <th>Exchange Rate</th>
+                  <th>Last Updated</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>

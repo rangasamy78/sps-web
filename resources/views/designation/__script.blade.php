@@ -7,9 +7,22 @@
             }
         });
         var table = $('#createDesignation').DataTable({
+            responsive: true,
             processing: true,
             serverSide: true,
-            ajax: "{{ route('designations.list') }}",
+            order: [
+                [0, 'desc']
+            ],
+            ajax: {
+                url: "{{ route('designations.list') }}",
+                data: function(d) {
+                    sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
+                    d.order = [{
+                        column: 0,
+                        dir: sort
+                    }];
+                }
+            },
             columns: [{
                     data: 'id',
                     name: 'id',
@@ -32,118 +45,32 @@
                 }
             ],
             rowCallback: function(row, data, index) {
-                $('td:eq(0)', row).html(index + 1); // Update the index column with the correct row index
+                $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
             },
-            columnDefs: [{
-                targets: -1,
-                orderable: false
-            }],
+
             dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
             // displayLength: 7,
             // lengthMenu: [7, 10, 25, 50, 75, 100],
             buttons: [{
-                    extend: 'collection',
-                    className: 'btn btn-label-primary dropdown-toggle me-2',
-                    text: '<i class="bx bx-export me-sm-1"></i> <span class="d-none d-sm-inline-block">Export</span>',
-                    buttons: [{
-                            extend: 'print',
-                            text: '<i class="bx bx-printer me-1"></i>Print',
-                            className: 'dropdown-item',
-                            exportOptions: {
-                                columns: ':visible',
-                                format: {
-                                    body: function(data, row, column, node) {
-                                        return node.textContent || node.innerText;
-                                    }
-                                }
-                            },
-                            customize: function(win) {
-                                $(win.document.body)
-                                    .css('color', '#333')
-                                    .css('background-color', '#fff');
-                                $(win.document.body).find('table')
-                                    .addClass('compact')
-                                    .css('color', 'inherit')
-                                    .css('border-color', 'inherit')
-                                    .css('background-color', 'inherit');
-                            }
-                        },
-                        {
-                            extend: 'csv',
-                            text: '<i class="bx bx-file me-1"></i>Csv',
-                            className: 'dropdown-item',
-                            exportOptions: {
-                                columns: ':visible',
-                                format: {
-                                    body: function(data, row, column, node) {
-                                        return node.textContent || node.innerText;
-                                    }
-                                }
-                            }
-                        },
-                        {
-                            extend: 'excel',
-                            text: '<i class="bx bxs-file-export me-1"></i>Excel',
-                            className: 'dropdown-item',
-                            exportOptions: {
-                                columns: ':visible',
-                                format: {
-                                    body: function(data, row, column, node) {
-                                        return node.textContent || node.innerText;
-                                    }
-                                }
-                            }
-                        },
-                        {
-                            extend: 'pdf',
-                            text: '<i class="bx bxs-file-pdf me-1"></i>Pdf',
-                            className: 'dropdown-item',
-                            exportOptions: {
-                                columns: ':visible',
-                                format: {
-                                    body: function(data, row, column, node) {
-                                        return node.textContent || node.innerText;
-                                    }
-                                }
-                            }
-                        },
-                        {
-                            extend: 'copy',
-                            text: '<i class="bx bx-copy me-1"></i>Copy',
-                            className: 'dropdown-item',
-                            exportOptions: {
-                                columns: ':visible',
-                                format: {
-                                    body: function(data, row, column, node) {
-                                        return node.textContent || node.innerText;
-                                    }
-                                }
-                            }
-                        }
-                    ]
+                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add New Record</span>',
+                className: 'create-new btn btn-primary',
+                attr: {
+                    'data-bs-toggle': 'modal',
+                    'data-bs-target': '#designationModel',
+                    'id': 'addDesignation',
                 },
-                {
-                    text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add New Record</span>',
-                    className: 'create-new btn btn-primary',
-                    attr: {
-                        'data-bs-toggle': 'modal',
-                        'data-bs-target': '#designationModel',
-                        'id': 'addDesignation',
-                    },
-                    action: function(e, dt, node, config) {
-                        // Custom action for Add New Record button
-                        $('#saveDesignation').html("Save Designation");
-                        $('#designation_id').val('');
-                        $('.department_error').text('');
-                        $('.designation_error').text('');
-                        $('#designationForm').trigger("reset");
-                        $("#designationForm").find("tr:gt(1)").remove();
-                        $('#modelHeading').html("Create New Designation");
-                        $('#designationModel').modal('show');
-                        // updateRowIds();
-                    }
+                action: function(e, dt, node, config) {
+                    // Custom action for Add New Record button
+                    $('#saveDesignation').html("Save Designation");
+                    $('#designation_id').val('');
+                    $('.department_error').text('');
+                    $('.designation_error').text('');
+                    $('#designationForm').trigger("reset");
+                    $("#designationForm").find("tr:gt(1)").remove();
+                    $('#modelHeading').html("Create New Designation");
+                    $('#designationModel').modal('show');
                 }
-            ],
+            }],
 
 
         });
@@ -295,57 +222,38 @@
         });
 
 
+
         $('body').on('click', '.deletebtn', function() {
             var id = $(this).data('id');
-            let url = $('meta[name=app-url]').attr("content") + "/designations/" + id;
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!',
-                customClass: {
-                    confirmButton: 'btn btn-primary me-1',
-                    cancelButton: 'btn btn-label-secondary'
-                },
-                buttonsStyling: false
-            }).then(function(result) {
-                if (result.value) {
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        url: url,
-                        type: "DELETE",
-                        data: {
-                            id: $("#id").val(),
-                        },
-                        success: function(response) {
-                            if (response.status == "success") {
-                                table.draw();
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Deleted!',
-                                    text: 'Designation Deleted Successfully!',
-                                    customClass: {
-                                        confirmButton: 'btn btn-success'
-                                    }
-                                });
-                            }
-                        },
-                        error: function(response) {
-                            console.log(response.responseJSON);
-                            Swal.fire({
-                                title: 'Oops!',
-                                text: 'Something went wrong!'
-                            });
-                        }
-                    });
-                }
+            confirmDelete(id, function() {
+                deleteDesignation(id);
             });
         });
+
+        function deleteDesignation(id) {
+            var url = "{{ route('designations.destroy', ':id') }}".replace(':id', id);
+            $.ajax({
+                url: url,
+                type: "DELETE",
+                data: {
+                    id: id,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    if (response.status === "success") {
+                        table.draw(); // Assuming 'table' is defined for DataTables
+                        showSuccessMessage('Deleted!', 'Designation Deleted Successfully!');
+                    } else {
+                        showError('Deleted!', response.msg);
+                    }
+                },
+                error: function(xhr) {
+                    console.error('Error:', xhr.statusText);
+                    showError('Oops!', 'Failed to fetch data.');
+                }
+            });
+        }
+
 
         $('body').on('click', '.showbtn', function() {
             var id = $(this).data('id');
@@ -360,15 +268,15 @@
             // Add Row button click event
             $('#addRowDesignation').click(function(event) {
                 event.preventDefault();
-                addRow(0, 'A'); // Call the addRow function to add a new row
+                updateDesignationList(0, 'A'); // Call the addRow function to add a new row
             });
 
             var departments = @json($departments);
 
             // Add or Delete Row function
-            function addRow(currentRow, cType) {
+            function updateDesignationList(currentRow, cType) {
                 if (cType === 'A') {
-                    var count = parseInt($('#lastrow').val(), 10);
+                    var count = parseInt($('#last_row').val(), 10);
                     count = count + 1;
                     var options = '<option value="">Select Department</option>';
                     departments.forEach(function(department) {
@@ -393,8 +301,8 @@
                         </button>
                     </td>
                 </tr>`;
-                
-                    $('#lastrow').val(count);
+
+                    $('#last_row').val(count);
                     $('#designationTable tbody').append(html);
                     updateRowIds(); // Update the row numbers after adding
                 }
@@ -403,7 +311,7 @@
                     if (currentRow > 0) { // Ensure the default row is not deleted
                         var trId = "#row_" + currentRow;
                         $(trId).remove(); // Remove the row using jQuery
-                        updateRowIds(); // Update the row numbers and lastrow value
+                        updateRowIds(); // Update the row numbers and last_row value
                     } else {
                         alert("Default row cannot be deleted");
                     }
@@ -425,13 +333,13 @@
                         $(this).find('td:eq(0)').html(1); // Default row serial number is always 1
                     }
                 });
-                $('#lastrow').val(nCtr - 1); // Update the lastrow input with the new count
+                $('#last_row').val(nCtr - 1); // Update the last_row input with the new count
             }
 
             // Handle delete row button click event
             $('#designationTable').on('click', '.deleteRow', function() {
                 var rowId = $(this).data('row');
-                addRow(rowId, 'D'); // Call addRow function to delete the specific row
+                updateDesignationList(rowId, 'D'); // Call addRow function to delete the specific row
             });
         });
 

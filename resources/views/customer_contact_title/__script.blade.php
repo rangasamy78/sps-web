@@ -11,6 +11,9 @@
             responsive: true,
             processing: true,
             serverSide: true,
+            order: [
+                [0, 'desc']
+            ],
             ajax: {
                 url: "{{ route('customer_contact_titles.list') }}",
                 data: function(d) {
@@ -60,8 +63,6 @@
                     $('#customerContactTitleModel').modal('show');
                 }
             }],
-
-
         });
 
         setTimeout(() => {
