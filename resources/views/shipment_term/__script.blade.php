@@ -1,6 +1,5 @@
 <script type="text/javascript">
   $(function() {
-    alert(window.assetsPath);
     $("#showDescriptionEditor").attr('disabled', true);
     
     $.ajaxSetup({
@@ -52,7 +51,7 @@
       // displayLength: 7,
       // lengthMenu: [7, 10, 25, 50, 75, 100],
       buttons: [{
-        text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add New Record</span>',
+        text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Create Shipment Term</span>',
         className: 'create-new btn btn-primary',
         attr: {
           'data-bs-toggle': 'modal',
