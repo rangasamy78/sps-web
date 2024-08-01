@@ -35,6 +35,7 @@ use App\Http\Controllers\ReleaseReasonCodeController;
 use App\Http\Controllers\ProbabilityToCloseController;
 use App\Http\Controllers\TransactionStartingController;
 use App\Http\Controllers\CustomerContactTitleController;
+use App\Http\Controllers\PickTicketRestrictionController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
 
@@ -131,6 +132,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('survey_questions', SurveyQuestionController::class);
     Route::get('/survey_question/list', [SurveyQuestionController::class, 'getSurveyQuestionDataTableList'])->name('survey_questions.list');
     Route::get('/survey_question/transaction_id', [SurveyQuestionController::class, 'getTransactionTypeBasedQuestion'])->name('survey_questions.transaction');
+    
     Route::resource('shipment_methods', ShipmentMethodController::class);
     Route::get('/shipment_method/list', [ShipmentMethodController::class, 'getShipmentMethodDataTableList'])->name('shipment_methods.list');
 
@@ -171,5 +173,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('vendor_types', VendorTypeController::class);
     Route::get('/vendor_type/list', [VendorTypeController::class, 'getVendorTypeDataTableList'])->name('vendor_types.list');
+
+    Route::get('pick_ticket_restrictions', [PickTicketRestrictionController::class, 'index'])->name('pick_ticket_restrictions.index');
+    Route::post('/pick_ticket_restriction/save', [PickTicketRestrictionController::class, 'save'])->name('pick_ticket_restrictions.save');
 
 });
