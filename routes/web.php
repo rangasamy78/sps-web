@@ -40,6 +40,7 @@ use App\Http\Controllers\SupplierReturnStatusController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
 use App\Http\Controllers\ShipmentTermController;
+use App\Http\Controllers\PurchaseShipmentMethodController;
 
 /*
 |--------------------------------------------------------------------------
@@ -183,5 +184,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('supplier_return_statuses', SupplierReturnStatusController::class);
     Route::get('/supplier_return_status/list', [SupplierReturnStatusController::class, 'getSupplierReturnStatusDataTableList'])->name('supplier_return_statuses.list');
+
+    Route::resource('purchase_shipment_methods', PurchaseShipmentMethodController::class);
+    Route::get('/purchase_shipment_method/list', [PurchaseShipmentMethodController::class, 'getPurchaseShipmentMethodDataTableList'])->name('purchase_shipment_methods.list');
 
 });

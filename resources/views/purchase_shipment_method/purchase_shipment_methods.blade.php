@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Shipment Terms')
+@section('title', 'Purchase Shipment Method')
 
 @section('styles')
 <link rel="stylesheet" href="{{asset('public/assets/vendor/libs/quill/typography.css')}}" />
@@ -14,8 +14,9 @@
   <div class="container-xxl flex-grow-1 container-p-y">
     <!-- //toast -->
     <div class="container-toast ">
+
     </div>
-    <h4 class="py-3 mb-4"><span class="text-muted fw-light"></span>Shipment Terms</h4>
+    <h4 class="py-3 mb-4"><span class="text-muted fw-light"></span>Purchase Shipment Method</h4>
     <div class="row mb-3">
       <!-- DataTable with Buttons -->
 
@@ -24,11 +25,11 @@
         <div class="row mb-2">
 
           <div class="col">
-            <table class="datatables-basic table tables-basic border-top table-striped" id="shipmentTermTable">
+            <table class=" datatables-basic table tables-basic border-top table-striped" id="purchaseShipmentMethodTable">
               <thead>
                 <tr class="odd gradeX">
                   <th class="center">Sl.No</th>
-                  <th>Shipment Term Name</th>
+                  <th>Shipment Method Name</th>
                   <th>Description</th>
                   <th>Actions</th>
                 </tr>
@@ -47,11 +48,11 @@
 </div>
 
 <!-- / Content -->
-@include('shipment_term.__model')
+@include('purchase_shipment_method.__model')
 @endsection
 
 @section('scripts')
 <script src="{{asset('public/assets/vendor/libs/quill/katex.js')}}"></script>
 <script src="{{asset('public/assets/vendor/libs/quill/quill.js')}}"></script>
-@include('shipment_term.__script')
+@include('purchase_shipment_method.__script')
 @endsection
