@@ -21,6 +21,7 @@ use App\Http\Controllers\ProductColorController;
 use App\Http\Controllers\ProductGroupController;
 use App\Http\Controllers\SupplierPortController;
 use App\Http\Controllers\SupplierTypeController;
+use App\Http\Controllers\ShipmentTermController;
 use App\Http\Controllers\AboutUsOptionController;
 use App\Http\Controllers\EndUseSegmentController;
 use App\Http\Controllers\ProductFinishController;
@@ -37,10 +38,11 @@ use App\Http\Controllers\ProbabilityToCloseController;
 use App\Http\Controllers\TransactionStartingController;
 use App\Http\Controllers\CustomerContactTitleController;
 use App\Http\Controllers\SupplierReturnStatusController;
+use App\Http\Controllers\SupplierCostListLabelController;
+use App\Http\Controllers\PurchaseShipmentMethodController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
-use App\Http\Controllers\ShipmentTermController;
-use App\Http\Controllers\PurchaseShipmentMethodController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -187,5 +189,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('purchase_shipment_methods', PurchaseShipmentMethodController::class);
     Route::get('/purchase_shipment_method/list', [PurchaseShipmentMethodController::class, 'getPurchaseShipmentMethodDataTableList'])->name('purchase_shipment_methods.list');
+
+    Route::resource('supplier_cost_list_labels', SupplierCostListLabelController::class);
+    Route::get('/supplier_cost_list_label/list', [SupplierCostListLabelController::class, 'getSupplierCostListLabelDataTableList'])->name('supplier_cost_list_labels.list');
 
 });
