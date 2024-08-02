@@ -54,7 +54,14 @@
     <script src="{{ asset('public/assets/vendor/js/helpers.js') }}"></script>
     {{-- <script src="{{asset('assets/vendor/js/template-customizer.js')}}"></script> --}}
     <script src="{{ asset('public/assets/js/config.js') }}"></script>
-
+    <style>
+        /* .light-style {
+            width: auto;
+        }
+        .light-style .swal2-popup .swal2-title {
+            font-size: 15px;
+        } */
+    </style>
 </head>
 
 <body>

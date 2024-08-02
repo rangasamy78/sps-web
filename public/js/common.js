@@ -74,3 +74,54 @@ function sending(button, reset = false) {
     }
 }
 
+var toastMixin = Swal.mixin({
+    toast: true,
+    icon: 'success', // This can be 'success', 'info', 'warning', or 'error'
+    title: 'General Title',
+    animation: false,
+    position: 'top-right',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    customClass: {
+        container: 'swal-toast-success' // Change this class based on the type of notification
+    },
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+});
+
+// Function to display toast with dynamic color
+function showToast(type, title) {
+    let className;
+
+    switch(type) {
+        case 'success':
+            className = 'swal-toast-success';
+            break;
+        case 'info':
+            className = 'swal-toast-info';
+            break;
+        case 'warning':
+            className = 'swal-toast-warning';
+            break;
+        case 'error':
+            className = 'swal-toast-error';
+            break;
+        default:
+            className = '';
+    }
+
+    toastMixin.fire({
+        icon: type,
+        title: title,
+        customClass: {
+            container: className
+        }
+    });
+}
+
+// Example usage
+// showToast('success', 'Operation Successful');
+

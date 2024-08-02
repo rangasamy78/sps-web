@@ -21,6 +21,7 @@ use App\Http\Controllers\ShipmentTermController;
 use App\Http\Controllers\ProductColorController;
 use App\Http\Controllers\ProductGroupController;
 use App\Http\Controllers\SupplierPortController;
+use App\Http\Controllers\ShipmentTermController;
 use App\Http\Controllers\SupplierTypeController;
 use App\Http\Controllers\AboutUsOptionController;
 use App\Http\Controllers\EndUseSegmentController;
@@ -28,6 +29,7 @@ use App\Http\Controllers\ProductFinishController;
 use App\Http\Controllers\AdjustmentTypeController;
 use App\Http\Controllers\ShipmentMethodController;
 use App\Http\Controllers\SurveyQuestionController;
+use App\Http\Controllers\ReceivingQcNoteController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\OpportunityStageController;
 use App\Http\Controllers\ProductThicknessController;
@@ -138,7 +140,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('survey_questions', SurveyQuestionController::class);
     Route::get('/survey_question/list', [SurveyQuestionController::class, 'getSurveyQuestionDataTableList'])->name('survey_questions.list');
     Route::get('/survey_question/transaction_id', [SurveyQuestionController::class, 'getTransactionTypeBasedQuestion'])->name('survey_questions.transaction');
-    
+
     Route::resource('shipment_methods', ShipmentMethodController::class);
     Route::get('/shipment_method/list', [ShipmentMethodController::class, 'getShipmentMethodDataTableList'])->name('shipment_methods.list');
 
@@ -182,7 +184,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('pick_ticket_restrictions', [PickTicketRestrictionController::class, 'index'])->name('pick_ticket_restrictions.index');
     Route::post('/pick_ticket_restriction/save', [PickTicketRestrictionController::class, 'save'])->name('pick_ticket_restrictions.save');
-   
+
     Route::resource('shipment_terms', ShipmentTermController::class);
     Route::get('/shipment_term/list', [ShipmentTermController::class, 'getShipmentTermDataTableList'])->name('shipment_terms.list');
 
@@ -191,6 +193,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('supplier_return_statuses', SupplierReturnStatusController::class);
     Route::get('/supplier_return_status/list', [SupplierReturnStatusController::class, 'getSupplierReturnStatusDataTableList'])->name('supplier_return_statuses.list');
+
+    Route::resource('receiving_qc_notes', ReceivingQcNoteController::class);
+    Route::get('/receiving_qc_note/list', [ReceivingQcNoteController::class, 'getReceivingQcNoteDataTableList'])->name('receiving_qc_notes.list');
 
     Route::resource('purchase_shipment_methods', PurchaseShipmentMethodController::class);
     Route::get('/purchase_shipment_method/list', [PurchaseShipmentMethodController::class, 'getPurchaseShipmentMethodDataTableList'])->name('purchase_shipment_methods.list');
