@@ -31,6 +31,7 @@ use App\Http\Controllers\ShipmentMethodController;
 use App\Http\Controllers\SurveyQuestionController;
 use App\Http\Controllers\ReceivingQcNoteController;
 use App\Http\Controllers\ProductCategoryController;
+use App\Http\Controllers\TaxExemptReasonController;
 use App\Http\Controllers\OpportunityStageController;
 use App\Http\Controllers\ProductThicknessController;
 use App\Http\Controllers\ReturnReasonCodeController;
@@ -44,6 +45,7 @@ use App\Http\Controllers\PickTicketRestrictionController;
 use App\Http\Controllers\PurchaseShipmentMethodController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -201,4 +203,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('account_types', AccountTypeController::class);
     Route::get('/account_type/list', [AccountTypeController::class, 'getAccountTypeDataTableList'])->name('account_types.list');
 
+    Route::resource('tax_exempt_reasons', TaxExemptReasonController::class);
+    Route::get('/tax_exempt_reason/list', [TaxExemptReasonController::class, 'getTaxExemptReasonDataTableList'])->name('tax_exempt_reasons.list');
+    
 });
