@@ -16,14 +16,13 @@ class PickTicketRestrictionController extends Controller
     {
         $this->pickTicketRestrictionRepository = $pickTicketRestrictionRepository;
     }
-    /**
-     * Display a listing of the resource.
-     */
+    
     public function index()
     {
         $pickTicketRestrictionDetail = PickTicketRestriction::latest()->first();
         return view('pick_ticket_restriction.pick_ticket_restrictions', compact('pickTicketRestrictionDetail'));
     }
+    
     public function save(Request $request)
     {
         try {

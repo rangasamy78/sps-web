@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'PickTicket Restrictions')
+@section('title', 'PickTicket Restriction')
 
 @section('styles')
 @endsection
@@ -46,7 +46,7 @@
                                                 <label class="switch switch-primary">
                                                 <div class="row">
                                                     <div class="col-md mb-md-0 mb-2">
-                                                        <div class="form-check custom-option custom-option-label custom-option-basic checked">
+                                                        <div class="form-check custom-option custom-option-label custom-option-basic">
                                                             <label class="form-check-label custom-option-content" for="default_pick_ticket_restriction1">
                                                                 <input name="default_pick_ticket_restriction" class="form-check-input" type="radio" value="1" id="default_pick_ticket_restriction1"
                                                                     {{ isset($pickTicketRestrictionDetail['default_pick_ticket_restriction']) && $pickTicketRestrictionDetail['default_pick_ticket_restriction'] == 1 ? 'checked' : '' }}>
@@ -109,7 +109,7 @@
                                                 <label class="switch switch-primary">
                                                 <div class="row">
                                                     <div class="col-md mb-md-0 mb-2">
-                                                        <div class="form-check custom-option custom-option-label custom-option-basic checked">
+                                                        <div class="form-check custom-option custom-option-label custom-option-basic">
                                                             <label class="form-check-label custom-option-content" for="lot_restriction_based_on1">
                                                                 <input name="lot_restriction_based_on" class="form-check-input" type="radio" value="1" id="lot_restriction_based_on1"
                                                                     {{ isset($pickTicketRestrictionDetail['default_lot_restriction_based_on']) && $pickTicketRestrictionDetail['default_lot_restriction_based_on'] == 1 ? 'checked' : '' }}>

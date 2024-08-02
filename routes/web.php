@@ -17,6 +17,7 @@ use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\ProjectTypeController;
 use App\Http\Controllers\UnitMeasureController;
 use App\Http\Controllers\CustomerTypeController;
+use App\Http\Controllers\ShipmentTermController;
 use App\Http\Controllers\ProductColorController;
 use App\Http\Controllers\ProductGroupController;
 use App\Http\Controllers\SupplierPortController;
@@ -34,14 +35,15 @@ use App\Http\Controllers\ReturnReasonCodeController;
 use App\Http\Controllers\ProductPriceRangeController;
 use App\Http\Controllers\ReleaseReasonCodeController;
 use App\Http\Controllers\ProbabilityToCloseController;
+use App\Http\Controllers\CreditCheckSettingController;
 use App\Http\Controllers\TransactionStartingController;
 use App\Http\Controllers\CustomerContactTitleController;
-use App\Http\Controllers\PickTicketRestrictionController;
 use App\Http\Controllers\SupplierReturnStatusController;
+use App\Http\Controllers\PickTicketRestrictionController;
+use App\Http\Controllers\PurchaseShipmentMethodController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
-use App\Http\Controllers\ShipmentTermController;
-use App\Http\Controllers\PurchaseShipmentMethodController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -192,5 +194,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('purchase_shipment_methods', PurchaseShipmentMethodController::class);
     Route::get('/purchase_shipment_method/list', [PurchaseShipmentMethodController::class, 'getPurchaseShipmentMethodDataTableList'])->name('purchase_shipment_methods.list');
+
+    Route::get('credit_check_settings', [CreditCheckSettingController::class, 'index'])->name('credit_check_settings.index');
+    Route::post('/credit_check_setting/save', [CreditCheckSettingController::class, 'save'])->name('credit_check_settings.save');
 
 });
