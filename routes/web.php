@@ -27,6 +27,7 @@ use App\Http\Controllers\ProductFinishController;
 use App\Http\Controllers\AdjustmentTypeController;
 use App\Http\Controllers\ShipmentMethodController;
 use App\Http\Controllers\SurveyQuestionController;
+use App\Http\Controllers\ReceivingQcNoteController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\OpportunityStageController;
 use App\Http\Controllers\ProductThicknessController;
@@ -180,4 +181,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('supplier_return_statuses', SupplierReturnStatusController::class);
     Route::get('/supplier_return_status/list', [SupplierReturnStatusController::class, 'getSupplierReturnStatusDataTableList'])->name('supplier_return_statuses.list');
 
+    Route::resource('receiving_qc_notes', ReceivingQcNoteController::class);
+    Route::get('/receiving_qc_note/list', [ReceivingQcNoteController::class, 'getReceivingQcNoteDataTableList'])->name('receiving_qc_notes.list');
 });
