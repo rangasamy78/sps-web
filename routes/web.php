@@ -16,6 +16,7 @@ use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\ProjectTypeController;
 use App\Http\Controllers\UnitMeasureController;
+use App\Http\Controllers\AccountTypeController;
 use App\Http\Controllers\CustomerTypeController;
 use App\Http\Controllers\ProductColorController;
 use App\Http\Controllers\ProductGroupController;
@@ -196,5 +197,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('purchase_shipment_methods', PurchaseShipmentMethodController::class);
     Route::get('/purchase_shipment_method/list', [PurchaseShipmentMethodController::class, 'getPurchaseShipmentMethodDataTableList'])->name('purchase_shipment_methods.list');
+
+    Route::resource('account_types', AccountTypeController::class);
+    Route::get('/account_type/list', [AccountTypeController::class, 'getAccountTypeDataTableList'])->name('account_types.list');
 
 });
