@@ -23,6 +23,7 @@ use App\Http\Controllers\ProductGroupController;
 use App\Http\Controllers\SupplierPortController;
 use App\Http\Controllers\ShipmentTermController;
 use App\Http\Controllers\SupplierTypeController;
+use App\Http\Controllers\LinkedAccountController;
 use App\Http\Controllers\AboutUsOptionController;
 use App\Http\Controllers\EndUseSegmentController;
 use App\Http\Controllers\ProductFinishController;
@@ -210,4 +211,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('account_sub_types', AccountSubTypeController::class);
     Route::get('/account_sub_type/list', [AccountSubTypeController::class, 'getAccountSubTypeDataTableList'])->name('account_sub_types.list');
+
+    Route::resource('linked_accounts', LinkedAccountController::class);
+    Route::get('/linked_account/list', [LinkedAccountController::class, 'getLinkedAccountDataTableList'])->name('linked_accounts.list');
 });
