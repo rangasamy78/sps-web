@@ -23,14 +23,17 @@ use App\Http\Controllers\ProductGroupController;
 use App\Http\Controllers\SupplierPortController;
 use App\Http\Controllers\ShipmentTermController;
 use App\Http\Controllers\SupplierTypeController;
+use App\Http\Controllers\LinkedAccountController;
 use App\Http\Controllers\AboutUsOptionController;
 use App\Http\Controllers\EndUseSegmentController;
 use App\Http\Controllers\ProductFinishController;
 use App\Http\Controllers\AdjustmentTypeController;
 use App\Http\Controllers\ShipmentMethodController;
 use App\Http\Controllers\SurveyQuestionController;
+use App\Http\Controllers\AccountSubTypeController;
 use App\Http\Controllers\ReceivingQcNoteController;
 use App\Http\Controllers\ProductCategoryController;
+use App\Http\Controllers\TaxExemptReasonController;
 use App\Http\Controllers\OpportunityStageController;
 use App\Http\Controllers\ProductThicknessController;
 use App\Http\Controllers\ReturnReasonCodeController;
@@ -45,6 +48,8 @@ use App\Http\Controllers\PickTicketRestrictionController;
 use App\Http\Controllers\PurchaseShipmentMethodController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -204,4 +209,14 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('account_payment_terms', AccountPaymentTermController::class);
     Route::get('/account_payment_term/list', [AccountPaymentTermController::class, 'getAccountPaymentTermDataTableList'])->name('account_payment_terms.list');
+
+    Route::resource('tax_exempt_reasons', TaxExemptReasonController::class);
+    Route::get('/tax_exempt_reason/list', [TaxExemptReasonController::class, 'getTaxExemptReasonDataTableList'])->name('tax_exempt_reasons.list');
+
+    Route::resource('account_sub_types', AccountSubTypeController::class);
+    Route::get('/account_sub_type/list', [AccountSubTypeController::class, 'getAccountSubTypeDataTableList'])->name('account_sub_types.list');
+
+    Route::resource('linked_accounts', LinkedAccountController::class);
+    Route::get('/linked_account/list', [LinkedAccountController::class, 'getLinkedAccountDataTableList'])->name('linked_accounts.list');
+
 });
