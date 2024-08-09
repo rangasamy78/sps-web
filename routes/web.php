@@ -36,6 +36,7 @@ use App\Http\Controllers\ProductThicknessController;
 use App\Http\Controllers\ReturnReasonCodeController;
 use App\Http\Controllers\ProductPriceRangeController;
 use App\Http\Controllers\ReleaseReasonCodeController;
+use App\Http\Controllers\AccountPaymentTermController;
 use App\Http\Controllers\ProbabilityToCloseController;
 use App\Http\Controllers\TransactionStartingController;
 use App\Http\Controllers\CustomerContactTitleController;
@@ -201,4 +202,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('account_types', AccountTypeController::class);
     Route::get('/account_type/list', [AccountTypeController::class, 'getAccountTypeDataTableList'])->name('account_types.list');
 
+    Route::resource('account_payment_terms', AccountPaymentTermController::class);
+    Route::get('/account_payment_term/list', [AccountPaymentTermController::class, 'getAccountPaymentTermDataTableList'])->name('account_payment_terms.list');
 });
