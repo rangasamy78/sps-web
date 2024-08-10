@@ -39,6 +39,7 @@ use App\Http\Controllers\ProductThicknessController;
 use App\Http\Controllers\ReturnReasonCodeController;
 use App\Http\Controllers\ProductPriceRangeController;
 use App\Http\Controllers\ReleaseReasonCodeController;
+use App\Http\Controllers\AccountPaymentTermController;
 use App\Http\Controllers\ProbabilityToCloseController;
 use App\Http\Controllers\DefaultLinkAccountController;
 use App\Http\Controllers\TransactionStartingController;
@@ -205,6 +206,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('account_types', AccountTypeController::class);
     Route::get('/account_type/list', [AccountTypeController::class, 'getAccountTypeDataTableList'])->name('account_types.list');
 
+    Route::resource('account_payment_terms', AccountPaymentTermController::class);
+    Route::get('/account_payment_term/list', [AccountPaymentTermController::class, 'getAccountPaymentTermDataTableList'])->name('account_payment_terms.list');
+
     Route::resource('tax_exempt_reasons', TaxExemptReasonController::class);
     Route::get('/tax_exempt_reason/list', [TaxExemptReasonController::class, 'getTaxExemptReasonDataTableList'])->name('tax_exempt_reasons.list');
 
@@ -225,5 +229,4 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/accounting/save', [DefaultLinkAccountController::class, 'accountingSave'])->name('accounting.save');
         Route::post('/banking_receipt/save', [DefaultLinkAccountController::class, 'bankingReceiptSave'])->name('banking_receipt.save');
     });
-
 });
