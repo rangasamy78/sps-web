@@ -40,6 +40,7 @@ use App\Http\Controllers\ReturnReasonCodeController;
 use App\Http\Controllers\ProductPriceRangeController;
 use App\Http\Controllers\ReleaseReasonCodeController;
 use App\Http\Controllers\ProbabilityToCloseController;
+use App\Http\Controllers\DefaultLinkAccountController;
 use App\Http\Controllers\TransactionStartingController;
 use App\Http\Controllers\CustomerContactTitleController;
 use App\Http\Controllers\SupplierReturnStatusController;
@@ -47,8 +48,6 @@ use App\Http\Controllers\PickTicketRestrictionController;
 use App\Http\Controllers\PurchaseShipmentMethodController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -214,4 +213,17 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('linked_accounts', LinkedAccountController::class);
     Route::get('/linked_account/list', [LinkedAccountController::class, 'getLinkedAccountDataTableList'])->name('linked_accounts.list');
+
+    Route::prefix('default_link_accounts')->name('default_link_accounts.')->group(function () {
+        Route::get('/', [DefaultLinkAccountController::class, 'index'])->name('default_link_accounts.index');
+        Route::post('/inventory_asset/save', [DefaultLinkAccountController::class, 'inventoryAssetSave'])->name('inventory_asset.save');
+        Route::post('/inventory_in_transit_on_transfer/save', [DefaultLinkAccountController::class, 'inventoryInTransitOnTransferSave'])->name('inventory_in_transit_on_transfer.save');
+        Route::post('/inventory_adjustment/save', [DefaultLinkAccountController::class, 'inventoryAdjustmentSave'])->name('inventory_adjustment.save');
+        Route::post('/banking_payment/save', [DefaultLinkAccountController::class, 'bankingPaymentSave'])->name('banking_payment.save');
+        Route::post('/other_charges_discounts_variance/save', [DefaultLinkAccountController::class, 'otherChargesDiscountsVarianceSave'])->name('other_charges_discounts_variance.save');
+        Route::post('/sale/save', [DefaultLinkAccountController::class, 'saleSave'])->name('sale.save');
+        Route::post('/accounting/save', [DefaultLinkAccountController::class, 'accountingSave'])->name('accounting.save');
+        Route::post('/banking_receipt/save', [DefaultLinkAccountController::class, 'bankingReceiptSave'])->name('banking_receipt.save');
+    });
+
 });

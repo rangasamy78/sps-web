@@ -30,4 +30,10 @@ class AccountSubType extends Model
             get: fn (string $value) => ucfirst($value),
         );
     }
+
+    public static function getAccountSubTypeList($id)
+    {
+        $subType = self::find($id);
+        return $subType ? $subType->sub_type_name : '';
+    }
 }

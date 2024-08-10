@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Model;
 use App\Interfaces\CrudRepositoryInterface;
 use App\Interfaces\DatatableRepositoryInterface;
 
-
 class LinkedAccountRepository implements CrudRepositoryInterface, DatatableRepositoryInterface
 {
     public function findOrFail(int $id): Model
@@ -70,9 +69,9 @@ class LinkedAccountRepository implements CrudRepositoryInterface, DatatableRepos
         }
         $arrData = $arrData->get();
         $arrData->map(function ($value) {
-            $value->account_code      = $value->account_code ?? '';
-            $value->account_name       = $value->account_name ?? '';
-            $value->account_type = AccountType::getAccountTypeList($value->account_type);
+            $value->account_code     = $value->account_code ?? '';
+            $value->account_name     = $value->account_name ?? '';
+            $value->account_type     = AccountType::getAccountTypeList($value->account_type);
             $value->account_sub_type = AccountSubType::getAccountSubTypeList($value->account_sub_type);
             $value->action = "<button type='button' data-id='" . $value->id . "' class='p-2 m-0 btn btn-warning btn-sm showbtn'><i class='fa-regular fa-eye fa-fw'></i></button>&nbsp;&nbsp;<button type='button' data-id='" . $value->id . "' name='btnEdit' class='editbtn btn btn-primary btn-sm p-2 m-0'><i class='fas fa-pencil-alt'></i></button>&nbsp;&nbsp;<button type='button' data-id='" . $value->id . "' name='btnDelete' class='deletebtn btn btn-danger btn-sm p-2 m-0'><i class='fas fa-trash-alt'></i></button>";
         });

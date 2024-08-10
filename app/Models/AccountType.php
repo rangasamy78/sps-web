@@ -30,4 +30,10 @@ class AccountType extends Model
             get: fn (string $value) => ucfirst($value),
         );
     }
+
+    public static function getAccountTypeList($id)
+    {
+        $accountType = self::find($id);
+        return $accountType ? $accountType->account_type_name : '';
+    }
 }

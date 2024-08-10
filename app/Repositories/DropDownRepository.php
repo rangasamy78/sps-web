@@ -8,7 +8,6 @@ use App\Interfaces\DropDownRepositoryInterface;
 
 class DropDownRepository implements DropDownRepositoryInterface
 {
-
     public $countryService;
     public $linkedAccountService;
     public function __construct(CountryService $countryService, LinkedAccountService $linkedAccountService)
@@ -17,15 +16,15 @@ class DropDownRepository implements DropDownRepositoryInterface
         $this->linkedAccountService = $linkedAccountService;
     }
 
-    public function dropDownPopulate(string $modelName)
+    public function dropDownPopulate(string $tableName)
     {
-        switch ($modelName) {
+        switch ($tableName) {
             case 'countries':
                 return $this->countryService->getCountries();
             case 'linked_accounts':
-                return $this->linkedAccountService->getLinkedAccount();
+                return $this->linkedAccountService->getFormatLinkedAccounts();
             default:
-                throw new \InvalidArgumentException("Dropdown type '{$modelName}' is not supported.");
+                throw new \InvalidArgumentException("Dropdown type '{$tableName}' is not supported.");
         }
     }
 }
