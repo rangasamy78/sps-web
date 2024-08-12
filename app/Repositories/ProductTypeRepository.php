@@ -101,8 +101,8 @@ class ProductTypeRepository implements CrudRepositoryInterface, DatatableReposit
         return response()->json($response);
     }
     
-    public function updateDefaultvalues(Request $request)
+    public function saveDefaultValue(Request $request)
     {
-        return $this->productTypeService->updateDefaultvalues($request);        
+        return $this->productTypeService->saveDefaultValue($request);        
     }
 }

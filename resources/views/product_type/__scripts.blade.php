@@ -161,9 +161,9 @@
     });
 
 
-function defaultValuesChange(checkbox, id, type) {
+function savedefaultValuesChange(checkbox, id, type) {
     const isChecked = checkbox.checked;
-    const url ="{{ route('product_types.updateDefaultvalue') }}" ;
+    const url ="{{ route('product_types.save_default_value') }}" ;
     const data = {
         id: id,
         type: type,

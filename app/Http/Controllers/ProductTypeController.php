@@ -113,10 +113,10 @@ class ProductTypeController extends Controller
     {
         return $this->productTypeRepository->dataTable($request);
     }
-    public function updateDefaultvalue(Request $request)
+    public function saveDefaultValue(Request $request)
     {
 
-        return $this->productTypeRepository->updateDefaultvalues($request);
+        return $this->productTypeRepository->saveDefaultValue($request);
         
     }
 }
