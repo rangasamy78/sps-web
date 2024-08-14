@@ -26,7 +26,7 @@
                                     <select class="form-select" name="payment_type" id="payment_type">
                                         <option value="">Select Payment Type</option>
                                         @foreach($account_types as $key => $account_type)
-                                            <option value="{{ $key }}">{{ $account_type }}</option>
+                                            <option value="{{ $account_type['value'] }}">{{ $account_type['label'] }}</option>
                                         @endforeach
                                     </select>
                                     <span class="text-danger error-text payment_type_error"></span>
@@ -106,7 +106,7 @@
                                 <select disabled class="form-select" name="payment_type" id="payment_type">
                                     <option value="">Select Payment Type</option>
                                     @foreach($account_types as $key => $account_type)
-                                        <option value="{{ $key }}">{{ $account_type }}</option>
+                                    <option value="{{ $account_type['value'] }}">{{ $account_type['label'] }}</option>
                                     @endforeach
                                 </select>
                             </div>

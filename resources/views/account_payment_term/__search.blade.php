@@ -13,7 +13,7 @@
             <select class="form-select" name="termFilter" id="termFilter">
                 <option value="">Select Payment Type</option>
                 @foreach ($account_types as $key => $account_type)
-                    <option value="{{ $key }}">{{ $account_type }}</option>
+                    <option value="{{ $account_type['value'] }}">{{ $account_type['label'] }}</option>
                 @endforeach
             </select>
         </div>
