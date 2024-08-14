@@ -9,7 +9,6 @@ use App\Interfaces\DatatableRepositoryInterface;
 
 class ShipmentMethodRepository implements CrudRepositoryInterface, DatatableRepositoryInterface
 {
-
     public function findOrFail(int $id)
     {
         return ShipmentMethod::query()

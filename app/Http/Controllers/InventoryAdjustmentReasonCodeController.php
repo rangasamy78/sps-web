@@ -4,12 +4,10 @@ namespace App\Http\Controllers;
 
 use Exception;
 use Illuminate\Http\Request;
-use App\Models\AdjustmentType;
 use Illuminate\Support\Facades\Log;
 use App\Models\InventoryAdjustmentReasonCode;
-use App\Repositories\InventoryAdjustmentReasonCodeRepository;
-use App\Http\Requests\InventoryAdjustmentReasonCode\CreateInventoryAdjustmentReasonCodeRequest;
-use App\Http\Requests\InventoryAdjustmentReasonCode\UpdateInventoryAdjustmentReasonCodeRequest;
+use App\Repositories\{ InventoryAdjustmentReasonCodeRepository, DropDownRepository };
+use App\Http\Requests\InventoryAdjustmentReasonCode\{CreateInventoryAdjustmentReasonCodeRequest, UpdateInventoryAdjustmentReasonCodeRequest};
 
 class InventoryAdjustmentReasonCodeController extends Controller
 {
@@ -17,16 +15,18 @@ class InventoryAdjustmentReasonCodeController extends Controller
      * Display a listing of the resource.
      */
     private InventoryAdjustmentReasonCodeRepository $inventoryAdjustmentReasonCodeRepository;
+    public DropDownRepository $dropDownRepository;
 
-    public function __construct(InventoryAdjustmentReasonCodeRepository $inventoryAdjustmentReasonCodeRepository)
+    public function __construct(InventoryAdjustmentReasonCodeRepository $inventoryAdjustmentReasonCodeRepository,DropDownRepository $dropDownRepository)
     {
         $this->inventoryAdjustmentReasonCodeRepository = $inventoryAdjustmentReasonCodeRepository;
+        $this->dropDownRepository = $dropDownRepository;
     }
 
     public function index()
     {
-        $adjustment_type = AdjustmentType::query()->get();
-        return view('inventory_adjustment_reason_code.inventory_adjustment_reason_codes', compact('adjustment_type'));
+        $adjustment_types = $this->dropDownRepository->dropDownPopulate('adjustment_types');
+        return view('inventory_adjustment_reason_code.inventory_adjustment_reason_codes', compact('adjustment_types'));
     }
 
     /**
@@ -38,7 +38,7 @@ class InventoryAdjustmentReasonCodeController extends Controller
             $this->inventoryAdjustmentReasonCodeRepository->store($request->only('reason', 'adjustment_type_id', 'income_expense_account'));
             return response()->json(['status' => 'success', 'msg' => 'Inventory Adjustment Reason Code saved successfully.']);
         } catch (Exception $e) {
-            // Log the exception for debugging purposes
+           
             Log::error('Error saving Inventory Adjustment Reason Code: ' . $e->getMessage());
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Inventory Adjustment Reason Code.']);
         }
@@ -77,13 +77,11 @@ class InventoryAdjustmentReasonCodeController extends Controller
      */
     public function update(UpdateInventoryAdjustmentReasonCodeRequest $request, InventoryAdjustmentReasonCode $inventoryAdjustmentReasonCode)
     {
-
         try {
             $data = $request->only('reason', 'adjustment_type_id', 'income_expense_account');
             $this->inventoryAdjustmentReasonCodeRepository->update($data, $inventoryAdjustmentReasonCode->id);
             return response()->json(['status' => 'success', 'msg' => 'Inventory Adjustment Reason Code updated successfully.']);
         } catch (Exception $e) {
-            // Log the exception for debugging purposes
             Log::error('Error updating Inventory Adjustment Reason Code: ' . $e->getMessage());
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Inventory Adjustment Reason Code.']);
         }
@@ -101,7 +99,6 @@ class InventoryAdjustmentReasonCodeController extends Controller
             $this->inventoryAdjustmentReasonCodeRepository->delete($id);
             return response()->json(['status' => 'success', 'msg' => 'Inventory Adjustment Reason Code deleted successfully.']);
         } catch (Exception $e) {
-            // Log the exception for debugging purposes
             Log::error('Error deleting Inventory Adjustment Reason Code: ' . $e->getMessage());
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Inventory Adjustment Reason Code.']);
         }

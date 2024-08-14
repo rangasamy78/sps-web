@@ -16,6 +16,7 @@ class ProductCategoryRepository implements CrudRepositoryInterface, DatatableRep
         return ProductCategory::query()
             ->findOrFail($id);
     }
+    
     public function store(array $data)
     {
         $productCategory = ProductCategory::create([
@@ -24,16 +25,14 @@ class ProductCategoryRepository implements CrudRepositoryInterface, DatatableRep
 
         if (isset($data['product_sub_categories']) && is_array($data['product_sub_categories'])) {
             $subCategoriesData = $data['product_sub_categories'];
-            $productCategory->subcategories()->createMany($subCategoriesData);
+            $productCategory->sub_categories()->createMany($subCategoriesData);
         }
-
         return $productCategory;
-
     }
 
     public function edit(int $id)
     {
-        return ProductCategory::with('subcategories')->find($id);
+        return ProductCategory::with('sub_categories')->find($id);
     }
 
     public function update(array $data, int $id)
@@ -41,10 +40,10 @@ class ProductCategoryRepository implements CrudRepositoryInterface, DatatableRep
         $productCategory = ProductCategory::findOrFail($id);
         $productCategory->update(['product_category_name' => $data['product_category_name']]);
         if (isset($data['product_sub_categories']) && is_array($data['product_sub_categories'])) {
-            $productCategory->subcategories()->delete();
-            $productCategory->subcategories()->createMany($data['product_sub_categories']);
+            $productCategory->sub_categories()->delete();
+            $productCategory->sub_categories()->createMany($data['product_sub_categories']);
         }
-        return $productCategory->load('subcategories');
+        return $productCategory;
     }
 
     public function delete(int $id)
@@ -69,7 +68,7 @@ class ProductCategoryRepository implements CrudRepositoryInterface, DatatableRep
             ->pluck('product_sub_category_name')
             ->toArray();
         $subCategoryNames = implode(',', $productSubCategorys);
-        return $subCategoryNames;
+        return $subCategoryNames ?? '';
     }
 
     public function dataTable(Request $request)
@@ -101,7 +100,6 @@ class ProductCategoryRepository implements CrudRepositoryInterface, DatatableRep
 
         if (!empty($searchValue)) {
             $arrData = $arrData->where('product_category_name', 'like', '%' . $searchValue . '%');
-
         }
         $arrData = $arrData->get();
 
