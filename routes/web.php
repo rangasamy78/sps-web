@@ -12,40 +12,50 @@ use App\Http\Controllers\EventTypeController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\SubHeadingController;
 use App\Http\Controllers\VendorTypeController;
+use App\Http\Controllers\AccountTypeController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\ProjectTypeController;
 use App\Http\Controllers\UnitMeasureController;
 use App\Http\Controllers\CustomerTypeController;
-use App\Http\Controllers\ShipmentTermController;
 use App\Http\Controllers\ProductColorController;
 use App\Http\Controllers\ProductGroupController;
+use App\Http\Controllers\ShipmentTermController;
 use App\Http\Controllers\SupplierPortController;
 use App\Http\Controllers\SupplierTypeController;
 use App\Http\Controllers\AboutUsOptionController;
+use App\Http\Controllers\AgingPeriodAPController;
 use App\Http\Controllers\EndUseSegmentController;
+use App\Http\Controllers\LinkedAccountController;
+use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\ProductFinishController;
+use App\Http\Controllers\AccountSubTypeController;
 use App\Http\Controllers\AdjustmentTypeController;
+use App\Http\Controllers\PriceListLabelController;
 use App\Http\Controllers\ShipmentMethodController;
 use App\Http\Controllers\SurveyQuestionController;
-use App\Http\Controllers\ReceivingQcNoteController;
+use App\Http\Controllers\ExpenseCategoryController;
 use App\Http\Controllers\ProductCategoryController;
+use App\Http\Controllers\ReceivingQcNoteController;
+use App\Http\Controllers\TaxExemptReasonController;
 use App\Http\Controllers\OpportunityStageController;
 use App\Http\Controllers\ProductThicknessController;
 use App\Http\Controllers\ReturnReasonCodeController;
 use App\Http\Controllers\ProductPriceRangeController;
 use App\Http\Controllers\ReleaseReasonCodeController;
-use App\Http\Controllers\ProbabilityToCloseController;
+use App\Http\Controllers\AccountPaymentTermController;
 use App\Http\Controllers\CreditCheckSettingController;
+use App\Http\Controllers\DefaultLinkAccountController;
+use App\Http\Controllers\ProbabilityToCloseController;
 use App\Http\Controllers\TransactionStartingController;
 use App\Http\Controllers\CustomerContactTitleController;
 use App\Http\Controllers\SupplierReturnStatusController;
-use App\Http\Controllers\SupplierCostListLabelController;
 use App\Http\Controllers\PickTicketRestrictionController;
+use App\Http\Controllers\SupplierCostListLabelController;
 use App\Http\Controllers\PurchaseShipmentMethodController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
+use App\Http\Controllers\AccountReceivableAgingPeriodController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -202,7 +212,50 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('supplier_cost_list_labels', SupplierCostListLabelController::class);
     Route::get('/supplier_cost_list_label/list', [SupplierCostListLabelController::class, 'getSupplierCostListLabelDataTableList'])->name('supplier_cost_list_labels.list');
+
     Route::get('credit_check_settings', [CreditCheckSettingController::class, 'index'])->name('credit_check_settings.index');
     Route::post('/credit_check_setting/save', [CreditCheckSettingController::class, 'save'])->name('credit_check_settings.save');
+
+    Route::resource('price_list_labels', PriceListLabelController::class);
+    Route::get('/price_list_label/list', [PriceListLabelController::class, 'getPriceListLabelDataTableList'])->name('price_list_labels.list');
+
+    Route::resource('account_types', AccountTypeController::class);
+    Route::get('/account_type/list', [AccountTypeController::class, 'getAccountTypeDataTableList'])->name('account_types.list');
+
+    Route::resource('account_payment_terms', AccountPaymentTermController::class);
+    Route::get('/account_payment_term/list', [AccountPaymentTermController::class, 'getAccountPaymentTermDataTableList'])->name('account_payment_terms.list');
+
+    Route::resource('tax_exempt_reasons', TaxExemptReasonController::class);
+    Route::get('/tax_exempt_reason/list', [TaxExemptReasonController::class, 'getTaxExemptReasonDataTableList'])->name('tax_exempt_reasons.list');
+
+    Route::resource('account_sub_types', AccountSubTypeController::class);
+    Route::get('/account_sub_type/list', [AccountSubTypeController::class, 'getAccountSubTypeDataTableList'])->name('account_sub_types.list');
+
+    Route::resource('linked_accounts', LinkedAccountController::class);
+    Route::get('/linked_account/list', [LinkedAccountController::class, 'getLinkedAccountDataTableList'])->name('linked_accounts.list');
+
+    Route::resource('aging_periods_aps', AgingPeriodAPController::class);
+    Route::post('/aging_periods_ap/save', [AgingPeriodAPController::class, 'save'])->name('aging_periods_aps.save');
+
+    Route::prefix('default_link_accounts')->name('default_link_accounts.')->group(function () {
+        Route::get('/', [DefaultLinkAccountController::class, 'index'])->name('default_link_accounts.index');
+        Route::post('/inventory_asset/save', [DefaultLinkAccountController::class, 'inventoryAssetSave'])->name('inventory_asset.save');
+        Route::post('/inventory_in_transit_on_transfer/save', [DefaultLinkAccountController::class, 'inventoryInTransitOnTransferSave'])->name('inventory_in_transit_on_transfer.save');
+        Route::post('/inventory_adjustment/save', [DefaultLinkAccountController::class, 'inventoryAdjustmentSave'])->name('inventory_adjustment.save');
+        Route::post('/banking_payment/save', [DefaultLinkAccountController::class, 'bankingPaymentSave'])->name('banking_payment.save');
+        Route::post('/other_charges_discounts_variance/save', [DefaultLinkAccountController::class, 'otherChargesDiscountsVarianceSave'])->name('other_charges_discounts_variance.save');
+        Route::post('/sale/save', [DefaultLinkAccountController::class, 'saleSave'])->name('sale.save');
+        Route::post('/accounting/save', [DefaultLinkAccountController::class, 'accountingSave'])->name('accounting.save');
+        Route::post('/banking_receipt/save', [DefaultLinkAccountController::class, 'bankingReceiptSave'])->name('banking_receipt.save');
+    });
+
+    Route::resource('expense_categories', ExpenseCategoryController::class);
+    Route::get('/expense_category/list', [ExpenseCategoryController::class, 'getExpenseCategoryDataTableList'])->name('expense_categories.list');
+
+    Route::resource('payment_methods', PaymentMethodController::class);
+    Route::get('/payment_method/list', [PaymentMethodController::class, 'getPaymentMethodDataTableList'])->name('payment_methods.list');
+
+    Route::get('account_receivable_aging_periods', [AccountReceivableAgingPeriodController::class, 'index'])->name('account_receivable_aging_periods.index');
+    Route::post('/account_receivable_aging_period/save', [AccountReceivableAgingPeriodController::class, 'save'])->name('account_receivable_aging_periods.save');
 
 });

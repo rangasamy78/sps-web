@@ -80,7 +80,7 @@
             e.preventDefault();
             var button = $(this).html();
             // sending(button);
-            $(this).html(Sending);
+            $(this).html('...');
             var url = $('#customer_title_id').val() ? "{{ route('customer_contact_titles.update', ':id') }}".replace(':id', $('#customer_title_id').val()) : "{{ route('customer_contact_titles.store') }}";
             var type = $('#customer_title_id').val() ? "PUT" : "POST";
             $.ajax({

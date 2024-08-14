@@ -11,7 +11,7 @@
         <div class="card">
             <div style="overflow:hidden;width:96%;margin:auto;">
                 <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
-                    <from name="pickTicketRestrictionForm" id="pickTicketRestrictionForm">
+                    <form name="pickTicketRestrictionForm" id="pickTicketRestrictionForm">
                         <div class="row">
                             <div class="card mb-6">
                                 <div class="card-body">
@@ -85,7 +85,6 @@
                                             <div class="col-12 col-sm-6 col-md-3">
                                                 <p class="mb-1 card-subtitle mt-0">IS PickTicket Restriction Required ?</p>
                                             </div>
-                                            <!-- Button trigger modal -->
                                             <div class="col-12 col-sm-6 col-md-8">
                                                 <label class="switch switch-primary">
                                                     <input type="checkbox" class="switch-input" name="pick_ticket_restriction_required"  id="pick_ticket_restriction_required" value="1"

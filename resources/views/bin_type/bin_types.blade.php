@@ -15,11 +15,12 @@
     </div>
     <h4 class="py-3 mb-4"><span class="text-muted fw-light"></span> Bin Types</h4>
     <div class="row mb-3">
+    <div class="col">
       <!-- DataTable with Buttons -->
 
       <div class="card">
         <!-- </div> -->
-        <div class="row mb-2">
+        <div class="row mb-2 p-2">
 
           <div class="col">
             <table class=" datatables-basic table tables-basic border-top table-striped" id="binTypeTable">

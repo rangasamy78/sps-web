@@ -118,7 +118,7 @@
                 },
                 success: function (response) {
                     if (response.status === "success") {
-                        table.draw(); 
+                        table.draw();
                         showSuccessMessage('Deleted!', 'Product Type Deleted Successfully!');
                     } else {
                         showError('Deleted!', response.msg);
@@ -163,7 +163,7 @@
 
 function defaultValuesChange(checkbox, id, type) {
     const isChecked = checkbox.checked;
-    const url ="{{ route('product_types.updateDefaultvalue') }}" ;
+    const url ="{{ route('product_types.save_default_value') }}" ;
     const data = {
         id: id,
         type: type,
@@ -179,7 +179,7 @@ function defaultValuesChange(checkbox, id, type) {
         },
         success: function(response) {
             console.log(response);
-            
+
         },
         error: function(xhr, status, error) {
             console.error('Error:', xhr.responseText);

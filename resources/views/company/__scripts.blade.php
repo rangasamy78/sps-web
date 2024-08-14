@@ -67,7 +67,7 @@
             $('#savedata').val("create-Company");
             $('#savedata').html("Save Company");
             $('#company_id').val('');
-            $('#companyForm').trigger("reset");
+            $('#addCompanyForm').trigger("reset");
             $('#modelHeading').html("Create New Company");
             $('#companyModel').modal('show');
         });
@@ -218,6 +218,7 @@
                 $('#showCompanyForm #phone_1').val(data.phone_1);
                 $('#showCompanyForm #phone_2').val(data.phone_2);
                 $('#showCompanyForm #website').val(data.website);
+                $('#showCompanyForm #is_bin_pre_defined').prop('checked', data.is_bin_pre_defined);
                 let logoUrl = data.logo ? `{{ asset('storage/app/public/') }}/${data.logo}` : '{{ asset('public/assets/img/branding/location-logo.png') }}';
                 $("#showCompanyForm #imagePreview #previewImage").attr('src', logoUrl).show();
             });
