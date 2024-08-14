@@ -12,7 +12,7 @@
             serverSide: true,
             order: [[0, 'desc']],
             ajax: {
-                url: "{{ route('return_reason_codes.list') }}",
+                url: "{{ route('release_reason_codes.list') }}",
                 data: function (d) {
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{ column: 0, dir: sort }];
@@ -20,7 +20,7 @@
             },
             columns: [
                 { data: 'id', name: 'id', orderable: false, searchable: false },
-                { data: 'return_code', name: 'return_code' },
+                { data: 'release_reason_code', name: 'release_reason_code' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
             rowCallback: function (row, data, index) {
@@ -28,9 +28,9 @@
             }
         });
         $('#createReleaseReasonCode').click(function () {
-            $('.return_code_error').html('');
+            $('.release_reason_code_error').html('');
             $('#savedata').html("Save Release Reason Code");
-            $('#return_code_id').val('');
+            $('#release_reason_code_id').val('');
             $('#releaseReasonCodeForm').trigger("reset");
             $('#modelHeading').html("Create New Release Reason Code");
             $('#releaseReasonCodeModel').modal('show');
@@ -43,8 +43,8 @@
             e.preventDefault();
             var button = $(this).html();
             $(this).html('Sending..');
-            var url = $('#return_code_id').val() ? "{{ route('return_codes.update', ':id') }}".replace(':id', $('#return_code_id').val()) : "{{ route('return_codes.store') }}";
-            var type = $('#return_code_id').val() ? "PUT" : "POST";
+            var url = $('#release_reason_code_id').val() ? "{{ route('release_reason_codes.update', ':id') }}".replace(':id', $('#release_reason_code_id').val()) : "{{ route('release_reason_codes.store') }}";
+            var type = $('#release_reason_code_id').val() ? "PUT" : "POST";
             $.ajax({
                 url: url,
                 type: type,
@@ -67,16 +67,16 @@
             });
         });
         $('body').on('click', '.editbtn', function () {
-            $('.return_code_error').html('');
+            $('.release_reason_code_error').html('');
             var id = $(this).data('id');
-            $.get("{{ route('return_codes.index') }}" + '/' + id + '/edit', function (data) {
-                $(".return_code_error").html("");
+            $.get("{{ route('release_reason_codes.index') }}" + '/' + id + '/edit', function (data) {
+                $(".release_reason_code_error").html("");
                 $('#modelHeading').html("Edit Release Reason Code");
                 $('#savedata').val("edit-release-reason-code");
                 $('#savedata').html("Update Release Reason Code");
                 $('#releaseReasonCodeModel').modal('show');
-                $('#return_code_id').val(data.id);
-                $('#return_code').val(data.return_code);
+                $('#release_reason_code_id').val(data.id);
+                $('#release_reason_code').val(data.release_reason_code);
             });
         });
         $('body').on('click', '.deletebtn', function () {
@@ -86,7 +86,7 @@
             });
         });
         function deleteReleaseReasonCode(id) {
-            var url = "{{ route('return_codes.destroy', ':id') }}".replace(':id', id);
+            var url = "{{ route('release_reason_codes.destroy', ':id') }}".replace(':id', id);
             $.ajax({
                 url: url,
                 type: "DELETE",
@@ -111,9 +111,9 @@
 
         $('body').on('click', '.showbtn', function () {
             var id = $(this).data('id');
-            $.get("{{ route('return_codes.index') }}" + '/' + id, function (data) {
+            $.get("{{ route('release_reason_codes.index') }}" + '/' + id, function (data) {
                 $('#showReleaseReasonCodeModal').modal('show');
-                $('#showReleaseReasonCodeForm #return_code').val(data.return_code);
+                $('#showReleaseReasonCodeForm #release_reason_code').val(data.release_reason_code);
 
             });
         });
