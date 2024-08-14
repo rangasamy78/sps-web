@@ -28,6 +28,7 @@ use App\Http\Controllers\AboutUsOptionController;
 use App\Http\Controllers\EndUseSegmentController;
 use App\Http\Controllers\ProductFinishController;
 use App\Http\Controllers\PaymentMethodController;
+use App\Http\Controllers\AgingPeriodAPController;
 use App\Http\Controllers\AdjustmentTypeController;
 use App\Http\Controllers\ShipmentMethodController;
 use App\Http\Controllers\SurveyQuestionController;
@@ -224,6 +225,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('linked_accounts', LinkedAccountController::class);
     Route::get('/linked_account/list', [LinkedAccountController::class, 'getLinkedAccountDataTableList'])->name('linked_accounts.list');
 
+    Route::resource('aging_periods_aps', AgingPeriodAPController::class);
+    Route::post('/aging_periods_ap/save', [AgingPeriodAPController::class, 'save'])->name('aging_periods_aps.save');
+    
     Route::prefix('default_link_accounts')->name('default_link_accounts.')->group(function () {
         Route::get('/', [DefaultLinkAccountController::class, 'index'])->name('default_link_accounts.index');
         Route::post('/inventory_asset/save', [DefaultLinkAccountController::class, 'inventoryAssetSave'])->name('inventory_asset.save');
