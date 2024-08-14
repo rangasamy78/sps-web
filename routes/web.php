@@ -251,7 +251,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/aging_periods_ap/save', [AgingPeriodAPController::class, 'save'])->name('aging_periods_aps.save');
 
     Route::prefix('default_link_accounts')->name('default_link_accounts.')->group(function () {
-        Route::get('/', [DefaultLinkAccountController::class, 'index'])->name('default_link_accounts.index');
+        Route::get('/', [DefaultLinkAccountController::class, 'index'])->name('index');
         Route::post('/inventory_asset/save', [DefaultLinkAccountController::class, 'inventoryAssetSave'])->name('inventory_asset.save');
         Route::post('/inventory_in_transit_on_transfer/save', [DefaultLinkAccountController::class, 'inventoryInTransitOnTransferSave'])->name('inventory_in_transit_on_transfer.save');
         Route::post('/inventory_adjustment/save', [DefaultLinkAccountController::class, 'inventoryAdjustmentSave'])->name('inventory_adjustment.save');
