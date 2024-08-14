@@ -34,21 +34,40 @@
 
                 </div>
 
-                <div class="mb-3">
-                    <label for="password" class="form-label">{{ __('Password') }} <sup style="color: red;font-size:1rem;"><b>*</b></sup></label>
-                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password"  placeholder="Enter your password">
-                    @error('password')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
+                <div class="mb-3 form-password-toggle">
+                    <label for="password" class="form-label">
+                        {{ __('Password') }}
+                        <sup style="color: red;font-size:1rem;"><b>*</b></sup>
+                    </label>
 
+                    <div class="input-group input-group-merge">
+                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Enter your password">
+
+                        <span class="cursor-pointer input-group-text" id="togglePassword">
+                            <i class="bx bx-hide" id="toggleIcon"></i>
+                        </span>
+                    </div>
+
+                    @error('password')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                 </div>
 
-                <div class="mb-3">
-                    <label for="password-confirm" class="form-label">{{ __('Confirmation Password') }} <sup style="color: red;font-size:1rem;"><b>*</b></sup></label>
-                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation"  placeholder="Enter your confirmation password">
+                <div class="mb-3 form-password-toggle">
+                    <label for="password-confirm" class="form-label">
+                        {{ __('Confirmation Password') }}
+                        <sup style="color: red;font-size:1rem;"><b>*</b></sup>
+                    </label>
 
+                    <div class="input-group input-group-merge">
+                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" placeholder="Enter your confirmation password">
+
+                        <span class="cursor-pointer input-group-text" id="togglePasswordConfirm">
+                            <i class="bx bx-hide" id="toggleIconConfirm"></i>
+                        </span>
+                    </div>
                 </div>
 
                 <div class="row mb-0">
