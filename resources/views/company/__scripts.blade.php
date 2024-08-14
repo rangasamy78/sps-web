@@ -67,7 +67,7 @@
             $('#savedata').val("create-Company");
             $('#savedata').html("Save Company");
             $('#company_id').val('');
-            $('#companyForm').trigger("reset");
+            $('#addCompanyForm').trigger("reset");
             $('#modelHeading').html("Create New Company");
             $('#companyModel').modal('show');
         });
