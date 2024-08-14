@@ -20,17 +20,17 @@ class ProductTypeService
         $isNonSerializedChecked = !empty($non_serialized) && $non_serialized == 1 ? 'checked' : '';
 
         $defaultaccount = "<div class='form-check form-check-inline mt-3'>
-        <input class='form-check-input' type='checkbox' id='indivisible-" . $id . "' name='indivisible[" . $id . "]' value='1' " . $isIndivisibleChecked . " onclick='defaultValuesChange(this, \"" . $id . "\", \"indivisible\")' />
+        <input class='form-check-input' type='checkbox' id='indivisible-" . $id . "' name='indivisible[" . $id . "]' value='1' " . $isIndivisibleChecked . " onclick='savedefaultValuesChange(this, \"" . $id . "\", \"indivisible\")' />
         <label class='form-check-label' for='indivisible-" . $id . "'>Indivisible</label>
         </div>
         <div class='form-check form-check-inline'>
-            <input class='form-check-input' type='checkbox' id='non_serialized-" . $id . "' name='non_serialized[" . $id . "]' value='1' " . $isNonSerializedChecked . " onclick='defaultValuesChange(this, \"" . $id . "\", \"non_serialized\")' />
+            <input class='form-check-input' type='checkbox' id='non_serialized-" . $id . "' name='non_serialized[" . $id . "]' value='1' " . $isNonSerializedChecked . " onclick='savedefaultValuesChange(this, \"" . $id . "\", \"non_serialized\")' />
             <label class='form-check-label' style='color:red' for='non_serialized-" . $id . "'>Non Serialized</label>
         </div>";
         return $defaultaccount;
     }
 
-    public function updateDefaultvalues($request)
+    public function saveDefaultValue($request)
     {
         $validatedData = $request->validate([
             'id' => 'required|integer|exists:product_types,id',
