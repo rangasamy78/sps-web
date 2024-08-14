@@ -19,17 +19,17 @@ class DropDownRepository implements DropDownRepositoryInterface
         $this->accountPaymentTermService = $accountPaymentTermService;
     }
 
-    public function dropDownPopulate(string $modelName)
+    public function dropDownPopulate(string $tableName)
     {
-        switch ($modelName) {
+        switch ($tableName) {
             case 'countries':
                 return $this->countryService->getCountries();
             case 'account_types':
                 return $this->accountPaymentTermService->getAccountTypes();
             case 'linked_accounts':
-                return $this->linkedAccountService->getLinkedAccount();
+                return $this->linkedAccountService->getFormatLinkedAccounts();
             default:
-                throw new \InvalidArgumentException("Dropdown type '{$modelName}' is not supported.");
+                throw new \InvalidArgumentException("Dropdown type '{$tableName}' is not supported.");
         }
     }
 }
