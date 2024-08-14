@@ -4,19 +4,19 @@ namespace App\Repositories;
 
 use App\Services\Country\CountryService;
 use App\Interfaces\DropDownRepositoryInterface;
+use App\Services\AccountType\AccountTypeService;
 use App\Services\LinkedAccount\LinkedAccountService;
-use App\Services\AccountPaymentTerm\AccountPaymentTermService;
 
 class DropDownRepository implements DropDownRepositoryInterface
 {
     public $countryService;
+    public $accountTypeService;
     public $linkedAccountService;
-    public $accountPaymentTermService;
-    public function __construct(CountryService $countryService, LinkedAccountService $linkedAccountService, AccountPaymentTermService $accountPaymentTermService)
+    public function __construct(CountryService $countryService, LinkedAccountService $linkedAccountService, AccountTypeService $accountTypeService)
     {
         $this->countryService = $countryService;
+        $this->accountTypeService = $accountTypeService;
         $this->linkedAccountService = $linkedAccountService;
-        $this->accountPaymentTermService = $accountPaymentTermService;
     }
 
     public function dropDownPopulate(string $tableName)
@@ -24,10 +24,10 @@ class DropDownRepository implements DropDownRepositoryInterface
         switch ($tableName) {
             case 'countries':
                 return $this->countryService->getCountries();
-            case 'account_types':
-                return $this->accountPaymentTermService->getAccountTypes();
             case 'linked_accounts':
                 return $this->linkedAccountService->getFormatLinkedAccounts();
+            case 'account_types':
+                return $this->accountTypeService->getAccountTypes();
             default:
                 throw new \InvalidArgumentException("Dropdown type '{$tableName}' is not supported.");
         }

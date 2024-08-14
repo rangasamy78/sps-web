@@ -3,7 +3,6 @@
 @section('title', 'Home Page - UI elements')
 
 @section('styles')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 @endsection
 @section('content')
 <!-- Content -->
@@ -16,29 +15,30 @@
     </div>
     <h4 class="py-3 mb-4"><span class="text-muted fw-light"></span>List of Currencies</h4>
     <div class="row mb-3">
-      <!-- DataTable with Buttons -->
+      <div class="col">
+        <!-- DataTable with Buttons -->
 
-      <div class="card">
-        <!-- </div> -->
-        <div class="row mb-2">
+        <div class="card">
+          <!-- </div> -->
+          <div class="row mb-2 p-3">
 
-          <div class="col">
-            <table class=" datatables-basic table tables-basic border-top table-striped" id="currencyTable">
-              <thead>
-                <tr class="odd gradeX">
-                  <th>Sl.No</th>
-                  <th>Currency (Symbol)</th>
-                  <th>Code</th>
-                  <th>name</th>
-                  <th>Exchange Rate</th>
-                  <th>Last Updated</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-
-              </tbody>
-            </table>
+            <div class="col">
+              <table class=" datatables-basic table tables-basic border-top table-striped" id="currencyTable">
+                <thead>
+                  <tr class="odd gradeX">
+                    <th>Sl.No</th>
+                    <th>Currency (Symbol)</th>
+                    <th>Code</th>
+                    <th>name</th>
+                    <th>Exchange Rate</th>
+                    <th>Last Updated</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

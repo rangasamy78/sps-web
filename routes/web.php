@@ -27,10 +27,12 @@ use App\Http\Controllers\LinkedAccountController;
 use App\Http\Controllers\AboutUsOptionController;
 use App\Http\Controllers\EndUseSegmentController;
 use App\Http\Controllers\ProductFinishController;
+use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\AdjustmentTypeController;
 use App\Http\Controllers\ShipmentMethodController;
 use App\Http\Controllers\SurveyQuestionController;
 use App\Http\Controllers\AccountSubTypeController;
+use App\Http\Controllers\ExpenseCategoryController;
 use App\Http\Controllers\ReceivingQcNoteController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\TaxExemptReasonController;
@@ -48,7 +50,11 @@ use App\Http\Controllers\SupplierReturnStatusController;
 use App\Http\Controllers\PickTicketRestrictionController;
 use App\Http\Controllers\PurchaseShipmentMethodController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
+use App\Http\Controllers\AccountReceivableAgingPeriodController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
+
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -229,4 +235,12 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/accounting/save', [DefaultLinkAccountController::class, 'accountingSave'])->name('accounting.save');
         Route::post('/banking_receipt/save', [DefaultLinkAccountController::class, 'bankingReceiptSave'])->name('banking_receipt.save');
     });
+    Route::resource('expense_categories', ExpenseCategoryController::class);
+    Route::get('/expense_category/list', [ExpenseCategoryController::class, 'getExpenseCategoryDataTableList'])->name('expense_categories.list');
+
+    Route::resource('payment_methods', PaymentMethodController::class);
+    Route::get('/payment_method/list', [PaymentMethodController::class, 'getPaymentMethodDataTableList'])->name('payment_methods.list');
+
+    Route::get('account_receivable_aging_periods', [AccountReceivableAgingPeriodController::class, 'index'])->name('account_receivable_aging_periods.index');
+    Route::post('/account_receivable_aging_period/save', [AccountReceivableAgingPeriodController::class, 'save'])->name('account_receivable_aging_periods.save');
 });

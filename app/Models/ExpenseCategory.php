@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class AccountType extends Model
+class ExpenseCategory extends Model
 {
     use HasFactory;
     /**
@@ -14,30 +14,31 @@ class AccountType extends Model
      *
      * @var string
      */
-    protected $table = 'account_types';
+    protected $table = 'expense_categories';
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'account_type_name',
+        'expense_category_name',
+        'expense_account',
     ];
 
-    protected function accountTypeName(): Attribute
+    protected function expenseCategoryName(): Attribute
     {
         return Attribute::make(
             get: fn (string $value) => ucfirst($value),
         );
     }
-    public static function getAccountTypeList($id)
+    function linked_account()
     {
-        $accountType = self::find($id);
-        return $accountType ? $accountType->account_type_name : '';
+        return $this->belongsTo(LinkedAccount::class, 'expense_account');
     }
-     
-    public  function payment_method()
+    
+    public function getLinkedAccountDetailsAttribute()
     {
-        return $this->hasMany(PaymentMethod::class);
+        $linkedAccount = $this->linked_account()->first();
+        return $linkedAccount ? $linkedAccount->account_code . '-' . $linkedAccount->account_name : '';
     }
 }

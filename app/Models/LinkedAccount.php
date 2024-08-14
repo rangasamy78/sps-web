@@ -31,12 +31,17 @@ class LinkedAccount extends Model
     protected function accountName(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => ucfirst($value),
+            get: fn(string $value) => ucfirst($value),
         );
     }
-    public static function getLinkedAccountList($id)
+
+    function expense_category()
     {
-        $linkedAccount = self::find($id);
-        return $linkedAccount ? $linkedAccount->account_code . '-' . $linkedAccount->account_name : '';
+        return $this->hasMany(ExpenseCategory::class);
+    }
+
+    function payment_method()
+    {
+        return $this->hasMany(PaymentMethod::class);
     }
 }
