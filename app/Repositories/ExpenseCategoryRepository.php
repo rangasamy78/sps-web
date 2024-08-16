@@ -33,9 +33,15 @@ class ExpenseCategoryRepository implements CrudRepositoryInterface, DatatableRep
         $this->findOrFail($id)->delete();
     }
 
-    public function getExpenseCategoryList()
+    public function getExpenseCategoryList($request)
     {
         $query = ExpenseCategory::with('linked_account');
+        if (!empty($request->expense_category_search) ) {
+            $query->where('expense_category_name', 'like', '%' . $request->expense_category_search . '%');
+        }
+        if (!empty($request->expense_account_search) ) {
+            $query->where('expense_account', $request->expense_account_search);
+        }
         return $query;
     }
 
@@ -51,15 +57,15 @@ class ExpenseCategoryRepository implements CrudRepositoryInterface, DatatableRep
         $columnName           =         $columnNameArray[$columnIndex]['data'];
         $columnSortOrder      =         $orderArray[0]['dir'];
         $searchValue          =         $searchArray['value'];
-        $ExpenseCategory = $this->getExpenseCategoryList();
+        $ExpenseCategory = $this->getExpenseCategoryList($request);
         $total = $ExpenseCategory->count();
 
-        $totalFilter = $this->getExpenseCategoryList();
+        $totalFilter = $this->getExpenseCategoryList($request);
         if (!empty($searchValue)) {
             $totalFilter = $totalFilter->where('expense_category_name', 'like', '%' . $searchValue . '%');
         }
         $totalFilter = $totalFilter->count();
-        $arrData = $this->getExpenseCategoryList();
+        $arrData = $this->getExpenseCategoryList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
         if (!empty($searchValue)) {

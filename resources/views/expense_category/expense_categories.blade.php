@@ -5,20 +5,14 @@
   @section('styles')
   @endsection
   @section('content')
-  <!-- Content -->
   <div class="content-wrapper">
-    <!-- Content -->
-   
     <div class="container-xxl flex-grow-1 container-p-y">
-      <h4 class="py-3 mb-4"><span class="text-muted fw-light"></span>
-        Expense Categories </h4>
+      <h4 class="py-3 mb-4"><span class="text-muted fw-light"></span>Expense Categories </h4>
+      @include('expense_category.__search')
       <div class="row mb-3">
       <div class="col">
-        <!-- DataTable with Buttons -->
         <div class="card">
-          <!-- </div> -->
           <div class="row mb-2 p-2">
-
             <div class="col">
               <table class=" datatables-basic table tables-basic border-top table-striped" id="expenseCategoryTable">
                 <thead>
@@ -30,7 +24,6 @@
                   </tr>
                 </thead>
                 <tbody>
-
                 </tbody>
               </table>
             </div>
@@ -39,10 +32,7 @@
       </div>
       </div>
     </div>
-
   </div>
-
-  <!-- / Content -->
   @include('expense_category.__model')
   @endsection
   @section('scripts')

@@ -39,9 +39,18 @@ class PaymentMethodRepository implements CrudRepositoryInterface, DatatableRepos
         $this->findOrFail($id)->delete();
     }
 
-    public function getPaymentMethodList()
+    public function getPaymentMethodList($request)
     {
         $query = PaymentMethod::with('linked_account', 'account_type');
+        if (!empty($request->method_name_search) ) {
+            $query->where('payment_method_name', 'like', '%' . $request->method_name_search . '%');
+        }
+        if (!empty($request->account_search) ) {
+            $query->where('id', $request->account_search);
+        }
+        if (!empty($request->account_type_search) ) {
+            $query->where('id', $request->account_type_search);
+        }
         return $query;
     }
 
@@ -57,15 +66,15 @@ class PaymentMethodRepository implements CrudRepositoryInterface, DatatableRepos
         $columnName           =         $columnNameArray[$columnIndex]['data'];
         $columnSortOrder      =         $orderArray[0]['dir'];
         $searchValue          =         $searchArray['value'];
-        $PaymentMethod = $this->getPaymentMethodList();
+        $PaymentMethod = $this->getPaymentMethodList($request);
         $total = $PaymentMethod->count();
 
-        $totalFilter = $this->getPaymentMethodList();
+        $totalFilter = $this->getPaymentMethodList($request);
         if (!empty($searchValue)) {
             $totalFilter = $totalFilter->where('payment_method_name', 'like', '%' . $searchValue . '%');
         }
         $totalFilter = $totalFilter->count();
-        $arrData = $this->getPaymentMethodList();
+        $arrData = $this->getPaymentMethodList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
         if (!empty($searchValue)) {
