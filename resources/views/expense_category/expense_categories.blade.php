@@ -7,14 +7,13 @@
   @section('content')
   <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
-      <h4 class="py-3 mb-4"><span class="text-muted fw-light"></span>Expense Categories </h4>
+      <h4 class="py-3 mb-4"><span class="text-muted fw-light">Home / </span>Expense Categories </h4>
       @include('expense_category.__search')
       <div class="row mb-3">
-      <div class="col">
         <div class="card">
           <div class="row mb-2 p-2">
             <div class="col">
-              <table class=" datatables-basic table tables-basic border-top table-striped" id="expenseCategoryTable">
+              <table class="datatables-basic table tables-basic border-top table-striped" id="expenseCategoryTable">
                 <thead>
                   <tr class="odd gradeX">
                     <th class="center">Sl.No</th>
@@ -29,7 +28,6 @@
             </div>
           </div>
         </div>
-      </div>
       </div>
     </div>
   </div>

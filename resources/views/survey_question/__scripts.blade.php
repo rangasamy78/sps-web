@@ -5,14 +5,24 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        var table = $('#datatable').DataTable({
+        
+        $('#transactionFilter, #shortLabelFilter, #questionFilter').on('keyup change', function(e) {
+            e.preventDefault();
+            table.draw();
+        });
+
+        var table = $('#surveyQuestionTable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
+            searching: false,
             order: [[0, 'desc']],
             ajax: {
                 url: "{{ route('survey_questions.list') }}",
                 data: function (d) {
+                    d.transaction_search = $('#transactionFilter').val();
+                    d.short_label_search = $('#shortLabelFilter').val();
+                    d.question_search = $('#questionFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{ column: 0, dir: sort }];
                 }
@@ -26,7 +36,26 @@
             ],
             rowCallback: function(row, data, index) {
                 $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
-            }
+            },
+            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            buttons: [{
+                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Add New Survey Question</span>',
+                className: 'create-new btn btn-primary',
+                attr: {
+                    'data-bs-toggle': 'modal',
+                    'data-bs-target': '#surveyQuestionModel',
+                },
+                action: function(e, dt, node, config) {
+                    $('#savedata').html("Save Survey Question");
+                    $('#survey_question_id').val('');
+                    $('#surveyQuestionForm').trigger("reset");
+                    $(".transaction_error").html("");
+                    $(".short_label_error").html("");
+                    $(".question_error").html("");
+                    $('#modelHeading').html("Create New Survey Question");
+                    $('#surveyQuestionModel').modal('show');
+                }
+            }],
         });
 
         $('#createSurveyQuestion').click(function () {

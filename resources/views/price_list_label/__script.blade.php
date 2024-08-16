@@ -7,16 +7,28 @@
             }
         });
 
+        $('#priceLabelFilter, #priceCodeFilter, #discountFilter, #marginFilter, #markupFilter, #salesPersonCommissionFilter').on('keyup', function(e) {
+            e.preventDefault();
+            table.draw();
+        });
+
         var table = $('#priceListLabelTable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
+            searching: false,
             order: [
                 [0, 'desc']
             ],
             ajax: {
                 url: "{{ route('price_list_labels.list') }}",
                 data: function(d) {
+                    d.price_label_search = $('#priceLabelFilter').val();
+                    d.price_code_search = $('#priceCodeFilter').val();
+                    d.discount_search = $('#discountFilter').val();
+                    d.margin_search = $('#marginFilter').val();
+                    d.markup_search = $('#markupFilter').val();
+                    d.sales_person_commission_search = $('#salesPersonCommissionFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{
                         column: 0,
@@ -64,7 +76,7 @@
             rowCallback: function(row, data, index) {
                 $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
             },
-            dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
             buttons: [{
                 text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add Price List Label</span>',
                 className: 'create-new btn btn-primary',

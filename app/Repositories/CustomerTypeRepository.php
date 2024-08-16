@@ -36,9 +36,15 @@ class CustomerTypeRepository implements CrudRepositoryInterface, DatatableReposi
         return $query;
     }
 
-    public function getCustomerTypeList()
+    public function getCustomerTypeList($request)
     {
         $query = CustomerType::query();
+        if (!empty($request->customer_type_name_search) ) {
+            $query->where('customer_type_name', 'like', '%' . $request->customer_type_name_search . '%');
+        }
+        if (!empty($request->customer_type_code_search) ) {
+            $query->where('customer_type_code', 'like', '%' . $request->customer_type_code_search . '%');
+        }
         return $query;
     }
 
@@ -55,16 +61,16 @@ class CustomerTypeRepository implements CrudRepositoryInterface, DatatableReposi
         $columnSortOrder = $orderArray[0]['dir'];
         $searchValue = $searchArray['value'];
 
-        $customerTypes = $this->getCustomerTypeList();
+        $customerTypes = $this->getCustomerTypeList($request);
         $total = $customerTypes->count();
 
-        $totalFilter = $this->getCustomerTypeList();
+        $totalFilter = $this->getCustomerTypeList($request);
         if (!empty($searchValue)) {
             $totalFilter = $totalFilter->where('customer_type_name', 'like', '%' . $searchValue . '%');
         }
         $totalFilter = $totalFilter->count();
 
-        $arrData = $this->getCustomerTypeList();
+        $arrData = $this->getCustomerTypeList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
 
