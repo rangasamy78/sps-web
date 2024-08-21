@@ -77,6 +77,7 @@ function sending(button, reset = false) {
 var toastMixin = Swal.mixin({
     toast: true,
     icon: 'success', // This can be 'success', 'info', 'warning', or 'error'
+    iconColor: 'white',
     title: 'General Title',
     animation: false,
     position: 'top-right',
@@ -84,7 +85,8 @@ var toastMixin = Swal.mixin({
     timer: 3000,
     timerProgressBar: true,
     customClass: {
-        container: 'swal-toast-success' // Change this class based on the type of notification
+        container: 'swal2-toast-colored',
+        popup: 'colored-toast',
     },
     didOpen: (toast) => {
       toast.addEventListener('mouseenter', Swal.stopTimer)
@@ -98,16 +100,16 @@ function showToast(type, title) {
 
     switch(type) {
         case 'success':
-            className = 'swal-toast-success';
+            className = 'swal2-icon-success';
             break;
         case 'info':
-            className = 'swal-toast-info';
+            className = 'swal2-icon-info';
             break;
         case 'warning':
-            className = 'swal-toast-warning';
+            className = 'swal2-icon-warning';
             break;
         case 'error':
-            className = 'swal-toast-error';
+            className = 'swal2-icon-error';
             break;
         default:
             className = '';
@@ -116,12 +118,6 @@ function showToast(type, title) {
     toastMixin.fire({
         icon: type,
         title: title,
-        customClass: {
-            container: className
-        }
     });
 }
-
-// Example usage
-// showToast('success', 'Operation Successful');
 

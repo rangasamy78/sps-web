@@ -13,55 +13,68 @@ use App\Http\Requests\AboutUsOption\{CreateAboutUsOptionRequest, UpdateAboutUsOp
 class AboutUsOptionController extends Controller
 {
     private AboutUsOptionRepository $aboutUsOptionRepository;
+
     public function __construct(AboutUsOptionRepository $aboutUsOptionRepository)
     {
         $this->aboutUsOptionRepository = $aboutUsOptionRepository;
     }
+
     public function index()
     {
         return view('about_us_option.about_us_options');
     }
+
     public function store(CreateAboutUsOptionRequest $request)
     {
         try {
             $this->aboutUsOptionRepository->store($request->only('how_did_you_hear_option'));
-            return response()->json(['status' => 'success', 'msg' => 'How did you hear Option saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'How did you hear option saved successfully.']);
         } catch (Exception $e) {
-            Log::error('Error saving How did you hear Option: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the How did you hear Option.']);
+            Log::error('Error saving How did you hear option: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the How did you hear option.']);
         }
     }
+
     public function show($id)
     {
         $model = $this->aboutUsOptionRepository->findOrFail($id);
         return response()->json($model);
     }
+
     public function edit($id)
     {
         $model = $this->aboutUsOptionRepository->findOrFail($id);
         return response()->json($model);
     }
+
     public function update(UpdateAboutUsOptionRequest $request, AboutUsOption $aboutUsOption)
     {
         try {
             $this->aboutUsOptionRepository->update($request->only('how_did_you_hear_option'), $aboutUsOption->id);
-            return response()->json(['status' => 'success', 'msg' => 'How did yopu hear Option updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'How did you hear option updated successfully.']);
         } catch (Exception $e) {
-            Log::error('Error updating How did you hear Option: ' . $e->getMessage());
-            return response()->json(['status' => 'error', 'msg' => 'An error occurred while updating the How did you hear Option.']);
+            Log::error('Error updating How did you hear option: ' . $e->getMessage());
+            return response()->json(['status' => 'error', 'msg' => 'An error occurred while updating the How did you hear option.']);
         }
     }
 
     public function destroy($id)
     {
         try {
-            $this->aboutUsOptionRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'How did you hear Option deleted successfully.']);
+            $aboutUsOption = $this->aboutUsOptionRepository->findOrFail($id);
+            if ($aboutUsOption) {
+                $this->aboutUsOptionRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'How did you hear option deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'How did you hear option not found.']);
+            }
         } catch (Exception $e) {
-            Log::error('Error deleting How did you hear Option: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the How did you hear Option.']);
+            // Log the exception for debugging purposes
+            Log::error('Error deleting How did you hear option: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the How did you hear option.']);
         }
     }
+
     public function getAboutUsOptionDataTableList(Request $request)
     {
         return $this->aboutUsOptionRepository->dataTable($request);

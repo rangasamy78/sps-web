@@ -87,15 +87,7 @@
                         $('#stateForm').trigger("reset");
                         $('#stateModel').modal('hide');
                         table.draw();
-                        Swal.fire({
-                            title: 'Created!',
-                            text: 'State Added Successfully!',
-                            type: 'success',
-                            customClass: {
-                            confirmButton: 'btn btn-primary'
-                            },
-                            buttonsStyling: false
-                        });
+                        showToast('success', response.msg);
                     }
                 },
                 error: function(xhr) {
@@ -128,15 +120,7 @@
                         $('#stateForm').trigger("reset");
                         $('#stateModel').modal('hide');
                         table.draw();
-                        Swal.fire({
-                            title: 'Updated!',
-                            text: 'State Updated Successfully!',
-                            type: 'success',
-                            customClass: {
-                            confirmButton: 'btn btn-primary'
-                            },
-                            buttonsStyling: false
-                        });
+                        showToast('success', response.msg);
                     }
                 },
                 error: function(xhr) {
@@ -167,7 +151,8 @@
         });
 
 
-        $('body').on('click', '.deletebtn', function () {
+        $('body').on('click', '.deletebtn', function (e) {
+            e.preventDefault();
             var id = $(this).data('id');
             let url = $('meta[name=app-url]').attr("content") + "/states/" + id;
             Swal.fire({
@@ -196,23 +181,15 @@
                         },
                         success: function(response) {
                             if(response.status == "success"){
+                                showToast('success', response.msg);
                                 table.draw();
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Deleted!',
-                                    text: 'State Deleted Successfully!',
-                                    customClass: {
-                                    confirmButton: 'btn btn-success'
-                                    }
-                                });
+                            } else {
+                                showToast('error', response.msg);
                             }
                         },
                         error: function(response) {
                             console.log(response.responseJSON);
-                            Swal.fire({
-                                title: 'Oops!',
-                                text: 'Something went wrong!'
-                            });
+                            showToast('error', response.msg);
                         }
                     });
                 }

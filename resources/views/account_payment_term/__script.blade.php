@@ -33,14 +33,14 @@
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
             rowCallback: function (row, data, index) {
-                $('td:eq(0)', row).html(table.page.info().start + index + 1); 
+                $('td:eq(0)', row).html(table.page.info().start + index + 1);
             },
         })
-       
+
         $('#createPaymentTerm').click(function () {
             resetForm();
             var standard_date_driven = $('button[name="btn_payment_standard_date_driven"].active').val();
-            var headingName = (standard_date_driven == 1) ? "Standard" : "Date Driven";  
+            var headingName = (standard_date_driven == 1) ? "Standard" : "Date Driven";
             $('#savedata').html("Save Payment Term");
             $('#account_payment_term_id').val('');
             $('#accountPaymentTermForm').trigger("reset");
@@ -58,12 +58,12 @@
             $('.' + fieldName + '_error').text('');
         });
 
-        $('#savedata').click(function (e) {          
+        $('#savedata').click(function (e) {
             e.preventDefault();
             var button = $(this).html();
             $(this).html('Sending..');
             var standard_date_driven = $('button[name="btn_payment_standard_date_driven"].active').val();
-            var headingName = (standard_date_driven == 1) ? "Standard" : "Date Driven";  
+            var headingName = (standard_date_driven == 1) ? "Standard" : "Date Driven";
             var url = $('#account_payment_term_id').val() ? "{{ route('account_payment_terms.update', ':id') }}".replace(':id', $('#account_payment_term_id').val()) : "{{ route('account_payment_terms.store') }}";
             var type = $('#account_payment_term_id').val() ? "PUT" : "POST";
             var formData = $('#accountPaymentTermForm').serializeArray();
@@ -81,10 +81,10 @@
                         $('#accountPaymentTermForm').trigger("reset");
                         $('#accountPaymentTermModel').modal('hide');
                         table.draw();
-                        var successMessage = type === 'POST' ?  headingName + ' Payment Term Added Successfully!' : headingName + ' Payment Term Updated Successfully!';
-                        var successTitle = type === 'POST' ? 'Created!' : 'Updated!';
-                        showSuccessMessage(successTitle, successMessage);
-                    } 
+                        var standard_date_driven = $('button[name="btn_payment_standard_date_driven"].active').val();
+                        var headingName = (standard_date_driven == 1) ? "Standard" : "Date Driven";
+                        showToast('success', headingName + ' ' + response.msg);
+                    }
                 },
                 error: function(xhr) {
                     handleAjaxError(xhr);
@@ -93,7 +93,7 @@
             });
         });
         $('body').on('click', '.editbtn', function() {
-            resetForm();           
+            resetForm();
             var standard_date_driven = $('button[name="btn_payment_standard_date_driven"].active').val();
             var headingName = (standard_date_driven == 1) ? "Standard" : "Date Driven";
             var id = $(this).data('id');
@@ -119,7 +119,7 @@
                 deletePaymentTerm(id);
             });
         });
-        
+
         function deletePaymentTerm(id) {
             var url = "{{ route('account_payment_terms.destroy', ':id') }}".replace(':id', id);
             $.ajax({
@@ -130,13 +130,13 @@
                     _token: '{{ csrf_token() }}'
                 },
                 success: function (response) {
+                    var standard_date_driven = $('button[name="btn_payment_standard_date_driven"].active').val();
+                    var headingName = (standard_date_driven == 1) ? "Standard" : "Date Driven";
                     if (response.status === "success") {
-                        table.draw(); 
-                        var standard_date_driven = $('button[name="btn_payment_standard_date_driven"].active').val();
-                        var headingName = (standard_date_driven == 1) ? "Standard" : "Date Driven";
-                        showSuccessMessage('Deleted!', headingName + ' Payment Term Deleted Successfully!');
+                        showToast('success', headingName + ' Payment Term Deleted Successfully!');
+                        table.draw();
                     } else {
-                        showError('Deleted!', response.msg);
+                        showToast('error', headingName + ' Payment Term deletion was unsuccessful!');
                     }
                 },
                 error: function (xhr) {
@@ -145,7 +145,7 @@
                 }
             });
         }
-        $('body').on('click', '.showbtn', function() {          
+        $('body').on('click', '.showbtn', function() {
             var standard_date_driven = $('button[name="btn_payment_standard_date_driven"].active').val();
             var headingName = (standard_date_driven == 1) ? "Standard" : "Date Driven";
             var id = $(this).data('id');
@@ -175,7 +175,7 @@
             var toggleBtnVal = $(this).val();
             if(toggleBtnVal=='1'){
                 $('#payment_net_due_day_label, #show_payment_net_due_day_label').html('Net Days to Pay');
-                $('#lbl-name').html('In');            
+                $('#lbl-name').html('In');
                 $('#payemnt_discount_display').show();
                 $('#show_payemnt_discount_display').show();
                 var headingName = "Standard";
@@ -189,7 +189,7 @@
             }
             $('#main-head-label').html('List '+ headingName +' Payment Terms');
             $('#createPaymentTerm').html('<i class="bx bx-plus me-sm-1"></i>New '+ headingName +' Payment Term');
-            table.draw(); 
+            table.draw();
         });
 
         $('#codeFilter, #labelFilter, #netDueFilter, #termFilter').on('keyup change', function(e) {

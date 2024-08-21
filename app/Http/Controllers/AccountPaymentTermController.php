@@ -2,7 +2,6 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use App\Models\AccountType;
 use Illuminate\Http\Request;
 use App\Models\AccountPaymentTerm;
 use Illuminate\Support\Facades\Log;
@@ -63,8 +62,13 @@ class AccountPaymentTermController extends Controller
     public function destroy($id)
     {
         try {
-            $this->accountPaymentTermRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Payment Term deleted successfully.']);
+            $paymentTerm = $this->accountPaymentTermRepository->findOrFail($id);
+            if ($paymentTerm) {
+                $this->accountPaymentTermRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Payment Term deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Payment Term not found.']);
+            }
         } catch (Exception $e) {
             Log::error('Error deleting Payment Term: ' . $e->getMessage());
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Payment Term.']);

@@ -79,9 +79,7 @@
                         $('#aboutUsOptionForm').trigger("reset");
                         $('#aboutUsOptionModel').modal('hide');
                         table.draw();
-                        var successMessage = type === 'POST' ? 'How did you hear Option Added Successfully!' : 'How did you hear Option Updated Successfully!';
-                        var successTitle = type === 'POST' ? 'Created!' : 'Updated!';
-                        showSuccessMessage(successTitle, successMessage);
+                        showToast('success', response.msg);
                 } },
                 error: function(xhr) {
                     handleAjaxError(xhr);
@@ -108,7 +106,7 @@
                 deleteAboutUsOption(id);
             });
         });
-        
+
         function deleteAboutUsOption(id) {
             var url = "{{ route('about_us_options.destroy', ':id') }}".replace(':id', id);
             $.ajax({
@@ -120,10 +118,10 @@
                 },
                 success: function (response) {
                     if (response.status === "success") {
-                        table.draw(); // Assuming 'table' is defined for DataTables
-                        showSuccessMessage('Deleted!', 'How did you hear Option Deleted Successfully!');
+                        showToast('success', response.msg);
+                        table.draw();
                     } else {
-                        showError('Deleted!', response.msg);
+                        showToast('error', response.msg);
                     }
                 },
                 error: function (xhr) {

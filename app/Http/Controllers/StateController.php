@@ -94,8 +94,13 @@ class StateController extends Controller
     public function destroy($id)
     {
         try {
-            $this->stateRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'State deleted successfully.']);
+            $state = $this->stateRepository->findOrFail($id);
+            if ($state) {
+                $this->stateRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'State deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'State not found.']);
+            }
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error deleting state: ' . $e->getMessage());
