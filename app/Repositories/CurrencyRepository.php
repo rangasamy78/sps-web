@@ -35,9 +35,21 @@ class CurrencyRepository implements CrudRepositoryInterface, DatatableRepository
         $this->findOrFail($id)->delete();
     }
 
-    public function getCurrenciesList()
+    public function getCurrenciesList($request)
     {
         $query = Currency::query();
+        if (!empty($request->currency_code_search) ) {
+            $query->where('currency_code', 'like', '%' . $request->currency_code_search . '%');
+        }
+        if (!empty($request->currency_name_search) ) {
+            $query->where('currency_name', 'like', '%' . $request->currency_name_search . '%');
+        }
+        if (!empty($request->currency_symbal_search) ) {
+            $query->where('currency_symbol', $request->currency_symbal_search);
+        }
+        if (!empty($request->currency_exchange_rate_search) ) {
+            $query->where('currency_exchange_rate', 'like', '%' . $request->currency_exchange_rate_search . '%');
+        }
         return $query;
     }
 
@@ -54,15 +66,12 @@ class CurrencyRepository implements CrudRepositoryInterface, DatatableRepository
         $columnSortOrder        =         $orderArray[0]['dir'];
         $searchValue            =         $searchArray['value'];
 
-        $bin = $this->getCurrenciesList();
+        $bin = $this->getCurrenciesList($request);
         $total = $bin->count();
 
-        $totalFilter = $this->getCurrenciesList();
-        if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('currency_code', 'like', '%' . $searchValue . '%');
-        }
+        $totalFilter = $this->getCurrenciesList($request);
         $totalFilter = $totalFilter->count();
-        $arrData = $this->getCurrenciesList();
+        $arrData = $this->getCurrenciesList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
         if (!empty($searchValue)) {

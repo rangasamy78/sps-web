@@ -6,14 +6,23 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+        $('#viewInFilter, #fileTypeFilter').on('keyup change', function(e) {
+            e.preventDefault();
+            table.draw();
+        });
+
         var table = $('#datatable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
+            searching: false,
             order: [[0, 'desc']],
             ajax: {
                 url: "{{ route('file_types.list') }}",
                 data: function (d) {
+                    d.view_in_search = $('#viewInFilter').val();
+                    d.file_type_search = $('#fileTypeFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{ column: 0, dir: sort }];
                 }
@@ -26,7 +35,24 @@
             ],
             rowCallback: function (row, data, index) {
                 $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
-            }
+            },
+            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            buttons: [{
+                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Create File Types</span>',
+                className: 'create-new btn btn-primary',
+                attr: {
+                    'data-bs-toggle': 'modal',
+                    'data-bs-target': '#fileTypeForm',
+                },
+                action: function(e, dt, node, config) {
+                    resetForm();
+                    $('#savedata').html('Save File Type');
+                    $('#file_type_id').val('');
+                    $('#fileTypeForm').trigger("reset");
+                    $('#modelHeading').html("Create File Types");
+                    $('#fileTypeModel').modal('show');
+                }
+            }],
         });
         $('#createFileType').click(function () {
             resetForm();

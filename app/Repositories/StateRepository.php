@@ -36,9 +36,15 @@ Class StateRepository implements CrudRepositoryInterface, DatatableRepositoryInt
         return $query;
     }
 
-    public function getStatesList()
+    public function getStatesList($request)
     {
        $query = State::query();
+       if (!empty($request->state_name_search) ) {
+          $query->where('name', 'like', '%' . $request->state_name_search . '%');
+       }
+       if (!empty($request->state_code_search) ) {
+          $query->where('code', 'like', '%' . $request->state_code_search . '%');
+       }
        return $query;
     }
 
@@ -54,24 +60,15 @@ Class StateRepository implements CrudRepositoryInterface, DatatableRepositoryInt
         $columnSortOrder 	= 		$orderArray[0]['dir'];
         $searchValue 		= 		$searchArray['value'];
 
-        $states = $this->getStatesList();
+        $states = $this->getStatesList($request);
         $total = $states->count();
 
-        $totalFilter = $this->getStatesList();
-        if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('name','like','%'.$searchValue.'%');
-            $totalFilter = $totalFilter->orWhere('code','like','%'.$searchValue.'%');
-        }
+        $totalFilter = $this->getStatesList($request);
         $totalFilter = $totalFilter->count();
 
-        $arrData = $this->getStatesList();
+        $arrData = $this->getStatesList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName,$columnSortOrder);
-
-        if (!empty($searchValue)) {
-            $arrData = $arrData->where('name','like','%'.$searchValue.'%');
-            $arrData = $arrData->orWhere('code','like','%'.$searchValue.'%');
-        }
         $arrData = $arrData->get();
 
         $arrData->map(function ($value, $i) {

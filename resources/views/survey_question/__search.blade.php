@@ -10,10 +10,10 @@
             </select>
         </div>
         <div class="col-12 col-sm-6 col-lg-3">
-            <input type="text" class="form-control dt-input dt-full-name" id="shortLabelFilter" placeholder="Search Short Label">
+            <input type="text" class="form-control dt-input dt-full-name" name="shortLabelFilter" id="shortLabelFilter"  placeholder="Search Short Label">
         </div>
         <div class="col-12 col-sm-6 col-lg-3">
-            <input type="text" class="form-control dt-input dt-full-name" id="questionFilter" placeholder="Search Question">
+            <input type="text" class="form-control dt-input dt-full-name" name="questionFilter" id="questionFilter" placeholder="Search Question">
         </div>
     </div>
 </div>&nbsp;

@@ -375,8 +375,8 @@
                             </a>
                         </li>
 
-                        <li class="menu-item {{ request()->is('aging_periods_aps') ? 'active open' : '' }}">
-                            <a href="{{ route('aging_periods_aps.index') }}" class="menu-link">
+                        <li class="menu-item {{ request()->is('account_payable_aging_periods') ? 'active open' : '' }}">
+                            <a href="{{ route('account_payable_aging_periods.index') }}" class="menu-link">
                                 <div class="text-truncate" data-i18n="Aging Periods - AP">Aging Periods - AP</div>
                             </a>
                         </li>

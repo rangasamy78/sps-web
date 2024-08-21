@@ -27,11 +27,11 @@ class SurveyQuestion extends Model
     ];
 
     protected static $predefinedSurveyQuestionOptions = [
-        0 => 'Hold',
-        1 => 'Opportunity',
-        2 => 'Quote',
-        3 => 'SaleOrder',
-        4 => 'Selection Sheet',
+        1 => 'Hold',
+        2 => 'Opportunity',
+        3 => 'Quote',
+        4 => 'Sale Order',
+        5 => 'Selection Sheet',
     ];
 
     public static function getPredefinedSurveyQuestionOptions()
@@ -42,15 +42,15 @@ class SurveyQuestion extends Model
     public static function getSurveyQuestionOptions($id)
     {
         switch ($id) {
-            case 0:
-                return 'Hold';
             case 1:
-                return 'Opportunity';
+                return 'Hold';
             case 2:
-                return 'Quote';
+                return 'Opportunity';
             case 3:
-                return 'SaleOrder';
+                return 'Quote';
             case 4:
+                return 'Sale Order';
+            case 5:
                 return 'Selection Sheet';
         }
     }

@@ -247,8 +247,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('linked_accounts', LinkedAccountController::class);
     Route::get('/linked_account/list', [LinkedAccountController::class, 'getLinkedAccountDataTableList'])->name('linked_accounts.list');
 
-    Route::resource('aging_periods_aps', AgingPeriodAPController::class);
-    Route::post('/aging_periods_ap/save', [AgingPeriodAPController::class, 'save'])->name('aging_periods_aps.save');
+    Route::resource('account_payable_aging_periods', AgingPeriodAPController::class);
+    Route::post('/account_payable_aging_period/save', [AgingPeriodAPController::class, 'save'])->name('account_payable_aging_periods.save');
 
     Route::prefix('default_link_accounts')->name('default_link_accounts.')->group(function () {
         Route::get('/', [DefaultLinkAccountController::class, 'index'])->name('index');

@@ -36,9 +36,15 @@ class TransactionStartingRepository implements CrudRepositoryInterface, Datatabl
         return $query;
     }
 
-    public function getTransactionStartingList()
+    public function getTransactionStartingList($request)
     {
         $query = TransactionStarting::query();
+        if (!empty($request->type_search) ) {
+            $query->where('type', 'like', '%' . $request->type_search . '%');
+        }
+        if (!empty($request->starting_number_search) ) {
+            $query->where('starting_number', 'like', '%' . $request->starting_number_search . '%');
+        }
         return $query;
     }
 
@@ -55,24 +61,15 @@ class TransactionStartingRepository implements CrudRepositoryInterface, Datatabl
         $columnSortOrder = $orderArray[0]['dir'];
         $searchValue = $searchArray['value'];
 
-        $states = $this->getTransactionStartingList();
+        $states = $this->getTransactionStartingList($request);
         $total = $states->count();
 
-        $totalFilter = $this->getTransactionStartingList();
-        if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('type', 'like', '%' . $searchValue . '%');
-            $totalFilter = $totalFilter->orWhere('starting_number', 'like', '%' . $searchValue . '%');
-        }
+        $totalFilter = $this->getTransactionStartingList($request);
         $totalFilter = $totalFilter->count();
 
-        $arrData = $this->getTransactionStartingList();
+        $arrData = $this->getTransactionStartingList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
-
-        if (!empty($searchValue)) {
-            $arrData = $arrData->where('type', 'like', '%' . $searchValue . '%');
-            $arrData = $arrData->orWhere('starting_number', 'like', '%' . $searchValue . '%');
-        }
         $arrData = $arrData->get();
 
         $arrData->map(function ($value, $i) {
