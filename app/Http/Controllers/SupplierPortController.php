@@ -106,7 +106,7 @@ class SupplierPortController extends Controller
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error deleting Supplier port: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the department.']);
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Supplier port.']);
         }
     }
 
