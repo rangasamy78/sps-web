@@ -32,11 +32,11 @@ class SupplierTypeController extends Controller
     {
         try {
             $this->supplierTypeRepository->store($request->only('supplier_type_name'));
-            return response()->json(['status' => 'success', 'msg' => 'Supplier Type saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Supplier type saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error saving Supplier Type: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Supplier Type.']);
+            Log::error('Error saving Supplier type: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Supplier type.']);
         }
     }
 
@@ -75,10 +75,10 @@ class SupplierTypeController extends Controller
     {
         try {
             $supplierType->update($request->only('supplier_type_name')); // Use validated data
-            return response()->json(['status' => 'success', 'msg' => 'Supplier Type updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Supplier type updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error updating Supplier Type: ' . $e->getMessage());
+            Log::error('Error updating Supplier type: ' . $e->getMessage());
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the department.']);
         }
     }
@@ -92,11 +92,16 @@ class SupplierTypeController extends Controller
     public function destroy($id)
     {
         try {
-            $this->supplierTypeRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Supplier Type deleted successfully.']);
+            $supplierType = $this->supplierTypeRepository->findOrFail($id);
+            if ($supplierType) {
+                $this->supplierTypeRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Supplier type deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Supplier type not found.']);
+            }
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error deleting Supplier Type: ' . $e->getMessage());
+            Log::error('Error deleting Supplier type: ' . $e->getMessage());
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the department.']);
         }
     }

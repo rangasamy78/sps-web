@@ -33,10 +33,10 @@ class SupplierCostListLabelController extends Controller
     {
         try {
             $this->supplierCostListLabelRepository->store($request->only('cost_level', 'cost_code', 'cost_label'));
-            return response()->json(['status' => 'success', 'msg' => 'Supplier Cost List Label saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Supplier cost list Label saved successfully.']);
         } catch (Exception $e) {
-            Log::error('Error saving Supplier Cost List Label : ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Supplier Cost List Label .']);
+            Log::error('Error saving Supplier cost list Label : ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Supplier cost list Label .']);
         }
     }
 
@@ -75,10 +75,10 @@ class SupplierCostListLabelController extends Controller
     {
         try {
             $this->supplierCostListLabelRepository->update($request->only('cost_level', 'cost_code', 'cost_label'), $supplierCostListLabel->id);
-            return response()->json(['status' => 'success', 'msg' => 'Supplier Cost List Label  updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Supplier cost list Label  updated successfully.']);
         } catch (Exception $e) {
-            Log::error('Error updating Supplier Cost List Label: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Supplier Cost List Label.']);
+            Log::error('Error updating Supplier cost list Label: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Supplier cost list Label.']);
         }
     }
 
@@ -91,11 +91,16 @@ class SupplierCostListLabelController extends Controller
     public function destroy($id)
     {
         try {
-            $this->supplierCostListLabelRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Supplier Cost List Label  deleted successfully.']);
+            $supplierCostListLabel = $this->supplierCostListLabelRepository->findOrFail($id);
+            if ($supplierCostListLabel) {
+                $this->supplierCostListLabelRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Supplier cost list Label deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Supplier cost list Label not found.']);
+            }
         } catch (Exception $e) {
-            Log::error('Error deleting Supplier Cost List Label: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Supplier Cost List Label.']);
+            Log::error('Error deleting Supplier cost list Label: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Supplier cost list Label.']);
         }
     }
 

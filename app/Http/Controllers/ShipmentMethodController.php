@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 use Exception;
-use App\Models\ShipmentMethod;
 use Illuminate\Http\Request;
+use App\Models\ShipmentMethod;
 use Illuminate\Support\Facades\Log;
 use App\Repositories\ShipmentMethodRepository;
 use App\Http\Requests\ShipmentMethod\{CreateShipmentMethodRequest, UpdateShipmentMethodRequest};
@@ -32,11 +32,11 @@ class ShipmentMethodController extends Controller
     {
         try {
             $this->shipmentMethodRepository->store($request->only('shipment_method_name'));
-            return response()->json(['status' => 'success', 'msg' => 'Shipment Method saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Shipment method saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error saving Shipment Method: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Shipment Method.']);
+            Log::error('Error saving Shipment method: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Shipment method.']);
         }
     }
 
@@ -75,11 +75,11 @@ class ShipmentMethodController extends Controller
     {
         try {
             $shipmentMethod->update($request->only('shipment_method_name')); // Use validated data
-            return response()->json(['status' => 'success', 'msg' => 'Shipment Method updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Shipment method updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error updating Shipment Method: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the department.']);
+            Log::error('Error updating Shipment method: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Shipment method.']);
         }
     }
 
@@ -92,12 +92,17 @@ class ShipmentMethodController extends Controller
     public function destroy($id)
     {
         try {
-            $this->shipmentMethodRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Shipment Method deleted successfully.']);
+            $shipmentMethod = $this->shipmentMethodRepository->findOrFail($id);
+            if ($shipmentMethod) {
+                $this->shipmentMethodRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Shipment method deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Shipment method not found.']);
+            }
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error deleting Shipment Method: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the department.']);
+            Log::error('Error deleting Shipment method: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Shipment method.']);
         }
     }
 

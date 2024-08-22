@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Log;
 use App\Repositories\SurveyQuestionRepository;
 use App\Http\Requests\SurveyQuestion\{CreateSurveyQuestionRequest, UpdateSurveyQuestionRequest};
 
-
 class SurveyQuestionController extends Controller
 {
     private SurveyQuestionRepository $surveyQuestionRepository;
@@ -36,11 +35,11 @@ class SurveyQuestionController extends Controller
     {
         try {
             $this->surveyQuestionRepository->store($request->only('transaction', 'short_label', 'question','transaction_question_id'));
-            return response()->json(['status' => 'success', 'msg' => 'Survey Question saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Survey question saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error saving Survey Question: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Survey Question.']);
+            Log::error('Error saving Survey question: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Survey question.']);
         }
     }
 
@@ -79,11 +78,11 @@ class SurveyQuestionController extends Controller
     {
         try {
             $this->surveyQuestionRepository->update($request->only('transaction', 'short_label', 'question','transaction_question_id'), $surveyQuestion->id);
-            return response()->json(['status' => 'success', 'msg' => 'Survey Question updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Survey question updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error updating Survey Question: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Survey Question.']);
+            Log::error('Error updating Survey question: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Survey question.']);
         }
     }
 
@@ -96,12 +95,17 @@ class SurveyQuestionController extends Controller
     public function destroy($id)
     {
         try {
-            $this->surveyQuestionRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Survey Question deleted successfully.']);
+            $surveyQuestion = $this->surveyQuestionRepository->findOrFail($id);
+            if ($surveyQuestion) {
+                $this->surveyQuestionRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Survey question deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Survey question not found.']);
+            }
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error deleting Survey Question: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Survey Question.']);
+            Log::error('Error deleting Survey question: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Survey question.']);
         }
     }
 

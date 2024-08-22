@@ -31,10 +31,10 @@ class ShipmentTermController extends Controller
     {
         try {
             $this->shipmentTermRepository->store($request->only('shipment_term_name','description'));
-            return response()->json(['status' => 'success', 'msg' => 'Shipment Term saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Shipment term saved successfully.']);
         } catch (Exception $e) {
-            Log::error('Error saving Shipment Term: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Shipment Term.']);
+            Log::error('Error saving Shipment term: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Shipment term.']);
         }
     }
 
@@ -72,11 +72,11 @@ class ShipmentTermController extends Controller
     public function update(UpdateShipmentTermRequest $request, ShipmentTerm $shipmentTerm)
     {
         try {
-            $this->shipmentTermRepository->update($request->only('shipment_term_name','description'),$shipmentTerm->id); 
-            return response()->json(['status' => 'success', 'msg' => 'Shipment Term updated successfully.']);
+            $this->shipmentTermRepository->update($request->only('shipment_term_name','description'),$shipmentTerm->id);
+            return response()->json(['status' => 'success', 'msg' => 'Shipment term updated successfully.']);
         } catch (Exception $e) {
-            Log::error('Error updating Shipment Term: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Shipment Term.']);
+            Log::error('Error updating Shipment term: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Shipment term.']);
         }
     }
 
@@ -89,12 +89,17 @@ class ShipmentTermController extends Controller
     public function destroy($id)
     {
         try {
-            $this->shipmentTermRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Shipment Term deleted successfully.']);
+            $shipmentTerm = $this->shipmentTermRepository->findOrFail($id);
+            if ($shipmentTerm) {
+                $this->shipmentTermRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Shipment term deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Shipment term not found.']);
+            }
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error deleting Shipment Term: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Shipment Term.']);
+            Log::error('Error deleting Shipment term: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Shipment term.']);
         }
     }
 

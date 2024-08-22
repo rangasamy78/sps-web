@@ -35,11 +35,11 @@ class SupplierPortController extends Controller
     {
         try {
             $this->supplierPortRepository->store($request->only('supplier_port_name','avg_days','country_id'));
-            return response()->json(['status' => 'success', 'msg' => 'Supplier Port saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Supplier port saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error saving Supplier Port: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Supplier Port.']);
+            Log::error('Error saving Supplier port: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Supplier port.']);
         }
     }
 
@@ -79,10 +79,10 @@ class SupplierPortController extends Controller
     {
         try {
             $supplierPort->update($request->only('supplier_port_name','avg_days','country_id')); // Use validated data
-            return response()->json(['status' => 'success', 'msg' => 'Supplier Port updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Supplier port updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error updating Supplier Port: ' . $e->getMessage());
+            Log::error('Error updating Supplier port: ' . $e->getMessage());
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the department.']);
         }
     }
@@ -96,11 +96,16 @@ class SupplierPortController extends Controller
     public function destroy($id)
     {
         try {
-            $this->supplierPortRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Supplier Port deleted successfully.']);
+            $supplierPort = $this->supplierPortRepository->findOrFail($id);
+            if ($supplierPort) {
+                $this->supplierPortRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Supplier port deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Supplier port not found.']);
+            }
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error deleting Supplier Port: ' . $e->getMessage());
+            Log::error('Error deleting Supplier port: ' . $e->getMessage());
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the department.']);
         }
     }
