@@ -27,10 +27,10 @@ class PriceListLabelController extends Controller
     {
         try {
             $this->priceListLabelRepository->store($request->all());
-            return response()->json(['status' => 'success', 'msg' => 'Price List Label saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Price list label saved successfully.']);
         } catch (Exception $e) {
-            Log::error('Error saving Price List Label: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Price List Label.']);
+            Log::error('Error saving price list label: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the price list label.']);
         }
     }
     public function show($id)
@@ -47,20 +47,25 @@ class PriceListLabelController extends Controller
     {
         try {
             $this->priceListLabelRepository->update($request->all(), $priceListLabel->id);
-            return response()->json(['status' => 'success', 'msg' => 'Price List Label updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Price list label updated successfully.']);
         } catch (Exception $e) {
-            Log::error('Error updating Price List Label: ' . $e->getMessage());
-            return response()->json(['status' => 'error', 'msg' => 'An error occurred while updating the Price List Label.']);
+            Log::error('Error updating price list label: ' . $e->getMessage());
+            return response()->json(['status' => 'error', 'msg' => 'An error occurred while updating the price list label.']);
         }
     }
     public function destroy($id)
     {
         try {
-            $this->priceListLabelRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Price List Label deleted successfully.']);
+            $priceListLabel = $this->priceListLabelRepository->findOrFail($id);
+            if ($priceListLabel) {
+                $this->priceListLabelRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Price list label deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Price list label not found.']);
+            }
         } catch (Exception $e) {
-            Log::error('Error deleting Price List Label: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Price List Label.']);
+            Log::error('Error deleting price list label: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the price list label.']);
         }
     }
     public function getPriceListLabelDataTableList(Request $request)

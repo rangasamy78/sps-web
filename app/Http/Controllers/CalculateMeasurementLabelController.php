@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Exception;
 use Illuminate\Http\Request;
-use App\Models\CalculateMeasurementLabel;
 use Illuminate\Support\Facades\Log;
+use App\Models\CalculateMeasurementLabel;
 use App\Repositories\CalculateMeasurementLabelRepository;
 use App\Http\Requests\CalculateMeasurementLabel\{CreateCalculateMeasurementLabelRequest, UpdateCalculateMeasurementLabelRequest};
 
@@ -36,8 +36,8 @@ class CalculateMeasurementLabelController extends Controller
             return response()->json(['status' => 'success', 'msg' => 'Calculate measurement label saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error saving Calculate measurement label: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Calculate measurement label.']);
+            Log::error('Error saving calculate measurement label: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the calculate measurement label.']);
         }
     }
 
@@ -79,8 +79,8 @@ class CalculateMeasurementLabelController extends Controller
             return response()->json(['status' => 'success', 'msg' => 'Calculate measurement label updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error updating Calculate measurement label: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Calculate measurement label.']);
+            Log::error('Error updating calculate measurement label: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the calculate measurement label.']);
         }
     }
 
@@ -93,12 +93,17 @@ class CalculateMeasurementLabelController extends Controller
     public function destroy($id)
     {
         try {
-            $this->calculateMeasurementLabelRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Calculate measurement label deleted successfully.']);
+            $calculateMeasurementLabel = $this->calculateMeasurementLabelRepository->findOrFail($id);
+            if ($calculateMeasurementLabel) {
+                $this->calculateMeasurementLabelRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Calculate measurement label deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Calculate measurement label not found.']);
+            }
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error deleting Calculate measurement label: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Calculate measurement label.']);
+            Log::error('Error deleting calculate measurement label: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the calculate measurement label.']);
         }
     }
     public function getCalculateMeasurementLabelDataTableList(Request $request)

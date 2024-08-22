@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use Illuminate\Support\Facades\Log;
 use App\Models\Currency;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Repositories\CurrencyRepository;
 use App\Http\Requests\Currency\{CreateCurrencyRequest, UpdateCurrencyRequest};
 
@@ -28,8 +28,8 @@ class CurrencyController extends Controller
             return response()->json(['status' => 'success', 'msg' => 'Currency saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error saving Currency: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Currency.']);
+            Log::error('Error saving currency: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the currency.']);
         }
     }
 
@@ -51,19 +51,24 @@ class CurrencyController extends Controller
             return response()->json(['status' => 'success', 'msg' => 'Currency updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error updating Currency: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Currency.']);
+            Log::error('Error updating currency: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the currency.']);
         }
     }
     public function destroy($id)
     {
         try {
-            $this->currencyRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Currency deleted successfully.']);
+            $currency = $this->currencyRepository->findOrFail($id);
+            if ($currency) {
+                $this->currencyRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Currency deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Currency not found.']);
+            }
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error deleting Currency: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Currency.']);
+            Log::error('Error deleting currency: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the currency.']);
         }
     }
     public function getCurrencyDataTable(Request $request)

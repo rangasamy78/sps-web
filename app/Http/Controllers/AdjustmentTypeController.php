@@ -33,7 +33,7 @@ class AdjustmentTypeController extends Controller
     {
         try {
             $this->adjustmentTypeRepository->store($request->only('adjustment_type'));
-            return response()->json(['status' => 'success', 'msg' => 'Adjustment Type saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Adjustment type saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error saving adjustment type: ' . $e->getMessage());
@@ -76,11 +76,11 @@ class AdjustmentTypeController extends Controller
     {
         try {
             $this->adjustmentTypeRepository->update($request->only('adjustment_type'), $adjustmentType->id);
-            return response()->json(['status' => 'success', 'msg' => 'Adjustment Type updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Adjustment type updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error updating Adjustment Type: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Adjustment Type.']);
+            Log::error('Error updating adjustment type: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the adjustment type.']);
         }
     }
 
@@ -93,12 +93,17 @@ class AdjustmentTypeController extends Controller
     public function destroy($id)
     {
         try {
-            $this->adjustmentTypeRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Adjustment Type deleted successfully.']);
+            $adjustmentType = $this->adjustmentTypeRepository->findOrFail($id);
+            if ($adjustmentType) {
+                $this->adjustmentTypeRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Adjustment type deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Adjustment type not found.']);
+            }
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error deleting Adjustment Type: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Adjustment Type.']);
+            Log::error('Error deleting adjustment type: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the adjustment type.']);
         }
     }
     public function getAdjustmentTypeDataTableList(Request $request)

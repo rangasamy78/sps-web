@@ -92,8 +92,13 @@ class CountryController extends Controller
     public function destroy($id)
     {
         try {
-            $this->countryRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Country deleted successfully.'],200);
+            $country = $this->countryRepository->findOrFail($id);
+            if ($country) {
+                $this->countryRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Country deleted successfully.'],200);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Country not found.']);
+            }
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error deleting country: ' . $e->getMessage());

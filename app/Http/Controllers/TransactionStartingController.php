@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use App\Models\TransactionStarting;
 use Illuminate\Http\Request;
+use App\Models\TransactionStarting;
 use Illuminate\Support\Facades\Log;
 use App\Repositories\TransactionStartingRepository;
 use App\Http\Requests\TransactionStarting\{CreateTransactionStartingRequest, UpdateTransactionStartingRequest};
@@ -33,11 +33,11 @@ class TransactionStartingController extends Controller
     {
         try {
             $this->transactionStartingRepository->store($request->only('type', 'starting_number'));
-            return response()->json(['status' => 'success', 'msg' => 'Transaction Starting Number saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Transaction starting number saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error saving Transaction Starting Number: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Transaction Starting Number.']);
+            Log::error('Error saving transaction starting number: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the transaction starting number.']);
         }
     }
 
@@ -76,11 +76,11 @@ class TransactionStartingController extends Controller
     {
         try {
             $this->transactionStartingRepository->update($request->only('type', 'starting_number'), $transactionStarting->id);
-            return response()->json(['status' => 'success', 'msg' => 'Transaction Starting Number updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Transaction starting number updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error updating Transaction Starting Number: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Transaction Starting Number.']);
+            Log::error('Error updating transaction starting number: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the transaction starting number.']);
         }
     }
 
@@ -93,12 +93,17 @@ class TransactionStartingController extends Controller
     public function destroy($id)
     {
         try {
-            $this->transactionStartingRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Transaction Starting Number deleted successfully.']);
+            $transactionStarting = $this->transactionStartingRepository->findOrFail($id);
+            if ($transactionStarting) {
+                $this->transactionStartingRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Transaction starting number deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Transaction starting number not found.']);
+            }
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error deleting Transaction Starting Number: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Transaction Starting Number.']);
+            Log::error('Error deleting transaction starting number: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the transaction starting number.']);
         }
     }
     public function getTransactionStartingDataTableList(Request $request)

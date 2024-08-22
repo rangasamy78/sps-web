@@ -92,8 +92,13 @@ class DepartmentController extends Controller
     public function destroy($id)
     {
         try {
-            $this->departmentRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Department deleted successfully.']);
+            $department = $this->departmentRepository->findOrFail($id);
+            if ($department) {
+                $this->departmentRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Department deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Department not found.']);
+            }
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error deleting department: ' . $e->getMessage());

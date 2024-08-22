@@ -29,10 +29,10 @@ class AccountPaymentTermController extends Controller
     {
         try {
             $this->accountPaymentTermRepository->store($request->only('payment_standard_date_driven','payment_code','payment_label','payment_type','payment_net_due_day','payment_not_used_sales','payment_not_used_purchases','payment_discount_percent','payment_threshold_days'));
-            return response()->json(['status' => 'success', 'msg' => 'Payment Term saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Payment term saved successfully.']);
         } catch (Exception $e) {
-            Log::error('Error saving Payment Term: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Payment Term.']);
+            Log::error('Error saving payment term: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the payment term.']);
         }
     }
 
@@ -52,10 +52,10 @@ class AccountPaymentTermController extends Controller
     {
         try {
             $this->accountPaymentTermRepository->update($request->only('payment_standard_date_driven','payment_code','payment_label','payment_type','payment_net_due_day','payment_not_used_sales','payment_not_used_purchases','payment_discount_percent','payment_threshold_days'), $accountPaymentTerm->id);
-            return response()->json(['status' => 'success', 'msg' => 'Payment Term updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Payment term updated successfully.']);
         } catch (Exception $e) {
-            Log::error('Error updating Payment Term: ' . $e->getMessage());
-            return response()->json(['status' => 'error', 'msg' => 'An error occurred while updating the Payment Term.']);
+            Log::error('Error updating payment term: ' . $e->getMessage());
+            return response()->json(['status' => 'error', 'msg' => 'An error occurred while updating the payment term.']);
         }
     }
 
@@ -65,13 +65,13 @@ class AccountPaymentTermController extends Controller
             $paymentTerm = $this->accountPaymentTermRepository->findOrFail($id);
             if ($paymentTerm) {
                 $this->accountPaymentTermRepository->delete($id);
-                return response()->json(['status' => 'success', 'msg' => 'Payment Term deleted successfully.']);
+                return response()->json(['status' => 'success', 'msg' => 'Payment term deleted successfully.']);
             } else {
-                return response()->json(['status' => 'false', 'msg' => 'Payment Term not found.']);
+                return response()->json(['status' => 'false', 'msg' => 'Payment term not found.']);
             }
         } catch (Exception $e) {
-            Log::error('Error deleting Payment Term: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Payment Term.']);
+            Log::error('Error deleting payment term: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the payment term.']);
         }
     }
 

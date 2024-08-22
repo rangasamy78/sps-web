@@ -32,11 +32,11 @@ class VendorTypeController extends Controller
     {
         try {
             $this->vendorTypeRepository->store($request->only('vendor_type_name'));
-            return response()->json(['status' => 'success', 'msg' => 'Vendor Type saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Vendor type saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error saving Vendor Type: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Vendor Type.']);
+            Log::error('Error saving vendor type: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the vendor type.']);
         }
     }
 
@@ -75,11 +75,11 @@ class VendorTypeController extends Controller
     {
         try {
             $vendorType->update($request->only('vendor_type_name')); // Use validated data
-            return response()->json(['status' => 'success', 'msg' => 'Vendor Type updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Vendor type updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error updating Vendor Type: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the department.']);
+            Log::error('Error updating vendor type: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the vendor type.']);
         }
     }
 
@@ -92,12 +92,17 @@ class VendorTypeController extends Controller
     public function destroy($id)
     {
         try {
-            $this->vendorTypeRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Vendor Type deleted successfully.']);
+            $vendorType = $this->vendorTypeRepository->findOrFail($id);
+            if ($vendorType) {
+                $this->vendorTypeRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Vendor type deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Vendor type not found.']);
+            }
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error deleting Vendor Type: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the department.']);
+            Log::error('Error deleting vendor type: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the vendor type.']);
         }
     }
 

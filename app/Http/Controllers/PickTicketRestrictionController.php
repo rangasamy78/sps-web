@@ -27,11 +27,11 @@ class PickTicketRestrictionController extends Controller
     {
         try {
             $lastInsertId = $this->pickTicketRestrictionRepository->save($request->all());
-            return response()->json(['status' => 'success', 'msg' => 'Pick Ticket Restriction saved successfully.','lastId' => $lastInsertId ? $lastInsertId : $request->id ]);
+            return response()->json(['status' => 'success', 'msg' => 'Pick ticket restriction saved successfully.','lastId' => $lastInsertId ? $lastInsertId : $request->id ]);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error saving Pick Ticket Restriction: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Pick Ticket Restriction.']);
+            Log::error('Error saving pick ticket restriction: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the pick ticket restriction.']);
         }
     }
 }

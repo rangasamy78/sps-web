@@ -31,10 +31,10 @@ class ExpenseCategoryController extends Controller
     {
         try {
             $this->expenseCategoryRepository->store($request->only('expense_category_name', 'expense_account'));
-            return response()->json(['status' => 'success', 'msg' => 'Expense Category saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Expense category saved successfully.']);
         } catch (Exception $e) {
-            Log::error('Error saving Expense Category: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Expense Category.']);
+            Log::error('Error saving expense category: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the expense category.']);
         }
     }
 
@@ -54,21 +54,26 @@ class ExpenseCategoryController extends Controller
     {
         try {
             $this->expenseCategoryRepository->update($request->only('expense_category_name', 'expense_account'), $expenseCategory->id);
-            return response()->json(['status' => 'success', 'msg' => 'Expense Category updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Expense category updated successfully.']);
         } catch (Exception $e) {
-            Log::error('Error updating Expense Category: ' . $e->getMessage());
-            return response()->json(['status' => 'error', 'msg' => 'An error occurred while updating the Expense Category.']);
+            Log::error('Error updating expense category: ' . $e->getMessage());
+            return response()->json(['status' => 'error', 'msg' => 'An error occurred while updating the expense category.']);
         }
     }
 
     public function destroy($id)
     {
         try {
-            $this->expenseCategoryRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Expense Category deleted successfully.']);
+            $expenseCategory = $this->expenseCategoryRepository->findOrFail($id);
+            if ($expenseCategory) {
+                $this->expenseCategoryRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Expense category deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Expense category not found.']);
+            }
         } catch (Exception $e) {
-            Log::error('Error deleting Expense Category: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Expense Category.']);
+            Log::error('Error deleting expense category: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the expense category.']);
         }
     }
     

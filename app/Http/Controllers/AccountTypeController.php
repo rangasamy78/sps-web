@@ -32,11 +32,11 @@ class AccountTypeController extends Controller
     {
         try {
             $this->accountTypeRepository->store($request->only('account_type_name'));
-            return response()->json(['status' => 'success', 'msg' => 'Account Type saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Account type saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error saving Account Type: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Account Type.']);
+            Log::error('Error saving account type: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the account type.']);
         }
     }
 
@@ -75,11 +75,11 @@ class AccountTypeController extends Controller
     {
         try {
             $this->accountTypeRepository->update($request->only('account_type_name'), $accountType->id);
-            return response()->json(['status' => 'success', 'msg' => 'Account Type updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Account type updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error updating Account Type: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Account Type.']);
+            Log::error('Error updating account type: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the account type.']);
         }
     }
 
@@ -92,12 +92,17 @@ class AccountTypeController extends Controller
     public function destroy($id)
     {
         try {
-            $this->accountTypeRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Account Type deleted successfully.']);
+            $accountType = $this->accountTypeRepository->findOrFail($id);
+            if ($accountType) {
+                $this->accountTypeRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Account type deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Account type not found.']);
+            }
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error deleting Account Type: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Account Type.']);
+            Log::error('Error deleting account type: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the account type.']);
         }
     }
 

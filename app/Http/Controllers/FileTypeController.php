@@ -35,11 +35,11 @@ class FileTypeController extends Controller
     {
         try {
             $this->fileTypeRepository->store($request->all());
-            return response()->json(['status' => 'success', 'msg' => 'File Type saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'File type saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error saving fileTypes: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the filetypes.']);
+            Log::error('Error saving file type: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the file type.']);
         }
         
 
@@ -81,11 +81,11 @@ class FileTypeController extends Controller
         try {
            
             $this->fileTypeRepository->update($request->all(),$file_type->id);
-            return response()->json(['status' => 'success', 'msg' => 'File Type updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'File type updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error updating File Type: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the File Type.']);
+            Log::error('Error updating file type: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the file type.']);
         }
 
 
@@ -100,12 +100,17 @@ class FileTypeController extends Controller
     public function destroy($id)
     {
         try {
-            $this->fileTypeRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'File Type deleted successfully.']);
+            $fileType = $this->fileTypeRepository->findOrFail($id);
+            if ($fileType) {
+                $this->fileTypeRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'File type deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'File type not found.']);
+            }
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error deleting File Type: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the File Type.']);
+            Log::error('Error deleting file type: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the file type.']);
         }
     }
 

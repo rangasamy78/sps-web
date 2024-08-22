@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Exception;
-
 use App\Models\AccountType;
 use Illuminate\Http\Request;
 use App\Models\LinkedAccount;
@@ -32,10 +31,10 @@ class LinkedAccountController extends Controller
     {
         try {
             $this->linkedAccountRepository->store($request->only('account_code', 'account_name', 'account_type', 'account_sub_type'));
-            return response()->json(['status' => 'success', 'msg' => 'Linked Account saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Linked account saved successfully.']);
         } catch (Exception $e) {
-            Log::error('Error saving Linked Account: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Linked Account.']);
+            Log::error('Error saving linked account: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the linked account.']);
         }
     }
 
@@ -55,21 +54,26 @@ class LinkedAccountController extends Controller
     {
         try {
             $this->linkedAccountRepository->update($request->only('account_code', 'account_name', 'account_type', 'account_sub_type'), $linkedAccount->id);
-            return response()->json(['status' => 'success', 'msg' => 'Linked Account updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Linked account updated successfully.']);
         } catch (Exception $e) {
-            Log::error('Error updating Linked Account: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Linked Account.']);
+            Log::error('Error updating linked account: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the linked account.']);
         }
     }
 
     public function destroy($id)
     {
         try {
-            $this->linkedAccountRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Linked Account deleted successfully.']);
+            $linkedAccount = $this->linkedAccountRepository->findOrFail($id);
+            if ($linkedAccount) {
+                $this->linkedAccountRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Linked account deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Linked account not found.']);
+            }
         } catch (Exception $e) {
-            Log::error('Error deleting Linked Account: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Linked Account.']);
+            Log::error('Error deleting linked account: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the linked account.']);
         }
     }
     

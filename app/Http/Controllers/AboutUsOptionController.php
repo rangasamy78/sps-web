@@ -30,8 +30,8 @@ class AboutUsOptionController extends Controller
             $this->aboutUsOptionRepository->store($request->only('how_did_you_hear_option'));
             return response()->json(['status' => 'success', 'msg' => 'How did you hear option saved successfully.']);
         } catch (Exception $e) {
-            Log::error('Error saving How did you hear option: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the How did you hear option.']);
+            Log::error('Error saving how did you hear option: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the how did you hear option.']);
         }
     }
 
@@ -53,8 +53,8 @@ class AboutUsOptionController extends Controller
             $this->aboutUsOptionRepository->update($request->only('how_did_you_hear_option'), $aboutUsOption->id);
             return response()->json(['status' => 'success', 'msg' => 'How did you hear option updated successfully.']);
         } catch (Exception $e) {
-            Log::error('Error updating How did you hear option: ' . $e->getMessage());
-            return response()->json(['status' => 'error', 'msg' => 'An error occurred while updating the How did you hear option.']);
+            Log::error('Error updating how did you hear option: ' . $e->getMessage());
+            return response()->json(['status' => 'error', 'msg' => 'An error occurred while updating the how did you hear option.']);
         }
     }
 
@@ -71,7 +71,7 @@ class AboutUsOptionController extends Controller
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error deleting How did you hear option: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the How did you hear option.']);
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the how did you hear option.']);
         }
     }
 

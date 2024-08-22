@@ -91,8 +91,13 @@ class CompanyController extends Controller
     public function destroy($id)
     {
         try {
-            $this->companyRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Company deleted successfully.']);
+            $company = $this->companyRepository->findOrFail($id);
+            if ($company) {
+                $this->companyRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Company deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Company not found.']);
+            }
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error deleting company: ' . $e->getMessage());

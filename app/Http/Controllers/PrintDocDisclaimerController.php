@@ -40,10 +40,10 @@ class PrintDocDisclaimerController extends Controller
     {
         try {
             $this->printDocDisclaimerRepository->store($request->only('title', 'select_type_category_id', 'select_type_sub_category_id', 'policy'));
-            return response()->json(['status' => 'success', 'msg' => 'Print Doc Disclaimer saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Print doc disclaimer saved successfully.']);
         } catch (Exception $e) {
-            Log::error('Error saving Print Doc Disclaimer: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Print Doc Disclaimer.']);
+            Log::error('Error saving print doc disclaimer: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the print doc disclaimer.']);
         }
     }
 
@@ -83,10 +83,10 @@ class PrintDocDisclaimerController extends Controller
         try {
             $data = $request->only('title', 'select_type_category_id', 'select_type_sub_category_id', 'policy');
             $this->printDocDisclaimerRepository->update($data, $printDocDisclaimer->id);
-            return response()->json(['status' => 'success', 'msg' => 'Print Doc Disclaimer updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Print doc disclaimer updated successfully.']);
         } catch (Exception $e) {
-            Log::error('Error updating Print Doc Disclaimer: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Print Doc Disclaimer.']);
+            Log::error('Error updating print doc disclaimer: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the print doc disclaimer.']);
         }
     }
 
@@ -99,12 +99,17 @@ class PrintDocDisclaimerController extends Controller
     public function destroy($id)
     {
         try {
-            $this->printDocDisclaimerRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Print Doc Disclaimer deleted successfully.']);
-            } 
-            catch (Exception $e) {
-            Log::error('Error deleting Print Doc Disclaimer: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Print Doc Disclaimer.']);
+            $printDocDisclaimer = $this->printDocDisclaimerRepository->findOrFail($id);
+            if ($printDocDisclaimer) {
+                $this->printDocDisclaimerRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Print doc disclaimer deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Print doc disclaimer not found.']);
+            }
+        } 
+        catch (Exception $e) {
+            Log::error('Error deleting print doc disclaimer: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the print doc disclaimer.']);
         }
     }
 

@@ -33,7 +33,7 @@ class ProductFinishController extends Controller
     {
         try {
             $this->productFinishRepository->store($request->only('product_finish_code', 'finish'));
-            return response()->json(['status' => 'success', 'msg' => 'Product Finish saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Product finish saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error saving product finish: ' . $e->getMessage());
@@ -76,11 +76,10 @@ class ProductFinishController extends Controller
     {
         try {
             $this->productFinishRepository->update($request->only('product_finish_code', 'finish'), $productFinish->id);
-
-            return response()->json(['status' => 'success', 'msg' => 'Product Finish updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Product finish updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error updating product Finish: ' . $e->getMessage());
+            Log::error('Error updating product finish: ' . $e->getMessage());
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the product finish.']);
         }
     }
@@ -94,8 +93,13 @@ class ProductFinishController extends Controller
     public function destroy($id)
     {
         try {
-            $this->productFinishRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Product Finish deleted successfully.']);
+            $productFinish = $this->productFinishRepository->findOrFail($id);
+            if ($productFinish) {
+                $this->productFinishRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Product finish deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Product finish not found.']);
+            }
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error deleting product finish: ' . $e->getMessage());

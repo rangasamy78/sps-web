@@ -33,7 +33,7 @@ class ProductGroupController extends Controller
     {
         try {
             $this->productGroupRepository->store($request->only('product_group_name', 'product_group_code'));
-            return response()->json(['status' => 'success', 'msg' => 'Product Group saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Product group saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error saving product group: ' . $e->getMessage());
@@ -76,8 +76,7 @@ class ProductGroupController extends Controller
     {
         try {
             $this->productGroupRepository->update($request->only('product_group_name', 'product_group_code'), $productGroup->id);
-
-            return response()->json(['status' => 'success', 'msg' => 'Product Group updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Product group updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error updating product Group: ' . $e->getMessage());
@@ -94,8 +93,13 @@ class ProductGroupController extends Controller
     public function destroy($id)
     {
         try {
-            $this->productGroupRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Product Group deleted successfully.']);
+            $productGroup = $this->productGroupRepository->findOrFail($id);
+            if ($productGroup) {
+                $this->productGroupRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Product group deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Product group not found.']);
+            }
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error deleting product group: ' . $e->getMessage());

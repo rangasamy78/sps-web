@@ -29,11 +29,11 @@ class AgingPeriodAPController extends Controller
     {
         try {
             $lastInsertId = $this->agingPeriodAPRepository->save($request->all());
-            return response()->json(['status' => 'success', 'msg' => 'Account Payable saved successfully.','lastId' => $lastInsertId ? $lastInsertId : $request->id ]);
+            return response()->json(['status' => 'success', 'msg' => 'Account payable saved successfully.','lastId' => $lastInsertId ? $lastInsertId : $request->id ]);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error saving Account Payable: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Account Payable.']);
+            Log::error('Error saving account payable: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the account payable.']);
         }
     }
 }

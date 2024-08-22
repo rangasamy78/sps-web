@@ -3,8 +3,8 @@
     namespace App\Http\Controllers;
     
     use Exception;
-    use App\Models\ProductPriceRange;
     use Illuminate\Http\Request;
+    use App\Models\ProductPriceRange;
     use Illuminate\Support\Facades\Log;
     use App\Repositories\ProductPriceRangeRepository;
     use App\Http\Requests\ProductPriceRange\{CreateProductPriceRangeRequest, UpdateProductPriceRangeRequest};
@@ -33,7 +33,7 @@
         {
             try {
                 $this->productPriceRangeRepository->store($request->only('product_price_range'));
-                return response()->json(['status' => 'success', 'msg' => 'Product Price Range saved successfully.']);
+                return response()->json(['status' => 'success', 'msg' => 'Product price range saved successfully.']);
             } catch (Exception $e) {
                 // Log the exception for debugging purposes
                 Log::error('Error saving product price range: ' . $e->getMessage());
@@ -76,7 +76,7 @@
         {
             try {
                 $this->productPriceRangeRepository->update($request->only('product_price_range'), $productPriceRange->id);
-                return response()->json(['status' => 'success', 'msg' => 'Product Price Range updated successfully.']);
+                return response()->json(['status' => 'success', 'msg' => 'Product price range updated successfully.']);
             } catch (Exception $e) {
                 // Log the exception for debugging purposes
                 Log::error('Error updating product price range: ' . $e->getMessage());
@@ -93,8 +93,13 @@
         public function destroy($id)
         {
             try {
-                $this->productPriceRangeRepository->delete($id);
-                return response()->json(['status' => 'success', 'msg' => 'Product Price Range lor deleted successfully.']);
+                $productPriceRange = $this->productPriceRangeRepository->findOrFail($id);
+                if ($productPriceRange) {
+                    $this->productPriceRangeRepository->delete($id);
+                    return response()->json(['status' => 'success', 'msg' => 'Product price range deleted successfully.']);
+                } else {
+                    return response()->json(['status' => 'false', 'msg' => 'Product price range not found.']);
+                }
             } catch (Exception $e) {
                 // Log the exception for debugging purposes
                 Log::error('Error deleting product price range: ' . $e->getMessage());

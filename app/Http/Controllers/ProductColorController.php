@@ -33,7 +33,7 @@ class ProductColorController extends Controller
     {
         try {
             $this->productColorRepository->store($request->only('product_color'));
-            return response()->json(['status' => 'success', 'msg' => 'Product Color saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Product color saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error saving product color: ' . $e->getMessage());
@@ -76,7 +76,7 @@ class ProductColorController extends Controller
     {
         try {
             $this->productColorRepository->update($request->only('product_color'), $productColor->id);
-            return response()->json(['status' => 'success', 'msg' => 'Product Color updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Product color updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error updating product color: ' . $e->getMessage());
@@ -93,8 +93,13 @@ class ProductColorController extends Controller
     public function destroy($id)
     {
         try {
-            $this->productColorRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Product Color deleted successfully.']);
+            $productColor = $this->productColorRepository->findOrFail($id);
+            if ($productColor) {
+                $this->productColorRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Product color deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Product color not found.']);
+            }
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error deleting product color: ' . $e->getMessage());

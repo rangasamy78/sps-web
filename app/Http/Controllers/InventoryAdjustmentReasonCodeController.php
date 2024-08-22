@@ -36,11 +36,11 @@ class InventoryAdjustmentReasonCodeController extends Controller
     {
         try {
             $this->inventoryAdjustmentReasonCodeRepository->store($request->only('reason', 'adjustment_type_id', 'income_expense_account'));
-            return response()->json(['status' => 'success', 'msg' => 'Inventory Adjustment Reason Code saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Inventory adjustment reason code saved successfully.']);
         } catch (Exception $e) {
            
-            Log::error('Error saving Inventory Adjustment Reason Code: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Inventory Adjustment Reason Code.']);
+            Log::error('Error saving inventory adjustment reason code: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the inventory adjustment reason code.']);
         }
     }
 
@@ -80,10 +80,10 @@ class InventoryAdjustmentReasonCodeController extends Controller
         try {
             $data = $request->only('reason', 'adjustment_type_id', 'income_expense_account');
             $this->inventoryAdjustmentReasonCodeRepository->update($data, $inventoryAdjustmentReasonCode->id);
-            return response()->json(['status' => 'success', 'msg' => 'Inventory Adjustment Reason Code updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Inventory adjustment reason code updated successfully.']);
         } catch (Exception $e) {
-            Log::error('Error updating Inventory Adjustment Reason Code: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Inventory Adjustment Reason Code.']);
+            Log::error('Error updating inventory adjustment reason code: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the inventory adjustment reason code.']);
         }
     }
 
@@ -96,11 +96,16 @@ class InventoryAdjustmentReasonCodeController extends Controller
     public function destroy($id)
     {
         try {
-            $this->inventoryAdjustmentReasonCodeRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Inventory Adjustment Reason Code deleted successfully.']);
+            $inventoryAdjustmentReasonCode = $this->inventoryAdjustmentReasonCodeRepository->findOrFail($id);
+            if ($inventoryAdjustmentReasonCode) {
+                $this->inventoryAdjustmentReasonCodeRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Inventory adjustment reason code deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Inventory adjustment reason code not found.']);
+            }
         } catch (Exception $e) {
-            Log::error('Error deleting Inventory Adjustment Reason Code: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Inventory Adjustment Reason Code.']);
+            Log::error('Error deleting inventory adjustment reason code: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the inventory adjustment reason Code.']);
         }
     }
     public function getInventoryAdjustmentReasonCodeLabelDataTableList(Request $request)

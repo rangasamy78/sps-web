@@ -35,11 +35,11 @@ class UnitMeasureController extends Controller
     {
         try {
             $this->unitMeasureRepository->store($request->only('unit_measure_entity', 'unit_measure_name'));
-            return response()->json(['status' => 'success', 'msg' => 'Unit Measure saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Unit of mure saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error saving Unit Measures: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Unit Measures.']);
+            Log::error('Error saving unit of measures: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the unit of measures.']);
         }
     }
 
@@ -78,11 +78,11 @@ class UnitMeasureController extends Controller
     {
         try {
             $this->unitMeasureRepository->update($request->only('unit_measure_entity', 'unit_measure_name'), $unitMeasure->id);
-            return response()->json(['status' => 'success', 'msg' => 'Unit Measure updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Unit of measure updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error updating Unit Measure: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Unit Measure.']);
+            Log::error('Error updating unit of measure: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the unit of measure.']);
         }
     }
 
@@ -95,12 +95,17 @@ class UnitMeasureController extends Controller
     public function destroy($id)
     {
         try {
-            $this->unitMeasureRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Unit Measure deleted successfully.']);
+            $unitMeasure = $this->unitMeasureRepository->findOrFail($id);
+            if ($unitMeasure) {
+                $this->unitMeasureRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Unit of measure deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Unit of measure not found.']);
+            }
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error deleting Unit Measure: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Unit Measure.']);
+            Log::error('Error deleting unit of measure: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the unit of measure.']);
         }
     }
 

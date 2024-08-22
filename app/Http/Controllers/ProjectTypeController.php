@@ -32,7 +32,7 @@ class ProjectTypeController extends Controller
     {
         try {
             $this->projectTypeRepository->store($request->only('project_type_name'));
-            return response()->json(['status' => 'success', 'msg' => 'Project Type saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Project type saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error saving project type: ' . $e->getMessage());
@@ -75,11 +75,11 @@ class ProjectTypeController extends Controller
     {
         try {
             $projectType->update($request->only('project_type_name')); // Use validated data
-            return response()->json(['status' => 'success', 'msg' => 'Project Type updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Project type updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error updating project type: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the department.']);
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the product type.']);
         }
     }
 
@@ -92,12 +92,17 @@ class ProjectTypeController extends Controller
     public function destroy($id)
     {
         try {
-            $this->projectTypeRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Project Type deleted successfully.']);
+            $projectType = $this->projectTypeRepository->findOrFail($id);
+            if ($projectType) {
+                $this->projectTypeRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Project type deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Product type not found.']);
+            }
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error deleting project type: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the department.']);
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the product type.']);
         }
     }
 

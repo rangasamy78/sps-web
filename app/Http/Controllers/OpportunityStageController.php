@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 use Exception;
-use App\Models\OpportunityStage;
 use Illuminate\Http\Request;
+use App\Models\OpportunityStage;
 use Illuminate\Support\Facades\Log;
 use App\Repositories\OpportunityStageRepository;
 use App\Http\Requests\OpportunityStage\{CreateOpportunityStageRequest, UpdateOpportunityStageRequest};
@@ -32,11 +32,11 @@ class OpportunityStageController extends Controller
     {
         try {
             $this->opportunityStageRepository->store($request->only('opportunity_stage'));
-            return response()->json(['status' => 'success', 'msg' => 'Opportunity Stage saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Opportunity stage saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error saving department: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the department.']);
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the opportunity stage.']);
         }
     }
 
@@ -74,8 +74,8 @@ class OpportunityStageController extends Controller
     public function update(UpdateOpportunityStageRequest $request, OpportunityStage $opportunityStage)
     {
         try {
-            $opportunityStage->update($request->only('opportunity_stage')); // Use validated data
-            return response()->json(['status' => 'success', 'msg' => 'Opportunity Stage updated successfully.']);
+            $this->opportunityStageRepository->update($request->only('opportunity_stage'), $opportunityStage->id); // Use validated data
+            return response()->json(['status' => 'success', 'msg' => 'Opportunity stage updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error updating opportunity stage: ' . $e->getMessage());
@@ -92,8 +92,13 @@ class OpportunityStageController extends Controller
     public function destroy($id)
     {
         try {
-            $this->opportunityStageRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Opportunity Stage deleted successfully.']);
+            $opportunityStage = $this->opportunityStageRepository->findOrFail($id);
+            if ($opportunityStage) {
+                $this->opportunityStageRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Opportunity stage deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Opportunity stage not found.']);
+            }
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error deleting opportunity stage: ' . $e->getMessage());

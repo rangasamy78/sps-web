@@ -32,11 +32,11 @@ class CustomerTypeController extends Controller
     {
         try {
             $this->customerTypeRepository->store($request->only('customer_type_name','customer_type_code'));
-            return response()->json(['status' => 'success', 'msg' => 'Customer Type saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Customer type saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error saving Customer Type: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Customer Type.']);
+            Log::error('Error saving customer type: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the customer type.']);
         }
     }
 
@@ -75,11 +75,11 @@ class CustomerTypeController extends Controller
     {
         try {
             $customerType->update($request->only('customer_type_name','customer_type_code')); // Use validated data
-            return response()->json(['status' => 'success', 'msg' => 'Customer Type updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Customer type updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error updating Customer Type: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the department.']);
+            Log::error('Error updating customer type: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating customer type.']);
         }
     }
 
@@ -92,12 +92,17 @@ class CustomerTypeController extends Controller
     public function destroy($id)
     {
         try {
-            $this->customerTypeRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Customer Type deleted successfully.']);
+            $customerType = $this->customerTypeRepository->findOrFail($id);
+            if ($customerType) {
+                $this->customerTypeRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Customer type deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Customer type not found.']);
+            }
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error deleting Customer Type: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the department.']);
+            Log::error('Error deleting customer type: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting customer type.']);
         }
     }
 

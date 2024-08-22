@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProductCategory\CreateProductCategoryRequest;
-
-use App\Http\Requests\ProductCategory\UpdateProductCategoryRequest;
-use App\Models\ProductCategory;
-use App\Repositories\ProductCategoryRepository;
 use Exception;
-use Illuminate\Http\Request;use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
+use App\Models\ProductCategory;
+use Illuminate\Support\Facades\Log;
+use App\Repositories\ProductCategoryRepository;
+use App\Http\Requests\ProductCategory\{CreateProductCategoryRequest, UpdateProductCategoryRequest};
 
 class ProductCategoryController extends Controller
 {
@@ -31,9 +30,8 @@ class ProductCategoryController extends Controller
    public function store(CreateProductCategoryRequest $request)
      {
         try {
-
             $this->productCategoryRepository->store($request->all());
-            return response()->json(['status' => 'success', 'msg' => 'Product Category saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Product category saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error saving product category: ' . $e->getMessage());
@@ -76,13 +74,11 @@ class ProductCategoryController extends Controller
     {
         try {
             $data = $request->only(['product_category_name', 'product_sub_categories']);
-
             $result = $this->productCategoryRepository->update($data, $productCategory->id);
-
-            return response()->json(['status' => 'success', 'msg' => 'Product Catgory updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Product catgory updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error updating product Category: ' . $e->getMessage());
+            Log::error('Error updating product category: ' . $e->getMessage());
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the product category.']);
         }
     }
@@ -95,12 +91,17 @@ class ProductCategoryController extends Controller
     public function destroy($id)
     {
         try {
-            $this->productCategoryRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Product Category deleted successfully.']);
+            $productCategory = $this->productCategoryRepository->findOrFail($id);
+            if ($productCategory) {
+                $this->productCategoryRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Product category deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Product category not found.']);
+            }
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error deleting product Category: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the product Category.']);
+            Log::error('Error deleting product category: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the product category.']);
         }
     }
     public function getProductCategoryDataTableList(Request $request)

@@ -33,10 +33,10 @@ class TaxExemptReasonController extends Controller
     {
         try {
             $this->taxExemptReasonRepository->store($request->only('reason'));
-            return response()->json(['status' => 'success', 'msg' => 'Tax Exempt Reason saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Tax exempt reason saved successfully.']);
         } catch (Exception $e) {
-            Log::error('Error saving Tax Exempt Reason : ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Tax Exempt Reason .']);
+            Log::error('Error saving tax exempt reason : ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the tax exempt reason .']);
         }
     }
 
@@ -75,10 +75,10 @@ class TaxExemptReasonController extends Controller
     {
         try {
             $this->taxExemptReasonRepository->update($request->only('reason'), $taxExemptReason->id);
-            return response()->json(['status' => 'success', 'msg' => 'Tax Exempt Reason  updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Tax exempt reason  updated successfully.']);
         } catch (Exception $e) {
-            Log::error('Error updating Tax Exempt Reason: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Tax Exempt Reason.']);
+            Log::error('Error updating tax exempt reason: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the tax exempt reason.']);
         }
     }
 
@@ -91,11 +91,16 @@ class TaxExemptReasonController extends Controller
     public function destroy($id)
     {
         try {
-            $this->taxExemptReasonRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Tax Exempt Reason  deleted successfully.']);
+            $taxExemptReason = $this->taxExemptReasonRepository->findOrFail($id);
+            if ($taxExemptReason) {
+                $this->taxExemptReasonRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Tax exempt reason deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Tax exempt reason number not found.']);
+            }
         } catch (Exception $e) {
-            Log::error('Error deleting Tax Exempt Reason: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Tax Exempt Reason.']);
+            Log::error('Error deleting tax exempt reason: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the tax exempt reason.']);
         }
     }
 

@@ -25,7 +25,7 @@ class AccountSubTypeController extends Controller
     {
         try {
             $this->accountSubTypeRepository->store($request->only('sub_type_name'));
-            return response()->json(['status' => 'success', 'msg' => 'Account Sub Type saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Account sub type saved successfully.']);
         } catch (Exception $e) {
             Log::error('Error saving Account Sub Type: ' . $e->getMessage());
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Account Sub Type.']);
@@ -48,10 +48,10 @@ class AccountSubTypeController extends Controller
     {
         try {
             $this->accountSubTypeRepository->update($request->only('sub_type_name'), $accountSubType->id);
-            return response()->json(['status' => 'success', 'msg' => 'Account Sub Type updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Account sub type updated successfully.']);
         } catch (Exception $e) {
-            Log::error('Error updating Account Sub Type: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Account Sub Type.']);
+            Log::error('Error updating account sub type: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the account sub type.']);
         }
     }
 
@@ -61,13 +61,13 @@ class AccountSubTypeController extends Controller
             $accountSubType = $this->accountSubTypeRepository->findOrFail($id);
             if ($accountSubType) {
                 $this->accountSubTypeRepository->delete($id);
-                return response()->json(['status' => 'success', 'msg' => 'Account Sub Type deleted successfully.']);
+                return response()->json(['status' => 'success', 'msg' => 'Account sub type deleted successfully.']);
             } else {
-                return response()->json(['status' => 'false', 'msg' => 'Account Sub Type not found.']);
+                return response()->json(['status' => 'false', 'msg' => 'Account sub type not found.']);
             }
         } catch (Exception $e) {
-            Log::error('Error deleting Account Sub Type: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Account Sub Type.']);
+            Log::error('Error deleting account sub type: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the account sub type.']);
         }
     }
     public function getAccountSubTypeDataTableList(Request $request)

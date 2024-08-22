@@ -32,10 +32,10 @@ class PurchaseShipmentMethodController extends Controller
     {
         try {
             $this->purchaseShipmentMethodRepository->store($request->only('shipment_method_name', 'shipment_method_description'));
-            return response()->json(['status' => 'success', 'msg' => 'Purchase Shipment Method saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Purchase shipment method saved successfully.']);
         } catch (Exception $e) {
-            Log::error('Error saving Purchase Shipment Method: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Purchase Shipment Method.']);
+            Log::error('Error saving purchase shipment method: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the purchase shipment method.']);
         }
     }
 
@@ -74,11 +74,11 @@ class PurchaseShipmentMethodController extends Controller
     {
         try {
             $this->purchaseShipmentMethodRepository->update($request->only('shipment_method_name', 'shipment_method_description'), $purchaseShipmentMethod->id); // Use validated data
-            return response()->json(['status' => 'success', 'msg' => 'Purchase Shipment Method updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Purchase shipment method updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error updating Purchase Shipment Method: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Purchase Shipment Method.']);
+            Log::error('Error updating purchase shipment Method: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the purchase shipment method.']);
         }
     }
 
@@ -91,12 +91,17 @@ class PurchaseShipmentMethodController extends Controller
     public function destroy($id)
     {
         try {
-            $this->purchaseShipmentMethodRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Purchase Shipment Method deleted successfully.']);
+            $purchaseShipmentMethod = $this->purchaseShipmentMethodRepository->findOrFail($id);
+            if ($purchaseShipmentMethod) {
+                $this->purchaseShipmentMethodRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Purchase shipment method deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Purchase shipment method not found.']);
+            }
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error deleting Purchase Shipment Method: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Purchase Shipment Method.']);
+            Log::error('Error deleting purchase shipment method: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the purchase shipment method.']);
         }
     }
 

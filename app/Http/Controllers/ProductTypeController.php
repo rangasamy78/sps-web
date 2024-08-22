@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\ProductType;
-use App\Http\Requests\ProductType\CreateProductTypeRequest;
-use App\Http\Requests\ProductType\UpdateProductTypeRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Repositories\ProductTypeRepository;
-use Illuminate\Http\Request;use Illuminate\Support\Facades\Log;
+use App\Http\Requests\ProductType\{CreateProductTypeRequest, UpdateProductTypeRequest};
 
 class ProductTypeController extends Controller
 {
@@ -33,7 +33,7 @@ class ProductTypeController extends Controller
     {
         try {
             $this->productTypeRepository->store($request->only('product_type', 'indivisible', 'non_serialized', 'inventory_gl_account', 'sales_gl_account', 'cogs_gl_account'));
-            return response()->json(['status' => 'success', 'msg' => 'Product Type saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Product type saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error saving product type: ' . $e->getMessage());
@@ -84,7 +84,7 @@ class ProductTypeController extends Controller
                 'cogs_gl_account',
             ]);
             $this->productTypeRepository->update($data, $productType->id);
-            return response()->json(['status' => 'success', 'msg' => 'Product Type updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Product type updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error updating product type: ' . $e->getMessage());
@@ -101,8 +101,13 @@ class ProductTypeController extends Controller
     public function destroy($id)
     {
         try {
-            $this->productTypeRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Product Type deleted successfully.']);
+            $productType = $this->productTypeRepository->findOrFail($id);
+            if ($productType) {
+                $this->productTypeRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Product type deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Product type not found.']);
+            }
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error deleting product type: ' . $e->getMessage());

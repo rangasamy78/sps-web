@@ -23,10 +23,10 @@ class CustomerContactTitleController extends Controller
     {
         try {
             $this->customerContactTitleRepository->store($request->only('customer_title'));
-            return response()->json(['status' => 'success', 'msg' => 'Customer Contact Title saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Customer contact title saved successfully.']);
         } catch (Exception $e) {
-            Log::error('Error saving Customer Contact Title: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Customer Contact Title.']);
+            Log::error('Error saving customer contact title: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the customer contact title.']);
         }
     }
     public function show($id)
@@ -43,21 +43,26 @@ class CustomerContactTitleController extends Controller
     {
         try {
             $this->customerContactTitleRepository->update($request->only('customer_title'), $customerContactTitle->id);
-            return response()->json(['status' => 'success', 'msg' => 'Customer Contact Title updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Customer contact title updated successfully.']);
         } catch (Exception $e) {
-            Log::error('Error updating Customer Contact Title: ' . $e->getMessage());
-            return response()->json(['status' => 'error', 'msg' => 'An error occurred while updating the Customer Contact Title.']);
+            Log::error('Error updating customer contact title: ' . $e->getMessage());
+            return response()->json(['status' => 'error', 'msg' => 'An error occurred while updating the customer contact title.']);
         }
     }
 
     public function destroy($id)
     {
         try {
-            $this->customerContactTitleRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Customer Contact Title deleted successfully.']);
+            $customerContactTitle = $this->customerContactTitleRepository->findOrFail($id);
+            if ($customerContactTitle) {
+                $this->customerContactTitleRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Customer contact title deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Customer contact title not found.']);
+            }
         } catch (Exception $e) {
-            Log::error('Error deleting Customer Contact Title: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Customer Contact Title.']);
+            Log::error('Error deleting customer contact title: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the customer contact title.']);
         }
     }
     public function getCustomerContactTitleDataTableList(Request $request)

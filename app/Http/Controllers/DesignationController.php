@@ -28,8 +28,8 @@ class DesignationController extends Controller
         $designations = $this->designationRepository->store($request->all());
         return response()->json(['status' => 'success', 'msg' => 'Designation saved successfully.', 'data' => $designations]);
     } catch (Exception $e) {
-        Log::error('Error saving Designation: ' . $e->getMessage());
-        return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Designation.']);
+        Log::error('Error saving designation: ' . $e->getMessage());
+        return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the designation.']);
     }
 }
 
@@ -49,19 +49,24 @@ class DesignationController extends Controller
             $this->designationRepository->update($request->only('designation_name', 'department_id'), $designation->id);
             return response()->json(['status' => 'success', 'msg' => 'Designation updated successfully.']);
         } catch (Exception $e) {
-            Log::error('Error updating Designation: ' . $e->getMessage());
-            return response()->json(['status' => 'error', 'msg' => 'An error occurred while updating the Designation.']);
+            Log::error('Error updating designation: ' . $e->getMessage());
+            return response()->json(['status' => 'error', 'msg' => 'An error occurred while updating the designation.']);
         }
     }
 
     public function destroy($id)
     {
         try {
-            $this->designationRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Designation deleted successfully.']);
+            $designation = $this->designationRepository->findOrFail($id);
+            if ($designation) {
+                $this->designationRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Designation deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Designation not found.']);
+            }
         } catch (Exception $e) {
-            Log::error('Error deleting Designation: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Designation.']);
+            Log::error('Error deleting designation: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the designation.']);
         }
     }
     public function getDesignationDataTable(Request $request)

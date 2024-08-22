@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Exception;
 use App\Models\EventType;
 use Illuminate\Http\Request;
@@ -33,11 +34,11 @@ class EventTypeController extends Controller
     {
         try {
             $this->eventTypeRepository->store($request->only('event_type_name','event_type_code','event_category_id'));
-            return response()->json(['status' => 'success', 'msg' => 'Event Type saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Event type saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error saving Event Type: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Event Type.']);
+            Log::error('Error saving event type: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the event type.']);
         }
     }
 
@@ -77,11 +78,11 @@ class EventTypeController extends Controller
     {
         try {
             $eventType->update($request->only('event_type_name','event_type_code','event_category_id')); // Use validated data
-            return response()->json(['status' => 'success', 'msg' => 'Event Type updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Event type updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error updating Event Type: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the department.']);
+            Log::error('Error updating event type: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the event type.']);
         }
     }
 
@@ -94,12 +95,17 @@ class EventTypeController extends Controller
     public function destroy($id)
     {
         try {
-            $this->eventTypeRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Event Type deleted successfully.']);
+            $eventType = $this->eventTypeRepository->findOrFail($id);
+            if ($eventType) {
+                $this->eventTypeRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Event type deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Event type not found.']);
+            }
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error deleting Event Type: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the department.']);
+            Log::error('Error deleting event type: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the event type.']);
         }
     }
 

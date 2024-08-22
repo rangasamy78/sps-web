@@ -28,11 +28,11 @@ class CreditCheckSettingController extends Controller
     {
         try {
             $lastInsertId = $this->creditCheckSettingRepository->save($request->all());
-            return response()->json(['status' => 'success', 'msg' => 'Credit Check Setting saved successfully.','lastId' => $lastInsertId ? $lastInsertId : $request->id ]);
+            return response()->json(['status' => 'success', 'msg' => 'Credit check setting saved successfully.','lastId' => $lastInsertId ? $lastInsertId : $request->id ]);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error saving Credit Check Setting: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Credit Check Setting.']);
+            Log::error('Error saving credit check setting: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the credit check setting.']);
         }
     }
 }

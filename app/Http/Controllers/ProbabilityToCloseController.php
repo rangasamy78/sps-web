@@ -33,11 +33,11 @@ class ProbabilityToCloseController extends Controller
     {
         try {
             $this->probabilityToCloseRepository->store($request->only('probability_to_close'));
-            return response()->json(['status' => 'success', 'msg' => 'Probability To Close saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Probability to close saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error saving Probability To Close: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Probability To Close.']);
+            Log::error('Error saving probability to close: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the probability to close.']);
         }
     }
 
@@ -76,11 +76,11 @@ class ProbabilityToCloseController extends Controller
     {
         try {
             $this->probabilityToCloseRepository->update($request->only('probability_to_close'), $probabilityToClose->id);
-            return response()->json(['status' => 'success', 'msg' => 'Probability To Close updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Probability to close updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error updating Probability To Close: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Probability To Close.']);
+            Log::error('Error updating probability to close: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the probability to close.']);
         }
     }
 
@@ -93,12 +93,17 @@ class ProbabilityToCloseController extends Controller
     public function destroy($id)
     {
         try {
-            $this->probabilityToCloseRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Probability To Close deleted successfully.']);
+            $probabilityToClose = $this->probabilityToCloseRepository->findOrFail($id);
+            if ($probabilityToClose) {
+                $this->probabilityToCloseRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Probability to close deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Probability to close not found.']);
+            }
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error deleting Probability To Close: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Probability To Close.']);
+            Log::error('Error deleting probability to close: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the probability to close.']);
         }
     }
     public function getProbabilityToCloseDataTableList(Request $request)

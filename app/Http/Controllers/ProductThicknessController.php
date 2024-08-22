@@ -33,7 +33,7 @@ class ProductThicknessController extends Controller
     {
         try {
             $this->productThicknessRepository->store($request->only('product_thickness_name','product_thickness_unit'));
-            return response()->json(['status' => 'success', 'msg' => 'Product Thickness saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Product thickness saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error saving product thickness: ' . $e->getMessage());
@@ -67,11 +67,11 @@ class ProductThicknessController extends Controller
     {
         try {
             $this->productThicknessRepository->update($request->only('product_thickness_name','product_thickness_unit'), $productThickness->id); // Use validated data
-            return response()->json(['status' => 'success', 'msg' => 'Product Thickness Updated Successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Product thickness updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error updating product thickness: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Product Thickness.']);
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the product thickness.']);
         }
     }
 
@@ -81,12 +81,17 @@ class ProductThicknessController extends Controller
     public function destroy($id)
     {
         try {
-            $this->productThicknessRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Product Thickness deleted successfully.']);
+            $productThickness = $this->productThicknessRepository->findOrFail($id);
+            if ($productThickness) {
+                $this->productThicknessRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Product thickness deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Product thickness not found.']);
+            }
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error deleting product thickness: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Product Thickness.']);
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the product thickness.']);
         }
     }
 

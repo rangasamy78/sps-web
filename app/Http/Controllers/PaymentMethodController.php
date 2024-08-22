@@ -32,10 +32,10 @@ class PaymentMethodController extends Controller
     {
         try {
             $this->paymentMethodRepository->store($request->only('payment_method_name', 'linked_account_id', 'account_type_id', 'is_transaction_required'));
-            return response()->json(['status' => 'success', 'msg' => 'Payment Method saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Payment method saved successfully.']);
         } catch (Exception $e) {
-            Log::error('Error saving Payment Method: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Payment Method.']);
+            Log::error('Error saving payment method: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the payment method.']);
         }
     }
 
@@ -55,21 +55,26 @@ class PaymentMethodController extends Controller
     {
         try {
             $this->paymentMethodRepository->update($request->only('payment_method_name', 'linked_account_id', 'account_type_id', 'is_transaction_required'), $paymentMethod->id);
-            return response()->json(['status' => 'success', 'msg' => 'Payment Method updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Payment method updated successfully.']);
         } catch (Exception $e) {
-            Log::error('Error updating Payment Method: ' . $e->getMessage());
-            return response()->json(['status' => 'error', 'msg' => 'An error occurred while updating the Payment Method.']);
+            Log::error('Error updating payment method: ' . $e->getMessage());
+            return response()->json(['status' => 'error', 'msg' => 'An error occurred while updating the payment method.']);
         }
     }
 
     public function destroy($id)
     {
         try {
-            $this->paymentMethodRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Payment Method deleted successfully.']);
+            $paymentMethod = $this->paymentMethodRepository->findOrFail($id);
+            if ($paymentMethod) {
+                $this->paymentMethodRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Payment method deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Payment method not found.']);
+            }
         } catch (Exception $e) {
-            Log::error('Error deleting Payment Method: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Payment Method.']);
+            Log::error('Error deleting payment method: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the payment method.']);
         }
     }
 
