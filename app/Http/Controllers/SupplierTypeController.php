@@ -79,7 +79,7 @@ class SupplierTypeController extends Controller
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error updating Supplier type: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the department.']);
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Supplier type.']);
         }
     }
 
