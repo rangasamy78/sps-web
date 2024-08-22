@@ -46,7 +46,7 @@
                 }
             ],
             rowCallback: function(row, data, index) {
-                $('td:eq(0)', row).html(table.page.info().start + index + 1); 
+                $('td:eq(0)', row).html(table.page.info().start + index + 1);
             },
             dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
             buttons: [{
@@ -95,10 +95,8 @@
                     if (response.status == "success") {
                         $('#expenseCategoryForm').trigger("reset");
                         $('#expenseCategoryModel').modal('hide');
+                        showToast('success', response.msg);
                         table.draw();
-                        var successMessage = type === 'POST' ? 'Expense Category Added Successfully!' : 'Expense Category Updated Successfully!';
-                        var successTitle = type === 'POST' ? 'Created!' : 'Updated!';
-                        showSuccessMessage(successTitle, successMessage);
                     }
                 },
                 error: function(xhr) {
@@ -139,12 +137,7 @@
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(response) {
-                    if (response.status === "success") {
-                        table.draw();
-                        showSuccessMessage('Deleted!', 'Expense Category Deleted Successfully!');
-                    } else {
-                        showError('Deleted!', response.msg);
-                    }
+                    handleAjaxResponse(response, table);
                 },
                 error: function(xhr) {
                     showError('Oops!', 'Failed to fetch data.');

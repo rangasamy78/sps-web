@@ -1,7 +1,7 @@
 <script type="text/javascript">
   $(function() {
     $("#showDescriptionEditor").attr('disabled', true);
-    
+
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -92,10 +92,8 @@
           if (response.status == "success") {
             $('#shipmentTermForm').trigger("reset");
             $('#shipmentTermModel').modal('hide');
+            showToast('success', response.msg);
             table.draw();
-            var successMessage = type === 'POST' ? 'Shipment Terms Added Successfully!' : 'Shipment Terms Updated Successfully!';
-            var successTitle = type === 'POST' ? 'Created!' : 'Updated!';
-            showSuccessMessage(successTitle, successMessage);
           }
         },
         error: function(xhr) {
@@ -142,8 +140,7 @@
         },
         success: function(response) {
           if (response.status === "success") {
-            table.draw(); // Assuming 'table' is defined for DataTables
-            showSuccessMessage('Deleted!', 'Shipment Term Deleted Successfully!');
+            handleAjaxResponse(response, table);
           } else {
             showError('Deleted!', response.msg);
           }
@@ -238,7 +235,7 @@
     function clearEditor() {
       descriptionEditor.setContents([]); // Clear all content
     }
-    
+
     const showDescriptionEditor = new Quill('#showDescriptionEditor', {
       bounds: '#showDescriptionEditor',
       modules: {

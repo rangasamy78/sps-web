@@ -82,16 +82,8 @@
                     if(response.status == "success"){
                         $('#departmentForm').trigger("reset");
                         $('#departmentModel').modal('hide');
+                        showToast('success', response.msg);
                         table.draw();
-                        Swal.fire({
-                            title: 'Created!',
-                            text: 'Department Added Successfully!',
-                            type: 'success',
-                            customClass: {
-                            confirmButton: 'btn btn-primary'
-                            },
-                            buttonsStyling: false
-                        });
                     }
                 },
                 error: function(xhr) {
@@ -124,15 +116,7 @@
                         $('#departmentForm').trigger("reset");
                         $('#departmentModel').modal('hide');
                         table.draw();
-                        Swal.fire({
-                            title: 'Updated!',
-                            text: 'Department Updated Successfully!',
-                            type: 'success',
-                            customClass: {
-                            confirmButton: 'btn btn-primary'
-                            },
-                            buttonsStyling: false
-                        });
+                        showToast('success', response.msg);
                     }
                 },
                 error: function(xhr) {
@@ -190,24 +174,11 @@
                             id: $("#id").val(),
                         },
                         success: function(response) {
-                            if(response.status == "success"){
-                                table.draw();
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Deleted!',
-                                    text: 'Department Deleted Successfully!',
-                                    customClass: {
-                                    confirmButton: 'btn btn-success'
-                                    }
-                                });
-                            }
+                            handleAjaxResponse(response, table);
                         },
                         error: function(response) {
                             console.log(response.responseJSON);
-                            Swal.fire({
-                                title: 'Oops!',
-                                text: 'Something went wrong!'
-                            });
+                            showError('Oops!', 'Failed to fetch data.');
                         }
                     });
                 }

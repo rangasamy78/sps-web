@@ -53,10 +53,8 @@
                     if (response.status == "success") {
                         $('#transactionStartingForm').trigger("reset");
                         $('#transactionStartingModel').modal('hide');
+                        showToast('success', response.msg);
                         table.draw();
-                        var successMessage = type === 'POST' ? 'Transaction Starting Number Added Successfully!' : 'Transaction Starting Number Updated Successfully!';
-                        var successTitle = type === 'POST' ? 'Created!' : 'Updated!';
-                        showSuccessMessage(successTitle, successMessage);
                     }
                 },
                 error: function (xhr) {
@@ -104,8 +102,7 @@
                 },
                 success: function (response) {
                     if (response.status === "success") {
-                        table.draw(); // Assuming 'table' is defined for DataTables
-                        showSuccessMessage('Deleted!', 'Transaction Starting Deleted Successfully!');
+                        handleAjaxResponse(response, table);
                     } else {
                         showError('Deleted!', response.msg);
                     }

@@ -60,10 +60,8 @@
                     if (response.status == "success") {
                         $('#printDocDisclaimerForm').trigger("reset");
                         $('#printDocDisclaimerModel').modal('hide');
+                        showToast('success', response.msg);
                         table.draw();
-                        var successMessage = type === 'POST' ? 'Policies And Print Forms Added Successfully!' : 'Policies And Print Forms Updated Successfully!';
-                        var successTitle = type === 'POST' ? 'Created!' : 'Updated!';
-                        showSuccessMessage(successTitle, successMessage);
                     }
                 },
                 error: function (xhr) {
@@ -107,12 +105,7 @@
                     _token: '{{ csrf_token() }}'
                 },
                 success: function (response) {
-                    if (response.status === "success") {
-                        table.draw();
-                        showSuccessMessage('Deleted!', 'Policies And Print Forms Deleted Successfully!');
-                    } else {
-                        showError('Deleted!', response.msg);
-                    }
+                    handleAjaxResponse(response, table);
                 },
                 error: function (xhr) {
                     console.error('Error:', xhr.statusText);
@@ -186,9 +179,9 @@
     });
 
     function getSubcategories(typeId, selectedSubcategoryId, type) {
-  
-        var $selectSubcategory = (type === "show") 
-            ? $('#showPrintDocDisclaimerForm #select_type_sub_category_id') 
+
+        var $selectSubcategory = (type === "show")
+            ? $('#showPrintDocDisclaimerForm #select_type_sub_category_id')
             : $('#select_type_sub_category_id');
             $selectSubcategory.empty().append('<option value="">--Select Type Sub Category--</option>');
         if (typeId) {

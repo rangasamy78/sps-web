@@ -6,7 +6,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        $(document).on('change', 'input[type="checkbox"]', function() {           
+        $(document).on('change', 'input[type="checkbox"]', function() {
             var packing_list          = ($('input[name="packing_list"]:checked').val() == 1) ? 1 : 0;
             var invoice               = ($('input[name="invoice"]:checked').val() == 1) ? 1 : 0;
             var credit_check          = ($('input[name="credit_check"]:checked').val() == 1) ? 1 : 0;
@@ -27,9 +27,7 @@
                 dataType: 'json',
                 success: function(response) {
                     if (response.status == "success") {
-                        var successMessage = response.msg;
-                        var successTitle   = response.status;
-                        showSuccessMessage(successTitle, successMessage);
+                        showToast('success', response.msg);
                     }
                 },
                 error: function(xhr) {

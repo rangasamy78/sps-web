@@ -82,16 +82,8 @@
                     if(response.status == "success"){
                         $('#accountTypeForm').trigger("reset");
                         $('#accountTypeModel').modal('hide');
+                        showToast('success', response.msg);
                         table.draw();
-                        Swal.fire({
-                            title: 'Created!',
-                            text: 'Account Type Added Successfully!',
-                            type: 'success',
-                            customClass: {
-                            confirmButton: 'btn btn-primary'
-                            },
-                            buttonsStyling: false
-                        });
                     }
                 },
                 error: function(xhr) {
@@ -123,16 +115,8 @@
                     if(response.status == "success"){
                         $('#accountTypeForm').trigger("reset");
                         $('#accountTypeModel').modal('hide');
+                        showToast('success', response.msg);
                         table.draw();
-                        Swal.fire({
-                            title: 'Updated!',
-                            text: 'Account Type Updated Successfully!',
-                            type: 'success',
-                            customClass: {
-                            confirmButton: 'btn btn-primary'
-                            },
-                            buttonsStyling: false
-                        });
                     }
                 },
                 error: function(xhr) {
@@ -190,17 +174,7 @@
                             id: $("#id").val(),
                         },
                         success: function(response) {
-                            if(response.status == "success"){
-                                table.draw();
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Deleted!',
-                                    text: 'Account Type Deleted Successfully!',
-                                    customClass: {
-                                    confirmButton: 'btn btn-success'
-                                    }
-                                });
-                            }
+                            handleAjaxResponse(response, table);
                         },
                         error: function(response) {
                             console.log(response.responseJSON);

@@ -57,10 +57,8 @@
                     if (response.status == "success") {
                         $('#selectTypeCategoryForm').trigger("reset");
                         $('#selectTypeCategoryModel').modal('hide');
+                        showToast('success', response.msg);
                         table.draw();
-                        var successMessage = type === 'POST' ? 'Select Type Category Added Successfully!' : 'Select Type Category Updated Successfully!';
-                        var successTitle = type === 'POST' ? 'Created!' : 'Updated!';
-                        showSuccessMessage(successTitle, successMessage);
                     }
                 },
                 error: function (xhr) {
@@ -102,14 +100,14 @@
                 success: function (response) {
                     console.log(response);
                     if (response.status == "success") {
+                        showToast('success', response.msg);
                         table.draw();
-                        showSuccessMessage('Deleted!', response.msg);
                     }
                     else if (response.status == "error") {
-                        showError('Oops!', 'Category cannot be deleted because it has subcategories.');
+                        showToast('error', 'Category cannot be deleted because it has subcategories.');
                     }
                     else {
-                        showError('Delete Failed', response.msg);
+                        showToast('error', response.msg);
                     }
                 },
                 error: function (xhr) {

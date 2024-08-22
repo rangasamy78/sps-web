@@ -28,9 +28,9 @@
             rowCallback: function(row, data, index) {
                 $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
             },
-            
+
         });
-        
+
 
         $('#productThicknessForm input').on('input', function () {
             let fieldName = $(this).attr('name');
@@ -63,10 +63,8 @@
                     if (response.status == "success") {
                         $('#productThicknessForm').trigger("reset");
                         $('#productThicknessModel').modal('hide');
+                        showToast('success', response.msg);
                         table.draw();
-                        var successMessage = type === 'POST' ? 'Product Thickness Added Successfully!' : 'Product Thickness Updated Successfully!';
-                        var successTitle = type === 'POST' ? 'Created!' : 'Updated!';
-                        showSuccessMessage(successTitle, successMessage);
                     }
                 },
                 error: function (xhr) {
@@ -107,8 +105,7 @@
                 },
                 success: function (response) {
                     if (response.status === "success") {
-                        table.draw(); // Assuming 'table' is defined for DataTables
-                        showSuccessMessage('Deleted!', 'Product Thickness Deleted Successfully!');
+                        handleAjaxResponse(response, table);
                     } else {
                         showError('Deleted!', response.msg);
                     }
@@ -123,7 +120,7 @@
         $('body').on('click', '.showbtn', function () {
             var id = $(this).data('id');
             $.get("{{ route('product_thicknesses.index') }}" +'/' + id, function (data) {
-                $('#showProductThicknessModal').modal('show');               
+                $('#showProductThicknessModal').modal('show');
                 $('#showProductThicknessForm #product_thickness_name').val(data.product_thickness_name);
                 $('#showProductThicknessForm #product_thickness_unit').val(data.product_thickness_unit);
             });

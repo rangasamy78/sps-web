@@ -26,9 +26,7 @@
                         dataType: 'json',
                         success: function(response) {
                             if (response.status === "success") {
-                                var successMessage = response.msg ?? '';
-                                var successTitle = 'Saved!';
-                                showSuccessMessage(successTitle, successMessage);
+                                showToast('success', response.msg);
                             }
                         },
                         error: function(xhr) {

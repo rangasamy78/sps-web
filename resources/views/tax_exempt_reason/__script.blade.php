@@ -80,10 +80,8 @@
           if (response.status == "success") {
             $('#taxExemptReasonForm').trigger("reset");
             $('#taxExemptReasonModel').modal('hide');
+            showToast('success', response.msg);
             table.draw();
-            var successMessage = type === 'POST' ? 'Tax Exempt Reason Added Successfully!' : 'Tax Exempt Reason Updated Successfully!';
-            var successTitle = type === 'POST' ? 'Created!' : 'Updated!';
-            showSuccessMessage(successTitle, successMessage);
           }
         },
         error: function(xhr) {
@@ -126,8 +124,7 @@
         },
         success: function(response) {
           if (response.status === "success") {
-            table.draw(); // Assuming 'table' is defined for DataTables
-            showSuccessMessage('Deleted!', 'Tax Exempt Reason Deleted Successfully!');
+            handleAjaxResponse(response, table);
           } else {
             showError('Deleted!', response.msg);
           }

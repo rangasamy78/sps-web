@@ -119,10 +119,8 @@
                     if (response.status == "success") {
                         $('#currencyForm').trigger("reset");
                         $('#currencyModel').modal('hide');
+                        showToast('success', response.msg);
                         table.draw();
-                        var successMessage = type === 'POST' ? 'Currency Added Successfully!' : 'Currency Updated Successfully!';
-                        var successTitle = type === 'POST' ? 'Created!' : 'Updated!';
-                        showSuccessMessage(successTitle, successMessage);
                     }
                 },
                 error: function(xhr) {
@@ -166,12 +164,7 @@
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(response) {
-                    if (response.status === "success") {
-                        table.draw(); // Assuming 'table' is defined for DataTables
-                        showSuccessMessage('Deleted!', 'Currency Deleted Successfully!');
-                    } else {
-                        showError('Deleted!', response.msg);
-                    }
+                    handleAjaxResponse(response, table);
                 },
                 error: function(xhr) {
                     console.error('Error:', xhr.statusText);

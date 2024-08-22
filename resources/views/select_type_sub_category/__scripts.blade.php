@@ -101,10 +101,8 @@
                     if (response.status == "success") {
                         $('#selectTypeSubCategoryForm').trigger("reset");
                         $('#selectTypeSubCategoryModel').modal('hide');
+                        showToast('success', response.msg);
                         table.draw();
-                        var successMessage = type === 'POST' ? 'Select Type Sub Category Added Successfully!' : 'Select Type Sub Category Updated Successfully!';
-                        var successTitle = type === 'POST' ? 'Created!' : 'Updated!';
-                        showSuccessMessage(successTitle, successMessage);
                     }
                 },
                 error: function(xhr) {
@@ -188,7 +186,7 @@
                 }
             });
         });
-         
+
         $('#subcategory-container').on('input', 'input[name="select_type_sub_categories[][select_type_sub_category_name]"]', function () {
             $(this).siblings('.error-message').hide();
         });
@@ -212,8 +210,7 @@
                 success: function (response) {
                     console.log(response);
                     if (response.status == "success") {
-                        table.draw();
-                        showSuccessMessage('Deleted!', response.msg);
+                        handleAjaxResponse(response, table);
                     }
                     else if (response.status == "error") {
                         showError('Oops!', 'Sub Category cannot be deleted because it has Policies.');
@@ -264,5 +261,5 @@
         $(document).on('click', '.remove-subcategory-btn', function () {
             $(this).closest('.subcategory-row').remove();
         });
-    });  
+    });
 </script>

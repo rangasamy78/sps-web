@@ -95,11 +95,9 @@
                     if (response.status == "success") {
                         $('#binTypeForm').trigger("reset");
                         $('#binTypeModel').modal('hide');
+                        showToast('success', response.msg);
                         table.draw();
-                        var successMessage = type === 'POST' ? 'Bin Type Added Successfully!' : 'Bin Type Updated Successfully!';
-                        var successTitle = type === 'POST' ? 'Created!' : 'Updated!';
-                        showSuccessMessage(successTitle, successMessage);
-                    } 
+                    }
                 },
                 error: function(xhr) {
                     handleAjaxError(xhr);
@@ -122,7 +120,7 @@
             });
         });
 
-        
+
         $('body').on('click', '.deletebtn', function() {
             var id = $(this).data('id');
             confirmDelete(id, function () {
@@ -140,12 +138,7 @@
                     _token: '{{ csrf_token() }}'
                 },
                 success: function (response) {
-                    if (response.status === "success") {
-                        table.draw(); // Assuming 'table' is defined for DataTables
-                        showSuccessMessage('Deleted!', 'Bin Type Deleted Successfully!');
-                    } else {
-                        showError('Deleted!', response.msg);
-                    }
+                    handleAjaxResponse(response, table);
                 },
                 error: function (xhr) {
                     console.error('Error:', xhr.statusText);

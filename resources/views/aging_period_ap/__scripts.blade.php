@@ -87,9 +87,7 @@ $(function() {
                 success: function(response) {
                     if (response.status == "success") {
                         $('#savedata').html(button);
-                        var successMessage = response.msg;
-                        var successTitle = response.status;
-                        showSuccessMessage(successTitle, successMessage);
+                        showToast('success', response.msg);
                     }
                 },
                 error: function(xhr) {

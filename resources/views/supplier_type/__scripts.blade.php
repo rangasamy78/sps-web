@@ -56,10 +56,8 @@
                     if (response.status === "success") {
                         $('#supplierTypeForm').trigger("reset");
                         $('#supplierTypeModel').modal('hide');
+                        showToast('success', response.msg);
                         table.draw();
-                        var successMessage = type === 'POST' ? 'Supplier Type Added Successfully!' : 'Supplier Type Updated Successfully!';
-                        var successTitle = type === 'POST' ? 'Created!' : 'Updated!';
-                        showSuccessMessage(successTitle, successMessage);
                     }
                 },
                 error: function (xhr) {
@@ -99,8 +97,7 @@
                 },
                 success: function (response) {
                     if (response.status === "success") {
-                        table.draw();
-                        showSuccessMessage('Deleted!', 'Supplier Type Deleted Successfully!');
+                        handleAjaxResponse(response, table);
                     } else {
                         showError('Deleted!', response.msg);
                     }

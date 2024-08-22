@@ -61,10 +61,8 @@
                     if (response.status == "success") {
                         $('#surveyQuestionForm').trigger("reset");
                         $('#surveyQuestionModel').modal('hide');
+                        showToast('success', response.msg);
                         table.draw();
-                        var successMessage = type === 'POST' ? 'Survey Question Added Successfully!' : 'Survey Question Updated Successfully!';
-                        var successTitle = type === 'POST' ? 'Created!' : 'Updated!';
-                        showSuccessMessage(successTitle, successMessage);
                     }
                 },
                 error: function (xhr) {
@@ -107,8 +105,7 @@
                 },
                 success: function (response) {
                     if (response.status === "success") {
-                        table.draw(); // Assuming 'table' is defined for DataTables
-                        showSuccessMessage('Deleted!', 'Survey Question Deleted Successfully!');
+                        handleAjaxResponse(response, table);
                     } else {
                         showError('Deleted!', response.msg);
                     }
@@ -151,7 +148,7 @@
             type: 'GET',
             data: {
                     id: id,
-                }, 
+                },
             contentType: 'application/json',
             headers: {
                 'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // Include CSRF token if needed

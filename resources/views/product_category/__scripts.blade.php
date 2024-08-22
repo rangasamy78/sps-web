@@ -60,7 +60,7 @@
         });
 
         $(document).on('click', '.add-subcategory-btn', function () {
-    
+
             var subcategoryRows = $('#subcategory-container .subcategory-row').length;
 
             if (subcategoryRows < 10) {
@@ -111,9 +111,7 @@
                         $('#productCategoryForm').trigger("reset");
                         $('#productCategoryModel').modal('hide');
                         table.draw();
-                        var successMessage = type === 'POST' ? 'Product Category Added Successfully!' : 'Product Category Updated Successfully!';
-                        var successTitle = type === 'POST' ? 'Created!' : 'Updated!';
-                        showSuccessMessage(successTitle, successMessage);
+                        showToast('success', response.msg);
                     }
                 },
                 error: function (xhr) {
@@ -213,12 +211,7 @@
                     _token: '{{ csrf_token() }}'
                 },
                 success: function (response) {
-                    if (response.status === "success") {
-                        table.draw(); 
-                        showSuccessMessage('Deleted!', 'Product Category Deleted Successfully!');
-                    } else {
-                        showError('Deleted!', response.msg);
-                    }
+                    handleAjaxResponse(response, table);
                 },
                 error: function (xhr) {
                     console.error('Error:', xhr.statusText);
@@ -272,7 +265,7 @@
         allInputs.forEach(function (inputElement) {
             var selectType = inputElement.value.trim();
             var errorMessageSpan = inputElement.parentElement.querySelector('.error-message');
-            
+
             if (selectType === "") {
                 if (errorMessageSpan) {
                     errorMessageSpan.style.display = 'none';

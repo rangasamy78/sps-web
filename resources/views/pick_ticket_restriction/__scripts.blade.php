@@ -7,7 +7,7 @@
             }
         });
         $(document).on('change', 'input[type="checkbox"], input[type="radio"]', function() {
-            
+
             var enable_pick_ticket_restriction    = ($('input[name="enable_pick_ticket_restriction"]:checked').val() == 1) ? 1 : 0;
             var default_pick_ticket_restriction   = $('input[name="default_pick_ticket_restriction"]:checked').val();
             var pick_ticket_restriction_required  = ($('input[name="pick_ticket_restriction_required"]:checked').val() == 1) ? 1 : 0;
@@ -28,9 +28,7 @@
                 dataType: 'json',
                 success: function(response) {
                     if (response.status == "success") {
-                        var successMessage = response.msg;
-                        var successTitle   = response.status;
-                        showSuccessMessage(successTitle, successMessage);
+                        showToast('success', response.msg);
                         $('#pick_ticket_restriction_id').val(response.lastId);
                     }
                 },

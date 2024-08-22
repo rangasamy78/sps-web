@@ -54,10 +54,8 @@
                     if (response.status == "success") {
                         $('#supplierReturnStatusForm').trigger("reset");
                         $('#supplierReturnStatusModel').modal('hide');
+                        showToast('success', response.msg);
                         table.draw();
-                        var successMessage = type === 'POST' ? 'Supplier Return Status Added Successfully!' : 'Supplier Return Status Updated Successfully!';
-                        var successTitle = type === 'POST' ? 'Created!' : 'Updated!';
-                        showSuccessMessage(successTitle, successMessage);
                     }
                 },
                 error: function (xhr) {
@@ -96,8 +94,7 @@
                 },
                 success: function (response) {
                     if (response.status === "success") {
-                        table.draw(); // Assuming 'table' is defined for DataTables
-                        showSuccessMessage('Deleted!', 'Supplier Return Status Deleted Successfully!');
+                        handleAjaxResponse(response, table);
                     } else {
                         showError('Deleted!', response.msg);
                     }

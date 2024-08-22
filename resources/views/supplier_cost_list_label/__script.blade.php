@@ -90,10 +90,8 @@
           if (response.status == "success") {
             $('#supplierCostListLabelForm').trigger("reset");
             $('#supplierCostListLabelModel').modal('hide');
+            showToast('success', response.msg);
             table.draw();
-            var successMessage = type === 'POST' ? 'Supplier Cost List Label Added Successfully!' : 'Supplier Cost List Label Updated Successfully!';
-            var successTitle = type === 'POST' ? 'Created!' : 'Updated!';
-            showSuccessMessage(successTitle, successMessage);
           }
         },
         error: function(xhr) {
@@ -138,8 +136,7 @@
         },
         success: function(response) {
           if (response.status === "success") {
-            table.draw(); // Assuming 'table' is defined for DataTables
-            showSuccessMessage('Deleted!', 'Supplier Cost List Label Deleted Successfully!');
+            handleAjaxResponse(response, table);
           } else {
             showError('Deleted!', response.msg);
           }

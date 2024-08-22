@@ -60,10 +60,8 @@
                     if (response.status === "success") {
                         $('#productTypeForm').trigger("reset");
                         $('#productTypeModel').modal('hide');
+                        showToast('success', response.msg);
                         table.draw();
-                        var successMessage = type === 'POST' ? 'Product Type Added Successfully!' : 'Product Type Updated Successfully!';
-                        var successTitle = type === 'POST' ? 'Created!' : 'Updated!';
-                        showSuccessMessage(successTitle, successMessage);
                     }
                 },
                 error: function (xhr) {
@@ -118,8 +116,7 @@
                 },
                 success: function (response) {
                     if (response.status === "success") {
-                        table.draw();
-                        showSuccessMessage('Deleted!', 'Product Type Deleted Successfully!');
+                        handleAjaxResponse(response, table);
                     } else {
                         showError('Deleted!', response.msg);
                     }

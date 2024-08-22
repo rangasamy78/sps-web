@@ -61,10 +61,8 @@
                     if (response.status == "success") {
                         $('#fileTypeForm').trigger("reset");
                         $('#fileTypeModel').modal('hide');
+                        showToast('success', response.msg);
                         table.draw();
-                        var successMessage = type === 'POST' ? 'File Type Added Successfully!' : 'File Type Updated Successfully!';
-                        var successTitle = type === 'POST' ? 'Created!' : 'Updated!';
-                        showSuccessMessage(successTitle, successMessage);
                     }
                 },
                 error: function (xhr) {
@@ -108,12 +106,7 @@
                     _token: '{{ csrf_token() }}'
                 },
                 success: function (response) {
-                    if (response.status === "success") {
-                        table.draw(); // Assuming 'table' is defined for DataTables
-                        showSuccessMessage('Deleted!', 'File Type Deleted Successfully!');
-                    } else {
-                        showError('Deleted!', response.msg);
-                    }
+                    handleAjaxResponse(response, table);
                 },
                 error: function (xhr) {
                     console.error('Error:', xhr.statusText);

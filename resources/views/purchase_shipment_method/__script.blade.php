@@ -91,10 +91,8 @@
                     if (response.status == "success") {
                         $('#purchaseShipmentMethodForm').trigger("reset");
                         $('#purchaseShipmentMethodModel').modal('hide');
+                        showToast('success', response.msg);
                         table.draw();
-                        var successMessage = type === 'POST' ? 'Purchase Shipment Method Added Successfully!' : 'Purchase Shipment Method Updated Successfully!';
-                        var successTitle = type === 'POST' ? 'Created!' : 'Updated!';
-                        showSuccessMessage(successTitle, successMessage);
                     }
                 },
                 error: function(xhr) {
@@ -139,8 +137,7 @@
                 },
                 success: function(response) {
                     if (response.status === "success") {
-                        table.draw(); // Assuming 'table' is defined for DataTables
-                        showSuccessMessage('Deleted!', 'Purchase Shipment Method Deleted Successfully!');
+                        handleAjaxResponse(response, table);
                     } else {
                         showError('Deleted!', response.msg);
                     }

@@ -98,10 +98,8 @@
                         if (response.status == "success") {
                             $('#paymentMethodForm').trigger("reset");
                             $('#paymentMethodModel').modal('hide');
+                            showToast('success', response.msg);
                             table.draw();
-                            var successMessage = type === 'POST' ? 'Payment Method Added Successfully!' : 'Payment Method Updated Successfully!';
-                            var successTitle = type === 'POST' ? 'Created!' : 'Updated!';
-                            showSuccessMessage(successTitle, successMessage);
                         }
                     },
                     error: function(xhr) {
@@ -147,12 +145,7 @@
                         _token: '{{ csrf_token() }}'
                     },
                     success: function(response) {
-                        if (response.status === "success") {
-                            table.draw(); // Assuming 'table' is defined for DataTables
-                            showSuccessMessage('Deleted!', 'Payment Method Deleted Successfully!');
-                        } else {
-                            showError('Deleted!', response.msg);
-                        }
+                        handleAjaxResponse(response, table);
                     },
                     error: function(xhr) {
                         showError('Oops!', 'Failed to fetch data.');
@@ -173,7 +166,7 @@
                     }
                 });
             });
-            
+
             setTimeout(() => {
                 $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right',
                     '20px');

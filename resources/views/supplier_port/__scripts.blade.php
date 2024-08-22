@@ -58,10 +58,8 @@
                     if (response.status === "success") {
                         $('#supplierPortForm').trigger("reset");
                         $('#supplierPortModel').modal('hide');
+                        showToast('success', response.msg);
                         table.draw();
-                        var successMessage = type === 'POST' ? 'Supplier Port Added Successfully!' : 'Supplier Port Updated Successfully!';
-                        var successTitle = type === 'POST' ? 'Created!' : 'Updated!';
-                        showSuccessMessage(successTitle, successMessage);
                     }
                 },
                 error: function (xhr) {
@@ -103,8 +101,7 @@
                 },
                 success: function (response) {
                     if (response.status === "success") {
-                        table.draw();
-                        showSuccessMessage('Deleted!', 'Supplier Port Deleted Successfully!');
+                        handleAjaxResponse(response, table);
                     } else {
                         showError('Deleted!', response.msg);
                     }

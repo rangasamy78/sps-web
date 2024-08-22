@@ -54,10 +54,8 @@
                     if (response.status == "success") {
                         $('#probabilityToCloseForm').trigger("reset");
                         $('#probabilityToCloseModel').modal('hide');
+                        showToast('success', response.msg);
                         table.draw();
-                        var successMessage = type === 'POST' ? 'Probability To Close Added Successfully!' : 'Probability To Close Updated Successfully!';
-                        var successTitle = type === 'POST' ? 'Created!' : 'Updated!';
-                        showSuccessMessage(successTitle, successMessage);
                     }
                 },
                 error: function (xhr) {
@@ -95,12 +93,7 @@
                     _token: '{{ csrf_token() }}'
                 },
                 success: function (response) {
-                    if (response.status === "success") {
-                        table.draw(); // Assuming 'table' is defined for DataTables
-                        showSuccessMessage('Deleted!', 'Probability To Close Deleted Successfully!');
-                    } else {
-                        showError('Deleted!', response.msg);
-                    }
+                    handleAjaxResponse(response, table);
                 },
                 error: function (xhr) {
                     console.error('Error:', xhr.statusText);

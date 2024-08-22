@@ -92,10 +92,8 @@
                     if (response.status == "success") {
                         $('#customerContactTitleForm').trigger("reset");
                         $('#customerContactTitleModel').modal('hide');
+                        showToast('success', response.msg);
                         table.draw();
-                        var successMessage = type === 'POST' ? 'Customer Contact Title Added Successfully!' : 'Customer Contact Title Updated Successfully!';
-                        var successTitle = type === 'POST' ? 'Created!' : 'Updated!';
-                        showSuccessMessage(successTitle, successMessage);
                     }
                 },
                 error: function(xhr) {
@@ -135,12 +133,7 @@
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(response) {
-                    if (response.status === "success") {
-                        table.draw(); // Assuming 'table' is defined for DataTables
-                        showSuccessMessage('Deleted!', 'Customer Contact Title Deleted Successfully!');
-                    } else {
-                        showError('Deleted!', response.msg);
-                    }
+                    handleAjaxResponse(response, table);
                 },
                 error: function(xhr) {
                     console.error('Error:', xhr.statusText);

@@ -108,26 +108,10 @@
                     if (response.status === "success") {
                         $('#designationForm').trigger("reset");
                         $('#designationModel').modal('hide');
+                        showToast('success', response.msg);
                         table.draw();
-                        Swal.fire({
-                            title: 'Created!',
-                            text: 'Designation Added Successfully!',
-                            icon: 'success',
-                            customClass: {
-                                confirmButton: 'btn btn-primary'
-                            },
-                            buttonsStyling: false
-                        });
                     } else {
-                        Swal.fire({
-                            title: 'Error!',
-                            text: response.msg,
-                            icon: response.status,
-                            customClass: {
-                                confirmButton: 'btn btn-danger'
-                            },
-                            buttonsStyling: false
-                        });
+                        showToast('error', response.msg);
                     }
                 },
                 error: function(response) {
@@ -175,25 +159,9 @@
                         $('#designationForm').trigger("reset");
                         $('#designationUpdateModel').modal('hide');
                         table.draw();
-                        Swal.fire({
-                            title: 'Updated!',
-                            text: 'Designation Updated Successfully!',
-                            type: 'success',
-                            customClass: {
-                                confirmButton: 'btn btn-primary'
-                            },
-                            buttonsStyling: false
-                        });
+                        showToast('success', response.msg);
                     } else {
-                        Swal.fire({
-                            title: 'Updated!',
-                            text: response.msg,
-                            type: response.status,
-                            customClass: {
-                                confirmButton: 'btn btn-danger'
-                            },
-                            buttonsStyling: false
-                        });
+                        showToast('error', response.msg);
                     }
                 },
                 error: function(xhr) {
@@ -240,12 +208,7 @@
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(response) {
-                    if (response.status === "success") {
-                        table.draw(); // Assuming 'table' is defined for DataTables
-                        showSuccessMessage('Deleted!', 'Designation Deleted Successfully!');
-                    } else {
-                        showError('Deleted!', response.msg);
-                    }
+                    handleAjaxResponse(response, table);
                 },
                 error: function(xhr) {
                     console.error('Error:', xhr.statusText);

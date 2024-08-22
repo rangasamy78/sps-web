@@ -26,7 +26,7 @@
             rowCallback: function(row, data, index) {
                 $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
             }
-        });       
+        });
 
         $('#createUnitMeasure').click(function () {
             resetForm();
@@ -36,7 +36,7 @@
             $('#modelHeading').html("Create New Unit of Measure");
             $('#unitMeasureModel').modal('show');
         });
-       
+
         $('#unitMeasureForm input').on('input', function () {
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');
@@ -60,10 +60,8 @@
                     if (response.status == "success") {
                         $('#unitMeasureForm').trigger("reset");
                         $('#unitMeasureModel').modal('hide');
+                        showToast('success', response.msg);
                         table.draw();
-                        var successMessage = type === 'POST' ? 'Unit Measure Added Successfully!' : 'Unit Measure Updated Successfully!';
-                        var successTitle = type === 'POST' ? 'Created!' : 'Updated!';
-                        showSuccessMessage(successTitle, successMessage);
                     }
                 },
                 error: function (xhr) {
@@ -76,7 +74,7 @@
         $('body').on('click', '.editbtn', function () {
             resetForm();
             var id = $(this).data('id');
-            $.get("{{ route('unit_measures.index') }}" + '/' + id + '/edit', function (data) {               
+            $.get("{{ route('unit_measures.index') }}" + '/' + id + '/edit', function (data) {
                 $('#modelHeading').html("Edit Unit of Measure");
                 $('#unitMeasureModel').modal('show');
                 $('#savedata').val("edit-unit-measure");
@@ -104,8 +102,7 @@
                 },
                 success: function (response) {
                     if (response.status === "success") {
-                        table.draw(); // Assuming 'table' is defined for DataTables
-                        showSuccessMessage('Deleted!', 'Unit Measure Deleted Successfully!');
+                        handleAjaxResponse(response, table);
                     } else {
                         showError('Deleted!', response.msg);
                     }
@@ -116,11 +113,11 @@
                 }
             });
         }
-       
+
         $('body').on('click', '.showbtn', function () {
             var id = $(this).data('id');
             $.get("{{ route('unit_measures.index') }}" + '/' + id, function (data) {
-                $('#showUnitMeasureModal').modal('show');   
+                $('#showUnitMeasureModal').modal('show');
                 $('#showUnitMeasureForm #unit_measure_entity').val(data.unit_measure_entity);
                 $('#showUnitMeasureForm #unit_measure_name').val(data.unit_measure_name);
             });
@@ -131,7 +128,7 @@
         $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
         $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');
     }, 300);
-    
+
     function resetForm() {
         $('.unit_measure_entity_error').html('');
         $('.unit_measure_name_error').html('');

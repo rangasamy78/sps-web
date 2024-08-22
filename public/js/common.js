@@ -121,3 +121,13 @@ function showToast(type, title) {
     });
 }
 
+function handleAjaxResponse(response, table = null) {
+    if (response.status === "success") {
+        showToast('success', response.msg);
+        if (table) {
+            table.draw();
+        }
+    } else {
+        showToast('error', response.msg);
+    }
+}

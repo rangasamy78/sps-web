@@ -33,11 +33,11 @@ class CalculateMeasurementLabelController extends Controller
     {
         try {
             $this->calculateMeasurementLabelRepository->store($request->only('label_name'));
-            return response()->json(['status' => 'success', 'msg' => 'Probability To Close saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Calculate measurement label saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error saving Probability To Close: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Probability To Close.']);
+            Log::error('Error saving Calculate measurement label: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Calculate measurement label.']);
         }
     }
 
@@ -76,11 +76,11 @@ class CalculateMeasurementLabelController extends Controller
     {
         try {
             $this->calculateMeasurementLabelRepository->update($request->only('label_name'), $calculateMeasurementLabel->id);
-            return response()->json(['status' => 'success', 'msg' => 'Probability To Close updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Calculate measurement label updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error updating Probability To Close: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Probability To Close.']);
+            Log::error('Error updating Calculate measurement label: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Calculate measurement label.']);
         }
     }
 
@@ -94,11 +94,11 @@ class CalculateMeasurementLabelController extends Controller
     {
         try {
             $this->calculateMeasurementLabelRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Probability To Close deleted successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Calculate measurement label deleted successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error deleting Probability To Close: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Probability To Close.']);
+            Log::error('Error deleting Calculate measurement label: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Calculate measurement label.']);
         }
     }
     public function getCalculateMeasurementLabelDataTableList(Request $request)
