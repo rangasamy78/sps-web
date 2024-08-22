@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 use Exception;
-use App\Models\ReceivingQcNote;
 use Illuminate\Http\Request;
+use App\Models\ReceivingQcNote;
 use Illuminate\Support\Facades\Log;
 use App\Repositories\ReceivingQcNoteRepository;
 use App\Http\Requests\ReceivingQcNote\{CreateReceivingQcNoteRequest, UpdateReceivingQcNoteRequest};
@@ -32,11 +32,11 @@ class ReceivingQcNoteController extends Controller
     {
         try {
             $this->receivingQcNoteRepository->store($request->only('code','notes'));
-            return response()->json(['status' => 'success', 'msg' => 'Receiving Qc Note saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Receiving qc note saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error saving Receiving Qc Note: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Receiving Qc Note.']);
+            Log::error('Error saving Receiving qc note: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Receiving qc note.']);
         }
     }
 
@@ -75,10 +75,10 @@ class ReceivingQcNoteController extends Controller
     {
         try {
             $this->receivingQcNoteRepository->update($request->only('code','notes'), $receivingQcNote->id);
-            return response()->json(['status' => 'success', 'msg' => 'Receiving Qc Note updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Receiving qc note updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error updating Receiving Qc Note: ' . $e->getMessage());
+            Log::error('Error updating Receiving qc note: ' . $e->getMessage());
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the department.']);
         }
     }
@@ -92,12 +92,17 @@ class ReceivingQcNoteController extends Controller
     public function destroy($id)
     {
         try {
-            $this->receivingQcNoteRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Receiving Qc Note deleted successfully.']);
+            $receivingQcNote = $this->receivingQcNoteRepository->findOrFail($id);
+            if ($receivingQcNote) {
+                $this->receivingQcNoteRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Receiving qc note deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Receiving qc note not found.']);
+            }
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error deleting Receiving Qc Note: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the department.']);
+            Log::error('Error deleting Receiving qc note: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Receiving qc note.']);
         }
     }
 

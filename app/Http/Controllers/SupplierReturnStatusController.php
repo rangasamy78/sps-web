@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 use Exception;
 use Illuminate\Http\Request;
-use App\Models\SupplierReturnStatus;
 use Illuminate\Support\Facades\Log;
+use App\Models\SupplierReturnStatus;
 use App\Repositories\SupplierReturnStatusRepository;
 use App\Http\Requests\SupplierReturnStatus\{CreateSupplierReturnStatusRequest, UpdateSupplierReturnStatusRequest};
 
@@ -32,7 +32,7 @@ class SupplierReturnStatusController extends Controller
     {
         try {
             $this->supplierReturnStatusRepository->store($request->only('return_code_name'));
-            return response()->json(['status' => 'success', 'msg' => 'Supplier Return Status saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Supplier return status saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error saving release reason code: ' . $e->getMessage());
@@ -65,11 +65,11 @@ class SupplierReturnStatusController extends Controller
     {
         try {
             $this->supplierReturnStatusRepository->update($request->only('return_code_name'), $supplierReturnStatus->id); // Use validated data
-            return response()->json(['status' => 'success', 'msg' => 'Supplier Return Status Updated Successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Supplier return status Updated Successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error updating Supplier Return Status: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Supplier Return Status.']);
+            Log::error('Error updating Supplier return status: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Supplier return status.']);
         }
     }
 
@@ -79,12 +79,17 @@ class SupplierReturnStatusController extends Controller
     public function destroy($id)
     {
         try {
-            $this->supplierReturnStatusRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Supplier Return Status deleted successfully.']);
+            $supplierReturnStatus = $this->supplierReturnStatusRepository->findOrFail($id);
+            if ($supplierReturnStatus) {
+                $this->supplierReturnStatusRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Supplier return status deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Supplier return status not found.']);
+            }
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error deleting Supplier Return Status: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Supplier Return Status.']);
+            Log::error('Error deleting Supplier return status: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Supplier return status.']);
         }
     }
 

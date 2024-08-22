@@ -32,10 +32,10 @@ class SelectTypeSubCategoryController extends Controller
     {
         try {
             $this->selectTypeSubCategoryRepository->store($request->all());
-            return response()->json(['status' => 'success', 'msg' => 'Select Type Sub category saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Select type sub category saved successfully.']);
         } catch (Exception $e) {
-            Log::error('Error saving Select Type Sub category: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Select Type Sub category.']);
+            Log::error('Error saving Select type sub category: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Select type sub category.']);
         }
     }
 
@@ -74,10 +74,10 @@ class SelectTypeSubCategoryController extends Controller
     {
         try {
             $this->selectTypeSubCategoryRepository->update($request->all(), $id);
-            return response()->json(['status' => 'success', 'msg' => 'Select Type Sub category updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Select type sub category updated successfully.']);
         } catch (Exception $e) {
-            Log::error('Error updating Select Type Sub category: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Select Type Sub category.']);
+            Log::error('Error updating Select type sub category: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Select type sub category.']);
         }
     }
     /**
@@ -87,16 +87,21 @@ class SelectTypeSubCategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    
+
     public function destroy($id)
     {
         try {
-            $response = $this->selectTypeSubCategoryRepository->delete($id);
-            $data = $response->getData();
-            if ($data->status == 'success') {
-                return response()->json(['status' => $data->status, 'msg' => $data->msg]);
-            } else if ($data->status == 'error') {
-                return response()->json(['status' => $data->status, 'msg' => $data->msg]);
+            $selectTypeSubCategory = $this->selectTypeSubCategoryRepository->findOrFail($id);
+            if ($selectTypeSubCategory) {
+                $response = $this->selectTypeSubCategoryRepository->delete($id);
+                $data = $response->getData();
+                if ($data->status == 'success') {
+                    return response()->json(['status' => $data->status, 'msg' => $data->msg]);
+                } else if ($data->status == 'error') {
+                    return response()->json(['status' => $data->status, 'msg' => $data->msg]);
+                }
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Select type sub category not found.']);
             }
         } catch (Exception $e) {
             Log::error('Error deleting select type category: ' . $e->getMessage());
@@ -104,7 +109,7 @@ class SelectTypeSubCategoryController extends Controller
         }
         return $response;
     }
-    
+
     public function getSelectTypeSubCategoryDataTableList(Request $request)
     {
         return $this->selectTypeSubCategoryRepository->dataTable($request);

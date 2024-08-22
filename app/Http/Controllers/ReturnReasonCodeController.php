@@ -32,11 +32,11 @@ class ReturnReasonCodeController extends Controller
     {
         try {
             $this->returnReasonCodeRepository->store($request->only('return_code'));
-            return response()->json(['status' => 'success', 'msg' => 'Return Reason Code saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Return reason code saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error saving Return Reason Code: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Return Reason Code.']);
+            Log::error('Error saving Return reason code: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Return reason code.']);
         }
     }
 
@@ -65,11 +65,11 @@ class ReturnReasonCodeController extends Controller
     {
         try {
             $this->returnReasonCodeRepository->update($request->only('return_code'), $returnReasonCode->id); // Use validated data
-            return response()->json(['status' => 'success', 'msg' => 'Return Reason Code Updated Successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Return reason code Updated Successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error updating Return Reason Code: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Return Reason Code.']);
+            Log::error('Error updating Return reason code: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Return reason code.']);
         }
     }
 
@@ -79,12 +79,17 @@ class ReturnReasonCodeController extends Controller
     public function destroy($id)
     {
         try {
-            $this->returnReasonCodeRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Return Reason Code deleted successfully.']);
+            $returnReasonCode = $this->returnReasonCodeRepository->findOrFail($id);
+            if ($returnReasonCode) {
+                $this->returnReasonCodeRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Return reason code deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Return reason code not found.']);
+            }
         } catch (Exception $e) {
             // Log the exception for debugging purposes
-            Log::error('Error deleting Return Reason Code: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Return Reason Code.']);
+            Log::error('Error deleting Return reason code: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Return reason code.']);
         }
     }
 

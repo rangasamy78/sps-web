@@ -32,10 +32,10 @@ class SelectTypeCategoryController extends Controller
     {
         try {
             $this->selectTypeCategoryRepository->store($request->only('select_type_category_name'));
-            return response()->json(['status' => 'success', 'msg' => 'Select type category Name saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Select type category saved successfully.']);
         } catch (Exception $e) {
-            Log::error('Error saving Select type category Name : ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Select type category Name .']);
+            Log::error('Error saving Select type category : ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Select type category .']);
         }
     }
 
@@ -74,10 +74,10 @@ class SelectTypeCategoryController extends Controller
     {
         try {
             $this->selectTypeCategoryRepository->update($request->only('select_type_category_name'), $selectTypeCategory->id);
-            return response()->json(['status' => 'success', 'msg' => 'Select type category Name updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Select type category updated successfully.']);
         } catch (Exception $e) {
-            Log::error('Error updating Select type category Name : ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Select type category Name .']);
+            Log::error('Error updating Select type category : ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Select type category .']);
         }
     }
 
@@ -90,15 +90,20 @@ class SelectTypeCategoryController extends Controller
     public function destroy($id)
     {
         try {
-            $response = $this->selectTypeCategoryRepository->delete($id);
-            $data = $response->getData();
-            if ($data->status == 'success') {
-                return response()->json(['status' => $data->status, 'msg' => $data->msg]);
-            } else if ($data->status == 'error') {
-                return response()->json(['status' => $data->status, 'msg' => $data->msg]);
+            $selectType = $this->selectTypeCategoryRepository->findOrFail($id);
+            if ($selectType) {
+                $response = $this->selectTypeCategoryRepository->delete($id);
+                $data = $response->getData();
+                if ($data->status == 'success') {
+                    return response()->json(['status' => $data->status, 'msg' => $data->msg]);
+                } else if ($data->status == 'error') {
+                    return response()->json(['status' => $data->status, 'msg' => $data->msg]);
+                }
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Select type category not found.']);
             }
         } catch (Exception $e) {
-            Log::error('Error deleting Select type category Name : ' . $e->getMessage());
+            Log::error('Error deleting Select type category : ' . $e->getMessage());
             return response()->json(['status' => $data->status, 'msg' => $data->msg], 500);
         }
         return $response;

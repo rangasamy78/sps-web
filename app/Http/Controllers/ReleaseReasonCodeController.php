@@ -32,7 +32,7 @@ class ReleaseReasonCodeController extends Controller
     {
         try {
             $this->releaseReasonCodeRepository->store($request->only('release_reason_code'));
-            return response()->json(['status' => 'success', 'msg' => 'Release Reason Code saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Release reason code saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error saving release reason code: ' . $e->getMessage());
@@ -65,11 +65,11 @@ class ReleaseReasonCodeController extends Controller
     {
         try {
             $this->releaseReasonCodeRepository->update($request->only('release_reason_code'), $releaseReasonCode->id); // Use validated data
-            return response()->json(['status' => 'success', 'msg' => 'Release Reason Code Updated Successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Release reason code Updated Successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error updating release reason code: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Release Reason Code.']);
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the Release reason code.']);
         }
     }
 
@@ -79,12 +79,17 @@ class ReleaseReasonCodeController extends Controller
     public function destroy($id)
     {
         try {
-            $this->releaseReasonCodeRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Release Reason Code deleted successfully.']);
+            $releaseReasonCode = $this->releaseReasonCodeRepository->findOrFail($id);
+            if ($releaseReasonCode) {
+                $this->releaseReasonCodeRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Release reason code deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Release reason code not found.']);
+            }
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error deleting release reason code: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Release Reason Code.']);
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Release reason code.']);
         }
     }
 

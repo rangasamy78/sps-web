@@ -33,7 +33,7 @@ class SubHeadingController extends Controller
     {
         try {
             $this->subHeadingRepository->store($request->only('sub_heading_name'));
-            return response()->json(['status' => 'success', 'msg' => 'Sub Heading saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Sub heading saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error saving sub heading: ' . $e->getMessage());
@@ -66,7 +66,7 @@ class SubHeadingController extends Controller
     {
         try {
             $this->subHeadingRepository->update($request->only('sub_heading_name'), $subHeading->id); // Use validated data
-            return response()->json(['status' => 'success', 'msg' => 'Sub Heading updated successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Sub heading updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error updating sub heading: ' . $e->getMessage());
@@ -80,8 +80,13 @@ class SubHeadingController extends Controller
     public function destroy($id)
     {
         try {
-            $this->subHeadingRepository->delete($id);
-            return response()->json(['status' => 'success', 'msg' => 'Sub Heading deleted successfully.']);
+            $subHeading = $this->subHeadingRepository->findOrFail($id);
+            if ($subHeading) {
+                $this->subHeadingRepository->delete($id);
+                return response()->json(['status' => 'success', 'msg' => 'Sub heading deleted successfully.']);
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Sub heading not found.']);
+            }
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error deleting sub heading: ' . $e->getMessage());
