@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
+use App\Exports\FileTypeTemplateExport;
+use App\Http\Requests\FileType\CreateFileTypeRequest;
+use App\Http\Requests\FileType\ImportFileTypeRequest;
+use App\Http\Requests\FileType\UpdateFileTypeRequest;
+use App\Imports\FileTypesImport;
 use App\Models\FileType;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use App\Repositories\FileTypeRepository;
-use App\Http\Requests\FileType\{CreateFileTypeRequest, UpdateFileTypeRequest};
-
+use Exception;
+use Illuminate\Http\Request;use Illuminate\Support\Facades\Log;use Maatwebsite\Excel\Facades\Excel;
 
 class FileTypeController extends Controller
 {
@@ -37,11 +39,9 @@ class FileTypeController extends Controller
             $this->fileTypeRepository->store($request->all());
             return response()->json(['status' => 'success', 'msg' => 'File Type saved successfully.']);
         } catch (Exception $e) {
-            // Log the exception for debugging purposes
             Log::error('Error saving fileTypes: ' . $e->getMessage());
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the filetypes.']);
         }
-        
 
     }
 
@@ -79,18 +79,14 @@ class FileTypeController extends Controller
     public function update(UpdateFileTypeRequest $request, FileType $file_type)
     {
         try {
-           
-            $this->fileTypeRepository->update($request->all(),$file_type->id);
+            $this->fileTypeRepository->update($request->all(), $file_type->id);
             return response()->json(['status' => 'success', 'msg' => 'File Type updated successfully.']);
         } catch (Exception $e) {
-            // Log the exception for debugging purposes
             Log::error('Error updating File Type: ' . $e->getMessage());
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the File Type.']);
         }
 
-
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -103,7 +99,6 @@ class FileTypeController extends Controller
             $this->fileTypeRepository->delete($id);
             return response()->json(['status' => 'success', 'msg' => 'File Type deleted successfully.']);
         } catch (Exception $e) {
-            // Log the exception for debugging purposes
             Log::error('Error deleting File Type: ' . $e->getMessage());
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the File Type.']);
         }
@@ -114,11 +109,28 @@ class FileTypeController extends Controller
         return $this->fileTypeRepository->dataTable($request);
     }
 
+    public function importFileTypes(ImportFileTypeRequest $request)
+    {
+        try {
+            $file   = $request->file('file');
+            $import = new FileTypesImport();
+            Excel::import($import, $file);
+
+            if (!empty($import->errors)) {
+                return response()->json([
+                    'status' => 'warning',
+                    'msg'    => 'File processed with some issues',
+                    'errors' => $import->errors,
+                ], 200);
+            }
+
+            return response()->json(['status' => 'success', 'msg' => 'File uploaded and processed successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'msg' => 'An error occurred during the file upload. ' . $e->getMessage()], 500);
+        }
+    }
+    public function fileTypeTemplateDownload()
+    {
+        return Excel::download(new FileTypeTemplateExport, 'File_type_template.xlsx');
+    }
 }
-
-
-
-
-
-
-

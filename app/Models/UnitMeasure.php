@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class UnitMeasure extends Model
@@ -22,10 +21,10 @@ class UnitMeasure extends Model
     ];
      
     protected static  $predefinedUnitMeasureOptions = [
-        0 => 'Area', 
-        1 => 'Count', 
-        2 => 'Length', 
-        3 => 'Weight',
+        1 => 'Area', 
+        2 => 'Count', 
+        3 => 'Length', 
+        4 => 'Weight',
     ];
 
     public static function getPredefinedUnitMeasureOptions()
@@ -36,13 +35,13 @@ class UnitMeasure extends Model
     public static function getUnitMeasureOptions($id)
     {
         switch ($id) {
-            case 0:
-                return 'Area';
             case 1:
-                return 'Count';
+                return 'Area';
             case 2:
-                return 'Length';
+                return 'Count';
             case 3:
+                return 'Length';
+            case 4:
                 return 'Weight';   
         }
     }

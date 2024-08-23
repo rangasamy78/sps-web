@@ -18,11 +18,12 @@
                         <span class="text-danger error-text name_error"></span>
                     </div>
                     <div class="form-group mt-3">
-                        <label class="col-sm-2 control-label">Code</label>
+                        <label class="col-sm-2 control-label">Code <sup style="color: red;font-size:1rem;"><b>*</b></sup></label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="code" name="code"
                                 placeholder="Enter code" value="">
                         </div>
+                        <span class="text-danger error-text code_error"></span>
                     </div>
                 </form>
             </div>
@@ -33,7 +34,6 @@
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="showStatemodal" tabindex="-1" aria-labelledby="show-state-modal-label" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -47,15 +47,14 @@
                         <label for="name" class="col-sm-2 control-label">Name</label>
                         <div class="col-sm-12">
                             <input type="text" disabled class="form-control" id="name" name="name"
-                                placeholder="Enter Name" value="">
+                                placeholder="" value="">
                         </div>
-                        <span class="text-danger error-text name_error"></span>
                     </div>
                     <div class="form-group mt-3">
                         <label class="col-sm-2 control-label">Code</label>
                         <div class="col-sm-12">
                             <input type="text" disabled class="form-control" id="code" name="code"
-                                placeholder="Enter code" value="">
+                                placeholder="" value="">
                         </div>
                     </div>
                 </form>

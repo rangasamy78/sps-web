@@ -60,12 +60,10 @@
         }
       }],
     });
-
     $('#taxExemptReasonForm input').on('input', function() {
       let fieldName = $(this).attr('name');
       $('.' + fieldName + '_error').text('');
     });
-
     $('#savedata').click(function(e) {
       e.preventDefault();
       $(this).html('Sending..');
@@ -105,7 +103,6 @@
         $('#reason').val(data.reason);
       });
     });
-
 
     $('body').on('click', '.deletebtn', function() {
       var id = $(this).data('id');

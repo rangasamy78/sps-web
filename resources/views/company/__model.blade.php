@@ -266,13 +266,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="company_name" class="control-label">Company Name</label>
-                                <input type="text" disabled class="form-control" id="company_name" name="company_name" placeholder="Enter Company Name" value="">
+                                <input type="text" disabled class="form-control" id="company_name" name="company_name" placeholder="" value="">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="email" class="control-label">Email</label>
-                                <input type="email" disabled class="form-control" id="email" name="email" placeholder="Enter Email" value="">
+                                <input type="email" disabled class="form-control" id="email" name="email" placeholder="" value="">
                             </div>
                         </div>
                     </div>
@@ -281,13 +281,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="address_line_1" class="control-label">Address Line 1</label>
-                                <textarea disabled class="form-control" id="address_line_1" name="address_line_1" placeholder="Enter Address Line 1"></textarea>
+                                <textarea disabled class="form-control" id="address_line_1" name="address_line_1" placeholder=""></textarea>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="address_line_2" class="control-label">Address Line 2</label>
-                                <textarea disabled class="form-control" id="address_line_2" name="address_line_2" placeholder="Enter Address Line 2"></textarea>
+                                <textarea disabled class="form-control" id="address_line_2" name="address_line_2" placeholder=""></textarea>
                             </div>
                         </div>
                     </div>
@@ -296,19 +296,19 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="city" class="control-label">City</label>
-                                <input type="text" disabled class="form-control" id="city" name="city" placeholder="Enter City" value="">
+                                <input type="text" disabled class="form-control" id="city" name="city" placeholder="" value="">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="state" class="control-label">State</label>
-                                <input type="text" disabled class="form-control" id="state" name="state" placeholder="Enter State" value="">
+                                <input type="text" disabled class="form-control" id="state" name="state" placeholder="" value="">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="zip" class="control-label">ZIP Code</label>
-                                <input type="text" disabled class="form-control" id="zip" name="zip" placeholder="Enter ZIP Code" value="">
+                                <input type="text" disabled class="form-control" id="zip" name="zip" placeholder="" value="">
                             </div>
                         </div>
                     </div>
@@ -317,13 +317,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="phone_1" class="control-label">Phone 1</label>
-                                <input type="text" disabled class="form-control" id="phone_1" name="phone_1" placeholder="Enter Phone 1" value="">
+                                <input type="text" disabled class="form-control" id="phone_1" name="phone_1" placeholder="" value="">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="phone_2" class="control-label">Phone 2</label>
-                                <input type="text" disabled class="form-control" id="phone_2" name="phone_2" placeholder="Enter Phone 2" value="">
+                                <input type="text" disabled class="form-control" id="phone_2" name="phone_2" placeholder="" value="">
                             </div>
                         </div>
                     </div>
@@ -332,7 +332,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="website" class="control-label">Website</label>
-                                <input type="text" disabled class="form-control" id="website" name="website" placeholder="Enter Website URL" value="">
+                                <input type="text" disabled class="form-control" id="website" name="website" placeholder="" value="">
                             </div>
                         </div>
                         <div class="col-md-6">

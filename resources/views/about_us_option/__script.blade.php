@@ -1,12 +1,10 @@
 <script type="text/javascript">
     $(function() {
-
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-
         var table = $('#aboutUsOptionTable').DataTable({
             responsive: true,
             processing: true,
@@ -38,7 +36,6 @@
                         'id': 'createBin',
                     },
                     action: function(e, dt, node, config) {
-                        // Custom action for Add New Record button
                         $('#savedata').html("Save How did you hear Option");
                         $('#how_did_you_hear_option_id').val('');
                         $('#aboutUsOptionForm').trigger("reset");
@@ -48,7 +45,6 @@
                     }
                 }
             ],
-
 
         });
 
@@ -108,7 +104,7 @@
                 deleteAboutUsOption(id);
             });
         });
-        
+
         function deleteAboutUsOption(id) {
             var url = "{{ route('about_us_options.destroy', ':id') }}".replace(':id', id);
             $.ajax({
@@ -120,7 +116,7 @@
                 },
                 success: function (response) {
                     if (response.status === "success") {
-                        table.draw(); // Assuming 'table' is defined for DataTables
+                        table.draw();
                         showSuccessMessage('Deleted!', 'How did you hear Option Deleted Successfully!');
                     } else {
                         showError('Deleted!', response.msg);

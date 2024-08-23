@@ -66,7 +66,7 @@
                 },
                 dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
                 buttons: [{
-                    text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add New Record</span>',
+                    text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add New Linked Account</span>',
                     className: 'create-new btn btn-primary',
                     attr: {
                         'data-bs-toggle': 'modal',
@@ -124,8 +124,6 @@
                     }
                 });
             });
-
-
             $('body').on('click', '.editbtn', function() {
                 clearError();
                 var id = $(this).data('id');
@@ -141,14 +139,12 @@
                     $('#account_sub_type').val(data.account_sub_type);
                 });
             });
-
             $('body').on('click', '.deletebtn', function() {
                 var id = $(this).data('id');
                 confirmDelete(id, function() {
                     deleteLinkedAccount(id);
                 });
             });
-
             function deleteLinkedAccount(id) {
                 var url = "{{ route('linked_accounts.destroy', ':id') }}".replace(':id', id);
                 $.ajax({
@@ -160,7 +156,7 @@
                     },
                     success: function(response) {
                         if (response.status === "success") {
-                            table.draw(); // Assuming 'table' is defined for DataTables
+                            table.draw(); 
                             showSuccessMessage('Deleted!', 'Linked Account Deleted Successfully!');
                         } else {
                             showError('Deleted!', response.msg);

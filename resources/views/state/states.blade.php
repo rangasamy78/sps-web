@@ -4,6 +4,7 @@
 
 @section('styles')
 @endsection
+
 @section('content')
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
@@ -20,12 +21,22 @@
                         <div class="dt-action-buttons text-end pt-3 pt-md-0">
                             <div class="dt-buttons btn-group flex-wrap">
                                 <button class="btn btn-secondary create-new btn-primary" type="button"
-                                    id="createState"><span><i class="bx bx-plus me-1"></i> <span
-                                            class="d-none d-lg-inline-block">Create State</span></span></button>
+                                    id="createState"><span><i class="bx bx-plus me-1"></i></span> <span
+                                            class="d-none d-lg-inline-block">Create State</span></button>
                             </div>
+                            <div class="dt-buttons btn-group flex-wrap">
+                                <button class="btn btn-secondary create-new btn-primary" type="button"
+                                    id="importState"><span><i class="bx bx-plus me-1"></i></span> <span
+                                    class="d-none d-lg-inline-block">Import State</span></button>
+
+                            </div>
+                            <button class="btn btn-secondary create-new btn-primary btn-sm" type="button" id="downloadState" title="State Template" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="top" data-bs-custom-class="tooltip-dark" title="State Template">
+                                <span><i class="bx bx-download bx-sm"></i></span>
+                            </button>
                         </div>
                     </div>
-                    <table class="table table-bordered data-table  table-striped" id="datatable" style="width: 100%">
+
+                    <table class="table table-bordered data-table table-striped" id="datatable" style="width: 100%">
                         <thead>
                             <tr>
                                 <th>S.No</th>
@@ -41,10 +52,11 @@
             </div>
         </div>
         <!--/ Ajax Sourced Server-side -->
+
         <!--/ Responsive Datatable -->
         @include('state.__model')
+        @include('state.__import')
     </div>
-
     <!-- / Content -->
 @endsection
 

@@ -22,6 +22,15 @@
                                 id="createFileType"><span><i class="bx bx-plus me-1"></i> <span
                                         class="d-none d-lg-inline-block">Create File Types</span></span></button>
                         </div>
+                        <div class="dt-buttons btn-group flex-wrap">
+                                <button class="btn btn-secondary create-new btn-primary" type="button"
+                                    id="importFileType"><span><i class="bx bx-plus me-1"></i> <span
+                                    class="d-none d-lg-inline-block">Import File Types</span></span>
+                                </button>
+                        </div>
+                        <button class="btn btn-secondary create-new btn-primary btn-sm" type="button" id="downloadFileType" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="top" data-bs-custom-class="tooltip-dark" title="File Type Template">
+                                <span><i class="bx bx-download bx-sm" ></i></span>
+                        </button>
                     </div>
                 </div>
                 <table class="table table-bordered data-table  table-striped" id="datatable" style="width: 100%">
@@ -42,6 +51,7 @@
     <!--/ Ajax Sourced Server-side -->
     <!--/ Responsive Datatable -->
     @include('file_type.__model')
+    @include('file_type.__import')
 </div>
 
 <!-- / Content -->

@@ -40,8 +40,6 @@
         </div>
     </div>
 </div>
-
-
 <div class="modal fade" id="showCountrymodal" tabindex="-1" aria-labelledby="show-country-modal-label"
     aria-hidden="true">
     <div class="modal-dialog">
@@ -56,21 +54,21 @@
                         <label for="country_name" class="col-sm-6 control-label">Country Name</label>
                         <div class="col-sm-12">
                             <input type="text" disabled class="form-control" id="country_name" name="country_name"
-                                placeholder="Enter Country Name" value="">
+                                placeholder="" value="">
                         </div>
                     </div>
                     <div class="form-group mt-3">
                         <label for="country_code" class="col-sm-6 control-label">Country Code</label>
                         <div class="col-sm-12">
                             <input type="text" disabled class="form-control" id="country_code" name="country_code"
-                                placeholder="Enter Country Code" value="">
+                                placeholder="" value="">
                         </div>
                     </div>
                     <div class="form-group mt-3">
                         <label for="lead_time" class="col-sm-6 control-label">Lead Time</label>
                         <div class="col-sm-12">
                             <input type="text" disabled class="form-control" id="lead_time" name="lead_time"
-                                placeholder="Enter Lead time" value="">
+                                placeholder="" value="">
                         </div>
                     </div>
                 </form>

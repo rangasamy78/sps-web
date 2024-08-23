@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('view_in');
             $table->string('file_type');
-            $table->integer('file_type_opportunity');
-            $table->integer('file_type_quote');
-            $table->integer('file_type_saleorder');
-            $table->integer('file_type_invoice');
+            $table->unsignedInteger('file_type_opportunity')->nullable();
+            $table->unsignedInteger('file_type_quote')->nullable();
+            $table->unsignedInteger('file_type_saleorder')->nullable();
+            $table->unsignedInteger('file_type_invoice')->nullable();
             $table->timestamps();
         });
     }

@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class FileType extends Model
 {
@@ -25,10 +25,14 @@ class FileType extends Model
         
     ];
 
+    protected static $predefinedViewInOptions = [
+        1 => 'Item',
+        2 => 'Party',
+        3 => 'Transaction'
+    ];
+
     public static function predefinedViewInOptions()
     {
-        return ['Item', 'Party', 'Transaction'];
+        return self::$predefinedViewInOptions;
     }
-
-    
 }

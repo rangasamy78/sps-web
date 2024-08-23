@@ -5,14 +5,23 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        
+        $('#selectTypeCategoryNameFilter, #selectTypeSubCategoryNameFilter').on('keyup change', function(e) {
+            e.preventDefault();
+            table.draw();
+        });
+
         var table = $('#datatable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
+            searching: false,
             order: [[0, 'desc']],
             ajax: {
                 url: "{{ route('select_type_sub_categories.list') }}",
                 data: function (d) {
+                    d.select_type_category_name_search = $('#selectTypeCategoryNameFilter').val();
+                    d.select_type_sub_category_search = $('#selectTypeSubCategoryNameFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{ column: 0, dir: sort }];
                 }
@@ -169,26 +178,26 @@
                         </button>`;
                         }
 
-                            var subcategoryRow = `
-                                <div class="row subcategory-row">
-                                    <div class="col-sm-4">
-                                        <label for="select_type">Select Type Sub Category Name</label>
-                                    </div><br><br>
-                                    <div class="col-sm-7">
-                                        <input type="text" name="select_type_sub_categories[][select_type_sub_category_name]" class="form-control"
-                                            placeholder="Enter  Select Type Sub Category Name" aria-label="Subcategory" value="${subcategory.select_type_sub_category_name ? subcategory.select_type_sub_category_name : ''}" />
-                                        <span class="error-message" style="color: #ff3e1d; display: none;">Duplicate subcategory name found.</span>
-                                    </div>
-                                    <div class="col-sm-1">
-                                        ${buttonHtml}
-                                    </div>
-                                </div>`;
-                        $('#subcategory-container').append(subcategoryRow);
+                        var subcategoryRow = `
+                            <div class="row subcategory-row">
+                                <div class="col-sm-4">
+                                    <label for="select_type">Select Type Sub Category Name</label>
+                                </div><br><br>
+                                <div class="col-sm-7">
+                                    <input type="text" name="select_type_sub_categories[][select_type_sub_category_name]" class="form-control"
+                                        placeholder="Enter  Select Type Sub Category Name" aria-label="Subcategory" value="${subcategory.select_type_sub_category_name ? subcategory.select_type_sub_category_name : ''}" />
+                                    <span class="error-message" style="color: #ff3e1d; display: none;">Duplicate subcategory name found.</span>
+                                </div>
+                                <div class="col-sm-1">
+                                    ${buttonHtml}
+                                </div>
+                            </div>`;
+                    $('#subcategory-container').append(subcategoryRow);
                     });
                 }
             });
         });
-         
+
         $('#subcategory-container').on('input', 'input[name="select_type_sub_categories[][select_type_sub_category_name]"]', function () {
             $(this).siblings('.error-message').hide();
         });
@@ -228,7 +237,6 @@
                 }
             });
         }
-
         $('body').on('click', '.showbtn', function () {
             var id = $(this).data('id');
             $.get("{{ route('select_type_sub_categories.index') }}" + '/' + id, function (data) {
@@ -255,7 +263,6 @@
                 });
             });
         });
-
         setTimeout(() => {
             $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
             $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');
@@ -264,5 +271,5 @@
         $(document).on('click', '.remove-subcategory-btn', function () {
             $(this).closest('.subcategory-row').remove();
         });
-    });  
+    });
 </script>

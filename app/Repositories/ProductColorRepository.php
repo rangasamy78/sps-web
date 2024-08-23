@@ -55,8 +55,8 @@ class ProductColorRepository implements CrudRepositoryInterface, DatatableReposi
         $columnSortOrder = $orderArray[0]['dir'];
         $searchValue = $searchArray['value'];
 
-        $states = $this->getProductColorList();
-        $total = $states->count();
+        $product_color = $this->getProductColorList();
+        $total = $product_color->count();
 
         $totalFilter = $this->getProductColorList();
         if (!empty($searchValue)) {

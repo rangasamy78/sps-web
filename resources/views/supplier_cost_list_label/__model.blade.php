@@ -38,8 +38,6 @@
         </div>
     </div>
 </div>
-
-
 <div class="modal fade" id="showSupplierCostListLabelModal" tabindex="-1" aria-labelledby="showSupplierCostListLabelModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

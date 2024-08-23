@@ -6,7 +6,6 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-
         var table = $('#binTypeTable').DataTable({
             responsive: true,
             processing: true,
@@ -65,8 +64,6 @@
                     }
                 }
             ],
-
-
         });
 
         setTimeout(() => {
@@ -99,7 +96,7 @@
                         var successMessage = type === 'POST' ? 'Bin Type Added Successfully!' : 'Bin Type Updated Successfully!';
                         var successTitle = type === 'POST' ? 'Created!' : 'Updated!';
                         showSuccessMessage(successTitle, successMessage);
-                    } 
+                    }
                 },
                 error: function(xhr) {
                     handleAjaxError(xhr);
@@ -107,8 +104,6 @@
                 }
             });
         });
-
-
         $('body').on('click', '.editbtn', function() {
             var id = $(this).data('id');
             $(".bin_type_error").html("");
@@ -121,15 +116,12 @@
                 $('#bin_type').val(data.bin_type);
             });
         });
-
-        
         $('body').on('click', '.deletebtn', function() {
             var id = $(this).data('id');
             confirmDelete(id, function () {
                 deleteBinType(id);
             });
         });
-
         function deleteBinType(id) {
             var url = "{{ route('bin_types.destroy', ':id') }}".replace(':id', id);
             $.ajax({
@@ -141,7 +133,7 @@
                 },
                 success: function (response) {
                     if (response.status === "success") {
-                        table.draw(); // Assuming 'table' is defined for DataTables
+                        table.draw();
                         showSuccessMessage('Deleted!', 'Bin Type Deleted Successfully!');
                     } else {
                         showError('Deleted!', response.msg);

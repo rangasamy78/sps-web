@@ -49,7 +49,7 @@
                 }
             ],
             rowCallback: function(row, data, index) {
-                $('td:eq(0)', row).html(table.page.info().start + index + 1); 
+                $('td:eq(0)', row).html(table.page.info().start + index + 1);
             },
             dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
             buttons: [{

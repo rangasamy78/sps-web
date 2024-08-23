@@ -25,7 +25,7 @@
                         </div>
                     </div>
                 </div>
-                <table class="table table-bordered data-table  table-striped" id="datatable" style="width: 100%">
+                <table class="datatables-basic table tables-basic border-top table-striped" id="datatable" style="width: 100%">
                     <thead>
                         <tr>
                             <th><b>S.No</b></th>
@@ -39,14 +39,12 @@
             </div>
         </div>
     </div>
-    <!--/ Ajax Sourced Server-side -->
-    <!--/ Responsive Datatable -->
+
     @include('calculate_measurement_label.__model')
 </div>
 
 <!-- / Content -->
 @endsection
-
 @section('scripts')
 @include('calculate_measurement_label.__scripts')
 

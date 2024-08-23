@@ -28,7 +28,6 @@
                 $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
             }
         });
-
         $('#createSurveyQuestion').click(function () {
             resetForm();
             $('#savedata').html("Save Survey Question");
@@ -37,7 +36,6 @@
             $('#modelHeading').html("Create New Survey Question");
             $('#surveyQuestionModel').modal('show');
         });
-
         $('#surveyQuestionForm input').on('input', function () {
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');
@@ -151,7 +149,7 @@
             type: 'GET',
             data: {
                     id: id,
-                }, 
+                },
             contentType: 'application/json',
             headers: {
                 'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // Include CSRF token if needed

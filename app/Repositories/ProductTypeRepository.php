@@ -2,11 +2,11 @@
 
 namespace App\Repositories;
 
-use App\Models\ProductType;
 use Illuminate\Http\Request;
+use App\Models\ProductType;
 use App\Interfaces\CrudRepositoryInterface;
-use App\Services\ProductType\ProductTypeService;
 use App\Interfaces\DatatableRepositoryInterface;
+use App\Services\ProductType\ProductTypeService;
 
 class ProductTypeRepository implements CrudRepositoryInterface, DatatableRepositoryInterface
 {
@@ -41,68 +41,65 @@ class ProductTypeRepository implements CrudRepositoryInterface, DatatableReposit
         $query = $this->findOrFail($id)->delete();
         return $query;
     }
-
-    public function getProductTypeList()
+    public function getProductTypeList($request)
     {
         $query = ProductType::query();
+        if (!empty($request->product_type_search)) {
+            $query->where('product_type', 'like', '%' . $request->product_type_search . '%');
+        }
+        if (!empty($request->inventory_gl_account_search)) {
+            $query->where('inventory_gl_account', 'like', '%' . $request->inventory_gl_account_search . '%');
+        }
+        if (!empty($request->sales_gl_account_search)) {
+            $query->where('sales_gl_account', 'like', '%' . $request->sales_gl_account_search . '%');
+        }
+        if (!empty($request->cogs_gl_account_search)) {
+            $query->where('cogs_gl_account', 'like', '%' . $request->cogs_gl_account_search . '%');
+        }
         return $query;
     }
 
     public function dataTable(Request $request)
     {
-        $draw = $request->get('draw');
-        $start = $request->get("start");
-        $rowPerPage = $request->get("length");
-        $orderArray = $request->get('order');
+        $draw            = $request->get('draw');
+        $start           = $request->get("start");
+        $rowPerPage      = $request->get("length");
+        $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $searchArray = $request->get('search');
-        $columnIndex = $orderArray[0]['column'];
-        $columnName = $columnNameArray[$columnIndex]['data'];
+        $columnIndex     = $orderArray[0]['column'];
+        $columnName      = $columnNameArray[$columnIndex]['data'];
         $columnSortOrder = $orderArray[0]['dir'];
-        $searchValue = $searchArray['value'];
-
-        $states = $this->getProductTypeList();
-        $total = $states->count();
-
-        $totalFilter = $this->getProductTypeList();
-        if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('product_type', 'like', '%' . $searchValue . '%');
-        }
-        $totalFilter = $totalFilter->count();
-
-        $arrData = $this->getProductTypeList();
-        $arrData = $arrData->skip($start)->take($rowPerPage);
-        $arrData = $arrData->orderBy($columnName, $columnSortOrder);
-
-        if (!empty($searchValue)) {
-            $arrData = $arrData->where('product_type', 'like', '%' . $searchValue . '%');
-
-        }
-        $arrData = $arrData->get();
-
+        $product_type    = $this->getProductTypeList($request);
+        $total           = $product_type->count();
+        $totalFilter     = $this->getProductTypeList($request);
+        $totalFilter     = $totalFilter->count();
+        $arrData         = $this->getProductTypeList($request);
+        $arrData         = $arrData->skip($start)->take($rowPerPage);
+        $arrData         = $arrData->orderBy($columnName, $columnSortOrder);
+        $arrData         = $arrData->get();
         $arrData->map(function ($value, $i) {
-            $value->sno = ++$i;
-            $value->product_type = $value->product_type ?? '';
+            $value->sno                 = ++$i;
+            $value->product_type        = $value->product_type ?? '';
             $value->default_gl_accounts = $this->productTypeService->getDefaultGLAccounts($value->inventory_gl_account, $value->sales_gl_account, $value->cogs_gl_account);
-            $value->default_values = $this->productTypeService->getDefaultValues($value->indivisible, $value->non_serialized, $value->id);
-            $value->action = "<button type='button' data-id='" . $value->id . "' class='p-2 m-0 btn btn-warning btn-sm showbtn' data-bs-toggle='modal' >
+            $value->default_values      = $this->productTypeService->getDefaultValues($value->indivisible, $value->non_serialized, $value->id);
+            $value->action              = "<button type='button' data-id='" . $value->id . "' class='p-2 m-0 btn btn-warning btn-sm showbtn' data-bs-toggle='modal' >
             <i class='fa-regular fa-eye fa-fw'></i></button>&nbsp;&nbsp;<button type='button' data-id='" . $value->id . "'  name='btnEdit'
              class='editbtn btn btn-primary btn-sm p-2 m-0'><i class='fas fa-pencil-alt'></i></button>&nbsp;&nbsp;
              <button type='button' data-id='" . $value->id . "'  name='btnDelete' class='deletebtn btn btn-danger btn-sm p-2 m-0'><i class='fas fa-trash-alt'></i></button>";
         });
 
         $response = array(
-            "draw" => intval($draw),
-            "recordsTotal" => $total,
+            "draw"            => intval($draw),
+            "recordsTotal"    => $total,
             "recordsFiltered" => $totalFilter,
-            "data" => $arrData,
+            "data"            => $arrData,
         );
 
         return response()->json($response);
     }
-    
+
     public function saveDefaultValue(Request $request)
     {
-        return $this->productTypeService->saveDefaultValue($request);        
+        return $this->productTypeService->saveDefaultValue($request);
     }
 }

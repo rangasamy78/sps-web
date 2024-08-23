@@ -14,6 +14,7 @@
 
     </div>
     <h4 class="py-3 mb-4"><span class="text-muted fw-light"></span>List of Designation</h4>
+    @include('designation.__search')
     <div class="row mb-3">
       <!-- DataTable with Buttons -->
 

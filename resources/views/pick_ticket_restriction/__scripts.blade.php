@@ -7,7 +7,7 @@
             }
         });
         $(document).on('change', 'input[type="checkbox"], input[type="radio"]', function() {
-            
+
             var enable_pick_ticket_restriction    = ($('input[name="enable_pick_ticket_restriction"]:checked').val() == 1) ? 1 : 0;
             var default_pick_ticket_restriction   = $('input[name="default_pick_ticket_restriction"]:checked').val();
             var pick_ticket_restriction_required  = ($('input[name="pick_ticket_restriction_required"]:checked').val() == 1) ? 1 : 0;

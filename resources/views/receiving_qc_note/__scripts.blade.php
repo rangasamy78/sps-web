@@ -6,14 +6,23 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+        $('#returnCodeFilter, #notesFilter').on('keyup change', function(e) {
+            e.preventDefault();
+            table.draw();
+        });
+
         var table = $('#datatable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
+            searching: false,
             order: [[0, 'desc']],
             ajax: {
                 url: "{{ route('receiving_qc_notes.list') }}",
                 data: function (d) {
+                    d.code_search = $('#returnCodeFilter').val();
+                    d.notes_search = $('#notesFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{ column: 0, dir: sort }];
                 }
@@ -25,17 +34,26 @@
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
             rowCallback: function (row, data, index) {
-                $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
-            }
+                $('td:eq(0)', row).html(table.page.info().start + index + 1);
+            },
+            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            buttons: [{
+                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add New Receiving Qc Note</span>',
+                className: 'create-new btn btn-primary',
+                attr: {
+                    'data-bs-toggle': 'modal',
+                    'data-bs-target': '#receivingQcNoteModel',
+                },
+                action: function(e, dt, node, config) {
+                    $('#savedata').html("Save Receiving Qc Note");
+                    resetFormFields();
+                    $('#receivingQcNoteForm').trigger("reset");
+                    $('#modelHeading').html("Create New Receiving Qc Note");
+                    $('#receivingQcNoteModel').modal('show');
+                }
+            }],
         });
-        $('#createReceivingQcNote').click(function () {
-            resetFormFields();
-            $('#savedata').html("Save Receiving Qc Note");
-            $('#code_id').val('');
-            $('#receivingQcNoteForm').trigger("reset");
-            $('#modelHeading').html("Create New Receiving Qc Note");
-            $('#receivingQcNoteModel').modal('show');
-        });
+
         $('#receivingQcNoteForm input').on('input', function () {
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');
@@ -97,7 +115,7 @@
                 },
                 success: function (response) {
                     if (response.status === "success") {
-                        table.draw(); // Assuming 'table' is defined for DataTables
+                        table.draw();
                         showSuccessMessage('Deleted!', 'Receiving Qc Note Deleted Successfully!');
                     } else {
                         showError('Deleted!', response.msg);

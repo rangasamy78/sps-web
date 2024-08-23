@@ -44,7 +44,6 @@
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');
         });
-
         $('#savedata').click(function (e) {
             e.preventDefault();
             var button = $(this).html();
@@ -186,9 +185,9 @@
     });
 
     function getSubcategories(typeId, selectedSubcategoryId, type) {
-  
-        var $selectSubcategory = (type === "show") 
-            ? $('#showPrintDocDisclaimerForm #select_type_sub_category_id') 
+
+        var $selectSubcategory = (type === "show")
+            ? $('#showPrintDocDisclaimerForm #select_type_sub_category_id')
             : $('#select_type_sub_category_id');
             $selectSubcategory.empty().append('<option value="">--Select Type Sub Category--</option>');
         if (typeId) {
@@ -216,7 +215,6 @@
             $selectSubcategory.prop('disabled', type === "show");
         }
     }
-
 function resetForm()
 {
     $('.title_error').html('');

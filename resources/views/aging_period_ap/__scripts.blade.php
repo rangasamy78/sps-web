@@ -4,25 +4,22 @@ $(function() {
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
-    });
+        });
         $('#period_current_1').hide();
         $('#aging_period_ap_1_lbl').html(1);
         $('#aging_period_ap_2_lbl').html(2);
         $('#aging_period_ap_3_lbl').html(3);
         $('#aging_period_ap_4_lbl').html(4);
         $('#aging_period_ap_5_lbl').html(5);
-
         var aging_period_ap_2_to = parseFloat($('#aging_period_ap_1_end').val()) + 1;
         var aging_period_ap_3_to = parseFloat($('#aging_period_ap_2_end').val()) + 1;
         var aging_period_ap_4_to = parseFloat($('#aging_period_ap_3_end').val()) + 1;
         $('#aging_period_ap_2_start').val(aging_period_ap_2_to);
         $('#aging_period_ap_3_start').val(aging_period_ap_3_to);
         $('#aging_period_ap_4_start').val(aging_period_ap_4_to);
-
         var ap_over_days_val = ($('#aging_period_ap_4_end').val() > 0) ? $('#aging_period_ap_4_end').val() : $(
             '#aging_period_ap_3_end').val();
         $('#aging_period_ap_over_days').html(ap_over_days_val);
-
         $(document).on('change', 'input[type="number"]', function() {
             var aging_period_ap_2_to = parseFloat($('#aging_period_ap_1_end').val()) + 1;
             var aging_period_ap_3_to = parseFloat($('#aging_period_ap_2_end').val()) + 1;

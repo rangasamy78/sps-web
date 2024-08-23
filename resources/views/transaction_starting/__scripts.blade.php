@@ -6,7 +6,6 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-
         var table = $('#datatable').DataTable({
             responsive: true,
             processing: true,
@@ -29,7 +28,6 @@
                 $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
             }
         });
-
         $('#createTransactionStarting').click(function () {
             resetForm();
             $('#savedata').html("Save Transaction Starting Number");
@@ -125,7 +123,6 @@
                 $('#showTransactionStartingModal').modal('show');
                 $('#showTransactionStartingForm #type').val(data.type);
                 $('#showTransactionStartingForm #starting_number').val(data.starting_number);
-
             });
         });
 

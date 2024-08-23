@@ -14,7 +14,7 @@
                         <div class="col-sm-12">
                             <select id="unit_measure_entity" class="form-select" name="unit_measure_entity">
                                 <option value="">--Select--</option>
-                                @foreach($unitMeasureOptions as $key => $value)                         
+                                @foreach($unitMeasureOptions as $key => $value)
                                     <option value="{{ $key }}">{{ $value }}</option>
                                 @endforeach
                             </select>
@@ -29,7 +29,7 @@
                                 placeholder="Enter Unit Measure Name" value="">
                         </div>
                         <span class="text-danger error-text unit_measure_name_error"></span>
-                    </div>                    
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -53,7 +53,7 @@
                         <div class="col-sm-12">
                             <select id="unit_measure_entity" class="form-select" name="unit_measure_entity" disabled>
                                 <option value="">--Select--</option>
-                                @foreach($unitMeasureOptions as $key => $value)                         
+                                @foreach($unitMeasureOptions as $key => $value)
                                     <option value="{{ $key }}">{{ $value }}</option>
                                 @endforeach
                             </select>

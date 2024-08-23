@@ -103,8 +103,6 @@
         $('#sub_type_name').val(data.sub_type_name);
       });
     });
-
-
     $('body').on('click', '.deletebtn', function() {
       var id = $(this).data('id');
       confirmDelete(id, function() {
@@ -124,7 +122,7 @@
         },
         success: function(response) {
           if (response.status === "success") {
-            table.draw(); // Assuming 'table' is defined for DataTables
+            table.draw();
             showSuccessMessage('Deleted!', 'Account Sub Type Deleted Successfully!');
           } else {
             showError('Deleted!', response.msg);

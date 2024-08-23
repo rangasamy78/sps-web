@@ -34,7 +34,6 @@
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="showPurchaseShipmentMethodModal" tabindex="-1" aria-labelledby="show-purchase-shipment-method-modal-label" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">

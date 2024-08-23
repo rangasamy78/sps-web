@@ -6,7 +6,7 @@
         </div>
         <div class="col-12 col-sm-6 col-lg-3">
             <select class="form-select" name="expenseAccountFilter" id="expenseAccountFilter">
-                <option value="">Select Expense Account</option>
+                <option value="">--Select Expense Account--</option>
                 @foreach($data['linkedAccounts'] as $key => $linkedAccount)
                     <option value="{{ $linkedAccount['value'] }}" >{{ $linkedAccount['label'] }}</option>
                 @endforeach

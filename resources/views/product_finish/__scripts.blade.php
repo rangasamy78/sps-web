@@ -6,15 +6,23 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        
+        $('#productFinishCodeFilter, #finishFilter').on('keyup change', function(e) {
+            e.preventDefault();
+            table.draw();
+        });
 
         var table = $('#datatable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
+            searching:false,
             order: [[0, 'desc']],
             ajax: {
                 url: "{{ route('product_finishes.list') }}",
                 data: function (d) {
+                    d.product_finish_code_search = $('#productFinishCodeFilter').val();
+                    d.finish_search = $('#finishFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{ column: 0, dir: sort }];
                 }
@@ -26,17 +34,26 @@
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
             rowCallback: function (row, data, index) {
-                $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
-            }
-        });
+                $('td:eq(0)', row).html(table.page.info().start + index + 1);
+            },
+            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            buttons: [{
+                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add New Product Finish</span>',
+                className: 'create-new btn btn-primary',
+                attr: {
+                    'data-bs-toggle': 'modal',
+                    'data-bs-target': '#productFinishModel',
+                },
+                action: function(e, dt, node, config) {
+                    $('#savedata').html("Save Product Finish");
+                    resetForm();
+                    $('#productFinishForm').trigger("reset");
+                    $("#productFinishForm").find("tr:gt(1)").remove();
+                    $('#modelHeading').html("Create New Product Finish");
+                    $('#productFinishModel').modal('show');
+                }
+            }],
 
-        $('#createProductFinish').click(function () {
-            resetForm();
-            $('#savedata').html("Save Product Finish");
-            $('#product_finish_id').val('');
-            $('#productFinishForm').trigger("reset");
-            $('#modelHeading').html("Create New Product Finish");
-            $('#productFinishModel').modal('show');
         });
         $('#savedata').click(function (e) {
             e.preventDefault();
@@ -104,7 +121,7 @@
                 },
                 success: function (response) {
                     if (response.status === "success") {
-                        table.draw(); // Assuming 'table' is defined for DataTables
+                        table.draw();
                         showSuccessMessage('Deleted!', 'Product Finishes Deleted Successfully!');
                     } else {
                         showError('Deleted!', response.msg);
@@ -125,7 +142,6 @@
                 $('#showProductFinishModal').modal('show');
                 $('#showProductFinishForm #product_finish_code').val(data.product_finish_code);
                 $('#showProductFinishForm #finish').val(data.finish);
-
             });
         });
 

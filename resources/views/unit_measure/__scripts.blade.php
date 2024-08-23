@@ -5,14 +5,23 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        
+        $('#unitMeasureNameFilter, #unitMeasureEntityFilter').on('keyup change', function(e) {
+                e.preventDefault();
+                table.draw();
+        });
+
         var table = $('#datatable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
+            searching: false,
             order: [[0, 'desc']],
             ajax: {
                 url: "{{ route('unit_measures.list') }}",
                 data: function (d) {
+                    d.unit_measure_entity_search = $('#unitMeasureEntityFilter').val();
+                    d.unit_measure_name_search = $('#unitMeasureNameFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{ column: 0, dir: sort }];
                 }
@@ -24,19 +33,26 @@
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
             rowCallback: function(row, data, index) {
-                $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
-            }
-        });       
-
-        $('#createUnitMeasure').click(function () {
-            resetForm();
-            $('#savedata').html("Save Unit Measure");
-            $('#unit_measure_id').val('');
-            $('#unitMeasureForm').trigger("reset");
-            $('#modelHeading').html("Create New Unit of Measure");
-            $('#unitMeasureModel').modal('show');
+                $('td:eq(0)', row).html(table.page.info().start + index + 1);
+            },
+            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            buttons: [{
+                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add New Unit Of Measure Record</span>',
+                className: 'create-new btn btn-primary',
+                attr: {
+                    'data-bs-toggle': 'modal',
+                    'data-bs-target': '#unitMeasureModel',
+                },
+                action: function(e, dt, node, config) {
+                    $('#savedata').html("Save Unit Measure");
+                    resetForm();
+                    $('#unitMeasureForm').trigger("reset");
+                    $('#modelHeading').html("Create New Unit of Measure");
+                    $('#unitMeasureModel').modal('show');
+                }
+            }],
         });
-       
+
         $('#unitMeasureForm input').on('input', function () {
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');
@@ -61,7 +77,7 @@
                         $('#unitMeasureForm').trigger("reset");
                         $('#unitMeasureModel').modal('hide');
                         table.draw();
-                        var successMessage = type === 'POST' ? 'Unit Measure Added Successfully!' : 'Unit Measure Updated Successfully!';
+                        var successMessage = type === 'POST' ? 'Unit of Measure Added Successfully!' : 'Unit of Measure Updated Successfully!';
                         var successTitle = type === 'POST' ? 'Created!' : 'Updated!';
                         showSuccessMessage(successTitle, successMessage);
                     }
@@ -72,11 +88,10 @@
                 }
             });
         });
-
         $('body').on('click', '.editbtn', function () {
             resetForm();
             var id = $(this).data('id');
-            $.get("{{ route('unit_measures.index') }}" + '/' + id + '/edit', function (data) {               
+            $.get("{{ route('unit_measures.index') }}" + '/' + id + '/edit', function (data) {
                 $('#modelHeading').html("Edit Unit of Measure");
                 $('#unitMeasureModel').modal('show');
                 $('#savedata').val("edit-unit-measure");
@@ -92,7 +107,6 @@
                 deleteUnitMeasure(id);
             });
         });
-
         function deleteUnitMeasure(id) {
             var url = "{{ route('unit_measures.destroy', ':id') }}".replace(':id', id);
             $.ajax({
@@ -104,8 +118,8 @@
                 },
                 success: function (response) {
                     if (response.status === "success") {
-                        table.draw(); // Assuming 'table' is defined for DataTables
-                        showSuccessMessage('Deleted!', 'Unit Measure Deleted Successfully!');
+                        table.draw();
+                        showSuccessMessage('Deleted!', 'Unit of Measure Deleted Successfully!');
                     } else {
                         showError('Deleted!', response.msg);
                     }
@@ -116,22 +130,20 @@
                 }
             });
         }
-       
         $('body').on('click', '.showbtn', function () {
             var id = $(this).data('id');
             $.get("{{ route('unit_measures.index') }}" + '/' + id, function (data) {
-                $('#showUnitMeasureModal').modal('show');   
+                $('#showUnitMeasureModal').modal('show');
                 $('#showUnitMeasureForm #unit_measure_entity').val(data.unit_measure_entity);
                 $('#showUnitMeasureForm #unit_measure_name').val(data.unit_measure_name);
             });
         });
     });
-
     setTimeout(() => {
         $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
         $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');
     }, 300);
-    
+
     function resetForm() {
         $('.unit_measure_entity_error').html('');
         $('.unit_measure_name_error').html('');

@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Models\AdjustmentType;
 use Illuminate\Http\Request;
+use App\Models\AdjustmentType;
 use App\Interfaces\CrudRepositoryInterface;
 use App\Interfaces\DatatableRepositoryInterface;
 
@@ -44,51 +44,46 @@ class AdjustmentTypeRepository implements CrudRepositoryInterface, DatatableRepo
 
     public function dataTable(Request $request)
     {
-        $draw = $request->get('draw');
-        $start = $request->get("start");
-        $rowPerPage = $request->get("length");
-        $orderArray = $request->get('order');
+        $draw            = $request->get('draw');
+        $start           = $request->get("start");
+        $rowPerPage      = $request->get("length");
+        $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $searchArray = $request->get('search');
-        $columnIndex = $orderArray[0]['column'];
-        $columnName = $columnNameArray[$columnIndex]['data'];
+        $searchArray     = $request->get('search');
+        $columnIndex     = $orderArray[0]['column'];
+        $columnName      = $columnNameArray[$columnIndex]['data'];
         $columnSortOrder = $orderArray[0]['dir'];
-        $searchValue = $searchArray['value'];
-
-        $states = $this->getAdjustmentTypeList();
-        $total = $states->count();
-
-        $totalFilter = $this->getAdjustmentTypeList();
+        $searchValue     = $searchArray['value'];
+        $adjustment      = $this->getAdjustmentTypeList();
+        $total           = $adjustment->count();
+        $totalFilter     = $this->getAdjustmentTypeList();
         if (!empty($searchValue)) {
             $totalFilter = $totalFilter->where('adjustment_type', 'like', '%' . $searchValue . '%');
 
         }
         $totalFilter = $totalFilter->count();
-
-        $arrData = $this->getAdjustmentTypeList();
-        $arrData = $arrData->skip($start)->take($rowPerPage);
-        $arrData = $arrData->orderBy($columnName, $columnSortOrder);
-
+        $arrData     = $this->getAdjustmentTypeList();
+        $arrData     = $arrData->skip($start)->take($rowPerPage);
+        $arrData     = $arrData->orderBy($columnName, $columnSortOrder);
         if (!empty($searchValue)) {
             $arrData = $arrData->where('adjustment_type', 'like', '%' . $searchValue . '%');
 
         }
         $arrData = $arrData->get();
-
         $arrData->map(function ($value, $i) {
-            $value->sno = ++$i;
+            $value->sno             = ++$i;
             $value->adjustment_type = $value->adjustment_type ?? '';
-            $value->action = "<button type='button' data-id='" . $value->id . "' class='p-2 m-0 btn btn-warning btn-sm showbtn' data-bs-toggle='modal' >
+            $value->action          = "<button type='button' data-id='" . $value->id . "' class='p-2 m-0 btn btn-warning btn-sm showbtn' data-bs-toggle='modal' >
             <i class='fa-regular fa-eye fa-fw'></i></button>&nbsp;&nbsp;<button type='button' data-id='" . $value->id . "'  name='btnEdit'
              class='editbtn btn btn-primary btn-sm p-2 m-0'><i class='fas fa-pencil-alt'></i></button>&nbsp;&nbsp;
              <button type='button' data-id='" . $value->id . "'  name='btnDelete' class='deletebtn btn btn-danger btn-sm p-2 m-0'><i class='fas fa-trash-alt'></i></button>";
         });
 
         $response = array(
-            "draw" => intval($draw),
-            "recordsTotal" => $total,
+            "draw"            => intval($draw),
+            "recordsTotal"    => $total,
             "recordsFiltered" => $totalFilter,
-            "data" => $arrData,
+            "data"            => $arrData,
         );
 
         return response()->json($response);

@@ -8,7 +8,6 @@
             <div class="modal-body">
                 <form id="productGroupForm" name="productGroupForm" class="form-horizontal">
                     <input type="hidden" name="product_group_id" id="product_group_id">
-                    <!-- View In -->
                     <div class="form-group">
                         <label for="Product Finish Code" class="col-sm-4 control-label">Product Group Name <sup
                                 style="color: red;font-size:1rem;"><b>*</b></sup></label>
@@ -18,16 +17,13 @@
                         </div>
                         <span class="text-danger error-text product_group_name_error"></span>
                     </div>
-                    <!-- File Type -->
                     <div class="form-group mt-3">
                         <label class="col-sm-4 control-label">Product Group Code </label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="product_group_code" name="product_group_code"
                                 placeholder="Enter Product Group Code" value="">
                         </div>
-
                     </div>
-
                 </form>
             </div>
             <div class="modal-footer">

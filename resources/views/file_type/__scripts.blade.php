@@ -25,7 +25,7 @@
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
             rowCallback: function (row, data, index) {
-                $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
+                $('td:eq(0)', row).html(table.page.info().start + index + 1);
             }
         });
         $('#createFileType').click(function () {
@@ -94,11 +94,11 @@
         $('body').on('click', '.deletebtn', function () {
             var id = $(this).data('id');
             confirmDelete(id, function () {
-                deleteFileTypeColor(id);
+                deleteFileType(id);
             });
         });
 
-        function deleteFileTypeColor(id) {
+        function deleteFileType(id) {
             var url = "{{ route('file_types.destroy', ':id') }}".replace(':id', id);
             $.ajax({
                 url: url,
@@ -109,7 +109,7 @@
                 },
                 success: function (response) {
                     if (response.status === "success") {
-                        table.draw(); // Assuming 'table' is defined for DataTables
+                        table.draw();
                         showSuccessMessage('Deleted!', 'File Type Deleted Successfully!');
                     } else {
                         showError('Deleted!', response.msg);
@@ -156,4 +156,77 @@
         $('.view_in_error').html('');
         $('.file_type_error').html('');
     }
+    $(document).ready(function () {
+        $('#importFileType').click(function () {
+
+        $('#importFileTypeModal').modal('show');
+        });
+        $('#importFileTypeModal').on('show.bs.modal', function () {
+            $('#file').val('');
+            $('span.file_error').text('');
+        });
+
+    $('#uploadForm').on('submit', function (e) {
+        e.preventDefault();
+
+        let formData = new FormData();
+        formData.append('file', $('#file')[0].files[0]);
+        let table = $('#datatable').DataTable();
+
+    $.ajax({
+        url: '{{ route("file_types.import") }}',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function (response) {
+            $('#uploadForm').trigger("reset");
+            $('#importFileTypeModal').modal('hide');
+            table.draw();
+
+            let message = '';
+            let icon = 'success';
+
+            if(response.status === "success"){
+                message = 'File uploaded and processed successfully!';
+            } else if(response.status === "warning"){
+                message = 'File processed with some issues:<br><br>';
+                icon = 'warning';
+                response.errors.forEach(function (error) {
+                    message += '<span style="display: block; text-align: left; margin-bottom: 4px; padding: 2px;  #ccc; background-color: #f9f9f9;">' + error + '</span>';
+
+                });
+            }
+
+            Swal.fire({
+                title: response.status.charAt(0).toUpperCase() + response.status.slice(1) + '!',
+                html: message,
+                icon: icon,
+                customClass: {
+                    confirmButton: 'btn btn-primary'
+                },
+                buttonsStyling: false
+            });
+         },
+        error: function(xhr) {
+            var res = xhr.responseJSON;
+            if ($.isEmptyObject(res) == false) {
+                $.each(res.errors, function(prefix, val) {
+                    $('span.' + prefix + '_error').text(val[0]);
+                });
+            }
+            }
+        });
+    });
+
+    $('#downloadFileType').on('click', function ()
+    {
+    window.location.href = "{{ route('file_type.template_download') }}";
+    });
+});
+
+
 </script>

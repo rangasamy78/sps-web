@@ -24,7 +24,6 @@
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="showAccountSubTypeModal" tabindex="-1" aria-labelledby="showAccountSubTypeModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

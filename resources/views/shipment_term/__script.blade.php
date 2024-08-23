@@ -1,7 +1,7 @@
 <script type="text/javascript">
   $(function() {
     $("#showDescriptionEditor").attr('disabled', true);
-    
+
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -69,8 +69,6 @@
           $('#shipmentTermModel').modal('show');
         }
       }],
-
-
     });
 
     $('#shipmentTermForm input').on('input', function() {
@@ -238,7 +236,7 @@
     function clearEditor() {
       descriptionEditor.setContents([]); // Clear all content
     }
-    
+
     const showDescriptionEditor = new Quill('#showDescriptionEditor', {
       bounds: '#showDescriptionEditor',
       modules: {

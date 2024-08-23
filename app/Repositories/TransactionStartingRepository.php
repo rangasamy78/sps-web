@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Models\TransactionStarting;
 use Illuminate\Http\Request;
+use App\Models\TransactionStarting;
 use App\Interfaces\CrudRepositoryInterface;
 use App\Interfaces\DatatableRepositoryInterface;
 
@@ -55,8 +55,8 @@ class TransactionStartingRepository implements CrudRepositoryInterface, Datatabl
         $columnSortOrder = $orderArray[0]['dir'];
         $searchValue = $searchArray['value'];
 
-        $states = $this->getTransactionStartingList();
-        $total = $states->count();
+        $transaction = $this->getTransactionStartingList();
+        $total = $transaction->count();
 
         $totalFilter = $this->getTransactionStartingList();
         if (!empty($searchValue)) {

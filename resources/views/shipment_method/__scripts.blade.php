@@ -6,7 +6,6 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-
         var table = $('#datatable').DataTable({
             responsive: true,
             processing: true,
@@ -117,7 +116,6 @@
                 }
             });
         }
-
         $('body').on('click', '.showbtn', function () {
             var id = $(this).data('id');
             $.get("{{ route('shipment_methods.index') }}" +'/' + id, function (data) {

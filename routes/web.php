@@ -83,6 +83,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('states', StateController::class);
     Route::get('/state/list', [StateController::class, 'getStateDataTableList'])->name('states.list');
+    Route::post('/state/import', [StateController::class, 'importStates'])->name('states.import');
+    Route::get('/state/template_download', [StateController::class, 'stateTemplateDownload'])->name('state.template_download');
+
 
     Route::resource('departments', DepartmentController::class);
     Route::get('/department/list', [DepartmentController::class, 'getDepartmentDataTableList'])->name('departments.list');
@@ -101,6 +104,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('file_types', FileTypeController::class);
     Route::get('/file_type/list', [FileTypeController::class, 'getFileTypeDataTableList'])->name('file_types.list');
+    Route::post('/file_type/import', [FileTypeController::class, 'importFileTypes'])->name('file_types.import');
+    Route::get('/file_type/template_download', [FileTypeController::class, 'fileTypeTemplateDownload'])->name('file_type.template_download');
+
 
     Route::resource('product_finishes', ProductFinishController::class);
     Route::get('/product_finish/list', [ProductFinishController::class, 'getProductFinishDataTableList'])->name('product_finishes.list');

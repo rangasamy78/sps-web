@@ -26,7 +26,6 @@
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="showVendorTypeModal" tabindex="-1" aria-labelledby="show-vendor-type-modal-label" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

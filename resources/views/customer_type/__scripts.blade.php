@@ -86,8 +86,6 @@
                 $('#customer_type_code').val(data.customer_type_code);
             });
         });
-
-
         $('body').on('click', '.deletebtn', function () {
             var id = $(this).data('id');
             confirmDelete(id, function() {

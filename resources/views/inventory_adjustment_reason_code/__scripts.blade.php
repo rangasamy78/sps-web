@@ -6,14 +6,22 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        $('#reasonFilter, #adjustmentTypeFilter, #incomeExpenseAccountFilter').on('keyup change', function(e) {
+                e.preventDefault();
+                table.draw();
+            });
         var table = $('#datatable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
+            searching: false,
             order: [[0, 'desc']],
             ajax: {
                 url: "{{ route('inventory_adjustment_reason_codes.list') }}",
                 data: function (d) {
+                    d.reason_search = $('#reasonFilter').val();
+                    d.adjustment_type_search = $('#adjustmentTypeFilter').val();
+                    d.income_expense_account_search = $('#incomeExpenseAccountFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{ column: 0, dir: sort }];
                 }
@@ -26,17 +34,27 @@
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
             rowCallback: function (row, data, index) {
-                $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
-            }
+                $('td:eq(0)', row).html(table.page.info().start + index + 1);
+            },
+            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            buttons: [{
+                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add New Inventory Adjustment Reason Code</span>',
+                className: 'create-new btn btn-primary',
+                attr: {
+                    'data-bs-toggle': 'modal',
+                    'data-bs-target': '#inventoryAdjustmentReasonCodeModel',
+                },
+                action: function(e, dt, node, config) {
+                    $('#savedata').html("Save Inventory Adjustment Reason Code");
+                    $('.reason_error').html('');
+                    $('#inventoryAdjustmentReasonCodeForm').trigger("reset");
+                    $("#inventoryAdjustmentReasonCodeForm").find("tr:gt(1)").remove();
+                    $('#modelHeading').html("Create New Inventory Adjustment Reason Code");
+                    $('#inventoryAdjustmentReasonCodeModel').modal('show');
+                }
+            }],
         });
-        $('#createInventoryAdjustmentReasonCode').click(function () {
-            $('.reason_error').html('');
-            $('#savedata').html("Save Inventory Adjustment Reason Code");
-            $('#inventory_adjustment_reason_code_id').val('');
-            $('#inventoryAdjustmentReasonCodeForm').trigger("reset");
-            $('#modelHeading').html("Create New Inventory Adjustment Reason Code");
-            $('#inventoryAdjustmentReasonCodeModel').modal('show');
-        });
+
         $('#inventoryAdjustmentReasonCodeForm input').on('input', function () {
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');
@@ -100,7 +118,7 @@
                 },
                 success: function (response) {
                     if (response.status === "success") {
-                        table.draw(); // Assuming 'table' is defined for DataTables
+                        table.draw();
                         showSuccessMessage('Deleted!', 'Inventory Adjustment Reason Code Deleted Successfully!');
                     } else {
                         showError('Deleted!', response.msg);

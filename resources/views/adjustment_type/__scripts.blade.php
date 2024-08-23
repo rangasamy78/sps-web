@@ -24,7 +24,7 @@
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
             rowCallback: function (row, data, index) {
-                $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
+                $('td:eq(0)', row).html(table.page.info().start + index + 1);
             }
         });
         $('#createAdjustmentType').click(function () {
@@ -96,7 +96,7 @@
                 },
                 success: function (response) {
                     if (response.status === "success") {
-                        table.draw(); // Assuming 'table' is defined for DataTables
+                        table.draw();
                         showSuccessMessage('Deleted!', 'Adjustment Type Deleted Successfully!');
                     } else {
                         showError('Deleted!', response.msg);

@@ -6,7 +6,6 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-
         var table = $('#datatable').DataTable({
             responsive: true,
             processing: true,
@@ -25,7 +24,7 @@
                     name: 'id',
                     orderable: false,
                     searchable: false
-                }, // Row index column
+                },
                 {
                     data: 'account_type_name',
                     name: 'account_type_name',
@@ -38,7 +37,7 @@
                 },
             ],
             rowCallback: function (row, data, index) {
-                $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
+                $('td:eq(0)', row).html(table.page.info().start + index + 1);
             }
         });
 
@@ -160,8 +159,6 @@
                 $('#account_type_name').val(data.account_type_name);
             });
         });
-
-
         $('body').on('click', '.deletebtn', function () {
             var id = $(this).data('id');
             let url = $('meta[name=app-url]').attr("content") + "/account_types/" + id;

@@ -11,7 +11,7 @@
         <div class="col-12 col-sm-6 col-lg-2">
             <label class="form-label"><b style="margin-left: 8px;">Types : </b></label>
             <select class="form-select" name="termFilter" id="termFilter">
-                <option value="">Select Payment Type</option>
+                <option value="">--Select Payment Type--</option>
                 @foreach ($account_types as $key => $account_type)
                     <option value="{{ $account_type['value'] }}">{{ $account_type['label'] }}</option>
                 @endforeach

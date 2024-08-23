@@ -27,7 +27,6 @@
             }
         });
     });
-
     function validateForm() {
         let isValid = true;
         let visibleSection = $('#due_date').is(':visible') ? '#due_date' : '#invoice_date';
@@ -42,7 +41,6 @@
         });
         return isValid;
     }
-
     $('#btn_invoice_date').click(function() {
         let isValid = true;
         let inputs = document.querySelectorAll('#invoice_date input[type="number"]:not([readonly]):not([disabled])');
@@ -72,7 +70,6 @@
         });
         return isValid;
     });
-
     function getInvoiceDateValue(id) {
         var currentValue = parseInt($('#' + id).val());
         var nextStartId = '';
@@ -115,8 +112,6 @@
             }
         }
     }
-
-    // Function to handle due date validation and progression
     function getDueDateValue(id) {
         var currentValue = parseInt($('#' + id).val());
         var nextStartId = '';
@@ -161,30 +156,23 @@
         }
     }
 
-
-    // Toggle visibility between invoice date and due date
     $('#btn_due_date').click(function() {
         $('#btn_due_date').addClass('active');
         $('#btn_invoice_date').removeClass('active');
         $('#due_date').show();
         $('#invoice_date').hide();
     });
-
     $('#btn_invoice_date').click(function() {
         $('#btn_due_date').removeClass('active');
         $('#btn_invoice_date').addClass('active');
         $('#due_date').hide();
         $('#invoice_date').show();
     });
-
-    // Attach the validation to form submit
     document.getElementById('accountReceivableAgingPeriodForm').addEventListener('submit', function(event) {
         if (!validateForm()) {
             event.preventDefault();
         }
     });
-
-    // Remove red border when a valid value is entered
     document.querySelectorAll('#invoice_date input[type="number"], #due_date input[type="number"]').forEach(function(input) {
         input.addEventListener('input', function() {
             if (input.value) {

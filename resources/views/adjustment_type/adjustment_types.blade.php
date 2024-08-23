@@ -25,7 +25,7 @@
                         </div>
                     </div>
                 </div>
-                <table class="table table-bordered data-table  table-striped" id="datatable" style="width: 100%">
+                <table class="datatables-basic table tables-basic border-top table-striped" id="datatable" style="width: 100%">
                     <thead>
                         <tr>
                             <th><b>S.No</b></th>
@@ -43,7 +43,6 @@
     <!--/ Responsive Datatable -->
     @include('adjustment_type.__model')
 </div>
-
 <!-- / Content -->
 @endsection
 
