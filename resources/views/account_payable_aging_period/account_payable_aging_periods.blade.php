@@ -12,11 +12,6 @@
                 <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
                     <div class="row">
                         <div class="card mb-6">
-                            <div class="row mt-2">
-                                <input type="hidden"
-                                    value="{{ isset($agingPeriodAPRepositoryDetail['id']) && $agingPeriodAPRepositoryDetail['id'] ? $agingPeriodAPRepositoryDetail['id'] : 0 }}"
-                                    name="pick_ticket_restriction_id" id="pick_ticket_restriction_id">
-                            </div>
                             <div class="col-xl-6">
                                 <h5 class="card-header">Aging Periods - AP</h5>
                                 <div class="card-body">
@@ -51,7 +46,7 @@
                                     </div>
                                     <form name="agingPeriodAPForm" id="agingPeriodAPForm">
                                             <input type="hidden"
-                                        value="{{ isset($agingPeriodAPRepositoryDetail['id']) && $agingPeriodAPRepositoryDetail['id'] ? $agingPeriodAPRepositoryDetail['id'] : 0 }}"
+                                        value="{{ (isset($agingPeriodAPRepositoryDetail['id']) && $agingPeriodAPRepositoryDetail['id']) ? $agingPeriodAPRepositoryDetail['id'] : 0 }}"
                                         name="aging_period_ap_id" id="aging_period_ap_id">
                                         <div class="mb-3 row" id="period_current_1" style="display:none">
                                             <label for="html5-search-input" class="col-md-2 card-subtitle mt-1">Period 1:</label>
@@ -60,7 +55,7 @@
                                             </div>
                                         </div>
                                         <div class="mb-3 row align-items-center">
-                                            <label for="html5-search-input" class="col-md-2 card-subtitle mt-1">Period<span id="aging_period_ap_1_lbl"></span>: <sup style="color: red;font-size:1rem;"><b>*</b></sup></label>
+                                            <label for="html5-search-input" class="col-md-2 card-subtitle mt-1">Period <span id="aging_period_ap_1_lbl"></span>: <sup style="color: red;font-size:1rem;"><b>*</b></sup></label>
                                             <div class="col-md-3">
                                                 <input class="form-control" type="number" name="aging_period_ap_1_start" id="aging_period_ap_1_start" disabled value='0'>
                                             </div>
@@ -68,12 +63,11 @@
                                                 <span>to</span>
                                             </div>
                                             <div class="col-md-3">
-                                                <input class="form-control" type="number" name="aging_period_ap_1_end" id="aging_period_ap_1_end" value="{{ isset($agingPeriodAPRepositoryDetail['invoice_aging_period_ap_1_end']) && $agingPeriodAPRepositoryDetail['invoice_aging_period_ap_1_end'] ? $agingPeriodAPRepositoryDetail['invoice_aging_period_ap_1_end'] : '0' }}">
-                                                <span class="text-danger error-text invoice_aging_period_ap_1_end_error" ></span>
+                                                <input class="form-control" type="number" name="aging_period_ap_1_end" id="aging_period_ap_1_end" value="{{ isset($agingPeriodAPRepositoryDetail['ap_invoice_date_end_1']) && $agingPeriodAPRepositoryDetail['ap_invoice_date_end_1'] ? $agingPeriodAPRepositoryDetail['ap_invoice_date_end_1'] : '0' }}">
                                             </div>
                                         </div>
                                         <div class="mb-3 row align-items-center">
-                                            <label for="html5-search-input" class="col-md-2 card-subtitle mt-1">Period<span id="aging_period_ap_2_lbl"></span>: <sup style="color: red;font-size:1rem;"><b>*</b></sup></label>
+                                            <label for="html5-search-input" class="col-md-2 card-subtitle mt-1">Period <span id="aging_period_ap_2_lbl"></span>: <sup style="color: red;font-size:1rem;"><b>*</b></sup></label>
                                             <div class="col-md-3">
                                                 <input class="form-control" type="number" name="aging_period_ap_2_start" id="aging_period_ap_2_start" disabled value="">
                                             </div>
@@ -81,12 +75,11 @@
                                                 <span>to</span>
                                             </div>
                                             <div class="col-md-3">
-                                                <input class="form-control" type="number" name="aging_period_ap_2_end" id="aging_period_ap_2_end" value="{{ isset($agingPeriodAPRepositoryDetail['invoice_aging_period_ap_2_end']) && $agingPeriodAPRepositoryDetail['invoice_aging_period_ap_2_end'] ? $agingPeriodAPRepositoryDetail['invoice_aging_period_ap_2_end'] : '0' }}">
-                                                <span class="text-danger error-text invoice_aging_period_ap_2_end_error"></span>
+                                                <input class="form-control" type="number" name="aging_period_ap_2_end" id="aging_period_ap_2_end" value="{{ isset($agingPeriodAPRepositoryDetail['ap_invoice_date_end_2']) && $agingPeriodAPRepositoryDetail['ap_invoice_date_end_2'] ? $agingPeriodAPRepositoryDetail['ap_invoice_date_end_2'] : '0' }}">
                                             </div>
                                         </div>
                                         <div class="mb-3 row align-items-center">
-                                            <label for="html5-search-input" class="col-md-2 card-subtitle mt-1">Period<span id="aging_period_ap_3_lbl"></span>: <sup style="color: red;font-size:1rem;"><b>*</b></sup></label>
+                                            <label for="html5-search-input" class="col-md-2 card-subtitle mt-1">Period <span id="aging_period_ap_3_lbl"></span>: <sup style="color: red;font-size:1rem;"><b>*</b></sup></label>
                                             <div class="col-md-3">
                                                 <input class="form-control" type="number" name="aging_period_ap_3_start" id="aging_period_ap_3_start" disabled value="">
                                             </div>
@@ -94,12 +87,11 @@
                                                 <span>to</span>
                                             </div>
                                             <div class="col-md-3">
-                                                <input class="form-control" type="number" name="aging_period_ap_3_end" id="aging_period_ap_3_end" value="{{ isset($agingPeriodAPRepositoryDetail['invoice_aging_period_ap_3_end']) && $agingPeriodAPRepositoryDetail['invoice_aging_period_ap_3_end'] ? $agingPeriodAPRepositoryDetail['invoice_aging_period_ap_3_end'] : '0' }}">
-                                                <span class="text-danger error-text invoice_aging_period_ap_3_end_error"></span>
+                                                <input class="form-control" type="number" name="aging_period_ap_3_end" id="aging_period_ap_3_end" value="{{ isset($agingPeriodAPRepositoryDetail['ap_invoice_date_end_3']) && $agingPeriodAPRepositoryDetail['ap_invoice_date_end_3'] ? $agingPeriodAPRepositoryDetail['ap_invoice_date_end_3'] : '0' }}">
                                             </div>
                                         </div>
                                         <div class="mb-3 row align-items-center">
-                                            <label for="html5-search-input" class="col-md-2 card-subtitle mt-1">Period <span id="aging_period_ap_4_lbl"></span>:</label>
+                                            <label for="html5-search-input" class="col-md-2 card-subtitle mt-1">Period <span id="aging_period_ap_4_lbl"></span>: <sup style="color: red;font-size:1rem;"><b>*</b></sup></label>
                                             <div class="col-md-3">
                                                 <input class="form-control" type="number" name="aging_period_ap_4_start" id="aging_period_ap_4_start" disabled value="">
                                             </div>
@@ -107,8 +99,9 @@
                                                 <span>to</span>
                                             </div>
                                             <div class="col-md-3">
-                                                <input class="form-control" type="number" name="aging_period_ap_4_end" id="aging_period_ap_4_end" value="{{ isset($agingPeriodAPRepositoryDetail['invoice_aging_period_ap_4_end']) && $agingPeriodAPRepositoryDetail['invoice_aging_period_ap_4_end'] ? $agingPeriodAPRepositoryDetail['invoice_aging_period_ap_4_end'] : '0' }}">
-                                            </div>
+                                                <input class="form-control" type="number" name="aging_period_ap_4_end" id="aging_period_ap_4_end" value="{{ isset($agingPeriodAPRepositoryDetail['ap_invoice_date_end_4']) && $agingPeriodAPRepositoryDetail['ap_invoice_date_end_4'] ? $agingPeriodAPRepositoryDetail['ap_invoice_date_end_4'] : '0' }}">
+                                            </div>                                            
+                                            <span class="text-danger text-center error-text period_must_be_greater_error"  ></span>
                                         </div>
                                         <div class="mb-3 row">
                                             <label for="html5-search-input" class="col-md-2 card-subtitle mt-0">Period <span id="aging_period_ap_5_lbl"></span>:</label>
@@ -133,5 +126,5 @@
 @endsection
 
 @section('scripts')
-    @include('aging_period_ap.__scripts')
+    @include('account_payable_aging_period.__scripts')
 @endsection

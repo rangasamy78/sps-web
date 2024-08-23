@@ -13,22 +13,22 @@ return new class extends Migration
     {
         Schema::create('aging_period_account_payables', function (Blueprint $table) {
             $table->id();
-            $table->TinyInteger('invoice_aging_period_ap_1_start');
-            $table->TinyInteger('invoice_aging_period_ap_1_end');
-            $table->TinyInteger('invoice_aging_period_ap_2_start');
-            $table->TinyInteger('invoice_aging_period_ap_2_end');
-            $table->TinyInteger('invoice_aging_period_ap_3_start');
-            $table->TinyInteger('invoice_aging_period_ap_3_end');
-            $table->TinyInteger('invoice_aging_period_ap_4_start');
-            $table->TinyInteger('invoice_aging_period_ap_4_end');
-            $table->TinyInteger('due_date_aging_period_ap_1_start');
-            $table->TinyInteger('due_date_aging_period_ap_1_end');
-            $table->TinyInteger('due_date_aging_period_ap_2_start');
-            $table->TinyInteger('due_date_aging_period_ap_2_end');
-            $table->TinyInteger('due_date_aging_period_ap_3_start');
-            $table->TinyInteger('due_date_aging_period_ap_3_end');
-            $table->TinyInteger('due_date_aging_period_ap_4_start');
-            $table->TinyInteger('due_date_aging_period_ap_4_end');
+            $table->TinyInteger('ap_invoice_date_start_1')->nullable();
+            $table->TinyInteger('ap_invoice_date_end_1')->nullable();
+            $table->TinyInteger('ap_invoice_date_start_2')->nullable();
+            $table->TinyInteger('ap_invoice_date_end_2')->nullable();
+            $table->TinyInteger('ap_invoice_date_start_3')->nullable();
+            $table->TinyInteger('ap_invoice_date_end_3')->nullable();
+            $table->TinyInteger('ap_invoice_date_start_4')->nullable();
+            $table->TinyInteger('ap_invoice_date_end_4')->nullable();
+            $table->TinyInteger('ap_due_date_start_2')->nullable();
+            $table->TinyInteger('ap_due_date_end_2')->nullable();
+            $table->TinyInteger('ap_due_date_start_3')->nullable();
+            $table->TinyInteger('ap_due_date_end_3')->nullable();
+            $table->TinyInteger('ap_due_date_start_4')->nullable();
+            $table->TinyInteger('ap_due_date_end_4')->nullable();
+            $table->TinyInteger('ap_due_date_start_5')->nullable();
+            $table->TinyInteger('ap_due_date_end_5')->nullable();
             $table->timestamps();
         });
     }

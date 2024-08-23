@@ -3,10 +3,9 @@
 @section('styles')
 @endsection
 @section('content')
-<!-- Content -->
 <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="py-3 mb-4 float-right"><span class="text-muted fw-light">Home /</span> File Types</h4>
-    <!-- Ajax Sourced Server-side -->
+    @include('file_type.__search')
     <div class="card">
         <div class="card-datatable table-responsive" style="overflow:hidden;width:96%;margin:auto;">
             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
@@ -48,13 +47,9 @@
             </div>
         </div>
     </div>
-    <!--/ Ajax Sourced Server-side -->
-    <!--/ Responsive Datatable -->
     @include('file_type.__model')
     @include('file_type.__import')
 </div>
-
-<!-- / Content -->
 @endsection
 @section('scripts')
 @include('file_type.__scripts')

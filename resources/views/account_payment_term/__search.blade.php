@@ -2,11 +2,11 @@
     <div class="row g-3 mb-3 p-3">
         <div class="col-12 col-sm-6 col-lg-2">
             <label class="form-label"><b style="margin-left: 8px;">Code : </b></label>
-            <input type="text" class="form-control dt-input dt-full-name" id="codeFilter" placeholder="Search Code">
+            <input type="text" class="form-control dt-input dt-full-name" name="codeFilter" id="codeFilter" placeholder="Search Code">
         </div>
         <div class="col-12 col-sm-6 col-lg-2">
             <label class="form-label"><b style="margin-left: 8px;">Label : </b></label>
-            <input type="text" class="form-control dt-input" id="labelFilter" placeholder="Search Label">
+            <input type="text" class="form-control dt-input" name="labelFilter" id="labelFilter" placeholder="Search Label">
         </div>
         <div class="col-12 col-sm-6 col-lg-2">
             <label class="form-label"><b style="margin-left: 8px;">Types : </b></label>
@@ -19,7 +19,7 @@
         </div>
         <div class="col-12 col-sm-6 col-lg-2">
             <label class="form-label"><b style="margin-left: 8px;">Net Due : </b></label>
-            <input type="text" class="form-control dt-input" id="netDueFilter" placeholder="Search Net Due Day">
+            <input type="text" class="form-control dt-input" name="netDueFilter" id="netDueFilter" placeholder="Search Net Due Day">
         </div>
         <div class="col-12 col-sm-6 col-lg-4 d-flex justify-content-end align-items-end">
             <button class="btn btn-primary" type="button" id="createPaymentTerm" name="createPaymentTerm">

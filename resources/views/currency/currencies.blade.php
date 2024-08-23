@@ -5,23 +5,14 @@
 @section('styles')
 @endsection
 @section('content')
-<!-- Content -->
 <div class="content-wrapper">
-  <!-- Content -->
   <div class="container-xxl flex-grow-1 container-p-y">
-    <!-- //toast -->
-    <div class="container-toast ">
-
-    </div>
-    <h4 class="py-3 mb-4"><span class="text-muted fw-light"></span>List of Currencies</h4>
+    <h4 class="py-3 mb-4"><span class="text-muted fw-light">Home / </span>List of Currencies</h4>
+    @include('currency.__search')
     <div class="row mb-3">
       <div class="col">
-        <!-- DataTable with Buttons -->
-
         <div class="card">
-          <!-- </div> -->
           <div class="row mb-2 p-3">
-
             <div class="col">
               <table class=" datatables-basic table tables-basic border-top table-striped" id="currencyTable">
                 <thead>
@@ -43,12 +34,8 @@
         </div>
       </div>
     </div>
-
   </div>
-
 </div>
-
-<!-- / Content -->
 @include('currency.__model')
 @endsection
 

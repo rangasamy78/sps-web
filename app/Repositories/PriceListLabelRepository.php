@@ -54,9 +54,27 @@ class PriceListLabelRepository implements CrudRepositoryInterface, DatatableRepo
         }
         return $deleted;
     }
-    public function getPriceListLabelsList()
+    public function getPriceListLabelsList($request)
     {
         $query = PriceListLabel::query();
+        if (!empty($request->price_label_search) ) {
+            $query->where('price_label', 'like', '%' . $request->price_label_search . '%');
+        }
+        if (!empty($request->price_code_search) ) {
+            $query->where('price_code', 'like', '%' . $request->price_code_search . '%');
+        }
+        if (!empty($request->discount_search) ) {
+            $query->where('default_discount', $request->discount_search);
+        }
+        if (!empty($request->margin_search) ) {
+            $query->where('default_margin', $request->margin_search);
+        }
+        if (!empty($request->markup_search) ) {
+            $query->where('default_markup', $request->markup_search);
+        }
+        if (!empty($request->sales_person_commission_search) ) {
+            $query->where('sales_person_commission', $request->sales_person_commission_search);
+        }
         return $query;
     }
     public function dataTable(Request $request)
@@ -71,25 +89,15 @@ class PriceListLabelRepository implements CrudRepositoryInterface, DatatableRepo
         $columnName           =         $columnNameArray[$columnIndex]['data'];
         $columnSortOrder      =         $orderArray[0]['dir'];
         $searchValue          =         $searchArray['value'];
-        $PriceListLabels = $this->getPriceListLabelsList();
+        $PriceListLabels = $this->getPriceListLabelsList($request);
         $total = $PriceListLabels->count();
 
-        $totalFilter = $this->getPriceListLabelsList();
-        if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('price_label', 'like', '%' . $searchValue . '%');
-        }
+        $totalFilter = $this->getPriceListLabelsList($request);
+ 
         $totalFilter = $totalFilter->count();
-        $arrData = $this->getPriceListLabelsList();
+        $arrData = $this->getPriceListLabelsList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
-        if (!empty($searchValue)) {
-            $arrData = $arrData->where('price_label', 'like', '%' . $searchValue . '%')
-                ->orwhere('price_code', 'like', '%' . $searchValue . '%')
-                ->orwhere('default_discount', 'like', '%' . $searchValue . '%')
-                ->orwhere('default_margin', 'like', '%' . $searchValue . '%')
-                ->orwhere('default_markup', 'like', '%' . $searchValue . '%')
-                ->orwhere('sales_person_commission', 'like', '%' . $searchValue . '%');
-        }
         $arrData = $arrData->get();
         $arrData->map(function ($value) {
             $value->price_label      = $value->price_label ?? '';

@@ -17,7 +17,7 @@
                 ajax: {
                     url: "{{ route('payment_methods.list') }}",
                     data: function(d) {
-                        d.expense_category_search = $('#methodNameFilter').val();
+                        d.method_name_search = $('#methodNameFilter').val();
                         d.account_search = $('#linkedAccountFilter').val();
                         d.account_type_search = $('#accountTypeFilter').val();
                         sort = (d.order[0].dir == 'asc') ? "asc" : "desc";

@@ -47,9 +47,24 @@ Class CompanyRepository implements CrudRepositoryInterface, DatatableRepositoryI
         return $query;
     }
 
-    public function getCompanyList()
+    public function getCompanyList($request)
     {
        $query = Company::query();
+       if (!empty($request->company_name_search) ) {
+            $query->where('company_name', 'like', '%' . $request->company_name_search . '%');
+       }
+       if (!empty($request->email_search) ) {
+            $query->where('email', 'like', '%' . $request->email_search . '%');
+       }
+       if (!empty($request->city_search) ) {
+            $query->where('city', 'like', '%' . $request->city_search . '%');
+       }
+       if (!empty($request->state_search) ) {
+            $query->where('state', 'like', '%' . $request->state_search . '%');
+       }
+       if (!empty($request->phone_search) ) {
+            $query->where('phone_1', $request->phone_search);
+       }
        return $query;
     }
 
@@ -65,27 +80,25 @@ Class CompanyRepository implements CrudRepositoryInterface, DatatableRepositoryI
         $columnSortOrder 	= 		$orderArray[0]['dir'];
         $searchValue 		= 		$searchArray['value'];
 
-        $companies = $this->getCompanyList();
+        $companies = $this->getCompanyList($request);
         $total = $companies->count();
 
-        $totalFilter = $this->getCompanyList();
-        if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('company_name','like','%'.$searchValue.'%');
-        }
+        $totalFilter = $this->getCompanyList($request);
         $totalFilter = $totalFilter->count();
 
-        $arrData = $this->getCompanyList();
+        $arrData = $this->getCompanyList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName,$columnSortOrder);
 
-        if (!empty($searchValue)) {
-            $arrData = $arrData->where('company_name','like','%'.$searchValue.'%');
-        }
+       
         $arrData = $arrData->get();
 
         $arrData->map(function ($value, $i) {
-            $value->sno = ++$i;
             $value->company_name = $value->company_name ?? '';
+            $value->email = $value->email ?? '';
+            $value->phone_1 = $value->phone_1 ?? '';
+            $value->state = $value->state ?? '';
+            $value->city = $value->city ?? '';
             $value->action = "<button type='button' data-id='".$value->id."' class='p-2 m-0 btn btn-warning btn-sm showbtn'><i class='fa-regular fa-eye fa-fw'></i></button>&nbsp;&nbsp;<button type='button' data-id='".$value->id."'  name='btnEdit' class='editbtn btn btn-primary btn-sm p-2 m-0'><i class='fas fa-pencil-alt'></i></button>&nbsp;&nbsp;<button type='button' data-id='".$value->id."'  name='btnDelete' class='deletebtn btn btn-danger btn-sm p-2 m-0'><i class='fas fa-trash-alt'></i></button>";
         });
 

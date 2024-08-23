@@ -2,10 +2,10 @@
     <div class="row g-3 mb-3 p-3">
         <label><b>Search Filters : </b></label>
         <div class="col-12 col-sm-6 col-lg-2">
-            <input type="text" class="form-control dt-input dt-full-name" id="accountCodeFilter" placeholder="Search Account Code">
+            <input type="text" class="form-control dt-input dt-full-name" name="accountCodeFilter" id="accountCodeFilter" placeholder="Search Account Code">
         </div>
         <div class="col-12 col-sm-6 col-lg-2">
-            <input type="text" class="form-control dt-input dt-full-name" id="accountNameFilter" placeholder="Search Account Name">
+            <input type="text" class="form-control dt-input dt-full-name" name="accountNameFilter" id="accountNameFilter" placeholder="Search Account Name">
         </div>
         <div class="col-12 col-sm-6 col-lg-3">
             <select class="form-select" name="accountTypeFilter" id="accountTypeFilter">

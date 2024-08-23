@@ -17,14 +17,16 @@ class AgingPeriodAPController extends Controller
     {
         $this->agingPeriodAPRepository = $agingPeriodAPRepository;
     }
+    
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $agingPeriodAPRepositoryDetail = AgingPeriodAP::latest()->first();
-        return view('aging_period_ap.aging_period_aps', compact('agingPeriodAPRepositoryDetail'));
+        return view('account_payable_aging_period.account_payable_aging_periods', compact('agingPeriodAPRepositoryDetail'));
     }
+
     public function save(CreateAgingPeriodAPRequest $request)
     {
         try {

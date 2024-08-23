@@ -37,7 +37,7 @@ class LinkedAccountRepository implements CrudRepositoryInterface, DatatableRepos
     {
         $query = LinkedAccount::query();
         if (!empty($request->account_code_search) ) {
-            $query->where('account_code', 'like', '%' . $request->account_code_search . '%');
+            $query->where('account_code', $request->account_code_search);
         }
         if (!empty($request->account_name_search) ) {
             $query->where('account_name', 'like', '%' . $request->account_name_search . '%');
@@ -66,19 +66,10 @@ class LinkedAccountRepository implements CrudRepositoryInterface, DatatableRepos
         $total = $LinkedAccounts->count();
 
         $totalFilter = $this->getLinkedAccountList($request);
-        if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('account_code', 'like', '%' . $searchValue . '%');
-        }
         $totalFilter = $totalFilter->count();
         $arrData = $this->getLinkedAccountList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
-        if (!empty($searchValue)) {
-            $arrData = $arrData->where('account_code', 'like', '%' . $searchValue . '%')
-                ->orwhere('account_name', 'like', '%' . $searchValue . '%')
-                ->orwhere('account_type', 'like', '%' . $searchValue . '%')
-                ->orwhere('account_sub_type', 'like', '%' . $searchValue . '%');
-        }
         $arrData = $arrData->get();
         $arrData->map(function ($value) {
             $value->account_code     = $value->account_code ?? '';

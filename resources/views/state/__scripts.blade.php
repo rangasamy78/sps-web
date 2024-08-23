@@ -6,14 +6,23 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+        $('#stateNameFilter, #stateCodeFilter').on('keyup change', function(e) {
+            e.preventDefault();
+            table.draw();
+        });
+
         var table = $('#datatable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
+            searching: false,
             order: [[0, 'desc']],
             ajax: {
                 url: "{{ route('states.list') }}",
                 data: function (d) {
+                    d.state_name_search = $('#stateNameFilter').val();
+                    d.state_code_search = $('#stateCodeFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{ column: 0, dir: sort }];
                 }
@@ -41,8 +50,26 @@
                 },
             ],
             rowCallback: function (row, data, index) {
-                $('td:eq(0)', row).html(table.page.info().start + index + 1);
-            }
+                $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
+            },
+            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            buttons: [{
+                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Create New State</span>',
+                className: 'create-new btn btn-primary',
+                attr: {
+                    'data-bs-toggle': 'modal',
+                    'data-bs-target': '#stateModel',
+                },
+                action: function(e, dt, node, config) {
+                    $('#savedata').val("create-state");
+                    $('#savedata').html("Save State");
+                    $('#state_id').val('');
+                    $('#stateForm').trigger("reset");
+                    $('.name_error').html('');
+                    $('#modelHeading').html("Create New State");
+                    $('#stateModel').modal('show');
+                }
+            }],
         });
         $('#createState').click(function () {
             $('#savedata').val("create-state");
@@ -307,11 +334,7 @@
 
     $('#downloadState').on('click', function ()
     {
-    window.location.href = "{{ route('state.template_download') }}";
+        window.location.href = "{{ route('state.template_download') }}";
     });
-
-
 });
-
-
 </script>
