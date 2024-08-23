@@ -97,7 +97,6 @@ var toastMixin = Swal.mixin({
 // Function to display toast with dynamic color
 function showToast(type, title) {
     let className;
-    alert(type);
     switch(type) {
         case 'success':
             className = 'swal2-icon-success';
