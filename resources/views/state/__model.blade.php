@@ -1,5 +1,5 @@
 <div class="modal fade" id="stateModel" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modelHeading"></h5>
@@ -9,8 +9,7 @@
                 <form id="stateForm" name="stateForm" class="form-horizontal">
                     <input type="hidden" name="state_id" id="state_id">
                     <div class="form-group">
-                        <label for="name" class="col-sm-2 control-label">Name <sup
-                                style="color: red;font-size:1rem;"><b>*</b></sup></label>
+                        <label for="name" class="col-sm-2 form-label">Name <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="name" name="name"
                                 placeholder="Enter Name" value="">
@@ -18,7 +17,7 @@
                         <span class="text-danger error-text name_error"></span>
                     </div>
                     <div class="form-group mt-3">
-                        <label class="col-sm-2 control-label">Code</label>
+                        <label class="col-sm-2 form-label">Code</label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="code" name="code"
                                 placeholder="Enter code" value="">
@@ -27,8 +26,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary" id="savedata" value="create">Save State</button>
+                <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -44,7 +43,7 @@
             <div class="modal-body">
                 <form id="showStateForm" name="showStateForm" class="form-horizontal">
                     <div class="form-group">
-                        <label for="name" class="col-sm-2 control-label">Name</label>
+                        <label for="name" class="col-sm-2 form-label">Name</label>
                         <div class="col-sm-12">
                             <input type="text" disabled class="form-control" id="name" name="name"
                                 placeholder="Enter Name" value="">
@@ -52,7 +51,7 @@
                         <span class="text-danger error-text name_error"></span>
                     </div>
                     <div class="form-group mt-3">
-                        <label class="col-sm-2 control-label">Code</label>
+                        <label class="col-sm-2 form-label">Code</label>
                         <div class="col-sm-12">
                             <input type="text" disabled class="form-control" id="code" name="code"
                                 placeholder="Enter code" value="">

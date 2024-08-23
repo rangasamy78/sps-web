@@ -42,15 +42,15 @@
                         <div class="col">
                             <table class="datatables-basic table tables-basic border-top table-striped"
                                 id="accountStandardPaymentTermTable">
-                                <thead>
+                                <thead class="table-header-bold">
                                     <tr class="odd gradeX">
-                                        <th class="center"><b>Sl.No</b></th>
-                                        <th><b>Code</b></th>
-                                        <th><b>Label</b></th>
-                                        <th><b>Types</b></th>
-                                        <th><b>Net Due <span id="lbl-name">In</span></b></th>
-                                        <th><b>Usage</b></th>
-                                        <th><b>Actions</b></th>
+                                        <th class="center">Sl.No</th>
+                                        <th>Code</th>
+                                        <th>Label</th>
+                                        <th>Types</th>
+                                        <th>Net Due <span id="lbl-name">In</span></th>
+                                        <th>Usage</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>

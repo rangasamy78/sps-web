@@ -26,11 +26,11 @@
                     </div>
                 </div>
                 <table class="table table-bordered data-table  table-striped" id="datatable" style="width: 100%">
-                    <thead>
+                    <thead class="table-header-bold">
                         <tr>
-                            <th><b>S.No</b></th>
-                            <th><b>Probability To Close</b></th>
-                            <th width="150px"><b>Action</b></th>
+                            <th>S.No</th>
+                            <th>Probability To Close</th>
+                            <th width="150px">Action</th>
                         </tr>
                     </thead>
                     <tbody>

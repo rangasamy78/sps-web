@@ -67,7 +67,6 @@ function sending(button, reset = false) {
         return button.html(button.data('original-text'));
     } else {
         if (!button.data('original-text')) {
-            console.log(button.data('original-text'));
             button.data('original-text', button.html());
         }
         return button.html('Sending&nbsp;&nbsp;<span class="spinner-border spinner-border-sm"></span>');
@@ -125,3 +124,9 @@ function showToast(type, title) {
 // Example usage
 // showToast('success', 'Operation Successful');
 
+setTimeout(() => {
+    $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right',
+        '20px');
+    $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left',
+        '30px');
+}, 300);

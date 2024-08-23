@@ -9,14 +9,14 @@
                 <form id="shipmentTermForm" name="shipmentTermForm" class="form-horizontal">
                     <input type="hidden" name="shipment_term_id" id="shipment_term_id">
                     <div class="form-group mb-2 p-1">
-                        <label for="shipment_term_name" class="col-sm-6 control-label pb-1">Shipment Term Name <sup style="color: red;font-size:1rem;"><b>*</b></sup></label>
+                        <label for="shipment_term_name" class="col-sm-6 form-label pb-1">Shipment Term Name <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="shipment_term_name" name="shipment_term_name" placeholder="Enter Shipment Term Name" value="">
                         </div>
                         <span class="text-danger error-text shipment_term_name_error"></span>
                     </div>
                     <div class="form-group mb-2 p-1">
-                        <label for="description" class="col-sm-6 control-label pb-1">Description</label>
+                        <label for="description" class="col-sm-6 form-label pb-1">Description</label>
                         <div class="col-12">
                             <div id="descriptionEditor">&nbsp;</div>
                         </div>
@@ -46,13 +46,13 @@
             <div class="modal-body">
                 <form id="showShipmentTermForm" name="showShipmentTermForm" class="form-horizontal">
                     <div class="form-group">
-                        <label for="shipment_term_name" class="control-label">Shipment Term Name</label>
+                        <label for="shipment_term_name" class="form-label">Shipment Term Name</label>
                         <div class="col-sm-12">
                             <input type="text" readonly class="form-control" id="shipment_term_name" name="shipment_term_name" value="">
                         </div>
                     </div>
                     <div class="form-group mb-2 p-1">
-                        <label for="description" class="control-label pb-1">Description</label>
+                        <label for="description" class="form-label pb-1">Description</label>
                         <div class="col-12">
                             <div id="showDescriptionEditor"></div>
                         </div>

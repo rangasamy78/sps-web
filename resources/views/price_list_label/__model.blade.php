@@ -16,19 +16,19 @@
                             <span class="text-danger error-text price_level_error"></span>
                         </div>
                         <div class="col-6 mb-3">
-                            <label for="price_code" class="form-label">Price Code</label>
+                            <label for="price_code" class="form-label">Price Code <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                             <input type="text" id="price_code" name="price_code" class="form-control" placeholder="Enter Price Code">
                             <span class="text-danger error-text price_code_error"></span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-6 mb-3">
-                            <label for="price_label" class="form-label">Price Label</label>
+                            <label for="price_label" class="form-label">Price Label <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                             <input type="text" id="price_label" name="price_label" class="form-control" placeholder="Enter Price Label">
                             <span class="text-danger error-text price_label_error"></span>
                         </div>
                         <div class="col-6 mb-3">
-                            <label for="price_notes" class="form-label">Price Notes</label>
+                            <label for="price_notes" class="form-label">Price Notes <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                             <input type="text" id="price_notes" name="price_notes" class="form-control" placeholder="Enter Price Notes">
                             <span class="text-danger error-text price_notes_error"></span>
                         </div>
@@ -136,34 +136,34 @@
                         </div>
                         <div class="col-6 mb-3">
                             <label for="price_code" class="form-label">Price Code</label>
-                            <input type="text" id="price_code" name="price_code" disabled class="form-control" placeholder="Enter Price Code">
+                            <input type="text" id="price_code" name="price_code" disabled class="form-control" >
                             <span class="text-danger error-text price_code_error"></span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-6 mb-3">
                             <label for="price_label" class="form-label">Price Label</label>
-                            <input type="text" id="price_label" name="price_label" disabled class="form-control" placeholder="Enter Price Label">
+                            <input type="text" id="price_label" name="price_label" disabled class="form-control" >
                             <span class="text-danger error-text price_label_error"></span>
                         </div>
                         <div class="col-6 mb-3">
                             <label for="price_notes" class="form-label">Price Notes</label>
-                            <input type="text" id="price_notes" name="price_notes" disabled class="form-control" placeholder="Enter Price Notes">
+                            <input type="text" id="price_notes" name="price_notes" disabled class="form-control" >
                             <span class="text-danger error-text price_notes_error"></span>
                         </div>
                     </div>
 
                     <div class="row m-3">
                         <div class="col-6  mb-2 mb-md-0">
-                            <div class="p-3  ">
-                                <h5 class="text-success ">Customer Type</h5>
-                                <div class="container ">
+                            <div class="p-3">
+                                <h5 class="text-success">Customer Type</h5>
+                                <div class="container">
                                     @foreach ($customers as $customer)
                                     <div class="row mb-3">
-                                        <div class="col-12 col-md-6 ">
+                                        <div class="col-12 col-md-6">
                                             <span>{{$customer->customer_type_name}}</span>
                                         </div>
-                                        <div class="col-12 col-md-6 ">
+                                        <div class="col-12 col-md-6">
                                             <input type="checkbox" class="form-check-input" disabled name="customer_type_id[][customer_type_id]" id="customer_type_id_{{$customer->id}}" value="{{$customer->id}}">
                                         </div>
                                     </div>
@@ -172,18 +172,18 @@
                             </div>
                         </div>
                         <div class="col-6  mb-2 mb-md-0">
-                            <div class="p-3 ">
+                            <div class="p-3">
                                 <h5 class="text-success">Location</h5>
-                                <div class="container ">
+                                <div class="container">
                                     <div class="row">
-                                        <div class="col-12 col-md-8 "><span>Eligible for all Locations</span></div>
-                                        <div class="col-12 col-md-4 ">
+                                        <div class="col-12 col-md-8"><span>Eligible for all Locations</span></div>
+                                        <div class="col-12 col-md-4">
                                             <input type="checkbox" class="form-check-input" disabled name="location_id[][location_id]" id="location_id_0" value="1">
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-12 col-md-8 "><span>ULTRA STONES LLC</span></div>
-                                        <div class="col-12 col-md-4 ">
+                                        <div class="col-12 col-md-8"><span>ULTRA STONES LLC</span></div>
+                                        <div class="col-12 col-md-4">
                                             <input type="checkbox" class="form-check-input" disabled name="location_id[][location_id]" id="location_id_1" value="2">
                                         </div>
                                     </div>

@@ -28,7 +28,7 @@
                         </div>
                     </div>
                     <table class="table table-bordered data-table  table-striped" id="datatable" style="width: 100%">
-                        <thead>
+                        <thead class="table-header-bold">
                             <tr>
                                 <th>S.No</th>
                                 <th>Product Thickness Name</th>

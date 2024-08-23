@@ -13,8 +13,13 @@ return new class extends Migration
     {
         Schema::create('transaction_startings', function (Blueprint $table) {
             $table->id();
-            $table->string('type');
-            $table->string('starting_number');
+            $table->integer('po_starting_number')->nullable();
+            $table->integer('supplier_invoice_starting_number')->nullable();
+            $table->integer('pre_sale_starting_number')->nullable();
+            $table->integer('sale_order_starting_number')->nullable();
+            $table->integer('delivery_starting_number')->nullable();
+            $table->integer('invoice_starting_number')->nullable();
+            $table->integer('finance_charge_invoice_starting_number')->nullable();
             $table->timestamps();
         });
     }

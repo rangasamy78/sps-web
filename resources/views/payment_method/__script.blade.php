@@ -11,21 +11,21 @@
                 processing: true,
                 serverSide: true,
                 order: [
-                    [0, 'desc']
+                    [1, 'desc']
                 ],
                 ajax: {
                     url: "{{ route('payment_methods.list') }}",
                     data: function(d) {
                         sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                         d.order = [{
-                            column: 0,
+                            column: 1,
                             dir: sort
                         }];
                     }
                 },
                 columns: [{
-                        data: 'id',
-                        name: 'id',
+                        data: null,
+                        name: 'serial',
                         orderable: false,
                         searchable: false
                     },
@@ -85,8 +85,8 @@
 
             $('#savedata').click(function(e) {
                 e.preventDefault();
-                var button = $(this).html();
-                $(this).html('Sending..');
+                var button = $(this);
+                sending(button);
                 var url = $('#payment_method_id').val() ? "{{ route('payment_methods.update', ':id') }}".replace(':id', $('#payment_method_id').val()) : "{{ route('payment_methods.store') }}";
                 var type = $('#payment_method_id').val() ? "PUT" : "POST";
                 $.ajax({
@@ -106,7 +106,7 @@
                     },
                     error: function(xhr) {
                         handleAjaxError(xhr);
-                        $('#savedata').html(button);
+                        sending(button, true);
                     }
                 });
             });
@@ -173,12 +173,5 @@
                     }
                 });
             });
-            
-            setTimeout(() => {
-                $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right',
-                    '20px');
-                $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left',
-                    '30px');
-            }, 300);
         });
     </script>

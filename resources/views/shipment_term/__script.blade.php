@@ -1,7 +1,7 @@
 <script type="text/javascript">
   $(function() {
     $("#showDescriptionEditor").attr('disabled', true);
-    
+
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -13,22 +13,23 @@
       processing: true,
       serverSide: true,
       order: [
-        [0, 'desc']
+        [1, 'desc']
       ],
       ajax: {
         url: "{{ route('shipment_terms.list') }}",
         data: function(d) {
           sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
           d.order = [{
-            column: 0,
+            column: 1,
             dir: sort
           }];
         }
       },
       columns: [{
-          data: 'id',
-          name: 'id',
-
+          data: null,
+          name: 'serial',
+          orderable: false,
+          searchable: false
         }, {
           data: 'shipment_term_name',
           name: 'shipment_term_name'
@@ -48,8 +49,6 @@
         $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
       },
       dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-      // displayLength: 7,
-      // lengthMenu: [7, 10, 25, 50, 75, 100],
       buttons: [{
         text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Create Shipment Term</span>',
         className: 'create-new btn btn-primary',
@@ -80,7 +79,8 @@
 
     $('#savedata').click(function(e) {
       e.preventDefault();
-      $(this).html('Sending..');
+      var button = $(this);
+      sending(button);
       var url = $('#shipment_term_id').val() ? "{{ route('shipment_terms.update', ':id') }}".replace(':id', $('#shipment_term_id').val()) : "{{ route('shipment_terms.store') }}";
       var type = $('#shipment_term_id').val() ? "PUT" : "POST";
       $.ajax({
@@ -100,8 +100,7 @@
         },
         error: function(xhr) {
           handleAjaxError(xhr);
-          var button = type === 'POST' ? 'Save Shipment Term' : 'Update Shipment Term';
-          $('#savedata').html(button);
+          sending(button, true);
         }
       });
     });
@@ -238,7 +237,7 @@
     function clearEditor() {
       descriptionEditor.setContents([]); // Clear all content
     }
-    
+
     const showDescriptionEditor = new Quill('#showDescriptionEditor', {
       bounds: '#showDescriptionEditor',
       modules: {

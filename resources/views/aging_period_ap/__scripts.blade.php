@@ -59,8 +59,8 @@ $(function() {
         $('#savedata').click(function(e) {
             resetForm();
             e.preventDefault();
-            var button = $(this).html();
-            $(this).html('Sending..');
+            var button = $(this);
+            sending(button);
             $.ajax({
                 url: "{{ route('aging_periods_aps.save') }}",
                 type: "POST",
@@ -90,11 +90,12 @@ $(function() {
                         var successMessage = response.msg;
                         var successTitle = response.status;
                         showSuccessMessage(successTitle, successMessage);
+                        sending(button,true);
                     }
                 },
                 error: function(xhr) {
                     handleAjaxError(xhr);
-                    $('#savedata').html(button);
+                    // $('#savedata').html(button);
                 }
             });
         });

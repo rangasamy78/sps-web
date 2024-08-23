@@ -21,16 +21,16 @@
                         <div class="dt-buttons btn-group flex-wrap">
                             <button class="btn btn-secondary create-new btn-primary" type="button"
                                 id="createOpportunityStage"><span><i class="bx bx-plus me-1"></i> <span
-                                        class="d-none d-lg-inline-block">Create Opportunity Stage</span></span></button>
+                                class="d-none d-lg-inline-block">Create Opportunity Stage</span></span></button>
                         </div>
                     </div>
                 </div>
                 <table class="table table-bordered data-table  table-striped" id="datatable" style="width: 100%">
-                    <thead>
+                    <thead class="table-header-bold">
                         <tr>
-                            <th><b>S.No</b></th>
-                            <th><b>Opportunity Stage</b></th>
-                            <th width="150px"><b>Action</b></th>
+                            <th>S.No</b></th>
+                            <th>Opportunity Stage</b></th>
+                            <th width="150px">Action</b></th>
                         </tr>
                     </thead>
                     <tbody>

@@ -14,7 +14,7 @@ class PickTicketRestrictionRepository
                 ->update($data);
             return $data['id'];
         } else {
-            $query =  PickTicketRestriction::query()
+            $query = PickTicketRestriction::query()
                 ->create($data);
             return $query->id;
         }

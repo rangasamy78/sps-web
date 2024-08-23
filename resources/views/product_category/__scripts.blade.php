@@ -10,16 +10,16 @@
             responsive: true,
             processing: true,
             serverSide: true,
-            order: [[0, 'desc']],
+            order: [[1, 'desc']],
             ajax: {
                 url: "{{ route('product_categories.list') }}",
                 data: function (d) {
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
-                    d.order = [{ column: 0, dir: sort }];
+                    d.order = [{ column: 1, dir: sort }];
                 }
             },
             columns: [
-                { data: 'id', name: 'id', orderable: false, searchable: false },
+                { data: null, name: 'serial', orderable: false, searchable: false },
                 { data: 'product_category_name', name: 'product_category_name' },
                 { data: 'subcategory', name: 'subcategory' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
@@ -97,8 +97,8 @@
             if (checkSubcategoryDuplicate()) {
                 return;
             }
-            var button = $(this).html();
-            $(this).html('Sending..');
+            var button = $(this);
+            sending(button);
             var url = $('#product_category_id').val() ? "{{ route('product_categories.update', ':id') }}".replace(':id', $('#product_category_id').val()) : "{{ route('product_categories.store') }}";
             var type = $('#product_category_id').val() ? "PUT" : "POST";
             $.ajax({
@@ -118,7 +118,7 @@
                 },
                 error: function (xhr) {
                     handleAjaxError(xhr);
-                    $('#savedata').html(button);
+                    sending(button,true);
                 }
             });
         });
@@ -252,11 +252,6 @@
                 });
             });
         });
-
-        setTimeout(() => {
-            $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
-            $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');
-        }, 300);
 
         $(document).on('click', '.remove-subcategory-btn', function () {
             $(this).closest('.subcategory-row').remove();

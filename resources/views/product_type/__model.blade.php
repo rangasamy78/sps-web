@@ -11,7 +11,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="product-type" class="control-label">Product Type <sup style="color: red;font-size:1rem;"><b>*</b></sup></label>
+                            <label for="product-type" class="form-label">Product Type <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                             <div class="col-sm-12">
                                 <input type="text" class="form-control" id="product_type" name="product_type" placeholder="Enter Product Type" value="">
                             </div>
@@ -80,8 +80,8 @@
             </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary" id="savedata" value="create">Save Product Type</button>
+                <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -99,7 +99,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="Product Type" class="control-label">Product Type</label>
+                                <label for="Product Type" class="form-label">Product Type</label>
                                 <div class="col-sm-12">
                                     <input type="text" class="form-control" id="product_type" disabled name="product_type" placeholder="Enter Product Type" value="">
                                 </div>

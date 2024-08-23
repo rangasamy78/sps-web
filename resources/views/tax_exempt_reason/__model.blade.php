@@ -9,7 +9,7 @@
                 <form id="taxExemptReasonForm" name="taxExemptReasonForm" class="form-horizontal">
                     <input type="hidden" name="tax_exempt_reason_id" id="tax_exempt_reason_id">
                     <div class="form-group mb-2 p-1">
-                        <label for="reason" class="col-sm-6 control-label pb-1">Reason<sup style="color: red;font-size:1rem;"><b>*</b></sup></label>
+                        <label for="reason" class="form-label pb-1">Reason <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="reason" name="reason" placeholder="Enter Reason" value="">
                         </div>
@@ -36,7 +36,7 @@
             <div class="modal-body">
                 <form id="showTaxExemptReasonForm" name="showTaxExemptReasonForm" class="form-horizontal">
                     <div class="form-group mb-2 p-1">
-                        <label for="reason" class="col-sm-6 control-label pb-1">Reason</label>
+                        <label for="reason" class="form-label pb-1">Reason</label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" disabled id="reason" name="reason" >
                         </div>

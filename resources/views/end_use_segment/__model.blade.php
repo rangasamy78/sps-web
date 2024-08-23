@@ -9,7 +9,7 @@
                 <form id="endUseSegmentForm"  class="form-horizontal">
                     <input type="hidden" name="end_use_segment_id" id="end_use_segment_id">
                     <div class="form-group">
-                    <label for="name" class=" control-label pb-1">End Use Segment<sup style="color:red"><strong>*</strong></sup></label>
+                    <label for="name" class="form-label pb-1">End Use Segment <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="end_use_segment" name="end_use_segment" placeholder="Enter End Use Segment" value="">
                         </div>
@@ -36,7 +36,7 @@
             <div class="modal-body">
                 <form id="endUseSegmentShowForm" name="endUseSegmentShowForm" class="form-horizontal">
                     <div class="form-group">
-                        <label for="name" class=" control-label">End Use Segment</label>
+                        <label for="name" class="form-label">End Use Segment</label>
                         <div class="col-sm-12">
                             <input type="text" readonly class="form-control" id="end_use_segment" name="end_use_segment" value="">
                         </div>

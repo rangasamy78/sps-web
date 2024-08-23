@@ -1,5 +1,5 @@
 <div class="modal fade" id="probabilityToCloseModel" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modelHeading"></h5>
@@ -9,8 +9,7 @@
                 <form id="probabilityToCloseForm" name="probabilityToCloseForm" class="form-horizontal">
                     <input type="hidden" name="probability_to_close_id" id="probability_to_close_id">
                     <div class="form-group">
-                        <label for="Probability To Close" class="col-sm-4 control-label">Probability To Close <sup
-                                style="color: red;font-size:1rem;"><b>*</b></sup></label>
+                        <label for="Probability To Close" class="pb-1 form-label">Probability To Close <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="probability_to_close" name="probability_to_close"
                                 placeholder="Enter Probability To Close" value="">
@@ -20,8 +19,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary" id="savedata" value="create">Save Probability To Close</button>
+                <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -37,7 +36,7 @@
             <div class="modal-body">
                 <form id="showProbabilityToCloseForm" name="showProbabilityToCloseForm" class="form-horizontal">
                     <div class="form-group">
-                        <label for="Probability To Close" class="col-sm-4 control-label">Probability To Close</label>
+                        <label for="Probability To Close" class="col-sm-4 form-label">Probability To Close</label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="probability_to_close" name="probability_to_close" disabled
                                 value="">

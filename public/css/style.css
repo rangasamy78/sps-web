@@ -3,3 +3,6 @@
     width: 96%;
     margin: auto;
 } */
+.table-header-bold th {
+    font-weight: bold;
+}

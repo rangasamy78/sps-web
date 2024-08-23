@@ -1,5 +1,5 @@
 <div class="modal fade" id="returnReasonCodeModel" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modelHeading"></h5>
@@ -9,8 +9,7 @@
                 <form id="returnReasonCodeForm" name="returnReasonCodeForm" class="form-horizontal">
                     <input type="hidden" name="return_code_id" id="return_code_id">
                     <div class="form-group">
-                        <label for="Return Code" class="col-sm-4 control-label">Return Code <sup
-                                style="color: red;"><strong>*</strong></sup></label>
+                        <label for="Return Code" class="col-sm-4 form-label">Return Code <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="return_code" name="return_code"
                                 placeholder="Enter Return Code" value="">
@@ -20,8 +19,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary" id="savedata" value="create">Save Return Code</button>
+                <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -37,7 +36,7 @@
             <div class="modal-body">
                 <form id="showReturnReasonCodeForm" name="showReturnReasonCodeForm" class="form-horizontal">
                     <div class="form-group">
-                        <label for="Return Code" class="col-sm-4 control-label">Return Code</label>
+                        <label for="Return Code" class="col-sm-4 form-label">Return Code</label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="return_code" name="return_code" disabled
                                 value="">

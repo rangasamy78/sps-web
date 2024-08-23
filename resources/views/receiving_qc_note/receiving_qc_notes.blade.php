@@ -26,12 +26,12 @@
                     </div>
                 </div>
                 <table class="table table-bordered data-table  table-striped" id="datatable" style="width: 100%">
-                    <thead>
+                    <thead class="table-header-bold">
                         <tr>
-                            <th><b>S.No</b></th>
-                            <th><b>Return Code</b></th>
-                            <th><b>Notes</b></th>
-                            <th width="150px"><b>Action</b></th>
+                            <th>S.No</th>
+                            <th>Return Code</th>
+                            <th>Notes</th>
+                            <th width="150px">Action</th>
                         </tr>
                     </thead>
                     <tbody>

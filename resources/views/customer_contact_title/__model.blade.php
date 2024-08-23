@@ -9,7 +9,7 @@
                 <form id="customerContactTitleForm"  class="form-horizontal">
                     <input type="hidden" name="customer_title_id" id="customer_title_id">
                     <div class="form-group">
-                    <label for="name" class=" control-label pb-1">Customer Title <sup style="color:red"><strong>*</strong></sup></label>
+                    <label for="name" class="form-label pb-1">Customer Title <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="customer_title" name="customer_title" placeholder="Enter Customer Title" value="">
                         </div>
@@ -36,9 +36,9 @@
             <div class="modal-body">
                 <form id="showCustomerContactTitleForm" name="showCustomerContactTitleForm" class="form-horizontal">
                     <div class="form-group">
-                        <label for="name" class=" control-label">Customer Contact Title</label>
+                        <label for="name" class="form-label">Customer Contact Title</label>
                         <div class="col-sm-12">
-                            <input type="text" readonly class="form-control" id="customer_title" name="customer_title" value="">
+                            <input type="text" disabled class="form-control" id="customer_title" name="customer_title" value="">
                         </div>
                     </div>
                 </form>

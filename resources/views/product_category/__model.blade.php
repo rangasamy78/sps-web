@@ -9,8 +9,7 @@
                 <form id="productCategoryForm" name="productCategoryForm" class="form-horizontal">
                     <input type="hidden" name="product_category_id" id="product_category_id">
                     <div class="form-group">
-                        <label for="Category Name" class="col-sm-4 control-label">Category Name<sup
-                                style="color: red;font-size:1rem;"><b>*</b></sup></label>
+                        <label for="Category Name" class="col-sm-4 form-label">Category Name <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="product_category_name"
                                 name="product_category_name" placeholder="Enter Category Name" value="">
@@ -22,9 +21,9 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary" id="savedata" value="create">Save Product
                     Category</button>
+                <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -40,7 +39,7 @@
             <div class="modal-body">
                 <form id="showProductCategoryForm" name="showProductCategoryForm" class="form-horizontal">
                     <div class="form-group">
-                        <label for="Category Name" class="col-sm-4 control-label">Category Name</label>
+                        <label for="Category Name" class="col-sm-4 form-label">Category Name</label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="product_category_name"
                                 name="product_category_name" disabled value="">

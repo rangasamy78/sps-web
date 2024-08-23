@@ -1,5 +1,5 @@
 <div class="modal fade" id="productThicknessModel" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modelHeading"></h5>
@@ -10,7 +10,7 @@
                     <input type="hidden" name="product_thickness_id" id="product_thickness_id">
                     <div class="form-group">
                     <div class="row mb-3">
-                        <label for="name" class="control-label">Product Thickness Name<sup style="color: red;"><strong>*</strong></sup></label>
+                        <label for="name" class="form-label">Product Thickness Name <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="product_thickness_name" name="product_thickness_name"
                                 placeholder="Enter Product Thickness Name" value="">
@@ -19,7 +19,7 @@
                     </div>
                     
                     <div class="row">
-                        <label for="name" class="control-label">Product Thickness Unit <sup style="color: red;"><strong>*</strong></sup></label>
+                        <label for="name" class="form-label">Product Thickness Unit <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="product_thickness_unit" name="product_thickness_unit"
                                 placeholder="Enter Product Thickness Unit" value="">
@@ -31,8 +31,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary" id="savedata" value="create">Save Product Thickness</button>
+                <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -49,11 +49,11 @@
             <div class="modal-body">
                 <form id="showProductThicknessForm" name="showProductThicknessForm" class="form-horizontal">
                     <div class="form-group">
-                        <label for="product_thickness_name" class="col-sm-6 control-label">Product Thickness Name</label>
+                        <label for="product_thickness_name" class="col-sm-6 form-label">Product Thickness Name</label>
                         <div class="col-sm-12  mb-3">
                             <input type="text" disabled class="form-control" id="product_thickness_name" name="product_thickness_name" value="" >
                         </div>
-                        <label for="product_thickness_unit" class="col-sm-6 control-label">Product Thickness Unit</label>
+                        <label for="product_thickness_unit" class="col-sm-6 form-label">Product Thickness Unit</label>
                         <div class="col-sm-12">
                             <input type="text" disabled class="form-control" id="product_thickness_unit" name="product_thickness_unit" value="" >
                         </div>

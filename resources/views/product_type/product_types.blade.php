@@ -25,13 +25,13 @@
                     </div>
                 </div>
                 <table class="table table-bordered data-table  table-striped" id="datatable" style="width: 100%">
-                    <thead>
+                    <thead class="table-header-bold">
                         <tr>
-                            <th><b>S.No</b></th>
-                            <th><b>Product Type</b></th>
-                            <th><b>Default GL Accounts</b></th>
-                            <th><b>Default Values</b></th>
-                            <th width="150px"><b>Action</b></th>
+                            <th>S.No</th>
+                            <th>Product Type</th>
+                            <th>Default GL Accounts</th>
+                            <th>Default Values</th>
+                            <th width="150px">Action</th>
                         </tr>
                     </thead>
                     <tbody>

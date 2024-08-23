@@ -11,18 +11,18 @@
             responsive: true,
             processing: true,
             serverSide: true,
-            order: [[0, 'desc']],
+            order: [[1, 'desc']],
             ajax: {
                 url: "{{ route('departments.list') }}",
                 data: function (d) {
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
-                    d.order = [{ column: 0, dir: sort }];
+                    d.order = [{ column: 1, dir: sort }];
                 }
             },
             columns: [
                 {
-                    data: 'id',
-                    name: 'id',
+                    data: null,
+                    name: 'serial',
                     orderable: false,
                     searchable: false
                 }, // Row index column
@@ -61,15 +61,16 @@
             e.preventDefault();
             if($("#department_id").val() == null || $("#department_id").val() == "")
             {
-                storeDepartment();
+                storeDepartment(this);
             } else {
-                updateDepartment();
+                updateDepartment(this);
             }
         });
 
-        function storeDepartment()
+        function storeDepartment($this)
         {
-            $(this).html('Sending..');
+            var button = $($this);
+            sending(button);
                 $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
@@ -101,14 +102,15 @@
                             $('span.' + prefix + '_error').text(val[0]);
                         });
                     }
-                    $('#savedata').html('Save Department');
+                    sending(button,true);
                 }
             });
         }
 
-        function updateDepartment()
+        function updateDepartment($this)
         {
-            $(this).html('Sending..');
+            var button = $($this);
+            sending(button);
             let url = $('meta[name=app-url]').attr("content") + "/departments/" + $("#department_id").val();
             $.ajax({
                 headers: {
@@ -142,8 +144,7 @@
                             $('span.' + prefix + '_error').text(val[0]);
                         });
                     }
-                    console.log('Error:', data);
-                    $('#savedata').html('Update Department');
+                    sending(button,true);
                 }
             });
         }
@@ -223,10 +224,5 @@
                 $('#showDepartmentForm #department_name').val(data.department_name);
             });
         });
-
-        setTimeout(() => {
-            $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
-            $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');
-        }, 300);
     });
 </script>

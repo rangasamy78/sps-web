@@ -11,22 +11,23 @@
       processing: true,
       serverSide: true,
       order: [
-        [0, 'desc']
+        [1, 'desc']
       ],
       ajax: {
         url: "{{ route('supplier_cost_list_labels.list') }}",
         data: function(d) {
           sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
           d.order = [{
-            column: 0,
+            column: 1,
             dir: sort
           }];
         }
       },
       columns: [{
-          data: 'id',
-          name: 'id',
-
+          data: null,
+          name: 'serial',
+          orderable: false, 
+          searchable: false,
         }, {
           data: 'cost_level',
           name: 'cost_level'
@@ -50,8 +51,6 @@
         $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
       },
       dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-      // displayLength: 7,
-      // lengthMenu: [7, 10, 25, 50, 75, 100],
       buttons: [{
         text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Create Supplier Cost List Label</span>',
         className: 'create-new btn btn-primary',
@@ -78,7 +77,8 @@
 
     $('#savedata').click(function(e) {
       e.preventDefault();
-      $(this).html('Sending..');
+      var button = $(this);
+      sending(button);
       var url = $('#supplier_cost_list_label_id').val() ? "{{ route('supplier_cost_list_labels.update', ':id') }}".replace(':id', $('#supplier_cost_list_label_id').val()) : "{{ route('supplier_cost_list_labels.store') }}";
       var type = $('#supplier_cost_list_label_id').val() ? "PUT" : "POST";
       $.ajax({
@@ -98,8 +98,7 @@
         },
         error: function(xhr) {
           handleAjaxError(xhr);
-          var button = type === 'POST' ? 'Save Supplier Cost List Label' : 'Update Supplier Cost List Label';
-          $('#savedata').html(button);
+          sending(button, true);
         }
       });
     });
@@ -152,6 +151,7 @@
     }
 
     $('body').on('click', '.showbtn', function() {
+      resetFormFields();
       var id = $(this).data('id');
       $.get("{{ route('supplier_cost_list_labels.index') }}" + '/' + id, function(data) {
         $('#showSupplierCostListLabelModal').modal('show');
@@ -161,15 +161,10 @@
       });
     });
 
-    setTimeout(() => {
-      $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
-      $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');
-    }, 300);
-
-    function resetFormFields(){
-        $('.cost_level_error').html('');
-        $('.cost_code_error').html('');
-        $('.cost_label_error').html('');
+    function resetFormFields() {
+      $('.cost_level_error').html('');
+      $('.cost_code_error').html('');
+      $('.cost_label_error').html('');
     }
 
   });

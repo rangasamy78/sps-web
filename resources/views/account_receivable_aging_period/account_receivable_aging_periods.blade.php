@@ -9,9 +9,9 @@
 <div class="content-wrapper">
   <!-- Content -->
   <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="py-3 mb-4"><span class="text-muted fw-light"></span>Account Receivable Aging Period</h4>
+    <h4 class="py-3 mb-4"><span class="text-muted fw-light">Home / </span>Account Receivable Aging Period</h4>
     <form id="accountReceivableAgingPeriodForm" class="form-horizontal">
-      <div class="row mb-3 ">
+      <div class="row mb-3">
         <div class="col-lg-7 col-md-10 col-sm-12">
           <div class="card mb-4">
             <div class="card-header d-flex justify-content-between align-items-center">

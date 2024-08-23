@@ -11,21 +11,21 @@
             processing: true,
             serverSide: true,
             order: [
-                [0, 'desc']
+                [1, 'desc']
             ],
             ajax: {
                 url: "{{ route('currencies.list') }}",
                 data: function(d) {
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{
-                        column: 0,
+                        column: 1,
                         dir: sort
                     }];
                 }
             },
             columns: [{
-                    data: 'id',
-                    name: 'id',
+                    data: null,
+                    name: 'serial',
                     orderable: false,
                     searchable: false
                 },
@@ -62,8 +62,6 @@
             },
 
             dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-            // displayLength: 7,
-            // lengthMenu: [7, 10, 25, 50, 75, 100],
             buttons: [{
                 text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add Currency</span>',
                 className: 'create-new btn btn-primary',
@@ -91,14 +89,6 @@
             $('.currency_exchange_rate_error').text('');
         }
 
-
-        setTimeout(() => {
-            $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right',
-                '20px');
-            $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left',
-                '30px');
-        }, 300);
-
         $('#currencyForm input').on('input', function() {
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');
@@ -107,7 +97,8 @@
         $('#savedata').click(function(e) {
             e.preventDefault();
             var button = $(this).html();
-            $(this).html('Sending..');
+            var button = $(this);
+            sending(button);
             var url = $('#currency_id').val() ? "{{ route('currencies.update', ':id') }}".replace(':id', $('#currency_id').val()) : "{{ route('currencies.store') }}";
             var type = $('#currency_id').val() ? "PUT" : "POST";
             $.ajax({
@@ -127,7 +118,7 @@
                 },
                 error: function(xhr) {
                     handleAjaxError(xhr);
-                    $('#savedata').html(button);
+                    sending(button,true);
                 }
             });
         });

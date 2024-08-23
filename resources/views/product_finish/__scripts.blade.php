@@ -11,16 +11,16 @@
             responsive: true,
             processing: true,
             serverSide: true,
-            order: [[0, 'desc']],
+            order: [[1, 'desc']],
             ajax: {
                 url: "{{ route('product_finishes.list') }}",
                 data: function (d) {
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
-                    d.order = [{ column: 0, dir: sort }];
+                    d.order = [{ column: 1, dir: sort }];
                 }
             },
             columns: [
-                { data: 'id', name: 'id', orderable: false, searchable: false },
+                { data: null, name: 'serial', orderable: false, searchable: false },
                 { data: 'product_finish_code', name: 'product_finish_code' },
                 { data: 'finish', name: 'finish' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
@@ -40,8 +40,8 @@
         });
         $('#savedata').click(function (e) {
             e.preventDefault();
-            var button = $(this).html();
-            $(this).html('Sending..');
+            var button = $(this);
+            sending(button);
             var url = $('#product_finish_id').val() ? "{{ route('product_finishes.update', ':id') }}".replace(':id', $('#product_finish_id').val()) : "{{ route('product_finishes.store') }}";
             var type = $('#product_finish_id').val() ? "PUT" : "POST";
             $.ajax({
@@ -61,7 +61,7 @@
                 },
                 error: function (xhr) {
                     handleAjaxError(xhr);
-                    $('#savedata').html(button);
+                    sending(button,true);
                 }
             });
         });
@@ -128,11 +128,6 @@
 
             });
         });
-
-        setTimeout(() => {
-            $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
-            $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');
-        }, 300);
     });
 
     function resetForm() {

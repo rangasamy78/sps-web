@@ -67,24 +67,24 @@
                             </a>
                         </li>
                         <li class="menu-item {{ request()->is('select_type_categories') ? 'active' : '' }}">
-                    <a href="{{ route('select_type_categories.index') }}" class="menu-link">
-                        <div class="text-truncate" data-i18n="Select Type Category">Select Type Category</div>
-                    </a>
-                </li>
+                            <a href="{{ route('select_type_categories.index') }}" class="menu-link">
+                                <div class="text-truncate" data-i18n="Select Type Category">Select Type Category</div>
+                            </a>
+                        </li>
 
-                <li class="menu-item {{ request()->is('select_type_sub_categories') ? 'active' : '' }}">
-                    <a href="{{ route('select_type_sub_categories.index') }}" class="menu-link">
-                        <div class="text-truncate" data-i18n="Select Type Sub Category" data-bs-toggle="tooltip"
-                            data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-secondary"
-                            title="Select Type Sub Category">Select Type Sub Category</div>
-                    </a>
-                </li>
+                        <li class="menu-item {{ request()->is('select_type_sub_categories') ? 'active' : '' }}">
+                            <a href="{{ route('select_type_sub_categories.index') }}" class="menu-link">
+                                <div class="text-truncate" data-i18n="Select Type Sub Category" data-bs-toggle="tooltip"
+                                    data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-secondary"
+                                    title="Select Type Sub Category">Select Type Sub Category</div>
+                            </a>
+                        </li>
 
-                <li class="menu-item {{ request()->is('print_doc_disclaimers') ? 'active' : '' }}">
-                    <a href="{{ route('print_doc_disclaimers.index') }}" class="menu-link">
-                        <div class="text-truncate" data-i18n="Print Doc Disclaimers">Print Doc Disclaimers</div>
-                    </a>
-                </li>
+                        <li class="menu-item {{ request()->is('print_doc_disclaimers') ? 'active' : '' }}">
+                            <a href="{{ route('print_doc_disclaimers.index') }}" class="menu-link">
+                                <div class="text-truncate" data-i18n="Print Doc Disclaimers">Print Doc Disclaimers</div>
+                            </a>
+                        </li>
                     </ul>
                 </li>
 
@@ -117,7 +117,7 @@
                     <ul class="menu-sub">
                         <li class="menu-item {{ request()->is('unit_measures*') ? 'active open' : '' }}">
                             <a href="{{ route('unit_measures.index') }}" class="menu-link">
-                                <div class="text-truncate" data-i18n="Units of Measure ">Units of Measure </div>
+                                <div class="text-truncate" data-i18n="Units of Measure">Units of Measure </div>
                             </a>
                         </li>
                         <li class="menu-item {{ request()->is('product_types*') ? 'active open' : '' }}">
@@ -210,7 +210,7 @@
                         </li>
                         <li class="menu-item {{ request()->is('end_use_segments') ? 'active open' : '' }}">
                             <a href="{{ route('end_use_segments.index') }}" class="menu-link">
-                                <div class="text-truncate" data-i18n="End-use Segments ">End-use Segments </div>
+                                <div class="text-truncate" data-i18n="End-use Segments">End-use Segments </div>
                             </a>
                         </li>
                         <li class="menu-item {{ request()->is('calculate_measurement_labels') ? 'active open' : '' }}">
@@ -228,7 +228,7 @@
                                 <div class="text-truncate" data-i18n="Commonly Used
                                     Subheadings" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-secondary" title="Commonly Used
                                     Subheadings">Commonly Used
-                                Subheadings</div>
+                                    Subheadings</div>
                             </a>
                         </li>
                         <li class="menu-item {{ request()->is('release_reason_codes') ? 'active' : '' }}">
@@ -246,40 +246,62 @@
                         <div class="text-truncate" data-i18n="Sales">Sales</div>
                     </a>
                     <ul class="menu-sub">
-                    <li class="menu-item {{ request()->is('customer_types') ? 'active open' : '' }}">
-                            <a href="{{ route('customer_types.index') }}" class="menu-link">
-                                <div class="text-truncate" data-i18n="Customer Type">Customer Type</div>
+                        <li class="menu-item {{ request()->is('customer_types')||request()->is('customer_contact_titles')  ? 'active open' : '' }}">
+                            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                <div class="text-truncate" data-i18n="Customers">Customers</div>
                             </a>
+                            <ul class="menu-sub">
+                                <li class="menu-item {{ request()->is('customer_types') ? 'active open' : '' }}">
+                                    <a href="{{ route('customer_types.index') }}" class="menu-link">
+                                        <div class="text-truncate" data-i18n="Customer Type">Customer Type</div>
+                                    </a>
+                                </li>
+                                <li class="menu-item {{ request()->is('customer_contact_titles') ? 'active open' : '' }}">
+                                    <a href="{{ route('customer_contact_titles.index') }}" class="menu-link">
+                                        <div class="text-truncate" data-i18n="Customer Contact Titles " data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-secondary" title="Customer Contact Titles">Customer Contact Titles </div>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
-                        <li class="menu-item {{ request()->is('customer_contact_titles') ? 'active open' : '' }}">
-                            <a href="{{ route('customer_contact_titles.index') }}" class="menu-link">
-                                <div class="text-truncate" data-i18n="Customer Contact Titles " data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-secondary" title="Customer Contact Titles">Customer Contact Titles </div>
+                        <li class="menu-item {{ request()->is('shipment_methods')||request()->is('survey_questions')||request()->is('return_reason_codes')||request()->is('credit_check_settings')  ? 'active open' : '' }}">
+                            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                <div class="text-truncate" data-i18n="Sales Order">Sales Order</div>
                             </a>
+                            <ul class="menu-sub">
+
+                                <li class="menu-item {{ request()->is('shipment_methods') ? 'active open' : '' }}">
+                                    <a href="{{ route('shipment_methods.index') }}" class="menu-link">
+                                        <div class="text-truncate" data-i18n="Shipment Methods">Shipment Methods</div>
+                                    </a>
+                                </li>
+                                <li class="menu-item {{ request()->is('survey_questions') ? 'active open' : '' }}">
+                                    <a href="{{ route('survey_questions.index') }}" class="menu-link">
+                                        <div class="text-truncate" data-i18n="Survey Questions">Survey Questions</div>
+                                    </a>
+                                </li>
+                                <li class="menu-item {{ request()->is('return_reason_codes') ? 'active open' : '' }}">
+                                    <a href="{{ route('return_reason_codes.index') }}" class="menu-link">
+                                        <div class="text-truncate" data-i18n="Return Reason Codes">Return Reason Codes</div>
+                                    </a>
+                                </li>
+                                <li class="menu-item {{ request()->is('credit_check_settings') ? 'active open' : '' }}">
+                                    <a href="{{ route('credit_check_settings.index') }}" class="menu-link">
+                                        <div class="text-truncate" data-i18n="Credit Lock">Credit Lock</div>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
-                        <li class="menu-item {{ request()->is('shipment_methods') ? 'active open' : '' }}">
-                            <a href="{{ route('shipment_methods.index') }}" class="menu-link">
-                                <div class="text-truncate" data-i18n="Shipment Methods">Shipment Methods</div>
+                        <li class="menu-item {{ request()->is('price_list_labels')  ? 'active open' : '' }}">
+                            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                <div class="text-truncate" data-i18n="Pricing">Pricing</div>
                             </a>
-                        </li>
-                        <li class="menu-item {{ request()->is('survey_questions') ? 'active open' : '' }}">
-                            <a href="{{ route('survey_questions.index') }}" class="menu-link">
-                                <div class="text-truncate" data-i18n="Survey Questions">Survey Questions</div>
-                            </a>
-                        </li>
-                        <li class="menu-item {{ request()->is('return_reason_codes') ? 'active open' : '' }}">
-                            <a href="{{ route('return_reason_codes.index') }}" class="menu-link">
-                                <div class="text-truncate" data-i18n="Return Reason Codes">Return Reason Codes</div>
-                            </a>
-                        </li>
-                        <li class="menu-item {{ request()->is('credit_check_settings') ? 'active open' : '' }}">
-                            <a href="{{ route('credit_check_settings.index') }}" class="menu-link">
-                                <div class="text-truncate" data-i18n="Credit Lock">Credit Lock</div>
-                            </a>
-                        </li>
-                        <li class="menu-item {{ request()->is('price_list_labels') ? 'active open' : '' }}">
-                            <a href="{{ route('price_list_labels.index') }}" class="menu-link">
-                                <div class="text-truncate" data-i18n="Price List Labels">Price List Labels</div>
-                            </a>
+                            <ul class="menu-sub">
+                                <li class="menu-item {{ request()->is('price_list_labels') ? 'active open' : '' }}">
+                                    <a href="{{ route('price_list_labels.index') }}" class="menu-link">
+                                        <div class="text-truncate" data-i18n="Price List Labels">Price List Labels</div>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </li>
@@ -290,47 +312,67 @@
                         <div class="text-truncate" data-i18n="Purchase/Payables">Purchase / Payables</div>
                     </a>
                     <ul class="menu-sub">
-                        <li class="menu-item {{ request()->is('supplier_types') ? 'active open' : '' }}">
-                            <a href="{{ route('supplier_types.index') }}" class="menu-link">
-                                <div class="text-truncate" data-i18n="Supplier Types">Supplier Types</div>
+                        <li class="menu-item {{ request()->is('supplier_types')||request()->is('supplier_ports')  ? 'active open' : '' }}">
+                            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                <div class="text-truncate" data-i18n="Suppliers">Suppliers</div>
                             </a>
+                            <ul class="menu-sub">
+                                <li class="menu-item {{ request()->is('supplier_types') ? 'active open' : '' }}">
+                                    <a href="{{ route('supplier_types.index') }}" class="menu-link">
+                                        <div class="text-truncate" data-i18n="Supplier Types">Supplier Types</div>
+                                    </a>
+                                </li>
+                                <li class="menu-item {{ request()->is('supplier_ports') ? 'active open' : '' }}">
+                                    <a href="{{ route('supplier_ports.index') }}" class="menu-link">
+                                        <div class="text-truncate" data-i18n="Supplier Ports">Supplier Ports</div>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
-                        <li class="menu-item {{ request()->is('supplier_ports') ? 'active open' : '' }}">
-                            <a href="{{ route('supplier_ports.index') }}" class="menu-link">
-                                <div class="text-truncate" data-i18n="Supplier Ports">Supplier Ports</div>
+                        <li class="menu-item {{ request()->is('vendor_types')  ? 'active open' : '' }}">
+                            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                <div class="text-truncate" data-i18n="Vendors">Vendors</div>
                             </a>
+                            <ul class="menu-sub">
+                                <li class="menu-item {{ request()->is('vendor_types') ? 'active open' : '' }}">
+                                    <a href="{{ route('vendor_types.index') }}" class="menu-link">
+                                        <div class="text-truncate" data-i18n="Vendor Types">Vendor Types</div>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
-                        <li class="menu-item {{ request()->is('vendor_types') ? 'active open' : '' }}">
-                            <a href="{{ route('vendor_types.index') }}" class="menu-link">
-                                <div class="text-truncate" data-i18n="Vendor Types">Vendor Types</div>
+                        <li class="menu-item {{ request()->is('shipment_terms')||request()->is('purchase_shipment_methods')||request()->is('receiving_qc_notes')||request()->is('supplier_return_statuses')||request()->is('supplier_cost_list_labels')  ? 'active open' : '' }}">
+                            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                <div class="text-truncate" data-i18n="Purchasing">Purchasing</div>
                             </a>
+                            <ul class="menu-sub">
+                                <li class="menu-item {{ request()->is('shipment_terms') ? 'active open' : '' }}">
+                                    <a href="{{ route('shipment_terms.index') }}" class="menu-link">
+                                        <div class="text-truncate" data-i18n="Shipment Terms">Shipment Terms</div>
+                                    </a>
+                                </li>
+                                <li class="menu-item {{ request()->is('purchase_shipment_methods') ? 'active open' : '' }}">
+                                    <a href="{{ route('purchase_shipment_methods.index') }}" class="menu-link">
+                                        <div class="text-truncate" data-i18n="Purchase Shipment Methods" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-secondary" title="Purchase Shipment Methods">Purchase Shipment Methods</div>
+                                    </a>
+                                </li>
+                                <li class="menu-item {{ request()->is('receiving_qc_notes') ? 'active open' : '' }}">
+                                    <a href="{{ route('receiving_qc_notes.index') }}" class="menu-link">
+                                        <div class="text-truncate" data-i18n="Receiving QC Notes">Receiving QC Notes</div>
+                                    </a>
+                                </li>
+                                <li class="menu-item {{ request()->is('supplier_return_statuses') ? 'active open' : '' }}">
+                                    <a href="{{ route('supplier_return_statuses.index') }}" class="menu-link">
+                                        <div class="text-truncate" data-i18n="Supplier Return Statuses" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-secondary" title="Supplier Return Statuses">Supplier Return Statuses</div>
+                                    </a>
+                                </li>
+                                <li class="menu-item {{ request()->is('supplier_cost_list_labels') ? 'active open' : '' }}">
+                                    <a href="{{ route('supplier_cost_list_labels.index') }}" class="menu-link">
+                                        <div class="text-truncate" data-i18n="Supplier Cost List Labels" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-secondary" title="Supplier Cost List Labels">Supplier Cost List Labels</div>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
-                        <li class="menu-item {{ request()->is('shipment_terms') ? 'active open' : '' }}">
-                            <a href="{{ route('shipment_terms.index') }}" class="menu-link">
-                                <div class="text-truncate" data-i18n="Shipment Terms">Shipment Terms</div>
-                            </a>
-                        </li>
-                        <li class="menu-item {{ request()->is('purchase_shipment_methods') ? 'active open' : '' }}">
-                            <a href="{{ route('purchase_shipment_methods.index') }}" class="menu-link">
-                                <div class="text-truncate" data-i18n="Purchase Shipment Methods" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-secondary" title="Purchase Shipment Methods">Purchase Shipment Methods</div>
-                            </a>
-                        </li>
-                        <li class="menu-item {{ request()->is('receiving_qc_notes') ? 'active open' : '' }}">
-                            <a href="{{ route('receiving_qc_notes.index') }}" class="menu-link">
-                                <div class="text-truncate" data-i18n="Receiving QC Notes">Receiving QC Notes</div>
-                            </a>
-                        </li>
-                        <li class="menu-item {{ request()->is('supplier_return_statuses') ? 'active open' : '' }}">
-                            <a href="{{ route('supplier_return_statuses.index') }}" class="menu-link">
-                                <div class="text-truncate" data-i18n="Supplier Return Statuses" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-secondary" title="Supplier Return Statuses">Supplier Return Statuses</div>
-                            </a>
-                    </li>
-                    <li class="menu-item {{ request()->is('supplier_cost_list_labels') ? 'active open' : '' }}">
-                            <a href="{{ route('supplier_cost_list_labels.index') }}" class="menu-link">
-                                <div class="text-truncate" data-i18n="Supplier Cost List Labels" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-secondary" title="Supplier Cost List Labels">Supplier Cost List Labels</div>
-                            </a>
-                    </li>
-
                     </ul>
                 </li>
                 <!--  Accounting -->
@@ -339,21 +381,35 @@
                         <div class="text-truncate" data-i18n="Accounting">Accounting</div>
                     </a>
                     <ul class="menu-sub">
-                    <li class="menu-item {{ request()->is('default_link_accounts') ? 'active open' : '' }}">
+                        <li class="menu-item {{ request()->is('account_types')||request()->is('account_sub_types')||request()->is('linked_accounts')  ? 'active open' : '' }}">
+                            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                <div class="text-truncate" data-i18n="Accounts">Accounts</div>
+                            </a>
+                            <ul class="menu-sub">
+                                <li class="menu-item {{ request()->is('account_types') ? 'active open' : '' }}">
+                                    <a href="{{ route('account_types.index') }}" class="menu-link">
+                                        <div class="text-truncate" data-i18n="Accounts Type">Accounts Type</div>
+                                    </a>
+                                </li>
+                                <li class="menu-item {{ request()->is('account_sub_types') ? 'active open' : '' }}">
+                                    <a href="{{ route('account_sub_types.index') }}" class="menu-link">
+                                        <div class="text-truncate" data-i18n="Account Sub Types">Account Sub Types </div>
+                                    </a>
+                                </li>
+                                <li class="menu-item {{ request()->is('linked_accounts') ? 'active open' : '' }}">
+                                    <a href="{{ route('linked_accounts.index') }}" class="menu-link">
+                                        <div class="text-truncate" data-i18n="Linked Accounts">Linked Accounts</div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="menu-item {{ request()->is('default_link_accounts') ? 'active open' : '' }}">
                             <a href="{{ route('default_link_accounts.index') }}" class="menu-link">
                                 <div class="text-truncate" data-i18n="Default Link Accounts" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-secondary" title="Default Link Accounts">Default Link Accounts</div>
                             </a>
-                    </li>
-                    <li class="menu-item {{ request()->is('account_types') ? 'active open' : '' }}">
-                            <a href="{{ route('account_types.index') }}" class="menu-link">
-                                <div class="text-truncate" data-i18n="Accounts Type">Accounts Type</div>
-                            </a>
                         </li>
-                        <li class="menu-item {{ request()->is('linked_accounts') ? 'active open' : '' }}">
-                            <a href="{{ route('linked_accounts.index') }}" class="menu-link">
-                                <div class="text-truncate" data-i18n="Linked Accounts">Linked Accounts</div>
-                            </a>
-                        </li>
+
+
                         <li class="menu-item {{ request()->is('expense_categories') ? 'active open' : '' }}">
                             <a href="{{ route('expense_categories.index') }}" class="menu-link">
                                 <div class="text-truncate" data-i18n="Expense Categories">Expense Categories</div>
@@ -380,11 +436,7 @@
                                 <div class="text-truncate" data-i18n="Aging Periods - AP">Aging Periods - AP</div>
                             </a>
                         </li>
-                        <li class="menu-item {{ request()->is('account_sub_types') ? 'active open' : '' }}">
-                            <a href="{{ route('account_sub_types.index') }}" class="menu-link">
-                                <div class="text-truncate" data-i18n="Account Sub Types">Account Sub Types </div>
-                            </a>
-                        </li>
+
 
                         <li class="menu-item {{ request()->is('tax_exempt_reasons') ? 'active open' : '' }}">
                             <a href="{{ route('tax_exempt_reasons.index') }}" class="menu-link">
@@ -393,8 +445,6 @@
                         </li>
                     </ul>
                 </li>
-
-
             </ul>
         </li>
     </ul>

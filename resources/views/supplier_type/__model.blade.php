@@ -1,5 +1,5 @@
 <div class="modal fade" id="supplierTypeModel" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modelHeading"></h5>
@@ -9,7 +9,7 @@
                 <form id="supplierTypeForm" name="supplierTypeForm" class="form-horizontal">
                     <input type="hidden" name="supplier_type_id" id="supplier_type_id">
                     <div class="form-group">
-                        <label for="supplier-type-name" class="control-label">Supplier Type Name <sup style="color: red;font-size:1rem;"><b>*</b></sup></label>
+                        <label for="supplier-type-name" class="form-label">Supplier Type Name <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="supplier_type_name" name="supplier_type_name" placeholder="Enter Supplier Type Name" value="">
                         </div>
@@ -18,8 +18,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary" id="savedata" value="create">Save Supplier Type</button>
+                <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -35,7 +35,7 @@
             <div class="modal-body">
                 <form id="showSupplierTypeForm" name="showSupplierTypeForm" class="form-horizontal">
                     <div class="form-group">
-                        <label for="supplier-type-name" class="control-label">Supplier Type Name</label>
+                        <label for="supplier-type-name" class="form-label">Supplier Type Name</label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="supplier_type_name" disabled name="supplier_type_name" placeholder="Enter Supplier Type Name" value="">
                         </div>

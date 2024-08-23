@@ -10,24 +10,23 @@
   <!-- Content -->
   <div class="container-xxl flex-grow-1 container-p-y">
     <!-- //toast -->
-    <div class="container-toast ">
+    <div class="container-toast">
 
     </div>
-    <h4 class="py-3 mb-4"><span class="text-muted fw-light"></span>
-      Customer Contact Title </h4>
+    <h4 class="py-3 mb-4"><span class="text-muted fw-light">Home / </span> Customer Contact Title </h4>
     <div class="row mb-3">
       <!-- DataTable with Buttons -->
-      <div class="card">
+      <div class="card p-4 pt-0">
         <!-- </div> -->
-        <div class="row mb-2">
+        <div class="row">
 
           <div class="col">
-            <table class=" datatables-basic table tables-basic border-top table-striped" id="customerContactTitleTable">
-              <thead>
+            <table class="datatables-basic table tables-basic border-top table-striped" id="customerContactTitleTable">
+              <thead class="table-header-bold">
                 <tr class="odd gradeX">
-                  <th class="center"><b>Sl.No</b></th>
-                  <th><b>Customer Title</b></th>
-                  <th><b>Actions</b></th>
+                  <th>Sl.No</th>
+                  <th>Customer Title</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>

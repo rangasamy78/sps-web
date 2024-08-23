@@ -24,13 +24,13 @@
                     </div>
                 </div>
                 <table class="table table-bordered data-table  table-striped" id="datatable" style="width: 100%">
-                    <thead>
+                    <thead class="table-header-bold">
                         <tr>
-                            <th><b>S.No</b></th>
-                            <th><b>Supplier Port Name</b></th>
-                            <th><b>Avg days</b></th>
-                            <th><b>Country Name</b></th>
-                            <th width="150px"><b>Action</b></th>
+                            <th>S.No</th>
+                            <th>Supplier Port Name</th>
+                            <th>Avg days</th>
+                            <th>Country Name</th>
+                            <th width="150px">Action</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -9,12 +9,12 @@
                 <form id="accountPaymentTermForm" name="accountPaymentTermForm" class="form-horizontal">
                     <input type="hidden" name="account_payment_term_id" id="account_payment_term_id">
                     <div class="form-group">
-                        <label for="name" class=" control-label pb-1">Payment Code</label>
+                        <label for="name" class="form-label pb-1">Payment Code</label>
                         <div class="col-sm-12 mb-3">
                             <input type="text" class="form-control" id="payment_code" name="payment_code" placeholder="Enter Code" value="">
                         </div>
                         <span class="text-danger error-text payment_code_error"></span>
-                        <label for="name" class=" control-label pb-1">Payment Label <sup style="color:red;font-size:1rem;"><b>*</b></sup></label>
+                        <label for="name" class="form-label pb-1">Payment Label<sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12 mb-3">
                             <input type="text" class="form-control" id="payment_label" name="payment_label" placeholder="Enter label" value="">
                             <span class="text-danger error-text payment_label_error"></span>
@@ -22,7 +22,7 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
-                                    <label for="payment_type" class="control-label">Payment Type <sup style="color: red;font-size:1rem;"><b>*</b></sup></label>
+                                    <label for="payment_type" class="form-label">Payment Type<sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                                     <select class="form-select" name="payment_type" id="payment_type">
                                         <option value="">Select Payment Type</option>
                                         @foreach($account_types as $key => $account_type)
@@ -34,7 +34,7 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
-                                    <label for="payment_net_due_day" class="control-label"><span id="payment_net_due_day_label">Net Days to Pay</span> <sup style="color: red;font-size:1rem;"><b>*</b></sup></label>
+                                    <label for="payment_net_due_day" class="form-label"><span id="payment_net_due_day_label">Net Days to Pay</span> <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                                     <input type="text" class="form-control" id="payment_net_due_day" name="payment_net_due_day" placeholder="Enter Day" value="">
                                     <span class="text-danger error-text payment_net_due_day_error"></span>
                                 </div>
@@ -43,14 +43,14 @@
                         <div class="row" id="payemnt_discount_display">
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
-                                    <label for="payment_discount_percent" class="control-label">Discount %</label>
+                                    <label for="payment_discount_percent" class="form-label">Discount %</label>
                                     <input type="text" class="form-control" id="payment_discount_percent" name="payment_discount_percent" placeholder="Enter Discount %" value="">
                                     <span class="text-danger error-text payment_discount_percent_error"></span>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
-                                    <label for="payment_threshold_days" class="control-label">Discount Threshold Days</label>
+                                    <label for="payment_threshold_days" class="form-label">Discount Threshold Days</label>
                                     <input type="text" class="form-control" id="payment_threshold_days" name="payment_threshold_days" placeholder="Enter Discount Threshold Days" value="">
                                     <span class="text-danger error-text payment_threshold_days_error"></span>
                                 </div>
@@ -90,11 +90,11 @@
             <div class="modal-body">
                 <form id="showAccountPaymentTermForm" name="showAccountPaymentTermForm" class="form-horizontal">
                     <div class="form-group">
-                        <label for="name" class=" control-label">Payment Code</label>
+                        <label for="name" class="form-label">Payment Code</label>
                         <div class="col-sm-12 mb-3">
                             <input type="text" disabled class="form-control" id="payment_code" name="payment_code" value="">
                         </div>
-                        <label for="name" class=" control-label pb-1">Payment Label</label>
+                        <label for="name" class="form-label pb-1">Payment Label</label>
                         <div class="col-sm-12 mb-3">
                             <input type="text" disabled class="form-control" id="payment_label" name="payment_label" value="">
                         </div>
@@ -102,7 +102,7 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <div class="form-group">
-                                <label for="payment_type" class="control-label">Payment Type</label>
+                                <label for="payment_type" class="form-label">Payment Type</label>
                                 <select disabled class="form-select" name="payment_type" id="payment_type">
                                     <option value="">Select Payment Type</option>
                                     @foreach($account_types as $key => $account_type)
@@ -113,7 +113,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <div class="form-group">
-                                <label for="payment_net_due_day" class="control-label" id="show_payment_net_due_day_label">Net Days to Pay </sup></label>
+                                <label for="payment_net_due_day" class="form-label" id="show_payment_net_due_day_label">Net Days to Pay </sup></label>
                                 <input disabled type="text" class="form-control" id="payment_net_due_day" name="payment_net_due_day" value="">
                             </div>
                         </div>
@@ -121,13 +121,13 @@
                     <div class="row" id="show_payemnt_discount_display">
                         <div class="col-md-6 mb-3">
                             <div class="form-group">
-                                <label for="payment_discount_percent" class="control-label">Discount %</label>
+                                <label for="payment_discount_percent" class="form-label">Discount %</label>
                                 <input disabled type="text" class="form-control" id="payment_discount_percent" name="payment_discount_percent" value="">
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <div class="form-group">
-                                <label for="payment_threshold_days" class="control-label">Discount Threshold Days</label>
+                                <label for="payment_threshold_days" class="form-label">Discount Threshold Days</label>
                                 <input disabled type="text" class="form-control" id="payment_threshold_days" name="payment_threshold_days"  value="">
                             </div>
                         </div>

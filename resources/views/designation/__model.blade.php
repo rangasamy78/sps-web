@@ -23,7 +23,7 @@
                                     <td class="slno">1</td>
                                     <td>
                                         <select class="form-select form-select-sm department" name="department_id_[]" id="department_id_0">
-                                            <option value="">Select Department</option>
+                                            <option value="">--Select--</option>
                                             @foreach($departments as $department)
                                             <option value="{{ $department->id }}">{{ $department->department_name }}</option>
                                             @endforeach
@@ -67,10 +67,10 @@
                 <form id="designationUpdateForm" class="form-horizontal">
                     <input type="hidden" name="designation_id" id="designation_id">
                     <div class="form-group mb-2 p-1">
-                        <label for="name" class="col-sm-2 control-label">Department<sup style="color: red;"><b>*</b></sup></label>
+                        <label for="name" class="form-label">Department <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
                             <select class="form-select " name="department_id" id="department_id">
-                                <option value="">Select Department</option>
+                                <option value="">--Select--</option>
                                 @foreach($departments as $department)
                                 <option value="{{$department->id}}">{{$department->department_name}}</option>
                                 @endforeach
@@ -79,7 +79,7 @@
                         <span class="text-danger error-text department_id_error"></span>
                     </div>
                     <div class="form-group mb-2 p-1">
-                        <label for="name" class=" control-label pb-1">Designation<sup style="color: red;"><b>*</b></sup></label>
+                        <label for="name" class="form-label pb-1">Designation <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" name="designation_name" id="designation_name">
                         </div>
@@ -88,7 +88,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" id="updateDesignation" name="updateDesignation">Update</button>
+                <button type="submit" class="btn btn-primary" id="updateDesignation" name="updateDesignation">Update Designation</button>
                 <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
@@ -106,7 +106,7 @@
             <div class="modal-body">
                 <form id="designationShowForm" name="deginationShowForm" class="form-horizontal">
                     <div class="form-group mb-2 p-1">
-                        <label for="name" class=" control-label pb-1">Department</label>
+                        <label for="name" class="form-label pb-1">Department</label>
                         <div class="col-sm-12">
                             <select class="form-select " disabled name="department_id" id="department_id">
                                 <option value="">Select Department</option>
@@ -117,7 +117,7 @@
                         </div>
                     </div>
                     <div class="form-group mb-2 p-1">
-                        <label for="name" class=" control-label pb-1">Designation</label>
+                        <label for="name" class="form-label pb-1">Designation</label>
                         <div class="col-sm-12">
                             <input type="text" disabled class="form-control" id="designation_name" name="designation_name" value="">
                         </div>
