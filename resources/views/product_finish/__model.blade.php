@@ -8,7 +8,6 @@
             <div class="modal-body">
                 <form id="productFinishForm" name="productFinishForm" class="form-horizontal">
                     <input type="hidden" name="product_finish_id" id="product_finish_id">
-                    <!-- View In -->
                     <div class="form-group">
                         <label for="Product Finish Code" class="col-sm-4 control-label">Product Finish Code <sup
                                 style="color: red;font-size:1rem;"><b>*</b></sup></label>
@@ -18,7 +17,6 @@
                         </div>
                         <span class="text-danger error-text product_finish_code_error"></span>
                     </div>
-                    <!-- File Type -->
                     <div class="form-group mt-3">
                         <label class="col-sm-2 control-label">Finish <sup
                                 style="color: red;font-size:1rem;"><b>*</b></sup></label>

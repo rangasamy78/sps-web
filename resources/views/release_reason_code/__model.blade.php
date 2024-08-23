@@ -26,7 +26,6 @@
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="showReleaseReasonCodeModal" tabindex="-1" aria-labelledby="show-release-reason-code-modal-label"
     aria-hidden="true">
     <div class="modal-dialog">
@@ -49,7 +48,3 @@
         </div>
     </div>
 </div>
-
-
-
-

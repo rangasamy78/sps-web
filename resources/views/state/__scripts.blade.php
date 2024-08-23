@@ -7,14 +7,22 @@
             }
         });
 
+        $('#stateNameFilter, #stateCodeFilter').on('keyup change', function(e) {
+            e.preventDefault();
+            table.draw();
+        });
+
         var table = $('#datatable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
+            searching: false,
             order: [[0, 'desc']],
             ajax: {
                 url: "{{ route('states.list') }}",
                 data: function (d) {
+                    d.state_name_search = $('#stateNameFilter').val();
+                    d.state_code_search = $('#stateCodeFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{ column: 0, dir: sort }];
                 }
@@ -25,7 +33,7 @@
                     name: 'id',
                     orderable: false,
                     searchable: false
-                }, // Row index column
+                },
                 {
                     data: 'name',
                     name: 'name',
@@ -43,15 +51,32 @@
             ],
             rowCallback: function (row, data, index) {
                 $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
-            }
+            },
+            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            buttons: [{
+                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Create New State</span>',
+                className: 'create-new btn btn-primary',
+                attr: {
+                    'data-bs-toggle': 'modal',
+                    'data-bs-target': '#stateModel',
+                },
+                action: function(e, dt, node, config) {
+                    $('#savedata').val("create-state");
+                    $('#savedata').html("Save State");
+                    $('#state_id').val('');
+                    $('#stateForm').trigger("reset");
+                    $('.name_error').html('');
+                    $('#modelHeading').html("Create New State");
+                    $('#stateModel').modal('show');
+                }
+            }],
         });
-
         $('#createState').click(function () {
             $('#savedata').val("create-state");
             $('#savedata').html("Save State");
             $('#state_id').val('');
             $('#stateForm').trigger("reset");
-            $('.name_error').html('');
+            resetForm()
             $('#modelHeading').html("Create New State");
             $('#stateModel').modal('show');
         });
@@ -139,7 +164,7 @@
         $('body').on('click', '.editbtn', function () {
             var id = $(this).data('id');
             $.get("{{ route('states.index') }}" +'/' + id +'/edit', function (data) {
-                $(".name_error").html("");
+                resetForm()
                 $('#modelHeading').html("Edit State");
                 $('#savedata').val("edit-state");
                 $('#savedata').html("Update State");
@@ -150,6 +175,11 @@
             });
         });
 
+        function resetForm()
+        {
+            $(".name_error").html("");
+            $(".code_error").html("");
+        }
 
         $('body').on('click', '.deletebtn', function (e) {
             e.preventDefault();
@@ -212,4 +242,76 @@
             $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');
         }, 300);
     });
+
+    $(document).ready(function () {
+    $('#importState').click(function () {
+
+      $('#importStateModal').modal('show');
+    });
+    $('#importStateModal').on('show.bs.modal', function () {
+        $('#file').val('');
+        $('span.file_error').text('');
+    });
+
+    $('#uploadForm').on('submit', function (e) {
+    e.preventDefault();
+
+    let formData = new FormData();
+    formData.append('file', $('#file')[0].files[0]);
+    let table = $('#datatable').DataTable();
+
+    $.ajax({
+        url: '{{ route("states.import") }}',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function (response) {
+            $('#uploadForm').trigger("reset");
+            $('#importStateModal').modal('hide');
+            table.draw();
+
+            let message = '';
+            let icon = 'success';
+
+            if(response.status === "success"){
+                message = 'File uploaded and processed successfully!';
+            } else if(response.status === "warning"){
+                message = 'File processed with some issues:<br><br>';
+                icon = 'warning';
+                response.errors.forEach(function (error) {
+                    message += '<span style="display: block; text-align: left; margin-bottom: 4px; padding: 2px;  #ccc; background-color: #f9f9f9;">' + error + '</span>';
+
+                });
+            }
+
+            Swal.fire({
+                title: response.status.charAt(0).toUpperCase() + response.status.slice(1) + '!',
+                html: message,
+                icon: icon,
+                customClass: {
+                    confirmButton: 'btn btn-primary'
+                },
+                buttonsStyling: false
+            });
+         },
+        error: function(xhr) {
+            var res = xhr.responseJSON;
+            if ($.isEmptyObject(res) == false) {
+                $.each(res.errors, function(prefix, val) {
+                    $('span.' + prefix + '_error').text(val[0]);
+                });
+            }
+            }
+        });
+    });
+
+    $('#downloadState').on('click', function ()
+    {
+        window.location.href = "{{ route('state.template_download') }}";
+    });
+});
 </script>

@@ -54,8 +54,8 @@ class ProductPriceRangeRepository implements CrudRepositoryInterface, DatatableR
         $columnSortOrder = $orderArray[0]['dir'];
         $searchValue = $searchArray['value'];
 
-        $states = $this->getProductPriceRangeList();
-        $total = $states->count();
+        $price_range = $this->getProductPriceRangeList();
+        $total = $price_range->count();
 
         $totalFilter = $this->getProductPriceRangeList();
         if (!empty($searchValue)) {

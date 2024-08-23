@@ -6,14 +6,23 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+        $('#productCategoryNameFilter, #productSubCategoryFilter').on('keyup change', function(e) {
+            e.preventDefault();
+            table.draw();
+        });
+
         var table = $('#datatable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
+            searching: false,
             order: [[0, 'desc']],
             ajax: {
                 url: "{{ route('product_categories.list') }}",
                 data: function (d) {
+                    d.product_category_name_search = $('#productCategoryNameFilter').val();
+                    d.product_sub_category_name_search = $('#productSubCategoryFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{ column: 0, dir: sort }];
                 }
@@ -289,6 +298,5 @@
 
         return hasDuplicates;
     }
-
 
 </script>

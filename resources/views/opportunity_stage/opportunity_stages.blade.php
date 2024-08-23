@@ -8,8 +8,6 @@
 <!-- Content -->
 <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="py-3 mb-4 float-right"><span class="text-muted fw-light">Home /</span> Opportunity Stage</h4>
-
-    <!-- Ajax Sourced Server-side -->
     <div class="card">
         <div class="card-datatable table-responsive" style="overflow:hidden;width:96%;margin:auto;">
             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
@@ -25,7 +23,7 @@
                         </div>
                     </div>
                 </div>
-                <table class="table table-bordered data-table  table-striped" id="datatable" style="width: 100%">
+                <table class="datatables-basic table tables-basic border-top table-striped" id="datatable" style="width: 100%">
                     <thead>
                         <tr>
                             <th><b>S.No</b></th>
@@ -46,7 +44,6 @@
 
 <!-- / Content -->
 @endsection
-
 @section('scripts')
 @include('opportunity_stage.__scripts')
 

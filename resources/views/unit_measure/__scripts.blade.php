@@ -5,14 +5,23 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+        $('#unitMeasureNameFilter, #unitMeasureEntityFilter').on('keyup change', function(e) {
+                e.preventDefault();
+                table.draw();
+        });
+
         var table = $('#datatable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
+            searching: false,
             order: [[0, 'desc']],
             ajax: {
                 url: "{{ route('unit_measures.list') }}",
                 data: function (d) {
+                    d.unit_measure_entity_search = $('#unitMeasureEntityFilter').val();
+                    d.unit_measure_name_search = $('#unitMeasureNameFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{ column: 0, dir: sort }];
                 }
@@ -62,6 +71,9 @@
                         $('#unitMeasureModel').modal('hide');
                         showToast('success', response.msg);
                         table.draw();
+                        var successMessage = type === 'POST' ? 'Unit Measure Added Successfully!' : 'Unit Measure Updated Successfully!';
+                        var successTitle = type === 'POST' ? 'Created!' : 'Updated!';
+                        showSuccessMessage(successTitle, successMessage);
                     }
                 },
                 error: function (xhr) {
@@ -70,7 +82,6 @@
                 }
             });
         });
-
         $('body').on('click', '.editbtn', function () {
             resetForm();
             var id = $(this).data('id');
@@ -90,7 +101,6 @@
                 deleteUnitMeasure(id);
             });
         });
-
         function deleteUnitMeasure(id) {
             var url = "{{ route('unit_measures.destroy', ':id') }}".replace(':id', id);
             $.ajax({
@@ -102,7 +112,8 @@
                 },
                 success: function (response) {
                     if (response.status === "success") {
-                        handleAjaxResponse(response, table);
+                        table.draw(); // Assuming 'table' is defined for DataTables
+                        showSuccessMessage('Deleted!', 'Unit Measure Deleted Successfully!');
                     } else {
                         showError('Deleted!', response.msg);
                     }
@@ -123,7 +134,6 @@
             });
         });
     });
-
     setTimeout(() => {
         $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
         $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');

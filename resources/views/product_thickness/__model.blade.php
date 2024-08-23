@@ -17,7 +17,7 @@
                         </div>
                         <span class="text-danger error-text product_thickness_name_error"></span>
                     </div>
-                    
+
                     <div class="row">
                         <label for="name" class="control-label">Product Thickness Unit <sup style="color: red;"><strong>*</strong></sup></label>
                         <div class="col-sm-12">
@@ -25,8 +25,8 @@
                                 placeholder="Enter Product Thickness Unit" value="">
                         </div>
                         <span class="text-danger error-text product_thickness_unit_error"></span>
-                    </div>    
-                        
+                    </div>
+
                     </div>
                 </form>
             </div>
@@ -37,8 +37,6 @@
         </div>
     </div>
 </div>
-
-
 <div class="modal fade" id="showProductThicknessModal" tabindex="-1" aria-labelledby="show-product-thickness-modal-label" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

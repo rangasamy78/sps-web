@@ -39,7 +39,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="form-label" for="Inventory GL Account">Inventory GL Account</label>
+                            <label for="Inventory GL Account">Inventory GL Account</label>
                             <div class="input-group input-group-merge">
                                 <select id="inventory_gl_account" class="form-select" name="inventory_gl_account">
                                     <option value="">--Select--</option>
@@ -53,7 +53,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="form-label" for="Sales GL Account">Sales GL Account</label>
+                            <label for="Sales GL Account">Sales GL Account</label>
                             <div class="input-group input-group-merge">
                                 <select id="sales_gl_account" class="form-select" name="sales_gl_account">
                                     <option value="">--Select--</option>
@@ -62,7 +62,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="form-label" for="Cogs GL Account">Cogs GL Account</label>
+                            <label for="Cogs GL Account">Cogs GL Account</label>
                             <div class="input-group input-group-merge">
                                 <select id="cogs_gl_account" class="form-select" name="cogs_gl_account">
                                     <option value="">--Select--</option>

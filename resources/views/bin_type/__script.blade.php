@@ -6,7 +6,6 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-
         var table = $('#binTypeTable').DataTable({
             responsive: true,
             processing: true,
@@ -65,8 +64,6 @@
                     }
                 }
             ],
-
-
         });
 
         setTimeout(() => {
@@ -105,8 +102,6 @@
                 }
             });
         });
-
-
         $('body').on('click', '.editbtn', function() {
             var id = $(this).data('id');
             $(".bin_type_error").html("");
@@ -120,14 +115,12 @@
             });
         });
 
-
         $('body').on('click', '.deletebtn', function() {
             var id = $(this).data('id');
             confirmDelete(id, function () {
                 deleteBinType(id);
             });
         });
-
         function deleteBinType(id) {
             var url = "{{ route('bin_types.destroy', ':id') }}".replace(':id', id);
             $.ajax({

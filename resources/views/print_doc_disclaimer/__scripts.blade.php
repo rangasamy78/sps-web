@@ -5,14 +5,25 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+        $('#titleFilter, #select_type_category_id_filter, #select_type_sub_category_id_filter, #policyFilter').on('keyup change', function(e) {
+            e.preventDefault();
+            table.draw();
+        });
+
         var table = $('#datatable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
+            searching: false,
             order: [[0, 'desc']],
             ajax: {
                 url: "{{ route('print_doc_disclaimers.list') }}",
                 data: function (d) {
+                    d.title_search = $('#titleFilter').val();
+                    d.select_type_category_search = $('#select_type_category_id_filter').val();
+                    d.select_type_sub_category_search = $('#select_type_sub_category_id_filter').val();
+                    d.policy_search = $('#policyFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{ column: 0, dir: sort }];
                 }
@@ -27,7 +38,25 @@
             ],
             rowCallback: function (row, data, index) {
                 $('td:eq(0)', row).html(table.page.info().start + index + 1);
-            }
+            },
+            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            buttons: [{
+                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Create New Policies And Print Forms</span>',
+                className: 'create-new btn btn-primary',
+                attr: {
+                    'data-bs-toggle': 'modal',
+                    'data-bs-target': '#expenseCategoryModel',
+                },
+                action: function(e, dt, node, config) {
+                    clearEditor()
+                    resetForm()
+                    $('#savedata').html("Save Policies And Print Forms");
+                    $('#print_doc_disclaimer_id').val('');
+                    $('#printDocDisclaimerForm').trigger("reset");
+                    $('#modelHeading').html("Create New Policies And Print Forms");
+                    $('#printDocDisclaimerModel').modal('show');
+                }
+            }],
         });
 
         $('#createPrintDocDisclaimer').click(function () {
@@ -44,7 +73,6 @@
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');
         });
-
         $('#savedata').click(function (e) {
             e.preventDefault();
             var button = $(this).html();
@@ -172,17 +200,22 @@
         }
 
     $(document).ready(function() {
-        $('#select_type_category_id').on('change', function() {
+        $('#select_type_category_id, #select_type_category_id_filter').on('change', function() {
             var typeId = $(this).val();
             getSubcategories(typeId,"","create");
         });
     });
 
     function getSubcategories(typeId, selectedSubcategoryId, type) {
-
-        var $selectSubcategory = (type === "show")
-            ? $('#showPrintDocDisclaimerForm #select_type_sub_category_id')
-            : $('#select_type_sub_category_id');
+        var $selectSubcategory;
+            if (type === "show") {
+                $selectSubcategory = $('#showPrintDocDisclaimerForm #select_type_sub_category_id');
+            } else {
+                $selectSubcategory = $([
+                    '#select_type_sub_category_id',
+                    '#select_type_sub_category_id_filter'
+                ].join(', '));
+            }
             $selectSubcategory.empty().append('<option value="">--Select Type Sub Category--</option>');
         if (typeId) {
             $.ajax({
@@ -209,7 +242,6 @@
             $selectSubcategory.prop('disabled', type === "show");
         }
     }
-
 function resetForm()
 {
     $('.title_error').html('');

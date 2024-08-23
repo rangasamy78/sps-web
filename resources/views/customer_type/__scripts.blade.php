@@ -7,14 +7,22 @@
             }
         });
 
-        var table = $('#datatable').DataTable({
+        $('#customerTypeNameFilter, #customerTypeCodeFilter').on('keyup', function(e) {
+            e.preventDefault();
+            table.draw();
+        });
+
+        var table = $('#customerTypeTable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
+            searching: false,
             order: [[0, 'desc']],
             ajax: {
                 url: "{{ route('customer_types.list') }}",
                 data: function (d) {
+                    d.customer_type_name_search = $('#customerTypeNameFilter').val();
+                    d.customer_type_code_search = $('#customerTypeCodeFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{ column: 0, dir: sort }];
                 }
@@ -26,8 +34,25 @@
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
             rowCallback: function (row, data, index) {
-                $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
-            }
+                $('td:eq(0)', row).html(table.page.info().start + index + 1); 
+            },
+            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            buttons: [{
+                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Create Customer Type</span>',
+                className: 'create-new btn btn-primary',
+                attr: {
+                    'data-bs-toggle': 'modal',
+                    'data-bs-target': '#customerTypeModel',
+                },
+                action: function(e, dt, node, config) {
+                    $('#savedata').html("Save Customer Type");
+                    $('#customer_type_id').val('');
+                    $('#expenseCategoryForm').trigger("reset");
+                    $(".customer_type_name_error").html("");
+                    $('#modelHeading').html("Create New Customer Type");
+                    $('#expenseCategorycustomerTypeModelModel').modal('show');
+                }
+            }],
         });
 
         $('#createCustomerType').click(function () {
@@ -84,8 +109,6 @@
                 $('#customer_type_code').val(data.customer_type_code);
             });
         });
-
-
         $('body').on('click', '.deletebtn', function () {
             var id = $(this).data('id');
             confirmDelete(id, function() {

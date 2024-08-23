@@ -41,9 +41,18 @@ class SurveyQuestionRepository implements CrudRepositoryInterface, DatatableRepo
         $this->findOrFail($id)->delete();
     }
 
-    public function getSurveyQuestionsList()
+    public function getSurveyQuestionsList($request)
     {
         $query = SurveyQuestion::query();
+        if (!empty($request->transaction_search) ) {
+            $query->where('transaction', $request->transaction_search);
+        }
+        if (!empty($request->short_label_search) ) {
+            $query->where('short_label', 'like', '%' . $request->short_label_search . '%');
+        }
+        if (!empty($request->question_search) ) {
+            $query->where('question', 'like', '%' . $request->question_search . '%');
+        }
         return $query;
     }
     
@@ -59,16 +68,16 @@ class SurveyQuestionRepository implements CrudRepositoryInterface, DatatableRepo
         $columnName = $columnNameArray[$columnIndex]['data'];
         $columnSortOrder = $orderArray[0]['dir'];
         $searchValue = $searchArray['value'];
-        $surveyQuestions = $this->getSurveyQuestionsList();
+        $surveyQuestions = $this->getSurveyQuestionsList($request);
         $total = $surveyQuestions->count();
-        $totalFilter = $this->getSurveyQuestionsList();
+        $totalFilter = $this->getSurveyQuestionsList($request);
         if (!empty($searchValue)) {
             $totalFilter = $totalFilter->where('transaction', 'like', '%' . $searchValue . '%')
                 ->orWhere('short_label', 'like', '%' . $searchValue . '%')
                 ->orWhere('question', 'like', '%' . $searchValue . '%');
         }
         $totalFilter = $totalFilter->count();
-        $arrData = $this->getSurveyQuestionsList();
+        $arrData = $this->getSurveyQuestionsList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
         if (!empty($searchValue)) {

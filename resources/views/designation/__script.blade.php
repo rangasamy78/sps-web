@@ -6,16 +6,23 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        $('#departmentFilter, #designationFilter').on('keyup change', function(e) {
+                e.preventDefault();
+                table.draw();
+            });
         var table = $('#createDesignation').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
+            searching: false,
             order: [
                 [0, 'desc']
             ],
             ajax: {
                 url: "{{ route('designations.list') }}",
                 data: function(d) {
+                    d.department_search = $('#departmentFilter').val();
+                    d.designation_search = $('#designationFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{
                         column: 0,
@@ -41,7 +48,8 @@
                     data: 'action',
                     name: 'action',
                     orderable: false,
-                    searchable: false
+                    searchable: false,
+                    
                 }
             ],
             rowCallback: function(row, data, index) {
@@ -52,7 +60,7 @@
             // displayLength: 7,
             // lengthMenu: [7, 10, 25, 50, 75, 100],
             buttons: [{
-                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add New Record</span>',
+                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add New Designation</span>',
                 className: 'create-new btn btn-primary',
                 attr: {
                     'data-bs-toggle': 'modal',

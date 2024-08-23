@@ -7,14 +7,22 @@
             }
         });
 
+        $('#productGroupNameFilter, #productGroupCodeFilter').on('keyup change', function(e) {
+            e.preventDefault();
+            table.draw();
+        });
+
         var table = $('#datatable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
+            searching: false,
             order: [[0, 'desc']],
             ajax: {
                 url: "{{ route('product_groups.list') }}",
                 data: function (d) {
+                    d.product_group_name_search = $('#productGroupNameFilter').val();
+                    d.product_group_code_search = $('#productGroupCodeFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{ column: 0, dir: sort }];
                 }
@@ -26,24 +34,31 @@
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
             rowCallback: function (row, data, index) {
-                $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
-            }
-        });
-
-        $('#createProductGroup').click(function () {
-            $('.product_group_name_error').html('');
-            $('#savedata').html("Save Product Group");
-            $('#product_group_id').val('');
-            $('#productGroupForm').trigger("reset");
-            $('#modelHeading').html("Create New Product Group");
-            $('#productGroupModel').modal('show');
+                $('td:eq(0)', row).html(table.page.info().start + index + 1);
+            },
+            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            buttons: [{
+                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add New Product Group</span>',
+                className: 'create-new btn btn-primary',
+                attr: {
+                    'data-bs-toggle': 'modal',
+                    'data-bs-target': '#productGroupModel',
+                },
+                action: function(e, dt, node, config) {
+                    $('#savedata').html("Save Product Group");
+                    $('.product_group_name_error').html('');
+                    $('#productGroupForm').trigger("reset");
+                    $("#productGroupForm").find("tr:gt(1)").remove();
+                    $('#modelHeading').html("Create New Product Group");
+                    $('#productGroupModel').modal('show');
+                }
+            }],
         });
 
         $('#productGroupForm input').on('input', function () {
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');
         })
-
         $('#savedata').click(function (e) {
             e.preventDefault();
             var button = $(this).html();
@@ -109,7 +124,6 @@
                 }
             });
         }
-
         $('body').on('click', '.showbtn', function () {
             var id = $(this).data('id');
             $.get("{{ route('product_groups.index') }}" + '/' + id, function (data) {

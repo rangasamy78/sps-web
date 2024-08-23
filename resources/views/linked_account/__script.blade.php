@@ -6,16 +6,25 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+            $('#accountCodeFilter, #accountNameFilter, #accountTypeFilter, #accountSubTypeFilter').on('keyup change', function(e) {
+                e.preventDefault();
+                table.draw();
+            });
             var table = $('#createLinkedAccountTable').DataTable({
                 responsive: true,
                 processing: true,
                 serverSide: true,
+                searching: false,
                 order: [
                     [0, 'desc']
                 ],
                 ajax: {
                     url: "{{ route('linked_accounts.list') }}",
                     data: function(d) {
+                        d.account_code_search = $('#accountCodeFilter').val();
+                        d.account_name_search = $('#accountNameFilter').val();
+                        d.account_type_search = $('#accountTypeFilter').val();
+                        d.account_sub_type_search = $('#accountSubTypeFilter').val();
                         sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                         d.order = [{
                             column: 0,
@@ -55,10 +64,9 @@
                 rowCallback: function(row, data, index) {
                     $('td:eq(0)', row).html(table.page.info().start + index + 1);
                 },
-
-                dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+                dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
                 buttons: [{
-                    text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add New Record</span>',
+                    text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add New Linked Account</span>',
                     className: 'create-new btn btn-primary',
                     attr: {
                         'data-bs-toggle': 'modal',
@@ -114,8 +122,6 @@
                     }
                 });
             });
-
-
             $('body').on('click', '.editbtn', function() {
                 clearError();
                 var id = $(this).data('id');
@@ -131,14 +137,12 @@
                     $('#account_sub_type').val(data.account_sub_type);
                 });
             });
-
             $('body').on('click', '.deletebtn', function() {
                 var id = $(this).data('id');
                 confirmDelete(id, function() {
                     deleteLinkedAccount(id);
                 });
             });
-
             function deleteLinkedAccount(id) {
                 var url = "{{ route('linked_accounts.destroy', ':id') }}".replace(':id', id);
                 $.ajax({

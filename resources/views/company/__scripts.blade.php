@@ -7,16 +7,27 @@
             }
         });
 
+        $('#companyNameFilter, #emailFilter, #cityFilter, #stateFilter, #zipFilter, #phoneFilter, #websiteFilter').on('keyup change', function(e) {
+            e.preventDefault();
+            table.draw();
+        });
+
         var table = $('#datatable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
+            searching: false,
             order: [
                 [0, 'desc']
             ],
             ajax: {
                 url: "{{ route('companies.list') }}",
                 data: function(d) {
+                    d.company_name_search = $('#companyNameFilter').val();
+                    d.email_search = $('#emailFilter').val();
+                    d.city_search = $('#cityFilter').val();
+                    d.state_search = $('#stateFilter').val();
+                    d.phone_search = $('#phoneFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{
                         column: 0,
@@ -50,6 +61,14 @@
                     name: 'phone',
                 },
                 {
+                    data: 'state',
+                    name: 'state',
+                },
+                {
+                    data: 'city',
+                    name: 'city',
+                },
+                {
                     data: 'action',
                     name: 'action',
                     orderable: false,
@@ -57,9 +76,25 @@
                 },
             ],
             rowCallback: function(row, data, index) {
-                $('td:eq(0)', row).html(table.page.info().start + index +
-                1); // Update the index column with the correct row index
-            }
+                $('td:eq(0)', row).html(table.page.info().start + index + 1); 
+            },
+            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            buttons: [{
+                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Create Company</span>',
+                className: 'create-new btn btn-primary',
+                attr: {
+                    'data-bs-toggle': 'modal',
+                    'data-bs-target': '#companyModel',
+                },
+                action: function(e, dt, node, config) {
+                    resetFormFields();
+                    $('#savedata').html("Save Company");
+                    $('#company_id').val('');
+                    $('#addCompanyForm').trigger("reset");
+                    $('#modelHeading').html("Create New Company");
+                    $('#companyModel').modal('show');
+                }
+            }],
         });
 
         $('#createCompany').click(function() {

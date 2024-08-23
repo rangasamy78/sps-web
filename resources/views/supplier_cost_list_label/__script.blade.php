@@ -6,16 +6,25 @@
       }
     });
 
+    $('#costLevelFilter, #costCodeFilter, #costLabelFilter').on('keyup change', function(e) {
+        e.preventDefault();
+        table.draw();
+    });
+
     var table = $('#supplierCostListLabelTable').DataTable({
       responsive: true,
       processing: true,
       serverSide: true,
+      searching: false,
       order: [
         [0, 'desc']
       ],
       ajax: {
         url: "{{ route('supplier_cost_list_labels.list') }}",
         data: function(d) {
+          d.cost_level_search = $('#costLevelFilter').val();
+          d.cost_code_search = $('#costCodeFilter').val();
+          d.cost_label_search = $('#costLabelFilter').val();
           sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
           d.order = [{
             column: 0,
@@ -47,11 +56,9 @@
         }
       ],
       rowCallback: function(row, data, index) {
-        $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
+        $('td:eq(0)', row).html(table.page.info().start + index + 1);
       },
       dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-      // displayLength: 7,
-      // lengthMenu: [7, 10, 25, 50, 75, 100],
       buttons: [{
         text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Create Supplier Cost List Label</span>',
         className: 'create-new btn btn-primary',

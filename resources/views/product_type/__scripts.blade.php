@@ -6,14 +6,25 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        
+        $('#productTypeFilter, #inventoryGLAccountFilter,#salesGLAccountFilter, #cogsGLAccountFilter').on('keyup change', function(e) {
+            e.preventDefault();
+            table.draw();
+        });
+
         var table = $('#datatable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
+            searching: false,
             order: [[0, 'desc']],
             ajax: {
                 url: "{{ route('product_types.list') }}",
                 data: function (d) {
+                    d.product_type_search = $('#productTypeFilter').val();
+                    d.inventory_gl_account_search = $('#inventoryGLAccountFilter').val();
+                    d.sales_gl_account_search = $('#salesGLAccountFilter').val();
+                    d.cogs_gl_account_search = $('#cogsGLAccountFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{ column: 0, dir: sort }];
                 }
@@ -26,17 +37,28 @@
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
             rowCallback: function (row, data, index) {
-                $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
-            }
+                $('td:eq(0)', row).html(table.page.info().start + index + 1);
+            },
+            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            buttons: [{
+                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add New Product Type</span>',
+                className: 'create-new btn btn-primary',
+                attr: {
+                    'data-bs-toggle': 'modal',
+                    'data-bs-target': '#productTypeModel',
+                },
+                action: function(e, dt, node, config) {
+                    $('#savedata').html("Save Product Type");
+                    $('.product_type_error').html('');
+                    $('#product_type_id').val('');
+                    $('#productTypeForm').trigger("reset");
+                    $("#productTypeForm").find("tr:gt(1)").remove();
+                    $('#modelHeading').html("Create New Product Type");
+                    $('#productTypeModel').modal('show');
+                }
+            }],
         });
-        $('#createProductType').click(function () {
-            $('.product_type_error').html('');
-            $('#savedata').html("Save Product Type");
-            $('#product_type_id').val('');
-            $('#productTypeForm').trigger("reset");
-            $('#modelHeading').html("Create New Product Type");
-            $('#productTypeModel').modal('show');
-        });
+
         $('#productTypeForm input').on('input', function () {
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');

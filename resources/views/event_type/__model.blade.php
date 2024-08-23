@@ -18,8 +18,7 @@
                         <span class="text-danger error-text event_type_name_error"></span>
                     </div>
                     <div class="form-group mt-3">
-                        <label for="event_type_code" class="col-sm-6 control-label">Event Type Code <sup
-                                style="color: red;font-size:1rem;"><b>*</b></sup></label>
+                        <label for="event_type_code" class="col-sm-6 control-label">Event Type Code </label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="event_type_code" name="event_type_code"
                                 placeholder="Enter Event Type Code" value="">
@@ -59,15 +58,14 @@
                         <label for="name" class="col-sm-6 control-label">Event Type Name</label>
                         <div class="col-sm-12">
                             <input type="text" disabled class="form-control" id="event_type_name" name="event_type_name"
-                                placeholder="Enter Event Type Name" value="">
+                                placeholder="" value="">
                         </div>
                     </div>
                     <div class="form-group mt-3">
-                        <label for="event_type_code" class="col-sm-6 control-label">Event Type Code <sup
-                                style="color: red;font-size:1rem;"><b>*</b></sup></label>
+                        <label for="event_type_code" class="col-sm-6 control-label">Event Type Code </label>
                         <div class="col-sm-12">
                             <input type="text" disabled class="form-control" id="event_type_code" name="event_type_code"
-                                placeholder="Enter Event Type Code" value="">
+                                placeholder="" value="">
                         </div>
                     </div>
                     <div class="form-group mt-3">

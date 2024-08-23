@@ -69,8 +69,6 @@
           $('#shipmentTermModel').modal('show');
         }
       }],
-
-
     });
 
     $('#shipmentTermForm input').on('input', function() {

@@ -24,8 +24,6 @@
         </div>
     </div>
 </div>
-
-
 <div class="modal fade" id="show-binType-modal" tabindex="-1" aria-labelledby="show-binType-modal-label" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

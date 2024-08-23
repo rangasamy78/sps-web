@@ -24,7 +24,7 @@
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
             rowCallback: function (row, data, index) {
-                $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
+                $('td:eq(0)', row).html(table.page.info().start + index + 1);
             }
         });
         $('#createProductColor').click(function () {
@@ -101,7 +101,6 @@
                 }
             });
         }
-
         $('body').on('click', '.showbtn', function () {
             var id = $(this).data('id');
             $.get("{{ route('product_colors.index') }}" + '/' + id, function (data) {
@@ -112,7 +111,6 @@
 
             });
         });
-
         setTimeout(() => {
             $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
             $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');

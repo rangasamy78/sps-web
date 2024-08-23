@@ -1,20 +1,28 @@
 <script type="text/javascript">
     $(function() {
-
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
 
+        $('#eventTypeNameFilter, #eventTypeCodeFilter ,#eventCategoryFilter').on('keyup change', function(e) {
+            e.preventDefault();
+            table.draw();
+        });
+
         var table = $('#datatable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
+            searching: false,
             order: [[0, 'desc']],
             ajax: {
                 url: "{{ route('event_types.list') }}",
                 data: function (d) {
+                    d.event_type_name_search = $('#eventTypeNameFilter').val();
+                    d.event_type_code_search = $('#eventTypeCodeFilter').val();
+                    d.event_category_search = $('#eventCategoryFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{ column: 0, dir: sort }];
                 }
@@ -28,17 +36,25 @@
             ],
             rowCallback: function (row, data, index) {
                 $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
-            }
-        });
-
-        $('#createEventType').click(function () {
-            $('#savedata').val("create-event-type");
-            $('#savedata').html("Save Event Type");
-            $('#event_type_id').val('');
-            $('#eventTypeForm').trigger("reset");
-            $('.event_type_name_error').html('');
-            $('#modelHeading').html("Create New Event Type");
-            $('#eventTypeModel').modal('show');
+            },
+            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            buttons: [{
+                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add New Event Type</span>',
+                className: 'create-new btn btn-primary',
+                attr: {
+                    'data-bs-toggle': 'modal',
+                    'data-bs-target': '#eventTypeModel',
+                },
+                action: function(e, dt, node, config) {
+                    $('#savedata').html("Save Event Type");
+                    $('#event_type_id').val('');
+                    $('#eventTypeForm').trigger("reset");
+                    $('.event_type_name_error').html('');
+                    $("#eventTypeForm").find("tr:gt(1)").remove();
+                    $('#modelHeading').html("Create New Event Type");
+                    $('#eventTypeModel').modal('show');
+                }
+            }],
         });
 
         $('#eventTypeForm input').on('input', function () {
@@ -71,7 +87,6 @@
                 }
             });
         });
-
         $('body').on('click', '.editbtn', function () {
             var id = $(this).data('id');
             $.get("{{ route('event_types.index') }}" +'/' + id +'/edit', function (data) {
@@ -86,15 +101,12 @@
                 $('#event_category_id').val(data.event_category_id);
             });
         });
-
-
         $('body').on('click', '.deletebtn', function () {
             var id = $(this).data('id');
             confirmDelete(id, function() {
                 deleteEventType(id);
             });
         });
-
         function deleteEventType(id) {
             var url = "{{ route('event_types.destroy', ':id') }}".replace(':id', id);
 
@@ -114,7 +126,6 @@
                 }
             });
         }
-
         $('body').on('click', '.showbtn', function () {
             var id = $(this).data('id');
             $.get("{{ route('event_types.index') }}" +'/' + id, function (data) {

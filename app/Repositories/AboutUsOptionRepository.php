@@ -52,10 +52,8 @@ class AboutUsOptionRepository implements CrudRepositoryInterface, DatatableRepos
         $columnName           =         $columnNameArray[$columnIndex]['data'];
         $columnSortOrder      =         $orderArray[0]['dir'];
         $searchValue          =         $searchArray['value'];
-
         $aboutUsOptions = $this->getAboutUsOptionList();
         $total = $aboutUsOptions->count();
-
         $totalFilter = $this->getAboutUsOptionList();
         if (!empty($searchValue)) {
             $totalFilter = $totalFilter->where('how_did_you_hear_option', 'like', '%' . $searchValue . '%');
@@ -68,7 +66,6 @@ class AboutUsOptionRepository implements CrudRepositoryInterface, DatatableRepos
             $arrData = $arrData->where('how_did_you_hear_option', 'like', '%' . $searchValue . '%');
         }
         $arrData = $arrData->get();
-
         $arrData->map(function ($value) {
             $value->how_did_you_hear_option = $value->how_did_you_hear_option ?? '';
             $value->action = "<button type='button' data-id='" . $value->id . "' class='p-2 m-0 btn btn-warning btn-sm showbtn'>

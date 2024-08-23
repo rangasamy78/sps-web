@@ -16,7 +16,7 @@
                         <span class="text-danger error-text title_error"></span>
                     </div>
                     <div class="form-group mt-3">
-                        <label class="col-sm-4 control-label">Select Type Category</label>
+                        <label class="col-sm-4 control-label">Select Type Category<sup style="color: red;font-size:1rem;"><b>*</b></sup></label>
                         <div class="col-sm-12">
                             <select class="form-select select_type_category_id" name="select_type_category_id" id="select_type_category_id">
                                <option value="">--Select Type Category--</option>
@@ -28,7 +28,7 @@
                         </div>
                     </div>
                     <div class="form-group mt-3">
-                        <label class="col-sm-4 control-label">Select Type Sub Category</label>
+                        <label class="col-sm-4 control-label">Select Type Sub Category<sup style="color: red;font-size:1rem;"><b>*</b></sup></label>
                         <div class="col-sm-12">
                             <select class="form-select select_type_sub_category_id" name="select_type_sub_category_id" id="select_type_sub_category_id" >
                             <option value="">--Select Type Sub Category--</option>
@@ -55,7 +55,6 @@
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="showPrintDocDisclaimerModal" tabindex="-1" aria-labelledby="show-print-doc-disclaimer-modal-label" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -74,7 +73,7 @@
                     <div class="form-group mt-3">
                         <label class="col-sm-6 control-label">Select Type Category</label>
                         <div class="col-sm-12">
-                            <select class="form-control" id="select_type_category_id" disabled name="select_type_category_id">
+                            <select class="form-control select2" id="select_type_category_id" disabled name="select_type_category_id">
                             <option value="">--Select Type Category--</option>
                                 @foreach($select_type_categories as $key => $select_type_category)
                                     <option value="{{ $key }}">{{ $select_type_category }}</option>

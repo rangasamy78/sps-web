@@ -25,7 +25,7 @@
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
             rowCallback: function (row, data, index) {
-                $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
+                $('td:eq(0)', row).html(table.page.info().start + index + 1);
             }
         });
 
@@ -82,15 +82,12 @@
                 $('#vendor_type_name').val(data.vendor_type_name);
             });
         });
-
-
         $('body').on('click', '.deletebtn', function () {
             var id = $(this).data('id');
             confirmDelete(id, function() {
                 deleteVendorType(id);
             });
         });
-
         function deleteVendorType(id) {
             var url = "{{ route('vendor_types.destroy', ':id') }}".replace(':id', id);
 
@@ -114,12 +111,11 @@
                 }
             });
         }
-
         $('body').on('click', '.showbtn', function () {
             var id = $(this).data('id');
             $.get("{{ route('vendor_types.index') }}" +'/' + id, function (data) {
                 $('#showVendorTypeModal').modal('show');
-                $('#showVendorTypeForm #vendor_type_name').val(data.model.vendor_type_name);
+                $('#showVendorTypeForm #vendor_type_name').val(data.vendor_type_name);
             });
         });
 

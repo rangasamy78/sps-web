@@ -83,6 +83,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('states', StateController::class);
     Route::get('/state/list', [StateController::class, 'getStateDataTableList'])->name('states.list');
+    Route::post('/state/import', [StateController::class, 'importStates'])->name('states.import');
+    Route::get('/state/template_download', [StateController::class, 'stateTemplateDownload'])->name('state.template_download');
+
 
     Route::resource('departments', DepartmentController::class);
     Route::get('/department/list', [DepartmentController::class, 'getDepartmentDataTableList'])->name('departments.list');
@@ -101,6 +104,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('file_types', FileTypeController::class);
     Route::get('/file_type/list', [FileTypeController::class, 'getFileTypeDataTableList'])->name('file_types.list');
+    Route::post('/file_type/import', [FileTypeController::class, 'importFileTypes'])->name('file_types.import');
+    Route::get('/file_type/template_download', [FileTypeController::class, 'fileTypeTemplateDownload'])->name('file_type.template_download');
+
 
     Route::resource('product_finishes', ProductFinishController::class);
     Route::get('/product_finish/list', [ProductFinishController::class, 'getProductFinishDataTableList'])->name('product_finishes.list');
@@ -247,8 +253,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('linked_accounts', LinkedAccountController::class);
     Route::get('/linked_account/list', [LinkedAccountController::class, 'getLinkedAccountDataTableList'])->name('linked_accounts.list');
 
-    Route::resource('aging_periods_aps', AgingPeriodAPController::class);
-    Route::post('/aging_periods_ap/save', [AgingPeriodAPController::class, 'save'])->name('aging_periods_aps.save');
+    Route::resource('account_payable_aging_periods', AgingPeriodAPController::class);
+    Route::post('/account_payable_aging_period/save', [AgingPeriodAPController::class, 'save'])->name('account_payable_aging_periods.save');
 
     Route::prefix('default_link_accounts')->name('default_link_accounts.')->group(function () {
         Route::get('/', [DefaultLinkAccountController::class, 'index'])->name('index');

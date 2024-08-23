@@ -59,8 +59,8 @@ class SelectTypeCategoryRepository implements CrudRepositoryInterface, Datatable
         $columnName = $columnNameArray[$columnIndex]['data'];
         $columnSortOrder = $orderArray[0]['dir'];
         $searchValue = $searchArray['value'];
-        $states = $this->getSelectTypeCategoryList();
-        $total = $states->count();
+        $select_type = $this->getSelectTypeCategoryList();
+        $total = $select_type->count();
         $totalFilter = $this->getSelectTypeCategoryList();
         if (!empty($searchValue)) {
             $totalFilter = $totalFilter->where('select_type_category_name', 'like', '%' . $searchValue . '%');

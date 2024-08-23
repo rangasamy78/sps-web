@@ -24,8 +24,6 @@
         </div>
     </div>
 </div>
-
-
 <div class="modal fade" id="showTaxExemptReasonModal" tabindex="-1" aria-labelledby="showTaxExemptReasonModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

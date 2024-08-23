@@ -94,8 +94,6 @@
         </div>
     </div>
 </div>
-
-
 <div class="modal fade" id="showDesignationModal" tabindex="-1" aria-labelledby="showDesignationModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\PrintDocDisclaimer;
 use App\Interfaces\CrudRepositoryInterface;
@@ -42,9 +43,22 @@ class PrintDocDisclaimerRepository implements CrudRepositoryInterface, Datatable
         return $query;
     }
 
-    public function getPrintDocDisclaimerList()
+    public function getPrintDocDisclaimerList($request)
     {
-        return PrintDocDisclaimer::with(['select_type_category', 'select_type_sub_category']);
+        $query = PrintDocDisclaimer::with(['select_type_category', 'select_type_sub_category']);
+        if (!empty($request->title_search) ) {
+            $query->where('title', 'like', '%' . $request->title_search. '%');
+        }
+        if (!empty($request->select_type_category_search) ) {
+            $query->where('select_type_category_id', $request->select_type_category_search );
+        }
+        if (!empty($request->select_type_sub_category_search) ) {
+            $query->where('select_type_sub_category_id', $request->select_type_sub_category_search);
+        }
+        if (!empty($request->policy_search) ) {
+            $query->where('policy', 'like', '%' . $request->policy_search. '%');
+        }
+        return $query;
     }
 
     public function dataTable(Request $request)
@@ -59,20 +73,14 @@ class PrintDocDisclaimerRepository implements CrudRepositoryInterface, Datatable
         $columnName = $columnNameArray[$columnIndex]['data'];
         $columnSortOrder = $orderArray[0]['dir'];
         $searchValue = $searchArray['value'];
-        $states = $this->getPrintDocDisclaimerList();
+        $states = $this->getPrintDocDisclaimerList($request);
         $total = $states->count();
-        $totalFilter = $this->getPrintDocDisclaimerList();
-        if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('title', 'like', '%' . $searchValue . '%');
-        }
+        $totalFilter = $this->getPrintDocDisclaimerList($request);
         $totalFilter = $totalFilter->count();
 
-        $arrData = $this->getPrintDocDisclaimerList();
+        $arrData = $this->getPrintDocDisclaimerList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
-        if (!empty($searchValue)) {
-            $arrData = $arrData->where('title', 'like', '%' . $searchValue . '%');
-        }
         $arrData = $arrData->get();
 
         $arrData->map(function ($value, $i) {
@@ -80,7 +88,7 @@ class PrintDocDisclaimerRepository implements CrudRepositoryInterface, Datatable
             $value->title = $value->title ?? '';
             $value->select_type_category_id = $value->select_type_category->select_type_category_name ?? ''; 
             $value->select_type_sub_category_id = $value->select_type_sub_category->select_type_sub_category_name ?? '';
-            $value->policy = $value->policy ?? '';
+            $value->policy = $value->policy ? Str::limit($value->policy, 50, '...') : '';
             $value->action = "<button type='button' data-id='" . $value->id . "' class='p-2 m-0 btn btn-warning btn-sm showbtn' data-bs-toggle='modal' >
             <i class='fa-regular fa-eye fa-fw'></i></button>&nbsp;&nbsp;<button type='button' data-id='" . $value->id . "'  name='btnEdit'
              class='editbtn btn btn-primary btn-sm p-2 m-0'><i class='fas fa-pencil-alt'></i></button>&nbsp;&nbsp;

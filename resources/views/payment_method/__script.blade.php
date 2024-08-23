@@ -10,12 +10,16 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
+                searching: false,
                 order: [
                     [0, 'desc']
                 ],
                 ajax: {
                     url: "{{ route('payment_methods.list') }}",
                     data: function(d) {
+                        d.method_name_search = $('#methodNameFilter').val();
+                        d.account_search = $('#linkedAccountFilter').val();
+                        d.account_type_search = $('#accountTypeFilter').val();
                         sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                         d.order = [{
                             column: 0,
@@ -51,8 +55,7 @@
                 rowCallback: function(row, data, index) {
                     $('td:eq(0)', row).html(table.page.info().start + index + 1);
                 },
-
-                dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+                dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
                 buttons: [{
                     text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add Payment Method</span>',
                     className: 'create-new btn btn-primary',
@@ -87,7 +90,8 @@
                 e.preventDefault();
                 var button = $(this).html();
                 $(this).html('Sending..');
-                var url = $('#payment_method_id').val() ? "{{ route('payment_methods.update', ':id') }}".replace(':id', $('#payment_method_id').val()) : "{{ route('payment_methods.store') }}";
+                var url = $('#payment_method_id').val() ? "{{ route('payment_methods.update', ':id') }}"
+                    .replace(':id', $('#payment_method_id').val()) : "{{ route('payment_methods.store') }}";
                 var type = $('#payment_method_id').val() ? "PUT" : "POST";
                 $.ajax({
                     url: url,
@@ -173,5 +177,9 @@
                 $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left',
                     '30px');
             }, 300);
+            $('#methodNameFilter, #linkedAccountFilter, #accountTypeFilter').on('keyup change', function(e) {
+                e.preventDefault();
+                table.draw();
+            });
         });
     </script>

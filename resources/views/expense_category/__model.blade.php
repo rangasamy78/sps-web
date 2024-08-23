@@ -19,7 +19,7 @@
                             <label for="expense_account" class="control-label pb-1">Expense Account<sup style="color:red"><strong>*</strong></sup></label>
                             <div class="col-sm-12">
                                 <select class="form-select " name="expense_account" id="expense_account">
-                                    <option value="">--select here--</option>
+                                    <option value="">--Select--</option>
                                     @foreach($data['linkedAccounts'] as $key => $linkedAccount)
                                         <option value="{{ $linkedAccount['value'] }}">{{ $linkedAccount['label'] }}</option>
                                     @endforeach
@@ -36,7 +36,6 @@
             </div>
         </div>
     </div>
-
     <div class="modal fade" id="showExpenseCategoryModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

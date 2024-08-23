@@ -11,12 +11,15 @@
             responsive: true,
             processing: true,
             serverSide: true,
+            searching: false,
             order: [
                 [0, 'desc']
             ],
             ajax: {
                 url: "{{ route('expense_categories.list') }}",
                 data: function(d) {
+                    d.expense_category_search = $('#expenseCategoryFilter').val();
+                    d.expense_account_search = $('#expenseAccountFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{
                         column: 0,
@@ -48,7 +51,7 @@
             rowCallback: function(row, data, index) {
                 $('td:eq(0)', row).html(table.page.info().start + index + 1);
             },
-            dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
             buttons: [{
                 text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Add Expense Category</span>',
                 className: 'create-new btn btn-primary',
@@ -152,6 +155,10 @@
                 $('#showExpenseCategoryForm #expense_category_name').val(data.expense_category_name);
                 $('#showExpenseCategoryForm #expense_account').val(data.expense_account);
             });
+        });
+        $('#expenseCategoryFilter, #expenseAccountFilter').on('keyup change', function(e) {
+            e.preventDefault();
+            table.draw();
         });
     });
 </script>

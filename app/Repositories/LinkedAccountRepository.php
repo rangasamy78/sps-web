@@ -33,9 +33,21 @@ class LinkedAccountRepository implements CrudRepositoryInterface, DatatableRepos
     {
         $this->findOrFail($id)->delete();
     }
-    public function getLinkedAccountList()
+    public function getLinkedAccountList($request)
     {
         $query = LinkedAccount::query();
+        if (!empty($request->account_code_search) ) {
+            $query->where('account_code', $request->account_code_search);
+        }
+        if (!empty($request->account_name_search) ) {
+            $query->where('account_name', 'like', '%' . $request->account_name_search . '%');
+        }
+        if (!empty($request->account_type_search) ) {
+            $query->where('account_type', $request->account_type_search);
+        }
+        if (!empty($request->account_sub_type_search) ) {
+            $query->where('account_sub_type', $request->account_sub_type_search);
+        }
         return $query;
     }
     public function dataTable(Request $request)
@@ -50,23 +62,14 @@ class LinkedAccountRepository implements CrudRepositoryInterface, DatatableRepos
         $columnName           =         $columnNameArray[$columnIndex]['data'];
         $columnSortOrder      =         $orderArray[0]['dir'];
         $searchValue          =         $searchArray['value'];
-        $LinkedAccounts = $this->getLinkedAccountList();
+        $LinkedAccounts = $this->getLinkedAccountList($request);
         $total = $LinkedAccounts->count();
 
-        $totalFilter = $this->getLinkedAccountList();
-        if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('account_code', 'like', '%' . $searchValue . '%');
-        }
+        $totalFilter = $this->getLinkedAccountList($request);
         $totalFilter = $totalFilter->count();
-        $arrData = $this->getLinkedAccountList();
+        $arrData = $this->getLinkedAccountList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
-        if (!empty($searchValue)) {
-            $arrData = $arrData->where('account_code', 'like', '%' . $searchValue . '%')
-                ->orwhere('account_name', 'like', '%' . $searchValue . '%')
-                ->orwhere('account_type', 'like', '%' . $searchValue . '%')
-                ->orwhere('account_sub_type', 'like', '%' . $searchValue . '%');
-        }
         $arrData = $arrData->get();
         $arrData->map(function ($value) {
             $value->account_code     = $value->account_code ?? '';

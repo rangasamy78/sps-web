@@ -82,7 +82,7 @@ var toastMixin = Swal.mixin({
     animation: false,
     position: 'top-right',
     showConfirmButton: false,
-    timer: 3000,
+    timer: 100000,
     timerProgressBar: true,
     customClass: {
         container: 'swal2-toast-colored',
@@ -97,7 +97,7 @@ var toastMixin = Swal.mixin({
 // Function to display toast with dynamic color
 function showToast(type, title) {
     let className;
-
+    alert(type);
     switch(type) {
         case 'success':
             className = 'swal2-icon-success';

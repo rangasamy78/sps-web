@@ -24,14 +24,37 @@ class UpdateSurveyQuestionRequest extends FormRequest
     {
         $surveyQuestionId = $this->route('survey_question')->id;
         return [
-            'transaction' => 'required|string|max:255',
-            'short_label' => 'required|string|max:255',
+            'transaction' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('survey_questions')
+                    ->where(function ($query) {
+                        return $query->where('short_label', $this->input('short_label'))
+                                    ->where('question', $this->input('question'));
+                    })
+                    ->ignore($surveyQuestionId),
+            ],
+            'short_label' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('survey_questions')
+                    ->where(function ($query) {
+                        return $query->where('transaction', $this->input('transaction'))
+                                    ->where('question', $this->input('question'));
+                    })
+                    ->ignore($surveyQuestionId),
+            ],
             'question' => [
                 'required',
                 'string',
                 'max:255',
                 Rule::unique('survey_questions')
-                    ->where('question', $this->input('question'))
+                    ->where(function ($query) {
+                        return $query->where('transaction', $this->input('transaction'))
+                                    ->where('short_label', $this->input('short_label'));
+                    })
                     ->ignore($surveyQuestionId),
             ],
         ];

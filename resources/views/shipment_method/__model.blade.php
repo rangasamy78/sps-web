@@ -26,7 +26,6 @@
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="showShipmentMethodModal" tabindex="-1" aria-labelledby="show-shipment-method-modal-label" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

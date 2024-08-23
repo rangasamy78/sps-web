@@ -47,14 +47,14 @@
                         <label for="name" class="col-sm-6 control-label">Customer Type Name</label>
                         <div class="col-sm-12">
                             <input type="text" disabled class="form-control" id="customer_type_name" name="customer_type_name"
-                                placeholder="Enter Customer Type Name" value="">
+                                placeholder="" value="">
                         </div>
                     </div>
                     <div class="form-group mt-3">
                         <label for="name" class="col-sm-6 control-label">Customer Type Code</label>
                         <div class="col-sm-12">
                             <input type="text" disabled class="form-control" id="customer_type_code" name="customer_type_code"
-                                placeholder="Enter Customer Type Code" value="">
+                                placeholder="" value="">
                         </div>
                     </div>
                 </form>

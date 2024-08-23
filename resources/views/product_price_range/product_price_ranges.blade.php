@@ -25,7 +25,7 @@
                         </div>
                     </div>
                 </div>
-                <table class="table table-bordered data-table  table-striped" id="datatable" style="width: 100%">
+                <table class="datatables-basic table tables-basic border-top table-striped" id="datatable" style="width: 100%">
                     <thead>
                         <tr>
                             <th><b>S.No</b></th>
@@ -38,9 +38,7 @@
                 </table>
             </div>
         </div>
-    </div>
-    <!--/ Ajax Sourced Server-side -->
-    <!--/ Responsive Datatable -->
+    </div>    
     @include('product_price_range.__model')
 </div>
 

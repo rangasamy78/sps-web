@@ -6,15 +6,23 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        $('#countryNameFilter, #countryCodeFilter, #leadTimeFilter').on('keyup change', function(e) {
+                e.preventDefault();
+                table.draw();
+            });
 
         var table = $('#datatable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
+            searching: false,
             order: [[0, 'desc']],
             ajax: {
                 url: "{{ route('countries.list') }}",
                 data: function (d) {
+                    d.country_name_search = $('#countryNameFilter').val();
+                    d.country_code_search = $('#countryCodeFilter').val();
+                    d.lead_time_search = $('#leadTimeFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{ column: 0, dir: sort }];
                 }
@@ -29,16 +37,27 @@
             rowCallback: function (row, data, index) {
                 $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
             }
-        });
+            ,
+            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            buttons: [{
+                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add New Country</span>',
+                className: 'create-new btn btn-primary',
+                attr: {
+                    'data-bs-toggle': 'modal',
+                    'data-bs-target': '#countryModel',
+                },
+                action: function(e, dt, node, config) {
+                    $('#savedata').html("Save Country");
+                    $(".country_name_error").html("");
+                    $('#country_id').val('');
+                    $('#countryForm').trigger("reset");
+                    $('#countryForm').trigger("reset");
+                    $("#countryForm").find("tr:gt(1)").remove();
+                    $('#modelHeading').html("Create New Country");
+                    $('#countryModel').modal('show');
+                }
+            }],
 
-        $('#createCountry').click(function () {
-            $('#savedata').val("create-country");
-            $('#savedata').html("Save Country");
-            $('#country_id').val('');
-            $('#countryForm').trigger("reset");
-            $('.country_name_error').html('');
-            $('#modelHeading').html("Create New Country");
-            $('#countryModel').modal('show');
         });
 
         $('#countryForm input').on('input', function () {

@@ -24,8 +24,6 @@
         </div>
     </div>
 </div>
-
-
 <div class="modal fade" id="showCustomerContactTitleModal" tabindex="-1" aria-labelledby="showCustomerContactTitleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

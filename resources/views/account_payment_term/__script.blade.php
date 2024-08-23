@@ -47,7 +47,6 @@
             $('#modelHeading').html("Create New " + headingName + " Payment Term");
             $('#accountPaymentTermModel').modal('show');
         });
-
         setTimeout(() => {
             $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right','20px');
             $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left','30px');

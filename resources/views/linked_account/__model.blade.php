@@ -27,7 +27,7 @@
                         <label for="account_type" class="col control-label pb-1">Account Type<sup style="color: red;"><b>*</b></sup></label>
                         <div class="col-sm-12">
                             <select class="form-select "  name="account_type" id="account_type">
-                                <option value="">--select here--</option>
+                                <option value="">--Select--</option>
                                 @foreach($accountTypes as $accountType)
                                 <option value="{{$accountType->id}}">{{$accountType->account_type_name}}</option>
                                 @endforeach
@@ -39,7 +39,7 @@
                         <label for="account_sub_type" class="col control-label pb-1">Account Sub Type<sup style="color: red;"><b>*</b></sup></label>
                         <div class="col">
                             <select class="form-select "  name="account_sub_type" id="account_sub_type">
-                                <option value="">--select here-- </option>
+                                <option value="">--Select-- </option>
                                 @foreach($accountSubTypes as $accountSubType)
                                 <option value="{{$accountSubType->id}}">{{$accountSubType->sub_type_name}}</option>
                                 @endforeach
@@ -56,8 +56,6 @@
         </div>
     </div>
 </div>
-
-
 <div class="modal fade" id="showLinkedAccountModal" tabindex="-1" aria-labelledby="showLinkedAccountModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

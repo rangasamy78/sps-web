@@ -36,11 +36,11 @@ class EventType extends Model
    }
 
      protected static $eventCategory = [
-        0 => 'Task',
-        1 => 'Event',
-        2 => 'Note',
-        3 => 'Call',
-        4 => 'Visit',
+        1 => 'Task',
+        2 => 'Event',
+        3 => 'Note',
+        4 => 'Call',
+        5 => 'Visit',
     ];
 
     public static function getEventCategory()
