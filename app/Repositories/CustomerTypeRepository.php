@@ -55,28 +55,18 @@ class CustomerTypeRepository implements CrudRepositoryInterface, DatatableReposi
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $searchArray     = $request->get('search');
         $columnIndex     = $orderArray[0]['column'];
         $columnName      = $columnNameArray[$columnIndex]['data'];
         $columnSortOrder = $orderArray[0]['dir'];
-        $searchValue     = $searchArray['value'];
-
-        $customerTypes = $this->getCustomerTypeList();
+        $customerTypes = $this->getCustomerTypeList($request);
         $total         = $customerTypes->count();
 
         $totalFilter = $this->getCustomerTypeList($request);
-        if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('customer_type_name', 'like', '%' . $searchValue . '%');
-        }
         $totalFilter = $totalFilter->count();
 
         $arrData = $this->getCustomerTypeList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
-
-        if (!empty($searchValue)) {
-            $arrData = $arrData->where('customer_type_name', 'like', '%' . $searchValue . '%');
-        }
         $arrData = $arrData->get();
 
         $arrData->map(function ($value, $i) {

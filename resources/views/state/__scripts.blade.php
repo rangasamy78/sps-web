@@ -244,7 +244,7 @@
             $.get("{{ route('states.index') }}" +'/' + id, function (data) {
                 $('#modelHeading').html("Show State");
                 $('#savedata').val("show-state");
-                $('#showStatemodal').modal('show');
+                $('#showStateModal').modal('show');
                 $('#showStateForm #name').val(data.name);
                 $('#showStateForm #code').val(data.code);
             });
@@ -289,7 +289,6 @@
                 icon = 'warning';
                 response.errors.forEach(function (error) {
                     message += '<span style="display: block; text-align: left; margin-bottom: 4px; padding: 2px;  #ccc; background-color: #f9f9f9;">' + error + '</span>';
-
                 });
             }
 

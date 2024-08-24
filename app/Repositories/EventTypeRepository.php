@@ -56,28 +56,18 @@ class EventTypeRepository implements CrudRepositoryInterface, DatatableRepositor
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $searchArray     = $request->get('search');
         $columnIndex     = $orderArray[0]['column'];
         $columnName      = $columnNameArray[$columnIndex]['data'];
         $columnSortOrder = $orderArray[0]['dir'];
-        $searchValue     = $searchArray['value'];
-
-        $projectTypes = $this->getEventTypeList();
+        $projectTypes = $this->getEventTypeList($request);
         $total        = $projectTypes->count();
 
-        $totalFilter = $this->getEventTypeList();
-        if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('event_type_name', 'like', '%' . $searchValue . '%');
-        }
+        $totalFilter = $this->getEventTypeList($request);
         $totalFilter = $totalFilter->count();
 
-        $arrData = $this->getEventTypeList();
+        $arrData = $this->getEventTypeList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
-
-        if (!empty($searchValue)) {
-            $arrData = $arrData->where('event_type_name', 'like', '%' . $searchValue . '%');
-        }
         $arrData = $arrData->get();
 
         $arrData->map(function ($value, $i) {

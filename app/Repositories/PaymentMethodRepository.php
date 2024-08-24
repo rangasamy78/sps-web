@@ -61,18 +61,16 @@ class PaymentMethodRepository implements CrudRepositoryInterface, DatatableRepos
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $searchArray     = $request->get('search');
         $columnIndex     = $orderArray[0]['column'];
         $columnName      = $columnNameArray[$columnIndex]['data'];
         $columnSortOrder = $orderArray[0]['dir'];
-        $searchValue     = $searchArray['value'];
-        $PaymentMethod   = $this->getPaymentMethodList();
+        $PaymentMethod   = $this->getPaymentMethodList($request);
         $total           = $PaymentMethod->count();
 
         $totalFilter = $this->getPaymentMethodList($request);
-
         $totalFilter = $totalFilter->count();
-        $arrData     = $this->getPaymentMethodList();
+
+        $arrData     = $this->getPaymentMethodList($request);
         $arrData     = $arrData->skip($start)->take($rowPerPage);
         $arrData     = $arrData->orderBy($columnName, $columnSortOrder);
         $arrData = $arrData->get();

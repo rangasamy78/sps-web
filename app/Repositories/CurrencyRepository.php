@@ -64,12 +64,13 @@ class CurrencyRepository implements CrudRepositoryInterface, DatatableRepository
         $columnName      = $columnNameArray[$columnIndex]['data'];
         $columnSortOrder = $orderArray[0]['dir'];
 
-        $Currencies   = $this->getCurrenciesList();
+        $Currencies   = $this->getCurrenciesList($request);
         $total = $Currencies->count();
 
         $totalFilter = $this->getCurrenciesList($request);
         $totalFilter = $totalFilter->count();
-        $arrData     = $this->getCurrenciesList();
+
+        $arrData     = $this->getCurrenciesList($request);
         $arrData     = $arrData->skip($start)->take($rowPerPage);
         $arrData     = $arrData->orderBy($columnName, $columnSortOrder);
         $arrData = $arrData->get();

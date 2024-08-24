@@ -74,11 +74,11 @@ class DesignationRepository implements CrudRepositoryInterface, DatatableReposit
         $columnIndex     = $orderArray[0]['column'];
         $columnName      = $columnNameArray[$columnIndex]['data'];
         $columnSortOrder = $orderArray[0]['dir'];
-        $designation = $this->getDesignationsList();
+        $designation = $this->getDesignationsList($request);
         $total       = $designation->count();
-        $totalFilter = $this->getDesignationsList();
+        $totalFilter = $this->getDesignationsList($request);
         $totalFilter = $totalFilter->count();
-        $arrData     = $this->getDesignationsList();
+        $arrData     = $this->getDesignationsList($request);
         $arrData     = $arrData->skip($start)->take($rowPerPage);
         $arrData     = $arrData->orderBy($columnName, $columnSortOrder);
         $arrData = $arrData->get();
