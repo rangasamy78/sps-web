@@ -30,9 +30,7 @@
                     dataType: 'json',
                     success: function(response) {
                         if (response.status == "success") {
-                            var successMessage = response.msg;
-                            var successTitle = response.status;
-                            showSuccessMessage(successTitle, successMessage);
+                            showToast('success', response.msg);
                             $('#transaction_starting_number_id').val(response.lastId);
                         }
                     },
