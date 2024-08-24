@@ -10,12 +10,12 @@
         <div class="card-datatable table-responsive" style="overflow:hidden;width:96%;margin:auto;">
             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
                 <table class="table table-bordered data-table  table-striped" id="datatable" style="width: 100%">
-                    <thead>
+                    <thead class="table-header-bold">
                         <tr>
-                            <th><b>S.No</b></th>
-                            <th><b>View In</b></th>
-                            <th><b>File Type</b></th>
-                            <th width="150px"><b>Action</b></th>
+                            <th>S.No</th>
+                            <th>View In</th>
+                            <th>File Type</th>
+                            <th width="150px">Action</th>
                         </tr>
                     </thead>
                     <tbody>

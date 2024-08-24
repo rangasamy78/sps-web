@@ -6,7 +6,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        
+
         $('#supplierPortNameFilter, #avgDaysFilter, #countryFilter').on('keyup change', function(e) {
             e.preventDefault();
             table.draw();
@@ -17,7 +17,7 @@
             processing: true,
             serverSide: true,
             searching: false,
-            order: [[0, 'desc']],
+            order: [[1, 'desc']],
             ajax: {
                 url: "{{ route('supplier_ports.list') }}",
                 data: function (d) {
@@ -25,11 +25,11 @@
                     d.avg_days_search = $('#avgDaysFilter').val();
                     d.country_name_search = $('#countryFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
-                    d.order = [{ column: 0, dir: sort }];
+                    d.order = [{ column: 1, dir: sort }];
                 }
             },
             columns: [
-                { data: 'id', name: 'id', orderable: false, searchable: false },
+                { data: null, name: 'serial', orderable: false, searchable: false },
                 { data: 'supplier_port_name', name: 'supplier_port_name' },
                 { data: 'avg_days', name: 'avg_days' },
                 { data: 'country_name', name: 'country_name' },
@@ -63,8 +63,8 @@
         })
         $('#savedata').click(function (e) {
             e.preventDefault();
-            var button = $(this).html();
-            $(this).html('Sending..');
+            var button = $(this);
+            sending(button);
             var url = $('#supplier_port_id').val() ? "{{ route('supplier_ports.update', ':id') }}".replace(':id', $('#supplier_port_id').val()) : "{{ route('supplier_ports.store') }}";
             var type = $('#supplier_port_id').val() ? "PUT" : "POST";
             var formData = $('#supplierPortForm').serializeArray();
@@ -84,7 +84,7 @@
                 },
                 error: function (xhr) {
                     handleAjaxError(xhr);
-                    $('#savedata').html(button);
+                    sending(button,true);
                 }
             });
         });
@@ -139,7 +139,7 @@
             $('.avg_days_error').html('');
             $('.country_id_error').html('');
         }
-        
+
         $('body').on('click', '.showbtn', function () {
             var id = $(this).data('id');
             $.get("{{ route('supplier_ports.index') }}" + '/' + id, function (data) {
@@ -149,9 +149,5 @@
                 $('#showSupplierPortForm #country_id').val(data.model.country_id);
             });
         });
-        setTimeout(() => {
-            $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
-            $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');
-        }, 300);
     });
 </script>

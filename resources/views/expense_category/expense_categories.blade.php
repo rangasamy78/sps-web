@@ -16,7 +16,7 @@
               <table class="datatables-basic table tables-basic border-top table-striped" id="expenseCategoryTable">
                 <thead>
                   <tr class="odd gradeX">
-                    <th class="center">Sl.No</th>
+                    <th>Sl.No</th>
                     <th>Expense Category Name</th>
                     <th>Expense Account</th>
                     <th>Actions</th>

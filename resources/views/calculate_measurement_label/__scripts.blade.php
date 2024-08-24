@@ -10,16 +10,16 @@
             responsive: true,
             processing: true,
             serverSide: true,
-            order: [[0, 'desc']],
+            order: [[1, 'desc']],
             ajax: {
                 url: "{{ route('calculate_measurement_labels.list') }}",
                 data: function (d) {
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
-                    d.order = [{ column: 0, dir: sort }];
+                    d.order = [{ column: 1, dir: sort }];
                 }
             },
             columns: [
-                { data: 'id', name: 'id', orderable: false, searchable: false },
+                { data: null, name: 'serial', orderable: false, searchable: false },
                 { data: 'label_name', name: 'label_name' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
@@ -41,8 +41,8 @@
         })
         $('#savedata').click(function (e) {
             e.preventDefault();
-            var button = $(this).html();
-            $(this).html('Sending..');
+            var button = $(this);
+            sending(button);
             var url = $('#label_name_id').val() ? "{{ route('calculate_measurement_labels.update', ':id') }}".replace(':id', $('#label_name_id').val()) : "{{ route('calculate_measurement_labels.store') }}";
             var type = $('#label_name_id').val() ? "PUT" : "POST";
             $.ajax({
@@ -60,7 +60,7 @@
                 },
                 error: function (xhr) {
                     handleAjaxError(xhr);
-                    $('#savedata').html(button);
+                    sending(button,true);
                 }
             });
         });
@@ -110,11 +110,6 @@
                 $('#showCalculateMeasurementLabelForm #label_name').val(data.label_name);
             });
         });
-
-        setTimeout(() => {
-            $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
-            $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');
-        }, 300);
     });
 
 </script>

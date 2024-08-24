@@ -10,22 +10,23 @@
       processing: true,
       serverSide: true,
       order: [
-        [0, 'desc']
+        [1, 'desc']
       ],
       ajax: {
         url: "{{ route('account_sub_types.list') }}",
         data: function(d) {
           sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
           d.order = [{
-            column: 0,
+            column: 1,
             dir: sort
           }];
         }
       },
       columns: [{
-          data: 'id',
-          name: 'id',
-
+          data: null,
+          name: 'serial',
+          orderable: false,
+          searchable: false
         }, {
           data: 'sub_type_name',
           name: 'sub_type_name'
@@ -42,7 +43,7 @@
       },
       dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       buttons: [{
-        text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Create Tax Exempt Reason</span>',
+        text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Create Account Sub Type</span>',
         className: 'create-new btn btn-primary',
         attr: {
           'data-bs-toggle': 'modal',
@@ -66,7 +67,8 @@
 
     $('#savedata').click(function(e) {
       e.preventDefault();
-      $(this).html('Sending..');
+      var button = $(this);
+      sending(button);
       var url = $('#account_sub_type_id').val() ? "{{ route('account_sub_types.update', ':id') }}".replace(':id', $('#account_sub_type_id').val()) : "{{ route('account_sub_types.store') }}";
       var type = $('#account_sub_type_id').val() ? "PUT" : "POST";
       $.ajax({
@@ -84,8 +86,7 @@
         },
         error: function(xhr) {
           handleAjaxError(xhr);
-          var button = type === 'POST' ? 'Save Account Sub Type' : 'Update Account Sub Type';
-          $('#savedata').html(button);
+          sending(button, true);
         }
       });
     });
@@ -110,7 +111,6 @@
 
     function deleteAccountSubType(id) {
       var url = "{{ route('account_sub_types.destroy', ':id') }}".replace(':id', id);
-
       $.ajax({
         url: url,
         type: "DELETE",
@@ -135,9 +135,6 @@
         $('#showAccountSubTypeForm #sub_type_name').val(data.sub_type_name);
       });
     });
-    setTimeout(() => {
-      $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
-      $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');
-    }, 300);
+
   });
 </script>

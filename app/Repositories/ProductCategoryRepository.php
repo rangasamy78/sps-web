@@ -70,7 +70,6 @@ class ProductCategoryRepository implements CrudRepositoryInterface, DatatableRep
         return $query;
     }
 
-   
     public function dataTable(Request $request)
     {
         $draw            = $request->get('draw');
@@ -83,12 +82,15 @@ class ProductCategoryRepository implements CrudRepositoryInterface, DatatableRep
         $columnSortOrder = $orderArray[0]['dir'];
         $category        = $this->getProductCategoryList($request);
         $total           = $category->count();
+
         $totalFilter     = $this->getProductCategoryList($request);
         $totalFilter     = $totalFilter->count();
+
         $arrData         = $this->getProductCategoryList($request);
         $arrData         = $arrData->skip($start)->take($rowPerPage);
         $arrData         = $arrData->orderBy($columnName, $columnSortOrder);
         $arrData         = $arrData->get();
+
         $arrData->map(function ($value, $i) {
             $value->sno                   = ++$i;
             $value->product_category_name = $value->product_category_name ?? '';

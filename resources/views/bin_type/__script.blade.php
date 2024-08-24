@@ -11,23 +11,24 @@
             processing: true,
             serverSide: true,
             order: [
-                [0, 'desc']
+                [1, 'desc']
             ],
             ajax: {
                 url: "{{ route('bintypes.list') }}",
                 data: function(d) {
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{
-                        column: 0,
+                        column: 1,
                         dir: sort
                     }];
                 }
             },
             columns: [{
-                    data: 'id',
-                    name: 'id',
-
-                }, {
+                    data: null,
+                    name: 'serial',
+                    orderable: false,
+                    searchable: false
+                },{
                     data: 'bin_type',
                     name: 'bin_type'
                 },
@@ -38,49 +39,38 @@
                     searchable: false
                 }
             ],
-            rowCallback: function (row, data, index) {
+            rowCallback: function(row, data, index) {
                 $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
             },
             dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-            // displayLength: 7,
-            // lengthMenu: [7, 10, 25, 50, 75, 100],
-            buttons: [
-                {
-                    text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add Bin Type</span>',
-                    className: 'create-new btn btn-primary',
-                    attr: {
-                        'data-bs-toggle': 'modal',
-                        'data-bs-target': '#binTypeModel',
-                        'id': 'createBin',
-                    },
-                    action: function(e, dt, node, config) {
-                        // Custom action for Add New Record button
-                        $('#savedata').html("Save Bin Type");
-                        $('#bintype_id').val('');
-                        $('#binTypeForm').trigger("reset");
-                        $(".bin_type_error").html("");
-                        $('#modelHeading').html("Create New Bin Type");
-                        $('#binTypeModel').modal('show');
-                    }
+            buttons: [{
+                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add Bin Type</span>',
+                className: 'create-new btn btn-primary',
+                attr: {
+                    'data-bs-toggle': 'modal',
+                    'data-bs-target': '#binTypeModel',
+                    'id': 'createBin',
+                },
+                action: function(e, dt, node, config) {
+                    // Custom action for Add New Record button
+                    $('#savedata').html("Save Bin Type");
+                    $('#bintype_id').val('');
+                    $('#binTypeForm').trigger("reset");
+                    $(".bin_type_error").html("");
+                    $('#modelHeading').html("Create New Bin Type");
+                    $('#binTypeModel').modal('show');
                 }
-            ],
+            }],
         });
-
-        setTimeout(() => {
-            $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right',
-                '20px');
-            $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left',
-                '30px');
-        }, 300);
 
         $('#bin_type').on('input', function() {
             $('.bin_type_error').text('');
         });
 
-        $('#savedata').click(function (e) {
+        $('#savedata').click(function(e) {
             e.preventDefault();
-            var button = $(this).html();
-            $(this).html('Sending..');
+            var button = $(this);
+            sending(button);
             var url = $('#bintype_id').val() ? "{{ route('bin_types.update', ':id') }}".replace(':id', $('#bintype_id').val()) : "{{ route('bin_types.store') }}";
             var type = $('#bintype_id').val() ? "PUT" : "POST";
             $.ajax({
@@ -98,7 +88,7 @@
                 },
                 error: function(xhr) {
                     handleAjaxError(xhr);
-                    $('#savedata').html(button);
+                    sending(button, true);
                 }
             });
         });
@@ -117,7 +107,7 @@
 
         $('body').on('click', '.deletebtn', function() {
             var id = $(this).data('id');
-            confirmDelete(id, function () {
+            confirmDelete(id, function() {
                 deleteBinType(id);
             });
         });
@@ -133,7 +123,7 @@
                 success: function (response) {
                     handleAjaxResponse(response, table);
                 },
-                error: function (xhr) {
+                error: function(xhr) {
                     console.error('Error:', xhr.statusText);
                     showError('Oops!', 'Failed to fetch data.');
                 }

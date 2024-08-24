@@ -16,7 +16,7 @@
             processing: true,
             serverSide: true,
             searching: false,
-            order: [[0, 'desc']],
+            order: [[1, 'desc']],
             ajax: {
                 url: "{{ route('event_types.list') }}",
                 data: function (d) {
@@ -24,11 +24,11 @@
                     d.event_type_code_search = $('#eventTypeCodeFilter').val();
                     d.event_category_search = $('#eventCategoryFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
-                    d.order = [{ column: 0, dir: sort }];
+                    d.order = [{ column: 1, dir: sort }];
                 }
             },
             columns: [
-                { data: 'id', name: 'id', orderable: false, searchable: false },
+                { data: null, name: 'serial', orderable: false, searchable: false },
                 { data: 'event_type_name', name: 'event_type_name' },
                 { data: 'event_type_code', name: 'event_type_code' },
                 { data: 'event_category_id', name: 'event_category_id' },
@@ -64,7 +64,8 @@
 
         $('#savedata').click(function (e) {
             e.preventDefault();
-            $(this).html('Sending..');
+            var button = $(this);
+            sending(button);
             var url = $('#event_type_id').val() ? "{{ route('event_types.update', ':id') }}".replace(':id', $('#event_type_id').val()) : "{{ route('event_types.store') }}";
             var type = $('#event_type_id').val() ? "PUT" : "POST";
             $.ajax({
@@ -82,8 +83,7 @@
                 },
                 error: function(xhr) {
                     handleAjaxError(xhr);
-                    var button = type === 'POST' ? 'Save Event Type' : 'Update Event Type';
-                    $('#savedata').html(button);
+                    sending(button,true);
                 }
             });
         });
@@ -138,9 +138,5 @@
             });
         });
 
-        setTimeout(() => {
-            $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
-            $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');
-        }, 300);
     });
 </script>

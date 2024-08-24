@@ -81,6 +81,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+    Route::get('/user_profiles', [App\Http\Controllers\UserProfileController::class, 'index'])->name('user_profiles');
+
     Route::resource('states', StateController::class);
     Route::get('/state/list', [StateController::class, 'getStateDataTableList'])->name('states.list');
     Route::post('/state/import', [StateController::class, 'importStates'])->name('states.import');
@@ -120,8 +122,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('countries', CountryController::class);
     Route::get('/country/list', [CountryController::class, 'getCountryDataTableList'])->name('countries.list');
 
-    Route::resource('transaction_startings', TransactionStartingController::class);
-    Route::get('/transaction_starting/list', [TransactionStartingController::class, 'getTransactionStartingDataTableList'])->name('transaction_startings.list');
+    
 
     Route::resource('opportunity_stages', OpportunityStageController::class);
     Route::get('/opportunity_stage/list', [OpportunityStageController::class, 'getOpportunityStageDataTableList'])->name('opportunity_stages.list');
@@ -278,4 +279,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('account_receivable_aging_periods', [AccountReceivableAgingPeriodController::class, 'index'])->name('account_receivable_aging_periods.index');
     Route::post('/account_receivable_aging_period/save', [AccountReceivableAgingPeriodController::class, 'save'])->name('account_receivable_aging_periods.save');
 
+    Route::get('transaction_startings', [TransactionStartingController::class,'index'])->name('transaction_startings.index');
+    Route::post('/transaction_starting/save', [TransactionStartingController::class, 'save'])->name('transaction_startings.save');
 });

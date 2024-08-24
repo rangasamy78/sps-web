@@ -11,16 +11,16 @@
             responsive: true,
             processing: true,
             serverSide: true,
-            order: [[0, 'desc']],
+            order: [[1, 'desc']],
             ajax: {
                 url: "{{ route('vendor_types.list') }}",
                 data: function (d) {
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
-                    d.order = [{ column: 0, dir: sort }];
+                    d.order = [{ column: 1, dir: sort }];
                 }
             },
             columns: [
-                { data: 'id', name: 'id', orderable: false, searchable: false },
+                { data: null, name: 'serial', orderable: false, searchable: false },
                 { data: 'vendor_type_name', name: 'vendor_type_name' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
@@ -46,7 +46,8 @@
 
         $('#savedata').click(function (e) {
             e.preventDefault();
-            $(this).html('Sending..');
+            var button = $(this);
+            sending(button);
             var url = $('#vendor_type_id').val() ? "{{ route('vendor_types.update', ':id') }}".replace(':id', $('#vendor_type_id').val()) : "{{ route('vendor_types.store') }}";
             var type = $('#vendor_type_id').val() ? "PUT" : "POST";
             $.ajax({
@@ -64,8 +65,7 @@
                 },
                 error: function(xhr) {
                     handleAjaxError(xhr);
-                    var button = type === 'POST' ? 'Save Vendor Type' : 'Update Vendor Type';
-                    $('#savedata').html(button);
+                    sending(button,true);
                 }
             });
         });
@@ -118,10 +118,5 @@
                 $('#showVendorTypeForm #vendor_type_name').val(data.vendor_type_name);
             });
         });
-
-        setTimeout(() => {
-            $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
-            $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');
-        }, 300);
     });
 </script>

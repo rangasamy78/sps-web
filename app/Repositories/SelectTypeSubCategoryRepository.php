@@ -2,12 +2,12 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\CrudRepositoryInterface;
-use App\Interfaces\DatatableRepositoryInterface;
+use Illuminate\Http\Request;
 use App\Models\PrintDocDisclaimer;
 use App\Models\SelectTypeCategory;
 use App\Models\SelectTypeSubCategory;
-use Illuminate\Http\Request;
+use App\Interfaces\CrudRepositoryInterface;
+use App\Interfaces\DatatableRepositoryInterface;
 
 class SelectTypeSubCategoryRepository implements CrudRepositoryInterface, DatatableRepositoryInterface
 {
@@ -92,11 +92,14 @@ class SelectTypeSubCategoryRepository implements CrudRepositoryInterface, Datata
         $columnIndex     = $orderArray[0]['column'];
         $columnName      = $columnNameArray[$columnIndex]['data'];
         $columnSortOrder = $orderArray[0]['dir'];
-        $query   = $this->getSelectTypeCategoryList($request);
+
+        $query = $this->getSelectTypeCategoryList($request);
         $allData = $query->get();
+
         $filteredData = $allData->filter(function ($category) {
             return $category->select_type_sub_category->isNotEmpty();
         });
+
         $paginatedData = $filteredData->slice($start, $rowPerPage);
 
         $paginatedData = $paginatedData->sortBy(function ($item) use ($columnName, $columnSortOrder) {
@@ -122,5 +125,4 @@ class SelectTypeSubCategoryRepository implements CrudRepositoryInterface, Datata
         ];
         return response()->json($response);
     }
-
 }

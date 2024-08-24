@@ -17,20 +17,20 @@
             processing: true,
             serverSide: true,
             searching: false,
-            order: [[0, 'desc']],
+            order: [[1, 'desc']],
             ajax: {
                 url: "{{ route('states.list') }}",
                 data: function (d) {
                     d.state_name_search = $('#stateNameFilter').val();
                     d.state_code_search = $('#stateCodeFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
-                    d.order = [{ column: 0, dir: sort }];
+                    d.order = [{ column: 1, dir: sort }];
                 }
             },
             columns: [
                 {
-                    data: 'id',
-                    name: 'id',
+                    data: null,
+                    name: 'serial',
                     orderable: false,
                     searchable: false
                 },
@@ -102,15 +102,16 @@
             e.preventDefault();
             if($("#state_id").val() == null || $("#state_id").val() == "")
             {
-                storeState();
+                storeState(this);
             } else {
-                updateState();
+                updateState(this);
             }
         });
 
-        function storeState()
+        function storeState($this)
         {
-            $(this).html('Sending..');
+            var button = $($this);
+            sending(button);
                 $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
@@ -134,14 +135,15 @@
                             $('span.' + prefix + '_error').text(val[0]);
                         });
                     }
-                    $('#savedata').html('Save State');
+                    sending(button,true);
                 }
             });
         }
 
-        function updateState()
+        function updateState($this)
         {
-            $(this).html('Sending..');
+            var button = $($this);
+            sending(button);
             let url = $('meta[name=app-url]').attr("content") + "/states/" + $("#state_id").val();
             $.ajax({
                 headers: {
@@ -167,8 +169,7 @@
                             $('span.' + prefix + '_error').text(val[0]);
                         });
                     }
-                    console.log('Error:', data);
-                    $('#savedata').html('Update State');
+                    sending(button,true);
                 }
             });
         }
@@ -248,11 +249,6 @@
                 $('#showStateForm #code').val(data.code);
             });
         });
-
-        setTimeout(() => {
-            $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
-            $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');
-        }, 300);
     });
 
     $(document).ready(function () {

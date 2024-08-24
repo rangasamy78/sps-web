@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Interfaces\CrudRepositoryInterface;
 use App\Interfaces\DatatableRepositoryInterface;
 
-Class CompanyRepository implements CrudRepositoryInterface, DatatableRepositoryInterface {
+class CompanyRepository implements CrudRepositoryInterface, DatatableRepositoryInterface
+{
     use ImageUploadTrait;
     public function findOrFail(int $id)
     {
@@ -70,17 +71,18 @@ Class CompanyRepository implements CrudRepositoryInterface, DatatableRepositoryI
        return $query;
     }
 
-    public function dataTable(Request $request) {
-        $draw 				= 		$request->get('draw');
-        $start 				= 		$request->get("start");
-        $rowPerPage 		= 		$request->get("length");
-        $orderArray 	    = 		$request->get('order');
-        $columnNameArray 	= 		$request->get('columns');
-        $searchArray 		= 		$request->get('search');
-        $columnIndex 		= 		$orderArray[0]['column'];
-        $columnName 		= 		$columnNameArray[$columnIndex]['data'];
-        $columnSortOrder 	= 		$orderArray[0]['dir'];
-        $searchValue 		= 		$searchArray['value'];
+    public function dataTable(Request $request)
+    {
+        $draw            = $request->get('draw');
+        $start           = $request->get("start");
+        $rowPerPage      = $request->get("length");
+        $orderArray      = $request->get('order');
+        $columnNameArray = $request->get('columns');
+        $searchArray     = $request->get('search');
+        $columnIndex     = $orderArray[0]['column'];
+        $columnName      = $columnNameArray[$columnIndex]['data'];
+        $columnSortOrder = $orderArray[0]['dir'];
+        $searchValue     = $searchArray['value'];
 
         $companies = $this->getCompanyList($request);
         $total = $companies->count();
@@ -90,7 +92,7 @@ Class CompanyRepository implements CrudRepositoryInterface, DatatableRepositoryI
 
         $arrData = $this->getCompanyList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
-        $arrData = $arrData->orderBy($columnName,$columnSortOrder);
+        $arrData = $arrData->orderBy($columnName, $columnSortOrder);
 
 
         $arrData = $arrData->get();
@@ -105,10 +107,10 @@ Class CompanyRepository implements CrudRepositoryInterface, DatatableRepositoryI
         });
 
         $response = array(
-            "draw" => intval($draw),
-            "recordsTotal" => $total,
+            "draw"            => intval($draw),
+            "recordsTotal"    => $total,
             "recordsFiltered" => $totalFilter,
-            "data" => $arrData,
+            "data"            => $arrData,
         );
 
         return response()->json($response);

@@ -15,7 +15,6 @@
             responsive: true,
             processing: true,
             serverSide: true,
-            searching: false,
             order: [[0, 'desc']],
             ajax: {
                 url: "{{ route('unit_measures.list') }}",
@@ -23,11 +22,11 @@
                     d.unit_measure_entity_search = $('#unitMeasureEntityFilter').val();
                     d.unit_measure_name_search = $('#unitMeasureNameFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
-                    d.order = [{ column: 0, dir: sort }];
+                    d.order = [{ column: 1, dir: sort }];
                 }
             },
             columns: [
-                { data: 'id', name: 'id', orderable: false, searchable: false },
+                { data: null, name: 'serial', orderable: false, searchable: false },
                 { data: 'unit_measure_entity', name: 'unit_measure_entity' },
                 { data: 'unit_measure_name', name: 'unit_measure_name' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
@@ -56,8 +55,8 @@
         });
         $('#savedata').click(function (e) {
             e.preventDefault();
-            var button = $(this).html();
-            $(this).html('Sending..');
+            var button = $(this);
+            sending(button);
             var url = $('#unit_measure_id').val() ? "{{ route('unit_measures.update', ':id') }}".replace(':id', $('#unit_measure_id').val()) : "{{ route('unit_measures.store') }}";
             var type = $('#unit_measure_id').val() ? "PUT" : "POST";
             $.ajax({
@@ -78,7 +77,7 @@
                 },
                 error: function (xhr) {
                     handleAjaxError(xhr);
-                    $('#savedata').html(button);
+                    sending(button,true);
                 }
             });
         });
@@ -134,6 +133,7 @@
             });
         });
     });
+
     setTimeout(() => {
         $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
         $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');

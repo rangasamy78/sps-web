@@ -1,5 +1,5 @@
 <div class="modal fade" id="surveyQuestionModel" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modelHeading"></h5>
@@ -10,8 +10,7 @@
                     <input type="hidden" name="survey_question_id" id="survey_question_id">
                     <!-- Short Label -->
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">#Question <sup
-                                style="color: red;"><strong>*</strong></sup></label>
+                        <label class="col-sm-3 form-label">#Question <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="transaction_question_id" name="transaction_question_id"
                                  value="1" readonly style="cursor: not-allowed !important">
@@ -19,8 +18,7 @@
                     </div>
                     <!-- Transaction -->
                     <div class="form-group  mt-3">
-                        <label for="transaction" class="col-sm-3 control-label">Transaction <sup
-                                style="color: red;"><strong>*</strong></sup></label>
+                        <label for="transaction" class="col-sm-3 form-label">Transaction <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
                             <select id="transaction" class="form-select" name="transaction">
                                 <option value="">--Select--</option>
@@ -33,8 +31,7 @@
                     </div>
                     <!-- Short Label -->
                     <div class="form-group mt-3">
-                        <label class="col-sm-3 control-label">Short Label <sup
-                                style="color: red;"><strong>*</strong></sup></label>
+                        <label class="col-sm-3 form-label">Short Label <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="short_label" name="short_label"
                                 placeholder="Enter Short Label" value="">
@@ -43,8 +40,7 @@
                     </div>
                     <!-- Survey Question -->
                     <div class="form-group mt-3">
-                        <label class="col-sm-3 control-label">Question <sup
-                                style="color: red;"><strong>*</strong></sup></label>
+                        <label class="col-sm-3 form-label">Question <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="question" name="question"
                                 placeholder="Enter Question" value="">
@@ -54,8 +50,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary" id="savedata" value="create">Save Survey Question</button>
+                <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -71,13 +67,13 @@
             <div class="modal-body">
                 <form id="showSurveyQuestionForm" name="showSurveyQuestionForm" class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">#Question</label>
+                        <label class="col-sm-4 form-label">#Question</label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="transaction_question_id" name="transaction_question_id" disabled value="">
                         </div>
                     </div>
                     <div class="form-group mt-3">
-                        <label for="Transaction" class="col-sm-4 control-label">Transaction</label>
+                        <label for="Transaction" class="col-sm-4 form-label">Transaction</label>
                         <div class="col-sm-12">
                             <select id="transaction" class="form-select" name="transaction" disabled>
                                 <option value="">--Select--</option>
@@ -88,13 +84,13 @@
                         </div>
                     </div>
                     <div class="form-group mt-3">
-                        <label class="col-sm-4 control-label">Short label</label>
+                        <label class="col-sm-4 form-label">Short label</label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="short_label" name="short_label" disabled value="">
                         </div>
                     </div>
                     <div class="form-group mt-3">
-                        <label class="col-sm-4 control-label">Question</label>
+                        <label class="col-sm-4 form-label">Question</label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="question" name="question" disabled value="">
                         </div>

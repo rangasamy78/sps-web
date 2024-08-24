@@ -11,22 +11,23 @@
       processing: true,
       serverSide: true,
       order: [
-        [0, 'desc']
+        [1, 'desc']
       ],
       ajax: {
         url: "{{ route('tax_exempt_reasons.list') }}",
         data: function(d) {
           sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
           d.order = [{
-            column: 0,
+            column: 1,
             dir: sort
           }];
         }
       },
       columns: [{
-          data: 'id',
-          name: 'id',
-
+          data: null,
+          name: 'serial',
+          orderable: false,
+          searchable: false
         }, {
           data: 'reason',
           name: 'reason'
@@ -66,7 +67,8 @@
     });
     $('#savedata').click(function(e) {
       e.preventDefault();
-      $(this).html('Sending..');
+      var button = $(this);
+            sending(button);
       var url = $('#tax_exempt_reason_id').val() ? "{{ route('tax_exempt_reasons.update', ':id') }}".replace(':id', $('#tax_exempt_reason_id').val()) : "{{ route('tax_exempt_reasons.store') }}";
       var type = $('#tax_exempt_reason_id').val() ? "PUT" : "POST";
       $.ajax({
@@ -84,8 +86,7 @@
         },
         error: function(xhr) {
           handleAjaxError(xhr);
-          var button = type === 'POST' ? 'Save Tax Exempt Reason' : 'Update Tax Exempt Reason';
-          $('#savedata').html(button);
+          sending(button,true);
         }
       });
     });
@@ -140,10 +141,5 @@
         $('#showTaxExemptReasonForm #reason').val(data.reason);
       });
     });
-
-    setTimeout(() => {
-      $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
-      $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');
-    }, 300);
   });
 </script>

@@ -12,7 +12,7 @@ use App\Http\Requests\PriceListLabel\{CreatePriceListLabelRequest, UpdatePriceLi
 
 class PriceListLabelController extends Controller
 {
-    private PriceListLabelRepository $priceListLabelRepository;
+    private $priceListLabelRepository;
     public function __construct(PriceListLabelRepository $priceListLabelRepository)
     {
         $this->priceListLabelRepository = $priceListLabelRepository;

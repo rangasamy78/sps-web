@@ -69,23 +69,24 @@ class ProductTypeRepository implements CrudRepositoryInterface, DatatableReposit
         $columnIndex     = $orderArray[0]['column'];
         $columnName      = $columnNameArray[$columnIndex]['data'];
         $columnSortOrder = $orderArray[0]['dir'];
-        $product_type    = $this->getProductTypeList($request);
-        $total           = $product_type->count();
-        $totalFilter     = $this->getProductTypeList($request);
-        $totalFilter     = $totalFilter->count();
-        $arrData         = $this->getProductTypeList($request);
-        $arrData         = $arrData->skip($start)->take($rowPerPage);
-        $arrData         = $arrData->orderBy($columnName, $columnSortOrder);
-        $arrData         = $arrData->get();
+
+        $states = $this->getProductTypeList($request);
+        $total  = $states->count();
+
+        $totalFilter = $this->getProductTypeList($request);
+        $totalFilter = $totalFilter->count();
+
+        $arrData = $this->getProductTypeList($request);
+        $arrData = $arrData->skip($start)->take($rowPerPage);
+        $arrData = $arrData->orderBy($columnName, $columnSortOrder);
+        $arrData = $arrData->get();
+
         $arrData->map(function ($value, $i) {
             $value->sno                 = ++$i;
             $value->product_type        = $value->product_type ?? '';
             $value->default_gl_accounts = $this->productTypeService->getDefaultGLAccounts($value->inventory_gl_account, $value->sales_gl_account, $value->cogs_gl_account);
             $value->default_values      = $this->productTypeService->getDefaultValues($value->indivisible, $value->non_serialized, $value->id);
-            $value->action              = "<button type='button' data-id='" . $value->id . "' class='p-2 m-0 btn btn-warning btn-sm showbtn' data-bs-toggle='modal' >
-            <i class='fa-regular fa-eye fa-fw'></i></button>&nbsp;&nbsp;<button type='button' data-id='" . $value->id . "'  name='btnEdit'
-             class='editbtn btn btn-primary btn-sm p-2 m-0'><i class='fas fa-pencil-alt'></i></button>&nbsp;&nbsp;
-             <button type='button' data-id='" . $value->id . "'  name='btnDelete' class='deletebtn btn btn-danger btn-sm p-2 m-0'><i class='fas fa-trash-alt'></i></button>";
+            $value->action              = "<div class='dropdown'><button type='button' class='btn p-0 dropdown-toggle hide-arrow' data-bs-toggle='dropdown'><i class='bx bx-dots-vertical-rounded icon-color'></i></button><div class='dropdown-menu'><a class='dropdown-item showbtn text-warning' href='javascript:void(0);' data-id='" . $value->id . "' ><i class='bx bx-show me-1 icon-warning'></i> Show</a><a class='dropdown-item editbtn text-success' href='javascript:void(0);' data-id='" . $value->id . "' > <i class='bx bx-edit-alt me-1 icon-success'></i> Edit </a><a class='dropdown-item deletebtn text-danger' href='javascript:void(0);' data-id='" . $value->id . "' ><i class='bx bx-trash me-1 icon-danger'></i> Delete</a> </div> </div>";
         });
 
         $response = array(

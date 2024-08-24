@@ -9,14 +9,14 @@
                 <form id="paymentMethodForm" class="form-horizontal">
                     <input type="hidden" name="payment_method_id" id="payment_method_id">
                     <div class="form-group mb-3">
-                        <label for="payment_method_name" class="col control-label pb-1">Payment Method Name<sup style="color: red;"><b>*</b></sup></label>
+                        <label for="payment_method_name" class="col form-label pb-1">Payment Method Name <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="payment_method_name" name="payment_method_name" placeholder="Enter Payment Method Name" value="">
                         </div>
                         <span class="text-danger error-text payment_method_name_error"></span>
                     </div>
                     <div class="form-group pb-3">
-                        <label for="linked_account_id" class="col control-label pb-1">Account</label>
+                        <label for="linked_account_id" class="col form-label pb-1">Account</label>
                         <div class="col-sm-12">
                             <select class="form-select " name="linked_account_id" id="linked_account_id">
                                 <option value="">--Select-- </option>
@@ -28,7 +28,7 @@
                         <span class="text-danger error-text linked_account_id_error"></span>
                     </div>
                     <div class="form-group mb-3">
-                        <label for="account_type_id" class="col control-label pb-1">Account Type</label>
+                        <label for="account_type_id" class="col form-label pb-1">Account Type</label>
                         <div class="col-sm-12">
                             <select class="form-select " name="account_type_id" id="account_type_id">
                                 <option value="">--Select--</option>
@@ -63,13 +63,13 @@
             <div class="modal-body">
                 <form id="showPaymentMethodForm" name="showPaymentMethodForm" class="form-horizontal">
                     <div class="form-group mb-3">
-                        <label for="payment_method_name" class="col control-label pb-1">Payment Method Name<sup style="color: red;"><b>*</b></sup></label>
+                        <label for="payment_method_name" class="col form-label pb-1">Payment Method Name </label>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control" disabled id="payment_method_name" name="payment_method_name" placeholder="Enter Account Code" value="">
+                            <input type="text" class="form-control" disabled id="payment_method_name" name="payment_method_name"  value="">
                         </div>
                     </div>
                     <div class="form-group mb-3">
-                        <label for="linked_account_id" class="col control-label pb-1">Account</label>
+                        <label for="linked_account_id" class="col form-label pb-1">Account</label>
                         <div class="col-sm-12">
                             <select class="form-select " disabled name="linked_account_id" id="linked_account_id">
                                 <option value="">--Select--</option>
@@ -80,7 +80,7 @@
                         </div>
                     </div>
                     <div class="form-group mb-3">
-                        <label for="account_type" class="col control-label pb-1">Account Type</label>
+                        <label for="account_type" class="col form-label pb-1">Account Type</label>
                         <div class="col-sm-12">
                             <select class="form-select" disabled name="account_type_id" id="account_type_id">
                                 <option value="">--Select--</option>

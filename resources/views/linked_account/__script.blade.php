@@ -16,7 +16,7 @@
                 serverSide: true,
                 searching: false,
                 order: [
-                    [0, 'desc']
+                    [1, 'desc']
                 ],
                 ajax: {
                     url: "{{ route('linked_accounts.list') }}",
@@ -27,14 +27,14 @@
                         d.account_sub_type_search = $('#accountSubTypeFilter').val();
                         sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                         d.order = [{
-                            column: 0,
+                            column: 1,
                             dir: sort
                         }];
                     }
                 },
                 columns: [{
-                        data: 'id',
-                        name: 'id',
+                        data: null,
+                        name: 'serial',
                         orderable: false,
                         searchable: false
                     },
@@ -66,7 +66,7 @@
                 },
                 dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
                 buttons: [{
-                    text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add New Linked Account</span>',
+                    text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Create Linked Account</span>',
                     className: 'create-new btn btn-primary',
                     attr: {
                         'data-bs-toggle': 'modal',
@@ -98,8 +98,8 @@
 
             $('#savedata').click(function(e) {
                 e.preventDefault();
-                var button = $(this).html();
-                $(this).html('Sending..');
+                var button = $(this);
+                sending(button);
                 var url = $('#linked_account_id').val() ? "{{ route('linked_accounts.update', ':id') }}".replace(':id', $('#linked_account_id').val()) : "{{ route('linked_accounts.store') }}";
                 var type = $('#linked_account_id').val() ? "PUT" : "POST";
                 $.ajax({
@@ -116,9 +116,8 @@
                         }
                     },
                     error: function(xhr) {
-                        console.log(xhr);
                         handleAjaxError(xhr);
-                        $('#savedata').html(button);
+                        sending(button,true);
                     }
                 });
             });
@@ -172,11 +171,5 @@
                     $('#showLinkedAccountForm #account_sub_type').val(data.account_sub_type);
                 });
             });
-            setTimeout(() => {
-                $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right',
-                    '20px');
-                $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left',
-                    '30px');
-            }, 300);
         });
     </script>

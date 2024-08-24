@@ -21,12 +21,12 @@
                             <div class="dt-buttons btn-group flex-wrap">
                                 <button class="btn btn-secondary create-new btn-primary" type="button"
                                     id="createVendorType"><span><i class="bx bx-plus me-1"></i> <span
-                                            class="d-none d-lg-inline-block">Create Vendor Type</span></span></button>
+                                    class="d-none d-lg-inline-block">Create Vendor Type</span></span></button>
                             </div>
                         </div>
                     </div>
-                    <table class="datatables-basic table tables-basic border-top table-striped" id="datatable" style="width: 100%">
-                        <thead>
+                    <table class="table table-bordered data-table  table-striped" id="datatable" style="width: 100%">
+                        <thead class="table-header-bold">
                             <tr>
                                 <th>S.No</th>
                                 <th>Vendor Type Name</th>

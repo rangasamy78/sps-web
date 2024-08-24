@@ -54,3 +54,6 @@
     height : auto;
     border-radius : 50px;
 }
+.table-header-bold th {
+    font-weight: bold;
+}

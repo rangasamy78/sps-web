@@ -5,7 +5,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        
+
         $('#selectTypeCategoryNameFilter, #selectTypeSubCategoryNameFilter').on('keyup change', function(e) {
             e.preventDefault();
             table.draw();
@@ -16,18 +16,18 @@
             processing: true,
             serverSide: true,
             searching: false,
-            order: [[0, 'desc']],
+            order: [[1, 'desc']],
             ajax: {
                 url: "{{ route('select_type_sub_categories.list') }}",
                 data: function (d) {
                     d.select_type_category_name_search = $('#selectTypeCategoryNameFilter').val();
                     d.select_type_sub_category_search = $('#selectTypeSubCategoryNameFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
-                    d.order = [{ column: 0, dir: sort }];
+                    d.order = [{ column: 1, dir: sort }];
                 }
             },
             columns: [
-                { data: 'id', name: 'id', orderable: false, searchable: false },
+                { data: null, name: 'serial', orderable: false, searchable: false },
                 { data: 'select_type_category_names', name: 'select_type_category' },
                 { data: 'select_type_sub_categories', name: 'select_type_sub_category' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
@@ -97,8 +97,8 @@
 
         $('#savedata').click(function (e) {
             e.preventDefault();
-            var button = $(this).html();
-            $(this).html('Sending..');
+            var button = $(this);
+            sending(button);
             var url = $('#select_type_sub_category_id').val() ? "{{ route('select_type_sub_categories.update', ':id') }}".replace(':id', $('#select_type_sub_category_id').val()) : "{{ route('select_type_sub_categories.store') }}";
             var type = $('#select_type_sub_category_id').val() ? "PUT" : "POST";
             $.ajax({
@@ -124,7 +124,7 @@
                     if (errors['select_type_sub_categories.0.select_type_sub_category_name']) {
                         $('#subcategory-container .subcategory-row:first-child .error-message').html(errors['select_type_sub_categories.0.select_type_sub_category_name'][0]).show();
                     }
-                    $('#savedata').html(button);
+                    sending(button,true);
                 }
             });
         });
@@ -260,10 +260,6 @@
                 });
             });
         });
-        setTimeout(() => {
-            $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
-            $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');
-        }, 300);
 
         $(document).on('click', '.remove-subcategory-btn', function () {
             $(this).closest('.subcategory-row').remove();

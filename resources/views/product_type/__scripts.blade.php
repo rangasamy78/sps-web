@@ -6,7 +6,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        
+
         $('#productTypeFilter, #inventoryGLAccountFilter,#salesGLAccountFilter, #cogsGLAccountFilter').on('keyup change', function(e) {
             e.preventDefault();
             table.draw();
@@ -17,7 +17,7 @@
             processing: true,
             serverSide: true,
             searching: false,
-            order: [[0, 'desc']],
+            order: [[1, 'desc']],
             ajax: {
                 url: "{{ route('product_types.list') }}",
                 data: function (d) {
@@ -26,11 +26,11 @@
                     d.sales_gl_account_search = $('#salesGLAccountFilter').val();
                     d.cogs_gl_account_search = $('#cogsGLAccountFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
-                    d.order = [{ column: 0, dir: sort }];
+                    d.order = [{ column: 1, dir: sort }];
                 }
             },
             columns: [
-                { data: 'id', name: 'id', orderable: false, searchable: false },
+                { data: null, name: 'serial', orderable: false, searchable: false },
                 { data: 'product_type', name: 'product_type' },
                 { data: 'default_gl_accounts', name: 'default_gl_accounts' },
                 { data: 'default_values', name: 'default_values' },
@@ -65,8 +65,8 @@
         })
         $('#savedata').click(function (e) {
             e.preventDefault();
-            var button = $(this).html();
-            $(this).html('Sending..');
+            var button = $(this);
+            sending(button);
             var url = $('#product_type_id').val() ? "{{ route('product_types.update', ':id') }}".replace(':id', $('#product_type_id').val()) : "{{ route('product_types.store') }}";
             var type = $('#product_type_id').val() ? "PUT" : "POST";
             var formData = $('#productTypeForm').serializeArray();
@@ -88,7 +88,7 @@
                 },
                 error: function (xhr) {
                     handleAjaxError(xhr);
-                    $('#savedata').html(button);
+                    sending(button,true);
                 }
             });
         });
@@ -173,10 +173,6 @@
 
             });
         });
-        setTimeout(() => {
-            $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
-            $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');
-        }, 300);
     });
 
 

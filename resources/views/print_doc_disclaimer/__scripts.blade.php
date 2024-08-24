@@ -16,7 +16,7 @@
             processing: true,
             serverSide: true,
             searching: false,
-            order: [[0, 'desc']],
+            order: [[1, 'desc']],
             ajax: {
                 url: "{{ route('print_doc_disclaimers.list') }}",
                 data: function (d) {
@@ -25,11 +25,11 @@
                     d.select_type_sub_category_search = $('#select_type_sub_category_id_filter').val();
                     d.policy_search = $('#policyFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
-                    d.order = [{ column: 0, dir: sort }];
+                    d.order = [{ column: 1, dir: sort }];
                 }
             },
             columns: [
-                { data: 'id', name: 'id', orderable: false, searchable: false },
+                { data: null, name: 'serial', orderable: false, searchable: false },
                 { data: 'title', name: 'title' },
                 { data: 'select_type_category_id', name: 'select_type_category_id' },
                 { data: 'select_type_sub_category_id', name: 'select_type_sub_category_id' },
@@ -75,8 +75,8 @@
         });
         $('#savedata').click(function (e) {
             e.preventDefault();
-            var button = $(this).html();
-            $(this).html('Sending..');
+            var button = $(this);
+            sending(button);
             var url = $('#print_doc_disclaimer_id').val() ? "{{ route('print_doc_disclaimers.update', ':id') }}".replace(':id', $('#print_doc_disclaimer_id').val()) : "{{ route('print_doc_disclaimers.store') }}";
             var type = $('#print_doc_disclaimer_id').val() ? "PUT" : "POST";
             $.ajax({
@@ -94,7 +94,7 @@
                 },
                 error: function (xhr) {
                     handleAjaxError(xhr);
-                    $('#savedata').html(button);
+                    sending(button,true);
                 }
                 });
             });
@@ -155,12 +155,6 @@
                 showDescriptionEditor.root.innerHTML = data.policy;
             });
         });
-
-        setTimeout(() => {
-            $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
-            $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');
-        }, 300);
-
     });
 
     const fullToolbar = [

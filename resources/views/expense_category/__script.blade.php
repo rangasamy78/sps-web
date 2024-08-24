@@ -13,7 +13,7 @@
             serverSide: true,
             searching: false,
             order: [
-                [0, 'desc']
+                [1, 'desc']
             ],
             ajax: {
                 url: "{{ route('expense_categories.list') }}",
@@ -22,14 +22,14 @@
                     d.expense_account_search = $('#expenseAccountFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{
-                        column: 0,
+                        column: 1,
                         dir: sort
                     }];
                 }
             },
             columns: [{
-                    data: 'id',
-                    name: 'id',
+                    data: null,
+                    name: 'serial',
                     orderable: false,
                     searchable: false
                 },
@@ -71,13 +71,6 @@
             }],
         });
 
-        setTimeout(() => {
-            $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right',
-                '20px');
-            $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left',
-                '30px');
-        }, 300);
-
         $('#expenseCategoryForm input, #expenseCategoryForm select').on('keyup change', function() {
             var inputName = $(this).attr('name');
             $('.' + inputName + '_error').html('');
@@ -85,8 +78,8 @@
 
         $('#savedata').click(function(e) {
             e.preventDefault();
-            var button = $(this).html();
-            $(this).html('Sending..');
+            var button = $(this);
+            sending(button);
             var url = $('#expense_category_id').val() ? "{{ route('expense_categories.update', ':id') }}".replace(':id', $('#expense_category_id').val()) : "{{ route('expense_categories.store') }}";
             var type = $('#expense_category_id').val() ? "PUT" : "POST";
             $.ajax({
@@ -104,7 +97,7 @@
                 },
                 error: function(xhr) {
                     handleAjaxError(xhr);
-                    $('#savedata').html(button);
+                    sending(button,true);
                 }
             });
         });

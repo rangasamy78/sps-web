@@ -16,7 +16,7 @@
             processing: true,
             serverSide: true,
             searching: false,
-            order: [[0, 'desc']],
+            order: [[1, 'desc']],
             ajax: {
                 url: "{{ route('countries.list') }}",
                 data: function (d) {
@@ -24,11 +24,11 @@
                     d.country_code_search = $('#countryCodeFilter').val();
                     d.lead_time_search = $('#leadTimeFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
-                    d.order = [{ column: 0, dir: sort }];
+                    d.order = [{ column: 1, dir: sort }];
                 }
             },
             columns: [
-                { data: 'id', name: 'id', orderable: false, searchable: false },
+                { data: null, name: 'serial', orderable: false, searchable: false },
                 { data: 'country_name', name: 'country_name' },
                 { data: 'country_code', name: 'country_code' },
                 { data: 'lead_time', name: 'lead_time' },
@@ -67,7 +67,8 @@
 
         $('#savedata').click(function (e) {
             e.preventDefault();
-            $(this).html('Sending..');
+            var button = $(this);
+            sending(button);
             var url = $('#country_id').val() ? "{{ route('countries.update', ':id') }}".replace(':id', $('#country_id').val()) : "{{ route('countries.store') }}";
             var type = $('#country_id').val() ? "PUT" : "POST";
             $.ajax({
@@ -85,8 +86,7 @@
                 },
                 error: function(xhr) {
                     handleAjaxError(xhr);
-                    var button = type === 'POST' ? 'Save Country' : 'Update Country';
-                    $('#savedata').html(button);
+                    sending(button,true);
                 }
             });
         });
@@ -145,10 +145,5 @@
                 $('#showCountryForm #lead_time').val(data.lead_time);
             });
         });
-
-        setTimeout(() => {
-            $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
-            $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');
-        }, 300);
     });
 </script>

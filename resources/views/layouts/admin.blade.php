@@ -23,7 +23,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
 
-      <!-- Icons -->
+    <!-- Icons -->
     <link rel="stylesheet" href="{{ asset('public/assets/vendor/fonts/boxicons.css') }}" />
     <link rel="stylesheet" href="{{ asset('public/assets/vendor/fonts/fontawesome.css') }}" />
     <link rel="stylesheet" href="{{ asset('public/assets/vendor/fonts/flag-icons.css') }}" />
@@ -55,12 +55,6 @@
     {{-- <script src="{{asset('assets/vendor/js/template-customizer.js')}}"></script> --}}
     <script src="{{ asset('public/assets/js/config.js') }}"></script>
     <style>
-        /* .light-style {
-            width: auto;
-        }
-        .light-style .swal2-popup .swal2-title {
-            font-size: 15px;
-        } */
     </style>
 </head>
 

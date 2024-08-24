@@ -10,18 +10,22 @@
             responsive: true,
             processing: true,
             serverSide: true,
-            order: [[0, 'desc']],
+            order: [
+                [1, 'desc']
+            ],
             ajax: {
                 url: "{{ route('account_types.list') }}",
-                data: function (d) {
+                data: function(d) {
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
-                    d.order = [{ column: 0, dir: sort }];
+                    d.order = [{
+                        column: 1,
+                        dir: sort
+                    }];
                 }
             },
-            columns: [
-                {
-                    data: 'id',
-                    name: 'id',
+            columns: [{
+                    data: null,
+                    name: 'serial',
                     orderable: false,
                     searchable: false
                 },
@@ -41,7 +45,7 @@
             }
         });
 
-        $('#createAccountType').click(function () {
+        $('#createAccountType').click(function() {
             $('#savedata').val("create-account-type");
             $('#savedata').html("Save Account Type");
             $('#account_type_id').val('');
@@ -51,25 +55,24 @@
             $('#accountTypeModel').modal('show');
         });
 
-        $('#accountTypeForm input').on('input', function () {
+        $('#accountTypeForm input').on('input', function() {
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');
         });
 
-        $('#savedata').click(function (e) {
+        $('#savedata').click(function(e) {
             e.preventDefault();
-            if($("#account_type_id").val() == null || $("#account_type_id").val() == "")
-            {
-                storeAccountType();
+            if ($("#account_type_id").val() == null || $("#account_type_id").val() == "") {
+                storeAccountType(this);
             } else {
-                updateAccountType();
+                updateAccountType(this);
             }
         });
 
-        function storeAccountType()
-        {
-            $(this).html('Sending..');
-                $.ajax({
+        function storeAccountType($this) {
+            var button = $($this);
+            sending(button);
+            $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
                 },
@@ -77,8 +80,8 @@
                 url: "{{ route('account_types.store') }}",
                 type: "POST",
                 dataType: 'json',
-                success: function (response) {
-                    if(response.status == "success"){
+                success: function(response) {
+                    if (response.status == "success") {
                         $('#accountTypeForm').trigger("reset");
                         $('#accountTypeModel').modal('hide');
                         showToast('success', response.msg);
@@ -92,14 +95,14 @@
                             $('span.' + prefix + '_error').text(val[0]);
                         });
                     }
-                    $('#savedata').html('Save Account Type');
+                    sending(button, true);
                 }
             });
         }
 
-        function updateAccountType()
-        {
-            $(this).html('Sending..');
+        function updateAccountType($this) {
+            var button = $($this);
+            sending(button);
             let url = $('meta[name=app-url]').attr("content") + "/account_types/" + $("#account_type_id").val();
             $.ajax({
                 headers: {
@@ -111,7 +114,7 @@
                 dataType: 'json',
                 success: function(response) {
                     console.log(response);
-                    if(response.status == "success"){
+                    if (response.status == "success") {
                         $('#accountTypeForm').trigger("reset");
                         $('#accountTypeModel').modal('hide');
                         showToast('success', response.msg);
@@ -125,15 +128,14 @@
                             $('span.' + prefix + '_error').text(val[0]);
                         });
                     }
-                    console.log('Error:', data);
-                    $('#savedata').html('Update Account Type');
+                    sending(button, true);
                 }
             });
         }
 
-        $('body').on('click', '.editbtn', function () {
+        $('body').on('click', '.editbtn', function() {
             var id = $(this).data('id');
-            $.get("{{ route('account_types.index') }}" +'/' + id +'/edit', function (data) {
+            $.get("{{ route('account_types.index') }}" + '/' + id + '/edit', function(data) {
                 $(".account_type_name_error").html("");
                 $('#modelHeading').html("Edit Account Type");
                 $('#savedata').val("edit-account-type");
@@ -143,6 +145,7 @@
                 $('#account_type_name').val(data.account_type_name);
             });
         });
+
         $('body').on('click', '.deletebtn', function () {
             var id = $(this).data('id');
             let url = $('meta[name=app-url]').attr("content") + "/account_types/" + id;
@@ -155,8 +158,8 @@
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Yes, delete it!',
                 customClass: {
-                confirmButton: 'btn btn-primary me-1',
-                cancelButton: 'btn btn-label-secondary'
+                    confirmButton: 'btn btn-primary me-1',
+                    cancelButton: 'btn btn-label-secondary'
                 },
                 buttonsStyling: false
             }).then(function(result) {
@@ -185,17 +188,13 @@
             });
         });
 
-        $('body').on('click', '.showbtn', function () {
+        $('body').on('click', '.showbtn', function() {
             var id = $(this).data('id');
-            $.get("{{ route('account_types.index') }}" +'/' + id, function (data) {
+            $.get("{{ route('account_types.index') }}" + '/' + id, function(data) {
                 $('#showAccountTypemodal').modal('show');
                 $('#showAccountTypeForm #account_type_name').val(data.account_type_name);
             });
         });
 
-        setTimeout(() => {
-            $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
-            $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');
-        }, 300);
     });
 </script>

@@ -25,12 +25,12 @@
                         </div>
                     </div>
                 </div>
-                <table class="datatables-basic table tables-basic border-top table-striped" id="datatable" style="width: 100%">
-                    <thead>
+                <table class="table table-bordered data-table  table-striped" id="datatable" style="width: 100%">
+                    <thead class="table-header-bold">
                         <tr>
-                            <th><b>S.No</b></th>
-                            <th><b>Adjustment Type</b></th>
-                            <th width="150px"><b>Action</b></th>
+                            <th>S.No</th>
+                            <th>Adjustment Type</th>
+                            <th width="150px">Action</th>
                         </tr>
                     </thead>
                     <tbody>

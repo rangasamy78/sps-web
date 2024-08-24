@@ -18,7 +18,7 @@ class AccountReceivableAgingPeriodRepository
                 ->update($data);
             return $data['account_receivable_aging_period_id'];
         } else {
-            $query =  AccountReceivableAgingPeriod::query()
+            $query = AccountReceivableAgingPeriod::query()
                 ->create($data);
             return $query->id;
         }

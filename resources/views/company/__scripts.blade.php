@@ -18,7 +18,7 @@
             serverSide: true,
             searching: false,
             order: [
-                [0, 'desc']
+                [1, 'desc']
             ],
             ajax: {
                 url: "{{ route('companies.list') }}",
@@ -30,14 +30,14 @@
                     d.phone_search = $('#phoneFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{
-                        column: 0,
+                        column: 1,
                         dir: sort
                     }];
                 }
             },
             columns: [{
-                    data: 'id',
-                    name: 'id',
+                    data: null,
+                    name: 'serial',
                     orderable: false,
                     searchable: false
                 }, // Row index column
@@ -115,7 +115,7 @@
         $("#addCompanyForm").submit(function(e) {
             e.preventDefault();
             const fd = new FormData(this);
-            $('#savedata').html('Sending..');
+            $('#savedata').html('Sending&nbsp;&nbsp;<span class="spinner-border spinner-border-sm"></span>');
             $.ajax({
                 url: "{{ route('companies.store') }}",
                 method: 'post',
@@ -181,7 +181,7 @@
             e.preventDefault();
             const form = new FormData(this);
             let companyId = $('#editCompanyForm #company_id').val();
-            $('#editCompanyForm #savedata').html('Sending..');
+            $('#editCompanyForm #savedata').html('Sending&nbsp;&nbsp;<span class="spinner-border spinner-border-sm"></span>');
             $.ajax({
                 url: `{{ route('companies.update', ':id') }}`.replace(':id', companyId), // Replace :id with actual company ID
                 method: 'post',
@@ -289,13 +289,6 @@
                 $('#editCompanyForm #previewImage').hide();
             }
         });
-
-        setTimeout(() => {
-            $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right',
-                '20px');
-            $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left',
-                '30px');
-        }, 300);
 
         function resetFormFields() {
             $('.company_name_error').html('');

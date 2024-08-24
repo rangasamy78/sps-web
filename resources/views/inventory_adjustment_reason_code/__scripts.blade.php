@@ -15,7 +15,7 @@
             processing: true,
             serverSide: true,
             searching: false,
-            order: [[0, 'desc']],
+            order: [[1, 'desc']],
             ajax: {
                 url: "{{ route('inventory_adjustment_reason_codes.list') }}",
                 data: function (d) {
@@ -23,11 +23,11 @@
                     d.adjustment_type_search = $('#adjustmentTypeFilter').val();
                     d.income_expense_account_search = $('#incomeExpenseAccountFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
-                    d.order = [{ column: 0, dir: sort }];
+                    d.order = [{ column: 1, dir: sort }];
                 }
             },
             columns: [
-                { data: 'id', name: 'id', orderable: false, searchable: false },
+                { data: null, name: 'serial', orderable: false, searchable: false },
                 { data: 'adjustment_type_id', name: 'adjustment_type_id' },
                 { data: 'reason', name: 'reason' },
                 { data: 'income_expense_account', name: 'income_expense_account' },
@@ -61,8 +61,8 @@
         })
         $('#savedata').click(function (e) {
             e.preventDefault();
-            var button = $(this).html();
-            $(this).html('Sending..');
+            var button = $(this);
+            sending(button);
             var url = $('#inventory_adjustment_reason_code_id').val() ? "{{ route('inventory_adjustment_reason_codes.update', ':id') }}".replace(':id', $('#inventory_adjustment_reason_code_id').val()) : "{{ route('inventory_adjustment_reason_codes.store') }}";
             var type = $('#inventory_adjustment_reason_code_id').val() ? "PUT" : "POST";
             $.ajax({
@@ -80,7 +80,7 @@
                 },
                 error: function (xhr) {
                     handleAjaxError(xhr);
-                    $('#savedata').html(button);
+                    sending(button,true);
                 }
             });
         });
@@ -133,11 +133,6 @@
                 $('#showInventoryAdjustmentReasonCodeForm #income_expense_account').val(data.income_expense_account);
             });
         });
-
-        setTimeout(() => {
-            $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
-            $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');
-        }, 300);
     });
 
 </script>

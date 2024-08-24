@@ -17,24 +17,24 @@
             processing: true,
             serverSide: true,
             searching: false,
-            order: [[0, 'desc']],
+            order: [[1, 'desc']],
             ajax: {
                 url: "{{ route('customer_types.list') }}",
                 data: function (d) {
                     d.customer_type_name_search = $('#customerTypeNameFilter').val();
                     d.customer_type_code_search = $('#customerTypeCodeFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
-                    d.order = [{ column: 0, dir: sort }];
+                    d.order = [{ column: 1, dir: sort }];
                 }
             },
             columns: [
-                { data: 'id', name: 'id', orderable: false, searchable: false },
+                { data: null, name: 'serial', orderable: false, searchable: false },
                 { data: 'customer_type_name', name: 'customer_type_name' },
                 { data: 'customer_type_code', name: 'customer_type_code' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
             rowCallback: function (row, data, index) {
-                $('td:eq(0)', row).html(table.page.info().start + index + 1); 
+                $('td:eq(0)', row).html(table.page.info().start + index + 1);
             },
             dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
             buttons: [{
@@ -72,7 +72,8 @@
 
         $('#savedata').click(function (e) {
             e.preventDefault();
-            $(this).html('Sending..');
+            var button = $(this);
+            sending(button);
             var url = $('#customer_type_id').val() ? "{{ route('customer_types.update', ':id') }}".replace(':id', $('#customer_type_id').val()) : "{{ route('customer_types.store') }}";
             var type = $('#customer_type_id').val() ? "PUT" : "POST";
             $.ajax({
@@ -90,8 +91,7 @@
                 },
                 error: function(xhr) {
                     handleAjaxError(xhr);
-                    var button = type === 'POST' ? 'Save Customer Type' : 'Update Customer Type';
-                    $('#savedata').html(button);
+                    sending(button,true);
                 }
             });
         });
@@ -146,10 +146,5 @@
                 $('#showCustomerTypeForm #customer_type_code').val(data.customer_type_code);
             });
         });
-
-        setTimeout(() => {
-            $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
-            $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');
-        }, 300);
     });
 </script>

@@ -23,8 +23,8 @@
                             </div>
                         </div>
                     </div>
-                    <table class="datatables-basic table tables-basic border-top table-striped" id="datatable" style="width: 100%">
-                        <thead>
+                    <table class="table table-bordered data-table  table-striped" id="datatable" style="width: 100%">
+                        <thead class="table-header-bold">
                             <tr>
                                 <th>S.No</th>
                                 <th>Account Type Name</th>
