@@ -187,7 +187,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{id}/edit', [CompanyController::class, 'edit'])->name('edit');
         Route::post('/{id}/update', [CompanyController::class, 'update'])->name('update');
         Route::get('/{id}/show', [CompanyController::class, 'show'])->name('show');
-        Route::get('/company/count', [CompanyController::class, 'getCompanyCount'])->name('count');;
+        Route::get('/company/count', [CompanyController::class, 'getCompanyCount'])->name('count');
     });
 
     Route::resource('adjustment_types', AdjustmentTypeController::class);
