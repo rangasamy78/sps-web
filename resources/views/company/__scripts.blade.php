@@ -49,7 +49,7 @@
                     data: 'logo',
                     render: function(data, type, row) {
                         var imageUrl = '{{ asset("storage/app/public/") }}/' + data;
-                        return '<img src="' + imageUrl + '" width="50" class="img-thumbnail rounded-circle">';
+                        return '<img src="' + imageUrl + '" width="50px" height="50px" class="img-thumbnail rounded-circle">';
                     }
                 },
                 {
@@ -76,7 +76,7 @@
                 },
             ],
             rowCallback: function(row, data, index) {
-                $('td:eq(0)', row).html(table.page.info().start + index + 1); 
+                $('td:eq(0)', row).html(table.page.info().start + index + 1);
             },
             dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
             buttons: [{
@@ -128,6 +128,10 @@
                     if (response.status == "success") {
                         $('#addCompanyForm').trigger("reset");
                         $('#companyModel').modal('hide');
+                        let storagePath = `{{ asset('storage/app/public/') }}`;
+                        let defaultPath = `{{ asset('public/assets/img/branding/location-logo.png') }}`;
+                        let logoUrl = response.company_logo ? `${storagePath}/${response.company_logo}` : defaultPath;
+                        setImageSource('.app-brand .logo-container img', logoUrl, defaultPath);
                         showToast('success', response.msg);
                         table.draw();
                     }
@@ -190,6 +194,10 @@
                     if (response.status == "success") {
                         $('#editCompanyForm').trigger("reset");
                         $('#editCompanyModel').modal('hide');
+                        let storagePath = `{{ asset('storage/app/public/') }}`;
+                        let defaultPath = `{{ asset('public/assets/img/branding/location-logo.png') }}`;
+                        let logoUrl = response.company_logo ? `${storagePath}/${response.company_logo}` : defaultPath;
+                        setImageSource('.app-brand .logo-container img', logoUrl, defaultPath);
                         table.draw();
                         showToast('success', response.msg);
                     }
@@ -300,5 +308,12 @@
             $('.logo_error').html('');
             $('.is_bin_pre_defined_error').html('');
         }
+
+        function setImageSource(selector, imagePath, defaultPath) {
+            let imageUrl = imagePath ? `${imagePath}` : defaultPath;
+            $(selector).attr('src', imageUrl);
+        }
+
+
     });
 </script>

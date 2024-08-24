@@ -1,9 +1,17 @@
+@inject('companyModel', 'App\Models\Company')
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme" data-bg-class="bg-menu-theme">
     <!-- Brand Section -->
+    @php $company = $companyModel::query()->latest()->first(); @endphp
     <div class="app-brand demo">
-        <a href="{{ route('home') }}" class="app-brand-link">
+        {{-- <a href="{{ route('home') }}" class="app-brand-link">
             <span class="app-brand-text demo menu-text fw-bold ms-2">Ultra Stones</span>
-        </a>
+        </a> --}}
+        <div class="logo-container">
+            <a href="{{ route('home') }}" class="app-brand-link">
+                @php $logo = isset($company) ? asset('storage/app/public/'. $company->logo )  : asset('public/assets/img/branding/location-logo.png') @endphp
+                <img src="{{ $logo }}" alt="Logo" class="center-logo">
+            </a>
+        </div>
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
             <i class="bx bx-chevron-left bx-sm align-middle"></i>
         </a>
@@ -87,9 +95,6 @@
                 </li>
                     </ul>
                 </li>
-
-
-
                 <!-- User -->
                 <li class="menu-item {{ request()->is('departments*')||request()->is('designations*') ? 'active open' : '' }}">
                     <a href="javascript:void(0);" class="menu-link menu-toggle">

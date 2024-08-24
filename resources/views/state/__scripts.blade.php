@@ -50,35 +50,47 @@
                 },
             ],
             rowCallback: function (row, data, index) {
-                $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
+                $('td:eq(0)', row).html(table.page.info().start + index + 1);
             },
             dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-            buttons: [{
-                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Create New State</span>',
-                className: 'create-new btn btn-primary',
+            buttons: [
+            {
+                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Create State</span>',
+                className: 'create-new btn btn-primary me-2',
                 attr: {
                     'data-bs-toggle': 'modal',
-                    'data-bs-target': '#stateModel',
+                    'data-bs-target': '#stateModel'
                 },
                 action: function(e, dt, node, config) {
                     $('#savedata').val("create-state");
-                    $('#savedata').html("Save State");
-                    $('#state_id').val('');
-                    $('#stateForm').trigger("reset");
-                    $('.name_error').html('');
-                    $('#modelHeading').html("Create New State");
-                    $('#stateModel').modal('show');
-                }
-            }],
-        });
-        $('#createState').click(function () {
-            $('#savedata').val("create-state");
             $('#savedata').html("Save State");
             $('#state_id').val('');
             $('#stateForm').trigger("reset");
             resetForm()
             $('#modelHeading').html("Create New State");
             $('#stateModel').modal('show');
+                }
+            },
+            {
+                text: '<i class="bx bx-upload me-sm-1"></i> <span class="d-none d-sm-inline-block">Import State</span>',
+                className: 'import-state btn btn-primary me-2',
+                attr: {
+                    'data-bs-toggle': 'modal',
+                    'data-bs-target': '#importStateModal'
+                },
+                action: function(e, dt, node, config) {
+                    $('#importStateModal').modal('show');
+                    $('#importStateForm').trigger("reset");
+                }
+            },
+            {
+                text: '<i class="bx bx-download bx-sm"></i>',
+                className: 'download-template btn btn-primary btn-sm',
+                action: function(e, dt, node, config) {
+                    window.location.href = "{{ route('state.template_download') }}";
+                }
+            }
+        ]
         });
 
         $('#stateForm input').on('input', function () {
@@ -244,16 +256,13 @@
     });
 
     $(document).ready(function () {
-    $('#importState').click(function () {
 
-      $('#importStateModal').modal('show');
-    });
     $('#importStateModal').on('show.bs.modal', function () {
         $('#file').val('');
         $('span.file_error').text('');
     });
 
-    $('#uploadForm').on('submit', function (e) {
+    $('#importStateForm').on('submit', function (e) {
     e.preventDefault();
 
     let formData = new FormData();
@@ -270,7 +279,7 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         success: function (response) {
-            $('#uploadForm').trigger("reset");
+            $('#importStateForm').trigger("reset");
             $('#importStateModal').modal('hide');
             table.draw();
 

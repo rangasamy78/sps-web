@@ -44,3 +44,13 @@
     font-weight: 500 !important;
     color: #ffffff !important;
 } */
+
+.app-brand .logo-container {
+    margin: auto;
+}
+
+.app-brand .logo-container img{
+    width  : 64px;
+    height : auto;
+    border-radius : 50px;
+}

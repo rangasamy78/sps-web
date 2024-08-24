@@ -24,8 +24,9 @@ Class CompanyRepository implements CrudRepositoryInterface, DatatableRepositoryI
             $data['logo'] = $this->uploadImage($data['logo'], 'images');
         }
         $data['is_bin_pre_defined'] = isset($data['is_bin_pre_defined']) ? 1 : 0;
-        return Company::query()
-            ->create($data);
+        $lastInsertId = Company::query()
+            ->create($data)->id;
+        return $this->findOrFail($lastInsertId) ?? '';
     }
 
     public function update(array $data, int $id)
@@ -38,7 +39,8 @@ Class CompanyRepository implements CrudRepositoryInterface, DatatableRepositoryI
             $data['logo'] = $this->uploadImage($data['logo'], 'images');
         }
         $data['is_bin_pre_defined'] = isset($data['is_bin_pre_defined']) ? 1 : 0;
-        return $company->update($data);
+        $company->update($data);
+        return $company;
     }
 
     public function delete(int $id)
@@ -90,7 +92,7 @@ Class CompanyRepository implements CrudRepositoryInterface, DatatableRepositoryI
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName,$columnSortOrder);
 
-       
+
         $arrData = $arrData->get();
 
         $arrData->map(function ($value, $i) {

@@ -6,7 +6,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-            <form id="uploadForm" class="" >
+            <form id="importFileTypeForm" name="importFileTypeForm" method="post">
                 <div class="form-group mb-3">
                 <label for="file" class="form-label">Import a file</label>
                     <input type="file" class="form-control" name="file" id="file">

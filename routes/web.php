@@ -59,7 +59,7 @@ use App\Http\Controllers\PurchaseShipmentMethodController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\AccountReceivableAgingPeriodController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
- 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -169,7 +169,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('product_types', ProductTypeController::class);
     Route::get('/product_type/list', [ProductTypeController::class, 'getProductTypeDataTableList'])->name('product_types.list');
     Route::post('/product_types/save_default_value', [ProductTypeController::class, 'saveDefaultValue'])->name('product_types.save_default_value');
-    
+
     Route::resource('product_price_ranges', ProductPriceRangeController::class);
     Route::get('/product_price_range/list', [ProductPriceRangeController::class, 'getProductPriceRangeDataTableList'])->name('product_price_ranges.list');
 
@@ -187,6 +187,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{id}/edit', [CompanyController::class, 'edit'])->name('edit');
         Route::post('/{id}/update', [CompanyController::class, 'update'])->name('update');
         Route::get('/{id}/show', [CompanyController::class, 'show'])->name('show');
+        Route::get('/company/count', [CompanyController::class, 'getCompanyCount'])->name('count');;
     });
 
     Route::resource('adjustment_types', AdjustmentTypeController::class);
@@ -224,7 +225,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('credit_check_settings', [CreditCheckSettingController::class, 'index'])->name('credit_check_settings.index');
     Route::post('/credit_check_setting/save', [CreditCheckSettingController::class, 'save'])->name('credit_check_settings.save');
-    
+
     Route::resource('select_type_categories', SelectTypeCategoryController::class);
     Route::get('/select_type_category/list', [SelectTypeCategoryController::class, 'getSelectTypeCategoryDataTableList'])->name('select_type_categories.list');
 
