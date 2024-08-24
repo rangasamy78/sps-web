@@ -17,6 +17,7 @@ use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\ProjectTypeController;
 use App\Http\Controllers\UnitMeasureController;
+use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\CustomerTypeController;
 use App\Http\Controllers\ProductColorController;
 use App\Http\Controllers\ProductGroupController;
@@ -44,22 +45,22 @@ use App\Http\Controllers\ReturnReasonCodeController;
 use App\Http\Controllers\ProductPriceRangeController;
 use App\Http\Controllers\ReleaseReasonCodeController;
 use App\Http\Controllers\AccountPaymentTermController;
-use App\Http\Controllers\PrintDocDisclaimerController;
-use App\Http\Controllers\SelectTypeCategoryController;
-use App\Http\Controllers\ProbabilityToCloseController;
 use App\Http\Controllers\CreditCheckSettingController;
 use App\Http\Controllers\DefaultLinkAccountController;
+use App\Http\Controllers\PrintDocDisclaimerController;
+use App\Http\Controllers\ProbabilityToCloseController;
+use App\Http\Controllers\SelectTypeCategoryController;
 use App\Http\Controllers\TransactionStartingController;
-use App\Http\Controllers\SupplierReturnStatusController;
 use App\Http\Controllers\CustomerContactTitleController;
+use App\Http\Controllers\SupplierReturnStatusController;
+use App\Http\Controllers\PickTicketRestrictionController;
 use App\Http\Controllers\SelectTypeSubCategoryController;
 use App\Http\Controllers\SupplierCostListLabelController;
-use App\Http\Controllers\PickTicketRestrictionController;
 use App\Http\Controllers\PurchaseShipmentMethodController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\AccountReceivableAgingPeriodController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
- 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -80,6 +81,8 @@ Auth::routes();
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+    Route::get('/user_profiles', [UserProfileController::class, 'index'])->name('user_profiles');
 
     Route::resource('states', StateController::class);
     Route::get('/state/list', [StateController::class, 'getStateDataTableList'])->name('states.list');
@@ -163,7 +166,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('product_types', ProductTypeController::class);
     Route::get('/product_type/list', [ProductTypeController::class, 'getProductTypeDataTableList'])->name('product_types.list');
     Route::post('/product_types/save_default_value', [ProductTypeController::class, 'saveDefaultValue'])->name('product_types.save_default_value');
-    
+
     Route::resource('product_price_ranges', ProductPriceRangeController::class);
     Route::get('/product_price_range/list', [ProductPriceRangeController::class, 'getProductPriceRangeDataTableList'])->name('product_price_ranges.list');
 
@@ -218,7 +221,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('credit_check_settings', [CreditCheckSettingController::class, 'index'])->name('credit_check_settings.index');
     Route::post('/credit_check_setting/save', [CreditCheckSettingController::class, 'save'])->name('credit_check_settings.save');
-    
+
     Route::resource('select_type_categories', SelectTypeCategoryController::class);
     Route::get('/select_type_category/list', [SelectTypeCategoryController::class, 'getSelectTypeCategoryDataTableList'])->name('select_type_categories.list');
 

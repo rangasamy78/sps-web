@@ -98,7 +98,7 @@
                   <span class="dropdown-shortcuts-icon bg-label-secondary rounded-circle mb-2">
                     <i class="bx bx-pie-chart-alt-2 fs-4"></i>
                   </span>
-                  <a href="index.html" class="stretched-link">Dashboard</a>
+                  <a href="" class="stretched-link">Dashboard</a>
                   <small class="text-muted mb-0">User Profile</small>
                 </div>
                 <div class="dropdown-shortcuts-item col">
@@ -349,7 +349,7 @@
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
             <li>
-              <a class="dropdown-item" href="pages-account-settings-account.html">
+              <a class="dropdown-item" href="{{route('user_profiles')}}">
                 <div class="d-flex">
                   <div class="flex-shrink-0 me-3">
                     <div class="avatar avatar-online">
@@ -373,7 +373,7 @@
               </a>
             </li>
             <li>
-              <a class="dropdown-item" href="pages-account-settings-account.html">
+              <a class="dropdown-item" href="{{route('user_profiles')}}">
                 <i class="bx bx-cog me-2"></i>
                 <span class="align-middle">Settings</span>
               </a>
