@@ -29,10 +29,17 @@ class CreateCompanyRequest extends FormRequest
             'city' => ['required', 'string', 'max:255'],
             'state' => ['required', 'max:255'],
             'zip' => ['required', 'numeric', 'digits_between:5,10'],
-            'phone_1' => ['required', 'numeric', 'max:10'],
+            'phone_1' => ['required', 'numeric', 'digits:10'],
             'website' => ['nullable', 'url'],
             'logo' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
             'is_bin_pre_defined' => ['required', 'boolean'],
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'phone_1' => 'phone'
         ];
     }
 }

@@ -43,7 +43,7 @@ class UpdateCompanyRequest extends FormRequest
                  'required', 'numeric', 'digits_between:5,10',
             ],
             'phone_1' => [
-                'required', 'numeric', 'max:10',
+                'required', 'numeric', 'digits:10',
             ],
             'website' => [
                 'nullable', 'url',
@@ -56,4 +56,12 @@ class UpdateCompanyRequest extends FormRequest
             ],
         ];
     }
+
+    public function attributes()
+    {
+        return [
+            'phone_1' => 'phone'
+        ];
+    }
+
 }
