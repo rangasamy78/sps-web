@@ -26,10 +26,10 @@
                     <div class="form-group mt-3">
                         <label for="event_category_id" class="pb-1 form-label">Event Category </label>
                         <div class="col-sm-12">
-                            <select id="event_category_id" class="form-select" name="event_category_id">
+                            <select id="event_category_id" class="form-select select2" name="event_category_id" data-allow-clear="true">
                                 <option value="">--Select--</option>
                                 @foreach($eventCategories as $key => $eventCategory)
-                                    <option value="{{ $key }}">{{ $eventCategory }}</option>
+                                <option value="{{ $key }}">{{ $eventCategory }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -57,7 +57,7 @@
                         <label for="name" class="form-label">Event Type Name</label>
                         <div class="col-sm-12">
                             <input type="text" disabled class="form-control" id="event_type_name" name="event_type_name"
-                               value="">
+                                value="">
                         </div>
                     </div>
                     <div class="form-group mt-3">
@@ -73,7 +73,7 @@
                             <select disabled id="event_category_id" class="form-select" name="event_category_id">
                                 <option value="">--Select--</option>
                                 @foreach($eventCategories as $key => $eventCategory)
-                                    <option value="{{ $key }}">{{ $eventCategory }}</option>
+                                <option value="{{ $key }}">{{ $eventCategory }}</option>
                                 @endforeach
                             </select>
                         </div>

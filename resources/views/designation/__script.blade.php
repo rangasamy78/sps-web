@@ -7,9 +7,9 @@
             }
         });
         $('#departmentFilter, #designationFilter').on('keyup change', function(e) {
-                e.preventDefault();
-                table.draw();
-            });
+            e.preventDefault();
+            table.draw();
+        });
         var table = $('#createDesignation').DataTable({
             responsive: true,
             processing: true,
@@ -78,8 +78,6 @@
                     $('#designationModel').modal('show');
                 }
             }],
-
-
         });
 
         $('#saveDesignation').click(function(e) {
@@ -311,7 +309,6 @@
                 var rowId = $(this).data('row');
                 updateDesignationList(rowId, 'D'); // Call addRow function to delete the specific row
             });
-        });
-
+        });      
     });
 </script>

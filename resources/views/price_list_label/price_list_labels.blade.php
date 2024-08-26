@@ -4,41 +4,7 @@
 
           @section('styles')
           <style>
-            .custom-container {
-              max-height: 120px;
-              /* Adjust the height as needed */
-              overflow-y: auto;
-              min-height: 120px;
-            }
-
-            .custom-container::-webkit-scrollbar {
-              width: 8px;
-              /* Width of the scrollbar */
-            }
-
-            .custom-container::-webkit-scrollbar-track {
-              background: #f1f1f1;
-              /* Background of the scrollbar track */
-              border-radius: 10px;
-              /* Rounded corners of the track */
-            }
-
-            .custom-container::-webkit-scrollbar-thumb {
-              background: #888;
-              /* Color of the scrollbar thumb */
-              border-radius: 10px;
-              /* Rounded corners of the thumb */
-            }
-
-            .custom-container::-webkit-scrollbar-thumb:hover {
-              background: #555;
-              /* Color of the scrollbar thumb when hovered */
-            }
-
-            .custom-container::-webkit-scrollbar-corner {
-              background: #f1f1f1;
-              /* Color of the scrollbar corner */
-            }
+            
           </style>
           @endsection
           @section('content')

@@ -61,17 +61,18 @@
                     searchable: false
                 }
             ],
-            rowCallback: function (row, data, index) {
+            rowCallback: function(row, data, index) {
                 $('td:eq(0)', row).html(table.page.info().start + index + 1);
             },
         })
 
-        $('#createPaymentTerm').click(function () {
+        $('#createPaymentTerm').click(function() {
             resetForm();
             var standard_date_driven = $('button[name="btn_payment_standard_date_driven"].active').val();
             var headingName = (standard_date_driven == 1) ? "Standard" : "Date Driven";
             $('#savedata').html("Save Payment Term");
             $('#account_payment_term_id').val('');
+            $('#payment_type').val('').trigger('change');
             $('#accountPaymentTermForm').trigger("reset");
             $('#modelHeading').html("Create New " + headingName + " Payment Term");
             $('#accountPaymentTermModel').modal('show');
@@ -137,12 +138,12 @@
                 $('#account_payment_term_id').val(data.id);
                 $('#payment_code').val(data.payment_code);
                 $('#payment_label').val(data.payment_label);
-                $('#payment_type').val(data.payment_type);
+                $('#payment_type').val(data.payment_type).trigger('change');
                 $('#payment_net_due_day').val(data.payment_net_due_day);
                 $('#payment_discount_percent').val(data.payment_discount_percent);
                 $('#payment_threshold_days').val(data.payment_threshold_days);
-                (data.payment_not_used_sales == 1) ? $('#payment_not_used_sales').prop('checked', true) : $('#payment_not_used_sales').prop('checked', false);
-                (data.payment_not_used_purchases == 1) ? $('#payment_not_used_purchases').prop('checked', true) : $('#payment_not_used_purchases').prop('checked', false);
+                (data.payment_not_used_sales == 1) ? $('#payment_not_used_sales').prop('checked', true): $('#payment_not_used_sales').prop('checked', false);
+                (data.payment_not_used_purchases == 1) ? $('#payment_not_used_purchases').prop('checked', true): $('#payment_not_used_purchases').prop('checked', false);
             });
         });
 
@@ -162,7 +163,7 @@
                     id: id,
                     _token: '{{ csrf_token() }}'
                 },
-                success: function (response) {
+                success: function(response) {
                     var standard_date_driven = $('button[name="btn_payment_standard_date_driven"].active').val();
                     var headingName = (standard_date_driven == 1) ? "Standard" : "Date Driven";
                     if (response.status === "success") {
@@ -220,8 +221,8 @@
                 $('#show_payemnt_discount_display').hide();
                 var headingName = "Date Driven";
             }
-            $('#main-head-label').html('List '+ headingName +' Payment Terms');
-            $('#createPaymentTerm').html('<i class="bx bx-plus me-sm-1"></i>New '+ headingName +' Payment Term');
+            $('#main-head-label').html('List ' + headingName + ' Payment Terms');
+            $('#createPaymentTerm').html('<i class="bx bx-plus me-sm-1"></i>New ' + headingName + ' Payment Term');
             table.draw();
         });
 

@@ -8,12 +8,12 @@
             <input type="text" class="form-control dt-input dt-full-name" id="avgDaysFilter" placeholder="Avg days">
         </div>
         <div class="col-12 col-sm-6 col-lg-2">
-        <select class="form-control" id="countryFilter" name="countryFilter">
-        <option value="">--Select Country--</option>
-            @foreach($countries as $key => $country)
+            <select class="form-control select2" id="countryFilter" name="countryFilter" data-allow-clear="true">
+                <option value="">--Select Country--</option>
+                @foreach($countries as $key => $country)
                 <option value="{{ $key }}">{{ $country }}</option>
-            @endforeach
-        </select>
+                @endforeach
+            </select>
         </div>
     </div>
 </div>&nbsp;

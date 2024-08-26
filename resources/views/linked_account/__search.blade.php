@@ -8,18 +8,18 @@
             <input type="text" class="form-control dt-input dt-full-name" name="accountNameFilter" id="accountNameFilter" placeholder="Search Account Name">
         </div>
         <div class="col-12 col-sm-6 col-lg-3">
-            <select class="form-select" name="accountTypeFilter" id="accountTypeFilter">
+            <select class="form-select select2" name="accountTypeFilter" id="accountTypeFilter" data-allow-clear="true">
                 <option value="">--Select Account Type--</option>
                 @foreach($accountTypes as $accountType)
-                    <option value="{{$accountType->id}}">{{$accountType->account_type_name}}</option>
+                <option value="{{$accountType->id}}">{{$accountType->account_type_name}}</option>
                 @endforeach
             </select>
         </div>
         <div class="col-12 col-sm-6 col-lg-3">
-            <select class="form-select" name="accountSubTypeFilter" id="accountSubTypeFilter">
+            <select class="form-select select2" name="accountSubTypeFilter" id="accountSubTypeFilter" data-allow-clear="true">
                 <option value="">--Select Account Sub Type--</option>
                 @foreach($accountSubTypes as $accountSubType)
-                    <option value="{{$accountSubType->id}}">{{$accountSubType->sub_type_name}}</option>
+                <option value="{{$accountSubType->id}}">{{$accountSubType->sub_type_name}}</option>
                 @endforeach
             </select>
         </div>

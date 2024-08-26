@@ -75,6 +75,7 @@
                     action: function(e, dt, node, config) {
                         $('#savedata').html("Save Linked Account");
                         clearError();
+                        $('#account_type,#account_sub_type').val('').trigger('change');
                         $('#linkedAccountForm').trigger("reset");
                         $("#linkedAccountForm").find("tr:gt(1)").remove();
                         $('#modelHeading').html("Create New Linked Account");
@@ -117,7 +118,7 @@
                     },
                     error: function(xhr) {
                         handleAjaxError(xhr);
-                        sending(button,true);
+                        sending(button, true);
                     }
                 });
             });
@@ -132,8 +133,8 @@
                     $('#linked_account_id').val(data.id);
                     $('#account_code').val(data.account_code);
                     $('#account_name').val(data.account_name);
-                    $('#account_type').val(data.account_type);
-                    $('#account_sub_type').val(data.account_sub_type);
+                    $('#account_type').val(data.account_type).trigger('change');
+                    $('#account_sub_type').val(data.account_sub_type).trigger('change');;
                 });
             });
             $('body').on('click', '.deletebtn', function() {
@@ -142,6 +143,7 @@
                     deleteLinkedAccount(id);
                 });
             });
+
             function deleteLinkedAccount(id) {
                 var url = "{{ route('linked_accounts.destroy', ':id') }}".replace(':id', id);
                 $.ajax({

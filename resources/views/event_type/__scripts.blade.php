@@ -16,25 +16,48 @@
             processing: true,
             serverSide: true,
             searching: false,
-            order: [[1, 'desc']],
+            order: [
+                [1, 'desc']
+            ],
             ajax: {
                 url: "{{ route('event_types.list') }}",
-                data: function (d) {
+                data: function(d) {
                     d.event_type_name_search = $('#eventTypeNameFilter').val();
                     d.event_type_code_search = $('#eventTypeCodeFilter').val();
                     d.event_category_search = $('#eventCategoryFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
-                    d.order = [{ column: 1, dir: sort }];
+                    d.order = [{
+                        column: 1,
+                        dir: sort
+                    }];
                 }
             },
-            columns: [
-                { data: null, name: 'serial', orderable: false, searchable: false },
-                { data: 'event_type_name', name: 'event_type_name' },
-                { data: 'event_type_code', name: 'event_type_code' },
-                { data: 'event_category_id', name: 'event_category_id' },
-                { data: 'action', name: 'action', orderable: false, searchable: false }
+            columns: [{
+                    data: null,
+                    name: 'serial',
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'event_type_name',
+                    name: 'event_type_name'
+                },
+                {
+                    data: 'event_type_code',
+                    name: 'event_type_code'
+                },
+                {
+                    data: 'event_category_id',
+                    name: 'event_category_id'
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                }
             ],
-            rowCallback: function (row, data, index) {
+            rowCallback: function(row, data, index) {
                 $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
             },
             dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
@@ -48,6 +71,7 @@
                 action: function(e, dt, node, config) {
                     $('#savedata').html("Save Event Type");
                     $('#event_type_id').val('');
+                    $('#event_category_id').val('').trigger('change');
                     $('#eventTypeForm').trigger("reset");
                     $('.event_type_name_error').html('');
                     $("#eventTypeForm").find("tr:gt(1)").remove();
@@ -57,12 +81,12 @@
             }],
         });
 
-        $('#eventTypeForm input').on('input', function () {
+        $('#eventTypeForm input').on('input', function() {
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');
         });
 
-        $('#savedata').click(function (e) {
+        $('#savedata').click(function(e) {
             e.preventDefault();
             var button = $(this);
             sending(button);
@@ -73,7 +97,7 @@
                 type: type,
                 data: $('#eventTypeForm').serialize(),
                 dataType: 'json',
-                success: function (response) {
+                success: function(response) {
                     if (response.status == "success") {
                         $('#eventTypeForm').trigger("reset");
                         $('#eventTypeModel').modal('hide');
@@ -83,13 +107,13 @@
                 },
                 error: function(xhr) {
                     handleAjaxError(xhr);
-                    sending(button,true);
+                    sending(button, true);
                 }
             });
         });
-        $('body').on('click', '.editbtn', function () {
+        $('body').on('click', '.editbtn', function() {
             var id = $(this).data('id');
-            $.get("{{ route('event_types.index') }}" +'/' + id +'/edit', function (data) {
+            $.get("{{ route('event_types.index') }}" + '/' + id + '/edit', function(data) {
                 $(".event_type_name_error").html("");
                 $('#modelHeading').html("Edit Event Type");
                 $('#savedata').val("edit-event-type");
@@ -98,15 +122,16 @@
                 $('#event_type_id').val(data.id);
                 $('#event_type_name').val(data.event_type_name);
                 $('#event_type_code').val(data.event_type_code);
-                $('#event_category_id').val(data.event_category_id);
+                $('#event_category_id').val(data.event_category_id).trigger('change');
             });
         });
-        $('body').on('click', '.deletebtn', function () {
+        $('body').on('click', '.deletebtn', function() {
             var id = $(this).data('id');
             confirmDelete(id, function() {
                 deleteEventType(id);
             });
         });
+
         function deleteEventType(id) {
             var url = "{{ route('event_types.destroy', ':id') }}".replace(':id', id);
 
@@ -126,9 +151,10 @@
                 }
             });
         }
-        $('body').on('click', '.showbtn', function () {
+        
+        $('body').on('click', '.showbtn', function() {
             var id = $(this).data('id');
-            $.get("{{ route('event_types.index') }}" +'/' + id, function (data) {
+            $.get("{{ route('event_types.index') }}" + '/' + id, function(data) {
                 $('#modelHeading').html("Show Event Type");
                 $('#savedata').val("show-event-type");
                 $('#showEventTypeModal').modal('show');

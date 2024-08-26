@@ -46,12 +46,12 @@
     <link rel="stylesheet" href="{{ asset('public/assets/vendor/libs/select2/select2.css') }}" />
     <link rel="stylesheet" href="{{ asset('public/assets/vendor/libs/sweetalert2/sweetalert2.css') }}" />
     <link rel="stylesheet" href="{{ asset('public/css/style.css') }}" />
-
     {{-- Page CSS --}}
     @yield('styles')
 
     {{-- Helpers --}}
-    <script src="{{ asset('public/assets/vendor/js/helpers.js') }}"></script>
+    <script src=" {{ asset('public/assets/vendor/js/helpers.js') }}">
+    </script>
     {{-- <script src="{{asset('assets/vendor/js/template-customizer.js')}}"></script> --}}
     <script src="{{ asset('public/assets/js/config.js') }}"></script>
     <style>
@@ -112,6 +112,7 @@
     <!-- Vendors JS -->
     <script src="{{ asset('public/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
     <script src="{{ asset('public/assets/vendor/libs/select2/select2.js') }}"></script>
+    <script src="{{asset('public/assets/js/forms-selects.js')}}"></script>
 
     {{-- <script src="{{ asset('public/assets/vendor/libs/toastr/toastr.js') }}"></script> --}}
     <script src="{{ asset('public/assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>

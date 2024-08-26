@@ -67,6 +67,7 @@
                         $('#savedata').html("Save Payment Method");
                         clearError();
                         $('#paymentMethodForm').trigger("reset");
+                        $('#linked_account_id, #account_type_id').val('').trigger('change');
                         $('#modelHeading').html("Create New Payment Method");
                         $('#paymentMethodModel').modal('show');
                     }
@@ -122,8 +123,8 @@
                     $('#paymentMethodModel').modal('show');
                     $('#payment_method_id').val(data.id);
                     $('#payment_method_name').val(data.payment_method_name);
-                    $('#linked_account_id').val(data.linked_account_id);
-                    $('#account_type_id').val(data.account_type_id);
+                    $('#linked_account_id').val(data.linked_account_id).trigger('change');
+                    $('#account_type_id').val(data.account_type_id).trigger('change');
                     $('#is_transaction_required').prop('checked', false);
                     if (data.is_transaction_required === 1) {
                         $('#is_transaction_required').prop('checked', true);

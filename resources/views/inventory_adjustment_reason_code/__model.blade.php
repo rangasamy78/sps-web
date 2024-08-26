@@ -19,18 +19,18 @@
                     <div class="form-group mt-3">
                         <label class="pb-1 form-label">Adjustment Type</label>
                         <div class="col-sm-12">
-                            <select class="form-control" id="adjustment_type_id" name="adjustment_type_id">
-                               <option value="">--Select Adjustment Type--</option>
-                               @foreach($adjustment_types as $key => $adjustment_type)
-                                    <option value="{{ $key }}">{{ $adjustment_type }}</option>
+                            <select class="form-control select2" id="adjustment_type_id" name="adjustment_type_id" data-allow-clear="true">
+                                <option value="">--Select Adjustment Type--</option>
+                                @foreach($adjustment_types as $key => $adjustment_type)
+                                <option value="{{ $key }}">{{ $adjustment_type }}</option>
                                 @endforeach
-                        </select>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group mt-3">
                         <label class="pb-1 form-label">Income Expense Account</label>
                         <div class="col-sm-12">
-                            <select id="income_expense_account" class="form-select" name="income_expense_account">
+                            <select id="income_expense_account" class="form-select select2" name="income_expense_account" data-allow-clear="true">
                                 <option value="">--Select--</option>
                                 <option value="50010 - Inventory Adjustment">50010 - Inventory Adjustment</option>
                             </select>
@@ -55,7 +55,7 @@
             </div>
             <div class="modal-body">
                 <form id="showInventoryAdjustmentReasonCodeForm" name="showInventoryAdjustmentReasonCodeForm" class="form-horizontal">
-                <div class="form-group">
+                    <div class="form-group">
                         <label for="Reason" class="form-label">Reason </label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="reason" disabled name="reason"
@@ -69,7 +69,7 @@
                             <select class="form-control" id="adjustment_type_id" disabled name="adjustment_type_id">
                                 <option value="">--Select Adjustment Type--</option>
                                 @foreach($adjustment_types as $key => $adjustment_type)
-                                    <option value="{{ $key }}">{{ $adjustment_type }}</option>
+                                <option value="{{ $key }}">{{ $adjustment_type }}</option>
                                 @endforeach
                             </select>
                         </div>

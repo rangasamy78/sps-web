@@ -12,7 +12,7 @@
                     <div class="form-group">
                         <label for="view_in" class="pb-1 form-label">View In <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
-                            <select id="view_in" class="form-select" name="view_in">
+                            <select id="view_in" class="form-select select2" name="view_in" data-allow-clear="true">
                                 <option value="">--Select--</option>
                                 @foreach($viewInOptions as $option)
                                 <option value="{{ $option }}">{{ $option }}</option>

@@ -25,10 +25,10 @@
                     <div class="form-group mt-3">
                         <label for="country_id" class="col-sm-6 form-label">Country </label>
                         <div class="col-sm-12">
-                            <select id="country_id" class="form-select" name="country_id">
+                            <select id="country_id" class="form-select select2" name="country_id" data-allow-clear="true">
                                 <option value="">--Select--</option>
                                 @foreach($countries as $key => $country)
-                                    <option value="{{ $key }}">{{ $country }}</option>
+                                <option value="{{ $key }}">{{ $country }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -70,7 +70,7 @@
                             <select id="country_id" disabled class="form-select" name="country_id">
                                 <option value="">--Select--</option>
                                 @foreach($countries as $key => $country)
-                                    <option value="{{ $key }}">{{ $country }}</option>
+                                <option value="{{ $key }}">{{ $country }}</option>
                                 @endforeach
                             </select>
                         </div>

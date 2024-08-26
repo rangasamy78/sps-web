@@ -23,10 +23,10 @@
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <label for="payment_type" class="form-label">Payment Type<sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
-                                    <select class="form-select" name="payment_type" id="payment_type">
+                                    <select class="form-select select2" name="payment_type" id="payment_type" data-allow-clear="true">
                                         <option value="">--Select--</option>
                                         @foreach($account_types as $key => $account_type)
-                                            <option value="{{ $account_type['value'] }}">{{ $account_type['label'] }}</option>
+                                        <option value="{{ $account_type['value'] }}">{{ $account_type['label'] }}</option>
                                         @endforeach
                                     </select>
                                     <span class="text-danger error-text payment_type_error"></span>
@@ -60,13 +60,13 @@
                             <div class="col-md-6">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="1" id="payment_not_used_sales" name="payment_not_used_sales">
-                                    <label  for="payment_not_used_sales"> Not Used In Sales</label>
+                                    <label for="payment_not_used_sales"> Not Used In Sales</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="1" id="payment_not_used_purchases" name="payment_not_used_purchases" >
-                                    <label  for="payment_not_used_purchases"> Not Used In Purchases</label>
+                                    <input class="form-check-input" type="checkbox" value="1" id="payment_not_used_purchases" name="payment_not_used_purchases">
+                                    <label for="payment_not_used_purchases"> Not Used In Purchases</label>
                                 </div>
                             </div>
                         </div>
@@ -128,7 +128,7 @@
                         <div class="col-md-6 mb-3">
                             <div class="form-group">
                                 <label for="payment_threshold_days" class="form-label">Discount Threshold Days</label>
-                                <input disabled type="text" class="form-control" id="payment_threshold_days" name="payment_threshold_days"  value="">
+                                <input disabled type="text" class="form-control" id="payment_threshold_days" name="payment_threshold_days" value="">
                             </div>
                         </div>
                     </div>
@@ -141,7 +141,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-check">
-                                <input disabled class="form-check-input" type="checkbox" value="1" id="payment_not_used_purchases" name="payment_not_used_purchases" >
+                                <input disabled class="form-check-input" type="checkbox" value="1" id="payment_not_used_purchases" name="payment_not_used_purchases">
                                 <label for="payment_not_used_purchases"> Not Used In Purchases</label>
                             </div>
                         </div>

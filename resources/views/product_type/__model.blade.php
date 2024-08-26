@@ -6,42 +6,41 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-            <form id="productTypeForm" name="productTypeForm" class="form-horizontal">
-                <input type="hidden" name="product_type_id" id="product_type_id">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="product-type" class="form-label">Product Type <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control" id="product_type" name="product_type" placeholder="Enter Product Type" value="">
+                <form id="productTypeForm" name="productTypeForm" class="form-horizontal">
+                    <input type="hidden" name="product_type_id" id="product_type_id">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="product-type" class="form-label">Product Type <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" id="product_type" name="product_type" placeholder="Enter Product Type" value="">
+                                </div>
+                                <span class="text-danger error-text product_type_error"></span>
                             </div>
-                            <span class="text-danger error-text product_type_error"></span>
-                        </div>
-                        <div class="form-group">
-                        <small class="text-light fw-medium d-block">Default Values</small>
-                        <div class="form-check form-check-inline mt-3">
-                            <input class="form-check-input" type="checkbox" id="indivisible" name="indivisible" value="1" />
-                            <label class="form-check-label" for="indivisible">Indivisible</label>
-                            <div class="mt-2">
-                                <small>"Inventory detail lines CANNOT be partially sold."</small>
+                            <div class="form-group">
+                                <small class="text-light fw-medium d-block">Default Values</small>
+                                <div class="form-check form-check-inline mt-3">
+                                    <input class="form-check-input" type="checkbox" id="indivisible" name="indivisible" value="1" />
+                                    <label class="form-check-label" for="indivisible">Indivisible</label>
+                                    <div class="mt-2">
+                                        <small>"Inventory detail lines CANNOT be partially sold."</small>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="non_serialized" name="non_serialized" value="1" />
+                                    <label class="form-check-label" style="color:red" for="non_serialized">Non Serialized</label>
+                                    <div class="mt-2">
+                                        <small>"Inventory is NOT tracked by Serial Number."</small>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <br>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="non_serialized" name="non_serialized" value="1" />
-                            <label class="form-check-label" style="color:red" for="non_serialized">Non Serialized</label>
-                            <div class="mt-2">
-                                <small>"Inventory is NOT tracked by Serial Number."</small>
-                            </div>
-                        </div>
-                    </div>
 
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="Inventory GL Account">Inventory GL Account</label>
-                            <div class="input-group input-group-merge">
-                                <select id="inventory_gl_account" class="form-select" name="inventory_gl_account">
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label" for="Inventory GL Account">Inventory GL Account</label>
+                                <select id="inventory_gl_account" class="form-select select2" name="inventory_gl_account" data-allow-clear="true">
                                     <option value="">--Select--</option>
                                     <option value="12000-Inventory">12000-Inventory</option>
                                     <option value="12100-Inventory Asset">12100-Inventory Asset</option>
@@ -51,20 +50,16 @@
                                     <option value="47918-SUPPLIER CREDIT - Inventory Damage">47918-SUPPLIER CREDIT - Inventory Damage</option>
                                 </select>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="Sales GL Account">Sales GL Account</label>
-                            <div class="input-group input-group-merge">
-                                <select id="sales_gl_account" class="form-select" name="sales_gl_account">
+                            <div class="form-group">
+                                <label class="form-label" for="Sales GL Account">Sales GL Account</label>
+                                <select id="sales_gl_account" class="form-select select2" name="sales_gl_account" data-allow-clear="true">
                                     <option value="">--Select--</option>
                                     <option value="47900-Sales">47900-Sales</option>
                                 </select>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="Cogs GL Account">Cogs GL Account</label>
-                            <div class="input-group input-group-merge">
-                                <select id="cogs_gl_account" class="form-select" name="cogs_gl_account">
+                            <div class="form-group">
+                                <label class="form-label" for="Cogs GL Account">Cogs GL Account</label>
+                                <select id="cogs_gl_account" class="form-select select2" name="cogs_gl_account" data-allow-clear="true">
                                     <option value="">--Select--</option>
                                     <option value="50000-Cost of Goods Sold">50000-Cost of Goods Sold</option>
                                     <option value="50010-Inventory Adjustment">50010-Inventory Adjustment</option>
@@ -76,8 +71,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary" id="savedata" value="create">Save Product Type</button>

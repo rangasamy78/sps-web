@@ -14,11 +14,17 @@
                 var inputField = $(this);
                 var inputValue = inputField.val().trim();
                 var intValue = parseInt(inputValue);
-                if (intValue <= 0 || isNaN(intValue)) {
+                if (!/^\d+$/.test(inputValue)) {
                     inputField.css('border', '1px solid red');
                     allValid = false; // Mark as invalid
                 } else {
-                    inputField.css('border', '');
+                    var intValue = parseInt(inputValue, 10);
+                    if (intValue <= 0 || isNaN(intValue)) {
+                        inputField.css('border', '1px solid red');
+                        allValid = false; // Mark as invalid
+                    } else {
+                        inputField.css('border', '');
+                    }
                 }
             });
 

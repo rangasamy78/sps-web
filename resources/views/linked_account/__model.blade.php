@@ -26,7 +26,7 @@
                     <div class="form-group mb-3">
                         <label for="account_type" class="col form-label pb-1">Account Type <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
-                            <select class="form-select "  name="account_type" id="account_type">
+                            <select class="form-select select2" name="account_type" id="account_type" data-allow-clear="true">
                                 <option value="">--Select--</option>
                                 @foreach($accountTypes as $accountType)
                                 <option value="{{$accountType->id}}">{{$accountType->account_type_name}}</option>
@@ -38,7 +38,7 @@
                     <div class="form-group mb-3">
                         <label for="account_sub_type" class="col form-label pb-1">Account Sub Type <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col">
-                            <select class="form-select "  name="account_sub_type" id="account_sub_type">
+                            <select class="form-select select2" name="account_sub_type" id="account_sub_type" data-allow-clear="true">
                                 <option value="">--Select-- </option>
                                 @foreach($accountSubTypes as $accountSubType)
                                 <option value="{{$accountSubType->id}}">{{$accountSubType->sub_type_name}}</option>
@@ -65,16 +65,16 @@
             </div>
             <div class="modal-body">
                 <form id="showLinkedAccountForm" name="showLinkedAccountForm" class="form-horizontal">
-                <div class="form-group mb-3">
+                    <div class="form-group mb-3">
                         <label for="account_code" class="form-label">Account Code</label>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control" disabled id="account_code" name="account_code"  value="">
+                            <input type="text" class="form-control" disabled id="account_code" name="account_code" value="">
                         </div>
                     </div>
                     <div class="form-group mb-3">
                         <label for="account_code" class="form-label">Account Name</label>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control" disabled id="account_name" name="account_name"  value="">
+                            <input type="text" class="form-control" disabled id="account_name" name="account_name" value="">
                         </div>
                     </div>
                     <div class="form-group mb-3">
@@ -91,7 +91,7 @@
                     <div class="form-group mb-3">
                         <label for="account_code" class="form-label">Account Sub Type</label>
                         <div class="col-sm-12">
-                            <select class="form-select"  disabled name="account_sub_type" id="account_sub_type">
+                            <select class="form-select" disabled name="account_sub_type" id="account_sub_type">
                                 <option value="">--Select--</option>
                                 @foreach($accountSubTypes as $accountSubType)
                                 <option value="{{$accountSubType->id}}">{{$accountSubType->sub_type_name}}</option>

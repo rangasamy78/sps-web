@@ -11,10 +11,9 @@
                     <div class="form-group">
                         <label for="Select Type Sub Category" class="pb-1 form-label">Select Type Category Name<sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
-                        <select class="form-select select_type_category_id" name="select_type_category_id" id="select_type_category_id">
-                                <option value="">--Select Type Category Name--</option>
+                            <select class="form-select select_type_category_id select2" name="select_type_category_id" id="select_type_category_id" data-allow-clear="true">
                                 @foreach($select_type_categories as $key => $select_type_category)
-                                    <option value="{{ $key }}">{{ $select_type_category }}</option>
+                                <option value="{{ $key }}">{{ $select_type_category }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -42,12 +41,12 @@
             <div class="modal-body">
                 <form id="showSelectTypeSubCategoryForm" name="showSelectTypeSubCategoryForm" class="form-horizontal">
                     <div class="form-group">
-                        <label for="Select Type Sub Category" class="col-sm-8 form-label">Select Type  Category Name</label>
+                        <label for="Select Type Sub Category" class="col-sm-8 form-label">Select Type Category Name</label>
                         <div class="col-sm-12">
-                        <select class="form-select select_type_category_id" disabled name="select_type_category_id" id="select_type_category_id">
-                        <option value="">--Select Type Category--</option>
-                            @foreach($select_type_categories as $key => $select_type_category)
-                                    <option value="{{ $key }}">{{ $select_type_category }}</option>
+                            <select class="form-select select_type_category_id" disabled name="select_type_category_id" id="select_type_category_id">
+                                <option value="">--Select Type Category--</option>
+                                @foreach($select_type_categories as $key => $select_type_category)
+                                <option value="{{ $key }}">{{ $select_type_category }}</option>
                                 @endforeach
                             </select>
                         </div>

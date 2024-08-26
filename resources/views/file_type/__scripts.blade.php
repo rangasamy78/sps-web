@@ -17,25 +17,45 @@
             processing: true,
             serverSide: true,
             searching: false,
-            order: [[1, 'desc']],
+            order: [
+                [1, 'desc']
+            ],
             ajax: {
                 url: "{{ route('file_types.list') }}",
                 data: function(d) {
                     d.view_in_search = $('#viewInFilter').val();
                     d.file_type_search = $('#fileTypeFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
-                    d.order = [{ column: 1, dir: sort }];
+                    d.order = [{
+                        column: 1,
+                        dir: sort
+                    }];
                 }
             },
-            columns: [
-                { data: null, name: 'serial', orderable: false, searchable: false },
-                { data: 'view_in', name: 'view_in' },
-                { data: 'file_type', name: 'file_type' },
-                { data: 'action', name: 'action', orderable: false, searchable: false }
+            columns: [{
+                    data: null,
+                    name: 'serial',
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'view_in',
+                    name: 'view_in'
+                },
+                {
+                    data: 'file_type',
+                    name: 'file_type'
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                }
             ],
             rowCallback: function(row, data, index) {
                 $('td:eq(0)', row).html(table.page.info().start + index +
-                1); // Update the index column with the correct row index
+                    1); // Update the index column with the correct row index
             },
             dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
             buttons: [{
@@ -49,6 +69,7 @@
                         resetForm();
                         $('#savedata').html('Save File Type');
                         $('#file_type_id').val('');
+                        $('#view_in').val('').trigger('change');
                         $('#fileTypeForm').trigger("reset");
                         $('#modelHeading').html("Create File Types");
                         $('#fileTypeModel').modal('show');
@@ -107,7 +128,7 @@
                 },
                 error: function(xhr) {
                     handleAjaxError(xhr);
-                    sending(button,true);
+                    sending(button, true);
                 }
             });
         });
@@ -122,7 +143,7 @@
                 $('#savedata').html("Update File Type");
                 $('#fileTypeModel').modal('show');
                 $('#file_type_id').val(data.id);
-                $('#view_in').val(data.view_in);
+                $('#view_in').val(data.view_in).trigger('change');
                 $('#file_type').val(data.file_type);
                 $('#file_type_opportunity').prop('checked', data.file_type_opportunity == 1);
                 $('#file_type_quote').prop('checked', data.file_type_quote == 1);
@@ -203,7 +224,7 @@
             let table = $('#datatable').DataTable();
 
             $.ajax({
-                url: '{{ route('file_types.import') }}',
+                url: "{{ route('file_types.import') }}",
                 type: 'POST',
                 data: formData,
                 contentType: false,

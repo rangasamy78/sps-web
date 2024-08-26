@@ -18,10 +18,9 @@
                     <div class="form-group pb-3">
                         <label for="linked_account_id" class="col form-label pb-1">Account</label>
                         <div class="col-sm-12">
-                            <select class="form-select " name="linked_account_id" id="linked_account_id">
-                                <option value="">--Select-- </option>
+                            <select class="form-select select2" name="linked_account_id" id="linked_account_id" data-allow-clear="true">
                                 @foreach($data['linkedAccounts'] as $key => $linkedAccount)
-                                    <option value="{{ $linkedAccount['value'] }}" >{{ $linkedAccount['label'] }}</option>
+                                <option value="{{ $linkedAccount['value'] }}">{{ $linkedAccount['label'] }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -30,10 +29,9 @@
                     <div class="form-group mb-3">
                         <label for="account_type_id" class="col form-label pb-1">Account Type</label>
                         <div class="col-sm-12">
-                            <select class="form-select " name="account_type_id" id="account_type_id">
-                                <option value="">--Select--</option>
+                            <select class="form-select select2" name="account_type_id" id="account_type_id" data-allow-clear="true">
                                 @foreach($data['accountTypes'] as $key => $accountType)
-                                    <option value="{{ $accountType['value'] }}" >{{ $accountType['label'] }}</option>
+                                <option value="{{ $accountType['value'] }}">{{ $accountType['label'] }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -65,7 +63,7 @@
                     <div class="form-group mb-3">
                         <label for="payment_method_name" class="col form-label pb-1">Payment Method Name </label>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control" disabled id="payment_method_name" name="payment_method_name"  value="">
+                            <input type="text" class="form-control" disabled id="payment_method_name" name="payment_method_name" value="">
                         </div>
                     </div>
                     <div class="form-group mb-3">
@@ -74,7 +72,7 @@
                             <select class="form-select " disabled name="linked_account_id" id="linked_account_id">
                                 <option value="">--Select--</option>
                                 @foreach($data['linkedAccounts'] as $key => $linkedAccount)
-                                    <option value="{{ $linkedAccount['value'] }}" >{{ $linkedAccount['label'] }}</option>
+                                <option value="{{ $linkedAccount['value'] }}">{{ $linkedAccount['label'] }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -85,7 +83,7 @@
                             <select class="form-select" disabled name="account_type_id" id="account_type_id">
                                 <option value="">--Select--</option>
                                 @foreach($data['accountTypes'] as $key => $accountType)
-                                    <option value="{{ $accountType['value'] }}" >{{ $accountType['label'] }}</option>
+                                <option value="{{ $accountType['value'] }}">{{ $accountType['label'] }}</option>
                                 @endforeach
                             </select>
                         </div>

@@ -60,14 +60,14 @@
                     'data-bs-target': '#expenseCategoryModel',
                 },
                 action: function(e, dt, node, config) {
-                    $('#savedata').html("Save Expense Category");
-                    $('#expense_category_id').val('');
-                    $('#expenseCategoryForm').trigger("reset");
-                    $(".expense_category_name_error").html("");
-                    $(".expense_account_error").html("");
-                    $('#modelHeading').html("Create New Expense Category");
+                    $('#expenseCategoryForm').trigger('reset');
+                    $('#expense_account').val('').trigger('change'); // Ensure Select2 UI is updated
+                    $(".expense_category_name_error, .expense_account_error").text(""); // Clear error messages
+                    $('#modelHeading').text("Create New Expense Category");
+                    $('#savedata').text("Save Expense Category");
                     $('#expenseCategoryModel').modal('show');
                 }
+
             }],
         });
 
@@ -97,7 +97,7 @@
                 },
                 error: function(xhr) {
                     handleAjaxError(xhr);
-                    sending(button,true);
+                    sending(button, true);
                 }
             });
         });
@@ -112,7 +112,7 @@
                 $('#expenseCategoryModel').modal('show');
                 $('#expense_category_id').val(data.id);
                 $('#expense_category_name').val(data.expense_category_name);
-                $('#expense_account').val(data.expense_account);
+                $('#expense_account').val(data.expense_account).trigger('change');
             });
         });
 
