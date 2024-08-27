@@ -5,18 +5,18 @@
             <input type="text" class="form-control dt-input dt-full-name" id="methodNameFilter" placeholder="Search Payment Method Name">
         </div>
         <div class="col-12 col-sm-6 col-lg-3">
-            <select class="form-select" name="linkedAccountFilter" id="linkedAccountFilter">
+            <select class="form-select select2" name="linkedAccountFilter" id="linkedAccountFilter" data-allow-clear="true">
                 <option value="">--Select Account--</option>
                 @foreach($data['linkedAccounts'] as $key => $linkedAccount)
-                    <option value="{{ $linkedAccount['value'] }}" >{{ $linkedAccount['label'] }}</option>
+                <option value="{{ $linkedAccount['value'] }}">{{ $linkedAccount['label'] }}</option>
                 @endforeach
             </select>
         </div>
         <div class="col-12 col-sm-6 col-lg-3">
-            <select class="form-select" name="accountTypeFilter" id="accountTypeFilter">
+            <select class="form-select select2" name="accountTypeFilter" id="accountTypeFilter" data-allow-clear="true">
                 <option value="">--Select Account Type--</option>
                 @foreach($data['accountTypes'] as $key => $accountType)
-                    <option value="{{ $accountType['value'] }}" >{{ $accountType['label'] }}</option>
+                <option value="{{ $accountType['value'] }}">{{ $accountType['label'] }}</option>
                 @endforeach
             </select>
         </div>

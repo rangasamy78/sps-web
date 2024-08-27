@@ -19,7 +19,7 @@ class LinkedAccountController extends Controller
     {
         $this->linkedAccountRepository = $linkedAccountRepository;
     }
-    
+
     public function index()
     {
         $accountTypes = AccountType::query()->select('id', 'account_type_name')->get();
@@ -43,7 +43,7 @@ class LinkedAccountController extends Controller
         $model = $this->linkedAccountRepository->findOrFail($id);
         return response()->json($model);
     }
-    
+
     public function edit($id)
     {
         $model = $this->linkedAccountRepository->findOrFail($id);
@@ -76,7 +76,7 @@ class LinkedAccountController extends Controller
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the linked account.']);
         }
     }
-    
+
     public function getLinkedAccountDataTableList(Request $request)
     {
         return $this->linkedAccountRepository->dataTable($request);

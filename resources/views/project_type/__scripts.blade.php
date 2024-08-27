@@ -23,11 +23,11 @@
                 data: function (d) {
                     d.project_type_search = $('#projectTypeFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
-                    d.order = [{ column: 0, dir: sort }];
+                    d.order = [{ column: 1, dir: sort }];
                 }
             },
             columns: [
-                { data: 'id', name: 'id', orderable: false, searchable: false },
+                { data: null, name: 'serial', orderable: false, searchable: false },
                 { data: 'project_type_name', name: 'project_type_name' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
@@ -64,7 +64,8 @@
 
         $('#savedata').click(function (e) {
             e.preventDefault();
-            $(this).html('Sending..');
+            var button = $(this);
+            sending(button);
             var url = $('#project_type_id').val() ? "{{ route('project_types.update', ':id') }}".replace(':id', $('#project_type_id').val()) : "{{ route('project_types.store') }}";
             var type = $('#project_type_id').val() ? "PUT" : "POST";
             $.ajax({
@@ -82,8 +83,7 @@
                 },
                 error: function(xhr) {
                     handleAjaxError(xhr);
-                    var button = type === 'POST' ? 'Save Project Type' : 'Update Project Type';
-                    $('#savedata').html(button);
+                    sending(button,true);
                 }
             });
         });

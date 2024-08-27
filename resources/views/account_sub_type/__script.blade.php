@@ -17,7 +17,7 @@
       serverSide: true,
       searching: false,
       order: [
-        [0, 'desc']
+        [1, 'desc']
       ],
       ajax: {
         url: "{{ route('account_sub_types.list') }}",
@@ -25,15 +25,16 @@
           d.sub_type_name_search = $('#subTypeNameFilter').val();
           sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
           d.order = [{
-            column: 0,
+            column: 1,
             dir: sort
           }];
         }
       },
       columns: [{
-          data: 'id',
-          name: 'id',
-
+          data: null,
+          name: 'serial',
+          orderable: false,
+          searchable: false
         }, {
           data: 'sub_type_name',
           name: 'sub_type_name'
@@ -74,7 +75,8 @@
 
     $('#savedata').click(function(e) {
       e.preventDefault();
-      $(this).html('Sending..');
+      var button = $(this);
+      sending(button);
       var url = $('#account_sub_type_id').val() ? "{{ route('account_sub_types.update', ':id') }}".replace(':id', $('#account_sub_type_id').val()) : "{{ route('account_sub_types.store') }}";
       var type = $('#account_sub_type_id').val() ? "PUT" : "POST";
       $.ajax({
@@ -92,8 +94,7 @@
         },
         error: function(xhr) {
           handleAjaxError(xhr);
-          var button = type === 'POST' ? 'Save Account Sub Type' : 'Update Account Sub Type';
-          $('#savedata').html(button);
+          sending(button, true);
         }
       });
     });
@@ -118,7 +119,6 @@
 
     function deleteAccountSubType(id) {
       var url = "{{ route('account_sub_types.destroy', ':id') }}".replace(':id', id);
-
       $.ajax({
         url: url,
         type: "DELETE",
@@ -142,7 +142,6 @@
         $('#showAccountSubTypeModal').modal('show');
         $('#showAccountSubTypeForm #sub_type_name').val(data.sub_type_name);
       });
-    });
-    
+    });    
   });
 </script>

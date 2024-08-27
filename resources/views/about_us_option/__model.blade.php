@@ -9,7 +9,8 @@
                 <form id="aboutUsOptionForm"  class="form-horizontal">
                     <input type="hidden" name="how_did_you_hear_option_id" id="how_did_you_hear_option_id">
                     <div class="form-group">
-                    <label for="name" class=" control-label pb-1">How did you hear Option<sup style="color:red"><strong>*</strong></sup></label>
+                    <label for="name" class="form-label pb-1">How did you hear Option <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></sup>
+                    </label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="how_did_you_hear_option" name="how_did_you_hear_option" placeholder="Enter How did you hear Option" value="">
                         </div>
@@ -34,9 +35,9 @@
             <div class="modal-body">
                 <form id="showAboutUsOptionForm" name="showAboutUsOptionForm" class="form-horizontal">
                     <div class="form-group">
-                        <label for="name" class=" control-label">How did you hear Option</label>
+                        <label for="name" class="form-label pb-2">How did you hear Option</label>
                         <div class="col-sm-12">
-                            <input type="text" readonly class="form-control" id="how_did_you_hear_option" name="how_did_you_hear_option" value="">
+                            <input type="text" disabled class="form-control" id="how_did_you_hear_option" name="how_did_you_hear_option" value="">
                         </div>
                     </div>
                 </form>

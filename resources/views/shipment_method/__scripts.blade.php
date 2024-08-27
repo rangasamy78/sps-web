@@ -23,11 +23,11 @@
                 data: function (d) {
                     d.shipment_method_name_search = $('#shipmentMethodNameFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
-                    d.order = [{ column: 0, dir: sort }];
+                    d.order = [{ column: 1, dir: sort }];
                 }
             },
             columns: [
-                { data: 'id', name: 'id', orderable: false, searchable: false },
+                { data: null, name: 'serial', orderable: false, searchable: false },
                 { data: 'shipment_method_name', name: 'shipment_method_name' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
@@ -64,7 +64,8 @@
 
         $('#savedata').click(function (e) {
             e.preventDefault();
-            $(this).html('Sending..');
+            var button = $(this);
+            sending(button);
             var url = $('#shipment_method_id').val() ? "{{ route('shipment_methods.update', ':id') }}".replace(':id', $('#shipment_method_id').val()) : "{{ route('shipment_methods.store') }}";
             var type = $('#shipment_method_id').val() ? "PUT" : "POST";
             $.ajax({
@@ -82,8 +83,7 @@
                 },
                 error: function(xhr) {
                     handleAjaxError(xhr);
-                    var button = type === 'POST' ? 'Save Shipment Method' : 'Update Shipment Method';
-                    $('#savedata').html(button);
+                    sending(button,true);
                 }
             });
         });

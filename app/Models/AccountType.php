@@ -27,17 +27,16 @@ class AccountType extends Model
     protected function accountTypeName(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => ucfirst($value),
+            get: fn(string $value) => ucfirst($value),
         );
     }
-    public static function getAccountTypeList($id)
-    {
-        $accountType = self::find($id);
-        return $accountType ? $accountType->account_type_name : '';
-    }
-     
     public  function payment_method()
     {
         return $this->hasMany(PaymentMethod::class);
+    }
+
+    function linked_account()
+    {
+        return $this->hasMany(LinkedAccount::class);
     }
 }

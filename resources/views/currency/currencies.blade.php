@@ -14,8 +14,8 @@
         <div class="card">
           <div class="row mb-2 p-3">
             <div class="col">
-              <table class=" datatables-basic table tables-basic border-top table-striped" id="currencyTable">
-                <thead>
+              <table class="datatables-basic table tables-basic border-top table-striped" id="currencyTable">
+                <thead class="table-header-bold">
                   <tr class="odd gradeX">
                     <th>Sl.No</th>
                     <th>Currency (Symbol)</th>

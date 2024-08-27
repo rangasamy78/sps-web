@@ -15,7 +15,7 @@
         <div class="row mb-2 p-2">
           <div class="col">
             <table class="datatables-basic table tables-basic border-top table-striped" id="taxExemptReasonTable">
-              <thead>
+              <thead class="table-header-bold">
                 <tr class="odd gradeX">
                   <th>Sl.No</th>
                   <th>Reason</th>

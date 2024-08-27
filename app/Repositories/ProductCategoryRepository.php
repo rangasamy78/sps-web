@@ -70,7 +70,6 @@ class ProductCategoryRepository implements CrudRepositoryInterface, DatatableRep
         return $query;
     }
 
-   
     public function dataTable(Request $request)
     {
         $draw            = $request->get('draw');
@@ -83,20 +82,20 @@ class ProductCategoryRepository implements CrudRepositoryInterface, DatatableRep
         $columnSortOrder = $orderArray[0]['dir'];
         $category        = $this->getProductCategoryList($request);
         $total           = $category->count();
+
         $totalFilter     = $this->getProductCategoryList($request);
         $totalFilter     = $totalFilter->count();
+
         $arrData         = $this->getProductCategoryList($request);
         $arrData         = $arrData->skip($start)->take($rowPerPage);
         $arrData         = $arrData->orderBy($columnName, $columnSortOrder);
         $arrData         = $arrData->get();
+
         $arrData->map(function ($value, $i) {
             $value->sno                   = ++$i;
             $value->product_category_name = $value->product_category_name ?? '';
             $value->subcategory           = $value->sub_categories->take(4)->pluck('product_sub_category_name')->implode(', ');
-            $value->action                = "<button type='button' data-id='" . $value->id . "'  class='p-2 m-0 btn btn-warning btn-sm showbtn' >
-            <i class='fa-regular fa-eye fa-fw'></i></button>&nbsp;&nbsp;<button type='button' data-id='" . $value->id . "'  name='btnEdit'
-             class='editbtn btn btn-primary btn-sm p-2 m-0'><i class='fas fa-pencil-alt'></i></button>&nbsp;&nbsp;
-             <button type='button' data-id='" . $value->id . "'  name='btnDelete' class='deletebtn btn btn-danger btn-sm p-2 m-0'><i class='fas fa-trash-alt'></i></button>";
+            $value->action               = "<div class='dropup'><button type='button' class='btn p-0 dropdown-toggle hide-arrow' data-bs-toggle='dropdown'><i class='bx bx-dots-vertical-rounded icon-color'></i></button><div class='dropdown-menu'><a class='dropdown-item showbtn text-warning' href='javascript:void(0);' data-id='" . $value->id . "' ><i class='bx bx-show me-1 icon-warning'></i> Show</a><a class='dropdown-item editbtn text-success' href='javascript:void(0);' data-id='" . $value->id . "' > <i class='bx bx-edit-alt me-1 icon-success'></i> Edit </a><a class='dropdown-item deletebtn text-danger' href='javascript:void(0);' data-id='" . $value->id . "' ><i class='bx bx-trash me-1 icon-danger'></i> Delete</a> </div> </div>";
         });
 
         $response = array(

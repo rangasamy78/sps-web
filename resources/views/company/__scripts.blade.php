@@ -18,7 +18,7 @@
             serverSide: true,
             searching: false,
             order: [
-                [0, 'desc']
+                [1, 'desc']
             ],
             ajax: {
                 url: "{{ route('companies.list') }}",
@@ -30,14 +30,14 @@
                     d.phone_search = $('#phoneFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{
-                        column: 0,
+                        column: 1,
                         dir: sort
                     }];
                 }
             },
             columns: [{
-                    data: 'id',
-                    name: 'id',
+                    data: null,
+                    name: 'serial',
                     orderable: false,
                     searchable: false
                 }, // Row index column
@@ -49,7 +49,7 @@
                     data: 'logo',
                     render: function(data, type, row) {
                         var imageUrl = '{{ asset("storage/app/public/") }}/' + data;
-                        return '<img src="' + imageUrl + '" width="50" class="img-thumbnail rounded-circle">';
+                        return '<img src="' + imageUrl + '" width="50px" height="50px" class="img-thumbnail rounded-circle">';
                     }
                 },
                 {
@@ -76,7 +76,7 @@
                 },
             ],
             rowCallback: function(row, data, index) {
-                $('td:eq(0)', row).html(table.page.info().start + index + 1); 
+                $('td:eq(0)', row).html(table.page.info().start + index + 1);
             },
             dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
             buttons: [{
@@ -115,7 +115,7 @@
         $("#addCompanyForm").submit(function(e) {
             e.preventDefault();
             const fd = new FormData(this);
-            $('#savedata').html('Sending..');
+            $('#savedata').html('Sending&nbsp;&nbsp;<span class="spinner-border spinner-border-sm"></span>');
             $.ajax({
                 url: "{{ route('companies.store') }}",
                 method: 'post',
@@ -128,6 +128,10 @@
                     if (response.status == "success") {
                         $('#addCompanyForm').trigger("reset");
                         $('#companyModel').modal('hide');
+                        let storagePath = `{{ asset('storage/app/public/') }}`;
+                        let defaultPath = `{{ asset('public/assets/img/branding/location-logo.png') }}`;
+                        let logoUrl = response.company_logo ? `${storagePath}/${response.company_logo}` : defaultPath;
+                        setImageSource('.app-brand .logo-container img', logoUrl, defaultPath);
                         showToast('success', response.msg);
                         table.draw();
                     }
@@ -177,7 +181,7 @@
             e.preventDefault();
             const form = new FormData(this);
             let companyId = $('#editCompanyForm #company_id').val();
-            $('#editCompanyForm #savedata').html('Sending..');
+            $('#editCompanyForm #savedata').html('Sending&nbsp;&nbsp;<span class="spinner-border spinner-border-sm"></span>');
             $.ajax({
                 url: `{{ route('companies.update', ':id') }}`.replace(':id', companyId), // Replace :id with actual company ID
                 method: 'post',
@@ -190,6 +194,10 @@
                     if (response.status == "success") {
                         $('#editCompanyForm').trigger("reset");
                         $('#editCompanyModel').modal('hide');
+                        let storagePath = `{{ asset('storage/app/public/') }}`;
+                        let defaultPath = `{{ asset('public/assets/img/branding/location-logo.png') }}`;
+                        let logoUrl = response.company_logo ? `${storagePath}/${response.company_logo}` : defaultPath;
+                        setImageSource('.app-brand .logo-container img', logoUrl, defaultPath);
                         table.draw();
                         showToast('success', response.msg);
                     }
@@ -282,13 +290,6 @@
             }
         });
 
-        setTimeout(() => {
-            $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right',
-                '20px');
-            $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left',
-                '30px');
-        }, 300);
-
         function resetFormFields() {
             $('.company_name_error').html('');
             $('.email_error').html('');
@@ -300,5 +301,12 @@
             $('.logo_error').html('');
             $('.is_bin_pre_defined_error').html('');
         }
+
+        function setImageSource(selector, imagePath, defaultPath) {
+            let imageUrl = imagePath ? `${imagePath}` : defaultPath;
+            $(selector).attr('src', imageUrl);
+        }
+
+
     });
 </script>

@@ -16,18 +16,17 @@
             responsive: true,
             processing: true,
             serverSide: true,
-            searching: false,
             order: [[0, 'desc']],
             ajax: {
                 url: "{{ route('supplier_types.list') }}",
                 data: function (d) {
                     d.supplier_type_name_search = $('#supplierTypeNameFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
-                    d.order = [{ column: 0, dir: sort }];
+                    d.order = [{ column: 1, dir: sort }];
                 }
             },
             columns: [
-                { data: 'id', name: 'id', orderable: false, searchable: false },
+                { data: null, name: 'serial', orderable: false, searchable: false },
                 { data: 'supplier_type_name', name: 'supplier_type_name' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
@@ -64,8 +63,8 @@
 
         $('#savedata').click(function (e) {
             e.preventDefault();
-            var button = $(this).html();
-            $(this).html('Sending..');
+            var button = $(this);
+            sending(button);
             var url = $('#supplier_type_id').val() ? "{{ route('supplier_types.update', ':id') }}".replace(':id', $('#supplier_type_id').val()) : "{{ route('supplier_types.store') }}";
             var type = $('#supplier_type_id').val() ? "PUT" : "POST";
             var formData = $('#supplierTypeForm').serializeArray();
@@ -85,7 +84,7 @@
                 },
                 error: function (xhr) {
                     handleAjaxError(xhr);
-                    $('#savedata').html(button);
+                    sending(button,true);
                 }
             });
         });
@@ -140,6 +139,5 @@
                 $('#showSupplierTypeForm #supplier_type_name').val(data.supplier_type_name);
             });
         });
-    
     });
 </script>

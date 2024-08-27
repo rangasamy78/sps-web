@@ -44,4 +44,14 @@ class LinkedAccount extends Model
     {
         return $this->hasMany(PaymentMethod::class);
     }
+
+    function linked_account_type()
+    {
+        return $this->belongsTo(AccountType::class, 'account_type');
+    }
+
+    function linked_account_sub_type()
+    {
+        return $this->belongsTo(AccountSubType::class, 'account_sub_type');
+    }
 }

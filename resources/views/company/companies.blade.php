@@ -12,7 +12,7 @@
             <div class="card-datatable table-responsive" style="overflow:hidden;width:96%;margin:auto;">
                 <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
                     <table class="table table-bordered data-table  table-striped" id="datatable" style="width: 100%">
-                        <thead>
+                        <thead class="table-header-bold">
                             <tr>
                                 <th>S.No</th>
                                 <th>Company Name</th>

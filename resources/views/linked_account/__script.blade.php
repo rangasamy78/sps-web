@@ -16,7 +16,7 @@
                 serverSide: true,
                 searching: false,
                 order: [
-                    [0, 'desc']
+                    [1, 'desc']
                 ],
                 ajax: {
                     url: "{{ route('linked_accounts.list') }}",
@@ -27,14 +27,14 @@
                         d.account_sub_type_search = $('#accountSubTypeFilter').val();
                         sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                         d.order = [{
-                            column: 0,
+                            column: 1,
                             dir: sort
                         }];
                     }
                 },
                 columns: [{
-                        data: 'id',
-                        name: 'id',
+                        data: null,
+                        name: 'serial',
                         orderable: false,
                         searchable: false
                     },
@@ -66,7 +66,7 @@
                 },
                 dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
                 buttons: [{
-                    text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add New Linked Account</span>',
+                    text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Create Linked Account</span>',
                     className: 'create-new btn btn-primary',
                     attr: {
                         'data-bs-toggle': 'modal',
@@ -75,6 +75,7 @@
                     action: function(e, dt, node, config) {
                         $('#savedata').html("Save Linked Account");
                         clearError();
+                        $('#account_type,#account_sub_type').val('').trigger('change');
                         $('#linkedAccountForm').trigger("reset");
                         $("#linkedAccountForm").find("tr:gt(1)").remove();
                         $('#modelHeading').html("Create New Linked Account");
@@ -98,8 +99,8 @@
 
             $('#savedata').click(function(e) {
                 e.preventDefault();
-                var button = $(this).html();
-                $(this).html('Sending..');
+                var button = $(this);
+                sending(button);
                 var url = $('#linked_account_id').val() ? "{{ route('linked_accounts.update', ':id') }}".replace(':id', $('#linked_account_id').val()) : "{{ route('linked_accounts.store') }}";
                 var type = $('#linked_account_id').val() ? "PUT" : "POST";
                 $.ajax({
@@ -116,9 +117,8 @@
                         }
                     },
                     error: function(xhr) {
-                        console.log(xhr);
                         handleAjaxError(xhr);
-                        $('#savedata').html(button);
+                        sending(button, true);
                     }
                 });
             });
@@ -133,8 +133,8 @@
                     $('#linked_account_id').val(data.id);
                     $('#account_code').val(data.account_code);
                     $('#account_name').val(data.account_name);
-                    $('#account_type').val(data.account_type);
-                    $('#account_sub_type').val(data.account_sub_type);
+                    $('#account_type').val(data.account_type).trigger('change');
+                    $('#account_sub_type').val(data.account_sub_type).trigger('change');;
                 });
             });
             $('body').on('click', '.deletebtn', function() {
@@ -143,6 +143,7 @@
                     deleteLinkedAccount(id);
                 });
             });
+
             function deleteLinkedAccount(id) {
                 var url = "{{ route('linked_accounts.destroy', ':id') }}".replace(':id', id);
                 $.ajax({
@@ -172,11 +173,5 @@
                     $('#showLinkedAccountForm #account_sub_type').val(data.account_sub_type);
                 });
             });
-            setTimeout(() => {
-                $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right',
-                    '20px');
-                $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left',
-                    '30px');
-            }, 300);
         });
     </script>

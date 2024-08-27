@@ -7,7 +7,8 @@ use App\Models\ReleaseReasonCode;
 use App\Interfaces\CrudRepositoryInterface;
 use App\Interfaces\DatatableRepositoryInterface;
 
-Class ReleaseReasonCodeRepository implements CrudRepositoryInterface, DatatableRepositoryInterface {
+class ReleaseReasonCodeRepository implements CrudRepositoryInterface, DatatableRepositoryInterface
+{
 
     public function findOrFail(int $id)
     {
@@ -55,8 +56,10 @@ Class ReleaseReasonCodeRepository implements CrudRepositoryInterface, DatatableR
         $columnSortOrder 	= 		$orderArray[0]['dir'];
         $releaseReasonCodes = $this->getReleaseReasonCodeList($request);
         $total = $releaseReasonCodes->count();
+
         $totalFilter = $this->getReleaseReasonCodeList($request);
         $totalFilter = $totalFilter->count();
+        
         $arrData = $this->getReleaseReasonCodeList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName,$columnSortOrder);
@@ -64,14 +67,14 @@ Class ReleaseReasonCodeRepository implements CrudRepositoryInterface, DatatableR
 
         $arrData->map(function ($value) {
             $value->release_reason_code = $value->release_reason_code ?? '';
-            $value->action = "<button type='button' data-id='".$value->id."' class='p-2 m-0 btn btn-warning btn-sm showbtn'><i class='fa-regular fa-eye fa-fw'></i></button>&nbsp;&nbsp;<button type='button' data-id='".$value->id."'  name='btnEdit' class='editbtn btn btn-primary btn-sm p-2 m-0'><i class='fas fa-pencil-alt'></i></button>&nbsp;&nbsp;<button type='button' data-id='".$value->id."'  name='btnDelete' class='deletebtn btn btn-danger btn-sm p-2 m-0'><i class='fas fa-trash-alt'></i></button>";
+            $value->action              = "<div class='dropup'><button type='button' class='btn p-0 dropdown-toggle hide-arrow' data-bs-toggle='dropdown'><i class='bx bx-dots-vertical-rounded icon-color'></i></button><div class='dropdown-menu'><a class='dropdown-item showbtn text-warning' href='javascript:void(0);' data-id='" . $value->id . "' ><i class='bx bx-show me-1 icon-warning'></i> Show</a><a class='dropdown-item editbtn text-success' href='javascript:void(0);' data-id='" . $value->id . "' > <i class='bx bx-edit-alt me-1 icon-success'></i> Edit </a><a class='dropdown-item deletebtn text-danger' href='javascript:void(0);' data-id='" . $value->id . "' ><i class='bx bx-trash me-1 icon-danger'></i> Delete</a> </div> </div>";
         });
 
         $response = array(
-            "draw" => intval($draw),
-            "recordsTotal" => $total,
+            "draw"            => intval($draw),
+            "recordsTotal"    => $total,
             "recordsFiltered" => $totalFilter,
-            "data" => $arrData,
+            "data"            => $arrData,
         );
 
         return response()->json($response);

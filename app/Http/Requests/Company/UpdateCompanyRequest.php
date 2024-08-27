@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Company;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateCompanyRequest extends FormRequest
@@ -23,16 +24,44 @@ class UpdateCompanyRequest extends FormRequest
     {
         $companyId = $this->route('id');
         return [
-            'company_name' => 'required|string|max:255|unique:companies,company_name,' . $companyId,
-            'email' => 'required|string|max:255|unique:companies,email,' . $companyId,
-            'address_line_1' => 'required|string|max:255',
-            'city' => 'required|string|max:255',
-            'state' => 'required|string|max:255',
-            'zip' => 'required|string|max:10',
-            'phone_1' => 'required|string|max:15',
-            'website' => 'nullable|url',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'is_bin_pre_defined' => 'required|boolean',
+            'company_name' => [
+                'required', 'string', 'max:255', Rule::unique('companies', 'company_name')->ignore($companyId),
+            ],
+            'email' => [
+                'required', 'string', 'max:255', Rule::unique('companies', 'email')->ignore($companyId),
+            ],
+            'address_line_1' => [
+                'required', 'string', 'max:255',
+            ],
+            'city' => [
+                'required', 'string', 'max:255',
+            ],
+            'state' => [
+                'required', 'string', 'max:255',
+            ],
+            'zip' => [
+                 'required', 'numeric', 'digits_between:5,10',
+            ],
+            'phone_1' => [
+                'required', 'numeric', 'digits:10',
+            ],
+            'website' => [
+                'nullable', 'url',
+            ],
+            'logo' => [
+                'nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048',
+            ],
+            'is_bin_pre_defined' => [
+                'required', 'boolean',
+            ],
         ];
     }
+
+    public function attributes()
+    {
+        return [
+            'phone_1' => 'phone'
+        ];
+    }
+
 }

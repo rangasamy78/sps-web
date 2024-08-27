@@ -9,36 +9,13 @@
     <div class="card">
         <div class="card-datatable table-responsive" style="overflow:hidden;width:96%;margin:auto;">
             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
-                <div class="card-header flex-column flex-md-row">
-                    <div class="head-label text-center">
-                        <h5 class="card-title mb-0"></h5>
-                    </div>
-                    <div class="dt-action-buttons text-end pt-3 pt-md-0">
-                        <div class="dt-buttons btn-group flex-wrap">
-                            <div class="btn-group">
-                            </div>
-                            <button class="btn btn-secondary create-new btn-primary" type="button"
-                                id="createFileType"><span><i class="bx bx-plus me-1"></i> <span
-                                        class="d-none d-lg-inline-block">Create File Types</span></span></button>
-                        </div>
-                        <div class="dt-buttons btn-group flex-wrap">
-                                <button class="btn btn-secondary create-new btn-primary" type="button"
-                                    id="importFileType"><span><i class="bx bx-plus me-1"></i> <span
-                                    class="d-none d-lg-inline-block">Import File Types</span></span>
-                                </button>
-                        </div>
-                        <button class="btn btn-secondary create-new btn-primary btn-sm" type="button" id="downloadFileType" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="top" data-bs-custom-class="tooltip-dark" title="File Type Template">
-                                <span><i class="bx bx-download bx-sm" ></i></span>
-                        </button>
-                    </div>
-                </div>
                 <table class="table table-bordered data-table  table-striped" id="datatable" style="width: 100%">
-                    <thead>
+                    <thead class="table-header-bold">
                         <tr>
-                            <th><b>S.No</b></th>
-                            <th><b>View In</b></th>
-                            <th><b>File Type</b></th>
-                            <th width="150px"><b>Action</b></th>
+                            <th>S.No</th>
+                            <th>View In</th>
+                            <th>File Type</th>
+                            <th width="150px">Action</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Models\SupplierType;
 use Illuminate\Http\Request;
+use App\Models\SupplierType;
 use App\Interfaces\CrudRepositoryInterface;
 use App\Interfaces\DatatableRepositoryInterface;
 
@@ -52,19 +52,20 @@ class SupplierTypeRepository implements CrudRepositoryInterface, DatatableReposi
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $searchArray     = $request->get('search');
         $columnIndex     = $orderArray[0]['column'];
         $columnName      = $columnNameArray[$columnIndex]['data'];
         $columnSortOrder = $orderArray[0]['dir'];
-        $searchValue     = $searchArray['value'];
         $supplierTypes   = $this->getSupplierTypeList($request);
         $total           = $supplierTypes->count();
+
         $totalFilter     = $this->getSupplierTypeList($request);
         $totalFilter     = $totalFilter->count();
+
         $arrData         = $this->getSupplierTypeList($request);
         $arrData         = $arrData->skip($start)->take($rowPerPage);
         $arrData         = $arrData->orderBy($columnName, $columnSortOrder);
         $arrData         = $arrData->get();
+
         $arrData->map(function ($value, $i) {
             $value->sno                = ++$i;
             $value->supplier_type_name = $value->supplier_type_name ?? '';

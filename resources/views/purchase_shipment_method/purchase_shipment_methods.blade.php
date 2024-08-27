@@ -17,8 +17,8 @@
       <div class="card">
         <div class="row mb-2 p-2">
           <div class="col">
-            <table class=" datatables-basic table tables-basic border-top table-striped" id="purchaseShipmentMethodTable">
-              <thead>
+            <table class="datatables-basic table tables-basic border-top table-striped" id="purchaseShipmentMethodTable">
+              <thead class="table-header-bold">
                 <tr class="odd gradeX">
                   <th>Sl.No</th>
                   <th>Shipment Method Name</th>

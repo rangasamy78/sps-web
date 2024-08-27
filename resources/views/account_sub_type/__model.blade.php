@@ -9,7 +9,7 @@
                 <form id="accountSubTypeForm" name="accountSubTypeForm" class="form-horizontal">
                     <input type="hidden" name="account_sub_type_id" id="account_sub_type_id">
                     <div class="form-group mb-2 p-1">
-                        <label for="sub_type_name" class="col-sm-6 control-label pb-1">Sub Type Name<sup style="color: red;font-size:1rem;"><b>*</b></sup></label>
+                        <label for="sub_type_name" class="form-label pb-1">Sub Type Name <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="sub_type_name" name="sub_type_name" placeholder="Enter Sub Type Name" value="">
                         </div>
@@ -34,7 +34,7 @@
             <div class="modal-body">
                 <form id="showAccountSubTypeForm" name="showAccountSubTypeForm" class="form-horizontal">
                     <div class="form-group mb-2 p-1">
-                        <label for="sub_type_name" class="col-sm-6 control-label pb-1">Sub Type Name</label>
+                        <label for="sub_type_name" class="form-label pb-1">Sub Type Name</label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" disabled id="sub_type_name" name="sub_type_name" >
                         </div>

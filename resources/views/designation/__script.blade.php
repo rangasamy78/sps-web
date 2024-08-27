@@ -7,16 +7,16 @@
             }
         });
         $('#departmentFilter, #designationFilter').on('keyup change', function(e) {
-                e.preventDefault();
-                table.draw();
-            });
+            e.preventDefault();
+            table.draw();
+        });
         var table = $('#createDesignation').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
             searching: false,
             order: [
-                [0, 'desc']
+                [1, 'desc']
             ],
             ajax: {
                 url: "{{ route('designations.list') }}",
@@ -25,14 +25,14 @@
                     d.designation_search = $('#designationFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{
-                        column: 0,
+                        column: 1,
                         dir: sort
                     }];
                 }
             },
             columns: [{
-                    data: 'id',
-                    name: 'id',
+                    data: null,
+                    name: 'serial',
                     orderable: false,
                     searchable: false
                 },
@@ -49,7 +49,7 @@
                     name: 'action',
                     orderable: false,
                     searchable: false,
-                    
+
                 }
             ],
             rowCallback: function(row, data, index) {
@@ -57,10 +57,8 @@
             },
 
             dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-            // displayLength: 7,
-            // lengthMenu: [7, 10, 25, 50, 75, 100],
             buttons: [{
-                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add New Designation</span>',
+                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Create Designation</span>',
                 className: 'create-new btn btn-primary',
                 attr: {
                     'data-bs-toggle': 'modal',
@@ -71,6 +69,7 @@
                     // Custom action for Add New Record button
                     $('#saveDesignation').html("Save Designation");
                     $('#designation_id').val('');
+                    $('#last_row').val(0);
                     $('.department_error').text('');
                     $('.designation_error').text('');
                     $('#designationForm').trigger("reset");
@@ -79,31 +78,23 @@
                     $('#designationModel').modal('show');
                 }
             }],
-
-
         });
-
-        setTimeout(() => {
-            $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right',
-                '20px');
-            $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left',
-                '30px');
-        }, 300);
 
         $('#saveDesignation').click(function(e) {
             if ($("#designation_id").val() == null || $("#designation_id").val() == "") {
-                storeDesignation();
+                storeDesignation(this);
             }
         });
         $('#updateDesignation').click(function(e) {
             if ($("#designation_id").val() != null || $("#designation_id").val() != "") {
 
-                updateDesignation();
+                updateDesignation(this);
             }
         });
 
-        function storeDesignation() {
-            $(this).html('Sending..');
+        function storeDesignation($this) {
+            var button = $($this);
+            sending(button);
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
@@ -146,12 +137,15 @@
                             des_error.html('');
                         }
                     });
+                    sending(button, true);
                 }
 
             });
         }
 
-        function updateDesignation() {
+        function updateDesignation($this) {
+            var button = $($this);
+            sending(button);
             let url = $('meta[name=app-url]').attr("content") + "/designations/" + $("#designation_id").val();
             $.ajax({
                 headers: {
@@ -179,7 +173,7 @@
                             $('span.' + prefix + '_error').text(val[0]);
                         });
                     }
-                    $('#updateDesignation').html('Update Designation');
+                    sending(button, true);
                 }
             });
         }
@@ -188,6 +182,7 @@
             $.get("{{ route('designations.index') }}" + '/' + id + '/edit', function(data) {
                 $('.designation_name_error').text('');
                 $('.department_id_error').text('');
+                $('#updateDesignation').html("Update Designation");
                 $('#modelUpdateHeading').html("Update Designation");
                 $('#designationUpdateModel').modal('show');
                 $('#designation_id').val(data.id);
@@ -246,36 +241,39 @@
 
             // Add or Delete Row function
             function updateDesignationList(currentRow, cType) {
-                if (cType === 'A') {
-                    var count = parseInt($('#last_row').val(), 10);
-                    count = count + 1;
+                var count = parseInt($('#last_row').val(), 10);
+                count = count + 1;
+                if (cType === 'A' && count <= 9) {
                     var options = '<option value="">Select Department</option>';
                     departments.forEach(function(department) {
                         options += `<option value="${department.id}">${department.department_name}</option>`;
                     });
                     var html = `
-                <tr id="row_${count}">
-                    <td class="slno">${count + 1}</td>
-                    <td>
-                        <select class="form-select form-select-sm department" name="department_id_[]" id="department_id_${count}">
-                            ${options}
-                        </select>
-                        <span class="text-danger error-text department_error"></span>
-                    </td>
-                    <td>
-                        <input type="text" class="form-control form-control-sm designation" name="designation_name_[]" id="designation_name_${count}">
-                        <span class="text-danger error-text designation_error"></span>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-sm rounded-pill btn-icon btn-label-danger deleteRow" data-row="${count}">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </td>
-                </tr>`;
+                        <tr id="row_${count}">
+                            <td class="slno">${count + 1}</td>
+                            <td>
+                                <select class="form-select form-select-sm department" name="department_id_[]" id="department_id_${count}">
+                                    ${options}
+                                </select>
+                                <span class="text-danger error-text department_error"></span>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control form-control-sm designation" name="designation_name_[]" id="designation_name_${count}">
+                                <span class="text-danger error-text designation_error"></span>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-sm rounded-pill btn-icon btn-label-danger deleteRow" data-row="${count}">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>`;
 
                     $('#last_row').val(count);
                     $('#designationTable tbody').append(html);
                     updateRowIds(); // Update the row numbers after adding
+                }
+                else if(cType === 'A' && count > 9){
+                    alert('Maximum 10 rows allowed.');
                 }
 
                 if (cType === 'D') {
@@ -295,7 +293,6 @@
                 $('#designationTable tbody tr').each(function(index) {
                     if (!$(this).hasClass('default-row')) {
                         var newRowId = 'row_' + nCtr;
-                        // alert(newRowId);
                         $(this).attr('id', newRowId); // Update the row ID
                         $(this).find('.deleteRow').data('row', nCtr); // Update the delete button's data-row attribute
                         $(this).find('td:eq(0)').html(nCtr + 1); // Update the serial number (start from 2 for non-default rows)
@@ -312,7 +309,6 @@
                 var rowId = $(this).data('row');
                 updateDesignationList(rowId, 'D'); // Call addRow function to delete the specific row
             });
-        });
-
+        });      
     });
 </script>

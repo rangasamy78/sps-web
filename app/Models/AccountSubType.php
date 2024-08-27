@@ -27,12 +27,12 @@ class AccountSubType extends Model
     protected function subTypeName(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => ucfirst($value),
+            get: fn(string $value) => ucfirst($value),
         );
     }
-    public static function getAccountSubTypeList($id)
+    
+    function linked_account()
     {
-        $subType = self::find($id);
-        return $subType ? $subType->sub_type_name : '';
+        return $this->hasMany(LinkedAccount::class, 'account_sub_type');
     }
 }

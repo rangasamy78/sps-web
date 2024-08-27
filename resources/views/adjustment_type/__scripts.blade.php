@@ -23,11 +23,11 @@
                 data: function (d) {
                     d.adjustment_type_search = $('#adjustmentTypeFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
-                    d.order = [{ column: 0, dir: sort }];
+                    d.order = [{ column: 1, dir: sort }];
                 }
             },
             columns: [
-                { data: 'id', name: 'id', orderable: false, searchable: false },
+                { data: null, name: 'serial', orderable: false, searchable: false },
                 { data: 'adjustment_type', name: 'adjustment_type' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
@@ -63,8 +63,8 @@
         })
         $('#savedata').click(function (e) {
             e.preventDefault();
-            var button = $(this).html();
-            $(this).html('Sending..');
+            var button = $(this);
+            sending(button);
             var url = $('#adjustment_type_id').val() ? "{{ route('adjustment_types.update', ':id') }}".replace(':id', $('#adjustment_type_id').val()) : "{{ route('adjustment_types.store') }}";
             var type = $('#adjustment_type_id').val() ? "PUT" : "POST";
             $.ajax({
@@ -82,7 +82,7 @@
                 },
                 error: function (xhr) {
                     handleAjaxError(xhr);
-                    $('#savedata').html(button);
+                    sending(button,true);
                 }
             });
         });
@@ -132,7 +132,5 @@
 
             });
         });
-       
     });
-
 </script>

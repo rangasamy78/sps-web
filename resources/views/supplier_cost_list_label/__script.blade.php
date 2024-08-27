@@ -17,7 +17,7 @@
       serverSide: true,
       searching: false,
       order: [
-        [0, 'desc']
+        [1, 'desc']
       ],
       ajax: {
         url: "{{ route('supplier_cost_list_labels.list') }}",
@@ -27,15 +27,16 @@
           d.cost_label_search = $('#costLabelFilter').val();
           sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
           d.order = [{
-            column: 0,
+            column: 1,
             dir: sort
           }];
         }
       },
       columns: [{
-          data: 'id',
-          name: 'id',
-
+          data: null,
+          name: 'serial',
+          orderable: false, 
+          searchable: false,
         }, {
           data: 'cost_level',
           name: 'cost_level'
@@ -85,7 +86,8 @@
 
     $('#savedata').click(function(e) {
       e.preventDefault();
-      $(this).html('Sending..');
+      var button = $(this);
+      sending(button);
       var url = $('#supplier_cost_list_label_id').val() ? "{{ route('supplier_cost_list_labels.update', ':id') }}".replace(':id', $('#supplier_cost_list_label_id').val()) : "{{ route('supplier_cost_list_labels.store') }}";
       var type = $('#supplier_cost_list_label_id').val() ? "PUT" : "POST";
       $.ajax({
@@ -103,8 +105,7 @@
         },
         error: function(xhr) {
           handleAjaxError(xhr);
-          var button = type === 'POST' ? 'Save Supplier Cost List Label' : 'Update Supplier Cost List Label';
-          $('#savedata').html(button);
+          sending(button, true);
         }
       });
     });
@@ -156,6 +157,7 @@
     }
 
     $('body').on('click', '.showbtn', function() {
+      resetFormFields();
       var id = $(this).data('id');
       $.get("{{ route('supplier_cost_list_labels.index') }}" + '/' + id, function(data) {
         $('#showSupplierCostListLabelModal').modal('show');
@@ -165,15 +167,10 @@
       });
     });
 
-    setTimeout(() => {
-      $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
-      $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');
-    }, 300);
-
-    function resetFormFields(){
-        $('.cost_level_error').html('');
-        $('.cost_code_error').html('');
-        $('.cost_label_error').html('');
+    function resetFormFields() {
+      $('.cost_level_error').html('');
+      $('.cost_code_error').html('');
+      $('.cost_label_error').html('');
     }
 
   });

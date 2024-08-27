@@ -16,14 +16,14 @@
         <div class="card-datatable table-responsive" style="overflow:hidden;width:96%;margin:auto;">
             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
                 <table class="table table-bordered data-table  table-striped" id="datatable" style="width: 100%">
-                    <thead>
+                    <thead class="table-header-bold">
                         <tr>
-                            <th><b>S.No</b></th>
-                            <th><b>Title</b></th>
-                            <th><b>Select Type Category Name</b></th>
-                            <th><b>Select Type Sub Category Name </b></th>
-                            <th><b>Policy</b></th>
-                            <th width="150px"><b>Action</b></th>
+                            <th>S.No</b></th>
+                            <th>Title</b></th>
+                            <th>Select Type Category Name</b></th>
+                            <th>Select Type Sub Category Name </b></th>
+                            <th>Policy</b></th>
+                            <th width="150px">Action</b></th>
                         </tr>
                     </thead>
                     <tbody>

@@ -67,7 +67,6 @@ function sending(button, reset = false) {
         return button.html(button.data('original-text'));
     } else {
         if (!button.data('original-text')) {
-            console.log(button.data('original-text'));
             button.data('original-text', button.html());
         }
         return button.html('Sending&nbsp;&nbsp;<span class="spinner-border spinner-border-sm"></span>');
@@ -82,7 +81,7 @@ var toastMixin = Swal.mixin({
     animation: false,
     position: 'top-right',
     showConfirmButton: false,
-    timer: 100000,
+    timer: 3000,
     timerProgressBar: true,
     customClass: {
         container: 'swal2-toast-colored',
@@ -130,3 +129,12 @@ function handleAjaxResponse(response, table = null) {
         showToast('error', response.msg);
     }
 }
+// Example usage
+// showToast('success', 'Operation Successful');
+
+setTimeout(() => {
+    $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right',
+        '20px');
+    $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left',
+        '30px');
+}, 300);

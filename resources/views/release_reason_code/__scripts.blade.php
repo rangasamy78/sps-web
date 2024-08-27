@@ -23,11 +23,11 @@
                 data: function (d) {
                     d.reason_code_search = $('#reasonCodeFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
-                    d.order = [{ column: 0, dir: sort }];
+                    d.order = [{ column: 1, dir: sort }];
                 }
             },
             columns: [
-                { data: 'id', name: 'id', orderable: false, searchable: false },
+                { data: null, name: 'serial', orderable: false, searchable: false },
                 { data: 'release_reason_code', name: 'release_reason_code' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
@@ -63,8 +63,8 @@
         })
         $('#savedata').click(function (e) {
             e.preventDefault();
-            var button = $(this).html();
-            $(this).html('Sending..');
+            var button = $(this);
+            sending(button);
             var url = $('#release_reason_code_id').val() ? "{{ route('release_reason_codes.update', ':id') }}".replace(':id', $('#release_reason_code_id').val()) : "{{ route('release_reason_codes.store') }}";
             var type = $('#release_reason_code_id').val() ? "PUT" : "POST";
             $.ajax({
@@ -82,7 +82,7 @@
                 },
                 error: function (xhr) {
                     handleAjaxError(xhr);
-                    $('#savedata').html(button);
+                    sending(button,true);
                 }
             });
         });
@@ -137,5 +137,4 @@
             });
         });
     });
-
 </script>

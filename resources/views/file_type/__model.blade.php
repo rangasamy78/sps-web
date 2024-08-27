@@ -10,13 +10,12 @@
                     <input type="hidden" name="file_type_id" id="file_type_id">
                     <!-- View In -->
                     <div class="form-group">
-                        <label for="view_in" class="col-sm-2 control-label">View In <sup
-                                style="color: red;font-size:1rem;"><b>*</b></sup></label>
+                        <label for="view_in" class="pb-1 form-label">View In <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
-                            <select id="view_in" class="form-select" name="view_in">
+                            <select id="view_in" class="form-select select2" name="view_in" data-allow-clear="true">
                                 <option value="">--Select--</option>
                                 @foreach($viewInOptions as $option)
-                                    <option value="{{ $option }}">{{ $option }}</option>
+                                <option value="{{ $option }}">{{ $option }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -24,7 +23,7 @@
                     </div>
                     <!-- File Type -->
                     <div class="form-group mt-3">
-                        <label class="col-sm-2 control-label">File Type <sup
+                        <label class="pb-1 form-label">File Type <sup
                                 style="color: red;font-size:1rem;"><b>*</b></sup></label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="file_type" name="file_type"
@@ -34,43 +33,31 @@
                     </div>
                     <!-- Checkboxes for Options -->
                     <div class="form-group mt-3">
-                        <label class="col-sm-2 control-label">Transactions </label>
+                        <label class="pb-1 form-label">Transactions </label>
                         <div class="col-sm-10">
                             <div class="row">
                                 <div class="col-sm-3">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="file_type_opportunity"
-                                            name="file_type_opportunity" value="0">
-                                        <label class="form-check-label" for="file_type_opportunity">
-                                            Opportunity
-                                        </label>
+                                        <input class="form-check-input" type="checkbox" id="file_type_opportunity" name="file_type_opportunity" value="0">
+                                        <label class="form-check-label" for="file_type_opportunity">Opportunity</label>
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="file_type_quote"
-                                            name="file_type_quote" value="0">
-                                        <label class="form-check-label" for="file_type_quote">
-                                            Quote
-                                        </label>
+                                        <input class="form-check-input" type="checkbox" id="file_type_quote" name="file_type_quote" value="0">
+                                        <label class="form-check-label" for="file_type_quote">Quote</label>
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="file_type_saleorder"
-                                            name="file_type_saleorder" value="0">
-                                        <label class="form-check-label" for="file_type_saleorder">
-                                            SaleOrder
-                                        </label>
+                                        <input class="form-check-input" type="checkbox" id="file_type_saleorder" name="file_type_saleorder" value="0">
+                                        <label class="form-check-label" for="file_type_saleorder"> SaleOrder</label>
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="file_type_invoice"
-                                            name="file_type_invoice" value="0">
-                                        <label class="form-check-label" for="file_type_invoice">
-                                            Invoice
-                                        </label>
+                                        <input class="form-check-input" type="checkbox" id="file_type_invoice" name="file_type_invoice" value="0">
+                                        <label class="form-check-label" for="file_type_invoice">Invoice</label>
                                     </div>
                                 </div>
                             </div>
@@ -79,8 +66,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary" id="savedata" value="create">Save File Type</button>
+                <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -96,48 +83,43 @@
             <div class="modal-body">
                 <form id="fileTypeShowForm" name="fileTypeShowForm" class="form-horizontal">
                     <div class="form-group">
-                        <label for="View In" class="col-sm-2 control-label">View In</label>
+                        <label for="View In" class="col-sm-2 form-label">View In</label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="view_in" name="view_in" disabled value="">
                         </div>
                     </div>
                     <div class="form-group mt-3">
-                        <label class="col-sm-2 control-label">File Types</label>
+                        <label class="col-sm-2 form-label">File Types</label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="file_type" name="file_type" disabled value="">
                         </div>
                     </div>
                     <div class="form-group mt-3">
                         <div class="form-group mt-3">
-                            <label class="col-sm-2 control-label">Transactions</label>
+                            <label class="col-sm-2 form-label">Transactions</label>
                             <div class="col-sm-10">
                                 <div class="row">
                                     <div class="col-sm-3">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="file_type_opportunity"
-                                                name="file_type_opportunity" value="0">
-                                            <label class="form-check-label"
-                                                for="file_type_opportunity">Opportunity</label>
+                                            <input class="form-check-input" type="checkbox" id="file_type_opportunity" name="file_type_opportunity" value="0">
+                                            <label class="form-check-label" for="file_type_opportunity">Opportunity</label>
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="file_type_quote"
-                                                name="file_type_quote" value="0">
+                                            <input class="form-check-input" type="checkbox" id="file_type_quote" name="file_type_quote" value="0">
                                             <label class="form-check-label" for="file_type_quote">Quote</label>
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="file_type_saleorder"
-                                                name="file_type_saleorder" value="0">
+                                            <input class="form-check-input" type="checkbox" id="file_type_saleorder" name="file_type_saleorder" value="0">
                                             <label class="form-check-label" for="file_type_saleorder">SaleOrder</label>
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="file_type_invoice"
-                                                name="file_type_invoice" value="0">
+                                            <input class="form-check-input" type="checkbox" id="file_type_invoice" name="file_type_invoice" value="0">
                                             <label class="form-check-label" for="file_type_invoice">Invoice</label>
                                         </div>
                                     </div>

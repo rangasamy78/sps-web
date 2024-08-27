@@ -17,18 +17,18 @@
             processing: true,
             serverSide: true,
             searching: false,
-            order: [[0, 'desc']],
+            order: [[1, 'desc']],
             ajax: {
                 url: "{{ route('product_thicknesses.list') }}",
                 data: function (d) {
                     d.product_thickness_name_search = $('#productThicknessNameFilter').val();
                     d.product_thickness_unit_search = $('#productThicknessUnitFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
-                    d.order = [{ column: 0, dir: sort }];
+                    d.order = [{ column: 1, dir: sort }];
                 }
             },
             columns: [
-                { data: 'id', name: 'id', orderable: false, searchable: false },
+                { data: null, name: 'serial', orderable: false, searchable: false },
                 { data: 'product_thickness_name', name: 'product_thickness_name' },
                 { data: 'product_thickness_unit', name: 'product_thickness_unit' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
@@ -61,8 +61,8 @@
         })
         $('#savedata').click(function (e) {
             e.preventDefault();
-            var button = $(this).html();
-            $(this).html('Sending..');
+            var button = $(this);
+            sending(button);
             var url = $('#product_thickness_id').val() ? "{{ route('product_thicknesses.update', ':id') }}".replace(':id', $('#product_thickness_id').val()) : "{{ route('product_thicknesses.store') }}";
             var type = $('#product_thickness_id').val() ? "PUT" : "POST";
             $.ajax({
@@ -80,7 +80,7 @@
                 },
                 error: function (xhr) {
                     handleAjaxError(xhr);
-                    $('#savedata').html(button);
+                    sending(button,true);
                 }
             });
         });
@@ -141,11 +141,5 @@
         $('.product_thickness_name_error').html('');
         $('.product_thickness_unit_error').html('');
     }
-
-    setTimeout(() => {
-            $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
-            $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');
-        }, 300);
-
     });
 </script>

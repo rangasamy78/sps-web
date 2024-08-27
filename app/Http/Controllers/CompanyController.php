@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Exception;
+use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Repositories\CompanyRepository;
@@ -30,8 +31,8 @@ class CompanyController extends Controller
     public function store(CreateCompanyRequest $request)
     {
         try {
-            $this->companyRepository->store($request->only('company_name','email','address_line_1','address_line_2','city','state','zip','phone_1','phone_2','website','logo','is_bin_pre_defined'));
-            return response()->json(['status' => 'success', 'msg' => 'Company saved successfully.']);
+            $company = $this->companyRepository->store($request->only('company_name','email','address_line_1','address_line_2','city','state','zip','phone_1','phone_2','website','logo','is_bin_pre_defined'));
+            return response()->json(['status' => 'success', 'msg' => 'Company saved successfully.', 'company_logo' => isset($company) ? $company->logo : '']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error saving company: ' . $e->getMessage());
@@ -73,8 +74,8 @@ class CompanyController extends Controller
     public function update(UpdateCompanyRequest $request, $id)
     {
         try {
-            $this->companyRepository->update($request->only('company_name','email','address_line_1','address_line_2','city','state','zip','phone_1','phone_2','website','logo','is_bin_pre_defined'), $id); // Use validated data
-            return response()->json(['status' => 'success', 'msg' => 'Company updated successfully.']);
+            $company = $this->companyRepository->update($request->only('company_name','email','address_line_1','address_line_2','city','state','zip','phone_1','phone_2','website','logo','is_bin_pre_defined'), $id); // Use validated data
+            return response()->json(['status' => 'success', 'msg' => 'Company updated successfully.', 'company_logo' => isset($company) ? $company->logo : '' ]);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error updating company: ' . $e->getMessage());
@@ -109,4 +110,9 @@ class CompanyController extends Controller
         return $this->companyRepository->dataTable($request);
     }
 
+    public function getCompanyCount()
+    {
+        $count = Company::query()->count();
+        return response()->json(['count' => $count]);
+    }
 }

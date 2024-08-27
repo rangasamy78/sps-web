@@ -1,5 +1,5 @@
 <div class="modal fade" id="unitMeasureModel" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modelHeading"></h5>
@@ -10,9 +10,9 @@
                     <input type="hidden" name="unit_measure_id" id="unit_measure_id">
                     <!-- Unit Measure Entity -->
                     <div class="form-group">
-                        <label for="unit_measure_entity" class="col-sm-3 control-label">Unit Measure Entity <sup style="color: red;"><strong>*</strong></sup></label>
+                        <label for="unit_measure_entity" class="pb-1 form-label">Unit Measure Entity <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
-                            <select id="unit_measure_entity" class="form-select" name="unit_measure_entity">
+                            <select id="unit_measure_entity" class="form-select select2" name="unit_measure_entity" data-allow-clear="true">
                                 <option value="">--Select--</option>
                                 @foreach($unitMeasureOptions as $key => $value)
                                     <option value="{{ $key }}">{{ $value }}</option>
@@ -23,7 +23,7 @@
                     </div>
                     <!-- Unit Measure -->
                     <div class="form-group mt-3">
-                        <label class="col-sm-3 control-label">Unit Measure Name <sup style="color: red;"><strong>*</strong></sup></label>
+                        <label class="pb-1 form-label">Unit Measure Name <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="unit_measure_name" name="unit_measure_name"
                                 placeholder="Enter Unit Measure Name" value="">
@@ -33,8 +33,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary" id="savedata" value="create">Save Unit Measure</button>
+                <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -49,7 +49,7 @@
             <div class="modal-body">
                 <form id="showUnitMeasureForm" name="showUnitMeasureForm" class="form-horizontal">
                     <div class="form-group">
-                        <label for="Unit Measure Entity" class="col-sm-4 control-label">Unit Measure Entity</label>
+                        <label for="Unit Measure Entity" class="col-sm-4 form-label">Unit Measure Entity</label>
                         <div class="col-sm-12">
                             <select id="unit_measure_entity" class="form-select" name="unit_measure_entity" disabled>
                                 <option value="">--Select--</option>
@@ -60,7 +60,7 @@
                         </div>
                     </div>
                     <div class="form-group mt-3">
-                        <label class="col-sm-4 control-label">Unit Measure Name</label>
+                        <label class="col-sm-4 form-label">Unit Measure Name</label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="unit_measure_name" name="unit_measure_name" disabled value="">
                         </div>

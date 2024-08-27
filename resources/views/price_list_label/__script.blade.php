@@ -18,7 +18,7 @@
             serverSide: true,
             searching: false,
             order: [
-                [0, 'desc']
+                [1, 'desc']
             ],
             ajax: {
                 url: "{{ route('price_list_labels.list') }}",
@@ -31,14 +31,14 @@
                     d.sales_person_commission_search = $('#salesPersonCommissionFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{
-                        column: 0,
+                        column: 1,
                         dir: sort
                     }];
                 }
             },
             columns: [{
-                    data: 'id',
-                    name: 'id',
+                    data: null,
+                    name: 'serial',
                     orderable: false,
                     searchable: false
                 },
@@ -98,12 +98,6 @@
             }],
         });
 
-        setTimeout(() => {
-            $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right',
-                '20px');
-            $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left',
-                '30px');
-        }, 300);
         $('#priceListLabelForm input').on('keyup change', function() {
             var inputName = $(this).attr('name');
             $('.' + inputName + '_error').html('');
@@ -111,8 +105,8 @@
 
         $('#savedata').click(function(e) {
             e.preventDefault();
-            var button = $(this).html();
-            $(this).html('Sending..');
+            var button = $(this);
+            sending(button);
             var url = $('#price_list_label_id').val() ? "{{ route('price_list_labels.update', ':id') }}".replace(':id', $('#price_list_label_id').val()) : "{{ route('price_list_labels.store') }}";
             var type = $('#price_list_label_id').val() ? "PUT" : "POST";
             $.ajax({
@@ -134,7 +128,7 @@
                 },
                 error: function(xhr) {
                     handleAjaxError(xhr);
-                    $('#savedata').html(button);
+                    sending(button,true);
                 }
             });
         });

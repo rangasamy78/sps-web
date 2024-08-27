@@ -23,11 +23,11 @@
                 data: function (d) {
                     d.probability_to_close_search = $('#probabilityToCloseFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
-                    d.order = [{ column: 0, dir: sort }];
+                    d.order = [{ column: 1, dir: sort }];
                 }
             },
             columns: [
-                { data: 'id', name: 'id', orderable: false, searchable: false },
+                { data: null, name: 'serial', orderable: false, searchable: false },
                 { data: 'probability_to_close', name: 'probability_to_close' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
@@ -64,8 +64,8 @@
         })
         $('#savedata').click(function (e) {
             e.preventDefault();
-            var button = $(this).html();
-            $(this).html('Sending..');
+            var button = $(this);
+            sending(button);
             var url = $('#probability_to_close_id').val() ? "{{ route('probability_to_closes.update', ':id') }}".replace(':id', $('#probability_to_close_id').val()) : "{{ route('probability_to_closes.store') }}";
             var type = $('#probability_to_close_id').val() ? "PUT" : "POST";
             $.ajax({
@@ -83,7 +83,7 @@
                 },
                 error: function (xhr) {
                     handleAjaxError(xhr);
-                    $('#savedata').html(button);
+                    sending(button,true);
                 }
             });
         });

@@ -23,11 +23,11 @@
                 data: function (d) {
                     d.return_reason_code_search = $('#returnReasonCodeFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
-                    d.order = [{ column: 0, dir: sort }];
+                    d.order = [{ column: 1, dir: sort }];
                 }
             },
             columns: [
-                { data: 'id', name: 'id', orderable: false, searchable: false },
+                { data: null, name: 'serial', orderable: false, searchable: false },
                 { data: 'return_code', name: 'return_code' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
@@ -63,8 +63,8 @@
         });
         $('#savedata').click(function (e) {
             e.preventDefault();
-            var button = $(this).html();
-            $(this).html('Sending..');
+            var button = $(this);
+            sending(button);
             var url = $('#return_code_id').val() ? "{{ route('return_reason_codes.update', ':id') }}".replace(':id', $('#return_code_id').val()) : "{{ route('return_reason_codes.store') }}";
             var type = $('#return_code_id').val() ? "PUT" : "POST";
             $.ajax({
@@ -82,7 +82,7 @@
                 },
                 error: function (xhr) {
                     handleAjaxError(xhr);
-                    $('#savedata').html(button);
+                    sending(button,true);
                 }
             });
         });
@@ -137,5 +137,4 @@
             });
         });
     });
-
 </script>

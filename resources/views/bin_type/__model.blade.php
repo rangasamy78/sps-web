@@ -9,7 +9,7 @@
                 <form id="binTypeForm"  class="form-horizontal">
                     <input type="hidden" name="bintype_id" id="bintype_id">
                     <div class="form-group">
-                        <label for="name" class="col-sm-2 control-label">Bin Type <sup style="color: red;font-size:1rem;"><b>*</b></sup></label>
+                        <label for="name" class="form-label pb-1">Bin Type <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="bin_type" name="bin_type" placeholder="Enter Bin Type" value="">
                         </div>
@@ -28,13 +28,13 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="show-binType-modal-label">Show Bin</h5>
+                <h5 class="modal-title" id="show-binType-modal-label">Show Bin Type</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="binTypeShowForm" name="binTypeShowForm" class="form-horizontal">
                     <div class="form-group">
-                        <label for="name" class="col-sm-2 control-label">Bin Type</label>
+                        <label for="name" class="form-label pb-1">Bin Type</label>
                         <div class="col-sm-12">
                             <input type="text" disabled class="form-control" id="bin_type" name="bin_type" value="">
                         </div>

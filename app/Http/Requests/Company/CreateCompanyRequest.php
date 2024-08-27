@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Company;
 
+use App\Rules\CompanyLimit;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateCompanyRequest extends FormRequest
@@ -22,16 +23,23 @@ class CreateCompanyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'company_name' => 'required|string|max:255|unique:companies,company_name',
-            'email' => 'required|string|max:255|unique:companies,email',
-            'address_line_1' => 'required|string|max:255',
-            'city' => 'required|string|max:255',
-            'state' => 'required|string|max:255',
-            'zip' => 'required|string|max:10',
-            'phone_1' => 'required|string|max:15',
-            'website' => 'nullable|url',
-            'logo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'is_bin_pre_defined' => 'required|boolean'
+            'company_name' => ['required', 'string', 'max:255', 'unique:companies,company_name' , new CompanyLimit],
+            'email' => ['required', 'string', 'max:255', 'unique:companies,email'],
+            'address_line_1' => ['required', 'string', 'max:255'],
+            'city' => ['required', 'string', 'max:255'],
+            'state' => ['required', 'max:255'],
+            'zip' => ['required', 'numeric', 'digits_between:5,10'],
+            'phone_1' => ['required', 'numeric', 'digits:10'],
+            'website' => ['nullable', 'url'],
+            'logo' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+            'is_bin_pre_defined' => ['required', 'boolean'],
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'phone_1' => 'phone'
         ];
     }
 }

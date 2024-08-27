@@ -8,10 +8,10 @@
             <input type="text" class="form-control dt-input dt-full-name" id="eventTypeCodeFilter" placeholder="Event Type Code">
         </div>
         <div class="col-12 col-sm-6 col-lg-3">
-            <select id="eventCategoryFilter" class="form-select" name="eventCategoryFilter">
+            <select id="eventCategoryFilter" class="form-select select2" name="eventCategoryFilter" data-allow-clear="true">
                 <option value="">--Select Event Category--</option>
                 @foreach($eventCategories as $key => $eventCategory)
-                    <option value="{{ $key }}">{{ $eventCategory }}</option>
+                <option value="{{ $key }}">{{ $eventCategory }}</option>
                 @endforeach
             </select>
         </div>

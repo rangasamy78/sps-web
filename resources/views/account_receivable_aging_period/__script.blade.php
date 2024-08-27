@@ -7,7 +7,9 @@
         });
         $('#savedata').click(function(e) {
             e.preventDefault();
-            if (validateForm()) {
+            if (validateForm(button)) {
+                var button = $(this);
+                sending(button);
                 $.ajax({
                     url: "{{ route('account_receivable_aging_periods.save') }}",
                     type: "POST",
@@ -20,6 +22,7 @@
                     },
                     error: function(xhr) {
                         handleAjaxError(xhr);
+                        sending(button, true);
                     }
                 });
             }
@@ -45,10 +48,10 @@
         console.log(inputs);
         inputs.forEach(function(input) {
             if (!input.value) {
-                input.style.border = '1px solid red';
-                isValid = false;
-            } else {
+                // input.style.border = '1px solid red';
                 input.style.border = '';
+                // isValid = false;
+            } else {
             }
         });
         return isValid;
@@ -60,10 +63,10 @@
         console.log(inputs);
         inputs.forEach(function(input) {
             if (!input.value) {
-                input.style.border = '1px solid red';
-                isValid = false;
-            } else {
                 input.style.border = '';
+                // input.style.border = '1px solid red';
+                // isValid = false;
+            } else {
             }
         });
         return isValid;

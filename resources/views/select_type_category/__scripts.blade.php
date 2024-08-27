@@ -22,11 +22,11 @@
                 data: function (d) {
                     d.select_type_category_search = $('#selectTypeCategoryFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
-                    d.order = [{ column: 0, dir: sort }];
+                    d.order = [{ column: 1, dir: sort }];
                 }
             },
             columns: [
-                { data: 'id', name: 'id', orderable: false, searchable: false },
+                { data: null, name: 'serial', orderable: false, searchable: false },
                 { data: 'select_type_category_name', name: 'select_type_category_name' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
@@ -63,8 +63,8 @@
 
         $('#savedata').click(function (e) {
             e.preventDefault();
-            var button = $(this).html();
-            $(this).html('Sending..');
+            var button = $(this);
+            sending(button);
             var url = $('#select_type_category_id').val() ? "{{ route('select_type_categories.update', ':id') }}".replace(':id', $('#select_type_category_id').val()) : "{{ route('select_type_categories.store') }}";
             var type = $('#select_type_category_id').val() ? "PUT" : "POST";
             $.ajax({
@@ -82,7 +82,7 @@
                 },
                 error: function (xhr) {
                     handleAjaxError(xhr);
-                    $('#savedata').html(button);
+                    sending(button,true);
                 }
             });
         });
@@ -146,5 +146,4 @@
             });
         });
     });
-
 </script>

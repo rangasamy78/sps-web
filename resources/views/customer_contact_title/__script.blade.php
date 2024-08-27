@@ -18,7 +18,7 @@
             serverSide: true,
             searching: false,
             order: [
-                [0, 'desc']
+                [1, 'desc']
             ],
             ajax: {
                 url: "{{ route('customer_contact_titles.list') }}",
@@ -26,14 +26,14 @@
                     d.customer_contact_title_search = $('#customerContactTitleFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{
-                        column: 0,
+                        column: 1,
                         dir: sort
                     }];
                 }
             },
             columns: [{
-                    data: 'id',
-                    name: 'id',
+                    data: null,
+                    name: 'serial',
                     orderable: false,
                     searchable: false
                 },
@@ -72,22 +72,14 @@
             }],
         });
 
-        setTimeout(() => {
-            $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right',
-                '20px');
-            $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left',
-                '30px');
-        }, 300);
-
         $('#customer_title').on('input', function() {
             $('.customer_title_error').text('');
         });
 
         $('#savedata').click(function(e) {
             e.preventDefault();
-            var button = $(this).html();
-            // sending(button);
-            $(this).html('...');
+            var button = $(this);
+            sending(button);
             var url = $('#customer_title_id').val() ? "{{ route('customer_contact_titles.update', ':id') }}".replace(':id', $('#customer_title_id').val()) : "{{ route('customer_contact_titles.store') }}";
             var type = $('#customer_title_id').val() ? "PUT" : "POST";
             $.ajax({
@@ -105,8 +97,7 @@
                 },
                 error: function(xhr) {
                     handleAjaxError(xhr);
-                    // sending(button, true);
-                    $('#savedata').html(button);
+                    sending(button, true);
                 }
             });
         });

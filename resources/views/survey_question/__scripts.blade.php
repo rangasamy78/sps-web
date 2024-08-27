@@ -5,7 +5,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        
+
         $('#transactionFilter, #shortLabelFilter, #questionFilter').on('keyup change', function(e) {
             e.preventDefault();
             table.draw();
@@ -16,23 +16,46 @@
             processing: true,
             serverSide: true,
             searching: false,
-            order: [[0, 'desc']],
+            order: [
+                [1, 'desc']
+            ],
             ajax: {
                 url: "{{ route('survey_questions.list') }}",
-                data: function (d) {
+                data: function(d) {
                     d.transaction_search = $('#transactionFilter').val();
                     d.short_label_search = $('#shortLabelFilter').val();
                     d.question_search = $('#questionFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
-                    d.order = [{ column: 0, dir: sort }];
+                    d.order = [{
+                        column: 1,
+                        dir: sort
+                    }];
                 }
             },
-            columns: [
-                { data: 'id', name: 'id', orderable: false, searchable: false },
-                { data: 'transaction', name: 'transaction' },
-                { data: 'short_label', name: 'short_label' },
-                { data: 'question', name: 'question' },
-                { data: 'action', name: 'action', orderable: false, searchable: false }
+            columns: [{
+                    data: null,
+                    name: 'serial',
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'transaction',
+                    name: 'transaction'
+                },
+                {
+                    data: 'short_label',
+                    name: 'short_label'
+                },
+                {
+                    data: 'question',
+                    name: 'question'
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                }
             ],
             rowCallback: function(row, data, index) {
                 $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
@@ -48,6 +71,7 @@
                 action: function(e, dt, node, config) {
                     $('#savedata').html("Save Survey Question");
                     $('#survey_question_id').val('');
+                    $('#transaction').val('').trigger('change');
                     $('#surveyQuestionForm').trigger("reset");
                     $(".transaction_error").html("");
                     $(".short_label_error").html("");
@@ -57,7 +81,8 @@
                 }
             }],
         });
-        $('#createSurveyQuestion').click(function () {
+
+        $('#createSurveyQuestion').click(function() {
             resetForm();
             $('#savedata').html("Save Survey Question");
             $('#survey_question_id').val('');
@@ -65,18 +90,21 @@
             $('#modelHeading').html("Create New Survey Question");
             $('#surveyQuestionModel').modal('show');
         });
-        $('#surveyQuestionForm input').on('input', function () {
-            let fieldName = $(this).attr('name');
-            $('.' + fieldName + '_error').text('');
-        })
-        $('#surveyQuestionForm input, #surveyQuestionForm select').on('input change', function () {
+
+        $('#surveyQuestionForm input').on('input', function() {
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');
         });
-        $('#savedata').click(function (e) {
+
+        $('#surveyQuestionForm input, #surveyQuestionForm select').on('input change', function() {
+            let fieldName = $(this).attr('name');
+            $('.' + fieldName + '_error').text('');
+        });
+
+        $('#savedata').click(function(e) {
             e.preventDefault();
-            var button = $(this).html();
-            $(this).html('Sending..');
+            var button = $(this);
+            sending(button);
             var url = $('#survey_question_id').val() ? "{{ route('survey_questions.update', ':id') }}".replace(':id', $('#survey_question_id').val()) : "{{ route('survey_questions.store') }}";
             var type = $('#survey_question_id').val() ? "PUT" : "POST";
             $.ajax({
@@ -84,7 +112,7 @@
                 type: type,
                 data: $('#surveyQuestionForm').serialize(),
                 dataType: 'json',
-                success: function (response) {
+                success: function(response) {
                     if (response.status == "success") {
                         $('#surveyQuestionForm').trigger("reset");
                         $('#surveyQuestionModel').modal('hide');
@@ -92,31 +120,32 @@
                         table.draw();
                     }
                 },
-                error: function (xhr) {
+                error: function(xhr) {
                     handleAjaxError(xhr);
-                    $('#savedata').html(button);
+                    sending(button, true);
                 }
             });
         });
 
-        $('body').on('click', '.editbtn', function () {
+        $('body').on('click', '.editbtn', function() {
             resetForm();
             var id = $(this).data('id');
-            $.get("{{ route('survey_questions.index') }}" + '/' + id + '/edit', function (data) {
+            $.get("{{ route('survey_questions.index') }}" + '/' + id + '/edit', function(data) {
                 $('#modelHeading').html("Edit Survey Question");
                 $('#surveyQuestionModel').modal('show');
                 $('#savedata').val("edit-survey-question");
                 $('#savedata').html("Update Survey Question");
                 $('#survey_question_id').val(data.id);
-                $('#transaction').val(data.transaction);
+                $('#transaction').val(data.transaction).trigger('change');
                 $('#short_label').val(data.short_label);
                 $('#question').val(data.question);
                 $('#transaction_question_id').val(data.transaction_question_id);
             });
         });
-        $('body').on('click', '.deletebtn', function () {
+        
+        $('body').on('click', '.deletebtn', function() {
             var id = $(this).data('id');
-            confirmDelete(id, function () {
+            confirmDelete(id, function() {
                 deleteSurveyQuestion(id);
             });
         });
@@ -130,23 +159,23 @@
                     id: id,
                     _token: '{{ csrf_token() }}'
                 },
-                success: function (response) {
+                success: function(response) {
                     if (response.status === "success") {
                         handleAjaxResponse(response, table);
                     } else {
                         showError('Deleted!', response.msg);
                     }
                 },
-                error: function (xhr) {
+                error: function(xhr) {
                     console.error('Error:', xhr.statusText);
                     showError('Oops!', 'Failed to fetch data.');
                 }
             });
         }
 
-        $('body').on('click', '.showbtn', function () {
+        $('body').on('click', '.showbtn', function() {
             var id = $(this).data('id');
-            $.get("{{ route('survey_questions.index') }}" + '/' + id, function (data) {
+            $.get("{{ route('survey_questions.index') }}" + '/' + id, function(data) {
                 $('#showSurveyQuestionModal').modal('show');
                 $('#showSurveyQuestionForm #transaction').val(data.transaction);
                 $('#showSurveyQuestionForm #short_label').val(data.short_label);
@@ -156,26 +185,21 @@
         });
     });
 
-    setTimeout(() => {
-        $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
-        $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');
-    }, 300);
-
     function resetForm() {
         $('.transaction_error').html('');
         $('.short_label_error').html('');
         $('.question_error').html('');
     }
 
-    $('body').on('change', '#transaction', function () {
-        const url ="{{ route('survey_questions.transaction') }}" ;
+    $('body').on('change', '#transaction', function() {
+        const url = "{{ route('survey_questions.transaction') }}";
         var id = $(this).val();
-         $.ajax({
+        $.ajax({
             url: url,
             type: 'GET',
             data: {
-                    id: id,
-                },
+                id: id,
+            },
             contentType: 'application/json',
             headers: {
                 'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // Include CSRF token if needed
@@ -188,5 +212,5 @@
                 console.error('Error:', xhr.responseText);
             }
         });
-     });
+    });
 </script>
