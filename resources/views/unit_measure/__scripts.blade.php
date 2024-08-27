@@ -7,14 +7,15 @@
         });
 
         $('#unitMeasureNameFilter, #unitMeasureEntityFilter').on('keyup change', function(e) {
-                e.preventDefault();
-                table.draw();
+            e.preventDefault();
+            table.draw();
         });
 
         var table = $('#datatable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
+            searching: false,
             order: [
                 [1, 'desc']
             ],
@@ -51,17 +52,25 @@
             ],
             rowCallback: function(row, data, index) {
                 $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
-            }
-        });
-
-        $('#createUnitMeasure').click(function() {
-            resetForm();
-            $('#savedata').html("Save Unit Measure");
-            $('#unit_measure_id').val('');
-            $('#unit_measure_entity').val('').trigger('change');
-            $('#unitMeasureForm').trigger("reset");
-            $('#modelHeading').html("Create New Unit of Measure");
-            $('#unitMeasureModel').modal('show');
+            },
+            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            buttons: [{
+                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add Unit of Measure</span>',
+                className: 'create-new btn btn-primary',
+                attr: {
+                    'data-bs-toggle': 'modal',
+                    'data-bs-target': '#unitMeasureModel',
+                },
+                action: function(e, dt, node, config) {
+                    resetForm();
+                    $('#savedata').html("Save Unit Measure");
+                    $('#unit_measure_id').val('');
+                    $('#unit_measure_entity').val('').trigger('change');
+                    $('#unitMeasureForm').trigger("reset");
+                    $('#modelHeading').html("Create New Unit of Measure");
+                    $('#unitMeasureModel').modal('show');
+                }
+            }],
         });
 
         $('#unitMeasureForm input').on('input', function() {
@@ -120,6 +129,7 @@
                 deleteUnitMeasure(id);
             });
         });
+
         function deleteUnitMeasure(id) {
             var url = "{{ route('unit_measures.destroy', ':id') }}".replace(':id', id);
             $.ajax({

@@ -11,23 +11,27 @@
             e.preventDefault();
             table.draw();
         });
-        
+
         var table = $('#datatable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
             searching: false,
-            order: [[0, 'desc']],
+            order: [
+                [1, 'desc']
+            ],
             ajax: {
                 url: "{{ route('departments.list') }}",
-                data: function (d) {
+                data: function(d) {
                     d.department_search = $('#departmentFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
-                    d.order = [{ column: 1, dir: sort }];
+                    d.order = [{
+                        column: 1,
+                        dir: sort
+                    }];
                 }
             },
-            columns: [
-                {
+            columns: [{
                     data: null,
                     name: 'serial',
                     orderable: false,
@@ -44,51 +48,47 @@
                     searchable: false
                 },
             ],
-            rowCallback: function (row, data, index) {
+            rowCallback: function(row, data, index) {
                 $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
             },
-            dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-            buttons: [
-                {
-                    text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add Department</span>',
-                    className: 'create-new btn btn-primary',
-                    attr: {
-                        'data-bs-toggle': 'modal',
-                        'data-bs-target': '#departmentModel',
-                        'id': 'createBin',
-                    },
-                    action: function(e, dt, node, config) {
-                        $('#savedata').html("Save Department");
-                        $('#department_id').val('');
-                        $('#departmentForm').trigger("reset");
-                        $('.department_name_error').html('');
-                        $('#modelHeading').html("Create New Department");
-                        $('#departmentModel').modal('show');
-                    }
+            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            buttons: [{
+                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add Department</span>',
+                className: 'create-new btn btn-primary',
+                attr: {
+                    'data-bs-toggle': 'modal',
+                    'data-bs-target': '#departmentModel',
+                    'id': 'createBin',
+                },
+                action: function(e, dt, node, config) {
+                    $('#savedata').html("Save Department");
+                    $('#department_id').val('');
+                    $('#departmentForm').trigger("reset");
+                    $('.department_name_error').html('');
+                    $('#modelHeading').html("Create New Department");
+                    $('#departmentModel').modal('show');
                 }
-            ],
+            }],
         });
 
-        $('#departmentForm input').on('input', function () {
+        $('#departmentForm input').on('input', function() {
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');
         });
 
-        $('#savedata').click(function (e) {
+        $('#savedata').click(function(e) {
             e.preventDefault();
-            if($("#department_id").val() == null || $("#department_id").val() == "")
-            {
+            if ($("#department_id").val() == null || $("#department_id").val() == "") {
                 storeDepartment(this);
             } else {
                 updateDepartment(this);
             }
         });
 
-        function storeDepartment($this)
-        {
+        function storeDepartment($this) {
             var button = $($this);
             sending(button);
-                $.ajax({
+            $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
                 },
@@ -96,8 +96,8 @@
                 url: "{{ route('departments.store') }}",
                 type: "POST",
                 dataType: 'json',
-                success: function (response) {
-                    if(response.status == "success"){
+                success: function(response) {
+                    if (response.status == "success") {
                         $('#departmentForm').trigger("reset");
                         $('#departmentModel').modal('hide');
                         showToast('success', response.msg);
@@ -111,13 +111,12 @@
                             $('span.' + prefix + '_error').text(val[0]);
                         });
                     }
-                    sending(button,true);
+                    sending(button, true);
                 }
             });
         }
 
-        function updateDepartment($this)
-        {
+        function updateDepartment($this) {
             var button = $($this);
             sending(button);
             let url = $('meta[name=app-url]').attr("content") + "/departments/" + $("#department_id").val();
@@ -131,7 +130,7 @@
                 dataType: 'json',
                 success: function(response) {
                     console.log(response);
-                    if(response.status == "success"){
+                    if (response.status == "success") {
                         $('#departmentForm').trigger("reset");
                         $('#departmentModel').modal('hide');
                         table.draw();
@@ -145,14 +144,14 @@
                             $('span.' + prefix + '_error').text(val[0]);
                         });
                     }
-                    sending(button,true);
+                    sending(button, true);
                 }
             });
         }
 
-        $('body').on('click', '.editbtn', function () {
+        $('body').on('click', '.editbtn', function() {
             var id = $(this).data('id');
-            $.get("{{ route('departments.index') }}" +'/' + id +'/edit', function (data) {
+            $.get("{{ route('departments.index') }}" + '/' + id + '/edit', function(data) {
                 $(".department_name_error").html("");
                 $('#modelHeading').html("Edit Department");
                 $('#savedata').val("edit-department");
@@ -163,7 +162,7 @@
             });
         });
 
-        $('body').on('click', '.deletebtn', function () {
+        $('body').on('click', '.deletebtn', function() {
             var id = $(this).data('id');
             let url = $('meta[name=app-url]').attr("content") + "/departments/" + id;
             Swal.fire({
@@ -175,8 +174,8 @@
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Yes, delete it!',
                 customClass: {
-                confirmButton: 'btn btn-primary me-1',
-                cancelButton: 'btn btn-label-secondary'
+                    confirmButton: 'btn btn-primary me-1',
+                    cancelButton: 'btn btn-label-secondary'
                 },
                 buttonsStyling: false
             }).then(function(result) {
@@ -202,9 +201,9 @@
             });
         });
 
-        $('body').on('click', '.showbtn', function () {
+        $('body').on('click', '.showbtn', function() {
             var id = $(this).data('id');
-            $.get("{{ route('departments.index') }}" +'/' + id, function (data) {
+            $.get("{{ route('departments.index') }}" + '/' + id, function(data) {
                 $('#modelHeading').html("Show Department");
                 $('#savedata').val("show-department");
                 $('#showDepartmentmodal').modal('show');

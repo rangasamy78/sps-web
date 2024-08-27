@@ -7,8 +7,8 @@
     });
 
     $('#reasonFilter').on('keyup change', function(e) {
-        e.preventDefault();
-        table.draw();
+      e.preventDefault();
+      table.draw();
     });
 
     var table = $('#taxExemptReasonTable').DataTable({
@@ -49,9 +49,9 @@
       rowCallback: function(row, data, index) {
         $('td:eq(0)', row).html(table.page.info().start + index + 1);
       },
-      dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+      dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       buttons: [{
-        text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Create Tax Exempt Reason</span>',
+        text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add Tax Exempt Reason</span>',
         className: 'create-new btn btn-primary',
         attr: {
           'data-bs-toggle': 'modal',
@@ -75,7 +75,7 @@
     $('#savedata').click(function(e) {
       e.preventDefault();
       var button = $(this);
-            sending(button);
+      sending(button);
       var url = $('#tax_exempt_reason_id').val() ? "{{ route('tax_exempt_reasons.update', ':id') }}".replace(':id', $('#tax_exempt_reason_id').val()) : "{{ route('tax_exempt_reasons.store') }}";
       var type = $('#tax_exempt_reason_id').val() ? "PUT" : "POST";
       $.ajax({
@@ -93,7 +93,7 @@
         },
         error: function(xhr) {
           handleAjaxError(xhr);
-          sending(button,true);
+          sending(button, true);
         }
       });
     });

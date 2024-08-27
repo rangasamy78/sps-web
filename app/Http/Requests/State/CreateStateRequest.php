@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\State;
 
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CreateStateRequest extends FormRequest
 {
@@ -20,26 +20,22 @@ class CreateStateRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-
     public function rules(): array
     {
         return [
             'name' => [
                 'required',
-                Rule::unique('states')->where(function ($query) {
-                    return $query->where('name', $this->input('name'))
-                        ->where('code', $this->input('code'));
-                })->ignore($this->route('states')),
+                Rule::unique('states')->ignore($this->route('state')),
             ],
             'code' => [
                 'required',
                 Rule::unique('states')->where(function ($query) {
-                    return $query->where('name', $this->input('name'))
-                        ->where('code', $this->input('code'));
-                })->ignore($this->route('states')),
+                    return $query->where('code', $this->input('code'));
+                })->ignore($this->route('state')),
             ],
         ];
     }
+
     /**
      * Get the error messages for the defined validation rules.
      *
@@ -48,7 +44,7 @@ class CreateStateRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.unique' => 'The combination of Name and Code has already been taken.',
+            'name.unique' => 'The state name has already been taken.',
             'code.unique' => 'The combination of Name and Code has already been taken.',
         ];
     }

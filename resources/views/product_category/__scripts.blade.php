@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    $(function () {
+    $(function() {
 
         $.ajaxSetup({
             headers: {
@@ -17,38 +17,65 @@
             processing: true,
             serverSide: true,
             searching: false,
-            order: [[1, 'desc']],
+            order: [
+                [1, 'desc']
+            ],
             ajax: {
                 url: "{{ route('product_categories.list') }}",
-                data: function (d) {
+                data: function(d) {
                     d.product_category_name_search = $('#productCategoryNameFilter').val();
                     d.product_sub_category_name_search = $('#productSubCategoryFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
-                    d.order = [{ column: 1, dir: sort }];
+                    d.order = [{
+                        column: 1,
+                        dir: sort
+                    }];
                 }
             },
-            columns: [
-                { data: null, name: 'serial', orderable: false, searchable: false },
-                { data: 'product_category_name', name: 'product_category_name' },
-                { data: 'subcategory', name: 'subcategory' },
-                { data: 'action', name: 'action', orderable: false, searchable: false }
+            columns: [{
+                    data: null,
+                    name: 'serial',
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'product_category_name',
+                    name: 'product_category_name'
+                },
+                {
+                    data: 'subcategory',
+                    name: 'subcategory'
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                }
             ],
-            rowCallback: function (row, data, index) {
+            rowCallback: function(row, data, index) {
                 $('td:eq(0)', row).html(table.page.info().start + index + 1);
-            }
-        });
+            },
+            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            buttons: [{
+                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add Product Category</span>',
+                className: 'create-new btn btn-primary',
+                attr: {
+                    'data-bs-toggle': 'modal',
+                    'data-bs-target': '#productCategoryModel',
+                },
+                action: function(e, dt, node, config) {
+                    // Custom action for Add New Record button
+                    $('#product_category_form').trigger("reset");
+                    $('.product_category_name_error').html('');
+                    $('#savedata').html("Save Product Category");
+                    $('#product_category_id').val('');
+                    $('#productCategoryForm').trigger("reset");
+                    $('#modelHeading').html("Create New Product Category");
+                    $('#productCategoryModel').modal('show');
+                    $('#subcategory-container').html('');
 
-        $('#createProductCategory').click(function () {
-            $('#product_category_form').trigger("reset");
-            $('.product_category_name_error').html('');
-            $('#savedata').html("Save Product Category");
-            $('#product_category_id').val('');
-            $('#productCategoryForm').trigger("reset");
-            $('#modelHeading').html("Create New Product Category");
-            $('#productCategoryModel').modal('show');
-            $('#subcategory-container').html('');
-
-            var blankSubcategoryRow = `
+                    var blankSubcategoryRow = `
                 <div class="row subcategory-row">
                     <div class="col-sm-4">
                         <label class="" for="product_sub_category_name">Sub Category Name</label>
@@ -65,10 +92,12 @@
                         </button>
                     </div>
                 </div>`;
-            $('#subcategory-container').append(blankSubcategoryRow);
+                    $('#subcategory-container').append(blankSubcategoryRow);
+                }
+            }],
         });
 
-        $(document).on('click', '.add-subcategory-btn', function () {
+        $(document).on('click', '.add-subcategory-btn', function() {
 
             var subcategoryRows = $('#subcategory-container .subcategory-row').length;
 
@@ -95,12 +124,12 @@
             }
         });
 
-        $('#productCategoryForm input').on('input', function () {
+        $('#productCategoryForm input').on('input', function() {
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');
         });
 
-        $('#savedata').click(function (e) {
+        $('#savedata').click(function(e) {
             e.preventDefault();
 
             if (checkSubcategoryDuplicate()) {
@@ -115,7 +144,7 @@
                 type: type,
                 data: $('#productCategoryForm').serialize(),
                 dataType: 'json',
-                success: function (response) {
+                success: function(response) {
                     if (response.status == "success") {
                         $('#productCategoryForm').trigger("reset");
                         $('#productCategoryModel').modal('hide');
@@ -123,17 +152,17 @@
                         showToast('success', response.msg);
                     }
                 },
-                error: function (xhr) {
+                error: function(xhr) {
                     handleAjaxError(xhr);
-                    sending(button,true);
+                    sending(button, true);
                 }
             });
         });
 
-        $('body').on('click', '.editbtn', function () {
+        $('body').on('click', '.editbtn', function() {
             $('.product_category_name_error').html('');
             var id = $(this).data('id');
-            $.get("{{ route('product_categories.index') }}" + '/' + id + '/edit', function (data) {
+            $.get("{{ route('product_categories.index') }}" + '/' + id + '/edit', function(data) {
                 $(".product_category_name_error").html("");
                 $('#modelHeading').html("Edit Product Category");
                 $('#savedata').val("edit-product-category");
@@ -164,7 +193,7 @@
                 if (data.sub_categories.length === 0) {
                     $('#subcategory-container').append(blankSubcategoryRow);
                 } else {
-                    data.sub_categories.forEach(function (subcategory, index) {
+                    data.sub_categories.forEach(function(subcategory, index) {
                         var buttonHtml = '';
 
                         if (index === 0) {
@@ -172,8 +201,8 @@
                                 <button type="button" class="btn btn-primary add-subcategory-btn" style="width: 30px; height: 30px;">
                                     <i class="fas fa-plus"></i>
                                 </button>`;
-                                } else {
-                                    buttonHtml = `
+                        } else {
+                            buttonHtml = `
                                 <button type="button" class="btn btn-danger remove-subcategory-btn" style="width: 30px; height: 30px;">
                                     <i class="fas fa-minus"></i>
                                 </button>`;
@@ -199,13 +228,13 @@
             });
         });
 
-        $('body').on('click', '.remove-subcategory-btn', function () {
+        $('body').on('click', '.remove-subcategory-btn', function() {
             $(this).closest('.subcategory-row').remove();
         });
 
-        $('body').on('click', '.deletebtn', function () {
+        $('body').on('click', '.deletebtn', function() {
             var id = $(this).data('id');
-            confirmDelete(id, function () {
+            confirmDelete(id, function() {
                 deleteProductCategory(id);
             });
         });
@@ -219,26 +248,26 @@
                     id: id,
                     _token: '{{ csrf_token() }}'
                 },
-                success: function (response) {
+                success: function(response) {
                     handleAjaxResponse(response, table);
                 },
-                error: function (xhr) {
+                error: function(xhr) {
                     console.error('Error:', xhr.statusText);
                     showError('Oops!', 'Failed to fetch data.');
                 }
             });
         }
 
-        $('body').on('click', '.showbtn', function () {
+        $('body').on('click', '.showbtn', function() {
             var id = $(this).data('id');
-            $.get("{{ route('product_categories.index') }}" + '/' + id, function (data) {
+            $.get("{{ route('product_categories.index') }}" + '/' + id, function(data) {
                 const subCategoryNames = data.sub_categories.map(subcategory => subcategory.product_sub_category_name).join(',');
                 $('#modelHeading').html("Show Product Category");
                 $('#savedata').val("edit-product-category");
                 $('#showProductCategoryModal').modal('show');
                 $('#showProductCategoryForm #product_category_name').val(data.product_category_name);
                 $('#subcategory-containers').html('');
-                data.sub_categories.forEach(function (subcategory) {
+                data.sub_categories.forEach(function(subcategory) {
                     var subcategoryRow = `
                         <div class="row subcategory-row">
                             <div class="col-sm-4">
@@ -255,18 +284,19 @@
             });
         });
 
-        $(document).on('click', '.remove-subcategory-btn', function () {
+        $(document).on('click', '.remove-subcategory-btn', function() {
             $(this).closest('.subcategory-row').remove();
         });
 
     });
     var hasDuplicates = false;
+
     function checkSubcategoryDuplicate() {
         var allInputs = document.querySelectorAll('input[name="product_sub_categories[][product_sub_category_name]"]');
         var selectTypes = [];
         hasDuplicates = false;
 
-        allInputs.forEach(function (inputElement) {
+        allInputs.forEach(function(inputElement) {
             var selectType = inputElement.value.trim();
             var errorMessageSpan = inputElement.parentElement.querySelector('.error-message');
 
@@ -293,5 +323,4 @@
 
         return hasDuplicates;
     }
-
 </script>

@@ -7,10 +7,10 @@
     });
 
     $('#subTypeNameFilter').on('keyup change', function(e) {
-            e.preventDefault();
-            table.draw();
+      e.preventDefault();
+      table.draw();
     });
-    
+
     var table = $('#accountSubTypeTable').DataTable({
       responsive: true,
       processing: true,
@@ -49,7 +49,7 @@
       rowCallback: function(row, data, index) {
         $('td:eq(0)', row).html(table.page.info().start + index + 1);
       },
-      dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+      dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       buttons: [{
         text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add Account Sub Type</span>',
         className: 'create-new btn btn-primary',
@@ -127,7 +127,7 @@
           _token: '{{ csrf_token() }}'
         },
         success: function(response) {
-            handleAjaxResponse(response, table);
+          handleAjaxResponse(response, table);
         },
         error: function(xhr) {
           console.error('Error:', xhr.statusText);
@@ -142,6 +142,6 @@
         $('#showAccountSubTypeModal').modal('show');
         $('#showAccountSubTypeForm #sub_type_name').val(data.sub_type_name);
       });
-    });    
+    });
   });
 </script>

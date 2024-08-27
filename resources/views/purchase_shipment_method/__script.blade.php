@@ -6,12 +6,12 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        
+
         $('#shipmentMethodNameFilter').on('keyup change', function(e) {
             e.preventDefault();
             table.draw();
         });
-        
+
         var table = $('#purchaseShipmentMethodTable').DataTable({
             responsive: true,
             processing: true,
@@ -55,7 +55,7 @@
             rowCallback: function(row, data, index) {
                 $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
             },
-            dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
             // displayLength: 7,
             // lengthMenu: [7, 10, 25, 50, 75, 100],
             buttons: [{
@@ -72,7 +72,7 @@
                     $('#purchaseShipmentMethodForm').trigger("reset");
                     $('.shipment_method_name_error').html('');
                     $('.shipment_method_description_error').html('');
-                     clearEditor();
+                    clearEditor();
                     $('#modelHeading').html("Create New Purchase Shipment Method");
                     $('#purchaseShipmentMethodModel').modal('show');
                 }
@@ -105,7 +105,7 @@
                 },
                 error: function(xhr) {
                     handleAjaxError(xhr);
-                    sending(button,true);
+                    sending(button, true);
                 }
             });
         });
@@ -165,12 +165,20 @@
                 showDescriptionEditor.root.innerHTML = data.shipment_method_description;
             });
         });
-       
+
         //Description Editor
         const fullToolbar = [
-            [{ font: [] }, { size: [] } ],
+            [{
+                font: []
+            }, {
+                size: []
+            }],
             ['bold', 'italic', 'underline', 'strike'],
-            [{ color: [] }, { background: []}],
+            [{
+                color: []
+            }, {
+                background: []
+            }],
             [{
                     script: 'super'
                 },

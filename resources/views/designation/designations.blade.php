@@ -21,7 +21,6 @@
       <div class="card p-4 pt-0">
         <!-- </div> -->
         <div class="row">
-
           <div class="col">
             <table class="datatables-basic table tables-basic border-top table-striped" id="createDesignation">
               <thead class="table-header-bold">

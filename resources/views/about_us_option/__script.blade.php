@@ -10,16 +10,18 @@
             e.preventDefault();
             table.draw();
         });
-        
+
         var table = $('#aboutUsOptionTable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
             searching: false,
-            order: [[0, 'desc']],
+            order: [
+                [1, 'desc']
+            ],
             ajax: {
                 url: "{{ route('about_us_options.list') }}",
-                data: function (d) {
+                data: function(d) {
                     d.how_did_you_hear_option_search = $('#howDidYouHearOptionFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{
@@ -48,26 +50,24 @@
             rowCallback: function(row, data, index) {
                 $('td:eq(0)', row).html(table.page.info().start + index + 1); // Add the serial number in the first column
             },
-            dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-            buttons: [
-                {
-                    text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add How did you hear Option</span>',
-                    className: 'create-new btn btn-primary',
-                    attr: {
-                        'data-bs-toggle': 'modal',
-                        'data-bs-target': '#aboutUsOptionModel',
-                        'id': 'createBin',
-                    },
-                    action: function(e, dt, node, config) {
-                        $('#savedata').html("Save How did you hear Option");
-                        $('#how_did_you_hear_option_id').val('');
-                        $('#aboutUsOptionForm').trigger("reset");
-                        $(".how_did_you_hear_option_error").html("");
-                        $('#modelHeading').html("Create New How did you hear Option");
-                        $('#aboutUsOptionModel').modal('show');
-                    }
+            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            buttons: [{
+                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add How did you hear Option</span>',
+                className: 'create-new btn btn-primary',
+                attr: {
+                    'data-bs-toggle': 'modal',
+                    'data-bs-target': '#aboutUsOptionModel',
+                    'id': 'createBin',
+                },
+                action: function(e, dt, node, config) {
+                    $('#savedata').html("Save How did you hear Option");
+                    $('#how_did_you_hear_option_id').val('');
+                    $('#aboutUsOptionForm').trigger("reset");
+                    $(".how_did_you_hear_option_error").html("");
+                    $('#modelHeading').html("Create New How did you hear Option");
+                    $('#aboutUsOptionModel').modal('show');
                 }
-            ],
+            }],
 
         });
 
@@ -92,7 +92,8 @@
                         $('#aboutUsOptionModel').modal('hide');
                         table.draw();
                         showToast('success', response.msg);
-                } },
+                    }
+                },
                 error: function(xhr) {
                     handleAjaxError(xhr);
                     sending(button, true);

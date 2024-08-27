@@ -54,22 +54,28 @@
             ],
             rowCallback: function(row, data, index) {
                 $('td:eq(0)', row).html(table.page.info().start + index + 1);
-            }
-        });
-
-        $('#createSelectTypeSubCategory').click(function() {
-            $('#select_type_sub_category_form').trigger("reset");
-            $('#select_type_category_id').val('').trigger('change');
-            $('.select_type_category_id_error').html('');
-            $('#select_type_category_id').val('').prop('disabled', false);
-            $('#savedata').html("Save Select Type Sub Category");
-            $('#select_type_sub_category_id').val('');
-            $('#selectTypeSubCategoryForm').trigger("reset");
-            $('#modelHeading').html("Create New Select Type Sub Category");
-            $('#select_type_category_id').val('').trigger('change');
-            $('#selectTypeSubCategoryModel').modal('show');
-            $('#subcategory-container').html('');
-            var blankSubcategoryRow = `
+            },
+            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            buttons: [{
+                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add Select Type Sub Category</span>',
+                className: 'create-new btn btn-primary',
+                attr: {
+                    'data-bs-toggle': 'modal',
+                    'data-bs-target': '#selectTypeSubCategoryModel',
+                },
+                action: function(e, dt, node, config) {
+                    $('#select_type_sub_category_form').trigger("reset");
+                    $('#select_type_category_id').val('').trigger('change');
+                    $('.select_type_category_id_error').html('');
+                    $('#select_type_category_id').val('').prop('disabled', false);
+                    $('#savedata').html("Save Select Type Sub Category");
+                    $('#select_type_sub_category_id').val('');
+                    $('#selectTypeSubCategoryForm').trigger("reset");
+                    $('#modelHeading').html("Create New Select Type Sub Category");
+                    $('#select_type_category_id').val('').trigger('change');
+                    $('#selectTypeSubCategoryModel').modal('show');
+                    $('#subcategory-container').html('');
+                    var blankSubcategoryRow = `
                 <div class="row subcategory-row">
                     <div class="col-sm-4">
                         <label class="" for="select_type">Select Type Sub Category Name</label>
@@ -84,7 +90,9 @@
                         </button>
                     </div>
                 </div>`;
-            $('#subcategory-container').append(blankSubcategoryRow);
+                    $('#subcategory-container').append(blankSubcategoryRow);
+                }
+            }],
         });
 
         $(document).on('click', '.add-subcategory-btn', function() {

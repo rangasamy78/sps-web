@@ -9,10 +9,10 @@
     });
 
     $('#shipmentTermsFilter').on('keyup change', function(e) {
-            e.preventDefault();
-            table.draw();
+      e.preventDefault();
+      table.draw();
     });
-    
+
     var table = $('#shipmentTermTable').DataTable({
       responsive: true,
       processing: true,
@@ -55,7 +55,7 @@
       rowCallback: function(row, data, index) {
         $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
       },
-      dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+      dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       buttons: [{
         text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Create Shipment Term</span>',
         className: 'create-new btn btn-primary',

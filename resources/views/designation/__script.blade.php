@@ -55,10 +55,9 @@
             rowCallback: function(row, data, index) {
                 $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
             },
-
-            dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
             buttons: [{
-                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Create Designation</span>',
+                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add Designation</span>',
                 className: 'create-new btn btn-primary',
                 attr: {
                     'data-bs-toggle': 'modal',
@@ -271,8 +270,7 @@
                     $('#last_row').val(count);
                     $('#designationTable tbody').append(html);
                     updateRowIds(); // Update the row numbers after adding
-                }
-                else if(cType === 'A' && count > 9){
+                } else if (cType === 'A' && count > 9) {
                     alert('Maximum 10 rows allowed.');
                 }
 
@@ -309,6 +307,6 @@
                 var rowId = $(this).data('row');
                 updateDesignationList(rowId, 'D'); // Call addRow function to delete the specific row
             });
-        });      
+        });
     });
 </script>

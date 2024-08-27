@@ -16,10 +16,12 @@
             processing: true,
             serverSide: true,
             searching: false,
-            order: [[0, 'desc']],
+            order: [
+                [1, 'desc']
+            ],
             ajax: {
                 url: "{{ route('sub_headings.list') }}",
-                data: function (d) {
+                data: function(d) {
                     d.sub_heading_name_search = $('#subHeadingNameFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{
@@ -48,26 +50,24 @@
             rowCallback: function(row, data, index) {
                 $('td:eq(0)', row).html(index + 1); // Update the index column with the correct row index
             },
-            dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-            buttons: [
-                {
-                    text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add New Sub Heading</span>',
-                    className: 'create-new btn btn-primary',
-                    attr: {
-                        'data-bs-toggle': 'modal',
-                        'data-bs-target': '#subHeadingModel',
-                        'id': 'createBin',
-                    },
-                    action: function(e, dt, node, config) {
-                        $('#savedata').html("Save New Sub Heading");
-                        $('#sub_heading_id').val('');
-                        $('#subHeadingForm').trigger("reset");
-                        $('.sub_heading_name_error').html('');
-                        $('#modelHeading').html("Create New Sub Heading");
-                        $('#subHeadingModel').modal('show');
-                    }
+            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            buttons: [{
+                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add Sub Heading</span>',
+                className: 'create-new btn btn-primary',
+                attr: {
+                    'data-bs-toggle': 'modal',
+                    'data-bs-target': '#subHeadingModel',
+                    'id': 'createBin',
+                },
+                action: function(e, dt, node, config) {
+                    $('#savedata').html("Save New Sub Heading");
+                    $('#sub_heading_id').val('');
+                    $('#subHeadingForm').trigger("reset");
+                    $('.sub_heading_name_error').html('');
+                    $('#modelHeading').html("Create New Sub Heading");
+                    $('#subHeadingModel').modal('show');
                 }
-            ],
+            }],
         });
 
         $('#subHeadingForm input').on('input', function() {
@@ -75,7 +75,7 @@
             $('.' + fieldName + '_error').text('');
         })
 
-        $('#createSubHeading').click(function () {
+        $('#createSubHeading').click(function() {
             $('.sub_heading_name_error').html('');
             $('#savedata').html("Create Sub Heading");
             $('#sub_heading_id').val('');
@@ -110,7 +110,7 @@
             });
         });
 
-        $('body').on('click', '.editbtn', function () {
+        $('body').on('click', '.editbtn', function() {
             $('.sub_heading_name_error').html('');
             var id = $(this).data('id');
             $.get("{{ route('sub_headings.index') }}" + '/' + id + '/edit', function(data) {

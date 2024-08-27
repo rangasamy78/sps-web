@@ -16,10 +16,13 @@
             responsive: true,
             processing: true,
             serverSide: true,
-            order: [[0, 'desc']],
+            searching: false,
+            order: [
+                [1, 'desc']
+            ],
             ajax: {
                 url: "{{ route('account_types.list') }}",
-                data: function (d) {
+                data: function(d) {
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{
                         column: 1,
@@ -44,22 +47,30 @@
                     searchable: false
                 },
             ],
-            rowCallback: function (row, data, index) {
+            rowCallback: function(row, data, index) {
                 $('td:eq(0)', row).html(table.page.info().start + index + 1);
-            }
+            },
+            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            buttons: [{
+                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add Account Type</span>',
+                className: 'create-new btn btn-primary',
+                attr: {
+                    'data-bs-toggle': 'modal',
+                    'data-bs-target': '#accountTypeModel',
+                },
+                action: function(e, dt, node, config) {
+                    $('#savedata').val("create-account-type");
+                    $('#savedata').html("Save Account Type");
+                    $('#account_type_id').val('');
+                    $('#account_typeForm').trigger("reset");
+                    $('.account_type_name_error').html('');
+                    $('#modelHeading').html("Create New Account Type");
+                    $('#accountTypeModel').modal('show');
+                }
+            }],
         });
 
-        $('#createAccountType').click(function () {
-            $('#savedata').val("create-account-type");
-            $('#savedata').html("Save Account Type");
-            $('#account_type_id').val('');
-            $('#account_typeForm').trigger("reset");
-            $('.account_type_name_error').html('');
-            $('#modelHeading').html("Create New Account Type");
-            $('#accountTypeModel').modal('show');
-        });
-
-        $('#accountTypeForm input').on('input', function () {
+        $('#accountTypeForm input').on('input', function() {
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');
         });
@@ -150,7 +161,7 @@
             });
         });
 
-        $('body').on('click', '.deletebtn', function () {
+        $('body').on('click', '.deletebtn', function() {
             var id = $(this).data('id');
             let url = $('meta[name=app-url]').attr("content") + "/account_types/" + id;
             Swal.fire({
@@ -198,6 +209,6 @@
                 $('#showAccountTypemodal').modal('show');
                 $('#showAccountTypeForm #account_type_name').val(data.account_type_name);
             });
-        });     
+        });
     });
 </script>

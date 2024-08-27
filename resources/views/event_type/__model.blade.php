@@ -17,7 +17,7 @@
                         <span class="text-danger error-text event_type_name_error"></span>
                     </div>
                     <div class="form-group mt-3">
-                        <label for="event_type_code" class="pb-1 form-label">Event Type Code <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                        <label for="event_type_code" class="pb-1 form-label">Event Type Code</label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="event_type_code" name="event_type_code"
                                 placeholder="Enter Event Type Code" value="">

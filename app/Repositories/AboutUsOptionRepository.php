@@ -56,15 +56,15 @@ class AboutUsOptionRepository implements CrudRepositoryInterface, DatatableRepos
         $columnSortOrder = $orderArray[0]['dir'];
         $searchValue     = $searchArray['value'];
 
-        $aboutUsOptions = $this->getAboutUsOptionList();
+        $aboutUsOptions = $this->getAboutUsOptionList($request);
         $total          = $aboutUsOptions->count();
 
-        $totalFilter = $this->getAboutUsOptionList();
+        $totalFilter = $this->getAboutUsOptionList($request);
         if (!empty($searchValue)) {
             $totalFilter = $totalFilter->where('how_did_you_hear_option', 'like', '%' . $searchValue . '%');
         }
         $totalFilter = $totalFilter->count();
-        $arrData     = $this->getAboutUsOptionList();
+        $arrData     = $this->getAboutUsOptionList($request);
         $arrData     = $arrData->skip($start)->take($rowPerPage);
         $arrData     = $arrData->orderBy($columnName, $columnSortOrder);
         if (!empty($searchValue)) {

@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    $(function () {
+    $(function() {
 
         $.ajaxSetup({
             headers: {
@@ -16,29 +16,49 @@
             responsive: true,
             processing: true,
             serverSide: true,
-            searching:false,
-            order: [[1, 'desc']],
+            searching: false,
+            order: [
+                [1, 'desc']
+            ],
             ajax: {
                 url: "{{ route('product_finishes.list') }}",
-                data: function (d) {
+                data: function(d) {
                     d.product_finish_code_search = $('#productFinishCodeFilter').val();
                     d.finish_search = $('#finishFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
-                    d.order = [{ column: 1, dir: sort }];
+                    d.order = [{
+                        column: 1,
+                        dir: sort
+                    }];
                 }
             },
-            columns: [
-                { data: null, name: 'serial', orderable: false, searchable: false },
-                { data: 'product_finish_code', name: 'product_finish_code' },
-                { data: 'finish', name: 'finish' },
-                { data: 'action', name: 'action', orderable: false, searchable: false }
+            columns: [{
+                    data: null,
+                    name: 'serial',
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'product_finish_code',
+                    name: 'product_finish_code'
+                },
+                {
+                    data: 'finish',
+                    name: 'finish'
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                }
             ],
-            rowCallback: function (row, data, index) {
+            rowCallback: function(row, data, index) {
                 $('td:eq(0)', row).html(table.page.info().start + index + 1);
             },
             dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
             buttons: [{
-                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add New Product Finish</span>',
+                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add Product Finish</span>',
                 className: 'create-new btn btn-primary',
                 attr: {
                     'data-bs-toggle': 'modal',
@@ -55,7 +75,7 @@
             }],
 
         });
-        $('#savedata').click(function (e) {
+        $('#savedata').click(function(e) {
             e.preventDefault();
             var button = $(this);
             sending(button);
@@ -66,7 +86,7 @@
                 type: type,
                 data: $('#productFinishForm').serialize(),
                 dataType: 'json',
-                success: function (response) {
+                success: function(response) {
                     if (response.status == "success") {
                         $('#productFinishForm').trigger("reset");
                         $('#productFinishModel').modal('hide');
@@ -74,22 +94,22 @@
                         table.draw();
                     }
                 },
-                error: function (xhr) {
+                error: function(xhr) {
                     handleAjaxError(xhr);
-                    sending(button,true);
+                    sending(button, true);
                 }
             });
         });
 
-        $('#productFinishForm input').on('input', function () {
+        $('#productFinishForm input').on('input', function() {
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');
         })
 
-        $('body').on('click', '.editbtn', function () {
+        $('body').on('click', '.editbtn', function() {
             resetForm();
             var id = $(this).data('id');
-            $.get("{{ route('product_finishes.index') }}" + '/' + id + '/edit', function (data) {
+            $.get("{{ route('product_finishes.index') }}" + '/' + id + '/edit', function(data) {
                 $(".product_finish_code_error").html("");
                 $('#modelHeading').html("Edit Product Finish");
                 $('#savedata').val("edit-product-finish");
@@ -101,9 +121,9 @@
             });
         });
 
-        $('body').on('click', '.deletebtn', function () {
+        $('body').on('click', '.deletebtn', function() {
             var id = $(this).data('id');
-            confirmDelete(id, function () {
+            confirmDelete(id, function() {
                 deleteProductFinish(id);
             });
         });
@@ -117,19 +137,19 @@
                     id: id,
                     _token: '{{ csrf_token() }}'
                 },
-                success: function (response) {
+                success: function(response) {
                     handleAjaxResponse(response, table);
                 },
-                error: function (xhr) {
+                error: function(xhr) {
                     console.error('Error:', xhr.statusText);
                     showError('Oops!', 'Failed to fetch data.');
                 }
             });
         }
 
-        $('body').on('click', '.showbtn', function () {
+        $('body').on('click', '.showbtn', function() {
             var id = $(this).data('id');
-            $.get("{{ route('product_finishes.index') }}" + '/' + id, function (data) {
+            $.get("{{ route('product_finishes.index') }}" + '/' + id, function(data) {
                 $('#modelHeading').html("Show Product Finish");
                 $('#savedata').val("edit-product-finish");
                 $('#showProductFinishModal').modal('show');

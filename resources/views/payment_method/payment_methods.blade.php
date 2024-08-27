@@ -11,11 +11,11 @@
       @include('payment_method.__search')
       <div class="row mb-3">
         <div class="col">
-          <div class="card">
-            <div class="row mb-2 p-2">
-              <div class="col ">
-                <table class=" datatables-basic table tables-basic border-top table-striped" id="createPaymentMethodTable">
-                  <thead>
+          <div class="card p-4 pt-0">
+            <div class="row">
+              <div class="col">
+                <table class="datatables-basic table tables-basic border-top table-striped" id="createPaymentMethodTable">
+                  <thead class="table-header-bold">
                     <tr class="odd gradeX">
                       <th>Sl.No</th>
                       <th>Payment Method Name</th>

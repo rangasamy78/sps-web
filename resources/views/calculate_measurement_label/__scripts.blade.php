@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    $(function () {
+    $(function() {
 
         $.ajaxSetup({
             headers: {
@@ -17,24 +17,41 @@
             processing: true,
             serverSide: true,
             searching: false,
-            order: [[0, 'desc']],
+            order: [
+                [0, 'desc']
+            ],
             ajax: {
                 url: "{{ route('calculate_measurement_labels.list') }}",
-                data: function (d) {
+                data: function(d) {
                     d.calculate_measurement_label_search = $('#calculateMeasurementLabelFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
-                    d.order = [{ column: 1, dir: sort }];
+                    d.order = [{
+                        column: 1,
+                        dir: sort
+                    }];
                 }
             },
-            columns: [
-                { data: null, name: 'serial', orderable: false, searchable: false },
-                { data: 'label_name', name: 'label_name' },
-                { data: 'action', name: 'action', orderable: false, searchable: false }
+            columns: [{
+                    data: null,
+                    name: 'serial',
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'label_name',
+                    name: 'label_name'
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                }
             ],
-            rowCallback: function (row, data, index) {
+            rowCallback: function(row, data, index) {
                 $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
             },
-            dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
             buttons: [{
                 text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add Calculate Measurement Label</span>',
                 className: 'create-new btn btn-primary',
@@ -55,12 +72,12 @@
             }],
         });
 
-        $('#calculateMeasurementLabelForm input').on('input', function () {
+        $('#calculateMeasurementLabelForm input').on('input', function() {
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');
         });
-        
-        $('#savedata').click(function (e) {
+
+        $('#savedata').click(function(e) {
             e.preventDefault();
             var button = $(this);
             sending(button);
@@ -71,7 +88,7 @@
                 type: type,
                 data: $('#calculateMeasurementLabelForm').serialize(),
                 dataType: 'json',
-                success: function (response) {
+                success: function(response) {
                     if (response.status == "success") {
                         $('#calculateMeasurementLabelForm').trigger("reset");
                         $('#calculateMeasurementLabelModel').modal('hide');
@@ -79,16 +96,16 @@
                         table.draw();
                     }
                 },
-                error: function (xhr) {
+                error: function(xhr) {
                     handleAjaxError(xhr);
-                    sending(button,true);
+                    sending(button, true);
                 }
             });
         });
-        $('body').on('click', '.editbtn', function () {
+        $('body').on('click', '.editbtn', function() {
             $('.label_name_error').html('');
             var id = $(this).data('id');
-            $.get("{{ route('calculate_measurement_labels.index') }}" + '/' + id + '/edit', function (data) {
+            $.get("{{ route('calculate_measurement_labels.index') }}" + '/' + id + '/edit', function(data) {
                 $(".label_name_code_error").html("");
                 $('#modelHeading').html("Edit Calculate Measurement Label");
                 $('#savedata').val("edit-calculate-measurement-label");
@@ -98,12 +115,13 @@
                 $('#label_name').val(data.label_name);
             });
         });
-        $('body').on('click', '.deletebtn', function () {
+        $('body').on('click', '.deletebtn', function() {
             var id = $(this).data('id');
-            confirmDelete(id, function () {
+            confirmDelete(id, function() {
                 deleteCalculateMeasurementLabel(id);
             });
         });
+
         function deleteCalculateMeasurementLabel(id) {
             var url = "{{ route('calculate_measurement_labels.destroy', ':id') }}".replace(':id', id);
             $.ajax({
@@ -113,19 +131,19 @@
                     id: id,
                     _token: '{{ csrf_token() }}'
                 },
-                success: function (response) {
+                success: function(response) {
                     handleAjaxResponse(response, table);
                 },
-                error: function (xhr) {
+                error: function(xhr) {
                     console.error('Error:', xhr.statusText);
                     showError('Oops!', 'Failed to fetch data.');
                 }
             });
         }
 
-        $('body').on('click', '.showbtn', function () {
+        $('body').on('click', '.showbtn', function() {
             var id = $(this).data('id');
-            $.get("{{ route('calculate_measurement_labels.index') }}" + '/' + id, function (data) {
+            $.get("{{ route('calculate_measurement_labels.index') }}" + '/' + id, function(data) {
                 $('#modelHeading').html("Show Calculate Measurement Label");
                 $('#showCalculateMeasurementLabelModal').modal('show');
                 $('#showCalculateMeasurementLabelForm #label_name').val(data.label_name);

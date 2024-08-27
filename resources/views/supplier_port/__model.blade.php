@@ -23,7 +23,7 @@
                         <span class="text-danger error-text avg_days_error"></span>
                     </div>
                     <div class="form-group mt-3">
-                        <label for="country_id" class="col-sm-6 form-label">Country </label>
+                        <label for="country_id" class="col-sm-6 form-label">Country <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
                             <select id="country_id" class="form-select select2" name="country_id" data-allow-clear="true">
                                 <option value="">--Select--</option>

@@ -11,8 +11,8 @@
     @include('currency.__search')
     <div class="row mb-3">
       <div class="col">
-        <div class="card">
-          <div class="row mb-2 p-3">
+        <div class="card p-4 pt-0">
+          <div class="row">
             <div class="col">
               <table class="datatables-basic table tables-basic border-top table-striped" id="currencyTable">
                 <thead class="table-header-bold">

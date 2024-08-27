@@ -80,7 +80,7 @@
             },
             dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
             buttons: [{
-                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Create Company</span>',
+                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Add Company</span>',
                 className: 'create-new btn btn-primary',
                 attr: {
                     'data-bs-toggle': 'modal',
@@ -173,7 +173,7 @@
             form.find('#phone_2').val(data.phone_2);
             form.find('#website').val(data.website);
             form.find('#is_bin_pre_defined').prop('checked', data.is_bin_pre_defined);
-            let logoUrl = data.logo ? `{{ asset('storage/app/public/') }}/${data.logo}` : '{{ asset('public/assets/img/branding/location-logo.png') }}';
+            let logoUrl = data.logo ? `{{ asset('storage/app/public/') }}/${data.logo}` : '{{ asset('public / assets / img / branding / location - logo.png ') }}';
             form.find('#imagePreview #previewImage').attr('src', logoUrl).show();
         }
 
@@ -214,7 +214,7 @@
             });
         });
 
-        $('body').on('click', '.deletebtn', function () {
+        $('body').on('click', '.deletebtn', function() {
             var id = $(this).data('id');
             confirmDelete(id, function() {
                 deleteCompany(id);
@@ -257,7 +257,7 @@
                 $('#showCompanyForm #phone_2').val(data.phone_2);
                 $('#showCompanyForm #website').val(data.website);
                 $('#showCompanyForm #is_bin_pre_defined').prop('checked', data.is_bin_pre_defined);
-                let logoUrl = data.logo ? `{{ asset('storage/app/public/') }}/${data.logo}` : '{{ asset('public/assets/img/branding/location-logo.png') }}';
+                let logoUrl = data.logo ? `{{ asset('storage/app/public/') }}/${data.logo}` : '{{ asset('public / assets / img / branding / location - logo.png ') }}';
                 $("#showCompanyForm #imagePreview #previewImage").attr('src', logoUrl).show();
             });
         });
