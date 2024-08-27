@@ -58,10 +58,10 @@ class CalculateMeasurementLabelRepository implements CrudRepositoryInterface, Da
         $columnSortOrder = $orderArray[0]['dir'];
         $searchValue     = $searchArray['value'];
 
-        $calculateMeasurementLabel = $this->getCalculateMeasurementLabelList();
+        $calculateMeasurementLabel = $this->getCalculateMeasurementLabelList($request);
         $total                     = $calculateMeasurementLabel->count();
 
-        $totalFilter = $this->getCalculateMeasurementLabelList();
+        $totalFilter = $this->getCalculateMeasurementLabelList($request);
         $totalFilter = $totalFilter->count();
        
         $arrData     = $this->getCalculateMeasurementLabelList($request);

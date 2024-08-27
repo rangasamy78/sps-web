@@ -55,12 +55,12 @@ class AccountSubTypeRepository implements CrudRepositoryInterface, DatatableRepo
         $columnSortOrder = $orderArray[0]['dir'];
         $searchValue     = $searchArray['value'];
 
-        $accountSubTypes = $this->getAccountSubTypeList();
+        $accountSubTypes = $this->getAccountSubTypeList($request);
         $total           = $accountSubTypes->count();
-        $totalFilter = $this->getAccountSubTypeList();
+        $totalFilter = $this->getAccountSubTypeList($request);
        
         $totalFilter = $totalFilter->count();
-        $arrData     = $this->getAccountSubTypeList();
+        $arrData     = $this->getAccountSubTypeList($request);
 
         $arrData     = $arrData->skip($start)->take($rowPerPage);
         $arrData     = $arrData->orderBy($columnName, $columnSortOrder);

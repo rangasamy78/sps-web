@@ -54,13 +54,13 @@ class CustomerContactTitleRepository implements CrudRepositoryInterface, Datatab
         $columnName      = $columnNameArray[$columnIndex]['data'];
         $columnSortOrder = $orderArray[0]['dir'];
        
-        $customerContactTitles = $this->getCustomerContactTitlesList();
+        $customerContactTitles = $this->getCustomerContactTitlesList($request);
         $total                 = $customerContactTitles->count();
 
-        $totalFilter = $this->getCustomerContactTitlesList();
+        $totalFilter = $this->getCustomerContactTitlesList($request);
         $totalFilter = $totalFilter->count();
 
-        $arrData     = $this->getCustomerContactTitlesList();
+        $arrData     = $this->getCustomerContactTitlesList($request);
         $arrData     = $arrData->skip($start)->take($rowPerPage);
         $arrData     = $arrData->orderBy($columnName, $columnSortOrder);
         $arrData = $arrData->get();
