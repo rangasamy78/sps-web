@@ -36,9 +36,12 @@ class CalculateMeasurementLabelRepository implements CrudRepositoryInterface, Da
         return $query;
     }
 
-    public function getCalculateMeasurementLabelList()
+    public function getCalculateMeasurementLabelList($request)
     {
         $query = CalculateMeasurementLabel::query();
+        if (!empty($request->calculate_measurement_label_search)) {
+            $query->where('label_name', 'like', '%' . $request->calculate_measurement_label_search . '%');
+        }
         return $query;
     }
 
@@ -54,19 +57,13 @@ class CalculateMeasurementLabelRepository implements CrudRepositoryInterface, Da
         $columnName                = $columnNameArray[$columnIndex]['data'];
         $columnSortOrder           = $orderArray[0]['dir'];
         $searchValue               = $searchArray['value'];
-        $calculateMeasurementLabel = $this->getCalculateMeasurementLabelList();
+        $calculateMeasurementLabel = $this->getCalculateMeasurementLabelList($request);
         $total                     = $calculateMeasurementLabel->count();
-        $totalFilter               = $this->getCalculateMeasurementLabelList();
-        if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('label_name', 'like', '%' . $searchValue . '%');
-        }
+        $totalFilter               = $this->getCalculateMeasurementLabelList($request);
         $totalFilter = $totalFilter->count();
-        $arrData     = $this->getCalculateMeasurementLabelList();
+        $arrData     = $this->getCalculateMeasurementLabelList($request);
         $arrData     = $arrData->skip($start)->take($rowPerPage);
         $arrData     = $arrData->orderBy($columnName, $columnSortOrder);
-        if (!empty($searchValue)) {
-            $arrData = $arrData->where('label_name', 'like', '%' . $searchValue . '%');
-        }
         $arrData = $arrData->get();
         $arrData->map(function ($value, $i) {
             $value->label_name = $value->label_name ?? '';

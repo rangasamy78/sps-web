@@ -5,25 +5,19 @@
 @section('styles')
 @endsection
 @section('content')
-<!-- Content -->
 <div class="content-wrapper">
-  <!-- Content -->
   <div class="container-xxl flex-grow-1 container-p-y">
-    <!-- //toast -->
-    <div class="container-toast ">
-    </div>
-    <h4 class="py-3 mb-4"><span class="text-muted fw-light"></span>Tax Exempt Reason</h4>
+  <h4 class="py-3 mb-4 float-right"><span class="text-muted fw-light">Home /</span>Tax Exempt Reason</h4>
+    @include('tax_exempt_reason.__search')
     <div class="row mb-3">
-      <!-- DataTable with Buttons -->
-
+    <div class="col">
       <div class="card">
-        <!-- </div> -->
-        <div class="row mb-2">
+        <div class="row mb-2 p-2">
           <div class="col">
             <table class="datatables-basic table tables-basic border-top table-striped" id="taxExemptReasonTable">
               <thead>
                 <tr class="odd gradeX">
-                  <th class="center">Sl.No</th>
+                  <th>Sl.No</th>
                   <th>Reason</th>
                   <th>Actions</th>
                 </tr>
@@ -34,14 +28,12 @@
           </div>
         </div>
       </div>
+      </div>
     </div>
   </div>
 </div>
-
-<!-- / Content -->
 @include('tax_exempt_reason.__model')
 @endsection
-
 @section('scripts')
 @include('tax_exempt_reason.__script')
 @endsection

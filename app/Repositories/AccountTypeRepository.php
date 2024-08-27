@@ -36,9 +36,12 @@ class AccountTypeRepository implements CrudRepositoryInterface, DatatableReposit
         return $query;
     }
 
-    public function getAccountTypeList()
+    public function getAccountTypeList($request)
     {
         $query = AccountType::query();
+        if (!empty($request->account_type_name_search)) {
+            $query->where('account_type_name', 'like', '%' . $request->account_type_name_search . '%');
+        }
         return $query;
     }
 
@@ -49,30 +52,17 @@ class AccountTypeRepository implements CrudRepositoryInterface, DatatableReposit
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $searchArray     = $request->get('search');
         $columnIndex     = $orderArray[0]['column'];
         $columnName      = $columnNameArray[$columnIndex]['data'];
         $columnSortOrder = $orderArray[0]['dir'];
-        $searchValue     = $searchArray['value'];
-
-        $accountTypes = $this->getAccountTypeList();
-        $total        = $accountTypes->count();
-
-        $totalFilter = $this->getAccountTypeList();
-        if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('account_type_name', 'like', '%' . $searchValue . '%');
-        }
-        $totalFilter = $totalFilter->count();
-
-        $arrData = $this->getAccountTypeList();
-        $arrData = $arrData->skip($start)->take($rowPerPage);
-        $arrData = $arrData->orderBy($columnName, $columnSortOrder);
-
-        if (!empty($searchValue)) {
-            $arrData = $arrData->where('account_type_name', 'like', '%' . $searchValue . '%');
-        }
-        $arrData = $arrData->get();
-
+        $accountTypes    = $this->getAccountTypeList($request);
+        $total           = $accountTypes->count();
+        $totalFilter     = $this->getAccountTypeList($request);
+        $totalFilter     = $totalFilter->count();
+        $arrData         = $this->getAccountTypeList($request);
+        $arrData         = $arrData->skip($start)->take($rowPerPage);
+        $arrData         = $arrData->orderBy($columnName, $columnSortOrder);
+        $arrData         = $arrData->get();
         $arrData->map(function ($value, $i) {
             $value->sno               = ++$i;
             $value->account_type_name = $value->account_type_name ?? '';

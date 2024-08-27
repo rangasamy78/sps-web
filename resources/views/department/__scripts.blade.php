@@ -7,14 +7,21 @@
             }
         });
 
+        $('#departmentFilter').on('keyup change', function(e) {
+            e.preventDefault();
+            table.draw();
+        });
+        
         var table = $('#datatable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
+            searching: false,
             order: [[0, 'desc']],
             ajax: {
                 url: "{{ route('departments.list') }}",
                 data: function (d) {
+                    d.department_search = $('#departmentFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{ column: 0, dir: sort }];
                 }
@@ -39,17 +46,27 @@
             ],
             rowCallback: function (row, data, index) {
                 $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
-            }
-        });
-
-        $('#createDepartment').click(function () {
-            $('#savedata').val("create-department");
-            $('#savedata').html("Save Department");
-            $('#department_id').val('');
-            $('#departmentForm').trigger("reset");
-            $('.department_name_error').html('');
-            $('#modelHeading').html("Create New Department");
-            $('#departmentModel').modal('show');
+            },
+            dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            buttons: [
+                {
+                    text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add Department</span>',
+                    className: 'create-new btn btn-primary',
+                    attr: {
+                        'data-bs-toggle': 'modal',
+                        'data-bs-target': '#departmentModel',
+                        'id': 'createBin',
+                    },
+                    action: function(e, dt, node, config) {
+                        $('#savedata').html("Save Department");
+                        $('#department_id').val('');
+                        $('#departmentForm').trigger("reset");
+                        $('.department_name_error').html('');
+                        $('#modelHeading').html("Create New Department");
+                        $('#departmentModel').modal('show');
+                    }
+                }
+            ],
         });
 
         $('#departmentForm input').on('input', function () {
@@ -145,7 +162,6 @@
             });
         });
 
-
         $('body').on('click', '.deletebtn', function () {
             var id = $(this).data('id');
             let url = $('meta[name=app-url]').attr("content") + "/departments/" + id;
@@ -194,10 +210,6 @@
                 $('#showDepartmentForm #department_name').val(data.department_name);
             });
         });
-
-        setTimeout(() => {
-            $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
-            $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');
-        }, 300);
+    
     });
 </script>

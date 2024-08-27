@@ -5,14 +5,22 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+        $('#howDidYouHearOptionFilter').on('keyup change', function(e) {
+            e.preventDefault();
+            table.draw();
+        });
+        
         var table = $('#aboutUsOptionTable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
+            searching: false,
             order: [[0, 'desc']],
             ajax: {
                 url: "{{ route('about_us_options.list') }}",
                 data: function (d) {
+                    d.how_did_you_hear_option_search = $('#howDidYouHearOptionFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{ column: 0, dir: sort }];
                 }

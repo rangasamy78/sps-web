@@ -19,7 +19,7 @@ class SelectTypeSubCategoryController extends Controller
     public function __construct(SelectTypeSubCategoryRepository $selectTypeSubCategoryRepository, DropDownRepository $dropDownRepository)
     {
         $this->selectTypeSubCategoryRepository = $selectTypeSubCategoryRepository;
-        $this->dropDownRepository = $dropDownRepository;
+        $this->dropDownRepository              = $dropDownRepository;
     }
 
     public function index()
@@ -70,7 +70,7 @@ class SelectTypeSubCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
         try {
             $this->selectTypeSubCategoryRepository->update($request->all(), $id);
@@ -87,17 +87,16 @@ class SelectTypeSubCategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-
     public function destroy($id)
     {
         try {
-            $selectTypeSubCategory = $this->selectTypeSubCategoryRepository->findOrFail($id);
+            $selectTypeSubCategory = SelectTypeSubCategory::query()->where('select_type_category_id', $id)->get();
             if ($selectTypeSubCategory) {
                 $response = $this->selectTypeSubCategoryRepository->delete($id);
-                $data = $response->getData();
+                $data     = $response->getData();
                 if ($data->status == 'success') {
                     return response()->json(['status' => $data->status, 'msg' => $data->msg]);
-                } else if ($data->status == 'error') {
+                } elseif ($data->status == 'error') {
                     return response()->json(['status' => $data->status, 'msg' => $data->msg]);
                 }
             } else {

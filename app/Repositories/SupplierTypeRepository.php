@@ -36,54 +36,46 @@ class SupplierTypeRepository implements CrudRepositoryInterface, DatatableReposi
         return $query;
     }
 
-    public function getSupplierTypeList()
+    public function getSupplierTypeList($request)
     {
         $query = SupplierType::query();
+        if (!empty($request->supplier_type_name_search)) {
+            $query->where('supplier_type_name', 'like', '%' . $request->supplier_type_name_search . '%');
+        }
         return $query;
     }
 
     public function dataTable(Request $request)
     {
-        $draw = $request->get('draw');
-        $start = $request->get("start");
-        $rowPerPage = $request->get("length");
-        $orderArray = $request->get('order');
+        $draw            = $request->get('draw');
+        $start           = $request->get("start");
+        $rowPerPage      = $request->get("length");
+        $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $searchArray = $request->get('search');
-        $columnIndex = $orderArray[0]['column'];
-        $columnName = $columnNameArray[$columnIndex]['data'];
+        $searchArray     = $request->get('search');
+        $columnIndex     = $orderArray[0]['column'];
+        $columnName      = $columnNameArray[$columnIndex]['data'];
         $columnSortOrder = $orderArray[0]['dir'];
-        $searchValue = $searchArray['value'];
-
-        $supplierTypes = $this->getSupplierTypeList();
-        $total = $supplierTypes->count();
-
-        $totalFilter = $this->getSupplierTypeList();
-        if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('supplier_type_name', 'like', '%' . $searchValue . '%');
-        }
-        $totalFilter = $totalFilter->count();
-
-        $arrData = $this->getSupplierTypeList();
-        $arrData = $arrData->skip($start)->take($rowPerPage);
-        $arrData = $arrData->orderBy($columnName, $columnSortOrder);
-
-        if (!empty($searchValue)) {
-            $arrData = $arrData->where('supplier_type_name', 'like', '%' . $searchValue . '%');
-        }
-        $arrData = $arrData->get();
-
+        $searchValue     = $searchArray['value'];
+        $supplierTypes   = $this->getSupplierTypeList($request);
+        $total           = $supplierTypes->count();
+        $totalFilter     = $this->getSupplierTypeList($request);
+        $totalFilter     = $totalFilter->count();
+        $arrData         = $this->getSupplierTypeList($request);
+        $arrData         = $arrData->skip($start)->take($rowPerPage);
+        $arrData         = $arrData->orderBy($columnName, $columnSortOrder);
+        $arrData         = $arrData->get();
         $arrData->map(function ($value, $i) {
-            $value->sno = ++$i;
+            $value->sno                = ++$i;
             $value->supplier_type_name = $value->supplier_type_name ?? '';
-            $value->action = "<button type='button' data-id='" . $value->id . "' class='p-2 m-0 btn btn-warning btn-sm showbtn'><i class='fa-regular fa-eye fa-fw'></i></button>&nbsp;&nbsp;<button type='button' data-id='" . $value->id . "'  name='btnEdit' class='editbtn btn btn-primary btn-sm p-2 m-0'><i class='fas fa-pencil-alt'></i></button>&nbsp;&nbsp;<button type='button' data-id='" . $value->id . "'  name='btnDelete' class='deletebtn btn btn-danger btn-sm p-2 m-0'><i class='fas fa-trash-alt'></i></button>";
+            $value->action             = "<button type='button' data-id='" . $value->id . "' class='p-2 m-0 btn btn-warning btn-sm showbtn'><i class='fa-regular fa-eye fa-fw'></i></button>&nbsp;&nbsp;<button type='button' data-id='" . $value->id . "'  name='btnEdit' class='editbtn btn btn-primary btn-sm p-2 m-0'><i class='fas fa-pencil-alt'></i></button>&nbsp;&nbsp;<button type='button' data-id='" . $value->id . "'  name='btnDelete' class='deletebtn btn btn-danger btn-sm p-2 m-0'><i class='fas fa-trash-alt'></i></button>";
         });
 
         $response = array(
-            "draw" => intval($draw),
-            "recordsTotal" => $total,
+            "draw"            => intval($draw),
+            "recordsTotal"    => $total,
             "recordsFiltered" => $totalFilter,
-            "data" => $arrData,
+            "data"            => $arrData,
         );
 
         return response()->json($response);

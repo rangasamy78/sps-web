@@ -92,9 +92,9 @@ class SelectTypeSubCategoryRepository implements CrudRepositoryInterface, Datata
         $columnIndex     = $orderArray[0]['column'];
         $columnName      = $columnNameArray[$columnIndex]['data'];
         $columnSortOrder = $orderArray[0]['dir'];
-        $query   = $this->getSelectTypeCategoryList($request);
-        $allData = $query->get();
-        $filteredData = $allData->filter(function ($category) {
+        $query           = $this->getSelectTypeCategoryList($request);
+        $allData         = $query->get();
+        $filteredData    = $allData->filter(function ($category) {
             return $category->select_type_sub_category->isNotEmpty();
         });
         $paginatedData = $filteredData->slice($start, $rowPerPage);

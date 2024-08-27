@@ -37,9 +37,12 @@ class OpportunityStageRepository implements CrudRepositoryInterface, DatatableRe
         return $query;
     }
 
-    public function getOpportunityStageList()
+    public function getOpportunityStageList($request)
     {
         $query = OpportunityStage::query();
+        if (!empty($request->opportunity_stage_search)) {
+            $query->where('opportunity_stage', 'like', '%' . $request->opportunity_stage_search . '%');
+        }
         return $query;
     }
 
@@ -50,30 +53,19 @@ class OpportunityStageRepository implements CrudRepositoryInterface, DatatableRe
         $rowPerPage = $request->get("length");
         $orderArray = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $searchArray = $request->get('search');
         $columnIndex = $orderArray[0]['column'];
         $columnName = $columnNameArray[$columnIndex]['data'];
         $columnSortOrder = $orderArray[0]['dir'];
-        $searchValue = $searchArray['value'];
-
-        $projectTypes = $this->getOpportunityStageList();
+        $projectTypes = $this->getOpportunityStageList($request);
         $total = $projectTypes->count();
 
-        $totalFilter = $this->getOpportunityStageList();
-        if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('opportunity_stage', 'like', '%' . $searchValue . '%');
-        }
+        $totalFilter = $this->getOpportunityStageList($request);
         $totalFilter = $totalFilter->count();
 
-        $arrData = $this->getOpportunityStageList();
+        $arrData = $this->getOpportunityStageList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
-
-        if (!empty($searchValue)) {
-            $arrData = $arrData->where('opportunity_stage', 'like', '%' . $searchValue . '%');
-        }
         $arrData = $arrData->get();
-
         $arrData->map(function ($value, $i) {
             $value->sno = ++$i;
             $value->opportunity_stage = $value->opportunity_stage ?? '';

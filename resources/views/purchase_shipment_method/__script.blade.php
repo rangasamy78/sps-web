@@ -6,11 +6,17 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-
+        
+        $('#shipmentMethodNameFilter').on('keyup change', function(e) {
+            e.preventDefault();
+            table.draw();
+        });
+        
         var table = $('#purchaseShipmentMethodTable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
+            searching: false,
             order: [
                 [0, 'desc']
             ],
@@ -18,6 +24,7 @@
                 url: "{{ route('purchase_shipment_methods.list') }}",
                 data: function(d) {
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
+                    d.shipment_method_name_search = $('#shipmentMethodNameFilter').val();
                     d.order = [{
                         column: 0,
                         dir: sort

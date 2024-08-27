@@ -7,14 +7,21 @@
             }
         });
 
+        $('#projectTypeFilter').on('keyup change', function(e) {
+            e.preventDefault();
+            table.draw();
+        });
+        
         var table = $('#datatable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
+            searching: false,
             order: [[0, 'desc']],
             ajax: {
                 url: "{{ route('project_types.list') }}",
                 data: function (d) {
+                    d.project_type_search = $('#projectTypeFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{ column: 0, dir: sort }];
                 }
@@ -25,18 +32,29 @@
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
             rowCallback: function (row, data, index) {
-                $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
-            }
-        });
+                $('td:eq(0)', row).html(table.page.info().start + index + 1);
+            },
+            dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            buttons: [
+                {
+                    text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add Project Type</span>',
+                    className: 'create-new btn btn-primary',
+                    attr: {
+                        'data-bs-toggle': 'modal',
+                        'data-bs-target': '#projectTypeModel',
+                        'id': 'createBin',
+                    },
+                    action: function(e, dt, node, config) {
 
-        $('#createProjectType').click(function () {
-            $('#savedata').val("create-project-type");
-            $('#savedata').html("Save Project Type");
-            $('#project_type_id').val('');
-            $('#projectTypeForm').trigger("reset");
-            $('.project_type_name_error').html('');
-            $('#modelHeading').html("Create New Project Type");
-            $('#projectTypeModel').modal('show');
+                        $('#savedata').html("Save Project Type");
+                        $('#project_type_id').val('');
+                        $('#projectTypeForm').trigger("reset");
+                        $('.project_type_name_error').html('');
+                        $('#modelHeading').html("Create New Project Type");
+                        $('#projectTypeModel').modal('show');
+                    }
+                }
+            ],
         });
 
         $('#projectTypeForm input').on('input', function () {
@@ -124,10 +142,5 @@
                 $('#showProjectTypeForm #project_type_name').val(data.project_type_name);
             });
         });
-
-        setTimeout(() => {
-            $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
-            $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');
-        }, 300);
     });
 </script>

@@ -35,9 +35,12 @@ Class SubHeadingRepository implements CrudRepositoryInterface, DatatableReposito
         return $query;
     }
 
-    public function getSubHeadingList()
+    public function getSubHeadingList($request)
     {
        $query = SubHeading::query();
+       if (!empty($request->sub_heading_name_search)) {
+            $query->where('sub_heading_name', 'like', '%' . $request->sub_heading_name_search . '%');
+        }
        return $query;
     }
 
@@ -46,31 +49,19 @@ Class SubHeadingRepository implements CrudRepositoryInterface, DatatableReposito
         $start 				= 		$request->get("start");
         $rowPerPage 		= 		$request->get("length");
         $orderArray 	   = 		$request->get('order');
-        $columnNameArray 	= 		$request->get('columns');
-        $searchArray 		= 		$request->get('search');
+        $columnNameArray 	= 		$request->get('columns');        
         $columnIndex 		= 		$orderArray[0]['column'];
         $columnName 		= 		$columnNameArray[$columnIndex]['data'];
         $columnSortOrder 	= 		$orderArray[0]['dir'];
-        $searchValue 		= 		$searchArray['value'];
 
-        $subHeadings = $this->getSubHeadingList();
+        $subHeadings = $this->getSubHeadingList($request);
         $total = $subHeadings->count();
-
-        $totalFilter = $this->getSubHeadingList();
-        if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('sub_heading_name','like','%'.$searchValue.'%');
-        }
+        $totalFilter = $this->getSubHeadingList($request);
         $totalFilter = $totalFilter->count();
-
-        $arrData = $this->getSubHeadingList();
+        $arrData = $this->getSubHeadingList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName,$columnSortOrder);
-
-        if (!empty($searchValue)) {
-            $arrData = $arrData->where('sub_heading_name','like','%'.$searchValue.'%');
-        }
         $arrData = $arrData->get();
-
         $arrData->map(function ($value, $i) {
             $value->sno = ++$i;
             $value->sub_heading_name = $value->sub_heading_name ?? '';

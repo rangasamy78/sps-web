@@ -34,10 +34,12 @@ class AccountSubTypeRepository implements CrudRepositoryInterface, DatatableRepo
         $this->findOrFail($id)->delete();
     }
 
-    public function getAccountSubTypeList()
+    public function getAccountSubTypeList($request)
     {
         $query = AccountSubType::query();
-
+        if (!empty($request->sub_type_name_search)) {
+            $query->where('sub_type_name', 'like', '%' . $request->sub_type_name_search . '%');
+        }
         return $query;
     }
 
@@ -48,24 +50,16 @@ class AccountSubTypeRepository implements CrudRepositoryInterface, DatatableRepo
         $rowPerPage            =         $request->get("length");
         $orderArray            =         $request->get('order');
         $columnNameArray       =         $request->get('columns');
-        $searchArray           =         $request->get('search');
         $columnIndex           =         $orderArray[0]['column'];
         $columnName            =         $columnNameArray[$columnIndex]['data'];
         $columnSortOrder       =         $orderArray[0]['dir'];
-        $searchValue           =         $searchArray['value'];
-        $accountSubTypes = $this->getAccountSubTypeList();
+        $accountSubTypes = $this->getAccountSubTypeList($request);
         $total = $accountSubTypes->count();
-        $totalFilter = $this->getAccountSubTypeList();
-        if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('sub_type_name', 'like', '%' . $searchValue . '%');
-        }
+        $totalFilter = $this->getAccountSubTypeList($request);
         $totalFilter = $totalFilter->count();
-        $arrData = $this->getAccountSubTypeList();
+        $arrData = $this->getAccountSubTypeList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
-        $arrData = $arrData->orderBy($columnName, $columnSortOrder);
-        if (!empty($searchValue)) {
-            $arrData = $arrData->where('sub_type_name', 'like', '%' . $searchValue . '%');
-        }
+        $arrData = $arrData->orderBy($columnName, $columnSortOrder);      
         $arrData = $arrData->get();
         $arrData->map(function ($value) {
             $value->sub_type_name = $value->sub_type_name ?? '';

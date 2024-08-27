@@ -6,16 +6,24 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+        $('#binTypeFilter').on('keyup change', function(e) {
+            e.preventDefault();
+            table.draw();
+        });
+
         var table = $('#binTypeTable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
+            searching: false,
             order: [
                 [0, 'desc']
             ],
             ajax: {
                 url: "{{ route('bintypes.list') }}",
                 data: function(d) {
+                    d.bin_type_search = $('#binTypeFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{
                         column: 0,
@@ -102,6 +110,7 @@
                 }
             });
         });
+        
         $('body').on('click', '.editbtn', function() {
             var id = $(this).data('id');
             $(".bin_type_error").html("");

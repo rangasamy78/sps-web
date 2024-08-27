@@ -34,9 +34,12 @@ class CustomerContactTitleRepository implements CrudRepositoryInterface, Datatab
         $this->findOrFail($id)->delete();
     }
 
-    public function getCustomerContactTitlesList()
+    public function getCustomerContactTitlesList($request)
     {
         $query = CustomerContactTitle::query();
+        if (!empty($request->customer_contact_title_search)) {
+            $query->where('customer_title', 'like', '%' . $request->customer_contact_title_search . '%');
+        }
         return $query;
     }
 
@@ -47,26 +50,16 @@ class CustomerContactTitleRepository implements CrudRepositoryInterface, Datatab
         $rowPerPage           =         $request->get("length");
         $orderArray           =         $request->get('order');
         $columnNameArray      =         $request->get('columns');
-        $searchArray          =         $request->get('search');
         $columnIndex          =         $orderArray[0]['column'];
         $columnName           =         $columnNameArray[$columnIndex]['data'];
         $columnSortOrder      =         $orderArray[0]['dir'];
-        $searchValue          =         $searchArray['value'];
-
-        $customerContactTitles = $this->getCustomerContactTitlesList();
+        $customerContactTitles = $this->getCustomerContactTitlesList($request);
         $total = $customerContactTitles->count();
-
-        $totalFilter = $this->getCustomerContactTitlesList();
-        if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('customer_title', 'like', '%' . $searchValue . '%');
-        }
+        $totalFilter = $this->getCustomerContactTitlesList($request);
         $totalFilter = $totalFilter->count();
-        $arrData = $this->getCustomerContactTitlesList();
+        $arrData = $this->getCustomerContactTitlesList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
-        if (!empty($searchValue)) {
-            $arrData = $arrData->where('customer_title', 'like', '%' . $searchValue . '%');
-        }
         $arrData = $arrData->get();
 
         $arrData->map(function ($value) {

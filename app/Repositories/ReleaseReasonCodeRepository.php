@@ -35,9 +35,12 @@ Class ReleaseReasonCodeRepository implements CrudRepositoryInterface, DatatableR
         return $query;
     }
 
-    public function getReleaseReasonCodeList()
+    public function getReleaseReasonCodeList($request)
     {
        $query = ReleaseReasonCode::query();
+       if (!empty($request->reason_code_search)) {
+            $query->where('release_reason_code', 'like', '%' . $request->reason_code_search . '%');
+        }
        return $query;
     }
 
@@ -47,28 +50,16 @@ Class ReleaseReasonCodeRepository implements CrudRepositoryInterface, DatatableR
         $rowPerPage 		= 		$request->get("length");
         $orderArray 	   = 		$request->get('order');
         $columnNameArray 	= 		$request->get('columns');
-        $searchArray 		= 		$request->get('search');
         $columnIndex 		= 		$orderArray[0]['column'];
         $columnName 		= 		$columnNameArray[$columnIndex]['data'];
         $columnSortOrder 	= 		$orderArray[0]['dir'];
-        $searchValue 		= 		$searchArray['value'];
-
-        $releaseReasonCodes = $this->getReleaseReasonCodeList();
+        $releaseReasonCodes = $this->getReleaseReasonCodeList($request);
         $total = $releaseReasonCodes->count();
-
-        $totalFilter = $this->getReleaseReasonCodeList();
-        if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('release_reason_code','like','%'.$searchValue.'%');
-        }
+        $totalFilter = $this->getReleaseReasonCodeList($request);
         $totalFilter = $totalFilter->count();
-
-        $arrData = $this->getReleaseReasonCodeList();
+        $arrData = $this->getReleaseReasonCodeList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName,$columnSortOrder);
-
-        if (!empty($searchValue)) {
-            $arrData = $arrData->where('release_reason_code','like','%'.$searchValue.'%');
-        }
         $arrData = $arrData->get();
 
         $arrData->map(function ($value) {

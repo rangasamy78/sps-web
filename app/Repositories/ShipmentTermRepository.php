@@ -35,47 +35,36 @@ class ShipmentTermRepository implements CrudRepositoryInterface, DatatableReposi
         return $query;
     }
 
-    public function getShipmentTermList()
+    public function getShipmentTermList($request)
     {
         $query = ShipmentTerm::query();
+        if (!empty($request->shipment_terms_search)) {
+            $query->where('shipment_term_name', 'like', '%' . $request->shipment_terms_search . '%');
+        }
         return $query;
     }
 
     public function dataTable(Request $request)
     {
-        $draw = $request->get('draw');
-        $start = $request->get("start");
-        $rowPerPage = $request->get("length");
-        $orderArray = $request->get('order');
+        $draw            = $request->get('draw');
+        $start           = $request->get("start");
+        $rowPerPage      = $request->get("length");
+        $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $searchArray = $request->get('search');
-        $columnIndex = $orderArray[0]['column'];
-        $columnName = $columnNameArray[$columnIndex]['data'];
+        $columnIndex     = $orderArray[0]['column'];
+        $columnName      = $columnNameArray[$columnIndex]['data'];
         $columnSortOrder = $orderArray[0]['dir'];
-        $searchValue = $searchArray['value'];
-
-        $shipmentTerms = $this->getShipmentTermList();
-        $total = $shipmentTerms->count();
-
-        $totalFilter = $this->getShipmentTermList();
-        if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('shipment_term_name', 'like', '%' . $searchValue . '%');
-        }
-        $totalFilter = $totalFilter->count();
-
-        $arrData = $this->getShipmentTermList();
-        $arrData = $arrData->skip($start)->take($rowPerPage);
-        $arrData = $arrData->orderBy($columnName, $columnSortOrder);
-
-        if (!empty($searchValue)) {
-            $arrData = $arrData->where('shipment_term_name', 'like', '%' . $searchValue . '%')
-                ->orwhere('description', 'like', '%' . $searchValue . '%');
-        }
-        $arrData = $arrData->get();
-
+        $shipmentTerms   = $this->getShipmentTermList($request);
+        $total           = $shipmentTerms->count();
+        $totalFilter     = $this->getShipmentTermList($request);
+        $totalFilter     = $totalFilter->count();
+        $arrData         = $this->getShipmentTermList($request);
+        $arrData         = $arrData->skip($start)->take($rowPerPage);
+        $arrData         = $arrData->orderBy($columnName, $columnSortOrder);
+        $arrData         = $arrData->get();
         $arrData->map(function ($value) {
             $value->shipment_term_name = $value->shipment_term_name ?? '';
-            $value->description = $value->description ?? ''; // Default to empty string if null
+            $value->description        = $value->description ?? ''; // Default to empty string if null
             if (strlen($value->description) > 150) {
                 $value->description = substr($value->description, 0, 150) . '...';
             }
@@ -83,10 +72,10 @@ class ShipmentTermRepository implements CrudRepositoryInterface, DatatableReposi
         });
 
         $response = array(
-            "draw" => intval($draw),
-            "recordsTotal" => $total,
+            "draw"            => intval($draw),
+            "recordsTotal"    => $total,
             "recordsFiltered" => $totalFilter,
-            "data" => $arrData,
+            "data"            => $arrData,
         );
 
         return response()->json($response);

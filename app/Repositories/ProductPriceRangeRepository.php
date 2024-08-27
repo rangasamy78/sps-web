@@ -35,59 +35,47 @@ class ProductPriceRangeRepository implements CrudRepositoryInterface, DatatableR
         return $query;
     }
 
-    public function getProductPriceRangeList()
+    public function getProductPriceRangeList($request)
     {
         $query = ProductPriceRange::query();
+        if (!empty($request->product_price_range_search)) {
+            $query->where('product_price_range', 'like', '%' . $request->product_price_range_search . '%');
+        }
         return $query;
     }
 
     public function dataTable(Request $request)
     {
-        $draw = $request->get('draw');
-        $start = $request->get("start");
-        $rowPerPage = $request->get("length");
-        $orderArray = $request->get('order');
-        $columnNameArray = $request->get('columns');
-        $searchArray = $request->get('search');
-        $columnIndex = $orderArray[0]['column'];
-        $columnName = $columnNameArray[$columnIndex]['data'];
+        $draw            = $request->get('draw');
+        $start           = $request->get("start");
+        $rowPerPage      = $request->get("length");
+        $orderArray      = $request->get('order');
+        $columnNameArray = $request->get('columns');        
+        $columnIndex     = $orderArray[0]['column'];
+        $columnName      = $columnNameArray[$columnIndex]['data'];
         $columnSortOrder = $orderArray[0]['dir'];
-        $searchValue = $searchArray['value'];
-
-        $price_range = $this->getProductPriceRangeList();
-        $total = $price_range->count();
-
-        $totalFilter = $this->getProductPriceRangeList();
-        if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('product_price_range', 'like', '%' . $searchValue . '%');
-
-        }
+        $price_range = $this->getProductPriceRangeList($request);
+        $total       = $price_range->count();
+        $totalFilter = $this->getProductPriceRangeList($request);
         $totalFilter = $totalFilter->count();
-
-        $arrData = $this->getProductPriceRangeList();
+        $arrData = $this->getProductPriceRangeList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
-
-        if (!empty($searchValue)) {
-            $arrData = $arrData->where('product_price_range', 'like', '%' . $searchValue . '%');
-
-        }
         $arrData = $arrData->get();
-
         $arrData->map(function ($value, $i) {
-            $value->sno = ++$i;
+            $value->sno                 = ++$i;
             $value->product_price_range = $value->product_price_range ?? '';
-            $value->action = "<button type='button' data-id='" . $value->id . "' class='p-2 m-0 btn btn-warning btn-sm showbtn' data-bs-toggle='modal' >
+            $value->action              = "<button type='button' data-id='" . $value->id . "' class='p-2 m-0 btn btn-warning btn-sm showbtn' data-bs-toggle='modal' >
             <i class='fa-regular fa-eye fa-fw'></i></button>&nbsp;&nbsp;<button type='button' data-id='" . $value->id . "'  name='btnEdit'
              class='editbtn btn btn-primary btn-sm p-2 m-0'><i class='fas fa-pencil-alt'></i></button>&nbsp;&nbsp;
              <button type='button' data-id='" . $value->id . "'  name='btnDelete' class='deletebtn btn btn-danger btn-sm p-2 m-0'><i class='fas fa-trash-alt'></i></button>";
         });
 
         $response = array(
-            "draw" => intval($draw),
-            "recordsTotal" => $total,
+            "draw"            => intval($draw),
+            "recordsTotal"    => $total,
             "recordsFiltered" => $totalFilter,
-            "data" => $arrData,
+            "data"            => $arrData,
         );
 
         return response()->json($response);

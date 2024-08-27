@@ -6,14 +6,22 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+        $('#supplierReturnStatusFilter').on('keyup change', function(e) {
+            e.preventDefault();
+            table.draw();
+        });
+
         var table = $('#datatable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
+            searching: false,
             order: [[0, 'desc']],
             ajax: {
                 url: "{{ route('supplier_return_statuses.list') }}",
                 data: function (d) {
+                    d.supplier_retun_status_search = $('#supplierReturnStatusFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{ column: 0, dir: sort }];
                 }
@@ -25,16 +33,30 @@
             ],
             rowCallback: function (row, data, index) {
                 $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
-            }
+            },
+            dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            buttons: [
+                {
+                    text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add Supplier Return Status</span>',
+                    className: 'create-new btn btn-primary',
+                    attr: {
+                        'data-bs-toggle': 'modal',
+                        'data-bs-target': '#supplierReturnStatusModel',
+                        'id': 'createBin',
+                    },
+                    action: function(e, dt, node, config) {
+
+                        $('#savedata').html("Save Supplier Return Status");
+                        $('#return_code_id').val('');
+                        $('#supplierReturnStatusForm').trigger("reset");
+                        $('.reason_code_name_error').html('');
+                        $('#modelHeading').html("Create New Supplier Return Status");
+                        $('#supplierReturnStatusModel').modal('show');
+                    }
+                }
+            ],
         });
-        $('#createSupplierReturnStatus').click(function () {
-            $('.reason_code_name_error').html('');
-            $('#savedata').html("Save Supplier Return Status");
-            $('#return_code_id').val('');
-            $('#supplierReturnStatusForm').trigger("reset");
-            $('#modelHeading').html("Create New Supplier Return Status");
-            $('#supplierReturnStatusModel').modal('show');
-        });
+       
         $('#supplierReturnStatusForm input').on('input', function () {
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');
@@ -114,11 +136,7 @@
 
             });
         });
-
-        setTimeout(() => {
-            $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
-            $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');
-        }, 300);
+      
     });
 
 </script>

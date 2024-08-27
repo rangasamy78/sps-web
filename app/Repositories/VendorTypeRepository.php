@@ -36,9 +36,12 @@ class VendorTypeRepository implements CrudRepositoryInterface, DatatableReposito
         return $query;
     }
 
-    public function getVendorTypeList()
+    public function getVendorTypeList($request)
     {
         $query = VendorType::query();
+        if (!empty($request->vendor_type_search)) {
+            $query->where('vendor_type_name', 'like', '%' . $request->vendor_type_search . '%');
+        }
         return $query;
     }
 
@@ -49,30 +52,17 @@ class VendorTypeRepository implements CrudRepositoryInterface, DatatableReposito
         $rowPerPage = $request->get("length");
         $orderArray = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $searchArray = $request->get('search');
         $columnIndex = $orderArray[0]['column'];
         $columnName = $columnNameArray[$columnIndex]['data'];
         $columnSortOrder = $orderArray[0]['dir'];
-        $searchValue = $searchArray['value'];
-
-        $vendorTypes = $this->getVendorTypeList();
+        $vendorTypes = $this->getVendorTypeList($request);
         $total = $vendorTypes->count();
-
-        $totalFilter = $this->getVendorTypeList();
-        if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('vendor_type_name', 'like', '%' . $searchValue . '%');
-        }
+        $totalFilter = $this->getVendorTypeList($request);
         $totalFilter = $totalFilter->count();
-
-        $arrData = $this->getVendorTypeList();
+        $arrData = $this->getVendorTypeList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
-
-        if (!empty($searchValue)) {
-            $arrData = $arrData->where('vendor_type_name', 'like', '%' . $searchValue . '%');
-        }
         $arrData = $arrData->get();
-
         $arrData->map(function ($value, $i) {
             $value->sno = ++$i;
             $value->vendor_type_name = $value->vendor_type_name ?? '';

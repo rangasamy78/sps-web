@@ -36,9 +36,12 @@ class ProbabilityToCloseRepository implements CrudRepositoryInterface, Datatable
         return $query;
     }
 
-    public function getProbabilityToCloseList()
+    public function getProbabilityToCloseList($request)
     {
         $query = ProbabilityToClose::query();
+        if (!empty($request->probability_to_close_search)) {
+            $query->where('probability_to_close', 'like', '%' . $request->probability_to_close_search . '%');
+        }
         return $query;
     }
 
@@ -49,28 +52,16 @@ class ProbabilityToCloseRepository implements CrudRepositoryInterface, Datatable
         $rowPerPage = $request->get("length");
         $orderArray = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $searchArray = $request->get('search');
         $columnIndex = $orderArray[0]['column'];
         $columnName = $columnNameArray[$columnIndex]['data'];
         $columnSortOrder = $orderArray[0]['dir'];
-        $searchValue = $searchArray['value'];
-
-        $probabilityToCloses = $this->getProbabilityToCloseList();
+        $probabilityToCloses = $this->getProbabilityToCloseList($request);
         $total = $probabilityToCloses->count();
-
-        $totalFilter = $this->getProbabilityToCloseList();
-        if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('probability_to_close', 'like', '%' . $searchValue . '%');
-        }
+        $totalFilter = $this->getProbabilityToCloseList($request);
         $totalFilter = $totalFilter->count();
-
-        $arrData = $this->getProbabilityToCloseList();
+        $arrData = $this->getProbabilityToCloseList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
-
-        if (!empty($searchValue)) {
-            $arrData = $arrData->where('probability_to_close', 'like', '%' . $searchValue . '%');
-        }
         $arrData = $arrData->get();
 
         $arrData->map(function ($value, $i) {

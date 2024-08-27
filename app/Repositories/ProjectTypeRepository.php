@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Models\ProjectType;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Model;
 use App\Interfaces\CrudRepositoryInterface;
 use App\Interfaces\DatatableRepositoryInterface;
 
@@ -37,9 +36,12 @@ class ProjectTypeRepository implements CrudRepositoryInterface, DatatableReposit
         return $query;
     }
 
-    public function getProjectTypeList()
+    public function getProjectTypeList($request)
     {
         $query = ProjectType::query();
+        if (!empty($request->project_type_search)) {
+            $query->where('project_type_name', 'like', '%' . $request->project_type_search . '%');
+        }
         return $query;
     }
 
@@ -50,30 +52,17 @@ class ProjectTypeRepository implements CrudRepositoryInterface, DatatableReposit
         $rowPerPage = $request->get("length");
         $orderArray = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $searchArray = $request->get('search');
         $columnIndex = $orderArray[0]['column'];
         $columnName = $columnNameArray[$columnIndex]['data'];
         $columnSortOrder = $orderArray[0]['dir'];
-        $searchValue = $searchArray['value'];
-
-        $projectTypes = $this->getProjectTypeList();
+        $projectTypes = $this->getProjectTypeList($request);
         $total = $projectTypes->count();
-
-        $totalFilter = $this->getProjectTypeList();
-        if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('project_type_name', 'like', '%' . $searchValue . '%');
-        }
+        $totalFilter = $this->getProjectTypeList($request);
         $totalFilter = $totalFilter->count();
-
-        $arrData = $this->getProjectTypeList();
+        $arrData = $this->getProjectTypeList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
-
-        if (!empty($searchValue)) {
-            $arrData = $arrData->where('project_type_name', 'like', '%' . $searchValue . '%');
-        }
         $arrData = $arrData->get();
-
         $arrData->map(function ($value, $i) {
             $value->sno = ++$i;
             $value->project_type_name = $value->project_type_name ?? '';

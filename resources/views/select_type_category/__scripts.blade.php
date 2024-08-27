@@ -6,14 +6,21 @@
             }
         });
 
+        $('#selectTypeCategoryFilter').on('keyup change', function(e) {
+            e.preventDefault();
+            table.draw();
+        });
+        
         var table = $('#datatable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
+            searching: false,
             order: [[0, 'desc']],
             ajax: {
                 url: "{{ route('select_type_categories.list') }}",
                 data: function (d) {
+                    d.select_type_category_search = $('#selectTypeCategoryFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{ column: 0, dir: sort }];
                 }
@@ -25,16 +32,28 @@
             ],
             rowCallback: function (row, data, index) {
                 $('td:eq(0)', row).html(table.page.info().start + index + 1);
-            }
-        });
+            },
+            dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            buttons: [
+                {
+                    text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add Select Type Category</span>',
+                    className: 'create-new btn btn-primary',
+                    attr: {
+                        'data-bs-toggle': 'modal',
+                        'data-bs-target': '#selectTypeCategoryModel',
+                        'id': 'createBin',
+                    },
+                    action: function(e, dt, node, config) {
 
-        $('#createSelectTypeCategory').click(function () {
-            $('.select_type_category_name_error').html('');
-            $('#savedata').html("Save Select Type Category");
-            $('#select_type_category_id').val('');
-            $('#selectTypeCategoryForm').trigger("reset");
-            $('#modelHeading').html("Create New Select Type Category");
-            $('#selectTypeCategoryModel').modal('show');
+                        $('#savedata').html("Save Select Type Category");
+                        $('#select_type_category_id').val('');
+                        $('#selectTypeCategoryForm').trigger("reset");
+                        $('.select_type_category_name_error').html('');
+                        $('#modelHeading').html("Create New Select Type Category");
+                        $('#selectTypeCategoryModel').modal('show');
+                    }
+                }
+            ],
         });
 
         $('#selectTypeCategoryForm input').on('input', function () {
@@ -126,11 +145,6 @@
                 $('#showSelectTypeCategoryForm #select_type_category_name').val(data.select_type_category_name);
             });
         });
-
-        setTimeout(() => {
-            $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
-            $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');
-        }, 300);
     });
 
 </script>

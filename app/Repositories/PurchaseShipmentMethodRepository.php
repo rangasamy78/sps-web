@@ -37,9 +37,12 @@ class PurchaseShipmentMethodRepository implements CrudRepositoryInterface, Datat
         return $query;
     }
 
-    public function getPurchaseShipmentMethodList()
+    public function getPurchaseShipmentMethodList($request)
     {
         $query = PurchaseShipmentMethod::query();
+        if (!empty($request->shipment_method_name_search)) {
+            $query->where('shipment_method_name', 'like', '%' . $request->shipment_method_name_search . '%');
+        }
         return $query;
     }
 
@@ -50,31 +53,17 @@ class PurchaseShipmentMethodRepository implements CrudRepositoryInterface, Datat
         $rowPerPage = $request->get("length");
         $orderArray = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $searchArray = $request->get('search');
         $columnIndex = $orderArray[0]['column'];
         $columnName = $columnNameArray[$columnIndex]['data'];
         $columnSortOrder = $orderArray[0]['dir'];
-        $searchValue = $searchArray['value'];
-
-        $purchaseShipmentMethods = $this->getPurchaseShipmentMethodList();
+        $purchaseShipmentMethods = $this->getPurchaseShipmentMethodList($request);
         $total = $purchaseShipmentMethods->count();
-
-        $totalFilter = $this->getPurchaseShipmentMethodList();
-        if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('shipment_method_name', 'like', '%' . $searchValue . '%');
-        }
+        $totalFilter = $this->getPurchaseShipmentMethodList($request);
         $totalFilter = $totalFilter->count();
-
-        $arrData = $this->getPurchaseShipmentMethodList();
+        $arrData = $this->getPurchaseShipmentMethodList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
-
-        if (!empty($searchValue)) {
-            $arrData = $arrData->where('shipment_method_name', 'like', '%' . $searchValue . '%')
-                ->orwhere('shipment_method_description', 'like', '%' . $searchValue . '%');
-        }
         $arrData = $arrData->get();
-
         $arrData->map(function ($value) {
             $value->shipment_method_name = $value->shipment_method_name ?? '';
             $value->shipment_method_description = $value->shipment_method_description ? Str::limit($value->shipment_method_description, 150, '...') : '';

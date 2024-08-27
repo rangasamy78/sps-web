@@ -6,14 +6,22 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+        $('#adjustmentTypeFilter').on('keyup change', function(e) {
+            e.preventDefault();
+            table.draw();
+        });
+        
         var table = $('#datatable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
+            searching: false,
             order: [[0, 'desc']],
             ajax: {
                 url: "{{ route('adjustment_types.list') }}",
                 data: function (d) {
+                    d.adjustment_type_search = $('#adjustmentTypeFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{ column: 0, dir: sort }];
                 }
@@ -25,16 +33,30 @@
             ],
             rowCallback: function (row, data, index) {
                 $('td:eq(0)', row).html(table.page.info().start + index + 1);
-            }
+            },
+            dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            buttons: [
+                {
+                    text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add Adjustment Type</span>',
+                    className: 'create-new btn btn-primary',
+                    attr: {
+                        'data-bs-toggle': 'modal',
+                        'data-bs-target': '#adjustmentTypeModel',
+                        'id': 'createBin',
+                    },
+                    action: function(e, dt, node, config) {
+
+                        $('#savedata').html("Save Adjustment Type");
+                        $('#adjustment_type_id').val('');
+                        $('#adjustmentTypeForm').trigger("reset");
+                        $('.adjustment_type_error').html('');
+                        $('#modelHeading').html("Create New Adjustment Type");
+                        $('#adjustmentTypeModel').modal('show');
+                    }
+                }
+            ],
         });
-        $('#createAdjustmentType').click(function () {
-            $('.adjustment_type_error').html('');
-            $('#savedata').html("Save Adjustment Type");
-            $('#adjustment_type_id').val('');
-            $('#adjustmentTypeForm').trigger("reset");
-            $('#modelHeading').html("Create New Adjustment Type");
-            $('#adjustmentTypeModel').modal('show');
-        });
+       
         $('#adjustmentTypeForm input').on('input', function () {
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');
@@ -110,11 +132,7 @@
 
             });
         });
-
-        setTimeout(() => {
-            $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
-            $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');
-        }, 300);
+       
     });
 
 </script>

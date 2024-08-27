@@ -6,16 +6,23 @@
       }
     });
 
+    $('#reasonFilter').on('keyup change', function(e) {
+        e.preventDefault();
+        table.draw();
+    });
+
     var table = $('#taxExemptReasonTable').DataTable({
       responsive: true,
       processing: true,
       serverSide: true,
+      searching: false,
       order: [
         [0, 'desc']
       ],
       ajax: {
         url: "{{ route('tax_exempt_reasons.list') }}",
         data: function(d) {
+          d.reason_search = $('#reasonFilter').val();
           sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
           d.order = [{
             column: 0,
@@ -140,10 +147,6 @@
         $('#showTaxExemptReasonForm #reason').val(data.reason);
       });
     });
-
-    setTimeout(() => {
-      $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
-      $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');
-    }, 300);
+     
   });
 </script>

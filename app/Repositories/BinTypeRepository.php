@@ -33,10 +33,12 @@ class BinTypeRepository implements CrudRepositoryInterface, DatatableRepositoryI
         $this->findOrFail($id)->delete();
     }
 
-    public function getBinTypeList()
+    public function getBinTypeList($request)
     {
         $query = BinType::query();
-
+        if (!empty($request->bin_type_search)) {
+            $query->where('bin_type', 'like', '%' . $request->bin_type_search . '%');
+        }
         return $query;
     }
 
@@ -47,24 +49,16 @@ class BinTypeRepository implements CrudRepositoryInterface, DatatableRepositoryI
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $searchArray     = $request->get('search');
         $columnIndex     = $orderArray[0]['column'];
         $columnName      = $columnNameArray[$columnIndex]['data'];
         $columnSortOrder = $orderArray[0]['dir'];
-        $searchValue     = $searchArray['value'];
-        $bin   = $this->getBinTypeList();
+        $bin   = $this->getBinTypeList($request);
         $total = $bin->count();
-        $totalFilter = $this->getBinTypeList();
-        if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('bin_type', 'like', '%' . $searchValue . '%');
-        }
+        $totalFilter = $this->getBinTypeList($request);
         $totalFilter = $totalFilter->count();
-        $arrData     = $this->getBinTypeList();
+        $arrData     = $this->getBinTypeList($request);
         $arrData     = $arrData->skip($start)->take($rowPerPage);
         $arrData     = $arrData->orderBy($columnName, $columnSortOrder);
-        if (!empty($searchValue)) {
-            $arrData = $arrData->where('bin_type', 'like', '%' . $searchValue . '%');
-        }
         $arrData = $arrData->get();
         $arrData->map(function ($value, $i) use ($start) {
             $value->bin_type = $value->bin_type ?? '';

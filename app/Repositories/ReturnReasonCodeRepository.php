@@ -35,9 +35,12 @@ Class ReturnReasonCodeRepository implements CrudRepositoryInterface, DatatableRe
         return $query;
     }
 
-    public function getReturnReasonCodeList()
+    public function getReturnReasonCodeList($request)
     {
        $query = ReturnReasonCode::query();
+       if (!empty($request->return_reason_code_search)) {
+            $query->where('return_code', 'like', '%' . $request->return_reason_code_search . '%');
+        }
        return $query;
     }
 
@@ -47,30 +50,17 @@ Class ReturnReasonCodeRepository implements CrudRepositoryInterface, DatatableRe
         $rowPerPage 		= 		$request->get("length");
         $orderArray 	   = 		$request->get('order');
         $columnNameArray 	= 		$request->get('columns');
-        $searchArray 		= 		$request->get('search');
         $columnIndex 		= 		$orderArray[0]['column'];
         $columnName 		= 		$columnNameArray[$columnIndex]['data'];
         $columnSortOrder 	= 		$orderArray[0]['dir'];
-        $searchValue 		= 		$searchArray['value'];
-
-        $returnReasonCodes = $this->getReturnReasonCodeList();
+        $returnReasonCodes = $this->getReturnReasonCodeList($request);
         $total = $returnReasonCodes->count();
-
-        $totalFilter = $this->getReturnReasonCodeList();
-        if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('return_code','like','%'.$searchValue.'%');
-        }
+        $totalFilter = $this->getReturnReasonCodeList($request);
         $totalFilter = $totalFilter->count();
-
-        $arrData = $this->getReturnReasonCodeList();
+        $arrData = $this->getReturnReasonCodeList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName,$columnSortOrder);
-
-        if (!empty($searchValue)) {
-            $arrData = $arrData->where('return_code','like','%'.$searchValue.'%');
-        }
         $arrData = $arrData->get();
-
         $arrData->map(function ($value) {
             $value->return_code = $value->return_code ?? '';
             $value->action = "<button type='button' data-id='".$value->id."' class='p-2 m-0 btn btn-warning btn-sm showbtn'><i class='fa-regular fa-eye fa-fw'></i></button>&nbsp;&nbsp;<button type='button' data-id='".$value->id."'  name='btnEdit' class='editbtn btn btn-primary btn-sm p-2 m-0'><i class='fas fa-pencil-alt'></i></button>&nbsp;&nbsp;<button type='button' data-id='".$value->id."'  name='btnDelete' class='deletebtn btn btn-danger btn-sm p-2 m-0'><i class='fas fa-trash-alt'></i></button>";

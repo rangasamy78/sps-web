@@ -36,10 +36,13 @@ Class DepartmentRepository implements CrudRepositoryInterface, DatatableReposito
         return $query;
     }
 
-    public function getDepartmentList()
+    public function getDepartmentList($request)
     {
-       $query = Department::query();
-       return $query;
+        $query = Department::query();
+        if (!empty($request->department_search)) {
+            $query->where('department_name', 'like', '%' . $request->department_search . '%');
+        }
+        return $query;
     }
 
     public function dataTable(Request $request) {
@@ -48,30 +51,17 @@ Class DepartmentRepository implements CrudRepositoryInterface, DatatableReposito
         $rowPerPage 		= 		$request->get("length");
         $orderArray 	   = 		$request->get('order');
         $columnNameArray 	= 		$request->get('columns');
-        $searchArray 		= 		$request->get('search');
         $columnIndex 		= 		$orderArray[0]['column'];
         $columnName 		= 		$columnNameArray[$columnIndex]['data'];
         $columnSortOrder 	= 		$orderArray[0]['dir'];
-        $searchValue 		= 		$searchArray['value'];
-
-        $departments = $this->getDepartmentList();
+        $departments = $this->getDepartmentList($request);
         $total = $departments->count();
-
-        $totalFilter = $this->getDepartmentList();
-        if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('department_name','like','%'.$searchValue.'%');
-        }
+        $totalFilter = $this->getDepartmentList($request);
         $totalFilter = $totalFilter->count();
-
-        $arrData = $this->getDepartmentList();
+        $arrData = $this->getDepartmentList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName,$columnSortOrder);
-
-        if (!empty($searchValue)) {
-            $arrData = $arrData->where('department_name','like','%'.$searchValue.'%');
-        }
         $arrData = $arrData->get();
-
         $arrData->map(function ($value, $i) {
             $value->sno = ++$i;
             $value->department_name = $value->department_name ?? '';

@@ -36,9 +36,12 @@ class AdjustmentTypeRepository implements CrudRepositoryInterface, DatatableRepo
         return $query;
     }
 
-    public function getAdjustmentTypeList()
+    public function getAdjustmentTypeList($request)
     {
         $query = AdjustmentType::query();
+        if (!empty($request->adjustment_type_search)) {
+            $query->where('adjustment_type', 'like', '%' . $request->adjustment_type_search . '%');
+        }
         return $query;
     }
 
@@ -48,27 +51,17 @@ class AdjustmentTypeRepository implements CrudRepositoryInterface, DatatableRepo
         $start           = $request->get("start");
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
-        $columnNameArray = $request->get('columns');
-        $searchArray     = $request->get('search');
+        $columnNameArray = $request->get('columns');        
         $columnIndex     = $orderArray[0]['column'];
         $columnName      = $columnNameArray[$columnIndex]['data'];
         $columnSortOrder = $orderArray[0]['dir'];
-        $searchValue     = $searchArray['value'];
-        $adjustment      = $this->getAdjustmentTypeList();
+        $adjustment      = $this->getAdjustmentTypeList($request);
         $total           = $adjustment->count();
-        $totalFilter     = $this->getAdjustmentTypeList();
-        if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('adjustment_type', 'like', '%' . $searchValue . '%');
-
-        }
+        $totalFilter     = $this->getAdjustmentTypeList($request);
         $totalFilter = $totalFilter->count();
-        $arrData     = $this->getAdjustmentTypeList();
+        $arrData     = $this->getAdjustmentTypeList($request);
         $arrData     = $arrData->skip($start)->take($rowPerPage);
         $arrData     = $arrData->orderBy($columnName, $columnSortOrder);
-        if (!empty($searchValue)) {
-            $arrData = $arrData->where('adjustment_type', 'like', '%' . $searchValue . '%');
-
-        }
         $arrData = $arrData->get();
         $arrData->map(function ($value, $i) {
             $value->sno             = ++$i;

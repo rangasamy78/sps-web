@@ -8,16 +8,23 @@
       }
     });
 
+    $('#shipmentTermsFilter').on('keyup change', function(e) {
+            e.preventDefault();
+            table.draw();
+    });
+    
     var table = $('#shipmentTermTable').DataTable({
       responsive: true,
       processing: true,
       serverSide: true,
+      searching: false,
       order: [
         [0, 'desc']
       ],
       ajax: {
         url: "{{ route('shipment_terms.list') }}",
         data: function(d) {
+          d.shipment_terms_search = $('#shipmentTermsFilter').val();
           sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
           d.order = [{
             column: 0,

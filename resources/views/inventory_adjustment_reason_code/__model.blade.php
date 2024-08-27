@@ -20,7 +20,7 @@
                         <label class="col-sm-4 control-label">Adjustment Type</label>
                         <div class="col-sm-12">
                             <select class="form-control" id="adjustment_type_id" name="adjustment_type_id">
-                               <option value="">--Select Adjustment Type--</option>
+                               <option value="0">--Select Adjustment Type--</option>
                                @foreach($adjustment_types as $key => $adjustment_type)
                                     <option value="{{ $key }}">{{ $adjustment_type }}</option>
                                 @endforeach

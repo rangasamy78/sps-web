@@ -34,9 +34,12 @@ class AboutUsOptionRepository implements CrudRepositoryInterface, DatatableRepos
         $this->findOrFail($id)->delete();
     }
 
-    public function getAboutUsOptionList()
+    public function getAboutUsOptionList($request)
     {
         $query = AboutUsOption::query();
+        if (!empty($request->how_did_you_hear_option_search)) {
+            $query->where('how_did_you_hear_option', 'like', '%' . $request->how_did_you_hear_option_search . '%');
+        }
         return $query;
     }
 
@@ -47,24 +50,16 @@ class AboutUsOptionRepository implements CrudRepositoryInterface, DatatableRepos
         $rowPerPage           =         $request->get("length");
         $orderArray           =         $request->get('order');
         $columnNameArray      =         $request->get('columns');
-        $searchArray          =         $request->get('search');
         $columnIndex          =         $orderArray[0]['column'];
         $columnName           =         $columnNameArray[$columnIndex]['data'];
         $columnSortOrder      =         $orderArray[0]['dir'];
-        $searchValue          =         $searchArray['value'];
-        $aboutUsOptions = $this->getAboutUsOptionList();
+        $aboutUsOptions = $this->getAboutUsOptionList($request);
         $total = $aboutUsOptions->count();
-        $totalFilter = $this->getAboutUsOptionList();
-        if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('how_did_you_hear_option', 'like', '%' . $searchValue . '%');
-        }
+        $totalFilter = $this->getAboutUsOptionList($request);
         $totalFilter = $totalFilter->count();
-        $arrData = $this->getAboutUsOptionList();
+        $arrData = $this->getAboutUsOptionList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
-        if (!empty($searchValue)) {
-            $arrData = $arrData->where('how_did_you_hear_option', 'like', '%' . $searchValue . '%');
-        }
         $arrData = $arrData->get();
         $arrData->map(function ($value) {
             $value->how_did_you_hear_option = $value->how_did_you_hear_option ?? '';

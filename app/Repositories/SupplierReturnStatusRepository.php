@@ -35,9 +35,12 @@ Class SupplierReturnStatusRepository implements CrudRepositoryInterface, Datatab
         return $query;
     }
 
-    public function getSupplierReturnStatusList()
+    public function getSupplierReturnStatusList($request)
     {
        $query = SupplierReturnStatus::query();
+       if (!empty($request->supplier_retun_status_search)) {
+            $query->where('return_code_name', 'like', '%' . $request->supplier_retun_status_search . '%');
+        }
        return $query;
     }
 
@@ -47,30 +50,17 @@ Class SupplierReturnStatusRepository implements CrudRepositoryInterface, Datatab
         $rowPerPage 		= 		$request->get("length");
         $orderArray 	   = 		$request->get('order');
         $columnNameArray 	= 		$request->get('columns');
-        $searchArray 		= 		$request->get('search');
         $columnIndex 		= 		$orderArray[0]['column'];
         $columnName 		= 		$columnNameArray[$columnIndex]['data'];
-        $columnSortOrder 	= 		$orderArray[0]['dir'];
-        $searchValue 		= 		$searchArray['value'];
-
-        $supplierReturnStatuses = $this->getSupplierReturnStatusList();
+        $columnSortOrder 	= 		$orderArray[0]['dir'];        
+        $supplierReturnStatuses = $this->getSupplierReturnStatusList($request);
         $total = $supplierReturnStatuses->count();
-
-        $totalFilter = $this->getSupplierReturnStatusList();
-        if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('return_code_name','like','%'.$searchValue.'%');
-        }
+        $totalFilter = $this->getSupplierReturnStatusList($request);
         $totalFilter = $totalFilter->count();
-
-        $arrData = $this->getSupplierReturnStatusList();
+        $arrData = $this->getSupplierReturnStatusList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName,$columnSortOrder);
-
-        if (!empty($searchValue)) {
-            $arrData = $arrData->where('return_code_name','like','%'.$searchValue.'%');
-        }
         $arrData = $arrData->get();
-
         $arrData->map(function ($value) {
             $value->return_code_name = $value->return_code_name ?? '';
             $value->action = "<button type='button' data-id='".$value->id."' class='p-2 m-0 btn btn-warning btn-sm showbtn'><i class='fa-regular fa-eye fa-fw'></i></button>&nbsp;&nbsp;<button type='button' data-id='".$value->id."'  name='btnEdit' class='editbtn btn btn-primary btn-sm p-2 m-0'><i class='fas fa-pencil-alt'></i></button>&nbsp;&nbsp;<button type='button' data-id='".$value->id."'  name='btnDelete' class='deletebtn btn btn-danger btn-sm p-2 m-0'><i class='fas fa-trash-alt'></i></button>";

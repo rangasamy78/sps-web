@@ -7,16 +7,23 @@
             }
         });
 
+        $('#endUseSegmentFilter').on('keyup change', function(e) {
+            e.preventDefault();
+            table.draw();
+        });
+        
         var table = $('#endUseSegmentTable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
+            searching: false,
             order: [
                 [0, 'desc']
             ],
             ajax: {
                 url: "{{ route('end_use_segments.list') }}",
                 data: function(d) {
+                    d.end_use_segment_search = $('#endUseSegmentFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{
                         column: 0,
@@ -148,6 +155,5 @@
                 $('#endUseSegmentShowForm #end_use_segment').val(data.end_use_segment);
             });
         });
-
     });
 </script>

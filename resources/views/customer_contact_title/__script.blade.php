@@ -7,16 +7,23 @@
             }
         });
 
+        $('#customerContactTitleFilter').on('keyup change', function(e) {
+            e.preventDefault();
+            table.draw();
+        });
+        
         var table = $('#customerContactTitleTable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
+            searching: false,
             order: [
                 [0, 'desc']
             ],
             ajax: {
                 url: "{{ route('customer_contact_titles.list') }}",
                 data: function(d) {
+                    d.customer_contact_title_search = $('#customerContactTitleFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{
                         column: 0,

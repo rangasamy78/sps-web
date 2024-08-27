@@ -6,14 +6,22 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+        $('#reasonCodeFilter').on('keyup change', function(e) {
+            e.preventDefault();
+            table.draw();
+        });
+        
         var table = $('#datatable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
+            searching: false,
             order: [[0, 'desc']],
             ajax: {
                 url: "{{ route('release_reason_codes.list') }}",
                 data: function (d) {
+                    d.reason_code_search = $('#reasonCodeFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{ column: 0, dir: sort }];
                 }
@@ -25,16 +33,30 @@
             ],
             rowCallback: function (row, data, index) {
                 $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
-            }
+            },
+            dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            buttons: [
+                {
+                    text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add Release Reason Code</span>',
+                    className: 'create-new btn btn-primary',
+                    attr: {
+                        'data-bs-toggle': 'modal',
+                        'data-bs-target': '#releaseReasonCodeModel',
+                        'id': 'createBin',
+                    },
+                    action: function(e, dt, node, config) {
+
+                        $('#savedata').html("Save Release Reason Code");
+                        $('#release_reason_code_id').val('');
+                        $('#releaseReasonCodeForm').trigger("reset");
+                        $('.release_reason_code_error').html('');
+                        $('#modelHeading').html("Create New Release Reason Code");
+                        $('#releaseReasonCodeModel').modal('show');
+                    }
+                }
+            ],
         });
-        $('#createReleaseReasonCode').click(function () {
-            $('.release_reason_code_error').html('');
-            $('#savedata').html("Save Release Reason Code");
-            $('#release_reason_code_id').val('');
-            $('#releaseReasonCodeForm').trigger("reset");
-            $('#modelHeading').html("Create New Release Reason Code");
-            $('#releaseReasonCodeModel').modal('show');
-        });
+
         $('#releaseReasonCodeForm input').on('input', function () {
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');
@@ -114,11 +136,6 @@
 
             });
         });
-
-        setTimeout(() => {
-            $('.dataTables_filter .form-control').removeClass('form-control-sm').css('margin-right', '20px');
-            $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left', '30px');
-        }, 300);
     });
 
 </script>

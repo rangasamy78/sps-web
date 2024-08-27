@@ -41,9 +41,12 @@ class SelectTypeCategoryRepository implements CrudRepositoryInterface, Datatable
         }
     }
 
-    public function getSelectTypeCategoryList()
+    public function getSelectTypeCategoryList($request)
     {
         $query = SelectTypeCategory::query();
+        if (!empty($request->select_type_category_search)) {
+            $query->where('select_type_category_name', 'like', '%' . $request->select_type_category_search . '%');
+        }
         return $query;
     }
     
@@ -54,27 +57,16 @@ class SelectTypeCategoryRepository implements CrudRepositoryInterface, Datatable
         $rowPerPage = $request->get("length");
         $orderArray = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $searchArray = $request->get('search');
         $columnIndex = $orderArray[0]['column'];
         $columnName = $columnNameArray[$columnIndex]['data'];
         $columnSortOrder = $orderArray[0]['dir'];
-        $searchValue = $searchArray['value'];
-        $select_type = $this->getSelectTypeCategoryList();
+        $select_type = $this->getSelectTypeCategoryList($request);
         $total = $select_type->count();
-        $totalFilter = $this->getSelectTypeCategoryList();
-        if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('select_type_category_name', 'like', '%' . $searchValue . '%');
-        }
+        $totalFilter = $this->getSelectTypeCategoryList($request);       
         $totalFilter = $totalFilter->count();
-
-        $arrData = $this->getSelectTypeCategoryList();
+        $arrData = $this->getSelectTypeCategoryList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
-
-        if (!empty($searchValue)) {
-            $arrData = $arrData->where('select_type_category_name', 'like', '%' . $searchValue . '%');
-
-        }
         $arrData = $arrData->get();
         $arrData->map(function ($value, $i) {
             $value->sno = ++$i;
