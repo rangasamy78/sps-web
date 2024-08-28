@@ -14,7 +14,7 @@ use App\Models\DefaultLinkAccountOtherChargesDiscountsVariance;
 
 class DefaultLinkAccountService
 {
-    protected DropDownRepository $dropDownRepository;
+    public DropDownRepository $dropDownRepository;
 
     public function __construct(DropDownRepository $dropDownRepository)
     {

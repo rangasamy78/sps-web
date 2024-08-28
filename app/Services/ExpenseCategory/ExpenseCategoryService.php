@@ -6,7 +6,7 @@ use App\Repositories\DropDownRepository;
 
 class ExpenseCategoryService
 {
-    protected $dropDownRepository;
+    public $dropDownRepository;
 
     public function __construct(DropDownRepository $dropDownRepository)
     {
