@@ -21,10 +21,5 @@
             <label class="form-label"><b style="margin-left: 8px;">Net Due : </b></label>
             <input type="text" class="form-control dt-input" name="netDueFilter" id="netDueFilter" placeholder="Search Net Due Day">
         </div>
-        <div class="col-12 col-sm-6 col-lg-4 d-flex justify-content-end align-items-end">
-            <button class="btn btn-primary" type="button" id="createPaymentTerm" name="createPaymentTerm">
-                <i class="bx bx-plus me-sm-1"></i> New Standard Payment Term
-            </button>
-        </div>
     </div>
 </div>&nbsp;

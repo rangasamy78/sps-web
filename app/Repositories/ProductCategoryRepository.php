@@ -22,9 +22,8 @@ class ProductCategoryRepository implements CrudRepositoryInterface, DatatableRep
         $productCategory = ProductCategory::create([
             'product_category_name' => $data['product_category_name'],
         ]);
-
-        if (isset($data['product_sub_categories']) && is_array($data['product_sub_categories'])) {
-            $subCategoriesData = $data['product_sub_categories'];
+        if (!empty($data['product_sub_categories']) && is_array($data['product_sub_categories'])) {
+            $subCategoriesData = array_filter($data['product_sub_categories'], fn($item) => !empty($item['product_sub_category_name']));
             $productCategory->sub_categories()->createMany($subCategoriesData);
         }
         return $productCategory;
@@ -39,9 +38,12 @@ class ProductCategoryRepository implements CrudRepositoryInterface, DatatableRep
     {
         $productCategory = ProductCategory::findOrFail($id);
         $productCategory->update(['product_category_name' => $data['product_category_name']]);
-        if (isset($data['product_sub_categories']) && is_array($data['product_sub_categories'])) {
+        if (!empty($data['product_sub_categories']) && is_array($data['product_sub_categories'])) {
+            $filteredData = array_filter($data['product_sub_categories'], fn($item) => !empty($item['product_sub_category_name']));
             $productCategory->sub_categories()->delete();
-            $productCategory->sub_categories()->createMany($data['product_sub_categories']);
+            if ($filteredData) {
+                $productCategory->sub_categories()->createMany($filteredData);
+            }
         }
         return $productCategory;
     }
@@ -94,7 +96,7 @@ class ProductCategoryRepository implements CrudRepositoryInterface, DatatableRep
         $arrData->map(function ($value, $i) {
             $value->sno                   = ++$i;
             $value->product_category_name = $value->product_category_name ?? '';
-            $value->subcategory           = $value->sub_categories->take(4)->pluck('product_sub_category_name')->implode(', ');
+            $value->subcategory           = $value->sub_categories->take(4)->pluck('product_sub_category_name')->filter()->implode(', ');
             $value->action               = "<div class='dropup'><button type='button' class='btn p-0 dropdown-toggle hide-arrow' data-bs-toggle='dropdown'><i class='bx bx-dots-vertical-rounded icon-color'></i></button><div class='dropdown-menu'><a class='dropdown-item showbtn text-warning' href='javascript:void(0);' data-id='" . $value->id . "' ><i class='bx bx-show me-1 icon-warning'></i> Show</a><a class='dropdown-item editbtn text-success' href='javascript:void(0);' data-id='" . $value->id . "' > <i class='bx bx-edit-alt me-1 icon-success'></i> Edit </a><a class='dropdown-item deletebtn text-danger' href='javascript:void(0);' data-id='" . $value->id . "' ><i class='bx bx-trash me-1 icon-danger'></i> Delete</a> </div> </div>";
         });
 

@@ -89,6 +89,11 @@
                 {
                     text: '<i class="bx bx-download bx-sm"></i>',
                     className: 'download-template btn btn-primary btn-sm',
+                    attr: {
+                        'data-bs-toggle'  : 'tooltip',
+                        'data-bs-placement'  : 'top',
+                        'title'  : 'State template',
+                    },
                     action: function(e, dt, node, config) {
                         window.location.href = "{{ route('state.template_download') }}";
                     }
@@ -314,6 +319,11 @@
 
         $('#downloadState').on('click', function() {
             window.location.href = "{{ route('state.template_download') }}";
+        });
+
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
         });
     });
 </script>

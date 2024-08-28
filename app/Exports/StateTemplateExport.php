@@ -14,8 +14,8 @@ class StateTemplateExport implements WithHeadings
     public function headings(): array
     {
         return [
-            'name',
-            'code',
+            'state_name',
+            'state_code',
         ];
     }
 }

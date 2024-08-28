@@ -64,6 +64,27 @@
             rowCallback: function(row, data, index) {
                 $('td:eq(0)', row).html(table.page.info().start + index + 1);
             },
+            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            buttons: [{
+                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" id="createPaymentTerm" name="createPaymentTerm" >New Standard Payment Term</span>',
+                className: 'create-new btn btn-primary',
+                attr: {
+                    'data-bs-toggle': 'modal',
+                    'data-bs-target': '#accountPaymentTermModel',
+                    'id': 'createBin',
+                },
+                action: function(e, dt, node, config) {
+                    resetForm();
+                    var standard_date_driven = $('button[name="btn_payment_standard_date_driven"].active').val();
+                    var headingName = (standard_date_driven == 1) ? "Standard" : "Date Driven";
+                    $('#savedata').html("Save Payment Term");
+                    $('#account_payment_term_id').val('');
+                    $('#payment_type').val('').trigger('change');
+                    $('#accountPaymentTermForm').trigger("reset");
+                    $('#modelHeading').html("Create New " + headingName + " Payment Term");
+                    $('#accountPaymentTermModel').modal('show');
+                }
+            }],
         })
 
         $('#createPaymentTerm').click(function() {
@@ -222,7 +243,7 @@
                 var headingName = "Date Driven";
             }
             $('#main-head-label').html('List ' + headingName + ' Payment Terms');
-            $('#createPaymentTerm').html('<i class="bx bx-plus me-sm-1"></i>New ' + headingName + ' Payment Term');
+            $('#createPaymentTerm').html('New ' + headingName + ' Payment Term');
             table.draw();
         });
 

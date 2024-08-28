@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Models\SelectTypeSubCategory;
 use App\Repositories\{ SelectTypeSubCategoryRepository, DropDownRepository };
 use App\Http\Requests\SelectTypeSubCategory\{CreateSelectTypeSubCategoryRequest};
 

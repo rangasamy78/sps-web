@@ -5,6 +5,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
         $('#savedata').click(function(e) {
             e.preventDefault();
             if (validateForm(button)) {
@@ -28,6 +29,7 @@
             }
         });
     });
+
     function validateForm() {
         let isValid = true;
         let visibleSection = $('#due_date').is(':visible') ? '#due_date' : '#invoice_date';
@@ -42,9 +44,11 @@
         });
         return isValid;
     }
+
     $('#btn_invoice_date').click(function() {
         let isValid = true;
         let inputs = document.querySelectorAll('#invoice_date input[type="number"]:not([readonly]):not([disabled])');
+        $('#error-text').text('');
         console.log(inputs);
         inputs.forEach(function(input) {
             if (!input.value) {
@@ -60,6 +64,7 @@
     $('#btn_due_date').click(function() {
         let isValid = true;
         let inputs = document.querySelectorAll('#due_date input[type="number"]:not([readonly]):not([disabled])');
+        $('#error-text').text('');
         console.log(inputs);
         inputs.forEach(function(input) {
             if (!input.value) {
@@ -71,6 +76,7 @@
         });
         return isValid;
     });
+
     function getInvoiceDateValue(id) {
         var currentValue = parseInt($('#' + id).val());
         var nextStartId = '';

@@ -81,7 +81,7 @@
             }],
         });
 
-        $('#supplierPortForm input').on('input', function() {
+        $('#supplierPortForm input, #supplierPortForm select').on('input change', function() {
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');
         });

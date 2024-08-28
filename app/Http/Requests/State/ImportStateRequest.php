@@ -25,7 +25,7 @@ class ImportStateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'file' => 'required|mimes:xls,xlsx,csv|max:2048',
+            'file' => 'required|mimes:xls,xlsx|max:2048',
         ];
     }
 
