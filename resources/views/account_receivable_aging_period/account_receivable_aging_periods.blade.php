@@ -222,6 +222,9 @@
                 <label for="do_not_show_on_report" class="form-check-label">Do not show Customer Deposits in AR Reports/Customer Statements</label>
                 <input class="form-check-input" type="checkbox" id="do_not_show_on_report" name="do_not_show_on_report" value="1" {{ isset($accountReceivableAgingPeriod['do_not_show_on_report']) && $accountReceivableAgingPeriod['do_not_show_on_report'] == 1 ? 'checked' : '' }}>
               </div>
+              <div class="row">
+                <span id="error-text" class="text-danger error-text"></span>
+              </div>
               <button type="submit" class="btn btn-primary float-end" id="savedata" name="savedata">Save Aging Period</button>
             </div>
           </div>

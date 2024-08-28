@@ -5,12 +5,11 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-
         $('#savedata').click(function(e) {
             e.preventDefault();
-            if (validateForm(button)) {
-                var button = $(this);
-                sending(button);
+            var button = $(this);
+            sending(button);
+            if (validateForm()) {
                 $.ajax({
                     url: "{{ route('account_receivable_aging_periods.save') }}",
                     type: "POST",
@@ -20,12 +19,16 @@
                         if (response.status == "success") {
                             showToast('success', response.msg);
                         }
+                        $('#savedata').html('Update Aging Period');
                     },
                     error: function(xhr) {
                         handleAjaxError(xhr);
-                        sending(button, true);
                     }
                 });
+            } else {
+                setTimeout(() => {
+                    $('#savedata').html('Update Aging Period');
+                }, 300);
             }
         });
     });
@@ -42,36 +45,94 @@
                 input.style.border = '';
             }
         });
+        if (visibleSection === '#due_date') {
+            if (!greaterDueDate()) {
+                isValid = false;
+            }
+        } else if (visibleSection === '#invoice_date') {
+            if (!greaterInvoice()) {
+                isValid = false;
+            }
+        }
+
         return isValid;
     }
 
+    function greaterInvoice() {
+        let periods = [
+            $('#ar_invoice_date_end_1'),
+            $('#ar_invoice_date_end_2'),
+            $('#ar_invoice_date_end_3'),
+            $('#ar_invoice_date_end_4'),
+        ];
+        let isValid = true;
+        let errorMessage = '';
+
+        for (let i = 0; i < periods.length - 1; i++) {
+            let currentPeriod = parseInt(periods[i].val()) || 0;
+            let nextPeriod = parseInt(periods[i + 1].val()) || 0;
+
+            if (currentPeriod >= nextPeriod) {
+                periods[i + 1].css('border', '1px solid red');
+                errorMessage = 'The end date of each invoice period must be greater than the previous period\'s end date.';
+                isValid = false;
+            } else {
+                periods[i + 1].css('border', '');
+            }
+        }
+        $('#error-text').text(errorMessage);
+        return isValid;
+    }
+
+    function greaterDueDate() {
+        let periods = [
+            $('#ar_due_date_end_2'),
+            $('#ar_due_date_end_3'),
+            $('#ar_due_date_end_4'),
+            $('#ar_due_date_end_5')
+        ];
+
+        let isValid = true;
+        let errorMessage = '';
+
+        for (let i = 0; i < periods.length - 1; i++) {
+            let currentPeriod = parseInt(periods[i].val()) || 0;
+            let nextPeriod = parseInt(periods[i + 1].val()) || 0;
+
+            if (currentPeriod >= nextPeriod) {
+                periods[i + 1].css('border', '1px solid red');
+                errorMessage = 'The end date of each due date period must be greater than the previous period\'s end date.';
+                isValid = false;
+            } else {
+                periods[i + 1].css('border', '');
+            }
+        }
+
+        $('#error-text').text(errorMessage);
+        return isValid; // Return true if no error message
+    }
+
     $('#btn_invoice_date').click(function() {
+        $('#error-text').text('');
         let isValid = true;
         let inputs = document.querySelectorAll('#invoice_date input[type="number"]:not([readonly]):not([disabled])');
-        $('#error-text').text('');
         console.log(inputs);
         inputs.forEach(function(input) {
             if (!input.value) {
-                // input.style.border = '1px solid red';
                 input.style.border = '';
-                // isValid = false;
-            } else {
             }
         });
         return isValid;
     });
 
     $('#btn_due_date').click(function() {
+        $('#error-text').text('');
         let isValid = true;
         let inputs = document.querySelectorAll('#due_date input[type="number"]:not([readonly]):not([disabled])');
-        $('#error-text').text('');
         console.log(inputs);
         inputs.forEach(function(input) {
             if (!input.value) {
                 input.style.border = '';
-                // input.style.border = '1px solid red';
-                // isValid = false;
-            } else {
             }
         });
         return isValid;
@@ -119,6 +180,7 @@
             }
         }
     }
+
     function getDueDateValue(id) {
         var currentValue = parseInt($('#' + id).val());
         var nextStartId = '';

@@ -113,31 +113,30 @@ class StateController extends Controller
         return $this->stateRepository->dataTable($request);
     }
 
-   
+
     public function importStates(ImportStateRequest $request)
     {
-    try {
-        $file   = $request->file('file');
-        $import = new StatesImport();
-        Excel::import($import, $file);
+        try {
+            $file   = $request->file('file');
+            $import = new StatesImport();
+            Excel::import($import, $file);
 
-        if (!empty($import->errors)) {
-            return response()->json([
-                'status' => 'warning',
-                'msg'    => 'File processed with some issues',
-                'errors' => $import->errors,
-            ], 200);
+            if (!empty($import->errors)) {
+                return response()->json([
+                    'status' => 'warning',
+                    'msg'    => 'File processed with some issues',
+                    'errors' => $import->errors,
+                ], 200);
+            }
+
+            return response()->json(['status' => 'success', 'msg' => 'File uploaded and processed successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'msg' => 'An error occurred during the file upload. ' . $e->getMessage()], 500);
         }
-
-        return response()->json(['status' => 'success', 'msg' => 'File uploaded and processed successfully']);
-    } catch (\Exception $e) {
-        return response()->json(['status' => 'error', 'msg' => 'An error occurred during the file upload. ' . $e->getMessage()], 500);
     }
-}
-public function stateTemplateDownload()
-{
-    return Excel::download(new StateTemplateExport, 'state_template.xlsx');
-}
-    
 
+    public function stateTemplateDownload()
+    {
+        return Excel::download(new StateTemplateExport, 'state_template.xlsx');
+    }
 }
