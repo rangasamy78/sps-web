@@ -7,7 +7,7 @@
             <div class="col-md-12">
                 <form id="inventoryAssetForm" name="inventoryAssetForm" class="form-horizontal" method="POST">
                     <div class="row">
-                        <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-account-for-new-products">Account for New Products</label>
+                        <label class="col-sm-3 text-sm-end" for="formtabs-account-for-new-products">Account for New Products</label>
                         <div class="col-sm-9">
                             <input type="hidden" name="id" id="id" value="{{ $data['inventoryAsset']['id'] ?? '' }}">
                             <select id="account_for_new_product_id" class="form-select select2" name="account_for_new_product_id" data-allow-clear="true">

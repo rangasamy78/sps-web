@@ -7,7 +7,7 @@
             <div class="row g-6">
                 <div class="col-md-12">
                     <div class="row">
-                        <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-supplier-payment-cash-account">Retained Earnings</label>
+                        <label class="col-sm-3 text-sm-end" for="formtabs-supplier-payment-cash-account">Retained Earnings</label>
                         <div class="col-sm-9">
                             <input type="hidden" name="id" id="id" value="{{ $data['bankingPayment']['id'] ?? '' }}">
                             <select id="supplier_payment_cash_account_id" class="form-select select2" name="supplier_payment_cash_account_id" data-allow-clear="true">
@@ -23,7 +23,7 @@
             <div class="row g-6 mt-3">
                 <div class="col-md-12">
                     <div class="row">
-                        <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-vendor-payment-cash-account">Vendor Payment - Cash Account</label>
+                        <label class="col-sm-3 text-sm-end" for="formtabs-vendor-payment-cash-account">Vendor Payment - Cash Account</label>
                         <div class="col-sm-9">
                             <select id="vendor_payment_cash_account_id" class="form-select select2" name="vendor_payment_cash_account_id" data-allow-clear="true">
                                 @foreach($data['linkedAccounts'] as $key => $linkedAccount)
@@ -38,7 +38,7 @@
             <div class="row g-6">
                 <div class="col-md-12">
                     <div class="row">
-                        <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-customer-payment-cash-account">Customer Payment - Cash Account</label>
+                        <label class="col-sm-3 text-sm-end" for="formtabs-customer-payment-cash-account">Customer Payment - Cash Account</label>
                         <div class="col-sm-9">
                             <select id="customer_payment_cash_account_id" class="form-select select2" name="customer_payment_cash_account_id" data-allow-clear="true">
                                 @foreach($data['linkedAccounts'] as $key => $linkedAccount)
@@ -53,7 +53,7 @@
             <div class="row g-6">
                 <div class="col-md-12">
                     <div class="row">
-                        <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-miscellaneous-expense">Miscellaneous Expense</label>
+                        <label class="col-sm-3 text-sm-end" for="formtabs-miscellaneous-expense">Miscellaneous Expense</label>
                         <div class="col-sm-9">
                             <select id="miscellaneous_expense_id" class="form-select select2" name="miscellaneous_expense_id" data-allow-clear="true">
                                 @foreach($data['linkedAccounts'] as $key => $linkedAccount)

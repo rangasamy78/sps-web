@@ -7,7 +7,7 @@
             <div class="col-md-12">
                 <form id="inventoryInTransitOnTransferForm" name="inventoryInTransitOnTransferForm" class="form-horizontal" method="POST">
                     <div class="row">
-                        <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-inventory-in-transit">Inventory in Transit</label>
+                        <label class="col-sm-3 text-sm-end" for="formtabs-inventory-in-transit">Inventory in Transit</label>
                         <div class="col-sm-9">
                             <input type="hidden" name="id" id="id" value="{{ $data['inventoryInTransitOnTransfer']['id'] ?? '' }}">
                             <select id="inventory_in_transit_id" class="form-select select2" name="inventory_in_transit_id" data-allow-clear="true">

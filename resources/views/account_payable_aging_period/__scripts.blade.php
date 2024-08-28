@@ -16,7 +16,7 @@
         var aging_period_ap_2_to = parseInt($('#aging_period_ap_1_end').val()) + 1;
         var aging_period_ap_3_to = parseInt($('#aging_period_ap_2_end').val()) + 1;
         var aging_period_ap_4_to = parseInt($('#aging_period_ap_3_end').val()) + 1;
-        
+
         $('#aging_period_ap_2_start').val(aging_period_ap_2_to);
         $('#aging_period_ap_3_start').val(aging_period_ap_3_to);
         $('#aging_period_ap_4_start').val(aging_period_ap_4_to);
@@ -88,9 +88,7 @@
                 success: function(response) {
                     if (response.status == "success") {
                         $('#savedata').html(button);
-                        var successMessage = response.msg;
-                        var successTitle = response.status;
-                        showSuccessMessage(successTitle, successMessage);
+                        showToast('success', response.msg);
                     }
                 },
                 error: function(xhr) {
@@ -127,19 +125,21 @@
                 }
             });
         });
+
         $('#agingPeriodAPForm input').on('input', function() {
             let fieldName = 'invoice_' + $(this).attr('name');
             $('.' + fieldName + '_error').text('');
         });
+
         function resetForm() {
-        $('.ap_invoice_date_start_1_end_error').html('');
-        $('.ap_invoice_date_start_2_end_error').html('');
-        $('.ap_invoice_date_start_3_end_error').html('');
-        $('.period_must_be_greater_error').html('');
-        $('#aging_period_ap_1_end').removeClass('is-invalid');
-        $('#aging_period_ap_2_end').removeClass('is-invalid');
-        $('#aging_period_ap_3_end').removeClass('is-invalid');
-        $('#aging_period_ap_4_end').removeClass('is-invalid');
-    }
+            $('.ap_invoice_date_start_1_end_error').html('');
+            $('.ap_invoice_date_start_2_end_error').html('');
+            $('.ap_invoice_date_start_3_end_error').html('');
+            $('.period_must_be_greater_error').html('');
+            $('#aging_period_ap_1_end').removeClass('is-invalid');
+            $('#aging_period_ap_2_end').removeClass('is-invalid');
+            $('#aging_period_ap_3_end').removeClass('is-invalid');
+            $('#aging_period_ap_4_end').removeClass('is-invalid');
+        }
 });
 </script>

@@ -23,6 +23,7 @@
             ajax: {
                 url: "{{ route('account_types.list') }}",
                 data: function(d) {
+                    d.account_type_name_search = $('#accountTypeNameFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{
                         column: 1,

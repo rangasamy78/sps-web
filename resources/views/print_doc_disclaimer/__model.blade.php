@@ -72,13 +72,8 @@
                     <div class="form-group mt-3">
                         <label class="col-sm-6 form-label">Select Type Category</label>
                         <div class="col-sm-12">
-<<<<<<< Updated upstream
                             <select class="form-control select2" id="select_type_category_id" disabled name="select_type_category_id">
                             <option value="">--Select Type Category--</option>
-=======
-                            <select class="form-control" id="select_type_category_id" disabled name="select_type_category_id">
-                                <option value="">--Select Type Category--</option>
->>>>>>> Stashed changes
                                 @foreach($select_type_categories as $key => $select_type_category)
                                 <option value="{{ $key }}">{{ $select_type_category }}</option>
                                 @endforeach

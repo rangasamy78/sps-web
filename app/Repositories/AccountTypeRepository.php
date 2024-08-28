@@ -57,12 +57,15 @@ class AccountTypeRepository implements CrudRepositoryInterface, DatatableReposit
         $columnSortOrder = $orderArray[0]['dir'];
         $accountTypes    = $this->getAccountTypeList($request);
         $total           = $accountTypes->count();
+
         $totalFilter     = $this->getAccountTypeList($request);
         $totalFilter     = $totalFilter->count();
+
         $arrData         = $this->getAccountTypeList($request);
         $arrData         = $arrData->skip($start)->take($rowPerPage);
         $arrData         = $arrData->orderBy($columnName, $columnSortOrder);
         $arrData         = $arrData->get();
+
         $arrData->map(function ($value, $i) {
             $value->sno               = ++$i;
             $value->account_type_name = $value->account_type_name ?? '';
