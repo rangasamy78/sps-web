@@ -4,7 +4,7 @@
 
           @section('styles')
           <style>
-            
+
           </style>
           @endsection
           @section('content')
@@ -13,7 +13,7 @@
               <h4 class="py-3 mb-4"><span class="text-muted fw-light">Home / </span>Price List Label </h4>
               @include('price_list_label.__search')
               <div class="row mb-3">
-                <div class="card">
+                <div class="card" style="overflow:hidden;width:98%;margin:auto;">
                   <div class="row mb-2 p-2">
                     <div class="col">
                       <table class="datatables-basic table tables-basic border-top table-striped" id="priceListLabelTable">

@@ -17,7 +17,7 @@
             serverSide: true,
             searching: false,
             order: [
-                [1, 'desc']
+                [0, 'desc']
             ],
             ajax: {
                 url: "{{ route('about_us_options.list') }}",
@@ -130,12 +130,7 @@
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(response) {
-                    if (response.status === "success") {
-                        table.draw();
-                        showSuccessMessage('Deleted!', 'How did you hear Option Deleted Successfully!');
-                    } else {
-                        showToast('error', response.msg);
-                    }
+                    handleAjaxResponse(response, table);
                 },
                 error: function(xhr) {
                     console.error('Error:', xhr.statusText);

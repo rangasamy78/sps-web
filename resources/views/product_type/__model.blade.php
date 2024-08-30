@@ -17,13 +17,13 @@
                                 </div>
                                 <span class="text-danger error-text product_type_error"></span>
                             </div>
-                            <div class="form-group">
-                                <small class="text-light fw-medium d-block">Default Values</small>
+                            <div class="form-group mt-2">
+                                <label class="form-check-label" for="indivisible">Default Values</label>
                                 <div class="form-check form-check-inline mt-3">
                                     <input class="form-check-input" type="checkbox" id="indivisible" name="indivisible" value="1" />
                                     <label class="form-check-label" for="indivisible">Indivisible</label>
                                     <div class="mt-2">
-                                        <small>"Inventory detail lines CANNOT be partially sold."</small>
+                                        <small><i>"Inventory detail lines CANNOT be partially sold."</i></small>
                                     </div>
                                 </div>
                                 <br>
@@ -31,7 +31,7 @@
                                     <input class="form-check-input" type="checkbox" id="non_serialized" name="non_serialized" value="1" />
                                     <label class="form-check-label" style="color:red" for="non_serialized">Non Serialized</label>
                                     <div class="mt-2">
-                                        <small>"Inventory is NOT tracked by Serial Number."</small>
+                                        <small><i>"Inventory is NOT tracked by Serial Number."</i></small>
                                     </div>
                                 </div>
                             </div>
@@ -99,7 +99,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <small class="text-light fw-medium d-block">Default Values</small>
+                                <label class="form-check-label" for="indivisible">Default Values</label>
                                 <div class="form-check form-check-inline mt-3">
                                     <input class="form-check-input" disabled type="checkbox" id="indivisibles" name="indivisibles" value="1" />
                                     <label class="form-check-label" for="indivisible">Indivisible</label>

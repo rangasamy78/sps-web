@@ -8,16 +8,16 @@
             <input type="text" class="form-control dt-input dt-full-name" name="priceCodeFilter" id="priceCodeFilter" placeholder="Search Price Code">
         </div>
         <div class="col-12 col-sm-6 col-lg-3">
-            <input type="text" class="form-control dt-input dt-full-name" name="discountFilter" id="discountFilter" placeholder="Search Discount %">
+            <input type="number" class="form-control dt-input dt-full-name" name="discountFilter" id="discountFilter" placeholder="Search Discount %">
         </div>
         <div class="col-12 col-sm-6 col-lg-3">
-            <input type="text" class="form-control dt-input dt-full-name" name="marginFilter" id="marginFilter" placeholder="Search Margin">
+            <input type="number" class="form-control dt-input dt-full-name" name="marginFilter" id="marginFilter" placeholder="Search Margin">
         </div>
         <div class="col-12 col-sm-6 col-lg-3">
-            <input type="text" class="form-control dt-input dt-full-name" name="markupFilter" id="markupFilter" placeholder="Search Markup">
+            <input type="number" class="form-control dt-input dt-full-name" name="markupFilter" id="markupFilter" placeholder="Search Markup">
         </div>
         <div class="col-12 col-sm-6 col-lg-3">
-            <input type="text" class="form-control dt-input dt-full-name" name="salesPersonCommissionFilter" id="salesPersonCommissionFilter" placeholder="Search Sales Rep Com%">
+            <input type="number" class="form-control dt-input dt-full-name" name="salesPersonCommissionFilter" id="salesPersonCommissionFilter" placeholder="Search Sales Rep Com%">
         </div>
     </div>
 </div>&nbsp;

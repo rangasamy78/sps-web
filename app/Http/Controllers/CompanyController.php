@@ -19,7 +19,8 @@ class CompanyController extends Controller
 
     public function index()
     {
-        return view('company.companies');
+        $companyCount = Company::query()->count();
+        return view('company.companies', compact('companyCount'));
     }
 
     /**
@@ -32,7 +33,8 @@ class CompanyController extends Controller
     {
         try {
             $company = $this->companyRepository->store($request->only('company_name','email','address_line_1','address_line_2','city','state','zip','phone_1','phone_2','website','logo','is_bin_pre_defined'));
-            return response()->json(['status' => 'success', 'msg' => 'Company saved successfully.', 'company_logo' => isset($company) ? $company->logo : '']);
+            $count   = Company::query()->count();
+            return response()->json(['status' => 'success', 'msg' => 'Company saved successfully.', 'company_logo' => isset($company) ? $company->logo : '', 'companyCount' => $count]);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error saving company: ' . $e->getMessage());

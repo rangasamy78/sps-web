@@ -18,7 +18,7 @@
             serverSide: true,
             searching: false,
             order: [
-                [1, 'desc']
+                [0, 'desc']
             ],
             ajax: {
                 url: "{{ route('account_types.list') }}",
@@ -63,7 +63,7 @@
                     $('#savedata').val("create-account-type");
                     $('#savedata').html("Save Account Type");
                     $('#account_type_id').val('');
-                    $('#account_typeForm').trigger("reset");
+                    $('#accountTypeForm').trigger("reset");
                     $('.account_type_name_error').html('');
                     $('#modelHeading').html("Create New Account Type");
                     $('#accountTypeModel').modal('show');

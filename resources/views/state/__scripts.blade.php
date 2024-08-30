@@ -18,7 +18,7 @@
             serverSide: true,
             searching: false,
             order: [
-                [1, 'desc']
+                [0, 'desc']
             ],
             ajax: {
                 url: "{{ route('states.list') }}",
@@ -101,7 +101,7 @@
             ]
         });
 
-        $('#stateForm input').on('input', function() {
+        $('#stateForm input, #importStateForm input').on('input change', function() {
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');
         });

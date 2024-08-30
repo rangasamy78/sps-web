@@ -23,7 +23,7 @@
                                     <td class="slno">1</td>
                                     <td>
                                         <select class="form-select form-select-sm department" name="department_id_[]" id="department_id_0">
-                                            <option value="">--Select--</option>
+                                            <option value="">Select Department</option>
                                             @foreach($departments as $department)
                                             <option value="{{ $department->id }}">{{ $department->department_name }}</option>
                                             @endforeach

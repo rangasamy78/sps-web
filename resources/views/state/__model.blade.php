@@ -49,7 +49,6 @@
                             <input type="text" disabled class="form-control" id="name" name="name"
                                 placeholder="Enter Name" value="">
                         </div>
-                        <span class="text-danger error-text name_error"></span>
                     </div>
                     <div class="form-group mt-3">
                         <label class="col-sm-2 form-label">Code</label>

@@ -17,7 +17,7 @@
             serverSide: true,
             searching: false,
             order: [
-                [1, 'desc']
+                [0, 'desc']
             ],
             ajax: {
                 url: "{{ route('sub_headings.list') }}",
@@ -60,7 +60,7 @@
                     'id': 'createBin',
                 },
                 action: function(e, dt, node, config) {
-                    $('#savedata').html("Save New Sub Heading");
+                    $('#savedata').html("Save Sub Heading");
                     $('#sub_heading_id').val('');
                     $('#subHeadingForm').trigger("reset");
                     $('.sub_heading_name_error').html('');

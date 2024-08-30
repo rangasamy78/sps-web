@@ -17,7 +17,7 @@
             serverSide: true,
             searching: false,
             order: [
-                [1, 'desc']
+                [0, 'desc']
             ],
             ajax: {
                 url: "{{ route('select_type_sub_categories.list') }}",
@@ -78,7 +78,7 @@
                     var blankSubcategoryRow = `
                 <div class="row subcategory-row">
                     <div class="col-sm-4">
-                        <label class="" for="select_type">Select Type Sub Category Name</label>
+                        <label class="" for="select_type">Select Type Sub Category Name<sup style="color:red; font-size: 0.9rem;"><strong>*</strong></sup></label>
                     </div>
                     <div class="col-sm-7">
                         <input type="text" name="select_type_sub_categories[][select_type_sub_category_name]" class="form-control" placeholder="Enter Select Type Sub Category Name" aria-label="Subcategory" />
@@ -205,11 +205,10 @@
                             <i class="fas fa-minus"></i>
                         </button>`;
                         }
-
                         var subcategoryRow = `
                             <div class="row subcategory-row">
                                 <div class="col-sm-4">
-                                    <label for="select_type">Select Type Sub Category Name</label>
+                                    <label for="select_type">Select Type Sub Category Name${index == 0 ? '<sup style="color:red; font-size: 0.9rem;"><strong>*</strong></sup>' : ''}</label>
                                 </div><br><br>
                                 <div class="col-sm-7">
                                     <input type="text" name="select_type_sub_categories[][select_type_sub_category_name]" class="form-control"

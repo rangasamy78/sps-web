@@ -17,7 +17,7 @@
       serverSide: true,
       searching: false,
       order: [
-        [1, 'desc']
+        [0, 'desc']
       ],
       ajax: {
         url: "{{ route('account_sub_types.list') }}",
@@ -110,6 +110,7 @@
         $('#sub_type_name').val(data.sub_type_name);
       });
     });
+
     $('body').on('click', '.deletebtn', function() {
       var id = $(this).data('id');
       confirmDelete(id, function() {

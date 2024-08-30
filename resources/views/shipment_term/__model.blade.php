@@ -46,7 +46,7 @@
                     <div class="form-group">
                         <label for="shipment_term_name" class="form-label">Shipment Term Name</label>
                         <div class="col-sm-12">
-                            <input type="text" readonly class="form-control" id="shipment_term_name" name="shipment_term_name" value="">
+                            <input type="text" disabled class="form-control" id="shipment_term_name" name="shipment_term_name" value="">
                         </div>
                     </div>
                     <div class="form-group mb-2 p-1">

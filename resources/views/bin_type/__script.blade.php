@@ -11,14 +11,14 @@
             e.preventDefault();
             table.draw();
         });
-         
+
         var table = $('#binTypeTable').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
             searching: false,
             order: [
-                [1, 'desc']
+                [0, 'desc']
             ],
             ajax: {
                 url: "{{ route('bintypes.list') }}",

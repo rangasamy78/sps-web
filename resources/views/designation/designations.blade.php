@@ -18,7 +18,7 @@
     <div class="row mb-3">
       <!-- DataTable with Buttons -->
 
-      <div class="card p-4 pt-0">
+      <div class="card" style="overflow:hidden;width:98%;margin:auto;">
         <!-- </div> -->
         <div class="row">
           <div class="col">

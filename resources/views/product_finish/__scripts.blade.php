@@ -18,7 +18,7 @@
             serverSide: true,
             searching: false,
             order: [
-                [1, 'desc']
+                [0, 'desc']
             ],
             ajax: {
                 url: "{{ route('product_finishes.list') }}",
@@ -67,6 +67,7 @@
                 action: function(e, dt, node, config) {
                     $('#savedata').html("Save Product Finish");
                     resetForm();
+                    $('#product_finish_id').val('');
                     $('#productFinishForm').trigger("reset");
                     $("#productFinishForm").find("tr:gt(1)").remove();
                     $('#modelHeading').html("Create New Product Finish");

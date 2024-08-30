@@ -6,7 +6,7 @@
 @endsection
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="py-3 mb-4 float-right"><span class="text-muted fw-light">Home /</span> Aging Periods - AP</h4>
+        <h4 class="py-3 mb-4 float-right"><span class="text-muted fw-light">Home / </span> Aging Periods - AP</h4>
         <div class="card">
             <div style="overflow:hidden;width:96%;margin:auto;">
                 <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
@@ -63,7 +63,7 @@
                                             <label for="html5-search-input" class="col-md-2 card-subtitle mt-1">Period<span id="aging_period_ap_1_lbl"></span>: <sup style="color: red;font-size:1rem;"><b>*</b></sup></label>
                                             <div class="col-md-3">
                                                 <input class="form-control" type="number" name="aging_period_ap_1_start" id="aging_period_ap_1_start" disabled value='0'>
-                                            </div>  
+                                            </div>
                                             <div class="col-md-1 text-center">
                                                 <span>to</span>
                                             </div>
@@ -120,7 +120,7 @@
                                             <div class="col-12">
                                                 <button type="submit" class="btn btn-primary float-end" name="savedata" id="savedata">Update Aging Periods</button>
                                             </div>
-                                        </div> 
+                                        </div>
                                     </form>
                                 </div>
                             </div>

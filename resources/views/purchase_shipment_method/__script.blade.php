@@ -18,7 +18,7 @@
             serverSide: true,
             searching: false,
             order: [
-                [1, 'desc']
+                [0, 'desc']
             ],
             ajax: {
                 url: "{{ route('purchase_shipment_methods.list') }}",
@@ -59,7 +59,7 @@
             // displayLength: 7,
             // lengthMenu: [7, 10, 25, 50, 75, 100],
             buttons: [{
-                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Create Purchase Shipment Method</span>',
+                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add Purchase Shipment Method</span>',
                 className: 'create-new btn btn-primary',
                 attr: {
                     'data-bs-toggle': 'modal',

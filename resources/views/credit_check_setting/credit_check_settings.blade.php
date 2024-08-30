@@ -7,7 +7,7 @@
 @section('content')
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="py-3 mb-4 float-right"><span class="text-muted fw-light">Home /</span> Credit Check Settings</h4>
+        <h4 class="py-3 mb-4 float-right"><span class="text-muted fw-light">Home / </span> Credit Check Settings</h4>
         <div class="card">
             <div style="overflow:hidden;width:96%;margin:auto;">
                 <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">

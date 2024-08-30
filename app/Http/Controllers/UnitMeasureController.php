@@ -35,7 +35,7 @@ class UnitMeasureController extends Controller
     {
         try {
             $this->unitMeasureRepository->store($request->only('unit_measure_entity', 'unit_measure_name'));
-            return response()->json(['status' => 'success', 'msg' => 'Unit of mure saved successfully.']);
+            return response()->json(['status' => 'success', 'msg' => 'Unit of measure saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error saving unit of measures: ' . $e->getMessage());

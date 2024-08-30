@@ -18,7 +18,7 @@
             serverSide: true,
             searching: false,
             order: [
-                [1, 'desc']
+                [0, 'desc']
             ],
             ajax: {
                 url: "{{ route('supplier_return_statuses.list') }}",
@@ -61,11 +61,10 @@
                     'id': 'createBin',
                 },
                 action: function(e, dt, node, config) {
-
                     $('#savedata').html("Save Supplier Return Status");
                     $('#return_code_id').val('');
                     $('#supplierReturnStatusForm').trigger("reset");
-                    $('.reason_code_name_error').html('');
+                    $('.return_code_name_error').html('');
                     $('#modelHeading').html("Create New Supplier Return Status");
                     $('#supplierReturnStatusModel').modal('show');
                 }

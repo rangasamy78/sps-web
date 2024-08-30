@@ -66,7 +66,6 @@
                     </div>
 
                     <div class="row mt-3">
-
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="phone_1" class="form-label pb-1">Phone 1 <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
@@ -78,6 +77,7 @@
                             <div class="form-group">
                                 <label for="phone_2" class="form-label pb-1">Phone 2</label>
                                 <input type="text" class="form-control" id="phone_2" name="phone_2" placeholder="Enter Phone 2" value="">
+                                <span class="text-danger error-text phone_2_error"></span>
                             </div>
                         </div>
                     </div>

@@ -45,6 +45,9 @@ class UpdateCompanyRequest extends FormRequest
             'phone_1' => [
                 'required', 'numeric', 'digits:10',
             ],
+            'phone_2' => [
+                'nullable', 'numeric', 'digits:10',
+            ],
             'website' => [
                 'nullable', 'url',
             ],
@@ -60,7 +63,9 @@ class UpdateCompanyRequest extends FormRequest
     public function attributes()
     {
         return [
-            'phone_1' => 'phone'
+            'address_line_1' => 'address_line',
+            'phone_1' => 'phone',
+            'phone_2' => 'phone',
         ];
     }
 

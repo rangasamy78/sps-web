@@ -4,7 +4,7 @@
 @endsection
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="py-3 mb-4 float-right"><span class="text-muted fw-light">Home /</span> File Types</h4>
+    <h4 class="py-3 mb-4 float-right"><span class="text-muted fw-light">Home / </span> File Types</h4>
     @include('file_type.__search')
     <div class="card">
         <div class="card-datatable table-responsive" style="overflow:hidden;width:96%;margin:auto;">

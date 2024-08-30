@@ -7,13 +7,13 @@
 @section('content')
 <!-- Content -->
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="py-3 mb-4 float-right"><span class="text-muted fw-light">Home /</span> Default Link Account</h4>
+    <h4 class="py-3 mb-4 float-right"><span class="text-muted fw-light">Home / </span> Default Link Account</h4>
     <div class="row mb-12">
         <div class="col-md">
             @include('default_link_account.__inventory_asset')
         </div>
         <div class="col-md">
-            @include('default_link_account.__inventory_In_Transit_on_transfer')
+            @include('default_link_account.__inventory_in_transit_on_transfer')
         </div>
     </div>
     <div class="row mb-12 mt-3">

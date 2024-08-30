@@ -18,7 +18,7 @@
             serverSide: true,
             searching: false,
             order: [
-                [1, 'desc']
+                [0, 'desc']
             ],
             ajax: {
                 url: "{{ route('inventory_adjustment_reason_codes.list') }}",
@@ -72,6 +72,7 @@
                 action: function(e, dt, node, config) {
                     $('#savedata').html("Save Inventory Adjustment Reason Code");
                     $('.reason_error').html('');
+                    $('#inventory_adjustment_reason_code_id').val('');
                     $('#income_expense_account,#adjustment_type_id').val('').trigger('change');
                     $('#inventoryAdjustmentReasonCodeForm').trigger("reset");
                     $("#inventoryAdjustmentReasonCodeForm").find("tr:gt(1)").remove();

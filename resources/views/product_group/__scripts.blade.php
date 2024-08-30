@@ -18,7 +18,7 @@
             serverSide: true,
             searching: false,
             order: [
-                [1, 'desc']
+                [0, 'desc']
             ],
             ajax: {
                 url: "{{ route('product_groups.list') }}",
@@ -67,6 +67,7 @@
                 action: function(e, dt, node, config) {
                     $('#savedata').html("Save Product Group");
                     $('.product_group_name_error').html('');
+                    $('#product_group_id').val('');
                     $('#productGroupForm').trigger("reset");
                     $("#productGroupForm").find("tr:gt(1)").remove();
                     $('#modelHeading').html("Create New Product Group");

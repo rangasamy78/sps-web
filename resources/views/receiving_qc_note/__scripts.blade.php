@@ -18,7 +18,7 @@
             serverSide: true,
             searching: false,
             order: [
-                [1, 'desc']
+                [0, 'desc']
             ],
             ajax: {
                 url: "{{ route('receiving_qc_notes.list') }}",
@@ -67,6 +67,7 @@
                 action: function(e, dt, node, config) {
                     $('#savedata').html("Save Receiving Qc Note");
                     resetFormFields();
+                    $('#code_id').val('');
                     $('#receivingQcNoteForm').trigger("reset");
                     $('#modelHeading').html("Create New Receiving Qc Note");
                     $('#receivingQcNoteModel').modal('show');

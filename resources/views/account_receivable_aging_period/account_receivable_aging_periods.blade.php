@@ -30,7 +30,7 @@
                 </div>
               </div>
               <div class="row">
-                <input type="hidden" id="account_receivable_aging_period_id" readonly class="form-control" name="account_receivable_aging_period_id" value="{{ isset($accountReceivableAgingPeriod['id']) ? $accountReceivableAgingPeriod['id'] : 0 }}">
+                <input type="hidden" id="account_receivable_aging_period_id" disabled class="form-control" name="account_receivable_aging_period_id" value="{{ isset($accountReceivableAgingPeriod['id']) ? $accountReceivableAgingPeriod['id'] : 0 }}">
               </div>
               <!-- invoice Date -->
               <div id="invoice_date" style="display:none">
@@ -40,7 +40,7 @@
                   </div>
                   <div class="col-12 col-md-3">
                     <div class="input-group input-group-merge">
-                      <input type="number" id="ar_invoice_date_start_1" readonly class="form-control" name="ar_invoice_date_start_1" value="0">
+                      <input type="number" id="ar_invoice_date_start_1" disabled class="form-control" name="ar_invoice_date_start_1" value="0">
                     </div>
                   </div>
                   <div class="col-12 col-md-1 text-center text-md-start">
@@ -59,7 +59,7 @@
                   </div>
                   <div class="col-12 col-md-3">
                     <div class="input-group input-group-merge">
-                      <input type="number" id="ar_invoice_date_start_2" readonly class="form-control" name="ar_invoice_date_start_2" value="{{isset($accountReceivableAgingPeriod['ar_invoice_date_start_2']) ? $accountReceivableAgingPeriod['ar_invoice_date_start_2'] : null;}}">
+                      <input type="number" id="ar_invoice_date_start_2" disabled class="form-control" name="ar_invoice_date_start_2" value="{{isset($accountReceivableAgingPeriod['ar_invoice_date_start_2']) ? $accountReceivableAgingPeriod['ar_invoice_date_start_2'] : null;}}">
                     </div>
                   </div>
                   <div class="col-12 col-md-1 text-center text-md-start">
@@ -78,7 +78,7 @@
                   </div>
                   <div class="col-12 col-md-3">
                     <div class="input-group input-group-merge">
-                      <input type="number" class="form-control" readonly name="ar_invoice_date_start_3" id="ar_invoice_date_start_3" value="{{isset($accountReceivableAgingPeriod['ar_invoice_date_start_3']) ? $accountReceivableAgingPeriod['ar_invoice_date_start_3'] : null;}}">
+                      <input type="number" class="form-control" disabled name="ar_invoice_date_start_3" id="ar_invoice_date_start_3" value="{{isset($accountReceivableAgingPeriod['ar_invoice_date_start_3']) ? $accountReceivableAgingPeriod['ar_invoice_date_start_3'] : null;}}">
                     </div>
                   </div>
                   <div class="col-12 col-md-1 text-center text-md-start">
@@ -97,7 +97,7 @@
                   </div>
                   <div class="col-12 col-md-3">
                     <div class="input-group input-group-merge">
-                      <input type="number" class="form-control" readonly name="ar_invoice_date_start_4" id="ar_invoice_date_start_4" value="{{isset($accountReceivableAgingPeriod['ar_invoice_date_start_4']) ? $accountReceivableAgingPeriod['ar_invoice_date_start_4'] : null;}}">
+                      <input type="number" class="form-control" disabled name="ar_invoice_date_start_4" id="ar_invoice_date_start_4" value="{{isset($accountReceivableAgingPeriod['ar_invoice_date_start_4']) ? $accountReceivableAgingPeriod['ar_invoice_date_start_4'] : null;}}">
                     </div>
                   </div>
                   <div class="col-12 col-md-1 text-center text-md-start">
@@ -137,7 +137,7 @@
                   </div>
                   <div class="col-12 col-md-3">
                     <div class="input-group input-group-merge">
-                      <input type="number" id="ar_due_date_start_2" readonly class="form-control" name="ar_due_date_start_2" value="1">
+                      <input type="number" id="ar_due_date_start_2" disabled class="form-control" name="ar_due_date_start_2" value="1">
                     </div>
                   </div>
                   <div class="col-12 col-md-1 text-center text-md-start">
@@ -157,7 +157,7 @@
                   </div>
                   <div class="col-12 col-md-3">
                     <div class="input-group input-group-merge">
-                      <input type="number" class="form-control" readonly name="ar_due_date_start_3" id="ar_due_date_start_3" value="{{isset($accountReceivableAgingPeriod['ar_due_date_start_3']) ? $accountReceivableAgingPeriod['ar_due_date_start_3'] : null;}}">
+                      <input type="number" class="form-control" disabled name="ar_due_date_start_3" id="ar_due_date_start_3" value="{{isset($accountReceivableAgingPeriod['ar_due_date_start_3']) ? $accountReceivableAgingPeriod['ar_due_date_start_3'] : null;}}">
                     </div>
                   </div>
                   <div class="col-12 col-md-1 text-center text-md-start">
@@ -176,7 +176,7 @@
                   </div>
                   <div class="col-12 col-md-3">
                     <div class="input-group input-group-merge">
-                      <input type="number" class="form-control" readonly name="ar_due_date_start_4" id="ar_due_date_start_4" value="{{isset($accountReceivableAgingPeriod['ar_due_date_start_4']) ? $accountReceivableAgingPeriod['ar_due_date_start_4'] : null;}}">
+                      <input type="number" class="form-control" disabled name="ar_due_date_start_4" id="ar_due_date_start_4" value="{{isset($accountReceivableAgingPeriod['ar_due_date_start_4']) ? $accountReceivableAgingPeriod['ar_due_date_start_4'] : null;}}">
                     </div>
                   </div>
                   <div class="col-12 col-md-1 text-center text-md-start">
@@ -195,7 +195,7 @@
                   </div>
                   <div class="col-12 col-md-3">
                     <div class="input-group input-group-merge">
-                      <input type="number" class="form-control" readonly name="ar_due_date_start_5" id="ar_due_date_start_5" value="{{isset($accountReceivableAgingPeriod['ar_due_date_start_5']) ? $accountReceivableAgingPeriod['ar_due_date_start_5'] : null;}}">
+                      <input type="number" class="form-control" disabled name="ar_due_date_start_5" id="ar_due_date_start_5" value="{{isset($accountReceivableAgingPeriod['ar_due_date_start_5']) ? $accountReceivableAgingPeriod['ar_due_date_start_5'] : null;}}">
                     </div>
                   </div>
                   <div class="col-12 col-md-1 text-center text-md-start">

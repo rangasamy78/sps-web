@@ -46,7 +46,7 @@
                     <div class="form-group">
                         <label for="name" class="col-sm-6 form-label">Shipment Method Name</label>
                         <div class="col-sm-12">
-                            <input type="text" readonly class="form-control" id="shipment_method_name" name="shipment_method_name" placeholder="Enter Shipment Method Name" value="">
+                            <input type="text" disabled class="form-control" id="shipment_method_name" name="shipment_method_name" placeholder="Enter Shipment Method Name" value="">
                         </div>
                     </div>
                     <div class="form-group mb-2 p-1">

@@ -37,8 +37,8 @@ class ProductTypeService
             'type' => 'required|string|in:indivisible,non_serialized',
             'checked' => 'required|boolean',
         ]);
-        $productType = ProductType::find($validatedData['id']);
 
+        $productType = ProductType::find($validatedData['id']);
         if (!$productType) {
             return response()->json(['error' => 'Product Type not found.'], 404);
         }
@@ -48,9 +48,8 @@ class ProductTypeService
         } elseif ($validatedData['type'] === 'non_serialized') {
             $productType->non_serialized = $validatedData['checked'];
         }
-       
+
         $productType->save();
-       
-        return response()->json(['success' => 'Product Type updated successfully.']);
+        return response()->json(['status' => 'success', 'msg' => $validatedData['type'] === 'indivisible' ? 'Indivisible updated successfully.' : 'Non serialized updated successfully.']);
     }
 }

@@ -6,7 +6,7 @@
 @endsection
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="py-3 mb-4 float-right"><span class="text-muted fw-light">Home /</span> Aging Periods - AP</h4>
+        <h4 class="py-3 mb-4 float-right"><span class="text-muted fw-light">Home / </span> Aging Periods - AP</h4>
         <div class="card">
             <div style="overflow:hidden;width:96%;margin:auto;">
                 <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
@@ -100,7 +100,7 @@
                                             </div>
                                             <div class="col-md-3">
                                                 <input class="form-control" type="number" name="aging_period_ap_4_end" id="aging_period_ap_4_end" value="{{ isset($agingPeriodAPRepositoryDetail['ap_invoice_date_end_4']) && $agingPeriodAPRepositoryDetail['ap_invoice_date_end_4'] ? $agingPeriodAPRepositoryDetail['ap_invoice_date_end_4'] : '0' }}">
-                                            </div>                                            
+                                            </div>
                                             <span class="text-danger text-center error-text period_must_be_greater_error"  ></span>
                                         </div>
                                         <div class="mb-3 row">

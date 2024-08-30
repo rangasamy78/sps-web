@@ -19,7 +19,7 @@
       serverSide: true,
       searching: false,
       order: [
-        [1, 'desc']
+        [0, 'desc']
       ],
       ajax: {
         url: "{{ route('shipment_terms.list') }}",
@@ -57,7 +57,7 @@
       },
       dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       buttons: [{
-        text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Create Shipment Term</span>',
+        text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add Shipment Term</span>',
         className: 'create-new btn btn-primary',
         attr: {
           'data-bs-toggle': 'modal',

@@ -36,7 +36,7 @@
                     <div class="form-group">
                         <label for="name" class="form-label">End Use Segment</label>
                         <div class="col-sm-12">
-                            <input type="text" readonly class="form-control" id="end_use_segment" name="end_use_segment" value="">
+                            <input type="text" disabled class="form-control" id="end_use_segment" name="end_use_segment" value="">
                         </div>
                     </div>
                 </form>

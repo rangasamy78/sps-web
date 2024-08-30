@@ -18,7 +18,7 @@
             serverSide: true,
             searching: false,
             order: [
-                [1, 'desc']
+                [0, 'desc']
             ],
             ajax: {
                 url: "{{ route('product_types.list') }}",
@@ -208,7 +208,7 @@
             });
         });
     });
-    
+
     function savedefaultValuesChange(checkbox, id, type) {
         const isChecked = checkbox.checked;
         const url = "{{ route('product_types.save_default_value') }}";
@@ -226,8 +226,7 @@
                 'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // Include CSRF token if needed
             },
             success: function(response) {
-                console.log(response);
-
+                isChecked == 1 ? showToast('success', response.msg) : '';
             },
             error: function(xhr, status, error) {
                 console.error('Error:', xhr.responseText);

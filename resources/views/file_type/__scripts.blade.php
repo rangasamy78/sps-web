@@ -18,7 +18,7 @@
             serverSide: true,
             searching: false,
             order: [
-                [1, 'desc']
+                [0, 'desc']
             ],
             ajax: {
                 url: "{{ route('file_types.list') }}",
@@ -102,12 +102,7 @@
             ]
         });
 
-        $('#fileTypeForm input').on('input', function() {
-            let fieldName = $(this).attr('name');
-            $('.' + fieldName + '_error').text('');
-        });
-
-        $('#fileTypeForm input, #fileTypeForm select').on('input change', function() {
+        $('#fileTypeForm input, #fileTypeForm select, #importFileTypeForm input').on('input change', function() {
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');
         });

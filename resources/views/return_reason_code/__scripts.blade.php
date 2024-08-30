@@ -18,7 +18,7 @@
             serverSide: true,
             searching: false,
             order: [
-                [1, 'desc']
+                [0, 'desc']
             ],
             ajax: {
                 url: "{{ route('return_reason_codes.list') }}",
@@ -65,7 +65,7 @@
                     $('#savedata').html("Save Return Reason Code");
                     $('#return_code_id').val('');
                     $('#returnReasonCodeForm').trigger("reset");
-                    $('.return_reason_code_error').html('');
+                    $('.return_code_error').html('');
                     $('#modelHeading').html("Create New Return Reason Code");
                     $('#returnReasonCodeModel').modal('show');
                 }
@@ -76,6 +76,7 @@
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');
         });
+
         $('#savedata').click(function(e) {
             e.preventDefault();
             var button = $(this);

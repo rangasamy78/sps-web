@@ -18,7 +18,7 @@
             serverSide: true,
             searching: false,
             order: [
-                [1, 'desc']
+                [0, 'desc']
             ],
             ajax: {
                 url: "{{ route('supplier_ports.list') }}",
@@ -72,6 +72,7 @@
                 action: function(e, dt, node, config) {
                     $('#savedata').html("Save Supplier Port");
                     resetForm()
+                    $('#supplier_port_id').val('');
                     $('#country_id').val('').trigger('change');
                     $('#supplierPortForm').trigger("reset");
                     $("#supplierPortForm").find("tr:gt(1)").remove();

@@ -46,13 +46,12 @@
                         <span class="cursor-pointer input-group-text" id="togglePassword">
                             <i class="bx bx-hide" id="toggleIcon"></i>
                         </span>
+                        @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
-
-                    @error('password')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
                 </div>
 
                 <div class="mb-3 form-password-toggle">

@@ -18,7 +18,7 @@
             serverSide: true,
             searching: false,
             order: [
-                [1, 'desc']
+                [0, 'desc']
             ],
             ajax: {
                 url: "{{ route('product_thicknesses.list') }}",
@@ -67,6 +67,7 @@
                 action: function(e, dt, node, config) {
                     $('#savedata').html("Save Product Thickness");
                     resetForm();
+                    $('#product_thickness_id').val('');
                     $('#productThicknessForm').trigger("reset");
                     $("#productThicknessForm").find("tr:gt(1)").remove();
                     $('#modelHeading').html("Create New Product Thickness");

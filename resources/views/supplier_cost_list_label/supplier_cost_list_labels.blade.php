@@ -6,7 +6,7 @@
 @section('content')
 <div class="content-wrapper">
   <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="py-3 mb-4 float-right"><span class="text-muted fw-light">Home /</span> Supplier Cost List Label</h4>
+    <h4 class="py-3 mb-4 float-right"><span class="text-muted fw-light">Home / </span> Supplier Cost List Label</h4>
     @include('supplier_cost_list_label.__search')
     <div class="row mb-3">
       <div class="col">

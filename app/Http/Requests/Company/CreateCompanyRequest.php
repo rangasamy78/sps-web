@@ -30,6 +30,7 @@ class CreateCompanyRequest extends FormRequest
             'state' => ['required', 'max:255'],
             'zip' => ['required', 'numeric', 'digits_between:5,10'],
             'phone_1' => ['required', 'numeric', 'digits:10'],
+            'phone_2' => ['nullable', 'numeric', 'digits:10'],
             'website' => ['nullable', 'url'],
             'logo' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
             'is_bin_pre_defined' => ['required', 'boolean'],
@@ -39,7 +40,9 @@ class CreateCompanyRequest extends FormRequest
     public function attributes()
     {
         return [
-            'phone_1' => 'phone'
+            'address_line_1' => 'address line',
+            'phone_1' => 'phone',
+            'phone_2' => 'phone',
         ];
     }
 }

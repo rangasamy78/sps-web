@@ -1,6 +1,6 @@
 <script type="text/javascript">
     $(function() {
-
+        var companyCount = @json($companyCount);
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -18,7 +18,7 @@
             serverSide: true,
             searching: false,
             order: [
-                [1, 'desc']
+                [0, 'desc']
             ],
             ajax: {
                 url: "{{ route('companies.list') }}",
@@ -83,6 +83,7 @@
                 text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Add Company</span>',
                 className: 'create-new btn btn-primary',
                 attr: {
+                    'id' : 'create-new',
                     'data-bs-toggle': 'modal',
                     'data-bs-target': '#companyModel',
                 },
@@ -133,6 +134,7 @@
                         let logoUrl = response.company_logo ? `${storagePath}/${response.company_logo}` : defaultPath;
                         setImageSource('.app-brand .logo-container img', logoUrl, defaultPath);
                         showToast('success', response.msg);
+                        toggleCreateNewButton(response.companyCount == 1)
                         table.draw();
                     }
                 },
@@ -232,6 +234,7 @@
                 },
                 success: function(response) {
                     handleAjaxResponse(response, table);
+                    toggleCreateNewButton(companyCount = 0);
                 },
                 error: function(xhr) {
                     console.error('Error:', xhr.statusText);
@@ -307,6 +310,15 @@
             $(selector).attr('src', imageUrl);
         }
 
+        function toggleCreateNewButton(shouldShow) {
+            var button = $('#datatable').DataTable().buttons().container().find('#create-new');
+            if (!shouldShow) {
+                button.show();
+            } else {
+                button.hide();
+            }
+        }
 
+        toggleCreateNewButton(companyCount == 1);
     });
 </script>

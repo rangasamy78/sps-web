@@ -7,7 +7,7 @@
 @section('content')
 <!-- Content -->
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="py-3 mb-4 float-right"><span class="text-muted fw-light">Home /</span> Product Category</h4>
+    <h4 class="py-3 mb-4 float-right"><span class="text-muted fw-light">Home / </span> Product Category</h4>
     @include('product_category.__search')
     <!-- Ajax Sourced Server-side -->
     <div class="card">

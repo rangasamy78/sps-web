@@ -59,7 +59,7 @@
                         </div>
                     </div>
                     <div class="form-group mt-3">
-                        <label for="avg_days" class="form-label">Avg days <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                        <label for="avg_days" class="form-label">Avg days</label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="avg_days" disabled name="avg_days" placeholder="Enter Avg days" value="">
                         </div>

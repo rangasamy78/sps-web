@@ -11,7 +11,7 @@
             processing: true,
             serverSide: true,
             order: [
-                [1, 'desc']
+                [0, 'desc']
             ],
             ajax: {
                 url: "{{ route('account_payment_terms.list') }}",

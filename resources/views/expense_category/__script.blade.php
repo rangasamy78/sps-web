@@ -13,7 +13,7 @@
             serverSide: true,
             searching: false,
             order: [
-                [1, 'desc']
+                [0, 'desc']
             ],
             ajax: {
                 url: "{{ route('expense_categories.list') }}",
@@ -61,6 +61,7 @@
                 },
                 action: function(e, dt, node, config) {
                     $('#expenseCategoryForm').trigger('reset');
+                    $('#expense_category_id').val('');
                     $('#expense_account').val('').trigger('change'); // Ensure Select2 UI is updated
                     $(".expense_category_name_error, .expense_account_error").text(""); // Clear error messages
                     $('#modelHeading').text("Create New Expense Category");

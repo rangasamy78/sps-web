@@ -61,7 +61,6 @@
                             <input type="text" class="form-control" id="reason" disabled name="reason"
                                 placeholder="Enter Reason" value="">
                         </div>
-                        <span class="text-danger error-text reason_error"></span>
                     </div>
                     <div class="form-group mt-3">
                         <label class="form-label">Adjustment Type</label>
