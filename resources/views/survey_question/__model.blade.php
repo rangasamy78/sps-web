@@ -76,7 +76,6 @@
                         <label for="Transaction" class="col-sm-4 form-label">Transaction</label>
                         <div class="col-sm-12">
                             <select id="transaction" class="form-select" name="transaction" disabled>
-                                <option value="">--Select--</option>
                                 @foreach($surveyQuestionOptions as $key => $value)
                                 <option value="{{ $key }}">{{ $value }}</option>
                                 @endforeach

@@ -91,22 +91,29 @@ class CountryController extends Controller
      */
     public function destroy($id)
     {
-        try {
-            $country = $this->countryRepository->findOrFail($id);
-            if ($country) {
-                $this->countryRepository->delete($id);
-                return response()->json(['status' => 'success', 'msg' => 'Country deleted successfully.'],200);
-            } else {
-                return response()->json(['status' => 'false', 'msg' => 'Country not found.']);
+    try {
+        $country = $this->countryRepository->findOrFail($id);
+        if ($country) {
+            $response = $this->countryRepository->delete($id);
+            $data     = $response->getData();
+            if ($data->status == 'success') {
+                return response()->json(['status' => $data->status, 'msg' => $data->msg]);
+            } elseif ($data->status == 'error') {
+                return response()->json(['status' => $data->status, 'msg' => $data->msg]);
             }
-        } catch (Exception $e) {
-            // Log the exception for debugging purposes
-            Log::error('Error deleting country: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the country.'],500);
+        } else {
+            return response()->json(['status' => 'false', 'msg' => 'Country deleted successfully.']);
         }
+    } catch (Exception $e) {
+        Log::error('Error deleting country : ' . $e->getMessage());
+        return response()->json(['status' => $data->status, 'msg' => $data->msg], 500);
+    }
+    return $response;
+
     }
 
-    public function getCountryDataTableList(Request $request) {
+    public function getCountryDataTableList(Request $request)
+    {
         return $this->countryRepository->dataTable($request);
     }
 
