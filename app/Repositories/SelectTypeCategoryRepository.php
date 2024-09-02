@@ -57,15 +57,17 @@ class SelectTypeCategoryRepository implements CrudRepositoryInterface, Datatable
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $columnIndex = $orderArray[0]['column'];
-        $columnName = $columnNameArray[$columnIndex]['data'];
-        $columnSortOrder = $orderArray[0]['dir'];
-        $select_type = $this->getSelectTypeCategoryList($request);
-        $total = $select_type->count();
+        $columnIndex     = $orderArray[0]['column']??'0';
+        $columnName      = $columnNameArray[$columnIndex]['data'];
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
 
-        $totalFilter = $this->getSelectTypeCategoryList($request);       
+        $columnName  = 'created_at';
+        $select_type = $this->getSelectTypeCategoryList($request);
+        $total       = $select_type->count();
+
+        $totalFilter = $this->getSelectTypeCategoryList($request);
         $totalFilter = $totalFilter->count();
-        
+
         $arrData = $this->getSelectTypeCategoryList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);

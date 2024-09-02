@@ -61,18 +61,16 @@ class AccountPaymentTermRepository implements CrudRepositoryInterface, Datatable
 
     public function dataTable(Request $request)
     {
-        $toggleBtnVal    = $request->get('toggleBtnVal');
         $draw            = $request->get('draw');
         $start           = $request->get("start");
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $searchArray     = $request->get('search');
-        $columnIndex     = $orderArray[0]['column'];
+        $columnIndex     = $orderArray[0]['column'] ?? '0';
         $columnName      = $columnNameArray[$columnIndex]['data'];
-        $columnSortOrder = $orderArray[0]['dir'];
-        $searchValue     = $searchArray['value'];
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
 
+        $columnName          = 'created_at';
         $accountPaymentTerms = $this->getAccountPaymentTermList($request);
         $total               = $accountPaymentTerms->count();
 

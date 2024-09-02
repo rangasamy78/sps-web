@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use Illuminate\Support\Str;
 use App\Models\ShipmentTerm;
 use Illuminate\Http\Request;
 use App\Interfaces\CrudRepositoryInterface;
@@ -52,9 +51,11 @@ class ShipmentTermRepository implements CrudRepositoryInterface, DatatableReposi
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $columnIndex     = $orderArray[0]['column'];
+        $columnIndex     = $orderArray[0]['column'] ?? '0';
         $columnName      = $columnNameArray[$columnIndex]['data'];
-        $columnSortOrder = $orderArray[0]['dir'];
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
+
+        $columnName      = 'created_at';
         $shipmentTerms   = $this->getShipmentTermList($request);
         $total           = $shipmentTerms->count();
 
@@ -65,7 +66,7 @@ class ShipmentTermRepository implements CrudRepositoryInterface, DatatableReposi
         $arrData         = $arrData->skip($start)->take($rowPerPage);
         $arrData         = $arrData->orderBy($columnName, $columnSortOrder);
         $arrData         = $arrData->get();
-        
+
         $arrData->map(function ($value) {
             $value->shipment_term_name = $value->shipment_term_name ?? '';
             $value->description        = $value->description ?? ''; // Default to empty string if null

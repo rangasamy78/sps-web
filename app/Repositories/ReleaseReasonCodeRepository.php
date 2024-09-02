@@ -38,31 +38,34 @@ class ReleaseReasonCodeRepository implements CrudRepositoryInterface, DatatableR
 
     public function getReleaseReasonCodeList($request)
     {
-       $query = ReleaseReasonCode::query();
-       if (!empty($request->reason_code_search)) {
+        $query = ReleaseReasonCode::query();
+        if (!empty($request->reason_code_search)) {
             $query->where('release_reason_code', 'like', '%' . $request->reason_code_search . '%');
         }
-       return $query;
+        return $query;
     }
 
-    public function dataTable(Request $request) {
-        $draw 				= 		$request->get('draw');
-        $start 				= 		$request->get("start");
-        $rowPerPage 		= 		$request->get("length");
-        $orderArray 	   = 		$request->get('order');
-        $columnNameArray 	= 		$request->get('columns');
-        $columnIndex 		= 		$orderArray[0]['column'];
-        $columnName 		= 		$columnNameArray[$columnIndex]['data'];
-        $columnSortOrder 	= 		$orderArray[0]['dir'];
+    public function dataTable(Request $request)
+    {
+        $draw               = $request->get('draw');
+        $start              = $request->get("start");
+        $rowPerPage         = $request->get("length");
+        $orderArray         = $request->get('order');
+        $columnNameArray    = $request->get('columns');
+        $columnIndex        = $orderArray[0]['column'] ?? '0';
+        $columnName         = $columnNameArray[$columnIndex]['data'];
+        $columnSortOrder    = $orderArray[0]['dir'] ?? 'desc';
+
+        $columnName         = 'created_at';
         $releaseReasonCodes = $this->getReleaseReasonCodeList($request);
-        $total = $releaseReasonCodes->count();
+        $total              = $releaseReasonCodes->count();
 
         $totalFilter = $this->getReleaseReasonCodeList($request);
         $totalFilter = $totalFilter->count();
-        
+
         $arrData = $this->getReleaseReasonCodeList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
-        $arrData = $arrData->orderBy($columnName,$columnSortOrder);
+        $arrData = $arrData->orderBy($columnName, $columnSortOrder);
         $arrData = $arrData->get();
 
         $arrData->map(function ($value) {

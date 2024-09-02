@@ -64,9 +64,11 @@ class SurveyQuestionRepository implements CrudRepositoryInterface, DatatableRepo
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $columnIndex     = $orderArray[0]['column'];
+        $columnIndex     = $orderArray[0]['column'] ?? '0';
         $columnName      = $columnNameArray[$columnIndex]['data'];
-        $columnSortOrder = $orderArray[0]['dir'];
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
+
+        $columnName      = 'created_at';
         $surveyQuestions = $this->getSurveyQuestionsList($request);
         $total           = $surveyQuestions->count();
 

@@ -89,12 +89,13 @@ class SelectTypeSubCategoryRepository implements CrudRepositoryInterface, Datata
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $columnIndex     = $orderArray[0]['column'];
+        $columnIndex     = $orderArray[0]['column'] ?? '0';
         $columnName      = $columnNameArray[$columnIndex]['data'];
-        $columnSortOrder = $orderArray[0]['dir'];
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
 
-        $query = $this->getSelectTypeCategoryList($request);
-        $allData = $query->get();
+        $columnName = 'created_at';
+        $query      = $this->getSelectTypeCategoryList($request);
+        $allData    = $query->get();
 
         $filteredData = $allData->filter(function ($category) {
             return $category->select_type_sub_category->isNotEmpty();
@@ -109,7 +110,7 @@ class SelectTypeSubCategoryRepository implements CrudRepositoryInterface, Datata
             $value->sno                        = ++$i;
             $value->select_type_category_names = $value->select_type_category_name;
             $value->select_type_sub_categories = $value->select_type_sub_category->take(4)->pluck('select_type_sub_category_name')->filter()->implode(', ');
-            $value->action                    = "<div class='dropup'><button type='button' class='btn p-0 dropdown-toggle hide-arrow' data-bs-toggle='dropdown'><i class='bx bx-dots-vertical-rounded icon-color'></i></button><div class='dropdown-menu'><a class='dropdown-item showbtn text-warning' href='javascript:void(0);' data-id='" . $value->id . "' ><i class='bx bx-show me-1 icon-warning'></i> Show</a><a class='dropdown-item editbtn text-success' href='javascript:void(0);' data-id='" . $value->id . "' > <i class='bx bx-edit-alt me-1 icon-success'></i> Edit </a><a class='dropdown-item deletebtn text-danger' href='javascript:void(0);' data-id='" . $value->id . "' ><i class='bx bx-trash me-1 icon-danger'></i> Delete</a> </div> </div>";
+            $value->action                     = "<div class='dropup'><button type='button' class='btn p-0 dropdown-toggle hide-arrow' data-bs-toggle='dropdown'><i class='bx bx-dots-vertical-rounded icon-color'></i></button><div class='dropdown-menu'><a class='dropdown-item showbtn text-warning' href='javascript:void(0);' data-id='" . $value->id . "' ><i class='bx bx-show me-1 icon-warning'></i> Show</a><a class='dropdown-item editbtn text-success' href='javascript:void(0);' data-id='" . $value->id . "' > <i class='bx bx-edit-alt me-1 icon-success'></i> Edit </a><a class='dropdown-item deletebtn text-danger' href='javascript:void(0);' data-id='" . $value->id . "' ><i class='bx bx-trash me-1 icon-danger'></i> Delete</a> </div> </div>";
         });
 
         $response = [

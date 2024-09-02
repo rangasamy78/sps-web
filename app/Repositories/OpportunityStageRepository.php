@@ -52,11 +52,13 @@ class OpportunityStageRepository implements CrudRepositoryInterface, DatatableRe
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $columnIndex = $orderArray[0]['column'];
-        $columnName = $columnNameArray[$columnIndex]['data'];
-        $columnSortOrder = $orderArray[0]['dir'];
+        $columnIndex     = $orderArray[0]['column'] ?? '0';
+        $columnName      = $columnNameArray[$columnIndex]['data'];
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
+
+        $columnName   = 'created_at';
         $projectTypes = $this->getOpportunityStageList($request);
-        $total = $projectTypes->count();
+        $total        = $projectTypes->count();
 
         $totalFilter = $this->getOpportunityStageList($request);
         $totalFilter = $totalFilter->count();
@@ -65,6 +67,7 @@ class OpportunityStageRepository implements CrudRepositoryInterface, DatatableRe
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
         $arrData = $arrData->get();
+
         $arrData->map(function ($value, $i) {
             $value->sno               = ++$i;
             $value->opportunity_stage = $value->opportunity_stage ?? '';

@@ -49,19 +49,18 @@ class AccountSubTypeRepository implements CrudRepositoryInterface, DatatableRepo
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $searchArray     = $request->get('search');
-        $columnIndex     = $orderArray[0]['column'];
+        $columnIndex     = $orderArray[0]['column'] ?? '0';
         $columnName      = $columnNameArray[$columnIndex]['data'];
-        $columnSortOrder = $orderArray[0]['dir'];
-        $searchValue     = $searchArray['value'];
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
 
+        $columnName      = 'created_at';
         $accountSubTypes = $this->getAccountSubTypeList($request);
         $total           = $accountSubTypes->count();
-        $totalFilter = $this->getAccountSubTypeList($request);
-       
-        $totalFilter = $totalFilter->count();
-        $arrData     = $this->getAccountSubTypeList($request);
 
+        $totalFilter = $this->getAccountSubTypeList($request);
+        $totalFilter = $totalFilter->count();
+
+        $arrData     = $this->getAccountSubTypeList($request);
         $arrData     = $arrData->skip($start)->take($rowPerPage);
         $arrData     = $arrData->orderBy($columnName, $columnSortOrder);
         $arrData = $arrData->get();

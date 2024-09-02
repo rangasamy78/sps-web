@@ -55,14 +55,13 @@ class ProductFinishRepository implements CrudRepositoryInterface, DatatableRepos
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $searchArray     = $request->get('search');
-        $columnIndex     = $orderArray[0]['column'];
+        $columnIndex     = $orderArray[0]['column'] ?? '0';
         $columnName      = $columnNameArray[$columnIndex]['data'];
-        $columnSortOrder = $orderArray[0]['dir'];
-        $searchValue     = $searchArray['value'];
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
 
-        $states = $this->getProductFinishList($request);
-        $total  = $states->count();
+        $columnName      = 'created_at';
+        $productFinishes = $this->getProductFinishList($request);
+        $total           = $productFinishes->count();
 
         $totalFilter = $this->getProductFinishList($request);
         $totalFilter = $totalFilter->count();
@@ -70,11 +69,6 @@ class ProductFinishRepository implements CrudRepositoryInterface, DatatableRepos
         $arrData = $this->getProductFinishList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
-
-        if (!empty($searchValue)) {
-            $arrData = $arrData->where('product_finish_code', 'like', '%' . $searchValue . '%');
-            $arrData = $arrData->orWhere('finish', 'like', '%' . $searchValue . '%');
-        }
         $arrData = $arrData->get();
 
         $arrData->map(function ($value, $i) {

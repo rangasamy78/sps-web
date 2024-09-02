@@ -51,9 +51,11 @@ class ShipmentMethodRepository implements CrudRepositoryInterface, DatatableRepo
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $columnIndex     = $orderArray[0]['column'];
+        $columnIndex     = $orderArray[0]['column'] ?? '0';
         $columnName      = $columnNameArray[$columnIndex]['data'];
-        $columnSortOrder = $orderArray[0]['dir'];
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
+
+        $columnName      = 'created_at';
         $shipmentMethods = $this->getShipmentMethodList($request);
         $total           = $shipmentMethods->count();
 
@@ -64,7 +66,7 @@ class ShipmentMethodRepository implements CrudRepositoryInterface, DatatableRepo
         $arrData         = $arrData->skip($start)->take($rowPerPage);
         $arrData         = $arrData->orderBy($columnName, $columnSortOrder);
         $arrData         = $arrData->get();
-        
+
         $arrData->map(function ($value, $i) {
             $value->sno                  = ++$i;
             $value->shipment_method_name = $value->shipment_method_name ?? '';

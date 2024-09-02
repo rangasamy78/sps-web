@@ -52,11 +52,13 @@ class ProjectTypeRepository implements CrudRepositoryInterface, DatatableReposit
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $columnIndex = $orderArray[0]['column'];
-        $columnName = $columnNameArray[$columnIndex]['data'];
-        $columnSortOrder = $orderArray[0]['dir'];
+        $columnIndex     = $orderArray[0]['column']??'0';
+        $columnName      = $columnNameArray[$columnIndex]['data'];
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
+
+        $columnName   = 'created_at';
         $projectTypes = $this->getProjectTypeList($request);
-        $total = $projectTypes->count();
+        $total        = $projectTypes->count();
 
         $totalFilter = $this->getProjectTypeList($request);
         $totalFilter = $totalFilter->count();
@@ -65,7 +67,7 @@ class ProjectTypeRepository implements CrudRepositoryInterface, DatatableReposit
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
         $arrData = $arrData->get();
-        
+
         $arrData->map(function ($value, $i) {
             $value->sno               = ++$i;
             $value->project_type_name = $value->project_type_name ?? '';

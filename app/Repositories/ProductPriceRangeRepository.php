@@ -50,10 +50,12 @@ class ProductPriceRangeRepository implements CrudRepositoryInterface, DatatableR
         $start           = $request->get("start");
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
-        $columnNameArray = $request->get('columns');        
-        $columnIndex     = $orderArray[0]['column'];
+        $columnNameArray = $request->get('columns');
+        $columnIndex     = $orderArray[0]['column'] ?? '0';
         $columnName      = $columnNameArray[$columnIndex]['data'];
-        $columnSortOrder = $orderArray[0]['dir'];
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
+
+        $columnName  = 'created_at';
         $price_range = $this->getProductPriceRangeList($request);
         $total       = $price_range->count();
 
@@ -64,7 +66,7 @@ class ProductPriceRangeRepository implements CrudRepositoryInterface, DatatableR
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
         $arrData = $arrData->get();
-        
+
         $arrData->map(function ($value, $i) {
             $value->sno                 = ++$i;
             $value->product_price_range = $value->product_price_range ?? '';

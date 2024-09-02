@@ -52,22 +52,22 @@ class CalculateMeasurementLabelRepository implements CrudRepositoryInterface, Da
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $searchArray     = $request->get('search');
-        $columnIndex     = $orderArray[0]['column'];
+        $columnIndex     = $orderArray[0]['column'] ?? '0';
         $columnName      = $columnNameArray[$columnIndex]['data'];
-        $columnSortOrder = $orderArray[0]['dir'];
-        $searchValue     = $searchArray['value'];
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
 
+        $columnName                = 'created_at';
         $calculateMeasurementLabel = $this->getCalculateMeasurementLabelList($request);
         $total                     = $calculateMeasurementLabel->count();
 
         $totalFilter = $this->getCalculateMeasurementLabelList($request);
         $totalFilter = $totalFilter->count();
-       
+
         $arrData     = $this->getCalculateMeasurementLabelList($request);
         $arrData     = $arrData->skip($start)->take($rowPerPage);
         $arrData     = $arrData->orderBy($columnName, $columnSortOrder);
         $arrData = $arrData->get();
+
         $arrData->map(function ($value, $i) {
             $value->sno        = ++$i;
             $value->label_name = $value->label_name ?? '';

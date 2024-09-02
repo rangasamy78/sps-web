@@ -50,27 +50,22 @@ class AboutUsOptionRepository implements CrudRepositoryInterface, DatatableRepos
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $searchArray     = $request->get('search');
-        $columnIndex     = $orderArray[0]['column'];
+        $columnIndex     = $orderArray[0]['column'] ?? '0';
         $columnName      = $columnNameArray[$columnIndex]['data'];
-        $columnSortOrder = $orderArray[0]['dir'];
-        $searchValue     = $searchArray['value'];
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
 
+        $columnName     = 'created_at';
         $aboutUsOptions = $this->getAboutUsOptionList($request);
         $total          = $aboutUsOptions->count();
 
         $totalFilter = $this->getAboutUsOptionList($request);
-        if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('how_did_you_hear_option', 'like', '%' . $searchValue . '%');
-        }
         $totalFilter = $totalFilter->count();
+
         $arrData     = $this->getAboutUsOptionList($request);
         $arrData     = $arrData->skip($start)->take($rowPerPage);
         $arrData     = $arrData->orderBy($columnName, $columnSortOrder);
-        if (!empty($searchValue)) {
-            $arrData = $arrData->where('how_did_you_hear_option', 'like', '%' . $searchValue . '%');
-        }
         $arrData = $arrData->get();
+
         $arrData->map(function ($value) {
             $value->how_did_you_hear_option = $value->how_did_you_hear_option ?? '';
             $value->action                  = "<div class='dropup'><button type='button' class='btn p-0 dropdown-toggle hide-arrow' data-bs-toggle='dropdown'><i class='bx bx-dots-vertical-rounded icon-color'></i></button><div class='dropdown-menu'><a class='dropdown-item showbtn text-warning' href='javascript:void(0);' data-id='" . $value->id . "' ><i class='bx bx-show me-1 icon-warning'></i> Show</a><a class='dropdown-item editbtn text-success' href='javascript:void(0);' data-id='" . $value->id . "' > <i class='bx bx-edit-alt me-1 icon-success'></i> Edit </a><a class='dropdown-item deletebtn text-danger' href='javascript:void(0);' data-id='" . $value->id . "' ><i class='bx bx-trash me-1 icon-danger'></i> Delete</a> </div> </div>";

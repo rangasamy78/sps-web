@@ -55,17 +55,22 @@ class CountryRepository implements CrudRepositoryInterface, DatatableRepositoryI
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $columnIndex     = $orderArray[0]['column'];
+        $columnIndex     = $orderArray[0]['column'] ?? '0';
         $columnName      = $columnNameArray[$columnIndex]['data'];
-        $columnSortOrder = $orderArray[0]['dir'];
-        $countrys        = $this->getCountryList($request);
-        $total           = $countrys->count();
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
+
+        $columnName      = 'created_at';
+        $countries       = $this->getCountryList($request);
+        $total           = $countries->count();
+
         $totalFilter     = $this->getCountryList($request);
         $totalFilter     = $totalFilter->count();
+
         $arrData         = $this->getCountryList($request);
         $arrData         = $arrData->skip($start)->take($rowPerPage);
         $arrData         = $arrData->orderBy($columnName, $columnSortOrder);
         $arrData         = $arrData->get();
+
         $arrData->map(function ($value, $i) {
             $value->sno          = ++$i;
             $value->country_name = $value->country_name ?? '';

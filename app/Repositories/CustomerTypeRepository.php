@@ -55,12 +55,13 @@ class CustomerTypeRepository implements CrudRepositoryInterface, DatatableReposi
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $columnIndex     = $orderArray[0]['column'];
+        $columnIndex     = $orderArray[0]['column'] ?? '0';
         $columnName      = $columnNameArray[$columnIndex]['data'];
-        $columnSortOrder = $orderArray[0]['dir'];
-        $customerTypes = $this->getCustomerTypeList($request);
-        $total         = $customerTypes->count();
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
+        $customerTypes   = $this->getCustomerTypeList($request);
+        $total           = $customerTypes->count();
 
+        $columnName  = 'created_at';
         $totalFilter = $this->getCustomerTypeList($request);
         $totalFilter = $totalFilter->count();
 

@@ -55,12 +55,13 @@ class StateRepository implements CrudRepositoryInterface, DatatableRepositoryInt
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $columnIndex     = $orderArray[0]['column'];
+        $columnIndex     = $orderArray[0]['column'] ?? '0';
         $columnName      = $columnNameArray[$columnIndex]['data'];
-        $columnSortOrder = $orderArray[0]['dir'];
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
 
-        $states = $this->getStatesList($request);
-        $total = $states->count();
+        $columnName = 'created_at';
+        $states     = $this->getStatesList($request);
+        $total      = $states->count();
 
         $totalFilter = $this->getStatesList($request);
         $totalFilter = $totalFilter->count();

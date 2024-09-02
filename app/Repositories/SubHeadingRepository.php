@@ -38,34 +38,36 @@ class SubHeadingRepository implements CrudRepositoryInterface, DatatableReposito
 
     public function getSubHeadingList($request)
     {
-       $query = SubHeading::query();
-       if (!empty($request->sub_heading_name_search)) {
+        $query = SubHeading::query();
+        if (!empty($request->sub_heading_name_search)) {
             $query->where('sub_heading_name', 'like', '%' . $request->sub_heading_name_search . '%');
         }
-       return $query;
+        return $query;
     }
 
-    public function dataTable(Request $request) {
-        $draw 				= 		$request->get('draw');
-        $start 				= 		$request->get("start");
-        $rowPerPage 		= 		$request->get("length");
-        $orderArray 	   = 		$request->get('order');
-        $columnNameArray 	= 		$request->get('columns');        
-        $columnIndex 		= 		$orderArray[0]['column'];
-        $columnName 		= 		$columnNameArray[$columnIndex]['data'];
-        $columnSortOrder 	= 		$orderArray[0]['dir'];
+    public function dataTable(Request $request)
+    {
+        $draw            = $request->get('draw');
+        $start           = $request->get("start");
+        $rowPerPage      = $request->get("length");
+        $orderArray      = $request->get('order');
+        $columnNameArray = $request->get('columns');
+        $columnIndex     = $orderArray[0]['column'] ?? '0';
+        $columnName      = $columnNameArray[$columnIndex]['data'];
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
 
+        $columnName  = 'created_at';
         $subHeadings = $this->getSubHeadingList($request);
-        $total = $subHeadings->count();
+        $total       = $subHeadings->count();
 
         $totalFilter = $this->getSubHeadingList($request);
         $totalFilter = $totalFilter->count();
 
         $arrData = $this->getSubHeadingList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
-        $arrData = $arrData->orderBy($columnName,$columnSortOrder);
+        $arrData = $arrData->orderBy($columnName, $columnSortOrder);
         $arrData = $arrData->get();
-        
+
         $arrData->map(function ($value, $i) {
             $value->sno              = ++$i;
             $value->sub_heading_name = $value->sub_heading_name ?? '';

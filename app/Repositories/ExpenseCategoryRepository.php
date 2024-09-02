@@ -52,15 +52,17 @@ class ExpenseCategoryRepository implements CrudRepositoryInterface, DatatableRep
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $columnIndex     = $orderArray[0]['column'];
+        $columnIndex     = $orderArray[0]['column'] ?? '0';
         $columnName      = $columnNameArray[$columnIndex]['data'];
-        $columnSortOrder = $orderArray[0]['dir'];
-        $ExpenseCategory = $this->getExpenseCategoryList($request);
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
 
-        $total           = $ExpenseCategory->count();
+        $columnName      = 'created_at';
+        $expenseCategory = $this->getExpenseCategoryList($request);
+        $total           = $expenseCategory->count();
+
         $totalFilter = $this->getExpenseCategoryList($request);
-
         $totalFilter = $totalFilter->count();
+
         $arrData     = $this->getExpenseCategoryList($request);
         $arrData     = $arrData->skip($start)->take($rowPerPage);
         $arrData     = $arrData->orderBy($columnName, $columnSortOrder);

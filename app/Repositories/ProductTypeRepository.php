@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use Illuminate\Http\Request;
 use App\Models\ProductType;
+use Illuminate\Http\Request;
 use App\Interfaces\CrudRepositoryInterface;
 use App\Interfaces\DatatableRepositoryInterface;
 use App\Services\ProductType\ProductTypeService;
@@ -66,12 +66,13 @@ class ProductTypeRepository implements CrudRepositoryInterface, DatatableReposit
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $columnIndex     = $orderArray[0]['column'];
+        $columnIndex     = $orderArray[0]['column'] ?? '0';
         $columnName      = $columnNameArray[$columnIndex]['data'];
-        $columnSortOrder = $orderArray[0]['dir'];
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
 
-        $states = $this->getProductTypeList($request);
-        $total  = $states->count();
+        $columnName   = 'created_at';
+        $productTypes = $this->getProductTypeList($request);
+        $total        = $productTypes->count();
 
         $totalFilter = $this->getProductTypeList($request);
         $totalFilter = $totalFilter->count();

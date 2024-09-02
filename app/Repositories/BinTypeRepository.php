@@ -49,15 +49,17 @@ class BinTypeRepository implements CrudRepositoryInterface, DatatableRepositoryI
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $columnIndex     = $orderArray[0]['column'];
+        $columnIndex     = $orderArray[0]['column'] ?? '0';
         $columnName      = $columnNameArray[$columnIndex]['data'];
-        $columnSortOrder = $orderArray[0]['dir'];
-        $bin   = $this->getBinTypeList($request);
-        $total = $bin->count();
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
+
+        $columnName = 'created_at';
+        $bin        = $this->getBinTypeList($request);
+        $total      = $bin->count();
 
         $totalFilter = $this->getBinTypeList($request);
         $totalFilter = $totalFilter->count();
-        
+
         $arrData     = $this->getBinTypeList($request);
         $arrData     = $arrData->skip($start)->take($rowPerPage);
         $arrData     = $arrData->orderBy($columnName, $columnSortOrder);

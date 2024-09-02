@@ -64,6 +64,7 @@ class DesignationRepository implements CrudRepositoryInterface, DatatableReposit
         }
         return $query;
     }
+
     public function dataTable(Request $request)
     {
         $draw            = $request->get('draw');
@@ -71,17 +72,22 @@ class DesignationRepository implements CrudRepositoryInterface, DatatableReposit
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $columnIndex     = $orderArray[0]['column'];
+        $columnIndex     = $orderArray[0]['column'] ?? '0';
         $columnName      = $columnNameArray[$columnIndex]['data'];
-        $columnSortOrder = $orderArray[0]['dir'];
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
+
+        $columnName  = 'created_at';
         $designation = $this->getDesignationsList($request);
         $total       = $designation->count();
+
         $totalFilter = $this->getDesignationsList($request);
         $totalFilter = $totalFilter->count();
+
         $arrData     = $this->getDesignationsList($request);
         $arrData     = $arrData->skip($start)->take($rowPerPage);
         $arrData     = $arrData->orderBy($columnName, $columnSortOrder);
-        $arrData = $arrData->get();
+        $arrData     = $arrData->get();
+
         $arrData->map(function ($value) {
             $value->designation_name = $value->designation_name ?? '';
             $value->department_id    = Department::getDepartmentList($value->department_id);

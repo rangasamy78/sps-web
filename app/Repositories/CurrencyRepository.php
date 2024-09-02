@@ -60,12 +60,13 @@ class CurrencyRepository implements CrudRepositoryInterface, DatatableRepository
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $columnIndex     = $orderArray[0]['column'];
+        $columnIndex     = $orderArray[0]['column'] ?? '0';
         $columnName      = $columnNameArray[$columnIndex]['data'];
-        $columnSortOrder = $orderArray[0]['dir'];
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
 
+        $columnName   = 'created_at';
         $Currencies   = $this->getCurrenciesList($request);
-        $total = $Currencies->count();
+        $total        = $Currencies->count();
 
         $totalFilter = $this->getCurrenciesList($request);
         $totalFilter = $totalFilter->count();
@@ -73,7 +74,7 @@ class CurrencyRepository implements CrudRepositoryInterface, DatatableRepository
         $arrData     = $this->getCurrenciesList($request);
         $arrData     = $arrData->skip($start)->take($rowPerPage);
         $arrData     = $arrData->orderBy($columnName, $columnSortOrder);
-        $arrData = $arrData->get();
+        $arrData     = $arrData->get();
 
         $arrData->map(function ($value, $i) {
             $value->slno                   = ++$i;

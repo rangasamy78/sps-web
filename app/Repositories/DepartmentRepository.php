@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use App\Interfaces\CrudRepositoryInterface;
 use App\Interfaces\DatatableRepositoryInterface;
 
-Class DepartmentRepository implements CrudRepositoryInterface, DatatableRepositoryInterface {
+class DepartmentRepository implements CrudRepositoryInterface, DatatableRepositoryInterface
+{
 
     public function findOrFail(int $id)
     {
@@ -44,26 +45,29 @@ Class DepartmentRepository implements CrudRepositoryInterface, DatatableReposito
         return $query;
     }
 
-    public function dataTable(Request $request) {
-        $draw 				= 		$request->get('draw');
-        $start 				= 		$request->get("start");
-        $rowPerPage 		= 		$request->get("length");
-        $orderArray 	   = 		$request->get('order');
-        $columnNameArray 	= 		$request->get('columns');
-        $columnIndex 		= 		$orderArray[0]['column'];
-        $columnName 		= 		$columnNameArray[$columnIndex]['data'];
-        $columnSortOrder 	= 		$orderArray[0]['dir'];
-        $departments = $this->getDepartmentList($request);
-        $total = $departments->count();
+    public function dataTable(Request $request)
+    {
+        $draw            = $request->get('draw');
+        $start           = $request->get("start");
+        $rowPerPage      = $request->get("length");
+        $orderArray      = $request->get('order');
+        $columnNameArray = $request->get('columns');
+        $columnIndex     = $orderArray[0]['column'] ?? '0';
+        $columnName      = $columnNameArray[$columnIndex]['data'];
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
+
+        $columnName      = 'created_at';
+        $departments     = $this->getDepartmentList($request);
+        $total           = $departments->count();
 
         $totalFilter = $this->getDepartmentList($request);
         $totalFilter = $totalFilter->count();
 
         $arrData = $this->getDepartmentList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
-        $arrData = $arrData->orderBy($columnName,$columnSortOrder);
+        $arrData = $arrData->orderBy($columnName, $columnSortOrder);
         $arrData = $arrData->get();
-        
+
         $arrData->map(function ($value, $i) {
             $value->sno             = ++$i;
             $value->department_name = $value->department_name ?? '';

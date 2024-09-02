@@ -93,19 +93,12 @@
                     $('#company_id').val('');
                     $('#addCompanyForm').trigger("reset");
                     $('#modelHeading').html("Create New Company");
+                    $('#addCompanyForm #logo').val('');
+                    let defaultPath = `{{ asset('public/assets/img/branding/location-logo.png') }}`;
+                    $('#addCompanyForm #imagePreview #previewImage').attr('src', defaultPath);
                     $('#companyModel').modal('show');
                 }
             }],
-        });
-
-        $('#createCompany').click(function() {
-            resetFormFields();
-            $('#savedata').val("create-Company");
-            $('#savedata').html("Save Company");
-            $('#company_id').val('');
-            $('#addCompanyForm').trigger("reset");
-            $('#modelHeading').html("Create New Company");
-            $('#companyModel').modal('show');
         });
 
         $('#addCompanyForm input, textarea').on('input', function() {
@@ -155,6 +148,7 @@
             var id = $(this).data('id');
             $.get("{{ route('companies.index') }}" + '/' + id + '/edit', function(data) {
                 populateEditForm(data);
+                $('#editCompanyForm #logo').val('');
                 $('#editCompanyModel').modal('show');
             });
         });

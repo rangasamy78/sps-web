@@ -86,19 +86,22 @@ class PriceListLabelRepository implements CrudRepositoryInterface, DatatableRepo
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $columnIndex     = $orderArray[0]['column'];
+        $columnIndex     = $orderArray[0]['column'] ?? '0';
         $columnName      = $columnNameArray[$columnIndex]['data'];
-        $columnSortOrder = $orderArray[0]['dir'];
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
+
+        $columnName      = 'created_at';
         $PriceListLabels = $this->getPriceListLabelsList($request);
         $total           = $PriceListLabels->count();
 
         $totalFilter = $this->getPriceListLabelsList($request);
         $totalFilter = $totalFilter->count();
+
         $arrData     = $this->getPriceListLabelsList($request);
         $arrData     = $arrData->skip($start)->take($rowPerPage);
         $arrData     = $arrData->orderBy($columnName, $columnSortOrder);
+        $arrData     = $arrData->get();
 
-        $arrData = $arrData->get();
         $arrData->map(function ($value) {
             $value->price_label             = $value->price_label ?? '';
             $value->price_code              = $value->price_code ?? '';

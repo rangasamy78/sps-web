@@ -55,18 +55,22 @@ class LinkedAccountRepository implements CrudRepositoryInterface, DatatableRepos
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $columnIndex     = $orderArray[0]['column'];
+        $columnIndex     = $orderArray[0]['column'] ?? '0';
         $columnName      = $columnNameArray[$columnIndex]['data'];
-        $columnSortOrder = $orderArray[0]['dir'];
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
+
+        $columnName      = 'created_at';
         $LinkedAccounts  = $this->getLinkedAccountList($request);
         $total           = $LinkedAccounts->count();
 
         $totalFilter = $this->getLinkedAccountList($request);
         $totalFilter = $totalFilter->count();
+
         $arrData     = $this->getLinkedAccountList($request);
         $arrData     = $arrData->skip($start)->take($rowPerPage);
         $arrData     = $arrData->orderBy($columnName, $columnSortOrder);
         $arrData = $arrData->get();
+
         $arrData->map(function ($value) {
             $value->account_code     = $value->account_code ?? '';
             $value->account_name     = $value->account_name ?? '';

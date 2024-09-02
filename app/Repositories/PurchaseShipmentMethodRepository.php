@@ -53,11 +53,13 @@ class PurchaseShipmentMethodRepository implements CrudRepositoryInterface, Datat
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $columnIndex = $orderArray[0]['column'];
-        $columnName = $columnNameArray[$columnIndex]['data'];
-        $columnSortOrder = $orderArray[0]['dir'];
+        $columnIndex     = $orderArray[0]['column']??'0';
+        $columnName      = $columnNameArray[$columnIndex]['data'];
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
+
+        $columnName              = 'created_at';
         $purchaseShipmentMethods = $this->getPurchaseShipmentMethodList($request);
-        $total = $purchaseShipmentMethods->count();
+        $total                   = $purchaseShipmentMethods->count();
 
         $totalFilter = $this->getPurchaseShipmentMethodList($request);
         $totalFilter = $totalFilter->count();
@@ -66,7 +68,7 @@ class PurchaseShipmentMethodRepository implements CrudRepositoryInterface, Datat
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
         $arrData = $arrData->get();
-        
+
         $arrData->map(function ($value) {
             $value->shipment_method_name        = $value->shipment_method_name ?? '';
             $value->shipment_method_description = $value->shipment_method_description ? Str::limit($value->shipment_method_description, 50, '...') : '';

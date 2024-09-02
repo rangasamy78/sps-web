@@ -65,28 +65,20 @@ class InventoryAdjustmentReasonCodeRepository implements CrudRepositoryInterface
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $searchArray     = $request->get('search');
-        $columnIndex     = $orderArray[0]['column'];
+        $columnIndex     = $orderArray[0]['column'] ?? '0';
         $columnName      = $columnNameArray[$columnIndex]['data'];
-        $columnSortOrder = $orderArray[0]['dir'];
-        $searchValue     = $searchArray['value'];
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
 
-        $states = $this->getInventoryAdjustmentReasonCodeList($request);
-        $total  = $states->count();
+        $columnName                     = 'created_at';
+        $inventoryAdjustmentReasonCodes = $this->getInventoryAdjustmentReasonCodeList($request);
+        $total                          = $inventoryAdjustmentReasonCodes->count();
 
         $totalFilter = $this->getInventoryAdjustmentReasonCodeList($request);
-        if (!empty($searchValue)) {
-            $totalFilter = $totalFilter->where('reason', 'like', '%' . $searchValue . '%');
-        }
         $totalFilter = $totalFilter->count();
 
         $arrData = $this->getInventoryAdjustmentReasonCodeList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
-
-        if (!empty($searchValue)) {
-            $arrData = $arrData->where('reason', 'like', '%' . $searchValue . '%');
-        }
         $arrData = $arrData->get();
 
         $arrData->map(function ($value, $i) {

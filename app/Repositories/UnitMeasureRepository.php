@@ -53,18 +53,20 @@ class UnitMeasureRepository implements CrudRepositoryInterface, DatatableReposit
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $columnIndex     = $orderArray[0]['column'];
+        $columnIndex     = $orderArray[0]['column'] ?? '0';
         $columnName      = $columnNameArray[$columnIndex]['data'];
-        $columnSortOrder = $orderArray[0]['dir'];
-        $unitMeasures    = $this->getUnitMeasuresList($request);
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
 
-        $total           = $unitMeasures->count();
-        $totalFilter     = $this->getUnitMeasuresList($request);
+        $columnName   = 'created_at';
+        $unitMeasures = $this->getUnitMeasuresList($request);
+        $total        = $unitMeasures->count();
 
+        $totalFilter = $this->getUnitMeasuresList($request);
         $totalFilter = $totalFilter->count();
-        $arrData     = $this->getUnitMeasuresList($request);
-        $arrData     = $arrData->skip($start)->take($rowPerPage);
-        $arrData     = $arrData->orderBy($columnName, $columnSortOrder);
+
+        $arrData = $this->getUnitMeasuresList($request);
+        $arrData = $arrData->skip($start)->take($rowPerPage);
+        $arrData = $arrData->orderBy($columnName, $columnSortOrder);
         $arrData = $arrData->get();
 
         $arrData->map(function ($value, $i) {

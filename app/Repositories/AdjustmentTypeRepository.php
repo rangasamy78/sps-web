@@ -51,16 +51,18 @@ class AdjustmentTypeRepository implements CrudRepositoryInterface, DatatableRepo
         $start           = $request->get("start");
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
-        $columnNameArray = $request->get('columns');        
-        $columnIndex     = $orderArray[0]['column'];
+        $columnNameArray = $request->get('columns');
+        $columnIndex     = $orderArray[0]['column'] ?? '0';
         $columnName      = $columnNameArray[$columnIndex]['data'];
-        $columnSortOrder = $orderArray[0]['dir'];
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
+
+        $columnName      = 'created_at';
         $adjustment      = $this->getAdjustmentTypeList($request);
         $total           = $adjustment->count();
 
-        $totalFilter     = $this->getAdjustmentTypeList($request);
+        $totalFilter = $this->getAdjustmentTypeList($request);
         $totalFilter = $totalFilter->count();
-        
+
         $arrData     = $this->getAdjustmentTypeList($request);
         $arrData     = $arrData->skip($start)->take($rowPerPage);
         $arrData     = $arrData->orderBy($columnName, $columnSortOrder);

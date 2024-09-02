@@ -61,9 +61,11 @@ class PaymentMethodRepository implements CrudRepositoryInterface, DatatableRepos
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $columnIndex     = $orderArray[0]['column'];
+        $columnIndex     = $orderArray[0]['column'] ?? '0';
         $columnName      = $columnNameArray[$columnIndex]['data'];
-        $columnSortOrder = $orderArray[0]['dir'];
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
+
+        $columnName      = 'created_at';
         $PaymentMethod   = $this->getPaymentMethodList($request);
         $total           = $PaymentMethod->count();
 
@@ -74,6 +76,7 @@ class PaymentMethodRepository implements CrudRepositoryInterface, DatatableRepos
         $arrData     = $arrData->skip($start)->take($rowPerPage);
         $arrData     = $arrData->orderBy($columnName, $columnSortOrder);
         $arrData = $arrData->get();
+
         $arrData->map(function ($value) {
             $value->payment_method_name = $value->payment_method_name ?? '';
             $value->linked_account_id   = $value->linked_account_details ?? '';

@@ -52,11 +52,13 @@ class VendorTypeRepository implements CrudRepositoryInterface, DatatableReposito
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $columnIndex = $orderArray[0]['column'];
-        $columnName = $columnNameArray[$columnIndex]['data'];
-        $columnSortOrder = $orderArray[0]['dir'];
+        $columnIndex     = $orderArray[0]['column']??'0';
+        $columnName      = $columnNameArray[$columnIndex]['data'];
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
+
+        $columnName  = 'created_at';
         $vendorTypes = $this->getVendorTypeList($request);
-        $total = $vendorTypes->count();
+        $total       = $vendorTypes->count();
 
         $totalFilter = $this->getVendorTypeList($request);
         $totalFilter = $totalFilter->count();
@@ -65,7 +67,7 @@ class VendorTypeRepository implements CrudRepositoryInterface, DatatableReposito
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
         $arrData = $arrData->get();
-        
+
         $arrData->map(function ($value, $i) {
             $value->sno              = ++$i;
             $value->vendor_type_name = $value->vendor_type_name ?? '';

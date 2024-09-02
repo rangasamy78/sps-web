@@ -52,15 +52,17 @@ class ProbabilityToCloseRepository implements CrudRepositoryInterface, Datatable
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $columnIndex = $orderArray[0]['column'];
-        $columnName = $columnNameArray[$columnIndex]['data'];
-        $columnSortOrder = $orderArray[0]['dir'];
+        $columnIndex     = $orderArray[0]['column'] ?? '0';
+        $columnName      = $columnNameArray[$columnIndex]['data'];
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
+
+        $columnName          = 'created_at';
         $probabilityToCloses = $this->getProbabilityToCloseList($request);
-        $total = $probabilityToCloses->count();
+        $total               = $probabilityToCloses->count();
 
         $totalFilter = $this->getProbabilityToCloseList($request);
         $totalFilter = $totalFilter->count();
-        
+
         $arrData = $this->getProbabilityToCloseList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);

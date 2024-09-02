@@ -78,12 +78,11 @@ class CompanyRepository implements CrudRepositoryInterface, DatatableRepositoryI
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $searchArray     = $request->get('search');
-        $columnIndex     = $orderArray[0]['column'];
+        $columnIndex     = $orderArray[0]['column'] ?? '0';
         $columnName      = $columnNameArray[$columnIndex]['data'];
-        $columnSortOrder = $orderArray[0]['dir'];
-        $searchValue     = $searchArray['value'];
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
 
+        $columnName = 'created_at';
         $companies = $this->getCompanyList($request);
         $total = $companies->count();
 
@@ -93,8 +92,6 @@ class CompanyRepository implements CrudRepositoryInterface, DatatableRepositoryI
         $arrData = $this->getCompanyList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
-
-
         $arrData = $arrData->get();
 
         $arrData->map(function ($value, $i) {

@@ -68,19 +68,22 @@ class FileTypeRepository implements CrudRepositoryInterface, DatatableRepository
         $rowPerPage      = $request->get("length");
         $orderArray      = $request->get('order');
         $columnNameArray = $request->get('columns');
-        $searchArray     = $request->get('search');
-        $columnIndex     = $orderArray[0]['column'];
+        $columnIndex     = $orderArray[0]['column'] ?? '0';
         $columnName      = $columnNameArray[$columnIndex]['data'];
-        $columnSortOrder = $orderArray[0]['dir'];
-        $searchValue     = $searchArray['value'];
-        $filetypes       = $this->getFileTypesList($request);
-        $total           = $filetypes->count();
-        $totalFilter     = $this->getFileTypesList($request);
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
+
+        $columnName  = 'created_at';
+        $filetypes   = $this->getFileTypesList($request);
+        $total       = $filetypes->count();
+
+        $totalFilter = $this->getFileTypesList($request);
         $totalFilter = $totalFilter->count();
+
         $arrData     = $this->getFileTypesList($request);
         $arrData     = $arrData->skip($start)->take($rowPerPage);
         $arrData     = $arrData->orderBy($columnName, $columnSortOrder);
-        $arrData = $arrData->get();
+        $arrData     = $arrData->get();
+
         $arrData->map(function ($value, $i) {
             $value->view_in   = $value->view_in ?? '';
             $value->file_type = $value->file_type ?? '';
