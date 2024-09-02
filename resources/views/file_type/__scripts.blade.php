@@ -102,6 +102,16 @@
             ]
         });
 
+        $('#viewInFilter').select2({
+            placeholder: 'Select View In',
+            dropdownParent: $('#viewInFilter').parent()
+        });
+
+        $('#view_in').select2({
+            placeholder: 'Select View In',
+            dropdownParent: $('#view_in').parent()
+        });
+        
         $('#fileTypeForm input, #fileTypeForm select, #importFileTypeForm input').on('input change', function() {
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');

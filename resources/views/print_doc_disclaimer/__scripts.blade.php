@@ -85,6 +85,28 @@
             }],
         });
 
+        $('#select_type_category_id_filter').select2({
+            placeholder: 'Select Type Category Name',
+            dropdownParent: $('#select_type_category_id_filter').parent()
+        });
+
+        $('#select_type_sub_category_id_filter').select2({
+            placeholder: 'Select Type Sub Category Name',
+            dropdownParent: $('#select_type_sub_category_id_filter').parent()
+        });
+
+
+        $('#select_type_category_id').select2({
+            placeholder: 'Select Type Category Name',
+            dropdownParent: $('#select_type_category_id').parent()
+        });
+
+        $('#select_type_sub_category_id').select2({
+            placeholder: 'Select Type Sub Category Name',
+            dropdownParent: $('#select_type_sub_category_id').parent()
+        });
+
+
         $('#createPrintDocDisclaimer').click(function() {
             clearEditor()
             resetForm()

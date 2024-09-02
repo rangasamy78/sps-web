@@ -95,17 +95,23 @@ class AdjustmentTypeController extends Controller
         try {
             $adjustmentType = $this->adjustmentTypeRepository->findOrFail($id);
             if ($adjustmentType) {
-                $this->adjustmentTypeRepository->delete($id);
-                return response()->json(['status' => 'success', 'msg' => 'Adjustment type deleted successfully.']);
+                $response = $this->adjustmentTypeRepository->delete($id);
+                $data     = $response->getData();
+                if ($data->status == 'success') {
+                    return response()->json(['status' => $data->status, 'msg' => $data->msg]);
+                } elseif ($data->status == 'error') {
+                    return response()->json(['status' => $data->status, 'msg' => $data->msg]);
+                }
             } else {
                 return response()->json(['status' => 'false', 'msg' => 'Adjustment type not found.']);
             }
         } catch (Exception $e) {
-            // Log the exception for debugging purposes
-            Log::error('Error deleting adjustment type: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the adjustment type.']);
+            Log::error('Error deleting Adjustment type : ' . $e->getMessage());
+            return response()->json(['status' => $data->status, 'msg' => $data->msg], 500);
         }
+        return $response;
     }
+
     public function getAdjustmentTypeDataTableList(Request $request)
     {
         return $this->adjustmentTypeRepository->dataTable($request);

@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\AccountType;
 use Illuminate\Http\Request;
+use App\Models\LinkedAccount;
 use App\Interfaces\CrudRepositoryInterface;
 use App\Interfaces\DatatableRepositoryInterface;
 
@@ -32,8 +33,13 @@ class AccountTypeRepository implements CrudRepositoryInterface, DatatableReposit
 
     public function delete(int $id)
     {
-        $query = $this->findOrFail($id)->delete();
-        return $query;
+        $subCategories = LinkedAccount::where('account_type', $id)->first();
+        if ($subCategories) {
+            return response()->json(['status' => 'error', 'msg' => 'Account Type cannot be deleted because it has Linked Accounts.'], 200);
+        } else {
+            $this->findOrFail($id)->delete();
+            return response()->json(['status' => 'success', 'msg' => 'Account Type deleted successfully.'], 200);
+        }
     }
 
     public function getAccountTypeList($request)
@@ -58,13 +64,13 @@ class AccountTypeRepository implements CrudRepositoryInterface, DatatableReposit
         $accountTypes    = $this->getAccountTypeList($request);
         $total           = $accountTypes->count();
 
-        $totalFilter     = $this->getAccountTypeList($request);
-        $totalFilter     = $totalFilter->count();
+        $totalFilter = $this->getAccountTypeList($request);
+        $totalFilter = $totalFilter->count();
 
-        $arrData         = $this->getAccountTypeList($request);
-        $arrData         = $arrData->skip($start)->take($rowPerPage);
-        $arrData         = $arrData->orderBy($columnName, $columnSortOrder);
-        $arrData         = $arrData->get();
+        $arrData = $this->getAccountTypeList($request);
+        $arrData = $arrData->skip($start)->take($rowPerPage);
+        $arrData = $arrData->orderBy($columnName, $columnSortOrder);
+        $arrData = $arrData->get();
 
         $arrData->map(function ($value, $i) {
             $value->sno               = ++$i;

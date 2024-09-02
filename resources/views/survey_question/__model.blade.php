@@ -21,7 +21,6 @@
                         <label for="transaction" class="col-sm-3 form-label">Transaction <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
                             <select id="transaction" class="form-select select2" name="transaction" data-allow-clear="true">
-                                <option value="">--Select--</option>
                                 @foreach($surveyQuestionOptions as $key => $value)
                                     <option value="{{ $key }}">{{ $value }}</option>
                                 @endforeach
@@ -76,7 +75,6 @@
                         <label for="Transaction" class="col-sm-4 form-label">Transaction</label>
                         <div class="col-sm-12">
                             <select id="transaction" class="form-select" name="transaction" disabled>
-                                <option value="">--Select--</option>
                                 @foreach($surveyQuestionOptions as $key => $value)
                                     <option value="{{ $key }}">{{ $value }}</option>
                                 @endforeach

@@ -82,6 +82,26 @@
             }],
         });
 
+        $('#adjustmentTypeFilter').select2({
+            placeholder: 'Select Adjustment Type',
+            dropdownParent: $('#adjustmentTypeFilter').parent()
+        });
+
+        $('#incomeExpenseAccountFilter').select2({
+            placeholder: 'Select Income Expense Account',
+            dropdownParent: $('#incomeExpenseAccountFilter').parent()
+        });
+
+        $('#adjustment_type_id').select2({
+            placeholder: 'Select Adjustment Type',
+            dropdownParent: $('#adjustment_type_id').parent()
+        });
+
+        $('#income_expense_account').select2({
+            placeholder: 'Select Income Expense Account',
+            dropdownParent: $('#income_expense_account').parent()
+        });
+
         $('#inventoryAdjustmentReasonCodeForm input').on('input', function() {
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');

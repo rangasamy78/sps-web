@@ -94,19 +94,26 @@ class AccountTypeController extends Controller
         try {
             $accountType = $this->accountTypeRepository->findOrFail($id);
             if ($accountType) {
-                $this->accountTypeRepository->delete($id);
-                return response()->json(['status' => 'success', 'msg' => 'Account type deleted successfully.']);
+                $response = $this->accountTypeRepository->delete($id);
+                $data     = $response->getData();
+                if ($data->status == 'success') {
+                    return response()->json(['status' => $data->status, 'msg' => $data->msg]);
+                } elseif ($data->status == 'error') {
+                    return response()->json(['status' => $data->status, 'msg' => $data->msg]);
+                }
             } else {
                 return response()->json(['status' => 'false', 'msg' => 'Account type not found.']);
             }
         } catch (Exception $e) {
-            // Log the exception for debugging purposes
-            Log::error('Error deleting account type: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the account type.']);
+            Log::error('Error deleting account type : ' . $e->getMessage());
+            return response()->json(['status' => $data->status, 'msg' => $data->msg], 500);
         }
+        return $response;
+
     }
 
-    public function getAccountTypeDataTableList(Request $request) {
+    public function getAccountTypeDataTableList(Request $request)
+    {
         return $this->accountTypeRepository->dataTable($request);
     }
 
