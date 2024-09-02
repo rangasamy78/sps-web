@@ -13,7 +13,7 @@
                         <label class="col-sm-3 form-label">#Question <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="transaction_question_id" name="transaction_question_id"
-                                 value="1" disabled style="cursor: not-allowed !important">
+                                 value="1" readonly style="cursor: not-allowed !important">
                         </div>
                     </div>
                     <!-- Transaction -->
