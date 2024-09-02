@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+
 class Designation extends Model
 {
     use HasFactory;
@@ -26,8 +27,12 @@ class Designation extends Model
     protected function designationName(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => ucfirst($value),
+            get: fn(string $value) => ucfirst($value),
         );
     }
-    
+
+    function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
 }

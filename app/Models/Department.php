@@ -28,13 +28,12 @@ class Department extends Model
     protected function departmentName(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => ucfirst($value),
+            get: fn(string $value) => ucfirst($value),
         );
     }
 
-    public static function getDepartmentList($id)
+    function designation()
     {
-        $department = self::find($id);
-        return $department ? $department->department_name : '';
+        return $this->hasMany(Designation::class);
     }
 }
