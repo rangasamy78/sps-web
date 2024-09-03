@@ -18,17 +18,17 @@
                 });
 
                 $('#vendor_payment_cash_account_id').select2({
-                        placeholder: 'Vendor Payment - Cash Account',
+                        placeholder: 'Select Vendor Payment - Cash Account',
                         dropdownParent: $('#vendor_payment_cash_account_id').parent()
                 });
 
                 $('#customer_payment_cash_account_id').select2({
-                        placeholder: 'Customer Payment - Cash Account',
+                        placeholder: 'Select Customer Payment - Cash Account',
                         dropdownParent: $('#customer_payment_cash_account_id').parent()
                 });
 
                 $('#miscellaneous_expense_id').select2({
-                        placeholder: 'Miscellaneous Expense',
+                        placeholder: 'Select Miscellaneous Expense',
                         dropdownParent: $('#miscellaneous_expense_id').parent()
                 });
 
@@ -93,7 +93,7 @@
                 });
 
                 $('#supplier_invoice_variance_id').select2({
-                        placeholder: 'Supplier Invoice Variance',
+                        placeholder: 'Select Supplier Invoice Variance',
                         dropdownParent: $('#supplier_invoice_variance_id').parent()
                 });
 

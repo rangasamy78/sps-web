@@ -70,7 +70,6 @@
                         <label for="linked_account_id" class="col form-label pb-1">Account</label>
                         <div class="col-sm-12">
                             <select class="form-select " disabled name="linked_account_id" id="linked_account_id">
-                                <option value="">--Select--</option>
                                 @foreach($data['linkedAccounts'] as $key => $linkedAccount)
                                 <option value="{{ $linkedAccount['value'] }}">{{ $linkedAccount['label'] }}</option>
                                 @endforeach
@@ -81,7 +80,6 @@
                         <label for="account_type" class="col form-label pb-1">Account Type</label>
                         <div class="col-sm-12">
                             <select class="form-select" disabled name="account_type_id" id="account_type_id">
-                                <option value="">--Select--</option>
                                 @foreach($data['accountTypes'] as $key => $accountType)
                                 <option value="{{ $accountType['value'] }}">{{ $accountType['label'] }}</option>
                                 @endforeach

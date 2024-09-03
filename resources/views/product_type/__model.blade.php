@@ -41,7 +41,6 @@
                             <div class="form-group">
                                 <label class="form-label" for="Inventory GL Account">Inventory GL Account</label>
                                 <select id="inventory_gl_account" class="form-select select2" name="inventory_gl_account" data-allow-clear="true">
-                                    <option value="">--Select--</option>
                                     <option value="12000-Inventory">12000-Inventory</option>
                                     <option value="12100-Inventory Asset">12100-Inventory Asset</option>
                                     <option value="12200-Inventory in Transit">12200-Inventory in Transit</option>
@@ -53,14 +52,12 @@
                             <div class="form-group">
                                 <label class="form-label" for="Sales GL Account">Sales GL Account</label>
                                 <select id="sales_gl_account" class="form-select select2" name="sales_gl_account" data-allow-clear="true">
-                                    <option value="">--Select--</option>
-                                    <option value="47900-Sales">47900-Sales</option>
+                                   <option value="47900-Sales">47900-Sales</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label class="form-label" for="Cogs GL Account">Cogs GL Account</label>
                                 <select id="cogs_gl_account" class="form-select select2" name="cogs_gl_account" data-allow-clear="true">
-                                    <option value="">--Select--</option>
                                     <option value="50000-Cost of Goods Sold">50000-Cost of Goods Sold</option>
                                     <option value="50010-Inventory Adjustment">50010-Inventory Adjustment</option>
                                     <option value="50016-Sales Discounts">50016-Sales Discounts</option>
@@ -116,7 +113,6 @@
                                 <label class="form-label" for="Inventory GL Account">Inventory GL Account</label>
                                 <div class="input-group input-group-merge">
                                     <select id="inventory_gl_accounts" disabled class="form-select" name="inventory_gl_accounts">
-                                        <option value="">--Select--</option>
                                         <option value="12000-Inventory">12000-Inventory</option>
                                         <option value="12100-Inventory Asset">12100-Inventory Asset</option>
                                         <option value="12200-Inventory in Transit">12200-Inventory in Transit</option>
@@ -130,7 +126,6 @@
                                 <label class="form-label" for="Sales GL Account">Sales GL Account</label>
                                 <div class="input-group input-group-merge">
                                     <select id="sales_gl_accounts" disabled class="form-select" name="sales_gl_accounts">
-                                        <option value="">--Select--</option>
                                         <option value="47900-Sales">47900-Sales</option>
                                     </select>
                                 </div>
@@ -139,7 +134,6 @@
                                 <label class="form-label" for="Cogs GL Account">Cogs GL Account</label>
                                 <div class="input-group input-group-merge">
                                     <select id="cogs_gl_accounts" disabled class="form-select" name="cogs_gl_accounts">
-                                        <option value="">--Select--</option>
                                         <option value="50000-Cost of Goods Sold">50000-Cost of Goods Sold</option>
                                         <option value="50010-Inventory Adjustment">50010-Inventory Adjustment</option>
                                         <option value="50016-Sales Discounts">50016-Sales Discounts</option>
