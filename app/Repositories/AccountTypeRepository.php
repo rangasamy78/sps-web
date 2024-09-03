@@ -35,10 +35,10 @@ class AccountTypeRepository implements CrudRepositoryInterface, DatatableReposit
     {
         $subCategories = LinkedAccount::where('account_type', $id)->first();
         if ($subCategories) {
-            return response()->json(['status' => 'error', 'msg' => 'Account Type cannot be deleted because it has Linked Accounts.'], 200);
+            return response()->json(['status' => 'error', 'msg' => 'Account type cannot be deleted because it has Linked Accounts.'], 200);
         } else {
             $this->findOrFail($id)->delete();
-            return response()->json(['status' => 'success', 'msg' => 'Account Type deleted successfully.'], 200);
+            return response()->json(['status' => 'success', 'msg' => 'Account type deleted successfully.'], 200);
         }
     }
 

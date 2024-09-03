@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use Illuminate\Http\Request;
+use App\Models\LinkedAccount;
 use App\Models\AccountSubType;
 use Illuminate\Database\Eloquent\Model;
 use App\Interfaces\CrudRepositoryInterface;
@@ -28,9 +29,15 @@ class AccountSubTypeRepository implements CrudRepositoryInterface, DatatableRepo
             ->update($data);
     }
 
-    public function delete(int $id): void
+    public function delete(int $id)
     {
-        $this->findOrFail($id)->delete();
+        $subCategories = LinkedAccount::where('account_sub_type', $id)->first();
+        if ($subCategories) {
+            return response()->json(['status' => 'error', 'msg' => 'Account sub type cannot be deleted because it has Linked Accounts.'], 200);
+        } else {
+            $this->findOrFail($id)->delete();
+            return response()->json(['status' => 'success', 'msg' => 'Account sub type deleted successfully.'], 200);
+        }
     }
 
     public function getAccountSubTypeList($request)
