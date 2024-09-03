@@ -104,7 +104,7 @@ class SelectTypeSubCategoryRepository implements CrudRepositoryInterface, Datata
         $paginatedData = $filteredData->slice($start, $rowPerPage);
 
         $paginatedData = $paginatedData->sortBy(function ($item) use ($columnName, $columnSortOrder) {
-            return $columnSortOrder === 'asc' ? $item->$columnName : -$item->$columnName;
+            return $item ? $item->$columnName : -$item->$columnName;
         });
         $paginatedData->map(function ($value, $i) {
             $value->sno                        = ++$i;
