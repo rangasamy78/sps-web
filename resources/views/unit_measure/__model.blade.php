@@ -13,6 +13,7 @@
                         <label for="unit_measure_entity" class="pb-1 form-label">Unit Measure Entity <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
                             <select id="unit_measure_entity" class="form-select select2" name="unit_measure_entity" data-allow-clear="true">
+                                <option value="">--Select Unit Measure Entity--</option>
                                 @foreach($unitMeasureOptions as $key => $value)
                                     <option value="{{ $key }}">{{ $value }}</option>
                                 @endforeach

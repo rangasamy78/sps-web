@@ -31,6 +31,7 @@
                         <label class="pb-1 form-label">Income Expense Account</label>
                         <div class="col-sm-12">
                             <select id="income_expense_account" class="form-select select2" name="income_expense_account" data-allow-clear="true">
+                                <option value="0">Select Income Expense Account</option>
                                 <option value="50010 - Inventory Adjustment">50010 - Inventory Adjustment</option>
                             </select>
                         </div>

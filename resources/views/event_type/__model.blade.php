@@ -27,7 +27,8 @@
                         <label for="event_category_id" class="pb-1 form-label">Event Category </label>
                         <div class="col-sm-12">
                             <select id="event_category_id" class="form-select select2" name="event_category_id" data-allow-clear="true">
-                                @foreach($eventCategories as $key => $eventCategory)
+                                <option value="0">Select Event Category</option>
+                            @foreach($eventCategories as $key => $eventCategory)
                                 <option value="{{ $key }}">{{ $eventCategory }}</option>
                                 @endforeach
                             </select>

@@ -27,6 +27,7 @@
                         <label for="account_type" class="col form-label pb-1">Account Type <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
                             <select class="form-select select2" name="account_type" id="account_type" data-allow-clear="true">
+                                <option value="">--Select Account Type-- </option>
                                 @foreach($accountTypes as $accountType)
                                 <option value="{{$accountType->id}}">{{$accountType->account_type_name}}</option>
                                 @endforeach
@@ -38,7 +39,7 @@
                         <label for="account_sub_type" class="col form-label pb-1">Account Sub Type <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col">
                             <select class="form-select select2" name="account_sub_type" id="account_sub_type" data-allow-clear="true">
-                                <option value="">--Select-- </option>
+                                <option value="">--Select Account Sub Type-- </option>
                                 @foreach($accountSubTypes as $accountSubType)
                                 <option value="{{$accountSubType->id}}">{{$accountSubType->sub_type_name}}</option>
                                 @endforeach
