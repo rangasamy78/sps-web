@@ -6,7 +6,7 @@
             }
         });
 
-        $('#titleFilter, #select_type_category_id_filter, #select_type_sub_category_id_filter, #policyFilter').on('keyup change', function(e) {
+        $('#titleFilter, #select_type_category_id_filter, #select_type_sub_category_id_filter').on('keyup change', function(e) {
             e.preventDefault();
             table.draw();
         });
@@ -25,7 +25,6 @@
                     d.title_search = $('#titleFilter').val();
                     d.select_type_category_search = $('#select_type_category_id_filter').val();
                     d.select_type_sub_category_search = $('#select_type_sub_category_id_filter').val();
-                    d.policy_search = $('#policyFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{
                         column: 1,
