@@ -27,7 +27,6 @@
                         <label for="event_category_id" class="pb-1 form-label">Event Category </label>
                         <div class="col-sm-12">
                             <select id="event_category_id" class="form-select select2" name="event_category_id" data-allow-clear="true">
-                                <option value="">--Select--</option>
                                 @foreach($eventCategories as $key => $eventCategory)
                                 <option value="{{ $key }}">{{ $eventCategory }}</option>
                                 @endforeach
@@ -71,7 +70,6 @@
                         <label for="event_category_id" class="form-label">Event Category </label>
                         <div class="col-sm-12">
                             <select disabled id="event_category_id" class="form-select" name="event_category_id">
-                                <option value="">--Select--</option>
                                 @foreach($eventCategories as $key => $eventCategory)
                                 <option value="{{ $key }}">{{ $eventCategory }}</option>
                                 @endforeach

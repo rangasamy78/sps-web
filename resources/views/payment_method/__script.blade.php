@@ -175,5 +175,25 @@
                 e.preventDefault();
                 table.draw();
             });
+
+            $('#linkedAccountFilter').select2({
+                placeholder: 'Select Account',
+                dropdownParent: $('#linkedAccountFilter').parent()
+            });
+
+            $('#accountTypeFilter').select2({
+                placeholder: 'Select Account Type',
+                dropdownParent: $('#accountTypeFilter').parent()
+            });
+
+            $('#linked_account_id').select2({
+                placeholder: 'Select Account',
+                dropdownParent: $('#linked_account_id').parent()
+            });
+            
+            $('#account_type_id').select2({
+                placeholder: 'Select Account Type',
+                dropdownParent: $('#account_type_id').parent()
+            });
         });
     </script>

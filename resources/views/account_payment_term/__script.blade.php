@@ -251,5 +251,15 @@
             e.preventDefault();
             table.draw();
         });
+        
+        $('#termFilter').select2({
+                placeholder: 'Select Payment Type',
+                dropdownParent: $('#termFilter').parent()
+        });
+    
+        $('#payment_type').select2({
+            placeholder: 'Select Payment Type',
+            dropdownParent: $('#payment_type').parent()
+        });
     });
 </script>

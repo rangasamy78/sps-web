@@ -24,7 +24,6 @@
                                 <div class="form-group">
                                     <label for="payment_type" class="form-label">Payment Type<sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                                     <select class="form-select select2" name="payment_type" id="payment_type" data-allow-clear="true">
-                                        <option value="">--Select--</option>
                                         @foreach($account_types as $key => $account_type)
                                         <option value="{{ $account_type['value'] }}">{{ $account_type['label'] }}</option>
                                         @endforeach

@@ -103,6 +103,16 @@
             });
         });
 
+        $('#expenseAccountFilter').select2({
+                placeholder: 'Select Expense Account',
+                dropdownParent: $('#expenseAccountFilter').parent()
+        });
+        
+        $('#expense_account').select2({
+            placeholder: 'Select Expense Account',
+            dropdownParent: $('#expense_account').parent()
+        });
+
         $('body').on('click', '.editbtn', function() {
             var id = $(this).data('id');
             $(".expense_category_name_error").html("");

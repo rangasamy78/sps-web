@@ -26,7 +26,6 @@
                         <label for="country_id" class="col-sm-6 form-label">Country <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
                             <select id="country_id" class="form-select select2" name="country_id" data-allow-clear="true">
-                                <option value="">--Select--</option>
                                 @foreach($countries as $key => $country)
                                 <option value="{{ $key }}">{{ $country }}</option>
                                 @endforeach
@@ -68,7 +67,6 @@
                         <label for="country_id" class="col-sm-6 form-label">Country </label>
                         <div class="col-sm-12">
                             <select id="country_id" disabled class="form-select" name="country_id">
-                                <option value="">--Select--</option>
                                 @foreach($countries as $key => $country)
                                 <option value="{{ $key }}">{{ $country }}</option>
                                 @endforeach

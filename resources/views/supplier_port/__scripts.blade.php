@@ -82,6 +82,16 @@
             }],
         });
 
+        $('#countryFilter').select2({
+            placeholder: 'Select Country',
+            dropdownParent: $('#countryFilter').parent()
+        });
+        
+        $('#country_id').select2({
+            placeholder: 'Select Country',
+            dropdownParent: $('#country_id').parent()
+        });
+
         $('#supplierPortForm input, #supplierPortForm select').on('input change', function() {
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');

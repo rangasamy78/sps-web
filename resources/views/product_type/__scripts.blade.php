@@ -83,6 +83,38 @@
             }],
         });
 
+        
+        $('#inventoryGLAccountFilter').select2({
+            placeholder: 'Select Inventory GL Account',
+            dropdownParent: $('#inventoryGLAccountFilter').parent()
+        });
+
+        $('#salesGLAccountFilter').select2({
+            placeholder: 'Select Sales GL Account',
+            dropdownParent: $('#salesGLAccountFilter').parent()
+        });
+
+        $('#cogsGLAccountFilter').select2({
+            placeholder: 'Select Cogs GL Account',
+            dropdownParent: $('#cogsGLAccountFilter').parent()
+        });
+
+        $('#inventory_gl_account').select2({
+            placeholder: 'Select Inventory GL Account',
+            dropdownParent: $('#inventory_gl_account').parent()
+        });
+
+        $('#sales_gl_account').select2({
+            placeholder: 'Select Sales GL Account',
+            dropdownParent: $('#sales_gl_account').parent()
+        });
+
+        $('#cogs_gl_account').select2({
+            placeholder: 'Select Cogs GL Account',
+            dropdownParent: $('#cogs_gl_account').parent()
+        });
+
+
         $('#productTypeForm input').on('input', function() {
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');

@@ -45,17 +45,14 @@ class PrintDocDisclaimerRepository implements CrudRepositoryInterface, Datatable
     public function getPrintDocDisclaimerList($request)
     {
         $query = PrintDocDisclaimer::with(['select_type_category', 'select_type_sub_category']);
-        if (!empty($request->title_search) ) {
-            $query->where('title', 'like', '%' . $request->title_search. '%');
+        if (!empty($request->title_search)) {
+            $query->where('title', 'like', '%' . $request->title_search . '%');
         }
-        if (!empty($request->select_type_category_search) ) {
-            $query->where('select_type_category_id', $request->select_type_category_search );
+        if (!empty($request->select_type_category_search)) {
+            $query->where('select_type_category_id', $request->select_type_category_search);
         }
-        if (!empty($request->select_type_sub_category_search) ) {
+        if (!empty($request->select_type_sub_category_search)) {
             $query->where('select_type_sub_category_id', $request->select_type_sub_category_search);
-        }
-        if (!empty($request->policy_search) ) {
-            $query->where('policy', 'like', '%' . $request->policy_search. '%');
         }
         return $query;
     }
@@ -101,5 +98,4 @@ class PrintDocDisclaimerRepository implements CrudRepositoryInterface, Datatable
 
         return response()->json($response);
     }
-
 }

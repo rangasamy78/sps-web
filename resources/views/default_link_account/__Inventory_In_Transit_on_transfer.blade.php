@@ -11,7 +11,6 @@
                         <div class="col-sm-9">
                             <input type="hidden" name="id" id="id" value="{{ $data['inventoryInTransitOnTransfer']['id'] ?? '' }}">
                             <select id="inventory_in_transit_id" class="form-select select2" name="inventory_in_transit_id" data-allow-clear="true">
-                                <option value="">--Select--</option>
                                 @foreach($data['linkedAccounts'] as $key => $linkedAccount)
                                 @php $selectedValue = (isset($data['inventoryInTransitOnTransfer']['inventory_in_transit_id']) ? $data['inventoryInTransitOnTransfer']['inventory_in_transit_id'] : '') @endphp
                                 <option value="{{ $linkedAccount['value'] }}" {{ $linkedAccount['value'] == $selectedValue ? 'selected' : '' }}>{{ $linkedAccount['label'] }}</option>

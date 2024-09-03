@@ -17,8 +17,5 @@
                 <option value="">--Select Type Sub Category--</option>
             </select>
         </div>
-        <div class="col-12 col-sm-6 col-lg-3">
-            <input type="text" class="form-control dt-input dt-full-name" name="policyFilter" id="policyFilter" placeholder="Search Policy">
-        </div>
     </div>
 </div>&nbsp;

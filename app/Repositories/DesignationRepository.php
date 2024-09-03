@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Models\Department;
 use App\Models\Designation;
 use Illuminate\Http\Request;
 use App\Interfaces\CrudRepositoryInterface;
@@ -55,7 +54,7 @@ class DesignationRepository implements CrudRepositoryInterface, DatatableReposit
 
     public function getDesignationsList($request)
     {
-        $query = Designation::query();
+        $query = Designation::with('department');
         if (!empty($request->designation_search)) {
             $query->where('designation_name', 'like', '%' . $request->designation_search . '%');
         }
@@ -90,7 +89,7 @@ class DesignationRepository implements CrudRepositoryInterface, DatatableReposit
 
         $arrData->map(function ($value) {
             $value->designation_name = $value->designation_name ?? '';
-            $value->department_id    = Department::getDepartmentList($value->department_id);
+            $value->department_id    = $value->department->department_name ?? '';
             $value->action           = "<div class='dropup'><button type='button' class='btn p-0 dropdown-toggle hide-arrow' data-bs-toggle='dropdown'><i class='bx bx-dots-vertical-rounded icon-color'></i></button><div class='dropdown-menu'><a class='dropdown-item showbtn text-warning' href='javascript:void(0);' data-id='" . $value->id . "' ><i class='bx bx-show me-1 icon-warning'></i> Show</a><a class='dropdown-item editbtn text-success' href='javascript:void(0);' data-id='" . $value->id . "' > <i class='bx bx-edit-alt me-1 icon-success'></i> Edit </a><a class='dropdown-item deletebtn text-danger' href='javascript:void(0);' data-id='" . $value->id . "' ><i class='bx bx-trash me-1 icon-danger'></i> Delete</a> </div> </div>";
         });
 

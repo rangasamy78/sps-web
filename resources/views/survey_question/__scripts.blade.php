@@ -82,6 +82,16 @@
             }],
         });
 
+        $('#transactionFilter').select2({
+            placeholder: 'Select Transaction',
+            dropdownParent: $('#transactionFilter').parent()
+        });
+        
+        $('#transaction').select2({
+            placeholder: 'Select Transaction',
+            dropdownParent: $('#transaction').parent()
+        });
+
         $('#createSurveyQuestion').click(function() {
             resetForm();
             $('#savedata').html("Save Survey Question");
