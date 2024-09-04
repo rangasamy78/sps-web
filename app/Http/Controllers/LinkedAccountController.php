@@ -64,17 +64,23 @@ class LinkedAccountController extends Controller
     public function destroy($id)
     {
         try {
-            $linkedAccount = $this->linkedAccountRepository->findOrFail($id);
-            if ($linkedAccount) {
-                $this->linkedAccountRepository->delete($id);
-                return response()->json(['status' => 'success', 'msg' => 'Linked account deleted successfully.']);
+            $adjustmentType = $this->linkedAccountRepository->findOrFail($id);
+            if ($adjustmentType) {
+                $response = $this->linkedAccountRepository->delete($id);
+                $data     = $response->getData();
+                if ($data->status == 'success') {
+                    return response()->json(['status' => $data->status, 'msg' => $data->msg]);
+                } elseif ($data->status == 'error') {
+                    return response()->json(['status' => $data->status, 'msg' => $data->msg]);
+                }
             } else {
                 return response()->json(['status' => 'false', 'msg' => 'Linked account not found.']);
             }
         } catch (Exception $e) {
-            Log::error('Error deleting linked account: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the linked account.']);
+            Log::error('Error deleting Linked account : ' . $e->getMessage());
+            return response()->json(['status' => $data->status, 'msg' => $data->msg], 500);
         }
+        return $response;
     }
 
     public function getLinkedAccountDataTableList(Request $request)

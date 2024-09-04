@@ -39,32 +39,34 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="form-label" for="Inventory GL Account">Inventory GL Account</label>
-                                <select id="inventory_gl_account" class="form-select select2" name="inventory_gl_account" data-allow-clear="true">
-                                    <option value="12000-Inventory">12000-Inventory</option>
-                                    <option value="12100-Inventory Asset">12100-Inventory Asset</option>
-                                    <option value="12200-Inventory in Transit">12200-Inventory in Transit</option>
-                                    <option value="12300-Intransit Accrued Freight">12300-Intransit Accrued Freight</option>
-                                    <option value="12400-Inventory Freight Adjustment">12400-Inventory Freight Adjustment</option>
-                                    <option value="47918-SUPPLIER CREDIT - Inventory Damage">47918-SUPPLIER CREDIT - Inventory Damage</option>
+                                <label class="form-label" for="Inventory GL Account">Inventory GL Account <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                                <select id="inventory_gl_account_id" class="form-select select2" name="inventory_gl_account_id" data-allow-clear="true">
+                                    <option value="">--Select Inventory GL Account--</option>
+                                    @foreach($inventories as $key => $inventory)
+                                        <option value="{{ $inventory['value'] }}">{{ $inventory['label'] }}</option>
+                                    @endforeach
                                 </select>
+                                <span class="text-danger error-text inventory_gl_account_id_error"></span>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label" for="Sales GL Account">Sales GL Account</label>
-                                <select id="sales_gl_account" class="form-select select2" name="sales_gl_account" data-allow-clear="true">
-                                   <option value="47900-Sales">47900-Sales</option>
+                            <div class="form-group mt-3">
+                                <label class="form-label" for="Sales GL Account">Sales GL Account <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                                <select id="sales_gl_account_id" class="form-select select2" name="sales_gl_account_id" data-allow-clear="true">
+                                    <option value="">--Select Sales GL Account--</option>
+                                    @foreach($sales as $key => $sale)
+                                        <option value="{{ $sale['value'] }}">{{ $sale['label'] }}</option>
+                                    @endforeach
                                 </select>
+                                <span class="text-danger error-text sales_gl_account_id_error"></span>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label" for="Cogs GL Account">Cogs GL Account</label>
-                                <select id="cogs_gl_account" class="form-select select2" name="cogs_gl_account" data-allow-clear="true">
-                                    <option value="50000-Cost of Goods Sold">50000-Cost of Goods Sold</option>
-                                    <option value="50010-Inventory Adjustment">50010-Inventory Adjustment</option>
-                                    <option value="50016-Sales Discounts">50016-Sales Discounts</option>
-                                    <option value="50300-Commissions Paid">50300-Commissions Paid</option>
-                                    <option value="50302-Commissions Paid - Employees Sales">50302-Commissions Paid - Employees Sales</option>
-                                    <option value="50304-Commissions Paid - 3rd Party">50304-Commissions Paid - 3rd Party</option>
+                            <div class="form-group mt-3">
+                                <label class="form-label" for="Cogs GL Account">Cogs GL Account <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                                <select id="cogs_gl_account_id" class="form-select select2" name="cogs_gl_account_id" data-allow-clear="true">
+                                    <option value="">--Select Cogs GL Account--</option>
+                                    @foreach($cogs as $key => $cog)
+                                        <option value="{{ $cog['value'] }}">{{ $cog['label'] }}</option>
+                                    @endforeach
                                 </select>
+                                <span class="text-danger error-text cogs_gl_account_id_error"></span>
                             </div>
                         </div>
                     </div>
@@ -113,12 +115,10 @@
                                 <label class="form-label" for="Inventory GL Account">Inventory GL Account</label>
                                 <div class="input-group input-group-merge">
                                     <select id="inventory_gl_accounts" disabled class="form-select" name="inventory_gl_accounts">
-                                        <option value="12000-Inventory">12000-Inventory</option>
-                                        <option value="12100-Inventory Asset">12100-Inventory Asset</option>
-                                        <option value="12200-Inventory in Transit">12200-Inventory in Transit</option>
-                                        <option value="12300-Intransit Accrued Freight">12300-Intransit Accrued Freight</option>
-                                        <option value="12400-Inventory Freight Adjustment">12400-Inventory Freight Adjustment</option>
-                                        <option value="47918-SUPPLIER CREDIT - Inventory Damage">47918-SUPPLIER CREDIT - Inventory Damage</option>
+                                        <option value="">--Select Inventory GL Account--</option>
+                                        @foreach($inventories as $key => $inventory)
+                                            <option value="{{ $inventory['value'] }}">{{ $inventory['label'] }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -126,7 +126,10 @@
                                 <label class="form-label" for="Sales GL Account">Sales GL Account</label>
                                 <div class="input-group input-group-merge">
                                     <select id="sales_gl_accounts" disabled class="form-select" name="sales_gl_accounts">
-                                        <option value="47900-Sales">47900-Sales</option>
+                                        <option value="">--Select Sales GL Account--</option>
+                                        @foreach($sales as $key => $sale)
+                                            <option value="{{ $sale['value'] }}">{{ $sale['label'] }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -134,12 +137,10 @@
                                 <label class="form-label" for="Cogs GL Account">Cogs GL Account</label>
                                 <div class="input-group input-group-merge">
                                     <select id="cogs_gl_accounts" disabled class="form-select" name="cogs_gl_accounts">
-                                        <option value="50000-Cost of Goods Sold">50000-Cost of Goods Sold</option>
-                                        <option value="50010-Inventory Adjustment">50010-Inventory Adjustment</option>
-                                        <option value="50016-Sales Discounts">50016-Sales Discounts</option>
-                                        <option value="50300-Commissions Paid">50300-Commissions Paid</option>
-                                        <option value="50302-Commissions Paid - Employees Sales">50302-Commissions Paid - Employees Sales</option>
-                                        <option value="50304-Commissions Paid - 3rd Party">50304-Commissions Paid - 3rd Party</option>
+                                        <option value="">--Select Cogs GL Account--</option>
+                                        @foreach($cogs as $key => $cog)
+                                            <option value="{{ $cog['value'] }}">{{ $cog['label'] }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>

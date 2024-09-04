@@ -9,13 +9,13 @@
         {{-- Logo --}}
         <h4 class="mb-2">Welcome to ERP! 👋</h4>
         <p class="mb-3">Please sign-in to your account first</p>
-        <form id="formAuthentication" class="mb-3" method="POST" action="{{ route('login') }}">
+        <form id="Login" name="Login" class="mb-3" method="POST" action="{{ route('login') }}">
             @csrf
             <div class="mb-3">
                 <label for="email" class="form-label">{{ __('Email Address') }} <sup style="color: red;font-size:1rem;"><b>*</b></sup></label>
                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" placeholder="Enter your email" autofocus>
                 @error('email')
-                <span class="invalid-feedback" role="alert">
+                <span class="invalid-feedback email_error" role="alert">
                     <strong>{{ $message }}</strong>
                 </span>
                 @enderror
@@ -32,7 +32,7 @@
                     <span class="cursor-pointer input-group-text"><i class="bx bx-hide"></i></span>
 
                     @error('password')
-                    <span class="invalid-feedback" role="alert">
+                    <span class="invalid-feedback password_error" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
                     @enderror
@@ -41,7 +41,7 @@
             </div>
             <div class="mb-3">
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }} value="1">
                     <label class="form-check-label" for="remember">
                         {{ __('Remember Me') }}
                     </label>
@@ -60,6 +60,5 @@
         </a>
     </p>
 </div>
-
-{{-- content --}}
+<script src="{{ asset('public/js/login.js') }}"></script>
 @endsection

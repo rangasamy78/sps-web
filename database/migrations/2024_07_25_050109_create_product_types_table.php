@@ -16,9 +16,9 @@ return new class extends Migration
             $table->string('product_type');
             $table->integer('indivisible')->default(0);
             $table->integer('non_serialized')->default(0);
-            $table->string('inventory_gl_account')->nullable();
-            $table->string('sales_gl_account')->nullable();
-            $table->string('cogs_gl_account')->nullable();
+            $table->unsignedInteger('inventory_gl_account_id');
+            $table->unsignedInteger('sales_gl_account_id');
+            $table->unsignedInteger('cogs_gl_account_id');
             $table->timestamps();
         });
     }

@@ -39,15 +39,15 @@ class InventoryAdjustmentReasonCodeRepository implements CrudRepositoryInterface
 
     public function getInventoryAdjustmentReasonCodeList($request)
     {
-        $query = InventoryAdjustmentReasonCode::query();
+        $query = InventoryAdjustmentReasonCode::with('linked_adjustment_type');
         if (!empty($request->reason_search)) {
             $query->where('reason', 'like', '%' . $request->reason_search . '%');
         }
         if (!empty($request->adjustment_type_search)) {
-            $query->where('adjustment_type_id', 'like', '%' . $request->adjustment_type_search . '%');
+            $query->where('adjustment_type_id', $request->adjustment_type_search);
         }
         if (!empty($request->income_expense_account_search)) {
-            $query->where('income_expense_account', $request->income_expense_account_search);
+            $query->where('income_expense_account_id', $request->income_expense_account_search);
         }
         return $query;
     }
@@ -85,7 +85,7 @@ class InventoryAdjustmentReasonCodeRepository implements CrudRepositoryInterface
             $value->sno                    = ++$i;
             $value->reason                 = $value->reason ?? '';
             $value->adjustment_type_id     = $this->getAdjustmentTypeListList($value->adjustment_type_id);
-            $value->income_expense_account = $value->income_expense_account ?? '';
+            $value->income_expense_account_id = $value->linked_adjustment_type->account_code. '-' .$value->linked_adjustment_type->account_name;
             $value->action                 = "<div class='dropup'><button type='button' class='btn p-0 dropdown-toggle hide-arrow' data-bs-toggle='dropdown'><i class='bx bx-dots-vertical-rounded icon-color'></i></button><div class='dropdown-menu'><a class='dropdown-item showbtn text-warning' href='javascript:void(0);' data-id='" . $value->id . "' ><i class='bx bx-show me-1 icon-warning'></i> Show</a><a class='dropdown-item editbtn text-success' href='javascript:void(0);' data-id='" . $value->id . "' > <i class='bx bx-edit-alt me-1 icon-success'></i> Edit </a><a class='dropdown-item deletebtn text-danger' href='javascript:void(0);' data-id='" . $value->id . "' ><i class='bx bx-trash me-1 icon-danger'></i> Delete</a> </div> </div>";
         });
 

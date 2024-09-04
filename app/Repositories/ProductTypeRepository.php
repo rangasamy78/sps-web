@@ -43,18 +43,18 @@ class ProductTypeRepository implements CrudRepositoryInterface, DatatableReposit
     }
     public function getProductTypeList($request)
     {
-        $query = ProductType::query();
+        $query = ProductType::with('linked_account_inventory_gl','linked_account_sales_gl','linked_account_cogs_gl');
         if (!empty($request->product_type_search)) {
             $query->where('product_type', 'like', '%' . $request->product_type_search . '%');
         }
         if (!empty($request->inventory_gl_account_search)) {
-            $query->where('inventory_gl_account', 'like', '%' . $request->inventory_gl_account_search . '%');
+            $query->where('inventory_gl_account_id', $request->inventory_gl_account_search);
         }
         if (!empty($request->sales_gl_account_search)) {
-            $query->where('sales_gl_account', 'like', '%' . $request->sales_gl_account_search . '%');
+            $query->where('sales_gl_account_id', $request->sales_gl_account_search);
         }
         if (!empty($request->cogs_gl_account_search)) {
-            $query->where('cogs_gl_account', 'like', '%' . $request->cogs_gl_account_search . '%');
+            $query->where('cogs_gl_account_id',  $request->cogs_gl_account_search);
         }
         return $query;
     }
@@ -85,7 +85,10 @@ class ProductTypeRepository implements CrudRepositoryInterface, DatatableReposit
         $arrData->map(function ($value, $i) {
             $value->sno                 = ++$i;
             $value->product_type        = $value->product_type ?? '';
-            $value->default_gl_accounts = $this->productTypeService->getDefaultGLAccounts($value->inventory_gl_account, $value->sales_gl_account, $value->cogs_gl_account);
+            $inventory_gl               = $value->linked_account_inventory_gl->account_code . '-' . $value->linked_account_inventory_gl->account_name;
+            $sales_gl                   = $value->linked_account_sales_gl->account_code . '-' . $value->linked_account_sales_gl->account_name;
+            $cogs_gl                    = $value->linked_account_cogs_gl->account_code . '-' . $value->linked_account_cogs_gl->account_name;
+            $value->default_gl_accounts = $this->productTypeService->getDefaultGLAccounts($inventory_gl, $sales_gl, $cogs_gl);
             $value->default_values      = $this->productTypeService->getDefaultValues($value->indivisible, $value->non_serialized, $value->id);
             $value->action              = "<div class='dropup'><button type='button' class='btn p-0 dropdown-toggle hide-arrow' data-bs-toggle='dropdown'><i class='bx bx-dots-vertical-rounded icon-color'></i></button><div class='dropdown-menu'><a class='dropdown-item showbtn text-warning' href='javascript:void(0);' data-id='" . $value->id . "' ><i class='bx bx-show me-1 icon-warning'></i> Show</a><a class='dropdown-item editbtn text-success' href='javascript:void(0);' data-id='" . $value->id . "' > <i class='bx bx-edit-alt me-1 icon-success'></i> Edit </a><a class='dropdown-item deletebtn text-danger' href='javascript:void(0);' data-id='" . $value->id . "' ><i class='bx bx-trash me-1 icon-danger'></i> Delete</a> </div> </div>";
         });

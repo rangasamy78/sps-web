@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('reason');
             $table->unsignedBigInteger('adjustment_type_id');
-            $table->string('income_expense_account')->nullable();
+            $table->unsignedBigInteger('income_expense_account_id');
             $table->timestamps();
         });
     }

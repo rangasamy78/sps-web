@@ -25,8 +25,9 @@ class InventoryAdjustmentReasonCodeController extends Controller
 
     public function index()
     {
-        $adjustment_types = $this->dropDownRepository->dropDownPopulate('adjustment_types');
-        return view('inventory_adjustment_reason_code.inventory_adjustment_reason_codes', compact('adjustment_types'));
+        $adjustment_types   = $this->dropDownRepository->dropDownPopulate('adjustment_types');
+        $linked_accounts    = $this->dropDownRepository->dropDownPopulate('linked_accounts');
+        return view('inventory_adjustment_reason_code.inventory_adjustment_reason_codes', compact('adjustment_types','linked_accounts'));
     }
 
     /**
@@ -35,10 +36,10 @@ class InventoryAdjustmentReasonCodeController extends Controller
     public function store(CreateInventoryAdjustmentReasonCodeRequest $request)
     {
         try {
-            $this->inventoryAdjustmentReasonCodeRepository->store($request->only('reason', 'adjustment_type_id', 'income_expense_account'));
+            $this->inventoryAdjustmentReasonCodeRepository->store($request->only('reason', 'adjustment_type_id', 'income_expense_account_id'));
             return response()->json(['status' => 'success', 'msg' => 'Inventory adjustment reason code saved successfully.']);
         } catch (Exception $e) {
-           
+
             Log::error('Error saving inventory adjustment reason code: ' . $e->getMessage());
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the inventory adjustment reason code.']);
         }
@@ -78,7 +79,7 @@ class InventoryAdjustmentReasonCodeController extends Controller
     public function update(UpdateInventoryAdjustmentReasonCodeRequest $request, InventoryAdjustmentReasonCode $inventoryAdjustmentReasonCode)
     {
         try {
-            $data = $request->only('reason', 'adjustment_type_id', 'income_expense_account');
+            $data = $request->only('reason', 'adjustment_type_id', 'income_expense_account_id');
             $this->inventoryAdjustmentReasonCodeRepository->update($data, $inventoryAdjustmentReasonCode->id);
             return response()->json(['status' => 'success', 'msg' => 'Inventory adjustment reason code updated successfully.']);
         } catch (Exception $e) {

@@ -29,13 +29,16 @@
                         <span class="text-danger error-text adjustment_type_id_error"></span>
                     </div>
                     <div class="form-group mt-3">
-                        <label class="pb-1 form-label">Income Expense Account</label>
+                        <label class="pb-1 form-label">Income Expense Account <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
-                            <select id="income_expense_account" class="form-select select2" name="income_expense_account" data-allow-clear="true">
-                                <option value="">Select Income Expense Account</option>
-                                <option value="50010 - Inventory Adjustment">50010 - Inventory Adjustment</option>
+                            <select id="income_expense_account_id" class="form-select select2" name="income_expense_account_id" data-allow-clear="true">
+                                <option value="">--Select Income Expense Account--</option>
+                                @foreach($linked_accounts as $key => $linkedAccount)
+                                    <option value="{{ $linkedAccount['value'] }}">{{ $linkedAccount['label'] }}</option>
+                                @endforeach
                             </select>
                         </div>
+                        <span class="text-danger error-text income_expense_account_id_error"></span>
                     </div>
                 </form>
             </div>
@@ -77,9 +80,10 @@
                     <div class="form-group mt-3">
                         <label class="form-label">Income Expense Account</label>
                         <div class="col-sm-12">
-                            <select id="income_expense_account" class="form-select" disabled name="income_expense_account">
-                                <option value="">--Select Income Expense Account--</option>
-                                <option value="50010 - Inventory Adjustment">50010 - Inventory Adjustment</option>
+                            <select id="income_expense_account_id" class="form-select" disabled name="income_expense_account_id">
+                                @foreach($linked_accounts as $key => $linkedAccount)
+                                    <option value="{{ $linkedAccount['value'] }}">{{ $linkedAccount['label'] }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>

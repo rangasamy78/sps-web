@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ProductType extends Model
 {
     use HasFactory;
     protected $table = 'product_types';
+
     /**
     * The attributes that are mass assignable.
     *
@@ -18,8 +19,24 @@ class ProductType extends Model
         'product_type',
         'indivisible',
         'non_serialized',
-        'inventory_gl_account',
-        'sales_gl_account',
-        'cogs_gl_account'
+        'inventory_gl_account_id',
+        'sales_gl_account_id',
+        'cogs_gl_account_id'
     ];
+
+    function linked_account_inventory_gl()
+    {
+        return $this->belongsTo(LinkedAccount::class, 'inventory_gl_account_id');
+    }
+
+    function linked_account_sales_gl()
+    {
+        return $this->belongsTo(LinkedAccount::class, 'sales_gl_account_id');
+    }
+
+    function linked_account_cogs_gl()
+    {
+        return $this->belongsTo(LinkedAccount::class, 'cogs_gl_account_id');
+    }
+
 }

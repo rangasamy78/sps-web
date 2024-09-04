@@ -5,7 +5,7 @@
             <select class="form-control select2" id="adjustmentTypeFilter" name="adjustmentTypeFilter" data-allow-clear="true">
                 <option value="">--Select Adjustment Type--</option>
                 @foreach($adjustment_types as $key => $adjustment_type)
-                <option value="{{ $key }}">{{ $adjustment_type }}</option>
+                    <option value="{{ $key }}">{{ $adjustment_type }}</option>
                 @endforeach
             </select>
         </div>
@@ -15,7 +15,9 @@
         <div class="col-12 col-sm-6 col-lg-3">
             <select id="incomeExpenseAccountFilter" class="form-select select2" name="incomeExpenseAccountFilter" data-allow-clear="true">
                 <option value="">--Select Income Expense Account--</option>
-                <option value="50010 - Inventory Adjustment">50010 - Inventory Adjustment</option>
+                @foreach($linked_accounts as $key => $linkedAccount)
+                    <option value="{{ $linkedAccount['value'] }}">{{ $linkedAccount['label'] }}</option>
+                @endforeach
             </select>
         </div>
     </div>

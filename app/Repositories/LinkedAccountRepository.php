@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\ProductType;
 use Illuminate\Http\Request;
 use App\Models\LinkedAccount;
 use Illuminate\Database\Eloquent\Model;
@@ -27,10 +28,22 @@ class LinkedAccountRepository implements CrudRepositoryInterface, DatatableRepos
             ->findOrFail($id)
             ->update($data);
     }
+
     public function delete(int $id)
     {
-        $this->findOrFail($id)->delete();
+        $subCategories = ProductType::where('inventory_gl_account_id', $id)
+            ->orWhere('sales_gl_account_id', $id)
+            ->orWhere('cogs_gl_account_id', $id)
+            ->first();
+
+        if ($subCategories) {
+            return response()->json(['status' => 'error', 'msg' => 'Linked Account cannot be deleted because it has Product Types.'], 200);
+        } else {
+            $this->findOrFail($id)->delete();
+            return response()->json(['status' => 'success', 'msg' => 'Linked Account deleted successfully.'], 200);
+        }
     }
+
     public function getLinkedAccountList($request)
     {
         $query = LinkedAccount::query();
@@ -48,6 +61,7 @@ class LinkedAccountRepository implements CrudRepositoryInterface, DatatableRepos
         }
         return $query;
     }
+    
     public function dataTable(Request $request)
     {
         $draw            = $request->get('draw');
