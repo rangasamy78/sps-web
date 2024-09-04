@@ -17,21 +17,22 @@
                         <span class="text-danger error-text reason_error"></span>
                     </div>
                     <div class="form-group mt-3">
-                        <label class="pb-1 form-label">Adjustment Type</label>
+                        <label class="pb-1 form-label">Adjustment Type <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
                             <select class="form-control select2" id="adjustment_type_id" name="adjustment_type_id" data-allow-clear="true">
-                                <option value="0">--Select Adjustment Type--</option>
+                                <option value="">--Select Adjustment Type--</option>
                                 @foreach($adjustment_types as $key => $adjustment_type)
                                 <option value="{{ $key }}">{{ $adjustment_type }}</option>
                                 @endforeach
                             </select>
                         </div>
+                        <span class="text-danger error-text adjustment_type_id_error"></span>
                     </div>
                     <div class="form-group mt-3">
                         <label class="pb-1 form-label">Income Expense Account</label>
                         <div class="col-sm-12">
                             <select id="income_expense_account" class="form-select select2" name="income_expense_account" data-allow-clear="true">
-                                <option value="0">Select Income Expense Account</option>
+                                <option value="">Select Income Expense Account</option>
                                 <option value="50010 - Inventory Adjustment">50010 - Inventory Adjustment</option>
                             </select>
                         </div>

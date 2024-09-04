@@ -101,8 +101,8 @@
             placeholder: 'Select Income Expense Account',
             dropdownParent: $('#income_expense_account').parent()
         });
-
-        $('#inventoryAdjustmentReasonCodeForm input').on('input', function() {
+       
+        $('#inventoryAdjustmentReasonCodeForm input, #inventoryAdjustmentReasonCodeForm select').on('input change', function() {
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');
         });

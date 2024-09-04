@@ -22,7 +22,18 @@ class CreateEventTypeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'event_type_name' => 'required|string|max:255|unique:event_types,event_type_name',
+            'event_type_name'   => 'required|string|max:255|unique:event_types,event_type_name',
+            'event_category_id' => 'required|integer',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'event_category_id.required' => 'Event category is required.',
+            'event_category_id.integer'  => 'Event category must be an integer.',
+        ];
+    }
+
+
 }

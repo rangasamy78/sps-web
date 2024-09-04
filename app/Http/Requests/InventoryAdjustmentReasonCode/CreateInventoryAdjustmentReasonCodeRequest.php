@@ -23,7 +23,9 @@ class CreateInventoryAdjustmentReasonCodeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'reason' => 'required|string|max:255|unique:inventory_adjustment_reason_codes,reason',
+            'reason'             => 'required|string|max:255|unique:inventory_adjustment_reason_codes,reason',
+            'adjustment_type_id' => 'required|integer',
+
         ];
     }
 
@@ -32,5 +34,13 @@ class CreateInventoryAdjustmentReasonCodeRequest extends FormRequest
      *
      * @return array
      */
+
+    public function messages(): array
+    {
+        return [
+            'adjustment_type_id.required' => 'Adjustment type is required.',
+            'adjustment_type_id.integer'  => 'Adjustment type must be an integer.',
+        ];
+    }
 
 }

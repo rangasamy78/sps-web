@@ -85,13 +85,13 @@
             placeholder: 'Select Event Category',
             dropdownParent: $('#eventCategoryFilter').parent()
         });
-        
+
         $('#event_category_id').select2({
             placeholder: 'Select Event Category',
             dropdownParent: $('#event_category_id').parent()
         });
 
-        $('#eventTypeForm input').on('input', function() {
+        $('#eventTypeForm input, #eventTypeForm select').on('input change', function() {
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');
         });

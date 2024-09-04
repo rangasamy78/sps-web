@@ -24,15 +24,16 @@
                         </div>
                     </div>
                     <div class="form-group mt-3">
-                        <label for="event_category_id" class="pb-1 form-label">Event Category </label>
+                        <label for="event_category_id" class="pb-1 form-label">Event Category <sup style="color:red; font-size: 0.9rem;"><strong>*</strong> </label>
                         <div class="col-sm-12">
                             <select id="event_category_id" class="form-select select2" name="event_category_id" data-allow-clear="true">
-                                <option value="0">Select Event Category</option>
+                                <option value="">Select Event Category</option>
                             @foreach($eventCategories as $key => $eventCategory)
                                 <option value="{{ $key }}">{{ $eventCategory }}</option>
                                 @endforeach
                             </select>
                         </div>
+                        <span class="text-danger error-text event_category_id_error"></span>
                     </div>
                 </form>
             </div>

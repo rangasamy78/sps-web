@@ -77,6 +77,8 @@
                     resetForm()
                     $('#savedata').html("Save Policies And Print Forms");
                     $('#print_doc_disclaimer_id').val('');
+                    $('#select_type_category_id').val('').trigger('change');
+                    $('#select_type_sub_category_id').val('').trigger('change');
                     $('#printDocDisclaimerForm').trigger("reset");
                     $('#modelHeading').html("Create New Policies And Print Forms");
                     $('#printDocDisclaimerModel').modal('show');
