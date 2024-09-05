@@ -23,7 +23,7 @@ class CreateAccountPaymentTermRequest extends FormRequest
         return [
             'payment_label'            => 'required|string',
             'payment_type'             => 'required',
-            'payment_net_due_day'      => 'required|numeric',
+            'payment_net_due_day'      => 'required|string',
             'payment_discount_percent' => 'nullable|numeric',
             'payment_threshold_days'   => 'nullable|numeric',
         ];

@@ -19,18 +19,7 @@ class AccountPaymentTermService
         return $accountTypeName;
     }
 
-    public function getAccountPaymentTermLabel($netDueDay, $paymentType)
-    {
-        $result = '';
-        if (($paymentType == 1) && !empty($netDueDay)) {
-            $result = (($netDueDay == 1) ? ' Day' : ' Days');
-        } elseif (($paymentType == 2) && !empty($netDueDay)) {
-            $result = ' th of Month';
-        }
-        return $netDueDay.$result;                       
-    }
-
-    function getPaymentUsage($notUsedSales, $notUsedPurchases) 
+    function getPaymentUsage($notUsedSales, $notUsedPurchases)
     {
         $result = '';
         if (!empty($notUsedSales) && !empty($notUsedPurchases)) {
