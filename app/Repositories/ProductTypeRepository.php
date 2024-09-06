@@ -43,18 +43,21 @@ class ProductTypeRepository implements CrudRepositoryInterface, DatatableReposit
     }
     public function getProductTypeList($request)
     {
-        $query = ProductType::with('linked_account_inventory_gl','linked_account_sales_gl','linked_account_cogs_gl');
+        $query = ProductType::with('linked_account_inventory_gl', 'linked_account_sales_gl', 'linked_account_cogs_gl');
         if (!empty($request->product_type_search)) {
             $query->where('product_type', 'like', '%' . $request->product_type_search . '%');
         }
         if (!empty($request->inventory_gl_account_search)) {
-            $query->where('inventory_gl_account_id', $request->inventory_gl_account_search);
+            $inventorySearch = !empty($request->inventory_gl_account_search) ? $request->inventory_gl_account_search : '';
+            $query->whereIn('inventory_gl_account_id', $inventorySearch);
         }
         if (!empty($request->sales_gl_account_search)) {
-            $query->where('sales_gl_account_id', $request->sales_gl_account_search);
+            $salesSearch = !empty($request->sales_gl_account_search) ? $request->sales_gl_account_search : '';
+            $query->whereIn('sales_gl_account_id', $salesSearch);
         }
         if (!empty($request->cogs_gl_account_search)) {
-            $query->where('cogs_gl_account_id',  $request->cogs_gl_account_search);
+            $cogsSearch = !empty($request->cogs_gl_account_search) ? $request->cogs_gl_account_search : '';
+            $query->whereIn('cogs_gl_account_id', $cogsSearch);
         }
         return $query;
     }

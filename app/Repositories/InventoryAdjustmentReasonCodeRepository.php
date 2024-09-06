@@ -44,11 +44,14 @@ class InventoryAdjustmentReasonCodeRepository implements CrudRepositoryInterface
             $query->where('reason', 'like', '%' . $request->reason_search . '%');
         }
         if (!empty($request->adjustment_type_search)) {
-            $query->where('adjustment_type_id', $request->adjustment_type_search);
+            $adjSearch = !empty($request->adjustment_type_search) ? $request->adjustment_type_search : '';
+            $query->whereIn('adjustment_type_id', $adjSearch);
         }
         if (!empty($request->income_expense_account_search)) {
-            $query->where('income_expense_account_id', $request->income_expense_account_search);
+            $incomeSearch = !empty($request->income_expense_account_search) ? $request->income_expense_account_search : '';
+            $query->whereIn('income_expense_account_id', $incomeSearch);
         }
+    
         return $query;
     }
     public function getAdjustmentTypeListList($id)
