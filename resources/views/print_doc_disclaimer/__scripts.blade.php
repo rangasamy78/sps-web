@@ -154,7 +154,7 @@
                 $('#printDocDisclaimerModel').modal('show');
                 $('#print_doc_disclaimer_id').val(data.id);
                 $('#title').val(data.title);
-                $('#select_type_category_id').val(data.select_type_category_id);
+                $('#select_type_category_id').val(data.select_type_category_id).trigger('change');
                 getSubcategories(data.select_type_category_id, data.select_type_sub_category_id, "edit");
                 $('#policy').val(data.policy);
                 descriptionEditor.root.innerHTML = data.policy;
