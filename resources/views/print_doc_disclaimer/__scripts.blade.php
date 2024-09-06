@@ -102,12 +102,6 @@
             dropdownParent: $('#select_type_category_id').parent()
         });
 
-        $('#select_type_sub_category_id').select2({
-            placeholder: 'Select Type Sub Category Name',
-            dropdownParent: $('#select_type_sub_category_id').parent()
-        });
-
-
         $('#createPrintDocDisclaimer').click(function() {
             clearEditor()
             resetForm()
@@ -291,7 +285,7 @@
                 '#select_type_sub_category_id_filter'
             ].join(', '));
         }
-        $selectSubcategory.empty().append('<option value="">--Select Type Sub Category--</option>');
+        $selectSubcategory.empty().append('<option value="">Select Type Sub Category</option>');
         if (typeId) {
             $.ajax({
                 url: '{{ route("get_sub_categories") }}',
@@ -311,7 +305,7 @@
                     $selectSubcategory.prop('disabled', type === "show");
                 },
                 error: function() {
-                    $selectSubcategory.empty().append('<option value="">--Select Type Sub Category--</option>');
+                    $selectSubcategory.empty().append('<option value="">Select Type Sub Category</option>');
                     $selectSubcategory.prop('disabled', type === "show");
                 }
             });
