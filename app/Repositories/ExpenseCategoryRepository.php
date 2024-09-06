@@ -39,8 +39,9 @@ class ExpenseCategoryRepository implements CrudRepositoryInterface, DatatableRep
         if (!empty($request->expense_category_search) ) {
             $query->where('expense_category_name', 'like', '%' . $request->expense_category_search . '%');
         }
-        if (!empty($request->expense_account_search) ) {
-            $query->where('expense_account', $request->expense_account_search);
+        if (!empty($request->expense_account_search)) {
+            $expenseSearch = !empty($request->expense_account_search) ? $request->expense_account_search : '';
+            $query->whereIn('expense_account', $expenseSearch);
         }
         return $query;
     }

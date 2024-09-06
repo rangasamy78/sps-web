@@ -80,6 +80,11 @@
             }],
         });
 
+        $('#transactionFilter').select2({
+            placeholder: 'Select Transaction',
+            dropdownParent: $('#transactionFilter').parent()
+        });
+    
         $('#createSurveyQuestion').click(function() {
             resetForm();
             $('#savedata').html("Save Survey Question");

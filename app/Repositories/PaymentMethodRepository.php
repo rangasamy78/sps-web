@@ -42,14 +42,14 @@ class PaymentMethodRepository implements CrudRepositoryInterface, DatatableRepos
     public function getPaymentMethodList($request)
     {
         $query = PaymentMethod::with('linked_account', 'account_type');
-        if (!empty($request->method_name_search) ) {
+        if (!empty($request->method_name_search)) {
             $query->where('payment_method_name', 'like', '%' . $request->method_name_search . '%');
         }
-        if (!empty($request->account_search) ) {
-            $query->where('linked_account_id', $request->account_search);
+        if (!empty($request->account_search)) {
+            $query->whereIn('linked_account_id', $request->account_search);
         }
-        if (!empty($request->account_type_search) ) {
-            $query->where('account_type_id', $request->account_type_search);
+        if (!empty($request->account_type_search)) {
+            $query->whereIn('account_type_id', $request->account_type_search);
         }
         return $query;
     }
@@ -65,16 +65,16 @@ class PaymentMethodRepository implements CrudRepositoryInterface, DatatableRepos
         $columnName      = $columnNameArray[$columnIndex]['data'];
         $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
 
-        $columnName      = 'created_at';
-        $PaymentMethod   = $this->getPaymentMethodList($request);
-        $total           = $PaymentMethod->count();
+        $columnName    = 'created_at';
+        $PaymentMethod = $this->getPaymentMethodList($request);
+        $total         = $PaymentMethod->count();
 
         $totalFilter = $this->getPaymentMethodList($request);
         $totalFilter = $totalFilter->count();
 
-        $arrData     = $this->getPaymentMethodList($request);
-        $arrData     = $arrData->skip($start)->take($rowPerPage);
-        $arrData     = $arrData->orderBy($columnName, $columnSortOrder);
+        $arrData = $this->getPaymentMethodList($request);
+        $arrData = $arrData->skip($start)->take($rowPerPage);
+        $arrData = $arrData->orderBy($columnName, $columnSortOrder);
         $arrData = $arrData->get();
 
         $arrData->map(function ($value) {

@@ -59,7 +59,8 @@ class DesignationRepository implements CrudRepositoryInterface, DatatableReposit
             $query->where('designation_name', 'like', '%' . $request->designation_search . '%');
         }
         if (!empty($request->department_search)) {
-            $query->where('department_id', $request->department_search);
+            $deptSearch = !empty($request->department_search) ? $request->department_search : '';
+            $query->whereIn('department_id', $deptSearch);
         }
         return $query;
     }

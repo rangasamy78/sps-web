@@ -71,7 +71,8 @@ class SelectTypeSubCategoryRepository implements CrudRepositoryInterface, Datata
     {
         $query = SelectTypeCategory::query()->with('select_type_sub_category');
         if (!empty($request->select_type_category_name_search)) {
-            $query->where('id', $request->select_type_category_name_search);
+            $selectTypeNameSearch = !empty($request->select_type_category_name_search) ? $request->select_type_category_name_search : '';
+            $query->whereIn('id', $selectTypeNameSearch);
         }
         if (!empty($request->select_type_sub_category_search)) {
             $query->whereHas('select_type_sub_category', function ($q) use ($request) {

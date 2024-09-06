@@ -44,7 +44,8 @@ class AccountPaymentTermRepository implements CrudRepositoryInterface, Datatable
     {
         $query = AccountPaymentTerm::query();
         if (!empty($request->term_search)) {
-            $query->where('payment_type', $request->term_search);
+            $termSearch = !empty($request->term_search) ? $request->term_search : '';
+            $query->whereIn('payment_type', $termSearch);
         }
         if (!empty($request->code_search)) {
             $query->where('payment_code', 'like', '%' . $request->code_search . '%');

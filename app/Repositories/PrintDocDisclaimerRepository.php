@@ -49,7 +49,8 @@ class PrintDocDisclaimerRepository implements CrudRepositoryInterface, Datatable
             $query->where('title', 'like', '%' . $request->title_search . '%');
         }
         if (!empty($request->select_type_category_search)) {
-            $query->where('select_type_category_id', $request->select_type_category_search);
+            $selectTypeNameSearch = !empty($request->select_type_category_search) ? $request->select_type_category_search : '';
+            $query->whereIn('select_type_category_id', $selectTypeNameSearch);
         }
         if (!empty($request->select_type_sub_category_search)) {
             $query->where('select_type_sub_category_id', $request->select_type_sub_category_search);
@@ -68,12 +69,12 @@ class PrintDocDisclaimerRepository implements CrudRepositoryInterface, Datatable
         $columnName      = $columnNameArray[$columnIndex]['data'];
         $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
 
-        $columnName      = 'created_at';
-        $states          = $this->getPrintDocDisclaimerList($request);
-        $total           = $states->count();
+        $columnName = 'created_at';
+        $states     = $this->getPrintDocDisclaimerList($request);
+        $total      = $states->count();
 
-        $totalFilter   = $this->getPrintDocDisclaimerList($request);
-        $totalFilter   = $totalFilter->count();
+        $totalFilter = $this->getPrintDocDisclaimerList($request);
+        $totalFilter = $totalFilter->count();
 
         $arrData = $this->getPrintDocDisclaimerList($request);
         $arrData = $arrData->skip($start)->take($rowPerPage);
