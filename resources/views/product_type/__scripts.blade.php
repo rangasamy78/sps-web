@@ -98,25 +98,27 @@
             dropdownParent: $('#cogsGLAccountFilter').parent()
         });
 
-        $('#inventory_gl_account').select2({
+        $('#inventory_gl_account_id').select2({
             placeholder: 'Select Inventory GL Account',
-            dropdownParent: $('#inventory_gl_account').parent()
+            dropdownParent: $('#inventory_gl_account_id').parent()
         });
 
-        $('#sales_gl_account').select2({
+        $('#sales_gl_account_id').select2({
             placeholder: 'Select Sales GL Account',
-            dropdownParent: $('#sales_gl_account').parent()
+            dropdownParent: $('#sales_gl_account_id').parent()
         });
 
-        $('#cogs_gl_account').select2({
+        $('#cogs_gl_account_id').select2({
             placeholder: 'Select Cogs GL Account',
-            dropdownParent: $('#cogs_gl_account').parent()
+            dropdownParent: $('#cogs_gl_account_id').parent()
         });
 
-        $('#productTypeForm input').on('input', function() {
+
+        $('#productTypeForm').on('input', 'input, select', function() {
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');
         });
+
 
         $('#savedata').click(function(e) {
             e.preventDefault();
@@ -240,7 +242,7 @@
         function resetForm() {
             $(".product_type_error").html("");
             $(".inventory_gl_account_id_error").html("");
-            $(".sales_gl_account_id_id_error").html("");
+            $(".sales_gl_account_id_error").html("");
             $(".cogs_gl_account_id_error").html("");
         }
     });
