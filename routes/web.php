@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StateController;
+use App\Http\Controllers\CountyController;
 use App\Http\Controllers\BinTypeController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CountryController;
@@ -44,6 +45,7 @@ use App\Http\Controllers\ProductThicknessController;
 use App\Http\Controllers\ReturnReasonCodeController;
 use App\Http\Controllers\ProductPriceRangeController;
 use App\Http\Controllers\ReleaseReasonCodeController;
+use App\Http\Controllers\UserProfileUpdateController;
 use App\Http\Controllers\AccountPaymentTermController;
 use App\Http\Controllers\CreditCheckSettingController;
 use App\Http\Controllers\DefaultLinkAccountController;
@@ -60,7 +62,6 @@ use App\Http\Controllers\PurchaseShipmentMethodController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\AccountReceivableAgingPeriodController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
-use App\Http\Controllers\UserProfileUpdateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -282,4 +283,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('transaction_startings', [TransactionStartingController::class, 'index'])->name('transaction_startings.index');
     Route::post('/transaction_starting/save', [TransactionStartingController::class, 'save'])->name('transaction_startings.save');
+
+    Route::resource('counties', CountyController::class);
+    Route::get('/county/list', [CountyController::class, 'getCountyDataTableList'])->name('counties.list');
 });
