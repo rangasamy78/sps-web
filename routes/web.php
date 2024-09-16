@@ -62,6 +62,7 @@ use App\Http\Controllers\PurchaseShipmentMethodController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\AccountReceivableAgingPeriodController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
+use App\Http\Controllers\LanguageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -286,4 +287,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('counties', CountyController::class);
     Route::get('/county/list', [CountyController::class, 'getCountyDataTableList'])->name('counties.list');
+
+    Route::resource('languages', LanguageController::class);
+    Route::get('/language/list', [LanguageController::class, 'getLanguageDataTableList'])->name('languages.list');
 });
