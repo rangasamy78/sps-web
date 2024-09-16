@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'image',
     ];
 
     /**
@@ -44,9 +45,10 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    protected function email(): Attribute {
+    protected function email(): Attribute
+    {
         return Attribute::make(
-            set: fn (string $value) => strtolower($value),
+            set: fn(string $value) => strtolower($value),
         );
     }
 }

@@ -60,6 +60,7 @@ use App\Http\Controllers\PurchaseShipmentMethodController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\AccountReceivableAgingPeriodController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
+use App\Http\Controllers\UserProfileUpdateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -83,6 +84,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
     Route::get('/user_profiles', [UserProfileController::class, 'index'])->name('user_profiles');
+
+    Route::get('/user_profile_updates', [UserProfileUpdateController::class, 'index'])->name('user_profile_updates');
+    Route::post('/user_profile_updates/{id}', [UserProfileUpdateController::class, 'update'])->name('user_profile_updates.update');
 
     Route::resource('states', StateController::class);
     Route::get('/state/list', [StateController::class, 'getStateDataTableList'])->name('states.list');
@@ -276,6 +280,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('account_receivable_aging_periods', [AccountReceivableAgingPeriodController::class, 'index'])->name('account_receivable_aging_periods.index');
     Route::post('/account_receivable_aging_period/save', [AccountReceivableAgingPeriodController::class, 'save'])->name('account_receivable_aging_periods.save');
 
-    Route::get('transaction_startings', [TransactionStartingController::class,'index'])->name('transaction_startings.index');
+    Route::get('transaction_startings', [TransactionStartingController::class, 'index'])->name('transaction_startings.index');
     Route::post('/transaction_starting/save', [TransactionStartingController::class, 'save'])->name('transaction_startings.save');
 });
