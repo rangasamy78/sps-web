@@ -92,6 +92,26 @@
                 $('.account_sub_type_error').text('');
             }
 
+            $('#accountTypeFilter').select2({
+                placeholder: 'Select Account Type',
+                dropdownParent: $('#accountTypeFilter').parent()
+            });
+
+            $('#accountSubTypeFilter').select2({
+                placeholder: 'Select Account Sub Type',
+                dropdownParent: $('#accountSubTypeFilter').parent()
+            });
+
+            $('#account_type').select2({
+                placeholder: 'Select Account Type',
+                dropdownParent: $('#account_type').parent()
+            });
+
+            $('#account_sub_type').select2({
+                placeholder: 'Select Account Sub Type',
+                dropdownParent: $('#account_sub_type').parent()
+            });
+            
             $('#linkedAccountForm input, #linkedAccountForm select').on('keyup change', function() {
                 var inputName = $(this).attr('name');
                 $('.' + inputName + '_error').html('');

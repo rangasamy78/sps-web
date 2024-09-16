@@ -58,18 +58,25 @@ class AccountSubTypeController extends Controller
     public function destroy($id)
     {
         try {
-            $accountSubType = $this->accountSubTypeRepository->findOrFail($id);
-            if ($accountSubType) {
-                $this->accountSubTypeRepository->delete($id);
-                return response()->json(['status' => 'success', 'msg' => 'Account sub type deleted successfully.']);
+            $accountType = $this->accountSubTypeRepository->findOrFail($id);
+            if ($accountType) {
+                $response = $this->accountSubTypeRepository->delete($id);
+                $data     = $response->getData();
+                if ($data->status == 'success') {
+                    return response()->json(['status' => $data->status, 'msg' => $data->msg]);
+                } elseif ($data->status == 'error') {
+                    return response()->json(['status' => $data->status, 'msg' => $data->msg]);
+                }
             } else {
                 return response()->json(['status' => 'false', 'msg' => 'Account sub type not found.']);
             }
         } catch (Exception $e) {
-            Log::error('Error deleting account sub type: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the account sub type.']);
+            Log::error('Error deleting account sub type : ' . $e->getMessage());
+            return response()->json(['status' => $data->status, 'msg' => $data->msg], 500);
         }
+        return $response;
     }
+
     public function getAccountSubTypeDataTableList(Request $request)
     {
         return $this->accountSubTypeRepository->dataTable($request);

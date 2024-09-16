@@ -6,7 +6,7 @@ use Exception;
 use App\Models\ProductType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use App\Repositories\ProductTypeRepository;
+use App\Repositories\{ProductTypeRepository, DropDownRepository};
 use App\Http\Requests\ProductType\{CreateProductTypeRequest, UpdateProductTypeRequest};
 
 class ProductTypeController extends Controller
@@ -16,14 +16,19 @@ class ProductTypeController extends Controller
      */
     private ProductTypeRepository $productTypeRepository;
 
-    public function __construct(ProductTypeRepository $productTypeRepository)
+    public function __construct(ProductTypeRepository $productTypeRepository,DropDownRepository $dropDownRepository)
     {
+        $this->dropDownRepository    = $dropDownRepository;
         $this->productTypeRepository = $productTypeRepository;
     }
 
     public function index()
     {
-        return view('product_type.product_types');
+        $linkedAccountRecords       = $this->dropDownRepository->dropDownPopulate('linked_account_inventory_gl');
+        $inventories                = $linkedAccountRecords->where('type', '=', 'Inventory');
+        $sales                      = $linkedAccountRecords->where('type', '=', 'Sales');
+        $cogs                       = $linkedAccountRecords->where('type', '=', 'Cogs');
+        return view('product_type.product_types', compact('inventories', 'sales', 'cogs'));
     }
 
     /**
@@ -32,7 +37,7 @@ class ProductTypeController extends Controller
     public function store(CreateProductTypeRequest $request)
     {
         try {
-            $this->productTypeRepository->store($request->only('product_type', 'indivisible', 'non_serialized', 'inventory_gl_account', 'sales_gl_account', 'cogs_gl_account'));
+            $this->productTypeRepository->store($request->only('product_type', 'indivisible', 'non_serialized', 'inventory_gl_account_id', 'sales_gl_account_id', 'cogs_gl_account_id'));
             return response()->json(['status' => 'success', 'msg' => 'Product type saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
@@ -79,9 +84,9 @@ class ProductTypeController extends Controller
                 'product_type',
                 'indivisible',
                 'non_serialized',
-                'inventory_gl_account',
-                'sales_gl_account',
-                'cogs_gl_account',
+                'inventory_gl_account_id',
+                'sales_gl_account_id',
+                'cogs_gl_account_id',
             ]);
             $this->productTypeRepository->update($data, $productType->id);
             return response()->json(['status' => 'success', 'msg' => 'Product type updated successfully.']);
@@ -114,14 +119,14 @@ class ProductTypeController extends Controller
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the product type.']);
         }
     }
+
     public function getProductTypeDataTableList(Request $request)
     {
         return $this->productTypeRepository->dataTable($request);
     }
+
     public function saveDefaultValue(Request $request)
     {
-
         return $this->productTypeRepository->saveDefaultValue($request);
-        
     }
 }

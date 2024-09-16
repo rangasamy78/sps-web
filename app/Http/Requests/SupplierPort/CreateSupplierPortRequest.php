@@ -24,8 +24,16 @@ class CreateSupplierPortRequest extends FormRequest
     {
         return [
             'supplier_port_name' => 'required|string|max:255|unique:supplier_ports,supplier_port_name',
-            'avg_days' => 'required',
-            'country_id' => 'required',
+            'avg_days'           => 'required',
+            'country_id'         => 'required',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'country_id.required' => 'Country is required.',
+
         ];
     }
 

@@ -8,14 +8,14 @@
             @include('auth.partials.logo')
             {{-- Logo --}}
             <p class="mb-3">Please register account first</p>
-            <form method="POST" action="{{ route('register') }}">
+            <form id="Register" name="Register" method="POST" action="{{ route('register') }}">
                 @csrf
 
                 <div class="mb-3">
                     <label for="name" class="form-label">{{ __('Name') }} <sup style="color: red;font-size:1rem;"><b>*</b></sup></label>
                     <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" placeholder="Enter your name" autofocus>
                     @error('name')
-                        <span class="invalid-feedback" role="alert">
+                        <span class="invalid-feedback name_error" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
@@ -27,7 +27,7 @@
                     <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" placeholder="Enter your email">
 
                     @error('email')
-                        <span class="invalid-feedback" role="alert">
+                        <span class="invalid-feedback email_error" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
@@ -47,7 +47,7 @@
                             <i class="bx bx-hide" id="toggleIcon"></i>
                         </span>
                         @error('password')
-                            <span class="invalid-feedback" role="alert">
+                            <span class="invalid-feedback password_error" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
                         @enderror
@@ -93,6 +93,5 @@
             </a>
         </p>
     </div> <!-- card -->
-
-    {{-- content --}}
+    <script src="{{ asset('public/js/login.js') }}"></script>
 @endsection

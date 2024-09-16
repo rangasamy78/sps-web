@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\ProductType;
 use Illuminate\Http\Request;
 use App\Models\LinkedAccount;
 use Illuminate\Database\Eloquent\Model;
@@ -27,27 +28,42 @@ class LinkedAccountRepository implements CrudRepositoryInterface, DatatableRepos
             ->findOrFail($id)
             ->update($data);
     }
+
     public function delete(int $id)
     {
-        $this->findOrFail($id)->delete();
+        $subCategories = ProductType::where('inventory_gl_account_id', $id)
+            ->orWhere('sales_gl_account_id', $id)
+            ->orWhere('cogs_gl_account_id', $id)
+            ->first();
+
+        if ($subCategories) {
+            return response()->json(['status' => 'error', 'msg' => 'Linked Account cannot be deleted because it has Product Types.'], 200);
+        } else {
+            $this->findOrFail($id)->delete();
+            return response()->json(['status' => 'success', 'msg' => 'Linked Account deleted successfully.'], 200);
+        }
     }
+
     public function getLinkedAccountList($request)
     {
         $query = LinkedAccount::query();
-        if (!empty($request->account_code_search) ) {
+        if (!empty($request->account_code_search)) {
             $query->where('account_code', $request->account_code_search);
         }
-        if (!empty($request->account_name_search) ) {
+        if (!empty($request->account_name_search)) {
             $query->where('account_name', 'like', '%' . $request->account_name_search . '%');
         }
-        if (!empty($request->account_type_search) ) {
-            $query->where('account_type', $request->account_type_search);
+        if (!empty($request->account_type_search)) {
+            $accountSearch = !empty($request->account_type_search) ? $request->account_type_search : '';
+            $query->whereIn('account_type', $accountSearch);
         }
-        if (!empty($request->account_sub_type_search) ) {
-            $query->where('account_sub_type', $request->account_sub_type_search);
+        if (!empty($request->account_sub_type_search)) {
+            $accountsubSearch = !empty($request->account_sub_type_search) ? $request->account_sub_type_search : '';
+            $query->whereIn('account_sub_type', $accountsubSearch);
         }
         return $query;
     }
+
     public function dataTable(Request $request)
     {
         $draw            = $request->get('draw');
@@ -59,16 +75,16 @@ class LinkedAccountRepository implements CrudRepositoryInterface, DatatableRepos
         $columnName      = $columnNameArray[$columnIndex]['data'];
         $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
 
-        $columnName      = 'created_at';
-        $LinkedAccounts  = $this->getLinkedAccountList($request);
-        $total           = $LinkedAccounts->count();
+        $columnName     = 'created_at';
+        $LinkedAccounts = $this->getLinkedAccountList($request);
+        $total          = $LinkedAccounts->count();
 
         $totalFilter = $this->getLinkedAccountList($request);
         $totalFilter = $totalFilter->count();
 
-        $arrData     = $this->getLinkedAccountList($request);
-        $arrData     = $arrData->skip($start)->take($rowPerPage);
-        $arrData     = $arrData->orderBy($columnName, $columnSortOrder);
+        $arrData = $this->getLinkedAccountList($request);
+        $arrData = $arrData->skip($start)->take($rowPerPage);
+        $arrData = $arrData->orderBy($columnName, $columnSortOrder);
         $arrData = $arrData->get();
 
         $arrData->map(function ($value) {

@@ -55,7 +55,6 @@
                         <label for="expense_account" class="form-label pb-1">Expense Account </label>
                         <div class="col-sm-12">
                             <select class="form-select " disabled name="expense_account" id="expense_account">
-                                <option value="">--select here--</option>
                                 @foreach($data['linkedAccounts'] as $key => $linkedAccount)
                                 <option value="{{ $linkedAccount['value'] }}">{{ $linkedAccount['label'] }}</option>
                                 @endforeach

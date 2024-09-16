@@ -45,13 +45,15 @@ class SurveyQuestionRepository implements CrudRepositoryInterface, DatatableRepo
     public function getSurveyQuestionsList($request)
     {
         $query = SurveyQuestion::query();
-        if (!empty($request->transaction_search) ) {
-            $query->where('transaction', $request->transaction_search);
+
+        if (!empty($request->transaction_search)) {
+            $transactionSearch = !empty($request->transaction_search) ? $request->transaction_search : '';
+            $query->whereIn('transaction', $transactionSearch);
         }
-        if (!empty($request->short_label_search) ) {
+        if (!empty($request->short_label_search)) {
             $query->where('short_label', 'like', '%' . $request->short_label_search . '%');
         }
-        if (!empty($request->question_search) ) {
+        if (!empty($request->question_search)) {
             $query->where('question', 'like', '%' . $request->question_search . '%');
         }
         return $query;
@@ -72,12 +74,12 @@ class SurveyQuestionRepository implements CrudRepositoryInterface, DatatableRepo
         $surveyQuestions = $this->getSurveyQuestionsList($request);
         $total           = $surveyQuestions->count();
 
-        $totalFilter     = $this->getSurveyQuestionsList($request);
+        $totalFilter = $this->getSurveyQuestionsList($request);
         $totalFilter = $totalFilter->count();
 
-        $arrData     = $this->getSurveyQuestionsList($request);
-        $arrData     = $arrData->skip($start)->take($rowPerPage);
-        $arrData     = $arrData->orderBy($columnName, $columnSortOrder);
+        $arrData = $this->getSurveyQuestionsList($request);
+        $arrData = $arrData->skip($start)->take($rowPerPage);
+        $arrData = $arrData->orderBy($columnName, $columnSortOrder);
         $arrData = $arrData->get();
 
         $arrData->map(function ($value, $i) {

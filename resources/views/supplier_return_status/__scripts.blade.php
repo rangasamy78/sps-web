@@ -101,7 +101,7 @@
             });
         });
         $('body').on('click', '.editbtn', function() {
-            $('.return_code_error').html('');
+            $('.return_code_name_error').html('');
             var id = $(this).data('id');
             $.get("{{ route('supplier_return_statuses.index') }}" + '/' + id + '/edit', function(data) {
                 $(".return_code_error").html("");

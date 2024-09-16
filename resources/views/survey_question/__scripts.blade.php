@@ -69,19 +69,22 @@
                     'data-bs-target': '#surveyQuestionModel',
                 },
                 action: function(e, dt, node, config) {
+                    resetForm();
                     $('#savedata').html("Save Survey Question");
                     $('#survey_question_id').val('');
                     $('#transaction').val('').trigger('change');
                     $('#surveyQuestionForm').trigger("reset");
-                    $(".transaction_error").html("");
-                    $(".short_label_error").html("");
-                    $(".question_error").html("");
                     $('#modelHeading').html("Create New Survey Question");
                     $('#surveyQuestionModel').modal('show');
                 }
             }],
         });
 
+        $('#transactionFilter').select2({
+            placeholder: 'Select Transaction',
+            dropdownParent: $('#transactionFilter').parent()
+        });
+    
         $('#createSurveyQuestion').click(function() {
             resetForm();
             $('#savedata').html("Save Survey Question");
@@ -135,10 +138,10 @@
                 $('#surveyQuestionModel').modal('show');
                 $('#savedata').val("edit-survey-question");
                 $('#savedata').html("Update Survey Question");
-                $('#survey_question_id').val(data.id);
-                $('#transaction').val(data.transaction).trigger('change');
-                $('#short_label').val(data.short_label);
-                $('#question').val(data.question);
+                $('#surveyQuestionForm #survey_question_id').val(data.id);
+                $('#surveyQuestionForm #transaction').val(data.transaction);
+                $('#surveyQuestionForm #short_label').val(data.short_label);
+                $('#surveyQuestionForm #question').val(data.question);
                 $('#transaction_question_id').val(data.transaction_question_id);
             });
         });

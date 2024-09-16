@@ -28,7 +28,6 @@ class AccountReceivableAgingPeriodController extends Controller
             $accountReceivableAgingPeriod=$this->accountReceivableAgingPeriodRepository->save($request->only('account_receivable_aging_period_id','ar_invoice_date_start_1','ar_invoice_date_end_1','ar_invoice_date_start_2','ar_invoice_date_end_2','ar_invoice_date_start_3','ar_invoice_date_end_3','ar_invoice_date_start_4','ar_invoice_date_end_4','ar_due_date_start_2','ar_due_date_end_2','ar_due_date_start_3','ar_due_date_end_3','ar_due_date_start_4','ar_due_date_end_4','ar_due_date_start_5','ar_due_date_end_5','do_not_show_on_report'));
             return response()->json(['status' => 'success', 'msg' => 'Account receivable aging period saved successfully.', 'lastId' => $accountReceivableAgingPeriod ? $accountReceivableAgingPeriod : $request->id]);
         } catch (Exception $e) {
-            dd($e->getMessage());
             Log::error('Error saving account receivable aging period: ' . $e->getMessage());
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the account receivable aging period.']);
         }

@@ -45,8 +45,9 @@ class SupplierPortRepository implements CrudRepositoryInterface, DatatableReposi
             $query->where('avg_days', 'like', '%' . $request->avg_days_search . '%');
         }
         if (!empty($request->country_name_search)) {
-            $query->whereHas('country', function ($q) use ($request) {
-                $q->where('id', $request->country_name_search);
+            $countrySearch = $request->country_name_search;
+            $query->whereHas('country', function ($q) use ($countrySearch) {
+                $q->whereIn('id', $countrySearch); 
             });
         }
         return $query;

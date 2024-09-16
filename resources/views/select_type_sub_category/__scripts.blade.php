@@ -159,6 +159,16 @@
             });
         });
 
+        $('#selectTypeCategoryNameFilter').select2({
+            placeholder: 'Select Type Category Name',
+            dropdownParent: $('#selectTypeCategoryNameFilter').parent()
+        });
+        
+        $('#select_type_category_id').select2({
+            placeholder: 'Select Type Category Name',
+            dropdownParent: $('#select_type_category_id').parent()
+        });
+
         $('body').on('click', '.editbtn', function() {
             var id = $(this).data('id');
             $.get("{{ route('select_type_sub_categories.index') }}" + '/' + id + '/edit', function(data) {
@@ -179,7 +189,7 @@
                         <div class="col-sm-7">
                             <input type="text" name="select_type_sub_categories[][select_type_sub_category_name]" class="form-control"
                                 placeholder="Enter  Select Type Sub Category" aria-label="Subcategory" />
-                            <span class="error-message" style="color: #ff3e1d; display: none;">Duplicate subcategory name found.</span>
+                            
                         </div>
                         <div class="col-sm-1">
                             <button type="button" class="btn btn-primary add-subcategory-btn"
@@ -208,7 +218,7 @@
                         var subcategoryRow = `
                             <div class="row subcategory-row">
                                 <div class="col-sm-4">
-                                    <label for="select_type">Select Type Sub Category Name${index == 0 ? '<sup style="color:red; font-size: 0.9rem;"><strong>*</strong></sup>' : ''}</label>
+                                    <label for="select_type">Select Type Sub Category Name${index == 0 ? '' : ''}</label>
                                 </div><br><br>
                                 <div class="col-sm-7">
                                     <input type="text" name="select_type_sub_categories[][select_type_sub_category_name]" class="form-control"

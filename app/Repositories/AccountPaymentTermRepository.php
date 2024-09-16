@@ -44,7 +44,8 @@ class AccountPaymentTermRepository implements CrudRepositoryInterface, Datatable
     {
         $query = AccountPaymentTerm::query();
         if (!empty($request->term_search)) {
-            $query->where('payment_type', $request->term_search);
+            $termSearch = !empty($request->term_search) ? $request->term_search : '';
+            $query->whereIn('payment_type', $termSearch);
         }
         if (!empty($request->code_search)) {
             $query->where('payment_code', 'like', '%' . $request->code_search . '%');
@@ -86,7 +87,7 @@ class AccountPaymentTermRepository implements CrudRepositoryInterface, Datatable
             $value->payment_code        = $value->payment_code ?? '';
             $value->payment_label       = $value->payment_label ?? '';
             $value->payment_type        = $this->accountPaymentTermService->getAccountTypeList($value->payment_type);
-            $value->payment_net_due_day = $this->accountPaymentTermService->getAccountPaymentTermLabel($value->payment_net_due_day, $value->payment_standard_date_driven) ?? '';
+            $value->payment_net_due_day = $value->payment_net_due_day ?? '';
             $value->payment_usage       = $this->accountPaymentTermService->getPaymentUsage($value->payment_not_used_sales, $value->payment_not_used_purchases) ?? '';
             $value->action              = "<div class='dropup'><button type='button' class='btn p-0 dropdown-toggle hide-arrow' data-bs-toggle='dropdown'><i class='bx bx-dots-vertical-rounded icon-color'></i></button><div class='dropdown-menu'><a class='dropdown-item showbtn text-warning' href='javascript:void(0);' data-id='" . $value->id . "' ><i class='bx bx-show me-1 icon-warning'></i> Show</a><a class='dropdown-item editbtn text-success' href='javascript:void(0);' data-id='" . $value->id . "' > <i class='bx bx-edit-alt me-1 icon-success'></i> Edit </a><a class='dropdown-item deletebtn text-danger' href='javascript:void(0);' data-id='" . $value->id . "' ><i class='bx bx-trash me-1 icon-danger'></i> Delete</a> </div> </div>";
         });

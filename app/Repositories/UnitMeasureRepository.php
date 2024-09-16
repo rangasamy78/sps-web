@@ -41,7 +41,8 @@ class UnitMeasureRepository implements CrudRepositoryInterface, DatatableReposit
             $query->where('unit_measure_name', 'like', '%' . $request->unit_measure_name_search . '%');
         }
         if (!empty($request->unit_measure_entity_search)) {
-            $query->where('unit_measure_entity', $request->unit_measure_entity_search);
+            $unitSearch = !empty($request->unit_measure_entity_search) ? $request->unit_measure_entity_search : '';
+            $query->whereIn('unit_measure_entity', $unitSearch);
         }
         return $query;
     }

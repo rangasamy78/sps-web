@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Country;
 use Illuminate\Http\Request;
+use App\Models\SupplierPort;
 use App\Interfaces\CrudRepositoryInterface;
 use App\Interfaces\DatatableRepositoryInterface;
 
@@ -31,8 +32,13 @@ class CountryRepository implements CrudRepositoryInterface, DatatableRepositoryI
 
     public function delete(int $id)
     {
-        $query = $this->findOrFail($id)->delete();
-        return $query;
+        $subCategories = SupplierPort::where('country_id', $id)->first();
+        if ($subCategories) {
+            return response()->json(['status' => 'error', 'msg' => 'Country cannot be deleted because it has Supplier Port.'], 200);
+        } else {
+            $this->findOrFail($id)->delete();
+            return response()->json(['status' => 'success', 'msg' => 'Country deleted successfully.'], 200);
+        }
     }
     public function getCountryList($request)
     {

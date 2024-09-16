@@ -22,9 +22,17 @@ class UpdateInventoryAdjustmentReasonCodeRequest extends FormRequest
     {
         $inventory_adjustment_reason_code = $this->route('inventory_adjustment_reason_code')->id;
         return [
-            'reason' => 'required|string|max:255|unique:inventory_adjustment_reason_codes,reason,' . $inventory_adjustment_reason_code,
+            'reason'                    => 'required|string|max:255|unique:inventory_adjustment_reason_codes,reason,' . $inventory_adjustment_reason_code,
+            'adjustment_type_id'        => 'required|integer',
+            'income_expense_account_id' => 'required|integer',
         ];
     }
 
-
+    public function messages(): array
+    {
+         return [
+            'adjustment_type_id.required'           => 'The adjustment type field is required.',
+            'income_expense_account_id.required'    => 'The income expense account field is required.',
+         ];
+    }
 }

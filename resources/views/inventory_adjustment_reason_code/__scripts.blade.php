@@ -48,8 +48,8 @@
                     name: 'reason'
                 },
                 {
-                    data: 'income_expense_account',
-                    name: 'income_expense_account'
+                    data: 'income_expense_account_id',
+                    name: 'income_expense_account_id'
                 },
                 {
                     data: 'action',
@@ -70,10 +70,9 @@
                     'data-bs-target': '#inventoryAdjustmentReasonCodeModel',
                 },
                 action: function(e, dt, node, config) {
+                    resetForm();
                     $('#savedata').html("Save Inventory Adjustment Reason Code");
-                    $('.reason_error').html('');
-                    $('#inventory_adjustment_reason_code_id').val('');
-                    $('#income_expense_account,#adjustment_type_id').val('').trigger('change');
+                    $('#income_expense_account_id,#adjustment_type_id').val('').trigger('change');
                     $('#inventoryAdjustmentReasonCodeForm').trigger("reset");
                     $("#inventoryAdjustmentReasonCodeForm").find("tr:gt(1)").remove();
                     $('#modelHeading').html("Create New Inventory Adjustment Reason Code");
@@ -82,7 +81,27 @@
             }],
         });
 
-        $('#inventoryAdjustmentReasonCodeForm input').on('input', function() {
+        $('#adjustmentTypeFilter').select2({
+            placeholder: 'Select Adjustment Type',
+            dropdownParent: $('#adjustmentTypeFilter').parent()
+        });
+
+        $('#incomeExpenseAccountFilter').select2({
+            placeholder: 'Select Income Expense Account',
+            dropdownParent: $('#incomeExpenseAccountFilter').parent()
+        });
+
+        $('#adjustment_type_id').select2({
+            placeholder: 'Select Adjustment Type',
+            dropdownParent: $('#adjustment_type_id').parent()
+        });
+
+        $('#income_expense_account').select2({
+            placeholder: 'Select Income Expense Account',
+            dropdownParent: $('#income_expense_account').parent()
+        });
+
+        $('#inventoryAdjustmentReasonCodeForm input, #inventoryAdjustmentReasonCodeForm select').on('input change', function() {
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');
         });
@@ -114,10 +133,9 @@
         });
 
         $('body').on('click', '.editbtn', function() {
-            $('.reason_error').html('');
+            resetForm();
             var id = $(this).data('id');
             $.get("{{ route('inventory_adjustment_reason_codes.index') }}" + '/' + id + '/edit', function(data) {
-                $(".reason_error").html("");
                 $('#modelHeading').html("Edit Inventory Adjustment Reason Code");
                 $('#savedata').val("edit-inventory-adjustment-reason-code");
                 $('#savedata').html("Update Inventory Adjustment Reason Code");
@@ -125,7 +143,7 @@
                 $('#inventory_adjustment_reason_code_id').val(data.id);
                 $('#reason').val(data.reason);
                 $('#adjustment_type_id').val(data.adjustment_type_id).trigger('change');
-                $('#income_expense_account').val(data.income_expense_account).trigger('change');
+                $('#income_expense_account_id').val(data.income_expense_account_id).trigger('change');
             });
         });
 
@@ -161,8 +179,14 @@
                 $('#showInventoryAdjustmentReasonCodeModal').modal('show');
                 $('#showInventoryAdjustmentReasonCodeForm #reason').val(data.reason);
                 $('#showInventoryAdjustmentReasonCodeForm #adjustment_type_id').val(data.adjustment_type_id);
-                $('#showInventoryAdjustmentReasonCodeForm #income_expense_account').val(data.income_expense_account);
+                $('#showInventoryAdjustmentReasonCodeForm #income_expense_account_id').val(data.income_expense_account_id);
             });
         });
+
+        function resetForm() {
+            $(".reason_error").html("");
+            $(".adjustment_type_id_error").html("");
+            $(".income_expense_account_id_error").html("");
+        }
     });
 </script>

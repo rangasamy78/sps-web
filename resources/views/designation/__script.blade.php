@@ -79,14 +79,19 @@
             }],
         });
 
+        $('#departmentFilter').select2({
+            placeholder: 'Select Department',
+            dropdownParent: $('#departmentFilter').parent()
+        });
+
         $('#saveDesignation').click(function(e) {
             if ($("#designation_id").val() == null || $("#designation_id").val() == "") {
                 storeDesignation(this);
             }
         });
+
         $('#updateDesignation').click(function(e) {
             if ($("#designation_id").val() != null || $("#designation_id").val() != "") {
-
                 updateDesignation(this);
             }
         });

@@ -16,7 +16,7 @@ class DropDownRepository implements DropDownRepositoryInterface
     public $linkedAccountService;
     public $adjustmentTypeService;
     public $selectTypeCategoryService;
- 
+
     public function __construct(CountryService $countryService, AccountTypeService $accountTypeService, LinkedAccountService $linkedAccountService, AdjustmentTypeService $adjustmentTypeService, SelectTypeCategoryService $selectTypeCategoryService)
     {
         $this->countryService = $countryService;
@@ -39,6 +39,8 @@ class DropDownRepository implements DropDownRepositoryInterface
                 return $this->adjustmentTypeService->getAdjustmentTypes();
             case 'select_type_categories':
                 return $this->selectTypeCategoryService->getSelectTypeCategory();
+            case 'linked_account_inventory_gl':
+                return $this->linkedAccountService->getFormatLinkedInventoryGlAccounts();
             default:
                 throw new \InvalidArgumentException("Dropdown type '{$tableName}' is not supported.");
         }

@@ -75,6 +75,16 @@
             }],
         });
 
+        $('#unitMeasureEntityFilter').select2({
+            placeholder: 'Select Unit of Measure Entity',
+            dropdownParent: $('#unitMeasureEntityFilter').parent()
+        });
+
+        $('#unit_measure_entity').select2({
+            placeholder: 'Select Unit of Measure Entity',
+            dropdownParent: $('#unit_measure_entity').parent()
+        });
+
         $('#unitMeasureForm input').on('input', function() {
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');

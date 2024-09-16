@@ -71,10 +71,10 @@
                     'data-bs-target': '#productTypeModel',
                 },
                 action: function(e, dt, node, config) {
+                    resetForm();
                     $('#savedata').html("Save Product Type");
-                    $('.product_type_error').html('');
                     $('#product_type_id').val('');
-                    $('#inventory_gl_account,#sales_gl_account,#cogs_gl_account').val('').trigger('change');
+                    $('#inventory_gl_account_id,#sales_gl_account_id,#cogs_gl_account_id').val('').trigger('change');
                     $('#productTypeForm').trigger("reset");
                     $("#productTypeForm").find("tr:gt(1)").remove();
                     $('#modelHeading').html("Create New Product Type");
@@ -83,10 +83,42 @@
             }],
         });
 
-        $('#productTypeForm input').on('input', function() {
+        $('#inventoryGLAccountFilter').select2({
+            placeholder: 'Select Inventory GL Account',
+            dropdownParent: $('#inventoryGLAccountFilter').parent()
+        });
+
+        $('#salesGLAccountFilter').select2({
+            placeholder: 'Select Sales GL Account',
+            dropdownParent: $('#salesGLAccountFilter').parent()
+        });
+
+        $('#cogsGLAccountFilter').select2({
+            placeholder: 'Select Cogs GL Account',
+            dropdownParent: $('#cogsGLAccountFilter').parent()
+        });
+
+        $('#inventory_gl_account_id').select2({
+            placeholder: 'Select Inventory GL Account',
+            dropdownParent: $('#inventory_gl_account_id').parent()
+        });
+
+        $('#sales_gl_account_id').select2({
+            placeholder: 'Select Sales GL Account',
+            dropdownParent: $('#sales_gl_account_id').parent()
+        });
+
+        $('#cogs_gl_account_id').select2({
+            placeholder: 'Select Cogs GL Account',
+            dropdownParent: $('#cogs_gl_account_id').parent()
+        });
+
+
+        $('#productTypeForm').on('input', 'input, select', function() {
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');
         });
+
 
         $('#savedata').click(function(e) {
             e.preventDefault();
@@ -125,19 +157,18 @@
         });
 
         $('body').on('click', '.editbtn', function() {
-            $('.product_type_error').html('');
+            resetForm();
             var id = $(this).data('id');
             $.get("{{ route('product_types.index') }}" + '/' + id + '/edit', function(data) {
-                $(".product_type_error").html("");
                 $('#modelHeading').html("Edit Product Type");
                 $('#savedata').val("edit-product-type");
                 $('#savedata').html("Update Product Type");
                 $('#productTypeModel').modal('show');
                 $('#product_type_id').val(data.id);
                 $('#product_type').val(data.product_type);
-                $('#inventory_gl_account').val(data.inventory_gl_account).trigger('change');
-                $('#sales_gl_account').val(data.sales_gl_account).trigger('change');
-                $('#cogs_gl_account').val(data.cogs_gl_account).trigger('change');
+                $('#inventory_gl_account_id').val(data.inventory_gl_account_id).trigger('change');
+                $('#sales_gl_account_id').val(data.sales_gl_account_id).trigger('change');
+                $('#cogs_gl_account_id').val(data.cogs_gl_account_id).trigger('change');
                 if (data.indivisible == 1) {
                     $('#indivisible').prop('checked', true);
                 } else {
@@ -190,9 +221,9 @@
                 $('#savedata').val("edit-product-type");
                 $('#showProductTypeModal').modal('show');
                 $('#showProductTypeForm #product_type').val(data.product_type);
-                $('#inventory_gl_accounts').val(data.inventory_gl_account);
-                $('#sales_gl_accounts').val(data.sales_gl_account);
-                $('#cogs_gl_accounts').val(data.cogs_gl_account);
+                $('#inventory_gl_accounts').val(data.inventory_gl_account_id);
+                $('#sales_gl_accounts').val(data.sales_gl_account_id);
+                $('#cogs_gl_accounts').val(data.cogs_gl_account_id);
                 if (data.indivisible == 1) {
                     $('#indivisibles').prop('checked', true);
                 } else {
@@ -207,6 +238,13 @@
 
             });
         });
+
+        function resetForm() {
+            $(".product_type_error").html("");
+            $(".inventory_gl_account_id_error").html("");
+            $(".sales_gl_account_id_error").html("");
+            $(".cogs_gl_account_id_error").html("");
+        }
     });
 
     function savedefaultValuesChange(checkbox, id, type) {

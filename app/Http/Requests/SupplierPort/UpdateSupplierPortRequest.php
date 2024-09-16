@@ -23,8 +23,16 @@ class UpdateSupplierPortRequest extends FormRequest
         $supplier_port = $this->route('supplier_port')->id;
         return [
             'supplier_port_name' => 'required|string|max:255|unique:supplier_ports,supplier_port_name,' . $supplier_port,
-            'avg_days' => 'required',
-            'country_id' => 'required',
+            'avg_days'           => 'required',
+            'country_id'         => 'required',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'country_id.required' => 'Country is required.',
+
         ];
     }
 }

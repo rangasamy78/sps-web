@@ -52,10 +52,11 @@ class FileTypeRepository implements CrudRepositoryInterface, DatatableRepository
     public function getFileTypesList($request)
     {
         $query = FileType::query();
-        if (!empty($request->view_in_search) ) {
-            $query->where('view_in', $request->view_in_search);
+        if (!empty($request->view_in_search)) {
+            $viewInSearch = !empty($request->view_in_search) ? $request->view_in_search : '';
+            $query->whereIn('view_in', $viewInSearch);
         }
-        if (!empty($request->file_type_search) ) {
+        if (!empty($request->file_type_search)) {
             $query->where('file_type', 'like', '%' . $request->file_type_search . '%');
         }
         return $query;
@@ -72,17 +73,17 @@ class FileTypeRepository implements CrudRepositoryInterface, DatatableRepository
         $columnName      = $columnNameArray[$columnIndex]['data'];
         $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
 
-        $columnName  = 'created_at';
-        $filetypes   = $this->getFileTypesList($request);
-        $total       = $filetypes->count();
+        $columnName = 'created_at';
+        $filetypes  = $this->getFileTypesList($request);
+        $total      = $filetypes->count();
 
         $totalFilter = $this->getFileTypesList($request);
         $totalFilter = $totalFilter->count();
 
-        $arrData     = $this->getFileTypesList($request);
-        $arrData     = $arrData->skip($start)->take($rowPerPage);
-        $arrData     = $arrData->orderBy($columnName, $columnSortOrder);
-        $arrData     = $arrData->get();
+        $arrData = $this->getFileTypesList($request);
+        $arrData = $arrData->skip($start)->take($rowPerPage);
+        $arrData = $arrData->orderBy($columnName, $columnSortOrder);
+        $arrData = $arrData->get();
 
         $arrData->map(function ($value, $i) {
             $value->view_in   = $value->view_in ?? '';

@@ -6,7 +6,7 @@
             }
         });
 
-        $('#titleFilter, #select_type_category_id_filter, #select_type_sub_category_id_filter, #policyFilter').on('keyup change', function(e) {
+        $('#titleFilter, #select_type_category_id_filter, #select_type_sub_category_id_filter').on('keyup change', function(e) {
             e.preventDefault();
             table.draw();
         });
@@ -25,7 +25,6 @@
                     d.title_search = $('#titleFilter').val();
                     d.select_type_category_search = $('#select_type_category_id_filter').val();
                     d.select_type_sub_category_search = $('#select_type_sub_category_id_filter').val();
-                    d.policy_search = $('#policyFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{
                         column: 1,
@@ -78,11 +77,29 @@
                     resetForm()
                     $('#savedata').html("Save Policies And Print Forms");
                     $('#print_doc_disclaimer_id').val('');
+                    $('#select_type_category_id').val('').trigger('change');
+                    $('#select_type_sub_category_id').val('').trigger('change');
                     $('#printDocDisclaimerForm').trigger("reset");
                     $('#modelHeading').html("Create New Policies And Print Forms");
                     $('#printDocDisclaimerModel').modal('show');
                 }
             }],
+        });
+
+        $('#select_type_category_id_filter').select2({
+            placeholder: 'Select Type Category Name',
+            dropdownParent: $('#select_type_category_id_filter').parent()
+        });
+
+        $('#select_type_sub_category_id_filter').select2({
+            placeholder: 'Select Type Sub Category Name',
+            dropdownParent: $('#select_type_sub_category_id_filter').parent()
+        });
+
+
+        $('#select_type_category_id').select2({
+            placeholder: 'Select Type Category Name',
+            dropdownParent: $('#select_type_category_id').parent()
         });
 
         $('#createPrintDocDisclaimer').click(function() {
@@ -137,7 +154,7 @@
                 $('#printDocDisclaimerModel').modal('show');
                 $('#print_doc_disclaimer_id').val(data.id);
                 $('#title').val(data.title);
-                $('#select_type_category_id').val(data.select_type_category_id);
+                $('#select_type_category_id').val(data.select_type_category_id).trigger('change');
                 getSubcategories(data.select_type_category_id, data.select_type_sub_category_id, "edit");
                 $('#policy').val(data.policy);
                 descriptionEditor.root.innerHTML = data.policy;
@@ -268,7 +285,7 @@
                 '#select_type_sub_category_id_filter'
             ].join(', '));
         }
-        $selectSubcategory.empty().append('<option value="">--Select Type Sub Category--</option>');
+        $selectSubcategory.empty().append('<option value="">Select Type Sub Category</option>');
         if (typeId) {
             $.ajax({
                 url: '{{ route("get_sub_categories") }}',
@@ -288,7 +305,7 @@
                     $selectSubcategory.prop('disabled', type === "show");
                 },
                 error: function() {
-                    $selectSubcategory.empty().append('<option value="">--Select Type Sub Category--</option>');
+                    $selectSubcategory.empty().append('<option value="">Select Type Sub Category</option>');
                     $selectSubcategory.prop('disabled', type === "show");
                 }
             });

@@ -44,8 +44,9 @@ class EventTypeRepository implements CrudRepositoryInterface, DatatableRepositor
             $query->where('event_type_code', 'like', '%' . $request->event_type_code_search . '%');
         }
         if (!empty($request->event_category_search)) {
-            $query->where('event_category_id', $request->event_category_search);
-        }
+            $eventSearch = !empty($request->event_category_search) ? $request->event_category_search : '';
+            $query->whereIn('event_category_id', $eventSearch);
+        }      
         return $query;
     }
 

@@ -96,4 +96,7 @@
     /* Color of the scrollbar corner */
 }
 
-/* end price list label */
+/* Aging Period Receivable */
+.lblPeriod {
+    background-color: #e6e6e696 !important;
+}

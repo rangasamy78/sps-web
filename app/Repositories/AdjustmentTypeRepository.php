@@ -5,6 +5,7 @@ namespace App\Repositories;
 use Illuminate\Http\Request;
 use App\Models\AdjustmentType;
 use App\Interfaces\CrudRepositoryInterface;
+use App\Models\InventoryAdjustmentReasonCode;
 use App\Interfaces\DatatableRepositoryInterface;
 
 class AdjustmentTypeRepository implements CrudRepositoryInterface, DatatableRepositoryInterface
@@ -32,8 +33,13 @@ class AdjustmentTypeRepository implements CrudRepositoryInterface, DatatableRepo
 
     public function delete(int $id)
     {
-        $query = $this->findOrFail($id)->delete();
-        return $query;
+        $subCategories = InventoryAdjustmentReasonCode::where('adjustment_type_id', $id)->first();
+        if ($subCategories) {
+            return response()->json(['status' => 'error', 'msg' => 'Adjustment Type cannot be deleted because it has Inventory Adjustment reason code.'], 200);
+        } else {
+            $this->findOrFail($id)->delete();
+            return response()->json(['status' => 'success', 'msg' => 'Adjustment Type deleted successfully.'], 200);
+        }
     }
 
     public function getAdjustmentTypeList($request)
