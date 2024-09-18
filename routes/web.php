@@ -8,7 +8,9 @@ use App\Http\Controllers\BinTypeController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\CurrencyController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\FileTypeController;
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\EventTypeController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\SubHeadingController;
@@ -62,7 +64,6 @@ use App\Http\Controllers\PurchaseShipmentMethodController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\AccountReceivableAgingPeriodController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
-use App\Http\Controllers\LanguageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -290,4 +291,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('languages', LanguageController::class);
     Route::get('/language/list', [LanguageController::class, 'getLanguageDataTableList'])->name('languages.list');
+
+    Route::resource('customers', CustomerController::class);
+    Route::get('/customer/list', [CustomerController::class, 'getCustomerDataTableList'])->name('customers.list');
 });
