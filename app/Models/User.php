@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -17,13 +17,14 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = [
+    protected $_fillable = [
         'name',
         'email',
         'password',
         'code',
         'department_id',
         'designation_id',
+        'image',
     ];
 
     /**
@@ -31,7 +32,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $hidden = [
+    protected $_hidden = [
         'password',
         'remember_token',
     ];
@@ -41,12 +42,12 @@ class User extends Authenticatable
      *
      * @var array<string, string>
      */
-    protected $casts = [
+    protected $_casts = [
         'email_verified_at' => 'datetime',
         'password'          => 'hashed',
     ];
 
-    protected function email(): Attribute
+    protected function _email(): Attribute
     {
         return Attribute::make(
             set: fn(string $value) => strtolower($value),
@@ -57,7 +58,7 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Department::class);
     }
-    
+
     public function designation()
     {
         return $this->belongsTo(Designation::class);

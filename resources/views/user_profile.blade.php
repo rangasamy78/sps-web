@@ -23,7 +23,7 @@
           <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
             <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
               <img
-                src="{{asset('public/assets/img/avatars/1.png')}}"
+                src="{{ Auth::user()->image ? asset('storage/app/public/' . Auth::user()->image) : asset('public/assets/img/avatars/1.png') }}"
                 alt="user image"
                 class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img" />
             </div>
