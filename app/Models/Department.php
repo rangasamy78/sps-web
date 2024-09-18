@@ -36,4 +36,9 @@ class Department extends Model
     {
         return $this->hasMany(Designation::class);
     }
+    
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }

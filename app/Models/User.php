@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -22,6 +21,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'code',
+        'department_id',
+        'designation_id',
     ];
 
     /**
@@ -41,12 +43,23 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
+        'password'          => 'hashed',
     ];
 
-    protected function email(): Attribute {
+    protected function email(): Attribute
+    {
         return Attribute::make(
-            set: fn (string $value) => strtolower($value),
+            set: fn(string $value) => strtolower($value),
         );
+    }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
+    
+    public function designation()
+    {
+        return $this->belongsTo(Designation::class);
     }
 }

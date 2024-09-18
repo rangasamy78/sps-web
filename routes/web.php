@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\BinTypeController;
 use App\Http\Controllers\CompanyController;
@@ -278,4 +279,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('transaction_startings', [TransactionStartingController::class,'index'])->name('transaction_startings.index');
     Route::post('/transaction_starting/save', [TransactionStartingController::class, 'save'])->name('transaction_startings.save');
+
+    Route::resource('users', UserController::class);
+    Route::get('/user/list', [UserController::class, 'getUserDataTableList'])->name('users.list');
+    Route::get('/get_designation', [UserController::class, 'getDesignation'])->name('get_designation');
 });
