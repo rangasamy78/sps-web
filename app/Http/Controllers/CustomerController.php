@@ -119,8 +119,12 @@ class CustomerController extends Controller
         try {
             $customer = $this->customerRepository->findOrFail($id);
             if ($customer) {
-                $this->customerRepository->delete($id);
-                return response()->json(['status' => 'success', 'msg' => 'Customer deleted successfully.']);
+                if ($customer->status == 0) {
+                    return response()->json(['status' => 'false', 'msg' => 'Customer is already inactive.']);
+                }
+                $customer->status = 0;
+                $customer->save();
+                return response()->json(['status' => 'success', 'msg' => 'Customer marked as inactive.']);
             } else {
                 return response()->json(['status' => 'false', 'msg' => 'Customer not found.']);
             }
@@ -129,7 +133,6 @@ class CustomerController extends Controller
             Log::error('Error deleting customer: ' . $e->getMessage());
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the customer.']);
         }
-
     }
 
     public function getCustomerDataTableList(Request $request)

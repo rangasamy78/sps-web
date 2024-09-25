@@ -59,7 +59,8 @@
                                 <div class="col-2">
                                     <form id="showCustomerForm" name="showCustomerForm" class="form-horizontal" enctype="multipart/form-data">
                                         <input type="hidden" class="form-control" id="id" name="id" value="{{ $customer->id }}">
-                                        <input type="file" class="form-control" id="customer_image" name="customer_image" onchange="uploadImage()">
+                                        <input type="file" class="form-control" id="customer_image" name="customer_image">
+                                        <img id="previewImage" src="" alt="Image Preview" width="100" height="100" style="display:none;">
                                     </form>
                                 </div>
                                 <div class="col-10">
@@ -96,7 +97,7 @@
                                         </div>
                                         <div class="col-4">
                                             @if($customer->delivery_instructions)
-                                                <p class="mb-1"><strong>Sales Tax </strong>:</p>
+                                                <p class="mb-1"><strong>Sales Tax (Tax Exempt) </strong>:</p>
                                                 <p class="mb-1">{{ $customer->delivery_instructions }}</p>
                                             @endif
                                         </div>
@@ -112,7 +113,7 @@
                         <div class="card-body">
                             <div class="row p-sm-3 p-0">
                                 <div class="col-xl-6 col-md-12 col-sm-5 col-12 mb-xl-0 mb-md-4 mb-sm-0 mb-4">
-                                    <h6 class="pb-2">Invoice To:</h6>
+                                    <h6 class="pb-2">Bill To:</h6>
                                     @if(!empty($customer->address))
                                         <p class="mb-1">{{ $customer->address }}</p>
                                     @endif
@@ -145,7 +146,7 @@
                                     @endif
                                 </div>
                                 <div class="col-xl-6 col-md-12 col-sm-7 col-12">
-                                    <h6 class="pb-2">Bill To:</h6>
+                                    <h6 class="pb-2">Ship to:</h6>
                                     @if(!empty($customer->shipping_address))
                                         <p class="mb-1">{{ $customer->shipping_address }}</p>
                                     @endif
@@ -228,7 +229,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-7 mt-3">
+                {{-- <div class="col-7 mt-3">
                     <div class="card mb-6">
                         <h5 class="card-header">Accounting Info:</h5>
                         <div class="card-body">
@@ -335,9 +336,135 @@
                             </table>
                         </div>
                     </div>
+                </div> --}}
+            </div>
+            <div class="row">
+                <div class="col-7 mt-3">
+                    <div class="card mb-6">
+                        <h5 class="card-header">Accounting Info:</h5>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-borderless m-0">
+                                    <tbody>
+                                        <tr>
+                                            @if($customer->apply_finance_charge !== null)
+                                                <th class="text-left">Finance Charge:</th>
+                                                <td class="text-start">{{ $customer->apply_finance_charge == 1 ? 'YES' : '' }}</td>
+                                            @endif
+                                            @if($customer->preferred_document_id)
+                                                <th class="text-left">Way of sending documents:</th>
+                                                <td class="text-start">{{ $customer->preferred_document_id }}</td>
+                                            @endif
+                                        </tr>
+                                        <tr>
+                                            <th class="text-left">Currency:</th>
+                                            <td class="text-start">USD</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-6 mt-3">
+                        <div class="card-body">
+                            <div class="row p-sm-3 p-0">
+                                <div class="col-xl-6 col-md-12 col-sm-5 col-12 mb-xl-0 mb-md-4 mb-sm-0 mb-4">
+                                    @if($customer->delivery_instructions)
+                                    <p class="mb-1"><strong>Special / Delivery Instructions</strong>: </p>
+                                    <p class="mb-1">{{ $customer->delivery_instructions }} </p>
+                                    @endif
+                                    @if($customer->internal_notes)
+                                        <p class="mb-1"><strong>Internal Notes</strong>: </p>
+                                        <p class="mb-1">{{ $customer->internal_notes }} </p>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-5 mt-3">
+                    <div class="card mb-6">
+                        <h5 class="card-header">Accounting Info:</h5>
+                        <div class="card-body">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Label</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Current:</td>
+                                        <td>$0.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1 - 30:</td>
+                                        <td>$0.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>31 - 60:</td>
+                                        <td>$0.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>61 - 150:</td>
+                                        <td>$0.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Over 150:</td>
+                                        <td>$0.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Receivable Balance:</td>
+                                        <td>$0.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Open Credits:</td>
+                                        <td>$0.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Unapplied Receipts:</td>
+                                        <td>$0.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>AR Balance:</td>
+                                        <td>$0.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Open Orders:</td>
+                                        <td>$0.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>PickTickets / PackingLists:</td>
+                                        <td>$0.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Customer Deposits:</td>
+                                        <td>$0.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Net AR:</td>
+                                        <td>$0.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Credit Limit:</td>
+                                        <td>$0.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Available Credit Limit:</td>
+                                        <td>$0.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Average Days to Pay:</td>
+                                        <td><a href="#">Click Here</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="row mt-3">
+            {{-- <div class="row mt-3">
                 <div class="col-7">
                     <div class="card mb-6">
                         <h5 class="card-header">3 AAA Stone LLC(3295)</h5>
@@ -357,7 +484,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 @endsection
@@ -390,6 +517,17 @@
 
                     }
                 });
+            });
+
+            $('#customer_image').on('change', function (e) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#previewImage').attr('src', e.target.result).show();
+                }
+
+                // Read the selected file and trigger the onload event
+                reader.readAsDataURL(this.files[0]);
             });
 
         });
