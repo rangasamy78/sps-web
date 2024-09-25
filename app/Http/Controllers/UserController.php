@@ -39,7 +39,7 @@ class UserController extends Controller
     public function store(CreateUserRequest $request)
     {
         try {
-            $this->userRepository->store($request->only('name', 'code', 'email','password','department_id', 'designation_id'));
+            $this->userRepository->store($request->only('first_name','last_name', 'code', 'email','password','department_id', 'designation_id'));
             return response()->json(['status' => 'success', 'msg' => 'user saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
@@ -82,7 +82,7 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {       
         try {
-            $this->userRepository->update($request->only('name', 'code', 'email','password','department_id', 'designation_id'), $user->id);
+            $this->userRepository->update($request->only('first_name','last_name', 'code', 'email','password','department_id', 'designation_id'), $user->id);
             return response()->json(['status' => 'success', 'msg' => 'User updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes

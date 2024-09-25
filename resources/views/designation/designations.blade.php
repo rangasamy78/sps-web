@@ -13,7 +13,7 @@
     <div class="container-toast">
 
     </div>
-    <h4 class="py-3 mb-4"><span class="text-muted fw-light"></span>List of Designation</h4>
+    <h4 class="py-3 mb-4 float-right"><span class="text-muted fw-light">Home / </span> Designation</h4>
     @include('designation.__search')
     <div class="row mb-3">
       <!-- DataTable with Buttons -->

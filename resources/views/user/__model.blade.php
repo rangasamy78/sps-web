@@ -9,12 +9,19 @@
                 <form id="userForm" name="userForm" class="form-horizontal">
                     <input type="hidden" name="user_id" id="user_id">
                     <div class="form-group">
-                        <label for="Name" class="pb-1 form-label">Name <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                        <label for="Name" class="pb-1 form-label">First Name <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control" id="name" name="name"
+                            <input type="text" class="form-control" id="first_name" name="first_name"
                                 placeholder="Enter Name" value="">
                         </div>
-                        <span class="text-danger error-text name_error"></span>
+                        <span class="text-danger error-text first_name_error"></span>
+                    </div>
+                   <div class="form-group mt-3">
+                        <label class="pb-1 form-label">Last Name </label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control"  id="last_name" name="last_name"
+                                placeholder="Enter Last Name" value="">
+                        </div>
                     </div>
                     <div class="form-group mt-3">
                         <label class="pb-1 form-label">Code <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
@@ -90,11 +97,19 @@
                 <form id="showUserForm" name="showUserForm" class="form-horizontal">
                 <input type="hidden" name="user_id" id="user_id">
                     <div class="form-group">
-                        <label for="Name" class="pb-1 form-label">Name </label>
+                        <label for="Name" class="pb-1 form-label">First Name </label>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control" disabled id="name" name="name"
+                            <input type="text" class="form-control" disabled id="first_name" name="first_name"
                                 placeholder="" value="">
                         </div>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label class="pb-1 form-label">Last Name </label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control" disabled id="last_name" name="last_name"
+                                placeholder="Enter Last Name" value="">
+                        </div>
+                       
                     </div>
                     <div class="form-group mt-3">
                         <label class="pb-1 form-label">Code</label>

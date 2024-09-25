@@ -22,7 +22,7 @@ class UpdateUserRequest extends FormRequest
     {
         $userId = $this->route('user');
         return [
-            'name'           => 'required|string|max:255|unique:users,name,' . $userId->id,
+            'first_name'           => 'required|string|max:255|unique:users,first_name,' . $userId->id,
             'code'           => 'nullable|string|max:255|unique:users,code,' . $userId->id,
             'email'          => 'required|email|unique:users,email,' . $userId->id,
             'password'       => 'confirmed',
@@ -39,8 +39,8 @@ class UpdateUserRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required'           => 'The name field is required.',
-            'name.unique'             => 'The name has already been taken.',
+            'first_name.required'           => 'The first name field is required.',
+            'first_name.unique'             => 'The last name has already been taken.',
             'code.required'           => 'The code field is required.',
             'code.unique'             => 'The code has already been taken.',
             'email.required'          => 'The email field is required.',
