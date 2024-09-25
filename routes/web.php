@@ -27,6 +27,7 @@ use App\Http\Controllers\ShipmentTermController;
 use App\Http\Controllers\SupplierPortController;
 use App\Http\Controllers\SupplierTypeController;
 use App\Http\Controllers\AboutUsOptionController;
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AgingPeriodAPController;
 use App\Http\Controllers\EndUseSegmentController;
 use App\Http\Controllers\LinkedAccountController;
@@ -62,8 +63,10 @@ use App\Http\Controllers\SupplierCostListLabelController;
 use App\Http\Controllers\PurchaseShipmentMethodController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\AccountReceivableAgingPeriodController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\SupplierController;
 
 /*
 |--------------------------------------------------------------------------
@@ -289,10 +292,21 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('users', UserController::class);
     Route::get('/user/list', [UserController::class, 'getUserDataTableList'])->name('users.list');
     Route::get('/get_designation', [UserController::class, 'getDesignation'])->name('get_designation');
-    
+
     Route::resource('counties', CountyController::class);
     Route::get('/county/list', [CountyController::class, 'getCountyDataTableList'])->name('counties.list');
 
     Route::resource('languages', LanguageController::class);
     Route::get('/language/list', [LanguageController::class, 'getLanguageDataTableList'])->name('languages.list');
+
+    Route::resource('suppliers', SupplierController::class);
+    Route::get('/supplier/list', [SupplierController::class, 'getSupplierDataTableList'])->name('suppliers.list');
+    Route::get('/supplier/status/{id}', [SupplierController::class, 'updateStatus'])->name('suppliers.status');
+
+    Route::post('/contact/save', [ContactController::class, 'save'])->name('contacts.save');
+    Route::get('/contact/list', [ContactController::class, 'getContactDataTableList'])->name('contacts.list');
+
+    Route::resource('accounts', AccountController::class);
+    Route::get('/account/list', [AccountController::class, 'getAccountDataTableList'])->name('accounts.list');
+    Route::get('/account/status/{id}', [AccountController::class, 'updateStatus'])->name('accounts.status');
 });
