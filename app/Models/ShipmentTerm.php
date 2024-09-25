@@ -29,7 +29,11 @@ class ShipmentTerm extends Model
     protected function shipmentTermName(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => ucfirst($value),
+            get: fn(string $value) => ucfirst($value),
         );
+    }
+    public function supplier()
+    {
+        return $this->hasMany(Supplier::class, 'shipment_terms_id');
     }
 }

@@ -67,6 +67,8 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\ProductKindController;
+use App\Http\Controllers\SpecialAccountTypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -298,6 +300,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('languages', LanguageController::class);
     Route::get('/language/list', [LanguageController::class, 'getLanguageDataTableList'])->name('languages.list');
+
+    Route::resource('product_kinds', ProductKindController::class);
+    Route::get('/product_kind/list', [ProductKindController::class, 'getProductKindDataTableList'])->name('product_kinds.list');
+
+    Route::resource('special_account_types', SpecialAccountTypeController::class);
+    Route::get('/special_account_type/list', [SpecialAccountTypeController::class, 'getSpecialAccounttypeDataTableList'])->name('special_account_types.list');
 
     Route::resource('suppliers', SupplierController::class);
     Route::get('/supplier/list', [SupplierController::class, 'getSupplierDataTableList'])->name('suppliers.list');
