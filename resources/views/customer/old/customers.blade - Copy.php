@@ -17,17 +17,9 @@
               <table class="datatables-basic table tables-basic border-top table-striped" id="datatable">
                 <thead class="table-header-bold">
                   <tr class="odd gradeX">
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Address</th>
-                    <th>Phones</th>
-                    <th>Parent Loc.</th>
-                    <th>Sales Person</th>
-                    <th>Price Levels</th>
-                    <th>Pmt.Terms / Sales Tax</th>
-                    <th>Status</th>
+                    <th>Sl.No</th>
+                    <th>Customer Name</th>
                     <th>Actions</th>
-                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -40,6 +32,7 @@
     </div>
   </div>
 </div>
+@include('customer.__model')
 @endsection
 @section('scripts')
 @include('customer.__scripts')

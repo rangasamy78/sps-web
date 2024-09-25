@@ -11,14 +11,14 @@
                     <div class="row mb-2">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="company_name" class="form-label pb-1">Company Name <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                                <label for="company_name" class="form-label pb-1">Company Name <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></sup></label>
                                 <input type="text" class="form-control" id="company_name" name="company_name" placeholder="Enter Company Name" value="">
                                 <span class="text-danger error-text company_name_error"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="email" class="form-label pb-1">Email <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                                <label for="email" class="form-label pb-1">Email <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></sup></label>
                                 <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email" value="">
                                 <span class="text-danger error-text email_error"></span>
                             </div>
@@ -28,7 +28,7 @@
                     <div class="row  mt-3">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="address_line_1" class="form-label pb-1">Address Line 1 <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                                <label for="address_line_1" class="form-label pb-1">Address Line 1 <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></sup></label>
                                 <textarea class="form-control" id="address_line_1" name="address_line_1" placeholder="Enter Address Line 1" style="resize: none;"></textarea>
                                 <span class="text-danger error-text address_line_1_error"></span>
                             </div>
@@ -44,21 +44,21 @@
                     <div class="row mt-3">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="city" class="form-label pb-1">City <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                                <label for="city" class="form-label pb-1">City <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></sup></label>
                                 <input type="text" class="form-control" id="city" name="city" placeholder="Enter City" value="">
                                 <span class="text-danger error-text city_error"></span>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="state" class="form-label pb-1">State <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                                <label for="state" class="form-label pb-1">State <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></sup></label>
                                 <input type="text" class="form-control" id="state" name="state" placeholder="Enter State" value="">
                                 <span class="text-danger error-text state_error"></span>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="zip" class="form-label pb-1">ZIP Code <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                                <label for="zip" class="form-label pb-1">ZIP Code <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></sup></label>
                                 <input type="text" class="form-control" id="zip" name="zip" placeholder="Enter ZIP Code" value="">
                                 <span class="text-danger error-text zip_error"></span>
                             </div>
@@ -68,7 +68,7 @@
                     <div class="row mt-3">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="phone_1" class="form-label pb-1">Phone 1 <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                                <label for="phone_1" class="form-label pb-1">Phone 1 <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></sup></label>
                                 <input type="text" class="form-control" id="phone_1" name="phone_1" placeholder="Enter Phone 1" value="">
                                 <span class="text-danger error-text phone_1_error"></span>
                             </div>
@@ -92,7 +92,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="logo" class="form-label pb-1">Company logo <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                                <label for="logo" class="form-label pb-1">Company logo <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></sup></label>
                                 <input type="file" class="form-control" id="logo" name="logo">
                                 <span class="text-danger error-text logo_error"></span>
                             </div>
@@ -139,7 +139,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="company_name" class="form-label pb-1">Company Name <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                                <label for="company_name" class="form-label pb-1">Company Name <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></sup></label>
                                 <input type="text" class="form-control" id="company_name" name="company_name"
                                     placeholder="Enter Company Name" value="">
                                 <span class="text-danger error-text company_name_error"></span>
@@ -147,7 +147,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="email" class="form-label pb-1">Email <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                                <label for="email" class="form-label pb-1">Email <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></sup></label>
                                 <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email" value="">
                                 <span class="text-danger error-text email_error"></span>
                             </div>
@@ -157,7 +157,7 @@
                     <div class="row mt-3 mt-3">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="address_line_1" class="form-label pb-1">Address Line 1 <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                                <label for="address_line_1" class="form-label pb-1">Address Line 1 <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></sup></label>
                                 <textarea class="form-control" id="address_line_1" name="address_line_1" placeholder="Enter Address Line 1" style="resize:none"></textarea>
                                 <span class="text-danger error-text address_line_1_error"></span>
                             </div>
@@ -173,21 +173,21 @@
                     <div class="row mt-3">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="city" class="form-label pb-1">City <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                                <label for="city" class="form-label pb-1">City <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></sup></label>
                                 <input type="text" class="form-control" id="city" name="city" placeholder="Enter City" value="">
                                 <span class="text-danger error-text city_error"></span>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="state" class="form-label pb-1">State <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                                <label for="state" class="form-label pb-1">State <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></sup></label>
                                 <input type="text" class="form-control" id="state" name="state" placeholder="Enter State" value="">
                                 <span class="text-danger error-text state_error"></span>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="zip" class="form-label pb-1">ZIP Code <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                                <label for="zip" class="form-label pb-1">ZIP Code <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></sup></label>
                                 <input type="text" class="form-control" id="zip" name="zip" placeholder="Enter ZIP Code" value="">
                                 <span class="text-danger error-text zip_error"></span>
                             </div>
@@ -198,7 +198,7 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="phone_1" class="form-label pb-1">Phone 1 <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                                <label for="phone_1" class="form-label pb-1">Phone 1 <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></sup></label>
                                 <input type="text" class="form-control" id="phone_1" name="phone_1" placeholder="Enter Phone 1" value="">
                                 <span class="text-danger error-text phone_1_error"></span>
                             </div>
@@ -222,7 +222,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="logo" class="form-label pb-1">Company logo <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                                <label for="logo" class="form-label pb-1">Company logo <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></sup></label>
                                 <input type="file" class="form-control" id="logo" name="logo">
                                 <span class="text-danger error-text logo_error"></span>
                             </div>

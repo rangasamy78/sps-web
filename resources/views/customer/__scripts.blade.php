@@ -6,7 +6,8 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        $('#countyNameFilter').on('keyup change', function(e) {
+
+        $('#customerNameFilter,#customerTypeFilter,#addressNameFilter,#customerPhoneFilter,#locationNameFilter,#statusFilter').on('keyup change', function(e) {
             e.preventDefault();
             table.draw();
         });
@@ -20,9 +21,14 @@
                 [0, 'desc']
             ],
             ajax: {
-                url: "{{ route('counties.list') }}",
+                url: "{{ route('customers.list') }}",
                 data: function(d) {
-                    d.county_name_search = $('#countyNameFilter').val();
+                    d.customer_name = $('#customerNameFilter').val();
+                    d.customer_type_id = $('#customerTypeFilter').val();
+                    d.customer_address = $('#addressFilter').val();
+                    d.customer_phone_search = $('#customerPhoneFilter').val();
+                    d.location_id = $('#locationNameFilter').val();
+                    d.status = $('#statusFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{
                         column: 1,
@@ -30,15 +36,46 @@
                     }];
                 }
             },
-            columns: [{
-                    data: null,
-                    name: 'serial',
-                    orderable: false,
-                    searchable: false
+            columns: [
+                {
+                    data: 'customer_name',
+                    name: 'customer_name'
                 },
                 {
-                    data: 'county_name',
-                    name: 'county_name'
+                    data: 'customer_type_id',
+                    name: 'customer_type_id'
+                },
+                {
+                    data: 'address',
+                    name: 'address'
+                },
+                {
+                    data: 'phone',
+                    name: 'phone'
+                },
+                {
+                    data: 'parent_location_id',
+                    name: 'parent_location_id'
+                },
+                {
+                    data: 'sales_person_id',
+                    name: 'sales_person_id'
+                },
+                {
+                    data: 'price_list_label_id',
+                    name: 'price_list_label_id'
+                },
+                {
+                    data: 'sales_tax_id',
+                    name: 'sales_tax_id'
+                },
+                {
+                    data: 'status',
+                    name: 'status'
+                },
+                {
+                    data: 'image',
+                    name: 'image'
                 },
                 {
                     data: 'action',
@@ -48,11 +85,11 @@
                 }
             ],
             rowCallback: function(row, data, index) {
-                $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
+                // $('td:eq(0)', row).html(table.page.info().start + index + 1); // Update the index column with the correct row index
             },
             dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
             buttons: [{
-                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add County</span>',
+                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add Customer</span>',
                 className: 'create-new btn btn-primary',
                 action: function (e, dt, node, config) {
                     // Redirect to Laravel route
@@ -62,28 +99,24 @@
 
         });
 
-        $('#countyForm input').on('input', function() {
-            let fieldName = $(this).attr('name');
-            $('.' + fieldName + '_error').text('');
-        });
-
         $('#savedata').click(function(e) {
             e.preventDefault();
+            $('.error-text').text('');
             var button = $(this);
             sending(button);
-            var url = $('#county_id').val() ? "{{ route('counties.update', ':id') }}".replace(':id', $('#county_id').val()) : "{{ route('counties.store') }}";
-            var type = $('#county_id').val() ? "PUT" : "POST";
+            var url = $('#id').val() ? "{{ route('customers.update', ':id') }}".replace(':id', $('#id').val()) : "{{ route('customers.store') }}";
+            var type = $('#id').val() ? "PUT" : "POST";
             $.ajax({
                 url: url,
                 type: type,
-                data: $('#countyForm').serialize(),
+                data: $('#customerForm').serialize(),
                 dataType: 'json',
                 success: function(response) {
                     if (response.status == "success") {
-                        $('#countyForm').trigger("reset");
-                        $('#countyModel').modal('hide');
                         showToast('success', response.msg);
-                        table.draw();
+                        setTimeout(function() {
+                            window.location.href = "{{ route('customers.index') }}"; // Redirection after 2 seconds (adjust if needed)
+                        }, 2000);
                     }
                 },
                 error: function(xhr) {
@@ -93,55 +126,172 @@
             });
         });
 
-        $('body').on('click', '.editbtn', function() {
-            var id = $(this).data('id');
-            $.get("{{ route('counties.index') }}" + '/' + id + '/edit', function(data) {
-                $(".county_name_error").html("");
-                $('#modelHeading').html("Edit County");
-                $('#savedata').val("edit-county");
-                $('#savedata').html("Update County");
-                $('#countyModel').modal('show');
-                $('#county_id').val(data.id);
-                $('#county_name').val(data.county_name);
-            });
+        $('#customer_type_id').select2({
+            placeholder: 'Select Customer Type',
+            dropdownParent: $('#customer_type_id').parent()
         });
 
-
-        $('body').on('click', '.deletebtn', function() {
-            var id = $(this).data('id');
-            confirmDelete(id, function() {
-                deleteCounty(id);
-            });
+        $('#parent_customer_id').select2({
+            placeholder: 'Select Parent Customer',
+            dropdownParent: $('#parent_customer_id').parent()
         });
 
-        function deleteCounty(id) {
-            var url = "{{ route('counties.destroy', ':id') }}".replace(':id', id);
+        $('#referred_by_id').select2({
+            placeholder: 'Select Referred By',
+            dropdownParent: $('#referred_by_id').parent()
+        });
 
-            $.ajax({
-                url: url,
-                type: "DELETE",
-                data: {
-                    id: id,
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    handleAjaxResponse(response, table);
-                },
-                error: function(xhr) {
-                    console.error('Error:', xhr.statusText);
-                    showError('Oops!', 'Failed to fetch data.');
-                }
-            });
+        $('#country_id').select2({
+            placeholder: 'Select Country',
+            dropdownParent: $('#country_id').parent()
+        });
+
+        $('#shipping_country_id').select2({
+            placeholder: 'Select Shipping Country',
+            dropdownParent: $('#shipping_country_id').parent()
+        });
+
+        $('#parent_location_id').select2({
+            placeholder: 'Select Parent Location',
+            dropdownParent: $('#parent_location_id').parent()
+        });
+
+        $('#route_location_id').select2({
+            placeholder: 'Select Route Location',
+            dropdownParent: $('#route_location_id').parent()
+        });
+
+        $('#preferred_document_id').select2({
+            placeholder: 'Select Preferred Document',
+            dropdownParent: $('#preferred_document_id').parent()
+        });
+
+        $('#sales_person_id').select2({
+            placeholder: 'Select Sales Person',
+            dropdownParent: $('#sales_person_id').parent()
+        });
+
+        $('#secondary_sales_person_id').select2({
+            placeholder: 'Select Secondary Sales Person',
+            dropdownParent: $('#secondary_sales_person_id').parent()
+        });
+
+        $('#price_list_label_id').select2({
+            placeholder: 'Select Price List Label',
+            dropdownParent: $('#price_list_label_id').parent()
+        });
+
+        $('#tax_exempt_reason_id').select2({
+            placeholder: 'Select Tax Exempt Reason',
+            dropdownParent: $('#tax_exempt_reason_id').parent()
+        });
+
+        $('#sales_tax_id').select2({
+            placeholder: 'Select Sales Tax',
+            dropdownParent: $('#sales_tax_id').parent()
+        });
+
+        $('#payment_terms_id').select2({
+            placeholder: 'Select Payment Terms',
+            dropdownParent: $('#payment_terms_id').parent()
+        });
+
+        $('#about_us_option_id').select2({
+            placeholder: 'Select How You Heard About Us',
+            dropdownParent: $('#about_us_option_id').parent()
+        });
+
+        $('#project_type_id').select2({
+            placeholder: 'Select Project Type',
+            dropdownParent: $('#project_type_id').parent()
+        });
+
+        $('#end_use_segment_id').select2({
+            placeholder: 'Select End Use Segment',
+            dropdownParent: $('#end_use_segment_id').parent()
+        });
+
+        $('#default_fulfillment_method_id').select2({
+            placeholder: 'Select Default Fulfillment Method',
+            dropdownParent: $('#default_fulfillment_method_id').parent()
+        });
+
+        $('#status_id').select2({
+            placeholder: 'Select Status',
+            dropdownParent: $('#status_id').parent()
+        });
+
+        $('#customerTypeFilter').select2({
+            placeholder: 'Select Customer Type',
+            dropdownParent: $('#customerTypeFilter').parent()
+        });
+
+        $('#locationNameFilter').select2({
+            placeholder: 'Select Location',
+            dropdownParent: $('#locationNameFilter').parent()
+        });
+
+        $('#same_as_address').change(function() {
+            toggleShippingAddress(this);  // Pass the checkbox object to the function
+        });
+
+        function toggleShippingAddress(obj) {
+            var isChecked = $(obj).is(':checked');
+            $('#shipping_address').val(isChecked ? $('#address').val() : '');
+            $('#shipping_address_2').val(isChecked ? $('#address_2').val() : '');
+            $('#shipping_city').val(isChecked ? $('#city').val() : '');
+            $('#shipping_state').val(isChecked ? $('#state').val() : '');
+            $('#shipping_zip').val(isChecked ? $('#zip').val() : '');
+            $('#shipping_country_id').val(isChecked ? $('#country_id').val() : null).trigger('change');
+            if (isChecked) {
+                $('#shipping_zip').trigger('blur');
+            }
+            $('#shipping_county').val(isChecked ? $('#county').val() : '');
         }
 
-        $('body').on('click', '.showbtn', function() {
-            var id = $(this).data('id');
-            $.get("{{ route('counties.index') }}" + '/' + id, function(data) {
-                $('#modelHeading').html("Show County");
-                $('#savedata').val("show-county");
-                $('#showCountymodal').modal('show');
-                $('#showCountyForm #county_name').val(data.county_name);
+        // On change event of Select2 dropdown
+        $('#parent_customer_id').change(function() {
+            var billingAddressUrl = "{{ route('customers.billing-address') }}";
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Do you want to fill the billing address fields with the selected customer's address?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var selectedCustomerId = $(this).val();
+                    $.ajax({
+                        url: billingAddressUrl,
+                        method: 'GET',
+                        data: { id: selectedCustomerId },
+                        success: function(response) {
+                            $('#address').val(response.address);
+                            $('#address_2').val(response.address_2);
+                            $('#city').val(response.city);
+                            $('#state').val(response.state);
+                            $('#zip').val(response.zip);
+                            $('#country_id').val(response.country_id).trigger('change');
+                            $('#county').val(response.county);
+                        },
+                        error: function() {
+                            Swal.fire('Error', 'Failed to fetch customer address', 'error');
+                        }
+                    });
+                }
             });
         });
-    });
+
+        // $('#is_allow_login').change(function() {
+        //     if ($(this).is(':checked')) {
+        //         $('#username, #password').closest('.form-group').show();
+        //     } else {
+        //         $('#username, #password').closest('.form-group').hide();
+        //     }
+        // });
+
+        // // Trigger the change event on page load if checkbox is already checked
+        // $('#is_allow_login').trigger('change');
+     });
 </script>

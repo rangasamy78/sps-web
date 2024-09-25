@@ -9,7 +9,7 @@
                 <form id="countryForm" name="countryForm" class="form-horizontal">
                     <input type="hidden" name="country_id" id="country_id">
                     <div class="form-group">
-                        <label for="country_name" class="form-label">Country Name <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                        <label for="country_name" class="form-label">Country Name <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></sup></label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="country_name" name="country_name"
                                 placeholder="Enter Country Name" value="">

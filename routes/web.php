@@ -294,4 +294,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('customers', CustomerController::class);
     Route::get('/customer/list', [CustomerController::class, 'getCustomerDataTableList'])->name('customers.list');
+    Route::get('/customer/fetch-customer-billing-address', [CustomerController::class, 'fetchCustomerBillingAddress'])->name('customers.billing-address');
+    Route::post('/customer/upload-image', [CustomerController::class, 'customerUploadImage'])->name('customers.upload');
 });

@@ -19,10 +19,28 @@ class updateCustomerRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    public function rules()
     {
-        return [
-            'customer_name' => 'required|string|max:255|unique:customers,customer_name,' . $this->customer->id,
+        $rules = [
+            'customer_name' => 'required',
+            'parent_location_id' => 'required',
+            'price_list_label_id' => 'required',
+            'payment_terms_id' => 'required',
+            'is_allow_login' => 'nullable|boolean',
         ];
+
+        // Add rules for `username` and `password` only if `is_allow_login` is checked
+        if ($this->input('is_allow_login')) {
+            $rules['username'] = 'required';
+            $rules['password'] = 'required';
+        }
+
+        //If you're updating, make sure `username` and `password` are not required if `is_allow_login` is not checked
+        // if ($this->isMethod('put') || $this->isMethod('patch')) {
+        //      $rules['username'] = 'nullable';
+        //     $rules['password'] = 'nullable';
+        // }
+
+        return $rules;
     }
 }

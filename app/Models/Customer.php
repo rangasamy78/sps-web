@@ -15,6 +15,9 @@ class Customer extends Model
     * @var string
     */
    protected $table = 'customers';
+
+   public const IMAGE_FOLDER = 'customer';
+
    /**
    * The attributes that are mass assignable.
    *
@@ -23,55 +26,66 @@ class Customer extends Model
    protected $fillable = [
         'customer_name',
         'customer_code',
-        'mt_sub_type',
-        'print_name',
-        'legacy_id',
+        'customer_type_id',
         'contact_name',
-        'mt_referred_by',
-        'phone_1',
+        'print_name',
+        'parent_customer_id',
+        'referred_by_id',
+        'phone',
         'phone_2',
-        'fax',
         'mobile',
+        'fax',
         'email',
+        'acoount_email',
         'url',
         'address',
         'address_2',
         'city',
         'state',
         'zip',
-        'mt_country',
+        'county',
+        'country_id',
+        'customer_image',
         'shipping_address',
         'shipping_address_2',
         'shipping_city',
         'shipping_state',
         'shipping_zip',
-        'mt_shipping_country',
-        'mt_location',
-        'is_multi_location',
-        'mt_route',
-        'mt_sales_rep_id',
-        'mt_price_level',
-        'mt_price_level_2',
-        'mt_payment_terms',
-        'mt_sales_tax',
-        'is_tax_exempt',
-        'tax_exempt_reason',
-        'exempt_certificate_no',
-        'exempt_expiry_date',
+        'shipping_county',
+        'shipping_country_id',
+        'parent_location_id',
+        'multi_location',
+        'generic_customer',
+        'route_location_id',
         'is_po_required',
         'apply_finance_charge',
-        'preferred_document_delivery_mode',
-        'mt_currency',
+        'preferred_document_id',
+        'grace_period',
+        'hold_days',
         'since_date',
         'tax_number',
-        'mt_language',
+        'sales_person_id',
+        'secondary_sales_person_id',
+        'price_list_label_id',
+        'is_tax_exempt',
+        'tax_exempt_reason_id',
+        'sales_tax_id',
+        'payment_terms_id',
+        'exempt_certificate_no',
+        'exempt_expiry_date',
+        'about_us_option_id',
+        'project_type_id',
+        'end_use_segment_id',
+        'default_fulfillment_method_id',
         'credit_limit',
-        'past_due_alert',
-        'lock_alert',
+        'is_credit_lock',
+        'sales_alert_note',
+        'sales_lock_note',
         'is_allow_login',
         'username',
         'password',
         'delivery_instructions',
+        'collection_notes',
         'internal_notes',
    ];
 
@@ -82,4 +96,66 @@ class Customer extends Model
        );
    }
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Event to generate customer code before creating a record
+        static::creating(function ($customer) {
+            // Fetch the last customer code and increment it
+            $lastCustomer = Customer::orderBy('id', 'desc')->first();
+            // Define the format for customer code (e.g., CUST0001, CUST0002)
+            $nextCustomerCode = $lastCustomer ? 'CUST' . str_pad((int)substr($lastCustomer->customer_code, 4) + 1, 4, '0', STR_PAD_LEFT) : 'CUST0001';
+
+            // Set the customer code
+            $customer->customer_code = $nextCustomerCode;
+        });
+    }
+
+    public function customer_type()
+    {
+        return $this->belongsTo(CustomerType::class, 'customer_type_id');
+    }
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class, 'country_id', 'id');
+    }
+
+    public function shipping_country()
+    {
+        return $this->belongsTo(Country::class, 'country_id', 'id');
+    }
+
+    public function parent_location()
+    {
+        return $this->belongsTo(Company::class, 'parent_location_id');
+    }
+
+    public function sales_person()
+    {
+        return $this->belongsTo(User::class, 'sales_person_id');
+    }
+
+    public function secondary_sales_person()
+    {
+        return $this->belongsTo(User::class, 'secondary_sales_person_id');
+    }
+
+    public function price_list_label()
+    {
+        return $this->belongsTo(PriceListLabel::class, 'price_list_label_id');
+    }
+
+    public function tax_exempt_reason()
+    {
+        return $this->belongsTo(TaxExemptReason::class, 'tax_exempt_reason_id');
+    }
+
+
+
+    // public function salesTax()
+    // {
+    //     return $this->belongsTo(SalesTax::class, 'sales_tax_id');
+    // }
 }

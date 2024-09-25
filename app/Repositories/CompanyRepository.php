@@ -34,6 +34,7 @@ class CompanyRepository implements CrudRepositoryInterface, DatatableRepositoryI
     {
         $company = $this->findOrFail($id);
         if (isset($data['logo']) && $data['logo'] instanceof UploadedFile) {
+            // dd(Storage::disk('public')->exists($company->logo), $company->logo);
             if ($company->logo && Storage::disk('public')->exists($company->logo)) {
                 Storage::disk('public')->delete($company->logo);
             }
