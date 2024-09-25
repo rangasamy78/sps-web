@@ -231,9 +231,40 @@
             dropdownParent: $('#locationNameFilter').parent()
         });
 
+        $('#statusFilter').select2({
+            placeholder: 'Select Status',
+            dropdownParent: $('#statusFilter').parent()
+        });
+
         $('#same_as_address').change(function() {
             toggleShippingAddress(this);  // Pass the checkbox object to the function
         });
+
+        $('body').on('click', '.deletebtn', function() {
+            var id = $(this).data('id');
+            confirmDelete(id, function() {
+                deleteCustomer(id);
+            });
+        });
+
+        function deleteCustomer(id) {
+            var url = "{{ route('customers.destroy', ':id') }}".replace(':id', id);
+            $.ajax({
+                url: url,
+                type: "DELETE",
+                data: {
+                    id: id,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    handleAjaxResponse(response, table);
+                },
+                error: function(xhr) {
+                    console.error('Error:', xhr.statusText);
+                    showError('Oops!', 'Failed to fetch data.');
+                }
+            });
+        }
 
         function toggleShippingAddress(obj) {
             var isChecked = $(obj).is(':checked');

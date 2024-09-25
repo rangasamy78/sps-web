@@ -13,16 +13,54 @@
                     <div class="card mb-6">
                         <h5 class="card-header">{{ $customer->customer_name  }} ( {{ $customer->customer_code }})</h5>
                         <div class="card-body">
+                            {{-- <div class="row">
+                                <div class="col-3">
+                                    <form action="/upload" class="dropzone needsclick dz-clickable" id="dropzone-basic">
+                                    </form>
+                                </div>
+                                <div class="col-3">
+                                    @if($customer->delivery_instructions)
+                                        <p class="mb-1"><strong>Default Price List </strong>: </p>
+                                        <p class="mb-1">{{ isset($customer->price_list_label) ? $customer->price_list_label->price_code . '-' . $customer->price_list_label->price_label : '' }} </p>
+                                    @endif
+                                </div>
+                                <div class="col-3">
+                                    @if($customer->delivery_instructions)
+                                        <p class="mb-1"><strong>Parent Location </strong>: </p>
+                                        <p class="mb-1">{{ $customer->parent_location->company_name ?? '' }} </p>
+                                    @endif
+                                </div>
+                                <div class="col-3">
+                                    @if($customer->delivery_instructions)
+                                        <p class="mb-1"><strong>Type </strong>: </p>
+                                        <p class="mb-1">{{ $customer->customer_type->customer_type_name ?? '' }} </p>
+                                    @endif
+                                </div>
+                                <div class="col-3">
+                                    @if($customer->delivery_instructions)
+                                        <p class="mb-1"><strong># days for hold </strong>: </p>
+                                        <p class="mb-1">{{ $customer->hold_days." Days" }} </p>
+                                    @endif
+                                </div>
+                                <div class="col-3">
+                                    @if($customer->delivery_instructions)
+                                        <p class="mb-1"><strong>Payment Terms </strong>: </p>
+                                        <p class="mb-1">{{ $customer->delivery_instructions }} </p>
+                                    @endif
+                                </div>
+                                <div class="col-3">
+                                    @if($customer->delivery_instructions)
+                                        <p class="mb-1"><strong>Sales Tax  </strong>: </p>
+                                        <p class="mb-1">{{ $customer->delivery_instructions }} </p>
+                                    @endif
+                                </div>
+                            </div> --}}
                             <div class="row">
                                 <div class="col-2">
                                     <form id="showCustomerForm" name="showCustomerForm" class="form-horizontal" enctype="multipart/form-data">
                                         <input type="hidden" class="form-control" id="id" name="id" value="{{ $customer->id }}">
                                         <input type="file" class="form-control" id="customer_image" name="customer_image">
-                                        @if($customer->customer_image)
-                                            <img id="previewImage" class="previewImage" src="{{ asset('storage/app/public/'.$customer->customer_image)}}" alt="Image Preview" width="100" height="100" style="margin-top: 15px;border: 1px solid;border-radius: 50px;margin-left: 38px;">
-                                        @else
-                                            <img id="previewImage" class="previewImage" src="" alt="Image Preview" width="100" height="100" style="display:none;" style="margin-top: 15px;border: 1px solid;border-radius: 50px;margin-left: 38px;">
-                                        @endif
+                                        <img id="previewImage" src="" alt="Image Preview" width="100" height="100" style="display:none;">
                                     </form>
                                 </div>
                                 <div class="col-10">
@@ -59,7 +97,7 @@
                                         </div>
                                         <div class="col-4">
                                             @if($customer->delivery_instructions)
-                                                <p class="mb-1"><strong>Sales Tax (Tax Exempt) </strong>:</p>
+                                                <p class="mb-1"><strong>Sales Tax </strong>:</p>
                                                 <p class="mb-1">{{ $customer->delivery_instructions }}</p>
                                             @endif
                                         </div>
@@ -75,7 +113,7 @@
                         <div class="card-body">
                             <div class="row p-sm-3 p-0">
                                 <div class="col-xl-6 col-md-12 col-sm-5 col-12 mb-xl-0 mb-md-4 mb-sm-0 mb-4">
-                                    <h6 class="pb-2">Bill To:</h6>
+                                    <h6 class="pb-2">Invoice To:</h6>
                                     @if(!empty($customer->address))
                                         <p class="mb-1">{{ $customer->address }}</p>
                                     @endif
@@ -108,7 +146,7 @@
                                     @endif
                                 </div>
                                 <div class="col-xl-6 col-md-12 col-sm-7 col-12">
-                                    <h6 class="pb-2">Ship to:</h6>
+                                    <h6 class="pb-2">Bill To:</h6>
                                     @if(!empty($customer->shipping_address))
                                         <p class="mb-1">{{ $customer->shipping_address }}</p>
                                     @endif
@@ -191,8 +229,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
                 <div class="col-7 mt-3">
                     <div class="card mb-6">
                         <h5 class="card-header">Accounting Info:</h5>
@@ -219,26 +255,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card mb-6 mt-3">
-                        <div class="card-body">
-                            <div class="row p-sm-3 p-0">
-                                <div class="col-xl-6 col-md-12 col-sm-5 col-12 mb-xl-0 mb-md-4 mb-sm-0 mb-4">
-                                    @if($customer->delivery_instructions)
-                                    <p class="mb-1"><strong>Special / Delivery Instructions</strong>: </p>
-                                    <p class="mb-1">{{ $customer->delivery_instructions }} </p>
-                                    @endif
-                                    @if($customer->internal_notes)
-                                        <p class="mb-1"><strong>Internal Notes</strong>: </p>
-                                        <p class="mb-1">{{ $customer->internal_notes }} </p>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <div class="col-5 mt-3">
                     <div class="card mb-6">
-                        <h5 class="card-header">Customer Balance:</h5>
+                        <h5 class="card-header">Accounting Info:</h5>
                         <div class="card-body">
                             <table class="table table-bordered table-striped">
                                 <thead>
@@ -281,7 +301,7 @@
                                         <td>$0.00</td>
                                     </tr>
                                     <tr>
-                                        <td><b>AR Balance</b>:</td>
+                                        <td>AR Balance:</td>
                                         <td>$0.00</td>
                                     </tr>
                                     <tr>
@@ -297,7 +317,7 @@
                                         <td>$0.00</td>
                                     </tr>
                                     <tr>
-                                        <td><b>Net AR</b>:</td>
+                                        <td>Net AR:</td>
                                         <td>$0.00</td>
                                     </tr>
                                     <tr>
@@ -305,11 +325,11 @@
                                         <td>$0.00</td>
                                     </tr>
                                     <tr>
-                                        <td><b>Available Credit Limit</b>:</td>
+                                        <td>Available Credit Limit:</td>
                                         <td>$0.00</td>
                                     </tr>
                                     <tr>
-                                        <td><b>Average Days to Pay</b>:</td>
+                                        <td>Average Days to Pay:</td>
                                         <td><a href="#">Click Here</a></td>
                                     </tr>
                                 </tbody>
@@ -317,7 +337,27 @@
                         </div>
                     </div>
                 </div>
-                @include('customer.partials.__image_preview')
+            </div>
+            <div class="row mt-3">
+                <div class="col-7">
+                    <div class="card mb-6">
+                        <h5 class="card-header">3 AAA Stone LLC(3295)</h5>
+                        <div class="card-body">
+                            <div class="row p-sm-3 p-0">
+                                <div class="col-xl-6 col-md-12 col-sm-5 col-12 mb-xl-0 mb-md-4 mb-sm-0 mb-4">
+                                    @if($customer->delivery_instructions)
+                                    <p class="mb-1"><strong>Special / Delivery Instructions</strong>: </p>
+                                    <p class="mb-1">{{ $customer->delivery_instructions }} </p>
+                                    @endif
+                                    @if($customer->internal_notes)
+                                        <p class="mb-1"><strong>Internal Notes</strong>: </p>
+                                        <p class="mb-1">{{ $customer->internal_notes }} </p>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -359,17 +399,9 @@
                 reader.onload = function (e) {
                     $('#previewImage').attr('src', e.target.result).show();
                 }
+
                 // Read the selected file and trigger the onload event
                 reader.readAsDataURL(this.files[0]);
-            });
-
-            document.addEventListener("click",function (e){
-                if(e.target.classList.contains("previewImage")){
-                    const src = e.target.getAttribute("src");
-                    document.querySelector(".customer_modal_img").src = src;
-                    const myModal = new bootstrap.Modal(document.getElementById('customer_popup'));
-                    myModal.show();
-                }
             });
 
         });
