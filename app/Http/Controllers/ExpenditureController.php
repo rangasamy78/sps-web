@@ -19,12 +19,12 @@ use App\Http\Requests\Expenditure\UpdateExpenditureRequest;
 
 class ExpenditureController extends Controller
 {
-    // private ExpenditureRepository $expenditureRepository;
+    private ExpenditureRepository $expenditureRepository;
 
-    // public function __construct(ExpenditureRepository $expenditureRepository)
-    // {
-    //     $this->expenditureRepository = $expenditureRepository;
-    // }
+    public function __construct(ExpenditureRepository $expenditureRepository)
+    {
+        $this->expenditureRepository = $expenditureRepository;
+    }
 
     public function index()
     {
