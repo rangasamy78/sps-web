@@ -498,7 +498,7 @@
             </ul>
         </li>
         <!-- Lists -->
-        <li class="menu-item {{ request()->is('suppliers')||request()->is('accounts*') || request()->is('bin_types*') || request()->is('file_types*') || request()->is('transaction_startings*') ? 'active open' : '' }}">
+        <li class="menu-item {{ request()->is('customers') || request()->is('suppliers') || request()->is('accounts*') || request()->is('bin_types*') || request()->is('file_types*') || request()->is('transaction_startings*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="bx bx-shield menu-icon"></i>
                 <div class="text-truncate" data-i18n="Lists">Lists</div>
@@ -542,14 +542,14 @@
                     </li>
 
                     <!-- Parties -->
-                    <li class="menu-item {{ request()->is('suppliers*')  ? 'active open' : '' }}">
+                    <li class="menu-item {{ request()->is('customers') || request()->is('suppliers*')  ? 'active open' : '' }}">
                         <a href="javascript:void(0);" class="menu-link menu-toggle ps-4">
                             <i class="bx bx-user menu-icon"></i>
                             <div class="text-truncate ps-1" data-i18n="Parties">Parties</div>
                         </a>
                         <ul class="menu-sub ps-2">
-                            <li class="menu-item {{ request()->is('unit_measures*') ? 'active open' : '' }}">
-                                <a href="{{ route('unit_measures.index') }}" class="menu-link">
+                            <li class="menu-item {{ request()->is('customers*') ? 'active open' : '' }}">
+                                <a href="{{ route('customers.index') }}" class="menu-link">
                                     <div class="text-truncate" data-i18n="Customers">Customers</div>
                                 </a>
                             </li>
