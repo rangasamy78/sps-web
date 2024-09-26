@@ -12,14 +12,18 @@
                 @csrf
 
                 <div class="mb-3">
-                    <label for="name" class="form-label">{{ __('Name') }} <sup style="color: red;font-size:1rem;"><b>*</b></sup></label>
-                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" placeholder="Enter your name" autofocus>
-                    @error('name')
-                        <span class="invalid-feedback name_error" role="alert">
+                    <label for="first_name" class="form-label">{{ __('First Name') }} <sup style="color: red;font-size:1rem;"><b>*</b></sup></label>
+                    <input id="first_name" type="text" class="form-control @error('first_name') is-invalid @enderror" name="first_name" value="{{ old('first_name') }}" placeholder="Enter your first name" autofocus>
+                    @error('first_name')
+                        <span class="invalid-feedback first_name_error" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
+                </div>
 
+                <div class="mb-3">
+                    <label for="last_name" class="form-label">{{ __('Last Name') }} <sup style="color: red;font-size:1rem;"><b>*</b></sup></label>
+                    <input id="last_name" type="text" class="form-control @error('last_name') is-invalid @enderror" name="last_name" value="{{ old('last_name') }}" placeholder="Enter your last name">
                 </div>
 
                 <div class="mb-3">

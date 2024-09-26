@@ -22,7 +22,7 @@ class CompanyRepository implements CrudRepositoryInterface, DatatableRepositoryI
     public function store(array $data)
     {
         if (isset($data['logo']) && $data['logo'] instanceof UploadedFile) {
-            $data['logo'] = $this->uploadImage($data['logo'], 'images');
+            $data['logo'] = $this->uploadImage($data['logo'], Company::IMAGE_FOLDER);
         }
         $data['is_bin_pre_defined'] = isset($data['is_bin_pre_defined']) ? 1 : 0;
         $lastInsertId = Company::query()
@@ -34,10 +34,11 @@ class CompanyRepository implements CrudRepositoryInterface, DatatableRepositoryI
     {
         $company = $this->findOrFail($id);
         if (isset($data['logo']) && $data['logo'] instanceof UploadedFile) {
+
             if ($company->logo && Storage::disk('public')->exists($company->logo)) {
                 Storage::disk('public')->delete($company->logo);
             }
-            $data['logo'] = $this->uploadImage($data['logo'], 'images');
+            $data['logo'] = $this->uploadImage($data['logo'], Company::IMAGE_FOLDER);
         }
         $data['is_bin_pre_defined'] = isset($data['is_bin_pre_defined']) ? 1 : 0;
         $company->update($data);

@@ -9,7 +9,7 @@
                 <form id="countyForm" name="countyForm" class="form-horizontal">
                     <input type="hidden" name="county_id" id="county_id">
                     <div class="form-group">
-                        <label for="county_name" class="form-label">County Name <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                        <label for="county_name" class="form-label">County Name <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></sup></label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="county_name" name="county_name"
                                 placeholder="Enter County Name" value="">

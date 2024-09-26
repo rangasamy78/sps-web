@@ -9,7 +9,9 @@ use App\Http\Controllers\BinTypeController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\CurrencyController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\FileTypeController;
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\EventTypeController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\SubHeadingController;
@@ -43,6 +45,7 @@ use App\Http\Controllers\ReceivingQcNoteController;
 use App\Http\Controllers\TaxExemptReasonController;
 use App\Http\Controllers\OpportunityStageController;
 use App\Http\Controllers\ProductThicknessController;
+use App\Http\Controllers\Customer\ContactController;
 use App\Http\Controllers\ReturnReasonCodeController;
 use App\Http\Controllers\ProductPriceRangeController;
 use App\Http\Controllers\ReleaseReasonCodeController;
@@ -63,7 +66,6 @@ use App\Http\Controllers\PurchaseShipmentMethodController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\AccountReceivableAgingPeriodController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
-use App\Http\Controllers\LanguageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -295,4 +297,14 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('languages', LanguageController::class);
     Route::get('/language/list', [LanguageController::class, 'getLanguageDataTableList'])->name('languages.list');
+
+    Route::resource('customers', CustomerController::class);
+    Route::get('/customer/list', [CustomerController::class, 'getCustomerDataTableList'])->name('customers.list');
+    Route::get('/customer/fetch-customer-billing-address', [CustomerController::class, 'fetchCustomerBillingAddress'])->name('customers.billing-address');
+    Route::prefix('customers')->name('customers.')->group(function() {
+        Route::post('/upload-image', [CustomerController::class, 'customerUploadImage'])->name('upload');
+        Route::get('/contacts/list/{type_id}', [ContactController::class, 'getContactDataTableList'])->name('contacts.list');
+        Route::post('/contacts/save', [ContactController::class, 'contactSave'])->name('contacts.save');
+        Route::post('/update/status/{id}', [CustomerController::class, 'updateStatus'])->name('update_status');
+    });
 });
