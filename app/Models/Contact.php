@@ -10,7 +10,7 @@ class Contact extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
+    protected $_fillable = [
         'id',
         'contact_name',
         'title',
@@ -27,22 +27,25 @@ class Contact extends Model
         'country_id',
         'primary_phone',
         'secondary_phone',
+        'mobile',
         'fax',
         'email',
+        'is_ship_to_address',
+        'tax_code_id',
         'internal_notes',
     ];
 
     public $table = 'contacts';
 
-    const CUSTOMER  = 'customer';
-    const SUPPLIER  = 'supplier';
-    const VENDOR    = 'vendor';
-    const ASSOCIATE = 'associate';
+    const CUSTOMER    = 'customer';
+    const SUPPLIER    = 'supplier';
+    const EXPENDITURE = 'expenditure';
+    const ASSOCIATE   = 'associate';
 
     public function scopeOfType(Builder $query, $typeId, $type)
     {
         return $query->where('type_id', $typeId)
-                     ->where('type', $type);
+            ->where('type', $type);
     }
 
 }

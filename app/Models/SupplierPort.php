@@ -17,24 +17,29 @@ class SupplierPort extends Model
      */
     protected $table = 'supplier_ports';
     /**
-    * The attributes that are mass assignable.
-    *
-    * @var array<int, string>
-    */
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'supplier_port_name',
         'avg_days',
         'country_id',
     ];
 
-    protected function supplierPortName(): Attribute {
+    protected function supplierPortName(): Attribute
+    {
         return Attribute::make(
-            get: fn (string $value) => ucfirst($value),
+            get: fn(string $value) => ucfirst($value),
         );
     }
 
     public function country()
     {
         return $this->belongsTo(Country::class);
+    }
+    public function supplier()
+    {
+        return $this->hasMany(Supplier::class, 'supplier_port_id');
     }
 }

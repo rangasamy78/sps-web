@@ -5,9 +5,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\CountyController;
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\BinTypeController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CountryController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\FileTypeController;
@@ -18,6 +21,7 @@ use App\Http\Controllers\SubHeadingController;
 use App\Http\Controllers\VendorTypeController;
 use App\Http\Controllers\AccountTypeController;
 use App\Http\Controllers\DesignationController;
+use App\Http\Controllers\ProductKindController;
 use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\ProjectTypeController;
 use App\Http\Controllers\UnitMeasureController;
@@ -45,12 +49,12 @@ use App\Http\Controllers\ReceivingQcNoteController;
 use App\Http\Controllers\TaxExemptReasonController;
 use App\Http\Controllers\OpportunityStageController;
 use App\Http\Controllers\ProductThicknessController;
-use App\Http\Controllers\Customer\ContactController;
 use App\Http\Controllers\ReturnReasonCodeController;
 use App\Http\Controllers\ProductPriceRangeController;
 use App\Http\Controllers\ReleaseReasonCodeController;
 use App\Http\Controllers\UserProfileUpdateController;
 use App\Http\Controllers\AccountPaymentTermController;
+use App\Http\Controllers\SpecialAccountTypeController;
 use App\Http\Controllers\CreditCheckSettingController;
 use App\Http\Controllers\DefaultLinkAccountController;
 use App\Http\Controllers\PrintDocDisclaimerController;
@@ -66,6 +70,7 @@ use App\Http\Controllers\PurchaseShipmentMethodController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\AccountReceivableAgingPeriodController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
+use App\Http\Controllers\Customer\ContactController as CustomerContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -291,7 +296,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('users', UserController::class);
     Route::get('/user/list', [UserController::class, 'getUserDataTableList'])->name('users.list');
     Route::get('/get_designation', [UserController::class, 'getDesignation'])->name('get_designation');
-    
+
     Route::resource('counties', CountyController::class);
     Route::get('/county/list', [CountyController::class, 'getCountyDataTableList'])->name('counties.list');
 
@@ -303,8 +308,25 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/customer/fetch-customer-billing-address', [CustomerController::class, 'fetchCustomerBillingAddress'])->name('customers.billing-address');
     Route::prefix('customers')->name('customers.')->group(function() {
         Route::post('/upload-image', [CustomerController::class, 'customerUploadImage'])->name('upload');
-        Route::get('/contacts/list/{type_id}', [ContactController::class, 'getContactDataTableList'])->name('contacts.list');
-        Route::post('/contacts/save', [ContactController::class, 'contactSave'])->name('contacts.save');
+        Route::get('/contacts/list/{type_id}', [CustomerContactController::class, 'getContactDataTableList'])->name('contacts.list');
+        Route::post('/contacts/save', [CustomerContactController::class, 'contactSave'])->name('contacts.save');
         Route::post('/update/status/{id}', [CustomerController::class, 'updateStatus'])->name('update_status');
     });
+
+    Route::resource('product_kinds', ProductKindController::class);
+    Route::get('/product_kind/list', [ProductKindController::class, 'getProductKindDataTableList'])->name('product_kinds.list');
+
+    Route::resource('special_account_types', SpecialAccountTypeController::class);
+    Route::get('/special_account_type/list', [SpecialAccountTypeController::class, 'getSpecialAccounttypeDataTableList'])->name('special_account_types.list');
+
+    Route::resource('suppliers', SupplierController::class);
+    Route::get('/supplier/list', [SupplierController::class, 'getSupplierDataTableList'])->name('suppliers.list');
+    Route::get('/supplier/status/{id}', [SupplierController::class, 'updateStatus'])->name('suppliers.status');
+
+    Route::post('/contact/save', [ContactController::class, 'save'])->name('contacts.save');
+    Route::get('/contact/list', [ContactController::class, 'getContactDataTableList'])->name('contacts.list');
+
+    Route::resource('accounts', AccountController::class);
+    Route::get('/account/list', [AccountController::class, 'getAccountDataTableList'])->name('accounts.list');
+    Route::get('/account/status/{id}', [AccountController::class, 'updateStatus'])->name('accounts.status');
 });

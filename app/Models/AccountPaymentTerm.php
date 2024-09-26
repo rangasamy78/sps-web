@@ -20,4 +20,9 @@ class AccountPaymentTerm extends Model
         'payment_discount_percent',
         'payment_threshold_days',
     ];
+
+    public function supplier()
+    {
+        return $this->hasMany(Supplier::class, 'payment_terms_id');
+    }
 }
