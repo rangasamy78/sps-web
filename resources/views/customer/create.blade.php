@@ -13,7 +13,6 @@
                     'id' => 'customerForm',
                     'name' => 'customerForm',
                     'method' => 'POST',
-                    // 'route' => 'customers.store',
                     'class' => 'form-horizontal',
                 ]) !!}
                 @csrf

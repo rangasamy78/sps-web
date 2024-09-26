@@ -1,25 +1,27 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Exception;
 use App\Models\User;
 use App\Models\County;
-use App\Models\Company;
 use App\Models\Country;
+use App\Models\Company;
 use App\Models\Customer;
 use App\Models\ProjectType;
-use App\Models\CustomerType;
 use Illuminate\Http\Request;
+use App\Models\CustomerType;
 use App\Models\AboutUsOption;
 use App\Models\EndUseSegment;
 use App\Models\PriceListLabel;
 use App\Models\TaxExemptReason;
-use App\Models\AccountPaymentTerm;
 use Illuminate\Support\Facades\DB;
+use App\Models\AccountPaymentTerm;
 use Illuminate\Support\Facades\Log;
 use App\Repositories\CustomerRepository;
 use App\Services\Customer\CustomerService;
-use App\Http\Requests\Customer\{CreateCustomerRequest, UpdateCustomerRequest};
+use App\Http\Requests\Customer\UpdateCustomerRequest;
+use App\Http\Requests\Customer\CreateCustomerRequest;
 class CustomerController extends Controller
 {
     public $customerService;
@@ -27,15 +29,15 @@ class CustomerController extends Controller
 
     public function __construct(CustomerRepository $customerRepository, CustomerService $customerService)
     {
-        $this->customerService = $customerService;
+        $this->customerService    = $customerService;
         $this->customerRepository = $customerRepository;
     }
 
     public function index()
     {
         $customerTypes = CustomerType::query()->pluck('customer_type_name', 'id');
-        $companies = Company::query()->pluck('company_name', 'id');
-        return view('customer.customers', compact('customerTypes','companies'));
+        $companies     = Company::query()->pluck('company_name', 'id');
+        return view('customer.customers', compact('customerTypes', 'companies'));
     }
 
     public function create()
@@ -70,10 +72,11 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        $query = $this->customerRepository->buildBaseQuery();
-        $customer = $query->findOrFail($id);
-        // return response()->json($model);
-        return view('customer.details', compact('customer'));
+        $query     = $this->customerRepository->buildBaseQuery();
+        $customer  = $query->findOrFail($id);
+        $countries = Country::query()->pluck('country_name', 'id');
+        $counties  = County::query()->pluck('county_name', 'id');
+        return view('customer.show', compact('customer', 'countries', 'counties'));
     }
 
     /**
@@ -84,7 +87,7 @@ class CustomerController extends Controller
      */
     public function edit($id)
     {
-        $data = $this->__getDropDownData();
+        $data     = $this->__getDropDownData();
         $customer = $this->customerRepository->findOrFail($id);
         return view('customer.edit', ['customer' => $customer, 'data' => $data]);
     }
@@ -100,11 +103,11 @@ class CustomerController extends Controller
     {
         try {
             $this->customerRepository->update($request->all(), $customer->id);
-            return response()->json(['status' => 'success', 'msg' => 'Customer updated successfully.'],200);
+            return response()->json(['status' => 'success', 'msg' => 'Customer updated successfully.'], 200);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
             Log::error('Error updating customer: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the customer.'],500);
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the customer.'], 500);
         }
     }
 
@@ -142,8 +145,8 @@ class CustomerController extends Controller
 
     public function fetchCustomerBillingAddress(Request $request)
     {
-        $customerId = $request->query('id');  // Or use $request->input('id') based on your needs
-        $address = $this->customerService->getBillingAddress($customerId);
+        $customerId = $request->query('id'); // Or use $request->input('id') based on your needs
+        $address    = $this->customerService->getBillingAddress($customerId);
 
         if (isset($address['error'])) {
             return response()->json(['error' => $address['error']], 404);
@@ -154,19 +157,19 @@ class CustomerController extends Controller
 
     private function __getDropDownData($customer = null)
     {
-        $countries = Country::query()->pluck('country_name', 'id');
-        $customers = Customer::query()->pluck('customer_name', 'id');
-        $customerTypes = CustomerType::query()->pluck('customer_type_name', 'id');
-        $companies = Company::query()->pluck('company_name', 'id');
-        $users = User::query()->pluck('name', 'id');
-        $counties = County::query()->pluck('county_name', 'id');
-        $priceListLabels = PriceListLabel::query()->select(DB::raw("CONCAT(price_code, ' - ', price_label) as label"), 'id')->pluck('label', 'id');
-        $taxExemptReasons = TaxExemptReason::query()->pluck('reason', 'id');
-        $aboutUsOptions = AboutUsOption::query()->pluck('how_did_you_hear_option', 'id');
-        $projectTypes = ProjectType::query()->pluck('project_type_name', 'id');
-        $endUseSegments = EndUseSegment::query()->pluck('end_use_segment', 'id');
+        $countries           = Country::query()->pluck('country_name', 'id');
+        $customers           = Customer::query()->pluck('customer_name', 'id');
+        $customerTypes       = CustomerType::query()->pluck('customer_type_name', 'id');
+        $companies           = Company::query()->pluck('company_name', 'id');
+        $users               = User::query()->select(DB::raw("CONCAT(first_name, ' ', last_name) as name"), 'id')->get()->pluck('name', 'id');
+        $counties            = County::query()->pluck('county_name', 'id');
+        $priceListLabels     = PriceListLabel::query()->select(DB::raw("CONCAT(price_code, ' - ', price_label) as label"), 'id')->pluck('label', 'id');
+        $taxExemptReasons    = TaxExemptReason::query()->pluck('reason', 'id');
+        $aboutUsOptions      = AboutUsOption::query()->pluck('how_did_you_hear_option', 'id');
+        $projectTypes        = ProjectType::query()->pluck('project_type_name', 'id');
+        $endUseSegments      = EndUseSegment::query()->pluck('end_use_segment', 'id');
         $accountPaymentTerms = AccountPaymentTerm::query()->pluck('payment_label', 'id');
-        return compact('countries', 'customers', 'customerTypes', 'customer', 'companies','users','counties', 'priceListLabels','taxExemptReasons','aboutUsOptions','projectTypes','endUseSegments','accountPaymentTerms');
+        return compact('countries', 'customers', 'customerTypes', 'customer', 'companies', 'users', 'counties', 'priceListLabels', 'taxExemptReasons', 'aboutUsOptions', 'projectTypes', 'endUseSegments', 'accountPaymentTerms');
     }
 
     public function customerUploadImage(Request $request)
@@ -175,6 +178,28 @@ class CustomerController extends Controller
             $this->customerRepository->updateImage($request->only('customer_image'), $request->id);
             return response()->json(['status' => 'success', 'msg' => 'Image uploaded successfully']);
         }
-        return response()->json(['status' => 'false', 'msg' => 'Image upload failed.'],400);
+        return response()->json(['status' => 'false', 'msg' => 'Image upload failed.'], 400);
+    }
+
+    public function updateStatus($id)
+    {
+        try {
+            $customer         = $this->customerRepository->findOrFail($id);
+            $update_status     = $customer->status == 1 ? 0 : 1;
+            $customer->status = $update_status;
+            $customer->save();
+
+            return response()->json([
+                'status'     => 'success',
+                'update_status' => $update_status,
+                'msg'        => 'Status updated successfully.',
+            ]);
+        } catch (Exception $e) {
+            Log::error('Error updating status: ' . $e->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'msg'    => 'Failed to update status.',
+            ], 500);
+        }
     }
 }

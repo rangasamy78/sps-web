@@ -42,8 +42,8 @@
                     name: 'customer_name'
                 },
                 {
-                    data: 'customer_type_id',
-                    name: 'customer_type_id'
+                    data: 'customer_type_name',
+                    name: 'customer_type_name'
                 },
                 {
                     data: 'address',
@@ -54,20 +54,20 @@
                     name: 'phone'
                 },
                 {
-                    data: 'parent_location_id',
-                    name: 'parent_location_id'
+                    data: 'parent_location_name',
+                    name: 'parent_location_name'
                 },
                 {
-                    data: 'sales_person_id',
-                    name: 'sales_person_id'
+                    data: 'sales_person_name',
+                    name: 'sales_person_name'
                 },
                 {
-                    data: 'price_list_label_id',
-                    name: 'price_list_label_id'
+                    data: 'price_list_label_name',
+                    name: 'price_list_label_name'
                 },
                 {
-                    data: 'sales_tax_id',
-                    name: 'sales_tax_id'
+                    data: 'sales_tax_name',
+                    name: 'sales_tax_name'
                 },
                 {
                     data: 'status',
@@ -310,6 +310,33 @@
                             Swal.fire('Error', 'Failed to fetch customer address', 'error');
                         }
                     });
+                }
+            });
+        });
+
+        $(document).on('click', '.change_status', function() {
+            var id = $(this).data('id');
+            var button = $(this);
+            var url = "{{ route('customers.update_status', ':id') }}";
+            url = url.replace(':id', id);
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        if (response.update_status == 1) {
+                            button.removeClass('btn-danger').addClass('btn-success').text('Active');
+                        } else {
+                            button.removeClass('btn-success').addClass('btn-danger').text('Inactive');
+                        }
+                        showToast('success', response.msg);
+                    }
+                },
+                error: function() {
+                    Swal.fire('Error', 'Something went wrong!', 'error');
                 }
             });
         });

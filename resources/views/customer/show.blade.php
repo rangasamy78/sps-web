@@ -1,7 +1,6 @@
 @extends('layouts.admin')
 
 @section('title', 'Customer')
-<link rel="stylesheet" href="{{ asset('public/assets/vendor/libs/dropzone/dropzone.css') }}" />
 @section('styles')
 @endsection
 @section('content')
@@ -19,9 +18,11 @@
                                         <input type="hidden" class="form-control" id="id" name="id" value="{{ $customer->id }}">
                                         <input type="file" class="form-control" id="customer_image" name="customer_image">
                                         @if($customer->customer_image)
-                                            <img id="previewImage" class="previewImage" src="{{ asset('storage/app/public/'.$customer->customer_image)}}" alt="Image Preview" width="100" height="100" style="margin-top: 15px;border: 1px solid;border-radius: 50px;margin-left: 38px;">
-                                        @else
-                                            <img id="previewImage" class="previewImage" src="" alt="Image Preview" width="100" height="100" style="display:none;" style="margin-top: 15px;border: 1px solid;border-radius: 50px;margin-left: 38px;">
+                                            {{-- <img id="previewImage" class="previewImage" src="{{ asset('storage/app/public/'.$customer->customer_image)}}" alt="Image Preview" width="100" height="100" style="margin-top: 15px;border: 1px solid;border-radius: 50px;margin-left: 38px;"> --}}
+                                            <img id="previewImage" class="img-fluid rounded mb-4 previewImage" src="{{ asset('storage/app/public/'.$customer->customer_image)}}" height="150" width="150" alt="User avatar" style="margin-top: 10px;margin-left: 20px;">
+                                            @else
+                                            <img id="previewImage" class="img-fluid rounded mb-4 previewImage" src="#" height="150" width="150" alt="User avatar" style="display:none;margin-top: 10px;margin-left: 20px;">
+                                            {{-- <img id="previewImage" class="previewImage" src="" alt="Image Preview" width="100" height="100" style="display:none; margin-top: 15px;border: 1px solid;border-radius: 50px;margin-left: 38px;"> --}}
                                         @endif
                                     </form>
                                 </div>
@@ -148,14 +149,13 @@
                                         @if($customer->sales_person)
                                             <tr>
                                                 <th class="text-end">Primary Sales Person:</th>
-                                                <td class="text-start">{{ $customer->sales_person->name }}</td>
+                                                <td class="text-start">{{ $customer->sales_person->full_name }}</td>
                                             </tr>
                                         @endif
-
                                         @if($customer->secondary_sales_person)
                                             <tr>
                                                 <th class="text-end">Secondary Sales Person:</th>
-                                                <td class="text-start">{{ $customer->secondary_sales_person->name }}</td>
+                                                <td class="text-start">{{ $customer->secondary_sales_person->full_name }}</td>
                                             </tr>
                                         @endif
                                         @if($customer->created_at)
@@ -319,11 +319,49 @@
                 </div>
                 @include('customer.partials.__image_preview')
             </div>
+            <div class="row">
+                <div class="col-12 order-0 order-md-1">
+                    <!-- Navigation -->
+                    <div class="col-12  mx-auto card-separator">
+                        <div class="d-flex justify-content-between mb-3 pe-md-3">
+                            <ul class="nav nav-pills flex-column flex-md-row mb-4">
+                                <li class="nav-item me-3">
+                                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#contact">
+                                        <i class="bx bx-phone me-2"></i>
+                                        <span class="align-middle">Contacts</span>
+                                    </button>
+                                </li>
+                                <li class="nav-item me-3">
+                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#account_payable">
+                                        <i class="bx bx-wallet me-2"></i>
+                                        <span class="align-middle">Files</span>
+                                    </button>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- /Navigation -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12 pt-4 pt-md-0">
+                                    <div class="tab-content p-0 pe-md-5 ps-md-3">
+                                        @include('customer.contact.__contacts')
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
 @section('scripts')
-    <script src="{{ asset('public/assets/vendor/libs/dropzone/dropzone.js') }}"></script>
     <script type="text/javascript">
         $(function() {
 
@@ -355,11 +393,9 @@
 
             $('#customer_image').on('change', function (e) {
                 var reader = new FileReader();
-
                 reader.onload = function (e) {
                     $('#previewImage').attr('src', e.target.result).show();
                 }
-                // Read the selected file and trigger the onload event
                 reader.readAsDataURL(this.files[0]);
             });
 
@@ -375,4 +411,5 @@
         });
 
     </script>
+    @include('customer.contact.__script')
 @endsection

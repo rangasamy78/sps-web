@@ -8,12 +8,21 @@ use Illuminate\Http\Request;
 use App\Traits\ImageUploadTrait;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use App\Services\Customer\CustomerService;
 use App\Interfaces\CrudRepositoryInterface;
 use App\Interfaces\DatatableRepositoryInterface;
 
 class CustomerRepository implements CrudRepositoryInterface, DatatableRepositoryInterface
 {
     use ImageUploadTrait;
+
+    public $customerService;
+
+    public function __construct(CustomerService $customerService)
+    {
+        $this->customerService = $customerService;
+    }
+
     public function findOrFail(int $id)
     {
         return Customer::query()
@@ -44,80 +53,36 @@ class CustomerRepository implements CrudRepositoryInterface, DatatableRepository
     public function buildBaseQuery()
     {
         return Customer::query()
-                ->with(['country','shipping_country','customer_type', 'parent_location', 'sales_person', 'secondary_sales_person', 'price_list_label','tax_exempt_reason']);
+            ->with(['country', 'shipping_country', 'customer_type', 'parent_location', 'sales_person', 'secondary_sales_person', 'price_list_label', 'tax_exempt_reason']);
     }
 
     public function getCustomerList($request)
     {
         $query = $this->buildBaseQuery();
 
-        $this->applyCustomerNameFilter($query, $request);
-        $this->applyCustomerTypeFilter($query, $request);
-        $this->applyCustomerAddressFilter($query, $request);
-        $this->applyCustomerPhoneSearchFilter($query, $request);
-        $this->applyLocationFilter($query, $request);
-        $this->applyStatusFilter($query, $request);
+        $this->_applyCustomerNameFilter($query, $request);
+        $this->_applyCustomerTypeFilter($query, $request);
+        $this->_applyCustomerAddressFilter($query, $request);
+        $this->_applyCustomerPhoneSearchFilter($query, $request);
+        $this->_applyLocationFilter($query, $request);
+        $this->_applyStatusFilter($query, $request);
 
         return $query;
-
-        // if (!empty($request->customer_name)) {
-        //     $query->where(function ($q) use ($request) {
-        //         $q->where('customer_name', 'like', '%' . $request->customer_name . '%')
-        //           ->orWhere('contact_name', 'like', '%' . $request->customer_name . '%')
-        //           ->orWhere('code', 'like', '%' . $request->customer_name . '%')
-        //           ->orWhere('dba', 'like', '%' . $request->customer_name . '%');
-        //     });
-        // }
-
-        // if (!empty($request->customer_type_id)) {
-        //     $query->whereHas('customer_type', function ($q) use ($request) {
-        //         $q->where('id', $request->customer_type_id);
-        //     });
-        // }
-
-        // if (!empty($request->customer_address)) {
-        //     $query->where('address', 'like', '%' . $request->customer_address . '%');
-        // }
-
-        // if (!empty($request->customer_phone_search)) {
-        //     $query->where(function ($q) use ($request) {
-        //         $q->where('phone', 'like', '%' . $request->customer_phone_search . '%')
-        //           ->orWhere('fax', 'like', '%' . $request->customer_phone_search . '%')
-        //           ->orWhere('email', 'like', '%' . $request->customer_phone_search . '%');
-        //     });
-        // }
-
-        // if (!empty($request->customer_type_id)) {
-        //     $query->whereHas('customer_type', function ($q) use ($request) {
-        //         $q->where('id', $request->customer_type_id);
-        //     });
-        // }
-
-        // if (!empty($request->location_id)) {
-        //     $query->whereHas('parent_location', function ($q) use ($request) {
-        //         $q->where('id', $request->location_id);
-        //     });
-        // }
-
-        // if (!empty($request->status)) {
-        //     $query->where('status',  $request->status );
-        // }
-        // return $query;
     }
 
-    protected function applyCustomerNameFilter($query, $request)
+    protected function _applyCustomerNameFilter($query, $request)
     {
         if (!empty($request->customer_name)) {
             $query->where(function ($q) use ($request) {
                 $q->where('customer_name', 'like', '%' . $request->customer_name . '%')
-                ->orWhere('contact_name', 'like', '%' . $request->customer_name . '%')
-                ->orWhere('code', 'like', '%' . $request->customer_name . '%')
-                ->orWhere('dba', 'like', '%' . $request->customer_name . '%');
+                    ->orWhere('contact_name', 'like', '%' . $request->customer_name . '%')
+                    ->orWhere('code', 'like', '%' . $request->customer_name . '%')
+                    ->orWhere('dba', 'like', '%' . $request->customer_name . '%');
             });
         }
     }
 
-    protected function applyCustomerTypeFilter($query, $request)
+    protected function _applyCustomerTypeFilter($query, $request)
     {
         if (!empty($request->customer_type_id)) {
             $query->whereHas('customer_type', function ($q) use ($request) {
@@ -126,25 +91,25 @@ class CustomerRepository implements CrudRepositoryInterface, DatatableRepository
         }
     }
 
-    protected function applyCustomerAddressFilter($query, $request)
+    protected function _applyCustomerAddressFilter($query, $request)
     {
         if (!empty($request->customer_address)) {
             $query->where('address', 'like', '%' . $request->customer_address . '%');
         }
     }
 
-    protected function applyCustomerPhoneSearchFilter($query, $request)
+    protected function _applyCustomerPhoneSearchFilter($query, $request)
     {
         if (!empty($request->customer_phone_search)) {
             $query->where(function ($q) use ($request) {
                 $q->where('phone', 'like', '%' . $request->customer_phone_search . '%')
-                ->orWhere('fax', 'like', '%' . $request->customer_phone_search . '%')
-                ->orWhere('email', 'like', '%' . $request->customer_phone_search . '%');
+                    ->orWhere('fax', 'like', '%' . $request->customer_phone_search . '%')
+                    ->orWhere('email', 'like', '%' . $request->customer_phone_search . '%');
             });
         }
     }
 
-    protected function applyLocationFilter($query, $request)
+    protected function _applyLocationFilter($query, $request)
     {
         if (!empty($request->location_id)) {
             $query->whereHas('parent_location', function ($q) use ($request) {
@@ -153,7 +118,7 @@ class CustomerRepository implements CrudRepositoryInterface, DatatableRepository
         }
     }
 
-    protected function applyStatusFilter($query, $request)
+    protected function _applyStatusFilter($query, $request)
     {
         if (!empty($request->status)) {
             $query->where('status', $request->status);
@@ -183,19 +148,18 @@ class CustomerRepository implements CrudRepositoryInterface, DatatableRepository
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
         $arrData = $arrData->get();
 
-        // dd($arrData);
         $arrData->map(function ($value, $i) {
-            $value->customer_name            = $this->__formatCustomerParts($value);
-            $value->customer_type_id    = $value->customer_type->customer_type_name ?? '';
-            $value->address             = $value->address ?? '';
-            $value->phone               = $this->__formatPhoneParts($value);
-            $value->parent_location_id  = $value->parent_location->company_name ?? '';
-            $value->sales_person_id     = $this->__formatSalesPersonParts($value);
-            $value->price_list_label_id = isset($value->price_list_label) ? $value->price_list_label->price_code . '-' . $value->price_list_label->price_label : '';
-            $value->sales_tax_id        = $value->sales_tax_id ?? '';
-            $value->status              = $value->status !== 1 ? 'Inactive' : '';
-            $value->image               = $this->__formatImageNoteParts($value);
-            $value->action              = "<div class='dropup'>
+            $value->customer_name         = "<a href='" . route('customers.show', $value->id) . "' class='customer-link'>" . $this->customerService->__formatCustomerParts($value) . "</a>";
+            $value->customer_type_name    = $value->customer_type ? "<a href='" . route('customers.show', $value->id) . "' class='customer-link'>" . $value->customer_type->customer_type_name . "</a>" : '';
+            $value->address               = $this->customerService->__formataddressParts($value);
+            $value->phone                 = "<a href='" . route('customers.show', $value->id) . "' class='customer-link'>" . $this->customerService->__formatPhoneParts($value) . "</a>";
+            $value->parent_location_name  = $value->parent_location ? "<a href='" . route('customers.show', $value->id) . "' class='customer-link'>" . $value->parent_location->company_name . "</a>" : '';
+            $value->sales_person_name     = "<a href='" . route('customers.show', $value->id) . "' class='customer-link'>" . $this->customerService->__formatSalesPersonParts($value) . "</a>";
+            $value->price_list_label_name = isset($value->price_list_label) ? $value->price_list_label->price_code . '-' . $value->price_list_label->price_label : '';
+            $value->sales_tax_name        = $value->sales_tax_id ?? '';
+            $value->status                = $value->status == 1 ? '<button class="btn btn-success btn-sm change_status" data-id="' . $value->id . '">Active</button>' : '<button class="btn btn-danger btn-sm change_status" data-id="' . $value->id . '">Inactive</button>';
+            $value->image                 = $this->customerService->__formatImageNoteParts($value);
+            $value->action                = "<div class='dropup'>
                 <button type='button' class='btn p-0 dropdown-toggle hide-arrow' data-bs-toggle='dropdown'>
                     <i class='bx bx-dots-vertical-rounded icon-color'></i>
                 </button>
@@ -296,74 +260,6 @@ class CustomerRepository implements CrudRepositoryInterface, DatatableRepository
         ];
     }
 
-    public function __formatPhoneParts($value)
-    {
-        $phoneParts = [];
-        if (!empty($value->phone)) {
-            $phoneParts[] = 'P: ' . $value->phone;
-        }
-        if (!empty($value->phone_2)) {
-            $phoneParts[] = 'P1: ' . $value->phone_2;
-        }
-        if (!empty($value->fax)) {
-            $phoneParts[] = 'F: ' . $value->fax;
-        }
-        if (!empty($value->mobile)) {
-            $phoneParts[] = 'M: ' . $value->mobile;
-        }
-        if (!empty($value->email)) {
-            $phoneParts[] = 'E: ' . $value->email;
-        }
-        if (!empty($value->accounting_email)) {
-            $phoneParts[] = 'A.E: ' . $value->accounting_email;
-        }
-        return !empty($phoneParts) ? implode('<br>', $phoneParts) : '';
-    }
-
-    public function __formatCustomerParts($value)
-    {
-        $customerParts = [];
-        if (!empty($value->customer_name)) {
-            $customerParts[] = $value->customer_name;
-        }
-        if (!empty($value->print_name)) {
-            $customerParts[] = 'DBA: ' . $value->print_name;
-        }
-        if (!empty($value->contact_name)) {
-            $customerParts[] = 'C: ' . $value->contact_name;
-        }
-
-        return !empty($customerParts) ? implode('<br>', $customerParts) : '';
-    }
-
-    public function __formatSalesPersonParts($value)
-    {
-        $salesPersonParts = [];
-        if (!empty($value->sales_person)) {
-            $salesPersonParts[] = $value->sales_person->name."<sup>1</sup>";
-        }
-        if (!empty($value->secondary_sales_person)) {
-            $salesPersonParts[] = $value->secondary_sales_person->name."<sup>2</sup>";
-        }
-
-        return !empty($salesPersonParts) ? implode('<br>', $salesPersonParts) : '';
-    }
-
-    public function __formatImageNoteParts($value)
-    {
-        $imageNoteParts = [];
-        if (!empty($value->internal_notes)) {
-            $imageNoteParts[] = '<img src="' . url('public\assets\img\icon-image\internal_notes.png') . '" width="20" height="20" alt="Image"/ title="'.$value->internal_notes.'">';
-        }
-        if (!empty($value->delivery_instructions)) {
-            $imageNoteParts[] = '<img src="' . url('public\assets\img\icon-image\icon_freight.gif') . '" width="20" height="20" alt="Image"/ title="'.$value->delivery_instructions.'">';
-        }
-        if (!empty($value->sales_lock_note)) {
-            $imageNoteParts[] = '<img src="' . url('public\assets\img\icon-image\icon_lockAlert.gif') . '" width="20" height="20" alt="Image"/ title="'.$value->sales_lock_note.'">';
-        }
-        return !empty($imageNoteParts) ? implode(' ', $imageNoteParts) : '';
-    }
-
     public function updateImage(array $data, int $id)
     {
         $customer = $this->findOrFail($id);
@@ -374,7 +270,6 @@ class CustomerRepository implements CrudRepositoryInterface, DatatableRepository
             $data['customer_image'] = $this->uploadImage($data['customer_image'], Customer::IMAGE_FOLDER);
         }
         $customer->update($data);
-
         return $customer;
     }
 

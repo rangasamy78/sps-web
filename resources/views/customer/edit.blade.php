@@ -14,7 +14,6 @@
                 {!! Form::model($customer, [
                     'id' => 'customerForm',
                     'name' => 'customerForm',
-                    //'route' => ['customers.update', $customer->id],
                     'method' => 'PUT',
                     'class' => 'form-horizontal',
                 ]) !!}

@@ -19,7 +19,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
         'password',
         'image',
@@ -50,5 +51,10 @@ class User extends Authenticatable
         return Attribute::make(
             set: fn(string $value) => strtolower($value),
         );
+    }
+
+    public function getFullNameAttribute()
+    {
+        return trim($this->first_name . ' ' . $this->last_name);
     }
 }

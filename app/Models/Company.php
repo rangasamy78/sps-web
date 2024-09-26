@@ -16,6 +16,8 @@ class Company extends Model
     * @var string
     */
    protected $table = 'companies';
+
+   public const IMAGE_FOLDER = 'company';
    /**
    * The attributes that are mass assignable.
    *

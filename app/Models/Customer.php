@@ -99,15 +99,9 @@ class Customer extends Model
     protected static function boot()
     {
         parent::boot();
-
-        // Event to generate customer code before creating a record
         static::creating(function ($customer) {
-            // Fetch the last customer code and increment it
             $lastCustomer = Customer::orderBy('id', 'desc')->first();
-            // Define the format for customer code (e.g., CUST0001, CUST0002)
             $nextCustomerCode = $lastCustomer ? 'CUST' . str_pad((int)substr($lastCustomer->customer_code, 4) + 1, 4, '0', STR_PAD_LEFT) : 'CUST0001';
-
-            // Set the customer code
             $customer->customer_code = $nextCustomerCode;
         });
     }
@@ -151,11 +145,4 @@ class Customer extends Model
     {
         return $this->belongsTo(TaxExemptReason::class, 'tax_exempt_reason_id');
     }
-
-
-
-    // public function salesTax()
-    // {
-    //     return $this->belongsTo(SalesTax::class, 'sales_tax_id');
-    // }
 }
