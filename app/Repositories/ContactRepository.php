@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Models\Contact;
 use Illuminate\Http\Request;
-
 class ContactRepository
 {
     public function save(array $data)

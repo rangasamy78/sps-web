@@ -22,6 +22,7 @@ use App\Http\Controllers\VendorTypeController;
 use App\Http\Controllers\AccountTypeController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\ProductKindController;
+use App\Http\Controllers\ExpenditureController;
 use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\ProjectTypeController;
 use App\Http\Controllers\UnitMeasureController;
@@ -70,6 +71,7 @@ use App\Http\Controllers\PurchaseShipmentMethodController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\AccountReceivableAgingPeriodController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
+use App\Http\Controllers\ContactController as ExpenditureContactController;
 use App\Http\Controllers\Customer\ContactController as CustomerContactController;
 
 /*
@@ -329,4 +331,12 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('accounts', AccountController::class);
     Route::get('/account/list', [AccountController::class, 'getAccountDataTableList'])->name('accounts.list');
     Route::get('/account/status/{id}', [AccountController::class, 'updateStatus'])->name('accounts.status');
+
+    Route::resource('expenditures', ExpenditureController::class);
+    Route::get('/expenditure/list', [ExpenditureController::class, 'getExpenditureDataTableList'])->name('expenditures.list');
+    Route::post('/expenditure_change_status/{id}', [ExpenditureController::class, 'expenditureChangeStatus'])->name('expenditures.expenditure_change_status');
+
+    Route::post('/contact/save', [ExpenditureContactController::class, 'save'])->name('contacts.save');
+    Route::get('/contact/list', [ExpenditureContactController::class, 'getContactDataTableList'])->name('contacts.list');
+
 });

@@ -20,4 +20,15 @@ class PaymentMethodService
             'accountTypes' => $this->dropDownRepository->dropDownPopulate('account_types'),
         ];
     }
+
+    public function getPaymentMethodList()
+    {
+        return PaymentMethod::query()->select('payment_method_name', 'id')->get()
+                ->map(function ($account) {
+                    return [
+                        'value' => $account->id,
+                        'label' => $account->payment_method_name,
+                    ];
+                });
+    }
 }
