@@ -250,6 +250,7 @@
                     <div class="col-12 col-lg-6">
                         {!! Form::label('tax_exempt_reason_id', 'Tax Exempt Reason:', ['class' => 'form-label']) !!}
                         {!! Form::select('tax_exempt_reason_id', $data['taxExemptReasons'], null, ['class' => 'form-control select2', 'id' => 'tax_exempt_reason_id', 'placeholder' => 'Select Reason', 'data-allow-clear' => 'true']) !!}
+                        <span class="text-danger error-text tax_exempt_reason_id_error"></span>
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -274,6 +275,7 @@
                     <div class="col-12 col-lg-6">
                         {!! Form::label('exempt_expiry_date', 'Exempt Expiry Date:', ['class' => 'form-label']) !!}
                         {!! Form::date('exempt_expiry_date', null, ['class' => 'form-control', 'id' => 'exempt_expiry_date']) !!}
+                        <span class="text-danger error-text exempt_expiry_date_error"></span>
                     </div>
                 </div>
                 <div class="row mb-3">
