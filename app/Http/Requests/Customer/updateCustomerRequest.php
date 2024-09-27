@@ -22,24 +22,18 @@ class updateCustomerRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'customer_name' => 'required',
-            'parent_location_id' => 'required',
+            'customer_name'       => 'required',
+            'parent_location_id'  => 'required',
             'price_list_label_id' => 'required',
-            'payment_terms_id' => 'required',
-            'is_allow_login' => 'nullable|boolean',
+            'payment_terms_id'    => 'required',
+            'is_allow_login'      => 'nullable|boolean',
         ];
 
         // Add rules for `username` and `password` only if `is_allow_login` is checked
         if ($this->input('is_allow_login')) {
-            $rules['username'] = 'required';
-            $rules['password'] = 'required';
+            $rules['username'] = 'nullable|required';
+            $rules['password'] = 'nullable|required';
         }
-
-        //If you're updating, make sure `username` and `password` are not required if `is_allow_login` is not checked
-        // if ($this->isMethod('put') || $this->isMethod('patch')) {
-        //      $rules['username'] = 'nullable';
-        //     $rules['password'] = 'nullable';
-        // }
 
         return $rules;
     }

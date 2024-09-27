@@ -21,7 +21,7 @@
                 @include('customer.partials._customer_form')
                 <div class="row mb-3">
                     <div class="col-12 text-center">
-                        {!! Form::hidden('id', $customer->id, ['class' => 'form-control', 'id' => 'id']) !!}
+                        {!! Form::hidden('customer_id', $customer->id, ['class' => 'form-control', 'id' => 'customer_id']) !!}
                         {!! Form::button('Update', ['class' => 'btn btn-primary', 'id' => 'savedata']) !!}
                         <a href="{{ route('customers.index') }}" class="btn btn-secondary">Cancel</a>
                     </div>
