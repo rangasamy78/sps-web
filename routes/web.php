@@ -6,23 +6,25 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\CountyController;
 use App\Http\Controllers\AccountController;
-use App\Http\Controllers\ContactController;
 use App\Http\Controllers\BinTypeController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CountryController;
-use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\FileTypeController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\AssociateController;
 use App\Http\Controllers\EventTypeController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\SubHeadingController;
 use App\Http\Controllers\VendorTypeController;
 use App\Http\Controllers\AccountTypeController;
 use App\Http\Controllers\DesignationController;
-use App\Http\Controllers\ProductKindController;
 use App\Http\Controllers\ExpenditureController;
+use App\Http\Controllers\ProductKindController;
 use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\ProjectTypeController;
 use App\Http\Controllers\UnitMeasureController;
@@ -55,12 +57,12 @@ use App\Http\Controllers\ProductPriceRangeController;
 use App\Http\Controllers\ReleaseReasonCodeController;
 use App\Http\Controllers\UserProfileUpdateController;
 use App\Http\Controllers\AccountPaymentTermController;
-use App\Http\Controllers\SpecialAccountTypeController;
 use App\Http\Controllers\CreditCheckSettingController;
 use App\Http\Controllers\DefaultLinkAccountController;
 use App\Http\Controllers\PrintDocDisclaimerController;
 use App\Http\Controllers\ProbabilityToCloseController;
 use App\Http\Controllers\SelectTypeCategoryController;
+use App\Http\Controllers\SpecialAccountTypeController;
 use App\Http\Controllers\TransactionStartingController;
 use App\Http\Controllers\CustomerContactTitleController;
 use App\Http\Controllers\SupplierReturnStatusController;
@@ -72,6 +74,7 @@ use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\AccountReceivableAgingPeriodController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
 use App\Http\Controllers\ContactController as ExpenditureContactController;
+use App\Http\Controllers\ContactController as AssociateContactController;
 use App\Http\Controllers\Customer\ContactController as CustomerContactController;
 
 /*
@@ -339,4 +342,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/contact/save', [ExpenditureContactController::class, 'save'])->name('contacts.save');
     Route::get('/contact/list', [ExpenditureContactController::class, 'getContactDataTableList'])->name('contacts.list');
 
+    Route::resource('associates', AssociateController::class);
+    Route::get('/associate/list', [AssociateController::class, 'getAssociateDataTableList'])->name('associates.list');
+    Route::post('/associate_change_status/{id}', [AssociateController::class, 'associateChangeStatus'])->name('associates.associate_change_status');
+
+    Route::resource('products', ProductController::class);
+    Route::get('/product/list', [ProductController::class, 'getProductDataTableList'])->name('products.list');
+
+    Route::post('/contact/save', [AssociateContactController::class, 'save'])->name('contacts.save');
+    Route::get('/contact/list', [AssociateContactController::class, 'getContactDataTableList'])->name('contacts.list');
 });

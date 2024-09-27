@@ -32,7 +32,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $_hidden = [
+    protected $hidden = [
         'password',
         'remember_token',
     ];
@@ -42,12 +42,12 @@ class User extends Authenticatable
      *
      * @var array<string, string>
      */
-    protected $_casts = [
+    protected $casts = [
         'email_verified_at' => 'datetime',
         'password'          => 'hashed',
     ];
 
-    protected function _email(): Attribute
+    protected function email(): Attribute
     {
         return Attribute::make(
             set: fn(string $value) => strtolower($value),

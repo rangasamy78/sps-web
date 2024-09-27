@@ -149,7 +149,8 @@
                 $('#savedata').val("edit-user");
                 $('#savedata').html("Update User");
                 $('#user_id').val(data.id);
-                $('#name').val(data.name);
+                $('#first_name').val(data.first_name);
+                $('#last_name').val(data.last_name);
                 $('#code').val(data.code);
                 $('#email').val(data.email);
                 $('#password').val("");
@@ -195,7 +196,8 @@
             $.get("{{ route('users.index') }}" + '/' + id, function(data) {
 
                 $('#showUserModal').modal('show');
-                $('#showUserForm #name').val(data.name);
+                $('#showUserForm #first_name').val(data.first_name);
+                $('#showUserForm #last_name').val(data.last_name);
                 $('#showUserForm #code').val(data.code);
                 $('#showUserForm #email').val(data.email);
                 $('#showUserForm #department_id').val(data.department_id).prop('disabled', true);
@@ -205,7 +207,7 @@
         });
 
         function resetForm() {
-            $('.name_error').html('');
+            $('.first_name_error').html('');
             $('.code_error').html('');
             $('.email_error').html('');
             $('.password_error').html('');

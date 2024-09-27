@@ -39,8 +39,12 @@ class UserRepository implements CrudRepositoryInterface, DatatableRepositoryInte
     {
         $query = User::with(['department', 'designation']);
         if (!empty($request->name_search)) {
-            $query->where('name', 'like', '%' . $request->name_search . '%');
+            $query->where(function($q) use ($request) {
+                $q->where('first_name', 'like', '%' . $request->name_search . '%')
+                  ->orWhere('last_name', 'like', '%' . $request->name_search . '%');
+            });
         }
+        
         if (!empty($request->code_search)) {
             $query->where('code', 'like', '%' . $request->code_search . '%');
         }
@@ -83,7 +87,7 @@ class UserRepository implements CrudRepositoryInterface, DatatableRepositoryInte
 
         $arrData->map(function ($value, $i) {
             $value->sno          = ++$i;
-            $value->name         = $value->name ?? '';
+            $value->name = ($value->first_name ?? '') . ' ' . ($value->last_name ?? '');
             $value->code         = $value->code ?? '';
             $value->email        = $value->email ?? '';
             $value->departments  = $value->department->department_name ?? '';
