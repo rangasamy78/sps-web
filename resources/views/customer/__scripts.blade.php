@@ -104,8 +104,9 @@
             $('.error-text').text('');
             var button = $(this);
             sending(button);
-            var url = $('#id').val() ? "{{ route('customers.update', ':id') }}".replace(':id', $('#id').val()) : "{{ route('customers.store') }}";
-            var type = $('#id').val() ? "PUT" : "POST";
+            var url = $('#customer_id').val() ? "{{ route('customers.update', ':id') }}".replace(':id', $('#customer_id').val()) : "{{ route('customers.store') }}";
+            var type = $('#customer_id').val() ? "PUT" : "POST";
+
             $.ajax({
                 url: url,
                 type: type,

@@ -19,7 +19,7 @@
                 @include('customer.partials._customer_form')
                 <div class="row mb-3">
                     <div class="col-12 text-center">
-                        {!! Form::hidden('id', '') !!}
+                        {!! Form::hidden('customer_id', '') !!}
                         {!! Form::button('Save Customer', ['class' => 'btn btn-primary', 'id' => 'savedata', 'value' => 'create']) !!}
                         {!! Form::reset('Reset', ['class' => 'btn btn-secondary']) !!}
                     </div>
