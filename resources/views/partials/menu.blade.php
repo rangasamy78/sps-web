@@ -282,7 +282,7 @@
                     </li>
 
                     <!--  Sales -->
-                    <li class="menu-item {{ request()->is('customer_types') || request()->is('shipment_methods')||request()->is('customer_contact_titles')||request()->is('survey_questions') ||request()->is('credit_check_settings')||request()->is('return_reason_codes')||request()->is('price_list_labels') ? 'active open' : '' }}">
+                    <li class="menu-item {{ request()->is('customer_types') || request()->is('shipment_methods') || request()->is('customer_contact_titles') || request()->is('survey_questions') || request()->is('credit_check_settings') || request()->is('return_reason_codes') || request()->is('price_list_labels') ? 'active open' : '' }}">
                         <a href="javascript:void(0);" class="menu-link menu-toggle ps-4">
                             <i class="bx bx-credit-card menu-icon"></i>
                             <div class="text-truncate ps-1" data-i18n="Sales">Sales</div>
@@ -498,7 +498,7 @@
             </ul>
         </li>
         <!-- Lists -->
-        <li class="menu-item {{ request()->is('customers') || request()->is('suppliers') || request()->is('accounts*') || request()->is('bin_types*') || request()->is('file_types*') || request()->is('transaction_startings*') ? 'active open' : '' }}">
+        <li class="menu-item {{ request()->is('customers') || request()->is('suppliers') || request()->is('associates') || request()->is('expenditures') || request()->is('accounts*') || request()->is('bin_types*') || request()->is('file_types*') || request()->is('transaction_startings*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="bx bx-shield menu-icon"></i>
                 <div class="text-truncate" data-i18n="Lists">Lists</div>
@@ -542,7 +542,7 @@
                     </li>
 
                     <!-- Parties -->
-                    <li class="menu-item {{ request()->is('customers') || request()->is('suppliers*')  ? 'active open' : '' }}">
+                    <li class="menu-item {{ request()->is('customers') || request()->is('associates') || request()->is('expenditures') || request()->is('suppliers*')  ? 'active open' : '' }}">
                         <a href="javascript:void(0);" class="menu-link menu-toggle ps-4">
                             <i class="bx bx-user menu-icon"></i>
                             <div class="text-truncate ps-1" data-i18n="Parties">Parties</div>
@@ -558,13 +558,13 @@
                                     <div class="text-truncate" data-i18n="Suppliers">Suppliers</div>
                                 </a>
                             </li>
-                            <li class="menu-item {{ request()->is('product_categories*') ? 'active open' : '' }}">
-                                <a href="{{ route('product_categories.index') }}" class="menu-link">
-                                    <div class="text-truncate" data-i18n="Vendors">Vendors</div>
+                            <li class="menu-item {{ request()->is('expenditures*') ? 'active open' : '' }}">
+                                <a href="{{ route('expenditures.index') }}" class="menu-link">
+                                    <div class="text-truncate" data-i18n="Expenditures">Expenditure</div>
                                 </a>
                             </li>
-                            <li class="menu-item {{ request()->is('product_groups*') ? 'active open' : '' }}">
-                                <a href="{{ route('product_groups.index') }}" class="menu-link">
+                            <li class="menu-item {{ request()->is('associates*') ? 'active open' : '' }}">
+                                <a href="{{ route('associates.index') }}" class="menu-link">
                                     <div class="text-truncate" data-i18n="Associates">Associates</div>
                                 </a>
                             </li>
