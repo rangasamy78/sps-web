@@ -6,47 +6,36 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class TaxAuthority extends Model
+class TaxComponent extends Model
 {
     use HasFactory;
-
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'tax_authorities';
+    protected $table = 'tax_components';
     /**
     * The attributes that are mass assignable.
     *
     * @var array<int, string>
     */
     protected $fillable = [
-        'authority_name',
-        'print_name',
-        'authority_code',
-        'contact_name',
-        'primary_phone',
-        'secondary_phone',
-        'mobile',
-        'fax',
-        'email',
-        'website',
-        'address',
-        'suite',
-        'city',
-        'state',
-        'zip',
-        'country_id',
-        'tax_number',
-        'check_memo',
-        'internal_notes',
+        'sort_order',
+        'component_name',
+        'component_tax_id',
+        'authority_id',
+        'sales_tax_id',
     ];
 
-    protected function authorityName(): Attribute {
+    protected function componentName(): Attribute {
         return Attribute::make(
             get: fn (string $value) => ucfirst($value),
         );
     }
 
+    public function tax_authority()
+    {
+        return $this->belongsTo(TaxAuthority::class, 'authority_id', 'id');
+    }
 }

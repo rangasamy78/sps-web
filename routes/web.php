@@ -27,6 +27,8 @@ use App\Http\Controllers\ProductGroupController;
 use App\Http\Controllers\ShipmentTermController;
 use App\Http\Controllers\SupplierPortController;
 use App\Http\Controllers\SupplierTypeController;
+use App\Http\Controllers\TaxAuthorityController;
+use App\Http\Controllers\TaxComponentController;
 use App\Http\Controllers\AboutUsOptionController;
 use App\Http\Controllers\AgingPeriodAPController;
 use App\Http\Controllers\EndUseSegmentController;
@@ -42,9 +44,9 @@ use App\Http\Controllers\ExpenseCategoryController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ReceivingQcNoteController;
 use App\Http\Controllers\TaxExemptReasonController;
+use App\Http\Controllers\Customer\ContactController;
 use App\Http\Controllers\OpportunityStageController;
 use App\Http\Controllers\ProductThicknessController;
-use App\Http\Controllers\Customer\ContactController;
 use App\Http\Controllers\ReturnReasonCodeController;
 use App\Http\Controllers\ProductPriceRangeController;
 use App\Http\Controllers\ReleaseReasonCodeController;
@@ -302,4 +304,10 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/contacts/save', [ContactController::class, 'contactSave'])->name('contacts.save');
         Route::post('/update/status/{id}', [CustomerController::class, 'updateStatus'])->name('update_status');
     });
+
+    Route::resource('tax_authorities', TaxAuthorityController::class);
+    Route::get('/tax_authority/list', [TaxAuthorityController::class, 'getTaxAuthorityDataTableList'])->name('tax_authorities.list');
+
+    Route::resource('tax_components', TaxComponentController::class);
+    Route::get('/tax_component/list', [TaxComponentController::class, 'getTaxComponentDataTableList'])->name('tax_components.list');
 });
