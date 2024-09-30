@@ -23,15 +23,6 @@ class UpdateTaxComponentRequest extends FormRequest
     {
         return [
             'component_name' => 'required',
-            'sales_tax_id' => 'required',
-        ];
-    }
-
-    public function messages(): array
-    {
-        return [
-            'sales_tax_id.required' => 'Sales Tax is required.',
-
         ];
     }
 }
