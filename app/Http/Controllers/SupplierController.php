@@ -3,28 +3,27 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use Carbon\Carbon;
+use App\Models\County;
+use App\Models\Company;
+use App\Models\Country;
+use App\Models\Currency;
 use App\Models\Supplier;
+use App\Models\Language;
 use App\Models\SupplierType;
 use App\Models\SupplierPort;
-use App\Models\Language;
-use App\Models\Company;
-use App\Models\Currency;
-use App\Models\AccountPaymentTerm;
+use Illuminate\Http\Request;
 use App\Models\ShipmentTerm;
 use App\Models\PaymentMethod;
-use App\Models\Country;
-use Carbon\Carbon;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\AccountPaymentTerm;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
 use App\Repositories\{SupplierRepository, DropDownRepository};
 use App\Http\Requests\Supplier\{CreateSupplierRequest, UpdateSupplierRequest};
-use App\Models\County;
 
 class SupplierController extends Controller
 {
     private SupplierRepository $supplierRepository;
-
     public DropDownRepository $dropDownRepository;
 
     public function __construct(SupplierRepository $supplierRepository, DropDownRepository $dropDownRepository)
@@ -43,14 +42,9 @@ class SupplierController extends Controller
         $currencies = Currency::query()->select('id', 'currency_name', 'currency_code')->get();
         $companies = Company::query()->select('id', 'company_name')->get();
         $paymentTerms = AccountPaymentTerm::query()->select('id', 'payment_label')->get();
-
         return view('supplier.suppliers', compact('totalSupplier', 'totalParentSupplier', 'totalDiscountSupplier', 'totalMultiLocationSupplier', 'languages', 'supplierTypes', 'currencies', 'companies', 'paymentTerms'));
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $allSuppliers = Supplier::query()->select('id', 'supplier_name')->get();
@@ -63,13 +57,9 @@ class SupplierController extends Controller
         $shipmentTerms = ShipmentTerm::query()->select('id', 'shipment_term_name')->get();
         $paymentMethods = PaymentMethod::query()->select('id', 'payment_method_name')->get();
         $countries = Country::query()->select('id', 'country_name')->get();
-
         return view('supplier.__create', compact('allSuppliers', 'supplierTypes', 'supplierPorts', 'languages', 'companies', 'currencies', 'paymentTerms', 'shipmentTerms', 'paymentMethods', 'countries'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(CreateSupplierRequest $request)
     {
         try {
@@ -81,9 +71,6 @@ class SupplierController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show($id)
     {
         $countyies = County::query()->select('id', 'county_name')->get();
@@ -92,9 +79,7 @@ class SupplierController extends Controller
         $supplier->supplier_since = Carbon::parse($supplier->supplier_since)->format('F j, Y');
         return view('supplier.__show', compact('supplier', 'countyies', 'countries'));
     }
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit($id)
     {
         $allSuppliers = Supplier::query()->select('id', 'supplier_name')->get();
@@ -111,9 +96,6 @@ class SupplierController extends Controller
         return view('supplier.__edit', compact('supplier', 'allSuppliers', 'supplierTypes', 'supplierPorts', 'languages', 'companies', 'currencies', 'paymentTerms', 'shipmentTerms', 'paymentMethods', 'countries'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateSupplierRequest $request, Supplier $supplier)
     {
         try {
@@ -137,9 +119,7 @@ class SupplierController extends Controller
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating Status of Supplier.']);
         }
     }
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy($id)
     {
         try {
@@ -155,6 +135,7 @@ class SupplierController extends Controller
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Supplier.']);
         }
     }
+
     public function getSupplierDataTableList(Request $request)
     {
         return $this->supplierRepository->dataTable($request);

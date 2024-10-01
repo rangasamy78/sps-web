@@ -16,12 +16,12 @@ return new class extends Migration
             $table->string('account_name');
             $table->string('account_number');
             $table->integer('account_type_id');
-            $table->integer('account_sub_type_id')->default(0);
-            $table->integer('special_account_type_id')->default(0);
-            $table->integer('account_operating_location_id')->default(0);
+            $table->integer('account_sub_type_id')->nullable();
+            $table->integer('special_account_type_id')->nullable();
+            $table->integer('account_operating_location_id')->nullable();
             $table->string('alternate_number')->nullable();
             $table->string('alternate_name')->nullable();
-            $table->integer('is_sub_account_of_id')->default(0);
+            $table->integer('is_sub_account_of_id')->nullable();
             $table->integer('currency_id');
             $table->string('statement_end_day')->nullable();
             $table->boolean('is_default_account')->default(false);
@@ -29,7 +29,7 @@ return new class extends Migration
             $table->boolean('is_tax_account')->default(false);
             $table->boolean('is_reconciled_account')->default(false);
             $table->boolean('is_allow_bank_reconciliation')->default(false);
-            $table->string('back_name');
+            $table->string('bank_name')->nullable();
             $table->string('branch_name')->nullable();
             $table->string('manager_name')->nullable();
             $table->string('phone')->nullable();

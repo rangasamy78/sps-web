@@ -10,6 +10,7 @@
             const fileInput = document.querySelector('.account-file-input'),
                 resetFileInput = document.querySelector('.account-image-reset'),
                 cancelButton = document.querySelector('.cancel-button');
+                
             if (accountUserImage) {
                 const resetImage = accountUserImage.src;
                 fileInput.onchange = () => {

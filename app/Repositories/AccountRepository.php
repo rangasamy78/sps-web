@@ -2,39 +2,63 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\CrudRepositoryInterface;
-use App\Interfaces\DatatableRepositoryInterface;
 use App\Models\Account;
 use Illuminate\Http\Request;
+use App\Interfaces\CrudRepositoryInterface;
+use App\Interfaces\DatatableRepositoryInterface;
 
 class AccountRepository implements CrudRepositoryInterface, DatatableRepositoryInterface
 {
     public function findOrFail(int $id)
     {
-        return Account::query()
+        return Account::with('account_type', 'currency', 'company')
             ->findOrFail($id);
     }
 
     public function store(array $data)
     {
-        // if (!isset($data['form_1099_printed'])) {
-        //     $data['form_1099_printed'] = 0;
-        // }
-        // if (!isset($data['multi_location_Account'])) {
-        //     $data['multi_location_Account'] = 0;
-        // }
+        if (!isset($data['is_allow_printing_checks'])) {
+            $data['is_allow_printing_checks'] = 0;
+        }
+        if (!isset($data['is_default_account'])) {
+            $data['is_default_account'] = 0;
+        }
+        if (!isset($data['is_budgeted_account'])) {
+            $data['is_budgeted_account'] = 0;
+        }
+        if (!isset($data['is_tax_account'])) {
+            $data['is_tax_account'] = 0;
+        }
+        if (!isset($data['is_reconciled_account'])) {
+            $data['is_reconciled_account'] = 0;
+        }
+        if (!isset($data['is_allow_bank_reconciliation'])) {
+            $data['is_allow_bank_reconciliation'] = 0;
+        }
         return Account::query()
             ->create($data);
     }
 
     public function update(array $data, int $id)
     {
-        // if (!isset($data['form_1099_printed'])) {
-        //     $data['form_1099_printed'] = 0;
-        // }
-        // if (!isset($data['multi_location_Account'])) {
-        //     $data['multi_location_Account'] = 0;
-        // }
+        if (!isset($data['is_allow_printing_checks'])) {
+            $data['is_allow_printing_checks'] = 0;
+        }
+        if (!isset($data['is_default_account'])) {
+            $data['is_default_account'] = 0;
+        }
+        if (!isset($data['is_budgeted_account'])) {
+            $data['is_budgeted_account'] = 0;
+        }
+        if (!isset($data['is_tax_account'])) {
+            $data['is_tax_account'] = 0;
+        }
+        if (!isset($data['is_reconciled_account'])) {
+            $data['is_reconciled_account'] = 0;
+        }
+        if (!isset($data['is_allow_bank_reconciliation'])) {
+            $data['is_allow_bank_reconciliation'] = 0;
+        }
         $query = Account::query()
             ->findOrFail($id)
             ->update($data);
@@ -49,35 +73,52 @@ class AccountRepository implements CrudRepositoryInterface, DatatableRepositoryI
 
     public function getAccountList($request)
     {
-        $query = Account::with(['Account_type', 'currency', 'location', 'language', 'payment_term', 'Account_port']);
-        if (!empty($request->Account_name_search)) {
-            $query->where('Account_name', 'like', '%' . $request->Account_name_search . '%');
+        $query = Account::with(['account_type', 'account_sub_type', 'special_account_type']);
+        if (!empty($request->account_number_search)) {
+            $query->where('account_number', 'like', '%' . $request->account_number_search . '%');
         }
-        if (!empty($request->currency_search)) {
-            $query->whereIn('currency_id', (array) $request->currency_search);
+        if (!empty($request->account_name_search)) {
+            $query->where('account_name', 'like', '%' . $request->account_name_search . '%');
         }
-        if (!empty($request->Account_type_search)) {
-            $query->whereIn('Account_type_id', (array) $request->Account_type_search);
+        if (!empty($request->alternate_number_search)) {
+            $query->where('alternate_number', 'like', '%' . $request->alternate_number_search . '%');
         }
-        if (!empty($request->address_search)) {
-            $query->where('remit_address', 'like', '%' . $request->address_search . '%');
+        if (!empty($request->alternate_name_search)) {
+            $query->where('alternate_name', 'like', '%' . $request->alternate_name_search . '%');
         }
-        if (!empty($request->phone_search)) {
-            $query->where('mobile', $request->phone_search);
+        if (!empty($request->account_type_search)) {
+            $query->whereIn('account_type_id', (array)$request->account_type_search);
         }
-        if (!empty($request->location_search)) {
-            $query->whereIn('parent_location_id', (array) $request->location_search);
+        if (!empty($request->sub_account_type_search)) {
+            $query->whereIn('account_sub_type_id', (array)$request->sub_account_type_search);
         }
-        if (!empty($request->payment_term_search)) {
-            $query->whereIn('payment_terms_id', (array) $request->payment_term_search);
+        if (!empty($request->special_account_type_search)) {
+            $query->whereIn('special_account_type_id', (array)$request->special_account_type_search);
         }
-        if (!empty($request->language_search)) {
-            $query->whereIn('language_id', (array) $request->language_search);
+        if (!empty($request->sub_account_of_search)) {
+            $query->whereIn('is_sub_account_of_id', (array)$request->sub_account_of_search);
         }
-
+        if (isset($request->status_search)) {
+            if (is_array($request->status_search)) {
+                $query->whereIn('status', $request->status_search);
+            } else {
+                $query->where('status', $request->status_search);
+            }
+        }
+        return $query;
+    }
+    public function getInAccountList($request)
+    {
+        $query = Account::query();
+        $query->where('status', 0);
         return $query;
     }
 
+    public function getIsSubAccount($id)
+    {
+        $account = Account::find($id);
+        return $account && $account->account_name ? $account->account_name : 'N/A';
+    }
 
     public function dataTable(Request $request)
     {
@@ -103,17 +144,62 @@ class AccountRepository implements CrudRepositoryInterface, DatatableRepositoryI
         $arrData = $arrData->get();
 
         $arrData->map(function ($value) {
-            $value->Account_name = "<a href='" . route('Accounts.show', $value->id) . "' class='text-secondary    '>" . ($value->Account_name ?? '') . "</a>";
-            $value->currency_id        = $value->currency ? $value->currency->currency_name : '';
-            $value->Account_type_id   = $value->Account_type ? $value->Account_type->Account_type_name : '';
-            $value->remit_address      = $value->remit_address ?? '';
-            $value->mobile             = $value->mobile ?? '';
-            $value->parent_location_id = $value->location ? $value->location->company_name : '';
-            $value->payment_terms_id   = $value->payment_term ? $value->payment_term->payment_label : '';
-            $value->language_id        = $value->language ? $value->language->language_name : '';
-            $value->combined_notes = "<div class='d-flex align-items-center'>" . (!empty($value->shipping_instruction) ? "<span class='avatar-initial rounded bg-label-secondary me-2' data-bs-toggle='tooltip' data-bs-placement='top'    title='" . htmlspecialchars($value->shipping_instruction ? $value->shipping_instruction : 'Shipping Instruction', ENT_QUOTES, 'UTF-8') . "'><i class='bx bx-package bx-sm'></i></span>" : '') . "" . (!empty($value->internal_notes) ? "<span class='avatar-initial rounded bg-label-secondary me-2' data-bs-toggle='tooltip' data-bs-placement='top'   title='" . htmlspecialchars($value->internal_notes ? $value->internal_notes : 'Internal Notes', ENT_QUOTES, 'UTF-8') . "'><i class='bx bx-note bx-sm'></i></span>" : '') . "</div>";
+            $value->account_number = "<a href='" . route('accounts.show', $value->id) . "' class='text-secondary    '>" . ($value->account_number ?? '') . "</a>";
+            $value->account_name        = "<a href='" . route('accounts.show', $value->id) . "' class='text-secondary    '>" . ($value->account_name ?? '') . "</a>";
+            $value->alternate_number   = "<a href='" . route('accounts.show', $value->id) . "' class='text-secondary    '>" . ($value->alternate_number ?? '') . "</a>";
+            $value->alternate_name      = "<a href='" . route('accounts.show', $value->id) . "' class='text-secondary    '>" . ($value->alternate_name ?? '') . "</a>";
+            $value->account_type_id      = "<a href='" . route('accounts.show', $value->id) . "' class='text-secondary    '>" . ($value->account_type ? $value->account_type->account_type_name : '') . "</a>";
+            $value->account_sub_type_id = "<a href='" . route('accounts.show', $value->id) . "' class='text-secondary    '>" . ($value->account_sub_type ? $value->account_sub_type->sub_type_name : '') . "</a>";
+            $value->special_account_type_id   =  "<a href='" . route('accounts.show', $value->id) . "' class='text-secondary    '>" . ($value->special_account_type ? $value->special_account_type->special_account_type_name  : '') . "</a>";
+            $value->is_sub_account_of_id = $this->getIsSubAccount($value->is_sub_account_of_id);
+            $value->balance        = 0;
             $value->status = $value->status === 0 ? 'Inactive' : 'Active';
-            $value->action             = "<div class='dropup'><button type='button' class='btn p-0 dropdown-toggle hide-arrow' data-bs-toggle='dropdown'><i class='bx bx-dots-vertical-rounded icon-color'></i></button><div class='dropdown-menu'><a class='dropdown-item showbtn text-warning' href='javascript:void(0);' data-id='" . $value->id . "' ><i class='bx bx-show me-1 icon-warning'></i> Show</a><a class='dropdown-item editbtn text-success'  href='" . route('Accounts.edit', $value->id) . "' data-id='" . $value->id . "' > <i class='bx bx-edit-alt me-1 icon-success'></i> Edit </a></div> </div>";
+            $value->action             = "<div class='dropup'><button type='button' class='btn p-0 dropdown-toggle hide-arrow' data-bs-toggle='dropdown'><i class='bx bx-dots-vertical-rounded icon-color'></i></button><div class='dropdown-menu'><a class='dropdown-item showbtn text-warning' href='javascript:void(0);' data-id='" . $value->id . "' ><i class='bx bx-show me-1 icon-warning'></i> Show</a><a class='dropdown-item editbtn text-success'  href='" . route('accounts.edit', $value->id) . "' data-id='" . $value->id . "' > <i class='bx bx-edit-alt me-1 icon-success'></i> Edit </a></div> </div>";
+        });
+        $response = array(
+            "draw"            => intval($draw),
+            "recordsTotal"    => $total,
+            "recordsFiltered" => $totalFilter,
+            "data"            => $arrData,
+        );
+
+        return response()->json($response);
+    }
+
+    public function inAccountDataTable(Request $request)
+    {
+        $draw            = $request->get('draw');
+        $start           = $request->get("start");
+        $rowPerPage      = $request->get("length");
+        $orderArray      = $request->get('order');
+        $columnNameArray = $request->get('columns');
+        $columnIndex     = $orderArray[0]['column'] ?? '0';
+        $columnName      = $columnNameArray[$columnIndex]['data'];
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
+
+        $columnName = 'created_at';
+        $Account   = $this->getInAccountList($request);
+        $total      = $Account->count();
+
+        $totalFilter = $this->getInAccountList($request);
+        $totalFilter = $totalFilter->count();
+
+        $arrData = $this->getInAccountList($request);
+        $arrData = $arrData->skip($start)->take($rowPerPage);
+        $arrData = $arrData->orderBy($columnName, $columnSortOrder);
+        $arrData = $arrData->get();
+
+        $arrData->map(function ($value) {
+            $value->account_number = "<a href='" . route('accounts.show', $value->id) . "' class='text-secondary    '>" . ($value->account_number ?? '') . "</a>";
+            $value->account_name        = "<a href='" . route('accounts.show', $value->id) . "' class='text-secondary    '>" . ($value->account_name ?? '') . "</a>";
+            $value->alternate_number   = "<a href='" . route('accounts.show', $value->id) . "' class='text-secondary    '>" . ($value->alternate_number ?? '') . "</a>";
+            $value->alternate_name      = "<a href='" . route('accounts.show', $value->id) . "' class='text-secondary    '>" . ($value->alternate_name ?? '') . "</a>";
+            $value->account_type_id      = "<a href='" . route('accounts.show', $value->id) . "' class='text-secondary    '>" . ($value->account_type ? $value->account_type->account_type_name : '') . "</a>";
+            $value->account_sub_type_id = "<a href='" . route('accounts.show', $value->id) . "' class='text-secondary    '>" . ($value->account_sub_type ? $value->account_sub_type->sub_type_name : '') . "</a>";
+            $value->special_account_type_id   =  "<a href='" . route('accounts.show', $value->id) . "' class='text-secondary    '>" . ($value->special_account_type ? $value->special_account_type->special_account_type_name  : '') . "</a>";
+            $value->is_sub_account_of_id = $this->getIsSubAccount($value->is_sub_account_of_id);
+            $value->balance        = 0;
+            $value->status = $value->status === 0 ? 'Inactive' : 'Active';
         });
         $response = array(
             "draw"            => intval($draw),

@@ -25,7 +25,7 @@ class Account extends Model
         'is_tax_account',
         'is_reconciled_account',
         'is_allow_bank_reconciliation',
-        'back_name',
+        'bank_name',
         'branch_name',
         'manager_name',
         'phone',
@@ -40,4 +40,29 @@ class Account extends Model
     ];
 
     protected $table = 'accounts';
+
+    public function account_type()
+    {
+        return $this->belongsTo(AccountType::class, 'account_type_id');
+    }
+
+    public function account_sub_type()
+    {
+        return $this->belongsTo(AccountSubType::class, 'account_sub_type_id');
+    }
+
+    public function special_account_type()
+    {
+        return $this->belongsTo(SpecialAccountType::class, 'special_account_type_id');
+    }
+
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class, 'currency_id');
+    }
+    
+    public function company()
+    {
+        return $this->belongsTo(Company::class, 'account_operating_location_id');
+    }
 }

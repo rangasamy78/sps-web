@@ -11,17 +11,17 @@ class Company extends Model
     use HasFactory;
 
     /**
-    * The table associated with the model.
-    *
-    * @var string
-    */
-   protected $table = 'companies';
-   /**
-   * The attributes that are mass assignable.
-   *
-   * @var array<int, string>
-   */
-   protected $fillable = [
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'companies';
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
         'company_name',
         'email',
         'address_line_1',
@@ -34,12 +34,16 @@ class Company extends Model
         'website',
         'logo',
         'is_bin_pre_defined',
-   ];
+    ];
 
-   protected function companyName(): Attribute
-   {
-       return Attribute::make(
-           get: fn (string $value) => ucfirst($value),
-       );
-   }
+    protected function companyName(): Attribute
+    {
+        return Attribute::make(
+            get: fn(string $value) => ucfirst($value),
+        );
+    }
+    public function account()
+    {
+        return $this->hasMany(Account::class, 'account_operating_location_id');
+    }
 }

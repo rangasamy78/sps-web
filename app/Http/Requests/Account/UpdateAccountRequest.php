@@ -33,12 +33,12 @@ class UpdateAccountRequest extends FormRequest
             'is_sub_account_of_id'             => 'nullable|integer|exists:accounts,id',
             'currency_id'                      => 'required|integer|exists:currencies,id',
             'statement_end_day'                => 'nullable|string',
-            'is_default_account'                => 'required|boolean',
-            'is_budgeted_account'               => 'required|boolean',
-            'is_tax_account'                    => 'required|boolean',
-            'is_reconciled_account'             => 'required|boolean',
-            'is_allow_bank_reconciliation'      => 'required|boolean',
-            'back_name'                        => 'required|string|max:255',
+            'is_default_account'                => 'nullable|boolean',
+            'is_budgeted_account'               => 'nullable|boolean',
+            'is_tax_account'                    => 'nullable|boolean',
+            'is_reconciled_account'             => 'nullable|boolean',
+            'is_allow_bank_reconciliation'      => 'nullable|boolean',
+            'bank_name'                        => 'nullable|string|max:255',
             'branch_name'                      => 'nullable|string|max:255',
             'manager_name'                     => 'nullable|string|max:255',
             'phone'                            => 'nullable|string|max:50',
@@ -47,7 +47,7 @@ class UpdateAccountRequest extends FormRequest
             'swift_code'                       => 'nullable|string|max:11',
             'routing_number'                   => 'nullable|string|max:50',
             'bank_account_number'              => 'nullable|string|max:50',
-            'is_allow_printing_checks'         => 'required|boolean',
+            'is_allow_printing_checks'         => 'nullable|boolean',
             'internal_notes'                   => 'nullable|string',
             'status'                           => 'required',
         ];
@@ -61,7 +61,6 @@ class UpdateAccountRequest extends FormRequest
             'account_type_id.required'         => 'The account type is required.',
             'currency_id.required'             => 'The currency is required.',
             'back_name.required'               => 'The bank name is required.',
-            // Add additional custom messages for other fields if needed
         ];
     }
 }
