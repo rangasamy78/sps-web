@@ -25,7 +25,7 @@ class UpdateTaxCodeRequest extends FormRequest
         return [
             'tax_code' => 'required|string|max:255|unique:tax_codes,tax_code,' . $taxCodeId,
             'tax_code_label' => 'required',
-            'effective_date' => 'required',
+            'effective_date' => 'nullable|required',
         ];
     }
 }

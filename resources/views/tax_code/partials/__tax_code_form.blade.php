@@ -55,15 +55,15 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-4">
-                       <p>Build New Tax Rates</p>
+                       <p><strong>Build New Tax Rates</strong></p>
                     </div>
                     <div class="col-2">
                         &nbsp;
-                     </div>
-                     <div class="col-2">
+                    </div>
+                    <div class="col-2 tax_change_history_item">
                         {!! Form::button('Tax Change History', ['class' => 'btn btn-primary', 'id' => 'tax_change_history', 'value' => 'Tax Change History', 'style' => 'margin-top: 30px;']) !!}
-                     </div>
-                     <div class="col-4">
+                    </div>
+                    <div class="col-4 tax_change_history_item">
                         {!! Form::label('effective_date', 'Effective Date:', ['class' => 'form-label']) !!}
                         {!! Form::date('effective_date', null, ['class' => 'form-control', 'id' => 'effective_date']) !!}
                         <span class="text-danger error-text effective_date_error"></span>
@@ -73,11 +73,11 @@
         </div>
     </div>
 </div>
-<div class="row">
+<div class="row" id="tax_change_item" style="display: none;">
     <div class="col-12 col-lg-12">
         <div class="card mb-4">
             <div class="card-header">
-                <h5 class="card-tile mb-0">{{ date('M d, Y', strtotime($tax_code->effective_date)) }} </h5>
+                <h5 class="card-tile mb-0">{{ isset($tax_code) ? date('M d, Y', strtotime($tax_code->effective_date)) : '' }} </h5>
             </div>
             <div class="card-body">
                 <div class="row mb-3">
@@ -101,7 +101,9 @@
                                 <span class="text-danger ng-binding" ng-show="PrevTaxDetail.TransCount > 0" aria-hidden="false">3825
                                     transactions created from May 31, 2014.</span>
                             </li> --}}
-                            <button type="button" class="update_rate" id="update_rate">Change</button>
+                            <div class="row mt-2">
+                                {!! Form::button('Change', ['type' => 'button', 'name' => 'change', 'id' => 'change', 'class' => 'btn btn-primary']) !!}
+                            </div>
                         </ul>
                     </div>
                 </div>
@@ -109,7 +111,7 @@
         </div>
     </div>
 </div>
-<div class="row">
+<div class="row" id="tax_change_row_item">
     <div class="col-12 col-lg-12">
         <div class="card mb-4">
             <div class="card-body">
@@ -126,13 +128,20 @@
                             @php $j = 1; $i = 0; @endphp
                             @foreach($tax_code_components as $key => $tax_code_component)
                                 <tr id="row_{{ $i }}">
-                                    <td>{!! Form::text('tax_id[]', $j * 10, ['class' => 'form-control', 'id' => "tax_id_$i", 'placeholder' => 'Enter Tax ID']) !!}</td>
-                                    <td>{!! Form::select('tax_component_id[]', $data['tax_components'], $tax_code_component['tax_component_id'], ['class' => 'form-control tax_component_id', 'data-id'=> "$i", 'id' => "tax_component_id_$i", 'placeholder' => '--Select Component--', 'data-allow-clear' => 'true']) !!}</td>
+                                    <td>{!! Form::text('tax_id[]', $j * 10, ['class' => 'form-control', 'id' => "tax_id_$i", 'placeholder' => 'Enter Tax ID', 'disabled' => 'disabled']) !!}
+                                        {!! Form::hidden('tax_id[]', $j * 10, ['class' => 'form-control', 'id' => "tax_hidden_id_$i", 'placeholder' => 'Enter Tax ID']) !!}
+                                    </td>
+                                    <td>{!! Form::select('tax_component_id[]', $data['tax_components'], $tax_code_component['tax_component_id'], ['class' => 'form-control tax_component_id', 'data-id'=> "$i", 'id' => "tax_component_id_$i", 'placeholder' => '--Select Component--', 'data-allow-clear' => 'true', 'disabled' => 'disabled']) !!}
+                                        {!! Form::hidden('tax_component_id[]', $tax_code_component['tax_component_id'], ['class' => 'form-control', 'id' => "tax_hidden_id_$i", 'placeholder' => 'Enter Tax ID']) !!}
+                                    </td>
                                     <td><span id="tax_gl_account_{{$i}}">{{ $tax_code_component['gl_account_name'] }}</span>
                                         {!! Form::hidden('gl_account_name[]', $tax_code_component['gl_account_name'], ['class' => 'form-control', 'id' => "gl_account_name_$i", 'placeholder' => 'Enter Tax Gl Account']) !!}
                                     </td>
-                                    <td>{!! Form::text('tax_rate[]', $tax_code_component['rate'], ['class' => 'form-control tax_rate', 'id' => "tax_rate_$i", 'placeholder' => 'Enter Rate']) !!}</td>
-                                    <td>@if($i >= 1) {!! Form::button('X', ['type' => 'button', 'name' => 'remove', 'id' => $i, 'class' => 'btn btn-danger btn_remove']) !!} @endif</td>
+                                    <td>
+                                        {!! Form::text('tax_rate[]', $tax_code_component['rate'], ['class' => 'form-control tax_rate', 'id' => "tax_rate_$i", 'placeholder' => 'Enter Rate', 'disabled' => 'disabled']) !!}
+                                        {!! Form::hidden('tax_rate[]', $tax_code_component['rate'], ['class' => 'form-control', 'id' => "tax_hidden_id_$i", 'placeholder' => 'Enter Tax ID']) !!}
+                                    </td>
+                                    <td> {{--@if($i >= 1) {!! Form::button('X', ['type' => 'button', 'name' => 'remove', 'id' => $i, 'class' => 'btn btn-danger btn_remove']) !!} @endif --}}</td>
                                 </tr>
                             @php $j++; $i++; @endphp
                             @endforeach
@@ -178,7 +187,7 @@
                         <span id="tax_sum" style="margin-left: 100px; font-weight: 800; font-size: 17px;">
                             {{ isset($tax_component->tax_code_total) ? $tax_component->tax_code_total . '%' : '' }}
                         </span>
-                        {!! Form::text('tax_code_total', old('tax_code_total', $tax_component->tax_code_total ?? ''), ['class' => 'form-control', 'id' => 'tax_code_total', 'style' => 'margin-left: 85px;']) !!}
+                        {!! Form::hidden('tax_code_total', old('tax_code_total', $tax_component->tax_code_total ?? ''), ['class' => 'form-control', 'id' => 'tax_code_total', 'style' => 'margin-left: 85px;']) !!}
                     </div>
                 </div>
             </div>

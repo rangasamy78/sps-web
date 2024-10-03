@@ -6,10 +6,17 @@ use App\Models\TaxCode;
 use App\Models\TaxComponent;
 use Illuminate\Http\Request;
 use App\Models\TaxCodeComponent;
+use App\Services\TaxCode\TaxCodeService;
 use App\Interfaces\ { CrudRepositoryInterface, DatatableRepositoryInterface };
 
 class TaxCodeRepository implements CrudRepositoryInterface, DatatableRepositoryInterface
 {
+    public TaxCodeService $taxCodeService;
+
+    public function __construct(TaxCodeService $taxCodeService)
+    {
+        $this->taxCodeService    = $taxCodeService;
+    }
 
     public function findOrFail(int $id)
     {
@@ -57,7 +64,6 @@ class TaxCodeRepository implements CrudRepositoryInterface, DatatableRepositoryI
 
     public function update(array $data, int $id)
     {
-        // dd($data);
         $taxCodeDelete = $this->findOrFail($id);
         if(!empty($taxCodeDelete)){
             $taxCodeDelete->delete();
@@ -148,8 +154,8 @@ class TaxCodeRepository implements CrudRepositoryInterface, DatatableRepositoryI
             $value->sort_order     = $value->sort_order ?? '';
             $value->tax_code       = $value->tax_code ?? '';
             $value->tax_code_label = $value->tax_code_label ?? '';
-            $value->current_rate   = $value->tax_code_label ?? '';
-            $value->rate_breakdown = $value->tax_code_label ?? '';
+            $value->current_rate   = $this->taxCodeService->getCurrentRate($value->id) ?? '';
+            $value->rate_breakdown = $this->taxCodeService->getRateBreakDown($value->id) ?? '';
             $value->notes          = $value->notes ?? '';
             $value->action         = "<div class='dropup'>
                 <button type='button' class='btn p-0 dropdown-toggle hide-arrow' data-bs-toggle='dropdown'>

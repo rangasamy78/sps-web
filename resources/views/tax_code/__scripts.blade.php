@@ -169,7 +169,7 @@
                             @endforeach
                         </select></td>
                         <td><span id="tax_gl_account_${currentRowCount}"></span>
-                            <input type="text" name="gl_account_name[]" class="form-control" id="gl_account_name_${currentRowCount}" placeholder="Enter Tax Gl Account"></td>
+                            <input type="hidden" name="gl_account_name[]" class="form-control" id="gl_account_name_${currentRowCount}" placeholder="Enter Tax Gl Account"></td>
                         <td><input type="text" name="tax_rate[]" class="form-control tax_rate" id="tax_rate_${currentRowCount}" placeholder="Enter Rate" disabled="disabled"></td>
                         <td><button type="button" name="remove" id="${currentRowCount}" class="btn btn-danger btn_remove">X</button></td>
                     </tr>
@@ -248,6 +248,18 @@
                 $('#tax_gl_account_'+currentID).html('');
                 $('#gl_account_name_'+currentID).val('');
             }
+        });
+
+        $(document).on('click', '#tax_change_history', function() {
+            $("#tax_change_item").show();
+            $(".tax_change_history_item").hide();
+            $("#tax_change_row_item").hide();
+        });
+
+        $(document).on('click', '#tax_change_item', function() {
+            $("#tax_change_item").hide();
+            $(".tax_change_history_item").show();
+            $("#tax_change_row_item").show();
         });
 
      });

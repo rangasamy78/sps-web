@@ -4,15 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TaxCode\CreateTaxCodeRequest;
 
-use App\Http\Requests\TaxCode\UpdateTaxCodeRequest;
+use Exception;
 use App\Models\Account;
 use App\Models\TaxCode;
-use App\Models\TaxCodeComponent;
 use App\Models\TaxComponent;
+use Illuminate\Http\Request;
+use App\Models\TaxCodeComponent;
 use App\Repositories\TaxCodeRepository;
 use App\Services\TaxCode\TaxCodeService;
-use Exception;
-use Illuminate\Http\Request;
+use App\Http\Requests\TaxCode\UpdateTaxCodeRequest;
 use Illuminate\Support\Facades\DB;use Illuminate\Support\Facades\Log;
 
 class TaxCodeController extends Controller
@@ -47,7 +47,6 @@ class TaxCodeController extends Controller
      */
     public function store(CreateTaxCodeRequest $request)
     {
-        // dd($request->all());
         try {
             $this->taxCodeRepository->store($request->all());
             return response()->json(['status' => 'success', 'msg' => 'Tax Code saved successfully.']);
