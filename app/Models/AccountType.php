@@ -30,6 +30,7 @@ class AccountType extends Model
             get: fn(string $value) => ucfirst($value),
         );
     }
+
     public  function payment_method()
     {
         return $this->hasMany(PaymentMethod::class);
@@ -38,5 +39,10 @@ class AccountType extends Model
     function linked_account()
     {
         return $this->hasMany(LinkedAccount::class);
+    }
+
+    public function account()
+    {
+        return $this->hasMany(Account::class, 'account_type_id');
     }
 }

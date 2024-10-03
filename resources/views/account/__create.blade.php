@@ -1,347 +1,191 @@
 @extends('layouts.admin')
 
-@section('title', 'Add Supplier')
+@section('title', 'Add Account')
 
 @section('styles')
 @endsection
 @section('content')
 <div class="content-wrapper">
     <!-- Content -->
-
-    <form id="supplierForm">
+    <form id="accountForm">
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="py-3 mb-4"><span class="text-muted fw-light">Supplier /</span><span> Add Supplier</span></h4>
+            <h4 class="py-3 mb-4"><span class="text-muted fw-light">Account /</span><span> Add Account</span></h4>
             <div class="app-ecommerce">
-                <!-- Add Product -->
-                <!-- <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
-                <div class="d-flex flex-column justify-content-center">
-                    <h4 class="mb-1 mt-3">Add a new Product</h4>
-                    <p class="text-muted">Orders placed across your store</p>
-                </div>
-                <div class="d-flex align-content-center flex-wrap gap-3">
-                    <button class="btn btn-label-secondary">Discard</button>
-                    <button class="btn btn-label-primary">Save draft</button>
-                    <button type="submit" class="btn btn-primary">Publish product</button>
-                </div>
-            </div> -->
 
                 <div class="row">
                     <!-- First column-->
                     <div class="col-12 col-lg-7">
-                        <!-- Product Information -->
+                        <!-- Account Information -->
                         <div class="card mb-4">
                             <div class="card-header">
-                                <h5 class="card-tile mb-0">Supplier Information</h5>
+                                <h5 class="card-tile mb-0">Account Information</h5>
                             </div>
                             <div class="card-body">
                                 <div class="row mb-3">
                                     <div class="col">
-                                        <input type="hidden" class="form-control" id="supplier_id" name="supplier_id">
-                                        <label class="form-label" for="supplier_name">Supplier Name <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="supplier_name"
-                                            placeholder="Enter Supplier Name"
-                                            name="supplier_name"
-                                            aria-label="Supplier Name" />
-                                        <span class="text-danger error-text supplier_name_error"></span>
+                                        <input type="hidden" class="form-control" id="account_id" name="account_id">
+                                        <label class="form-label" for="account_number">Account Number <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                                        <input type="text" class="form-control" id="account_number" placeholder="Enter Account Number" name="account_number" aria-label="Supplier Name" />
+                                        <span class="text-danger error-text account_number_error"></span>
                                     </div>
                                     <div class="col">
-                                        <label class="form-label" for="code">Code</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="code"
-                                            placeholder="Enter Code"
-                                            name="code"
-                                            aria-label="Code" />
-                                        <span class="text-danger error-text code_error"></span>
+                                        <label class="form-label" for="code">Account Name <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                                        <input type="text" class="form-control" id="account_name" placeholder="Enter Account Name" name="account_name" aria-label="Supplier Name" />
+                                        <span class="text-danger error-text account_name_error"></span>
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col">
-                                        <label class="form-label" for="print_name">Print Name / DBA <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="print_name"
-                                            placeholder="Enter Print Name"
-                                            name="print_name"
-                                            aria-label="Print Name" />
-                                        <span class="text-danger error-text print_name_error"></span>
-                                    </div>
-                                    <div class="col">
-                                        <label class="form-label" for="contact_name">Contact Name</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="contact_name"
-                                            placeholder="Enter Contact Name"
-                                            name="contact_name"
-                                            aria-label="Contact Name" />
-                                        <span class="text-danger error-text contact_name_error"></span>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col">
-                                        <label class="form-label" for="supplier_type_id">Supplier Type</label>
-                                        <select id="supplier_type_id" name="supplier_type_id" class="select2 form-select" data-allow-clear="true">
+                                        <label class="form-label" for="account_type_id">Account Type <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                                        <select id="account_type_id" name="account_type_id" class="select2 form-select" data-allow-clear="true">
                                             <option value="">--select--</option>
-                                            @foreach($supplierTypes as $supplierType)
-                                            <option value="{{ $supplierType->id }}">{{ $supplierType->supplier_type_name }}</option>
+                                            @foreach($accountTypes as $accountType)
+                                            <option value="{{ $accountType->id }}">{{ $accountType->account_type_name }}</option>
                                             @endforeach
                                         </select>
-                                        <span class="text-danger error-text supplier_type_id_error"></span>
+                                        <span class="text-danger error-text account_type_id_error"></span>
                                     </div>
                                     <div class="col">
-                                        <label class="form-label" for="language_id">language_id</label>
-                                        <select id="language_id" name="language_id" class="select2 form-select" data-allow-clear="true">
+                                        <label class="form-label" for="account_sub_type_id">Account Sub Type</label>
+                                        <select id="account_sub_type_id" name="account_sub_type_id" class="select2 form-select" data-allow-clear="true">
                                             <option value="">--select--</option>
-                                            @foreach($languages as $language)
-                                            <option value="{{ $language->id }}">{{ $language->language_name }}</option>
+                                            @foreach($accountSubTypes as $accountSubType)
+                                            <option value="{{ $accountSubType->id }}">{{ $accountSubType->sub_type_name }}</option>
                                             @endforeach
                                         </select>
-                                        <span class="text-danger error-text language_id_error"></span>
+                                        <span class="text-danger error-text account_sub_type_id_error"></span>
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <div class="col-6">
-                                        <label class="form-label" for="parent_location_id">Parent Location <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
-                                        <select id="parent_location_id" name="parent_location_id" class="select2 form-select" data-allow-clear="true">
+                                    <div class="col">
+                                        <label class="form-label" for="special_account_type_id">Special Account Type</label>
+                                        <select id="special_account_type_id" name="special_account_type_id" class="select2 form-select" data-allow-clear="true">
+                                            <option value="">--select--</option>
+                                            @foreach($specialAccountTypes as $specialAccountType)
+                                            <option value="{{ $specialAccountType->id }}">{{ $specialAccountType->special_account_type_name }}</option>
+                                            @endforeach
+                                        </select>
+                                        <span class="text-danger error-text special_account_type_id_error"></span>
+                                    </div>
+                                    <div class="col">
+                                        <label class="form-label" for="account_operating_location_id">Account's Operating Location</label>
+                                        <select id="account_operating_location_id" name="account_operating_location_id" class="select2 form-select" data-allow-clear="true">
                                             <option value="">--select--</option>
                                             @foreach($companies as $company)
                                             <option value="{{ $company->id }}">{{ $company->company_name }}</option>
                                             @endforeach
                                         </select>
-                                        <span class="text-danger error-text parent_location_id_error"></span>
-                                    </div>
-
-                                    <div class="col-6">
-                                        <label class="form-label" for="parent_supplier_id">Parent Supplier</label>
-                                        <select id="parent_supplier_id" name="parent_supplier_id" class="select2 form-select" data-allow-clear="true">
-                                            <option value="">--select--</option>
-                                            @foreach($allSuppliers as $allSupplier)
-                                            <option value="{{ $allSupplier->id }}">{{ $allSupplier->supplier_name }}</option>
-                                            @endforeach
-                                        </select>
-                                        <span class="text-danger error-text parent_supplier_id_error"></span>
+                                        <span class="text-danger error-text account_operating_location_id_error"></span>
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <div class="col-3">
-                                        <label class="form-label" for="supplier_since">Supplier Since</label>
-                                        <input
-                                            type="date"
-                                            class="form-control"
-                                            id="supplier_since"
-                                            name="supplier_since"
-                                            aria-label="Supplier Since" />
-                                        <span class="text-danger error-text supplier_since_error"></span>
+                                    <div class="col-6">
+                                        <label class="form-label" for="alternate_number">Alternate Number</label>
+                                        <input type="text" class="form-control" id="alternate_number" placeholder="Enter Alternate Number" name="alternate_number" aria-label="Alternate Number" />
+                                        <span class="text-danger error-text alternate_number_error"></span>
                                     </div>
-                                    <div class="col-3">
-                                        <label class="form-label" for="supplier_port_id">Port</label>
-                                        <select id="supplier_port_id" name="supplier_port_id" class="select2 form-select" data-allow-clear="true">
+
+                                    <div class="col-6">
+                                        <label class="form-label" for="alternate_name">Alternate Name</label>
+                                        <input type="text" class="form-control" id="alternate_name" placeholder="Enter Alternate Name" name="alternate_name" aria-label="Alternate Name" />
+                                        <span class="text-danger error-text alternate_name_error"></span>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-6">
+                                        <label class="form-label" for="is_sub_account_of_id">Is Sub Account Of</label>
+                                        <select id="is_sub_account_of_id" name="is_sub_account_of_id" class="select2 form-select" data-allow-clear="true">
+                                        </select>
+                                        <span class="text-danger error-text is_sub_account_of_id_error"></span>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="form-label" for="currency_id">Currency <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                                        <select id="currency_id" name="currency_id" class="select2 form-select" data-allow-clear="true">
                                             <option value="">--select--</option>
-                                            @foreach($supplierPorts as $supplierPort)
-                                            <option value="{{ $supplierPort->id }}">{{ $supplierPort->supplier_port_name }}</option>
+                                            @foreach($currencies as $currency)
+                                            <option value="{{ $currency->id }}">{{ $currency->currency_name }}-{{ $currency->currency_code }}</option>
                                             @endforeach
                                         </select>
-                                        <span class="text-danger error-text supplier_port_id_error"></span>
-                                    </div>
-                                    <div class="col-3">
-                                        <label class="form-label" for="markup_multiplier">Markup Multiplier</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="markup_multiplier"
-                                            placeholder="Enter Markup Multipler"
-                                            name="markup_multiplier"
-                                            aria-label="Markup Multipler" />
-                                        <span class="text-danger error-text markup_multiplier_error"></span>
-                                    </div>
-                                    <div class="col-3">
-                                        <label class="form-label" for="discount">Discount%</label>
-                                        <input
-                                            type="number"
-                                            class="form-control"
-                                            id="discount"
-                                            placeholder="Enter Discount"
-                                            name="discount"
-                                            aria-label="Discount" />
-                                        <span class="text-danger error-text discount_error"></span>
+                                        <span class="text-danger error-text currency_id_error"></span>
                                     </div>
                                 </div>
-                                <div class="row mb-1">
-                                    <div class="col d-flex align-items-center">
-                                        <input class="form-check-input" type="checkbox" value="1" id="multi_location_supplier" name="multi_location_supplier" />
-                                        <label class="form-label ps-2 mb-0" for="multi_location_supplier">Multi Location Supplier</label>
-                                        <span class="text-danger error-text multi_location_supplier_error ms-2"></span>
+                                <div class="row mb-3">
+                                    <div class="col-6">
+                                        <label class="form-label" for="statement_end_day">Statement End Day</label>
+                                        <input type="text" class="form-control" id="statement_end_day" placeholder="Enter Statement End Day" name="statement_end_day" aria-label="Statement End Day" />
+                                        <span class="text-danger error-text statement_end_day_error"></span>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
-                        <!-- /Product Information -->
-                        <!-- account information -->
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <h5 class="card-title mb-0">Accounting Information</h5>
-                            </div>
-                            <div class="card-body">
-                                <form class="form-repeater">
-                                    <div data-repeater-list="group-a">
-                                        <div data-repeater-item>
-                                            <div class="row">
-                                                <div class="mb-3 col-6">
-                                                    <label class="form-label" for="credit_limit">Credit Limit</label>
-                                                    <input
-                                                        type="text"
-                                                        class="form-control"
-                                                        id="credit_limit"
-                                                        placeholder="Enter Credit Limit"
-                                                        name="credit_limit"
-                                                        aria-label="Credit Limit" />
-                                                    <span class="text-danger error-text credit_limit_error"></span>
-                                                </div>
-
-                                                <div class="mb-3 col-6">
-                                                    <label class="form-label" for="ein_number">EIN Number</label>
-                                                    <input
-                                                        type="text"
-                                                        class="form-control"
-                                                        id="ein_number"
-                                                        placeholder="Enter EIN Number"
-                                                        name="ein_number"
-                                                        aria-label="EIN Number" />
-                                                    <span class="text-danger error-text ein_number_error"></span>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="mb-3 col-6">
-                                                    <label class="form-label" for="account">Account #</label>
-                                                    <input
-                                                        type="text"
-                                                        class="form-control"
-                                                        id="account"
-                                                        placeholder="Enter Account"
-                                                        name="account"
-                                                        aria-label="Account" />
-                                                    <span class="text-danger error-text account_error"></span>
-                                                </div>
-
-                                                <div class="mb-3 col-6">
-                                                    <label class="form-label" for="currency_id">Currency <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
-                                                    <select id="currency_id" name="currency_id" class="select2 form-select" data-allow-clear="true">
-                                                        <option value="">--select--</option>
-                                                        @foreach($currencies as $currency)
-                                                        <option value="{{ $currency->id }}">{{ $currency->currency_name }}-{{ $currency->currency_code }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                    <span class="text-danger error-text currency_id_error"></span>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="mb-3 col-6">
-                                                    <label class="form-label" for="payment_terms_id">Payment Terms <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
-                                                    <select id="payment_terms_id" name="payment_terms_id" class="select2 form-select" data-allow-clear="true">
-                                                        <option value="">--select--</option>
-                                                        @foreach($paymentTerms as $paymentTerm)
-                                                        <option value="{{ $paymentTerm->id }}">{{ $paymentTerm->payment_label }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                    <span class="text-danger error-text payment_terms_id_error"></span>
-                                                </div>
-
-                                                <div class="mb-3 col-6">
-                                                    <label class="form-label" for="shipment_terms">Shipment Terms</label>
-                                                    <select id="shipment_terms" name="shipment_terms" class="select2 form-select" data-allow-clear="true">
-                                                        <option value="">--select--</option>
-                                                        @foreach($shipmentTerms as $shipmentTerm)
-                                                        <option value="{{ $shipmentTerm->id }}">{{ $shipmentTerm->shipment_term_name }}-{{ $currency->currency_code }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                    <span class="text-danger error-text shipment_terms_error"></span>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="mb-3 col-6">
-                                                    <label class="form-label" for="purchase_tax_id">Purchase Tax</label>
-                                                    <select id="purchase_tax_id" name="purchase_tax_id" class="select2 form-select" data-allow-clear="true">
-                                                        <option value="">--select--</option>
-                                                        <option value="1">tax 1</option>
-                                                        <option value="2">tax 2</option>
-                                                        <option value="3">tax 3</option>
-                                                    </select>
-                                                    <span class="text-danger error-text purchase_tax_id_error"></span>
-                                                </div>
-
-                                                <div class="mb-3 col-6">
-                                                    <label class="form-label" for="frieght_forwarder_id">Frieght Forwarder</label>
-                                                    <select id="frieght_forwarder_id" name="frieght_forwarder_id" class="select2 form-select" data-allow-clear="true">
-                                                        <option value="">--select--</option>
-                                                        <option value="1">forwarder 1</option>
-                                                        <option value="2">forwarder 2</option>
-                                                        <option value="3">forwarder 3</option>
-                                                    </select>
-                                                    <span class="text-danger error-text frieght_forwarder_id_error"></span>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="mb-3 col-6">
-                                                    <label class="form-label" for="default_payment_method_id">Default Payment Method</label>
-                                                    <select id="default_payment_method_id" name="default_payment_method_id" class="select2 form-select" data-allow-clear="true">
-                                                        <option value="">--select--</option>
-                                                        @foreach($paymentMethods as $paymentMethod)
-                                                        <option value="{{ $paymentMethod->id }}">{{ $paymentMethod->payment_method_name }}-{{ $currency->currency_code }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                    <span class="text-danger error-text default_payment_method_id_error"></span>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex justify-content-between align-items-center border-top pt-3">
-                                                <span class="mb-0 h6"> Form 1099 should be printed for this supplier at the end of every fiscal year</span>
-                                                <div class="w-25 d-flex justify-content-end">
-                                                    <label class="switch switch-primary switch-sm me-4 pe-2">
-                                                        <input type="checkbox" class="switch-input" checked="" id="form_1099_printed" name="form_1099_printed" value="1" />
-                                                        <span class="switch-toggle-slider">
-                                                            <span class="switch-on">
-                                                                <span class="switch-off"></span>
-                                                            </span>
-                                                        </span>
-                                                    </label>
-                                                    <span class="text-danger error-text form_1099_printed_error"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </form>
-                            </div>
-                        </div>
-                        <!-- /account information -->
+                        <!-- /Account Information -->
                         <!-- instruction information -->
-                        <div class="card mb-4">
+                        <div class="card mb-4 bankCard" style="display:none">
                             <div class="card-header">
-                                <h5 class="card-title mb-0">Instructions</h5>
+                                <h5 class="card-title mb-0">Bank Information</h5>
                             </div>
                             <div class="card-body">
 
                                 <div data-repeater-list="group-a">
                                     <div data-repeater-item>
-                                        <div class="row">
-                                            <div class="mb-3 col-12 col-lg-6">
-                                                <label class="form-label mb-1" for="shipping_instruction">Shipping / Delivery Instructions </label>
-                                                <textarea id="shipping_instruction" name="shipping_instruction" class="form-control" rows="2" placeholder="Enter Shipping Delivery Instructions" style="resize:none"></textarea>
-                                                <span class="text-danger error-text shipping_instruction_error"></span>
+                                        <div class="row mb-1">
+                                            <div class="mb-3 col-12 col-lg-4">
+                                                <label class="form-label mb-1" for="bank_name">Bank Name <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                                                <input type="text" class="form-control" id="bank_name" placeholder="Enter Bank Name" name="bank_name" aria-label="Bank Name" />
+                                                <span class="text-danger error-text bank_name_error"></span>
                                             </div>
 
-                                            <div class="mb-3 col-12 col-lg-6">
-                                                <label class="form-label mb-1" for="internal_notes">Internal Notes </label>
-                                                <textarea id="internal_notes" name="internal_notes" class="form-control" rows="2" placeholder="Enter Internal Notes" style="resize:none"></textarea>
-                                                <span class="text-danger error-text internal_notes_error"></span>
+                                            <div class="mb-3 col-12 col-lg-4">
+                                                <label class="form-label mb-1" for="branch_name">Branch Name</label>
+                                                <input type="text" class="form-control" id="branch_name" placeholder="Enter Branch Name" name="branch_name" aria-label="Branch Name" />
+                                                <span class="text-danger error-text branch_name_error"></span>
                                             </div>
-
+                                            <div class="mb-3 col-12 col-lg-4">
+                                                <label class="form-label mb-1" for="manager_name">Manager Name</label>
+                                                <input type="text" class="form-control" id="manager_name" placeholder="Enter Manager Name" name="manager_name" aria-label="Manager Name" />
+                                                <span class="text-danger error-text manager_name_error"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-1">
+                                            <div class="mb-3 col-12 col-lg-4">
+                                                <label class="form-label mb-1" for="phone">Phone</label>
+                                                <input type="text" class="form-control" id="phone" placeholder="Enter Phone" name="phone" aria-label="Phone" />
+                                                <span class="text-danger error-text phone_error"></span>
+                                            </div>
+                                            <div class="mb-3 col-12 col-lg-4">
+                                                <label class="form-label mb-1" for="fax">Fax</label>
+                                                <input type="text" class="form-control" id="fax" placeholder="Enter Fax" name="fax" aria-label="Fax" />
+                                                <span class="text-danger error-text fax_error"></span>
+                                            </div>
+                                            <div class="mb-3 col-12 col-lg-4">
+                                                <label class="form-label mb-1" for="website">Website</label>
+                                                <input type="text" class="form-control" id="website" placeholder="Enter Website" name="website" aria-label="Website" />
+                                                <span class="text-danger error-text website_error"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-1">
+                                            <div class="mb-3 col-12 col-lg-4">
+                                                <label class="form-label mb-1" for="swift_code">Swift Code</label>
+                                                <input type="text" class="form-control" id="swift_code" placeholder="Enter Swift Code" name="swift_code" aria-label="Swift Code" />
+                                                <span class="text-danger error-text swift_code_error"></span>
+                                            </div>
+                                            <div class="mb-3 col-12 col-lg-4">
+                                                <label class="form-label mb-1" for="routing_number">Routing Number</label>
+                                                <input type="text" class="form-control" id="routing_number" placeholder="Enter Routing Number" name="routing_number" aria-label="Routing Number" />
+                                                <span class="text-danger error-text routing_number_error"></span>
+                                            </div>
+                                            <div class="mb-3 col-12 col-lg-4">
+                                                <label class="form-label mb-1" for="bank_account_number">Account Number</label>
+                                                <input type="text" class="form-control" id="bank_account_number" placeholder="Enter Account Number" name="bank_account_number" aria-label="Account Number" />
+                                                <span class="text-danger error-text bank_account_number_error"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-1">
+                                            <div class="col d-flex align-items-center">
+                                                <input class="form-check-input" type="checkbox" value="1" id="is_allow_printing_checks" name="is_allow_printing_checks" />
+                                                <label class="form-label ps-2 mb-0" for="is_allow_printing_checks"> Allow Printing Checks from this Account </label>
+                                                <span class="text-danger error-text is_allow_printing_checks_error ms-2"></span>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -357,80 +201,43 @@
                         <!-- Contact Information Card -->
                         <div class="card mb-4">
                             <div class="card-header">
-                                <h5 class="card-title mb-0">Contact Information</h5>
+                                <h5 class="card-title mb-0">Account Settings</h5>
                             </div>
                             <div class="card-body">
                                 <!-- Base Price -->
-                                <div class="row mb-3">
-                                    <div class="col-6">
-                                        <label class="form-label" for="primary_phone">Primary Phone</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="primary_phone"
-                                            placeholder="Enter Primary Phone"
-                                            name="primary_phone"
-                                            aria-label="Primary Phone" />
-                                        <span class="text-danger error-text primary_phone_error"></span>
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="form-label" for="secondary_phone">Secondary Phone</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="secondary_phone"
-                                            placeholder="Enter Secondary Phone"
-                                            name="secondary_phone"
-                                            aria-label="Secondary Phone" />
-                                        <span class="text-danger error-text secondary_phone_error"></span>
+                                <div class="row mb-4">
+                                    <div class="col d-flex align-items-center">
+                                        <input class="form-check-input" type="checkbox" value="1" id="is_default_account" name="is_default_account" />
+                                        <label class="form-label ps-2 mb-0" for="is_default_account">Default account in Special Account Type</label>
+                                        <span class="text-danger error-text is_default_account_error ms-2"></span>
                                     </div>
                                 </div>
-                                <div class="row mb-3">
-                                    <div class="col-6">
-                                        <label class="form-label" for="mobile">Mobile</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="mobile"
-                                            placeholder="Enter Mobile"
-                                            name="mobile"
-                                            aria-label="Mobile" />
-                                        <span class="text-danger error-text mobile_error"></span>
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="form-label" for="fax">Fax</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="fax"
-                                            placeholder="Enter Fax"
-                                            name="fax"
-                                            aria-label="Fax" />
-                                        <span class="text-danger error-text fax_error"></span>
+                                <div class="row mb-4">
+                                    <div class="col d-flex align-items-center">
+                                        <input class="form-check-input" type="checkbox" value="1" id="is_budgeted_account" name="is_budgeted_account" />
+                                        <label class="form-label ps-2 mb-0" for="is_budgeted_account">This account is Budgeted</label>
+                                        <span class="text-danger error-text is_budgeted_account_error ms-2"></span>
                                     </div>
                                 </div>
-                                <div class="row mb-3">
-                                    <div class="col-6">
-                                        <label class="form-label" for="email">Email Address</label>
-                                        <input
-                                            type="email"
-                                            class="form-control"
-                                            id="email"
-                                            placeholder="Enter Email"
-                                            name="email"
-                                            aria-label="Email" />
-                                        <span class="text-danger error-text email_error"></span>
+                                <div class="row mb-4">
+                                    <div class="col d-flex align-items-center">
+                                        <input class="form-check-input" type="checkbox" value="1" id="is_tax_account" name="is_tax_account" />
+                                        <label class="form-label ps-2 mb-0" for="is_tax_account">This account is a Tax Account</label>
+                                        <span class="text-danger error-text is_tax_account_error ms-2"></span>
                                     </div>
-                                    <div class="col-6">
-                                        <label class="form-label" for="website">Website</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="website"
-                                            placeholder="Enter Website"
-                                            name="website"
-                                            aria-label="Website" />
-                                        <span class="text-danger error-text website_error"></span>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col d-flex align-items-center">
+                                        <input class="form-check-input" type="checkbox" value="1" id="is_reconciled_account" name="is_reconciled_account" />
+                                        <label class="form-label ps-2 mb-0" for="is_reconciled_account">This account is Reconciled</label>
+                                    </div>
+                                    <span class="text-danger error-text is_reconciled_account_error ms-2"></span>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col d-flex align-items-center">
+                                        <input class="form-check-input" type="checkbox" value="1" id="is_allow_bank_reconciliation" name="is_allow_bank_reconciliation" />
+                                        <label class="form-label ps-2 mb-0" for="is_allow_bank_reconciliation"> Allow bank reconciliation with multiple dates</label>
+                                        <span class="text-danger error-text is_allow_bank_reconciliation_error ms-2"></span>
                                     </div>
                                 </div>
                             </div>
@@ -439,166 +246,23 @@
                         <!-- Remit to address Card -->
                         <div class="card mb-4">
                             <div class="card-header">
-                                <h5 class="card-title mb-0">Remit-To Address</h5>
+                                <h5 class="card-title mb-0">Instructions</h5>
                             </div>
                             <div class="card-body">
                                 <!-- Base Price -->
-                                <div class="row mb-3">
-                                    <div class="col-6">
-                                        <label class="form-label" for="remit_address">Address</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="remit_address"
-                                            placeholder="Enter Address"
-                                            name="remit_address"
-                                            aria-label="Address" />
-                                        <span class="text-danger error-text remit_address_error"></span>
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="form-label" for="remit_suite">Suite / Unit#</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="remit_suite"
-                                            placeholder="Enter Suite / Unit"
-                                            name="remit_suite"
-                                            aria-label=" Suite / Unit" />
-                                        <span class="text-danger error-text remit_suite_error"></span>
+                                <div class="row">
+                                    <div class="mb-3 col">
+                                        <label class="form-label mb-1" for="internal_notes">Internal Notes </label>
+                                        <textarea id="internal_notes" name="internal_notes" class="form-control" rows="3" placeholder="Enter Internal Notes" style="resize:none"></textarea>
+                                        <span class="text-danger error-text internal_notes_error"></span>
                                     </div>
                                 </div>
-                                <div class="row mb-3">
-                                    <div class="col-6">
-                                        <label class="form-label" for="remit_city">City</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="remit_city"
-                                            placeholder="Enter City"
-                                            name="remit_city"
-                                            aria-label="City" />
-                                        <span class="text-danger error-text remit_city_error"></span>
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="form-label" for="remit_state">State</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="remit_state"
-                                            placeholder="enter State"
-                                            name="remit_state"
-                                            aria-label="State" />
-                                        <span class="text-danger error-text remit_state_error"></span>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-6">
-                                        <label class="form-label" for="remit_zip">Zip</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="remit_zip"
-                                            placeholder="Enter zip"
-                                            name="remit_zip"
-                                            aria-label="Zip" />
-                                        <span class="text-danger error-text remit_zip_error"></span>
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="form-label" for="remit_country_id">Country</label>
-                                        <select id="remit_country_id" name="remit_country_id" class="select2 form-select" data-allow-clear="true">
-                                            <option value="">--select--</option>
-                                            @foreach($countries as $country)
-                                            <option value="{{ $country->id }}">{{ $country->country_name }}</option>
-                                            @endforeach
-                                        </select>
-                                        <span class="text-danger error-text remit_country_id_error"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /remit to address Card -->
-                        <!-- shipping to address Card -->
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <h5 class="card-title mb-0">Shipping Address</h5>
-                            </div>
-                            <div class="card-body">
-                                <!-- Base Price -->
-                                <div class="row mb-3">
-                                    <div class="col-6">
-                                        <label class="form-label" for="ship_address">Address</label>
-                                        <input type="text"
-                                            class="form-control"
-                                            id="ship_address"
-                                            placeholder="Enter Address"
-                                            name="ship_address"
-                                            aria-label="Address" />
-                                        <span class="text-danger error-text ship_address_error"></span>
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="form-label" for="ship_suite">Suite / Unit#</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="ship_suite"
-                                            placeholder="Enter Suite / Unit"
-                                            name="ship_suite"
-                                            aria-label="Suite / Unit" />
-                                        <span class="text-danger error-text ship_suite_error"></span>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-6">
-                                        <label class="form-label" for="ship_city">City</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="ship_city"
-                                            placeholder="Enter City"
-                                            name="ship_city"
-                                            aria-label="City" />
-                                        <span class="text-danger error-text ship_city_error"></span>
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="form-label" for="ship_state">State</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="ship_state"
-                                            placeholder="Enter State"
-                                            name="ship_state"
-                                            aria-label="State" />
-                                        <span class="text-danger error-text ship_state_error"></span>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-6">
-                                        <label class="form-label" for="ship_zip">Zip</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="ship_zip"
-                                            placeholder="Enter Zip"
-                                            name="ship_zip"
-                                            aria-label="Zip" />
-                                        <span class="text-danger error-text ship_zip_error"></span>
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="form-label" for="ship_country_id">Country</label>
-                                        <select id="ship_country_id" name="ship_country_id" class="select2 form-select" data-allow-clear="true">
-                                            <option value="">--select--</option>
-                                            @foreach($countries as $country)
-                                            <option value="{{ $country->id }}">{{ $country->country_name }}</option>
-                                            @endforeach
-                                        </select>
-                                        <span class="text-danger error-text ship_country_id_error"></span>
-                                    </div>
-                                    <!-- //status hidden text box -->
+                                <div class="row">
                                     <input type="hidden" class="form-control" id="status" name="status" value="1" aria-label="status" />
                                 </div>
                             </div>
                         </div>
-                        <!-- /shipping to address Card -->
+                        <!-- /remit to address Card -->
                         <!-- /Organize Card -->
 
                     </div>
@@ -606,7 +270,7 @@
                 </div>
                 <div class="row">
                     <div class="col-12 d-flex justify-content-end gap-2">
-                        <button type="submit" class="btn btn-primary btn-md" id="savedata" name="savedata">Save New Supplier</button>
+                        <button type="submit" class="btn btn-primary btn-md" id="savedata" name="savedata">Save New Account</button>
                         <button type="button" class="btn btn-secondary btn-md" id="cancelButton" name="cancelButton">Cancel</button>
                     </div>
                 </div>
@@ -619,6 +283,5 @@
 
 @endsection
 @section('scripts')
-@include('supplier.__script')
-<!-- <script src="{{asset('public/assets/js/app-ecommerce-product-add.js')}}"></script> -->
+@include('account.__script')
 @endsection

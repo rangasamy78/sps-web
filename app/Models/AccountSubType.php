@@ -30,9 +30,14 @@ class AccountSubType extends Model
             get: fn(string $value) => ucfirst($value),
         );
     }
-    
+
     function linked_account()
     {
         return $this->hasMany(LinkedAccount::class, 'account_sub_type');
+    }
+
+    public function account()
+    {
+        return $this->hasMany(Account::class, 'account_sub_type_id');
     }
 }

@@ -36,12 +36,16 @@ class Company extends Model
         'website',
         'logo',
         'is_bin_pre_defined',
-   ];
+    ];
 
-   protected function companyName(): Attribute
-   {
-       return Attribute::make(
-           get: fn (string $value) => ucfirst($value),
-       );
-   }
+    protected function companyName(): Attribute
+    {
+        return Attribute::make(
+            get: fn(string $value) => ucfirst($value),
+        );
+    }
+    public function account()
+    {
+        return $this->hasMany(Account::class, 'account_operating_location_id');
+    }
 }

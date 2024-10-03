@@ -28,6 +28,7 @@ use App\Http\Controllers\ProductKindController;
 use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\ProjectTypeController;
 use App\Http\Controllers\UnitMeasureController;
+use App\Http\Controllers\AccountFileController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\CustomerTypeController;
 use App\Http\Controllers\ProductColorController;
@@ -333,6 +334,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('accounts', AccountController::class);
     Route::get('/account/list', [AccountController::class, 'getAccountDataTableList'])->name('accounts.list');
+    Route::get('/account/in_active_list', [AccountController::class, 'getInAccountDataTableList'])->name('accounts.in_active_list');
     Route::get('/account/status/{id}', [AccountController::class, 'updateStatus'])->name('accounts.status');
 
     Route::resource('expenditures', ExpenditureController::class);
@@ -369,4 +371,8 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/{id}/product_web', [ProductController::class, 'productWebsiteUpdate'])->name('products.product_web_update');
     Route::get('/{id}/product_image', [ProductController::class, 'productImage'])->name('products.product_image');
     Route::post('product/upload-files', [ProductController::class, 'uploadFiles'])->name('product.uploadFiles');
+
+    Route::get('/account/is_subtype/{id}', [AccountController::class, 'getIsSubAccountOf'])->name('accounts.is_subtype');
+    Route::resource('account_files', AccountFileController::class);
+    Route::get('/account_file/list', [AccountFileController::class, 'getAccountFileDataTableList'])->name('account_files.list');
 });

@@ -12,19 +12,6 @@
         <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="py-3 mb-4"><span class="text-muted fw-light">Supplier /</span><span> Add Supplier</span></h4>
             <div class="app-ecommerce">
-                <!-- Add Product -->
-                <!-- <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
-                <div class="d-flex flex-column justify-content-center">
-                    <h4 class="mb-1 mt-3">Add a new Product</h4>
-                    <p class="text-muted">Orders placed across your store</p>
-                </div>
-                <div class="d-flex align-content-center flex-wrap gap-3">
-                    <button class="btn btn-label-secondary">Discard</button>
-                    <button class="btn btn-label-primary">Save draft</button>
-                    <button type="submit" class="btn btn-primary">Publish product</button>
-                </div>
-            </div> -->
-
                 <div class="row">
                     <!-- First column-->
                     <div class="col-12 col-lg-7">
@@ -258,7 +245,7 @@
                                                     <select id="shipment_terms" name="shipment_terms" class="select2 form-select" data-allow-clear="true">
                                                         <option value="">--select--</option>
                                                         @foreach($shipmentTerms as $shipmentTerm)
-                                                        <option value="{{ $shipmentTerm->id }}">{{ $shipmentTerm->shipment_term_name }}-{{ $currency->currency_code }}</option>
+                                                        <option value="{{ $shipmentTerm->id }}">{{ $shipmentTerm->shipment_term_name }}</option>
                                                         @endforeach
                                                     </select>
                                                     <span class="text-danger error-text shipment_terms_error"></span>
@@ -293,7 +280,7 @@
                                                     <select id="default_payment_method_id" name="default_payment_method_id" class="select2 form-select" data-allow-clear="true">
                                                         <option value="">--select--</option>
                                                         @foreach($paymentMethods as $paymentMethod)
-                                                        <option value="{{ $paymentMethod->id }}">{{ $paymentMethod->payment_method_name }}-{{ $currency->currency_code }}</option>
+                                                        <option value="{{ $paymentMethod->id }}">{{ $paymentMethod->payment_method_name }}</option>
                                                         @endforeach
                                                     </select>
                                                     <span class="text-danger error-text default_payment_method_id_error"></span>
