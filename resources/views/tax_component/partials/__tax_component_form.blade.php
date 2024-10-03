@@ -36,7 +36,7 @@
                     </div>
                     <div class="col-6">
                         <label class="form-label" for="code">Authority</label>
-                        {!! Form::select('authority_id', $tax_authorities, null, ['class' => 'form-control select2', 'id' => 'authority_id', 'placeholder' => '--Select Authority--', 'data-allow-clear' => 'true']) !!}
+                        {!! Form::select('authority_id', $data['tax_authorities'], null, ['class' => 'form-control select2', 'id' => 'authority_id', 'placeholder' => '--Select Authority--', 'data-allow-clear' => 'true']) !!}
                     </div>
                     @if(isset($tax_component))
                     <div class="col-12 mb-3" style="color:red">
@@ -46,7 +46,7 @@
                     <div class="col-6 mb-3">
                         <label class="form-label" for="contact-name">Sales Tax Account <sup
                             style="color:red; font-size: 0.9rem;"><strong>*</strong></sup></label>
-                            {!! Form::select('sales_tax_id', $tax_authorities, null, ['class' => 'form-control select2', 'id' => 'sales_tax_id', 'placeholder' => '--Select Authority--', 'data-allow-clear' => 'true', !isset($tax_component) ? '' : 'disabled' => 'disabled']) !!}
+                            {!! Form::select('sales_tax_id', $data['sales_taxes'], null, ['class' => 'form-control select2', 'id' => 'sales_tax_id', 'placeholder' => '--Select Authority--', 'data-allow-clear' => 'true', !isset($tax_component) ? '' : 'disabled' => 'disabled']) !!}
                         <span class="text-danger error-text sales_tax_id_error"></span>
                     </div>
                 </div>

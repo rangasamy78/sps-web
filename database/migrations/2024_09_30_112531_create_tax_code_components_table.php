@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tax_codes', function (Blueprint $table) {
+        Schema::create('tax_code_components', function (Blueprint $table) {
             $table->id();
-            $table->string('sort_order')->nullable();
-            $table->string('tax_code')->nullable();
-            $table->string('tax_code_label');
-            $table->text('notes')->nullable();
-            $table->tinyInteger('is_sale_use')->default(1);
-            $table->date('effective_date')->nullable();
+            $table->bigInteger('tax_code_id')->nullable();
+            $table->bigInteger('tax_component_id')->nullable();
+            $table->integer('rate')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tax_codes');
+        Schema::dropIfExists('tax_code_components');
     }
 };

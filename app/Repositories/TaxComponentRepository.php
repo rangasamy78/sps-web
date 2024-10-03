@@ -38,7 +38,7 @@ class TaxComponentRepository implements CrudRepositoryInterface, DatatableReposi
     public function getTaxComponentList($request)
     {
         $query = TaxComponent::query()
-            ->with(['tax_authority']);
+            ->with(['tax_authority','sales_tax_account']);
         if (!empty($request->component_name)) {
             $query->where('component_name', 'like', '%' . $request->component_name . '%');
         }
@@ -47,8 +47,10 @@ class TaxComponentRepository implements CrudRepositoryInterface, DatatableReposi
                 $q->where('id', $request->authority_id);
             });
         }
-        if (!empty($request->sales_tax_id)) {
-            $query->where('sales_tax_id', $request->sales_tax_id);
+        if (!empty($request->authority_id)) {
+            $query->whereHas('sales_tax_account', function ($q) use ($request) {
+                $q->where('id', $request->authority_id);
+            });
         }
         return $query;
     }
@@ -82,7 +84,7 @@ class TaxComponentRepository implements CrudRepositoryInterface, DatatableReposi
             $value->component_name = $value->component_name ?? '';
             $value->company_tax_id = $value->company_tax_id ?? '';
             $value->authority_name = $value->tax_authority ? $value->tax_authority->authority_name : '';
-            $value->sales_tax_name = $value->sales_tax_id ?? '';
+            $value->sales_tax_name = $value->sales_tax_account->account_number.'-'. $value->sales_tax_account->account_name ?? '';
             $value->action         = "<div class='dropup'>
                 <button type='button' class='btn p-0 dropdown-toggle hide-arrow' data-bs-toggle='dropdown'>
                     <i class='bx bx-dots-vertical-rounded icon-color'></i>

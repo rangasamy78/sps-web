@@ -2,19 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
-use App\Models\TaxComponent;
+use App\Http\Requests\TaxComponent\CreateTaxComponentRequest;
+
+use App\Http\Requests\TaxComponent\UpdateTaxComponentRequest;
+use App\Models\Account;
 use App\Models\TaxAuthority;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+use App\Models\TaxComponent;
 use App\Repositories\TaxComponentRepository;
 use App\Services\TaxComponent\TaxComponentService;
-use App\Http\Requests\TaxComponent\{CreateTaxComponentRequest, UpdateTaxComponentRequest};
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;use Illuminate\Support\Facades\Log;
 
 class TaxComponentController extends Controller
 {
-    protected $taxComponentService;
-    public TaxComponentRepository $taxComponentRepository;
+    public $taxComponentService;
+    public $taxComponentRepository;
 
     public function __construct(TaxComponentRepository $taxComponentRepository, TaxComponentService $taxComponentService)
     {
@@ -24,15 +27,15 @@ class TaxComponentController extends Controller
 
     public function index()
     {
-        $tax_authorities     = TaxAuthority::query()->pluck('authority_name', 'id');
+        $tax_authorities = TaxAuthority::query()->pluck('authority_name', 'id');
         return view('tax_component.tax_components', compact('tax_authorities'));
     }
 
     public function create()
     {
-        $tax_authorities     = TaxAuthority::query()->pluck('authority_name', 'id');
-        $nextSortOrder = $this->taxComponentService->getNextSortOrder();
-        return view('tax_component.create',compact('tax_authorities','nextSortOrder'));
+        $data = $this->__getDropDownData();
+        $nextSortOrder   = $this->taxComponentService->getNextSortOrder();
+        return view('tax_component.create', compact('data', 'nextSortOrder'));
     }
 
     /**
@@ -44,7 +47,7 @@ class TaxComponentController extends Controller
     public function store(CreateTaxComponentRequest $request)
     {
         try {
-            $this->taxComponentRepository->store($request->only('sort_order','component_name','component_tax_id','authority_id','sales_tax_id'));
+            $this->taxComponentRepository->store($request->only('sort_order', 'component_name', 'component_tax_id', 'authority_id', 'sales_tax_id'));
             return response()->json(['status' => 'success', 'msg' => 'Tax Component saved successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
@@ -73,9 +76,9 @@ class TaxComponentController extends Controller
      */
     public function edit($id)
     {
-        $tax_component = $this->taxComponentRepository->findOrFail($id);
-        $tax_authorities     = TaxAuthority::query()->pluck('authority_name', 'id');
-        return view('tax_component.edit', compact('tax_authorities','tax_component'));
+        $tax_component   = $this->taxComponentRepository->findOrFail($id);
+        $data = $this->__getDropDownData();
+        return view('tax_component.edit', compact('data', 'tax_component'));
     }
 
     /**
@@ -88,7 +91,7 @@ class TaxComponentController extends Controller
     public function update(UpdateTaxComponentRequest $request, TaxComponent $taxComponent)
     {
         try {
-            $taxComponent->update($request->only('sort_order','component_name','component_tax_id','authority_id','sales_tax_id'));
+            $this->taxComponentRepository->update($request->only('sort_order', 'component_name', 'component_tax_id', 'authority_id', 'sales_tax_id'), $taxComponent->id);
             return response()->json(['status' => 'success', 'msg' => 'Tax Component updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes
@@ -120,8 +123,15 @@ class TaxComponentController extends Controller
         }
     }
 
-    public function getTaxComponentDataTableList(Request $request) {
+    public function getTaxComponentDataTableList(Request $request)
+    {
         return $this->taxComponentRepository->dataTable($request);
     }
 
+    private function __getDropDownData($customer = null)
+    {
+        $tax_authorities  = TaxAuthority::query()->pluck('authority_name', 'id');
+        $sales_taxes      = Account::query()->select(DB::raw("CONCAT(account_number, ' - ', account_name) AS account_details"), 'id')->where('special_account_type_id', 4)->pluck('account_details', 'id');
+        return compact('tax_authorities', 'sales_taxes');
+    }
 }

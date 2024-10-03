@@ -82,7 +82,7 @@ class TaxAuthorityController extends Controller
     public function update(UpdateTaxAuthorityRequest $request, TaxAuthority $taxAuthority)
     {
         try {
-            $taxAuthority->update($request->only('authority_name','print_name','authority_code','contact_name','primary_phone','secondary_phone','mobile','fax','email','website','address','suite','city','state','zip','country_id','tax_number','check_memo','internal_notes'));
+            $this->taxAuthorityRepository->update($request->only('authority_name','print_name','authority_code','contact_name','primary_phone','secondary_phone','mobile','fax','email','website','address','suite','city','state','zip','country_id','tax_number','check_memo','internal_notes'),$taxAuthority->id);
             return response()->json(['status' => 'success', 'msg' => 'Tax Authority updated successfully.']);
         } catch (Exception $e) {
             // Log the exception for debugging purposes

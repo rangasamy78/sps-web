@@ -26,6 +26,7 @@ class TaxComponent extends Model
         'component_tax_id',
         'authority_id',
         'sales_tax_id',
+        'tax_code_id',
     ];
 
     protected function componentName(): Attribute {
@@ -37,5 +38,10 @@ class TaxComponent extends Model
     public function tax_authority()
     {
         return $this->belongsTo(TaxAuthority::class, 'authority_id', 'id');
+    }
+
+    public function sales_tax_account()
+    {
+        return $this->belongsTo(Account::class, 'sales_tax_id', 'id');
     }
 }

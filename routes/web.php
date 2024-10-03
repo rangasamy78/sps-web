@@ -7,6 +7,7 @@ use App\Http\Controllers\CountyController;
 use App\Http\Controllers\BinTypeController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CountryController;
+use App\Http\Controllers\TaxCodeController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\FileTypeController;
@@ -299,15 +300,20 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/customer/list', [CustomerController::class, 'getCustomerDataTableList'])->name('customers.list');
     Route::get('/customer/fetch-customer-billing-address', [CustomerController::class, 'fetchCustomerBillingAddress'])->name('customers.billing-address');
     Route::prefix('customers')->name('customers.')->group(function() {
-        Route::post('/upload-image', [CustomerController::class, 'customerUploadImage'])->name('upload');
+        Route::post('/upload_image', [CustomerController::class, 'customerUploadImage'])->name('upload');
         Route::get('/contacts/list/{type_id}', [ContactController::class, 'getContactDataTableList'])->name('contacts.list');
         Route::post('/contacts/save', [ContactController::class, 'contactSave'])->name('contacts.save');
         Route::post('/update/status/{id}', [CustomerController::class, 'updateStatus'])->name('update_status');
     });
+
+    Route::resource('tax_codes', TaxCodeController::class);
+    Route::get('/tax_code/list', [TaxCodeController::class, 'getTaxCodeDataTableList'])->name('tax_codes.list');
+    Route::get('/tax_code/get-account-number/{id}', [TaxCodeController::class, 'getGLAccountNumber'])->name('tax_codes.gl-account');
 
     Route::resource('tax_authorities', TaxAuthorityController::class);
     Route::get('/tax_authority/list', [TaxAuthorityController::class, 'getTaxAuthorityDataTableList'])->name('tax_authorities.list');
 
     Route::resource('tax_components', TaxComponentController::class);
     Route::get('/tax_component/list', [TaxComponentController::class, 'getTaxComponentDataTableList'])->name('tax_components.list');
+
 });
