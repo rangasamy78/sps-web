@@ -7,7 +7,7 @@
             }
         });
 
-        $('#componentNameFilter, #authorityFilter, #salesTaxIDFilter').on('keyup change', function(e) {
+        $('#taxCodeFilter, #taxCodeLabelFilter').on('keyup change', function(e) {
             e.preventDefault();
             table.draw();
         });
@@ -24,8 +24,8 @@
                 url: "{{ route('tax_codes.list') }}",
                 data: function(d) {
                     d.component_name = $('#componentNameFilter').val();
-                    d.authority_id = $('#authorityFilter').val();
-                    d.sales_tax_id = $('#salesTaxIDFilter').val();
+                    d.tax_code = $('#taxCodeFilter').val();
+                    d.tax_code_label = $('#taxCodeLabelFilter').val();
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{
                         column: 1,
@@ -210,12 +210,13 @@
         $(document).on('change', '.tax_rate', function() {
             var sum = 0;
             $('.tax_rate').each(function() {
-                var rate = parseInt($(this).val(), 10);
+                var rate = parseFloat($(this).val(), 10);
                 if (!isNaN(rate)) {
                     sum += rate;
                 }
             });
-            $("#tax_sum").html(sum + ' %'); // Display the sum with a percentage sign
+            $("#tax_sum").html(sum + ' %');
+            $("#tax_code_total").val(sum);
         });
 
 

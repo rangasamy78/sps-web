@@ -27,6 +27,8 @@ class TaxComponent extends Model
         'authority_id',
         'sales_tax_id',
         'tax_code_id',
+        'new_tax_component_rate',
+        'tax_code_total',
     ];
 
     protected function componentName(): Attribute {

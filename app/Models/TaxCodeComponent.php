@@ -24,6 +24,7 @@ class TaxCodeComponent extends Model
         'tax_code_id',
         'tax_component_id',
         'rate',
+        'gl_account_name',
     ];
 
     public function tax_code()

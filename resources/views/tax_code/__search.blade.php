@@ -2,10 +2,10 @@
     <div class="row g-3 mb-3 p-3">
         <label><b>Search Tax Authority : </b></label>
         <div class="col-12 col-sm-6 col-lg-2">
-            {!! Form::text('component_name', null, ['class' => 'form-control', 'id' => 'componentNameFilter', 'placeholder' => 'Tax Component']) !!}
+            {!! Form::text('tax_code', null, ['class' => 'form-control', 'id' => 'taxCodeFilter', 'placeholder' => 'Tax Code']) !!}
         </div>
         <div class="col-12 col-sm-6 col-lg-2">
-            {!! Form::text('sales_tax_id', null, ['class' => 'form-control', 'id' => 'salesTaxIDFilter', 'placeholder' => 'Sales Tax Name']) !!}
+            {!! Form::text('tax_code_label', null, ['class' => 'form-control', 'id' => 'taxCodeLabelFilter', 'placeholder' => 'Tax Code label']) !!}
         </div>
     </div>
 </div>&nbsp;

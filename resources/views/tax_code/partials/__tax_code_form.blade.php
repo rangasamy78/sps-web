@@ -67,7 +67,7 @@
                                 <td>{!! Form::text('tax_id[]', $j * 10, ['class' => 'form-control', 'id' => "tax_id_$i", 'placeholder' => 'Enter Tax ID']) !!}</td>
                                 <td>{!! Form::select('tax_component_id[]', $data['tax_components'], $tax_code_component['tax_component_id'], ['class' => 'form-control tax_component_id', 'data-id'=> "$i", 'id' => "tax_component_id_$i", 'placeholder' => '--Select Component--', 'data-allow-clear' => 'true']) !!}</td>
                                 <td><span id="tax_gl_account_{{$i}}">{{ $tax_code_component['gl_account_name'] }}</span>
-                                    {!! Form::text('gl_account_name[]', $tax_code_component['gl_account_name'], ['class' => 'form-control', 'id' => "gl_account_name_$i", 'placeholder' => 'Enter Tax Gl Account']) !!}
+                                    {!! Form::hidden('gl_account_name[]', $tax_code_component['gl_account_name'], ['class' => 'form-control', 'id' => "gl_account_name_$i", 'placeholder' => 'Enter Tax Gl Account']) !!}
                                 </td>
                                 <td>{!! Form::text('tax_rate[]', $tax_code_component['rate'], ['class' => 'form-control tax_rate', 'id' => "tax_rate_$i", 'placeholder' => 'Enter Rate']) !!}</td>
                                 <td>@if($i >= 1) {!! Form::button('X', ['type' => 'button', 'name' => 'remove', 'id' => $i, 'class' => 'btn btn-danger btn_remove']) !!} @endif</td>
@@ -99,20 +99,23 @@
                 <div class="row mb-3">
                     <div class="col-4">
                         <label class="form-label" for="component_name">New Tax Component </label>
-                        {!! Form::text('component_name', $tax_component->component_name??'', ['class' => 'form-control','id' => 'component_name','placeholder' => 'Enter New Tax Component',]) !!}
+                        {!! Form::text('component_name', $tax_component->component_name ?? '', ['class' => 'form-control','id' => 'component_name','placeholder' => 'Enter New Tax Component',]) !!}
                         <span class="text-danger error-text component_name_error"></span>
                     </div>
                     <div class="col-3">
                         <label class="form-label" for="sales_tax_id">Tax Component Sales Acc.</label>
-                        {!! Form::select('sales_tax_id', $data['sales_taxes'], $tax_component->sales_tax_id??'', ['class' => 'form-control sales_tax_id', 'data-id'=> '0', 'id' => 'sales_tax_id', 'placeholder' => '--Select Tax Code--', 'data-allow-clear' => 'true']) !!}
+                        {!! Form::select('sales_tax_id', $data['sales_taxes'], $tax_component->sales_tax_id ?? '', ['class' => 'form-control sales_tax_id', 'data-id'=> '0', 'id' => 'sales_tax_id', 'placeholder' => '--Select Tax Code--', 'data-allow-clear' => 'true']) !!}
                     </div>
                     <div class="col-3 mb-3">
                         <label class="form-label" for="new_tax_component_rate">&nbsp;</label>
-                        {!! Form::text('new_tax_component_rate', $tax_component->new_tax_component_rate??'', ['class' => 'form-control tax_rate','id' => 'new_tax_component_rate', 'disabled' => 'disabled', 'style' =>"margin-left: 85px;"]) !!}
+                        {!! Form::text('new_tax_component_rate', $tax_component->new_tax_component_rate ?? '', ['class' => 'form-control tax_rate','id' => 'new_tax_component_rate', 'disabled' => 'disabled', 'style' =>"margin-left: 85px;"]) !!}
                     </div>
                     <div class="col-7">&nbsp;</div>
                     <div class="col-2 mb-3">
-                        <span id="tax_sum" style="margin-left: 100px;font-weight: 800;font-size: 17px;"></span>
+                        <span id="tax_sum" style="margin-left: 100px; font-weight: 800; font-size: 17px;">
+                            {{ isset($tax_component->tax_code_total) ? $tax_component->tax_code_total . '%' : '' }}
+                        </span>
+                        {!! Form::text('tax_code_total', old('tax_code_total', $tax_component->tax_code_total ?? ''), ['class' => 'form-control', 'id' => 'tax_code_total', 'style' => 'margin-left: 85px;']) !!}
                     </div>
                 </div>
             </div>

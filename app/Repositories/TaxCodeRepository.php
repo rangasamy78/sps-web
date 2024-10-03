@@ -48,6 +48,7 @@ class TaxCodeRepository implements CrudRepositoryInterface, DatatableRepositoryI
                 'component_name' => $data['component_name'],
                 'sales_tax_id' => $data['sales_tax_id'],
                 'new_tax_component_rate' => $data['new_tax_component_rate'],
+                'tax_code_total' => $data['tax_code_total'],
                 'tax_code_id' => $taxCode->id,
             ]);
         }
@@ -94,6 +95,8 @@ class TaxCodeRepository implements CrudRepositoryInterface, DatatableRepositoryI
                 'component_name' => $data['component_name'],
                 'sales_tax_id' => $data['sales_tax_id'],
                 'new_tax_component_rate' => $data['new_tax_component_rate'],
+                'tax_code_total' => $data['tax_code_total'],
+                'tax_code_id' => $taxCode->id,
             ]);
         }
         return $taxCode;

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('component_tax_id')->nullable();
             $table->integer('authority_id')->nullable();
             $table->string('new_tax_component_rate')->nullable();
+            $table->string('tax_code_total')->nullable();
             $table->integer('sales_tax_id');
             $table->integer('tax_code_id')->nullable();
             $table->timestamps();
