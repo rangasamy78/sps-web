@@ -34,7 +34,7 @@ class AssociateController extends Controller
     }
     public function create()
     {
-        // $customer = Customer::query()->get();
+       
         $primary_sale = User::whereHas('department', function ($query) {
             $query->where('department_name', 'Sales');
         })->get();
@@ -62,7 +62,6 @@ class AssociateController extends Controller
                 'primary_sales_id', 'secondary_sales_id', 'internal_notes'));
             return response()->json(['status' => 'success', 'msg' => 'Associate saved successfully.']);
         } catch (Exception $e) {
-            // Log the exception for debugging purposes
             Log::error('Error saving associate: ' . $e->getMessage());
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the associate.']);
         }
@@ -123,7 +122,6 @@ class AssociateController extends Controller
                 'primary_sales_id', 'secondary_sales_id', 'internal_notes'), $associate->id);
             return response()->json(['status' => 'success', 'msg' => 'Associate updated successfully.']);
         } catch (Exception $e) {
-            // Log the exception for debugging purposes
             Log::error('Error updating associate: ' . $e->getMessage());
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the associate.']);
         }
@@ -138,7 +136,6 @@ class AssociateController extends Controller
     public function destroy($id)
     {
         try {
-
             $associate = $this->associateRepository->findOrFail($id);
             if ($associate) {
 
@@ -186,5 +183,7 @@ class AssociateController extends Controller
             ], 500);
         }
     }
+
+    
 
 }

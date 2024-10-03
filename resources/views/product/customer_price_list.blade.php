@@ -6,11 +6,11 @@
 <style>
   .product-link {
     color: black;
-    text-decoration: none; 
+    text-decoration: none;
 }
 
 .product-link:hover {
-    text-decoration: underline; 
+    text-decoration: underline;
 }
 
 </style>
@@ -25,20 +25,22 @@
         <div class="card pt-0 p-4">
           <div class="row">
             <div class="col">
-              <table class="datatables-basic table tables-basic border-top table-striped" id="datatable">
+              <table class="datatables-basic table tables-basic border-top table-striped" id="customerPriceListdatatable">
                 <thead class="table-header-bold">
                   <tr class="odd gradeX">
                     <th>Sl.No</th>
                     <th>Item Name</th>
                     <th>SKU</th>
+                    <th>Type</th>
                     <th>Kind</th>
-                    <th>Type/Form</th>
                     <th>Category</th>
-                    <th>SubCategory</th>
+                    <th>Sub Category</th>
                     <th>Group</th>
-                    <th>Origin</th>
                     <th>Pref.Supplier</th>
-                    <th>Status</th>
+                    <th>Price / UOM</th>
+                    <th>Alternate UOM1</th>
+                    <th>Effective Dt.</th>
+                    <th>Expiry Dt.</th>
                     <th>Actions</th>
                   </tr>
                 </thead>

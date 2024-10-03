@@ -7,11 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ProductPrice extends Model
 {
     use HasFactory;
-
-    // Specify the table if it's not the default plural form
     protected $table = 'product_price';
-
-    // Specify the fillable fields
     protected $fillable = [
         'product_id',
         'homeowner_price',
@@ -26,10 +22,9 @@ class ProductPrice extends Model
         'special_price_per_slab',
         'owner_approval_price_per_slab',
         'price12',
-        'price_range',
+        'price_range_id',
     ];
 
-    // Define the relationship to the Product model (assuming a Product model exists)
     public function product()
     {
         return $this->belongsTo(Product::class);
