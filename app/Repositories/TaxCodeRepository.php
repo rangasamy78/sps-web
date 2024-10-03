@@ -30,6 +30,7 @@ class TaxCodeRepository implements CrudRepositoryInterface, DatatableRepositoryI
         $taxIds = $data['tax_id'];
         $taxComponent = $data['tax_component_id'];
         $taxRate = $data['tax_rate'];
+        $glAccountName = $data['gl_account_name'];
 
         if (isset($taxComponent) && !empty($taxComponent)) {
             foreach ($taxComponent as $index => $taxComp) {
@@ -37,6 +38,7 @@ class TaxCodeRepository implements CrudRepositoryInterface, DatatableRepositoryI
                     'tax_code_id' => $taxCode->id,
                     'tax_component_id' => $taxComp,
                     'rate' => $taxRate[$index],
+                    'gl_account_name' => $glAccountName[$index],
                 ]);
             }
         }
@@ -54,6 +56,7 @@ class TaxCodeRepository implements CrudRepositoryInterface, DatatableRepositoryI
 
     public function update(array $data, int $id)
     {
+        // dd($data);
         $taxCodeDelete = $this->findOrFail($id);
         if(!empty($taxCodeDelete)){
             $taxCodeDelete->delete();
@@ -69,6 +72,7 @@ class TaxCodeRepository implements CrudRepositoryInterface, DatatableRepositoryI
         $taxIds = $data['tax_id'];
         $taxComponent = $data['tax_component_id'];
         $taxRate = $data['tax_rate'];
+        $glAccountName = $data['gl_account_name'];
 
         TaxCodeComponent::query()->where('tax_code_id', $id)->delete();
 
@@ -78,6 +82,7 @@ class TaxCodeRepository implements CrudRepositoryInterface, DatatableRepositoryI
                     'tax_code_id' => $taxCode->id,
                     'tax_component_id' => $taxComp,
                     'rate' => $taxRate[$index],
+                    'gl_account_name' => $glAccountName[$index],
                 ]);
             }
         }

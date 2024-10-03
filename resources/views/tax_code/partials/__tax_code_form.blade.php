@@ -66,7 +66,9 @@
                             <tr id="row_{{ $i }}">
                                 <td>{!! Form::text('tax_id[]', $j * 10, ['class' => 'form-control', 'id' => "tax_id_$i", 'placeholder' => 'Enter Tax ID']) !!}</td>
                                 <td>{!! Form::select('tax_component_id[]', $data['tax_components'], $tax_code_component['tax_component_id'], ['class' => 'form-control tax_component_id', 'data-id'=> "$i", 'id' => "tax_component_id_$i", 'placeholder' => '--Select Component--', 'data-allow-clear' => 'true']) !!}</td>
-                                <td><span id="tax_gl_account_{{$i}}">{{ $tax_code_component['gl_account_name'] }}</span></td>
+                                <td><span id="tax_gl_account_{{$i}}">{{ $tax_code_component['gl_account_name'] }}</span>
+                                    {!! Form::text('gl_account_name[]', $tax_code_component['gl_account_name'], ['class' => 'form-control', 'id' => "gl_account_name_$i", 'placeholder' => 'Enter Tax Gl Account']) !!}
+                                </td>
                                 <td>{!! Form::text('tax_rate[]', $tax_code_component['rate'], ['class' => 'form-control tax_rate', 'id' => "tax_rate_$i", 'placeholder' => 'Enter Rate']) !!}</td>
                                 <td>@if($i >= 1) {!! Form::button('X', ['type' => 'button', 'name' => 'remove', 'id' => $i, 'class' => 'btn btn-danger btn_remove']) !!} @endif</td>
                             </tr>
@@ -76,7 +78,9 @@
                     <tr id="row_0">
                         <td>{!! Form::text('tax_id[]', null, ['class' => 'form-control', 'id' => 'tax_id_0', 'placeholder' => 'Enter Tax ID', 'disabled' => 'disabled']) !!}</td>
                         <td>{!! Form::select('tax_component_id[]', $data['tax_components'], null, ['class' => 'form-control tax_component_id', 'data-id'=> '0', 'id' => 'tax_component_id', 'placeholder' => '--Select Component--', 'data-allow-clear' => 'true']) !!}</td>
-                        <td><span id="tax_gl_account_0"></span></td>
+                        <td><span id="tax_gl_account_0"></span>
+                            {!! Form::text('gl_account_name[]', null, ['class' => 'form-control', 'id' => "gl_account_name_0", 'placeholder' => 'Enter Tax Gl Account']) !!}
+                        </td>
                         <td>{!! Form::text('tax_rate[]', null, ['class' => 'form-control tax_rate', 'id' => 'tax_rate_0', 'placeholder' => 'Enter Rate', 'disabled' => 'disabled']) !!}</td>
                     </tr>
                     @endif
