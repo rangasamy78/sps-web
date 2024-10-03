@@ -44,47 +44,110 @@
                             <label class="form-label" for="code" style="margin-left: 10px;margin-top: 10px;">Where is this Tax Code Used?</label>
                         </div>
                     </div>
-                    <div class="col-3">
+                </div>
+            </div> <!-- card -->
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 col-lg-12">
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-4">
+                       <p>Build New Tax Rates</p>
+                    </div>
+                    <div class="col-2">
+                        &nbsp;
+                     </div>
+                     <div class="col-2">
+                        {!! Form::button('Tax Change History', ['class' => 'btn btn-primary', 'id' => 'tax_change_history', 'value' => 'Tax Change History', 'style' => 'margin-top: 30px;']) !!}
+                     </div>
+                     <div class="col-4">
                         {!! Form::label('effective_date', 'Effective Date:', ['class' => 'form-label']) !!}
                         {!! Form::date('effective_date', null, ['class' => 'form-control', 'id' => 'effective_date']) !!}
                         <span class="text-danger error-text effective_date_error"></span>
                     </div>
                 </div>
-            </div> <!-- card -->
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dynamic_table">
-                    <tr>
-                        <th>Sort</th>
-                        <th>Tax Component</th>
-                        <th>GL Account</th>
-                        <th>Rate</th>
-                        <th><button type="button" name="add" id="add" class="btn btn-success">Add More</button></th>
-                    </tr>
-                    @if(isset($tax_code_components))
-                        @php $j = 1; $i = 0; @endphp
-                        @foreach($tax_code_components as $key => $tax_code_component)
-                            <tr id="row_{{ $i }}">
-                                <td>{!! Form::text('tax_id[]', $j * 10, ['class' => 'form-control', 'id' => "tax_id_$i", 'placeholder' => 'Enter Tax ID']) !!}</td>
-                                <td>{!! Form::select('tax_component_id[]', $data['tax_components'], $tax_code_component['tax_component_id'], ['class' => 'form-control tax_component_id', 'data-id'=> "$i", 'id' => "tax_component_id_$i", 'placeholder' => '--Select Component--', 'data-allow-clear' => 'true']) !!}</td>
-                                <td><span id="tax_gl_account_{{$i}}">{{ $tax_code_component['gl_account_name'] }}</span>
-                                    {!! Form::hidden('gl_account_name[]', $tax_code_component['gl_account_name'], ['class' => 'form-control', 'id' => "gl_account_name_$i", 'placeholder' => 'Enter Tax Gl Account']) !!}
-                                </td>
-                                <td>{!! Form::text('tax_rate[]', $tax_code_component['rate'], ['class' => 'form-control tax_rate', 'id' => "tax_rate_$i", 'placeholder' => 'Enter Rate']) !!}</td>
-                                <td>@if($i >= 1) {!! Form::button('X', ['type' => 'button', 'name' => 'remove', 'id' => $i, 'class' => 'btn btn-danger btn_remove']) !!} @endif</td>
-                            </tr>
-                        @php $j++; $i++; @endphp
-                        @endforeach
-                    @else
-                    <tr id="row_0">
-                        <td>{!! Form::text('tax_id[]', null, ['class' => 'form-control', 'id' => 'tax_id_0', 'placeholder' => 'Enter Tax ID', 'disabled' => 'disabled']) !!}</td>
-                        <td>{!! Form::select('tax_component_id[]', $data['tax_components'], null, ['class' => 'form-control tax_component_id', 'data-id'=> '0', 'id' => 'tax_component_id', 'placeholder' => '--Select Component--', 'data-allow-clear' => 'true']) !!}</td>
-                        <td><span id="tax_gl_account_0"></span>
-                            {!! Form::text('gl_account_name[]', null, ['class' => 'form-control', 'id' => "gl_account_name_0", 'placeholder' => 'Enter Tax Gl Account']) !!}
-                        </td>
-                        <td>{!! Form::text('tax_rate[]', null, ['class' => 'form-control tax_rate', 'id' => 'tax_rate_0', 'placeholder' => 'Enter Rate', 'disabled' => 'disabled']) !!}</td>
-                    </tr>
-                    @endif
-                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 col-lg-12">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-tile mb-0">{{ date('M d, Y', strtotime($tax_code->effective_date)) }} </h5>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-4">
+                        <ul class="list-unstyled">
+                            <li ng-repeat="Detail in PrevTaxDetail.SubTaxDetail" class="ng-scope">
+                                <div class="row">
+                                    <div class="col-8 ng-binding">NY - 8.625</div>
+                                    <div class="col-4 text-end ng-binding">8.625%</div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="row mt-2">
+                                    <div class="col-8 fs-6 fw-bold text-muted">Total</div>
+                                    <div class="col-4 text-end fs-6 fw-bold text-muted ng-binding">8.625%</div>
+                                </div>
+                            </li>
+                            {{-- <li>
+                                <span class="text-success ng-binding ng-hide" ng-show="PrevTaxDetail.TransCount == 0" aria-hidden="true">3825
+                                    transactions created from May 31, 2014.</span>
+                                <span class="text-danger ng-binding" ng-show="PrevTaxDetail.TransCount > 0" aria-hidden="false">3825
+                                    transactions created from May 31, 2014.</span>
+                            </li> --}}
+                            <button type="button" class="update_rate" id="update_rate">Change</button>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 col-lg-12">
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dynamic_table">
+                        <tr>
+                            <th>Sort</th>
+                            <th>Tax Component</th>
+                            <th>GL Account</th>
+                            <th>Rate</th>
+                            <th><button type="button" name="add" id="add" class="btn btn-success">Add More</button></th>
+                        </tr>
+                        @if(isset($tax_code_components))
+                            @php $j = 1; $i = 0; @endphp
+                            @foreach($tax_code_components as $key => $tax_code_component)
+                                <tr id="row_{{ $i }}">
+                                    <td>{!! Form::text('tax_id[]', $j * 10, ['class' => 'form-control', 'id' => "tax_id_$i", 'placeholder' => 'Enter Tax ID']) !!}</td>
+                                    <td>{!! Form::select('tax_component_id[]', $data['tax_components'], $tax_code_component['tax_component_id'], ['class' => 'form-control tax_component_id', 'data-id'=> "$i", 'id' => "tax_component_id_$i", 'placeholder' => '--Select Component--', 'data-allow-clear' => 'true']) !!}</td>
+                                    <td><span id="tax_gl_account_{{$i}}">{{ $tax_code_component['gl_account_name'] }}</span>
+                                        {!! Form::hidden('gl_account_name[]', $tax_code_component['gl_account_name'], ['class' => 'form-control', 'id' => "gl_account_name_$i", 'placeholder' => 'Enter Tax Gl Account']) !!}
+                                    </td>
+                                    <td>{!! Form::text('tax_rate[]', $tax_code_component['rate'], ['class' => 'form-control tax_rate', 'id' => "tax_rate_$i", 'placeholder' => 'Enter Rate']) !!}</td>
+                                    <td>@if($i >= 1) {!! Form::button('X', ['type' => 'button', 'name' => 'remove', 'id' => $i, 'class' => 'btn btn-danger btn_remove']) !!} @endif</td>
+                                </tr>
+                            @php $j++; $i++; @endphp
+                            @endforeach
+                        @else
+                        <tr id="row_0">
+                            <td>{!! Form::text('tax_id[]', null, ['class' => 'form-control', 'id' => 'tax_id_0', 'placeholder' => 'Enter Tax ID', 'disabled' => 'disabled']) !!}</td>
+                            <td>{!! Form::select('tax_component_id[]', $data['tax_components'], null, ['class' => 'form-control tax_component_id', 'data-id'=> '0', 'id' => 'tax_component_id', 'placeholder' => '--Select Component--', 'data-allow-clear' => 'true']) !!}</td>
+                            <td><span id="tax_gl_account_0"></span>
+                                {!! Form::text('gl_account_name[]', null, ['class' => 'form-control', 'id' => "gl_account_name_0", 'placeholder' => 'Enter Tax Gl Account']) !!}
+                            </td>
+                            <td>{!! Form::text('tax_rate[]', null, ['class' => 'form-control tax_rate', 'id' => 'tax_rate_0', 'placeholder' => 'Enter Rate', 'disabled' => 'disabled']) !!}</td>
+                        </tr>
+                        @endif
+                    </table>
+                </div>
             </div>
         </div>
     </div>
