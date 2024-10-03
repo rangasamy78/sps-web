@@ -23,7 +23,7 @@ class CreateProductRequest extends FormRequest
     {
         return [
             'product_name' => 'required|string|max:255|unique:products,product_name',
-            'product_sku'  => 'unique:products,product_sku',
+            'product_sku'  => 'nullable|unique:products,product_sku',
             'product_kind_id' => 'required',
             'product_type_id' => 'required',
             'unit_of_measure_id' => 'required',
@@ -41,10 +41,10 @@ class CreateProductRequest extends FormRequest
             'special_price_per_slab' => 'nullable|numeric', 
             'owner_approval_price_per_slab' => 'nullable|numeric', 
             'price12' => 'nullable|numeric', 
+            'purchasing_unit_cost' => 'nullable|numeric',
+            'avg_est_cost' => 'nullable|numeric'
         ];
     }
-    
-    
 
     /**
      * Get custom error messages for validation rules.
@@ -73,7 +73,9 @@ class CreateProductRequest extends FormRequest
             'loose_slab_per_slab.numeric'  => 'The loose slab price per slab must be a valid number.',
             'special_price_per_slab.numeric'  => 'The special price per slab must be a valid number.',
             'owner_approval_price_per_slab.numeric'  => 'The owner approval price per slab must be a valid number.',
-            'price12.numeric'  => 'The special price per slab must be a valid number.',
+            'price12.numeric'  => 'The price 12 must be a valid number.',
+            'purchasing_unit_cost.numeric'  => 'The purchasing unit cost value must be a valid number.',
+            'avg_est_cost.numeric'  => 'The avg est cost must be a valid number.',
         ];
     }
 }

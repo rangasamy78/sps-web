@@ -25,19 +25,29 @@
         <div class="card pt-0 p-4">
           <div class="row">
             <div class="col">
-              <table class="datatables-basic table tables-basic border-top table-striped" id="datatable">
+              <table class="datatables-basic table tables-basic border-top table-striped" id="PriceListdatatable">
                 <thead class="table-header-bold">
                   <tr class="odd gradeX">
                     <th>Sl.No</th>
-                    <th>Item Name</th>
+                    <th>Name</th>
                     <th>SKU</th>
-                    <th>Kind</th>
-                    <th>Type/Form</th>
                     <th>Category</th>
-                    <th>SubCategory</th>
+                    <th>Sub Category</th>
+                    <th>Type</th>
                     <th>Group</th>
-                    <th>Origin</th>
                     <th>Pref.Supplier</th>
+                    <th>Loose Slab Price</th>
+                    <th>Bundle Price</th>
+                    <th>Special Price</th>
+                    <th>Price4</th>
+                    <th>Price5</th>
+                    <th>Price6</th>
+                    <th>Price7</th>
+                    <th>Price8</th>
+                    <th>Price9</th>
+                    <th>Price10</th>
+                    <th>Price11</th>
+                    <th>Price12</th>                    
                     <th>Status</th>
                     <th>Actions</th>
                   </tr>

@@ -26,7 +26,7 @@ return new class extends Migration
             $table->float('special_price_per_slab')->nullable();
             $table->float('owner_approval_price_per_slab')->nullable();
             $table->float('price12')->nullable();
-            $table->string('price_range')->nullable();
+            $table->string('price_range_id')->nullable();
             $table->timestamps();
         });
     }

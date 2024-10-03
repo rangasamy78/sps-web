@@ -25,7 +25,7 @@
         <div class="card pt-0 p-4">
           <div class="row">
             <div class="col">
-              <table class="datatables-basic table tables-basic border-top table-striped" id="datatable">
+              <table class="datatables-basic table tables-basic border-top table-striped" id="Stockdatatable">
                 <thead class="table-header-bold">
                   <tr class="odd gradeX">
                     <th>Sl.No</th>

@@ -29,10 +29,10 @@ return new class extends Migration
             $table->integer('unit_of_measure_id');
             $table->string('product_weight')->nullable();
             $table->string('product_size')->nullable();
-            $table->boolean('indivisible')->default(0);
-            $table->boolean('manufactured')->default(0);
-            $table->boolean('generic')->default(0);
-            $table->boolean('select_slab')->default(0);
+            $table->integer('indivisible')->default(0);
+            $table->integer('manufactured')->default(0);
+            $table->integer('generic')->default(0);
+            $table->integer('select_slab')->default(0);
             $table->integer('gl_inventory_link_account_id');
             $table->integer('gl_income_account_id');
             $table->integer('gl_cogs_account_id');
@@ -63,37 +63,15 @@ return new class extends Migration
             $table->string('uom_six_value')->nullable();
             $table->integer('minimum_packing_unit_id')->nullable();
             $table->string('minimum_packing_unit_value')->nullable();
-            $table->boolean('new_product_flag')->default(0);
-            $table->boolean('hide_on_website_or_guest_book')->default(0);
-            $table->boolean('is_featured')->default(0);
+            $table->integer('new_product_flag')->default(0);
+            $table->integer('hide_on_website_or_guest_book')->default(0);
+            $table->integer('is_featured')->default(0);
             $table->string('web_user_name')->nullable();
             $table->text('description_on_web')->nullable();
             $table->text('notes')->nullable();
             $table->text('special_intstruction')->nullable();
             $table->text('disclaimer')->nullable();
-
-            $table->enum('color_enhancing', ['Yes', 'No', 'N/A'])->nullable();
-            $table->enum('countertop_vanities', ['Yes', 'No', 'N/A'])->nullable();
-            $table->enum('interior_floor', ['Yes', 'No', 'N/A'])->nullable();
-            $table->enum('fireplace_interior_wall', ['Yes', 'No', 'N/A'])->nullable();
-            $table->enum('shower_wall', ['Yes', 'No', 'N/A'])->nullable();
-            $table->enum('shower_floor', ['Yes', 'No', 'N/A'])->nullable();
-            $table->enum('exterior_floor', ['Yes', 'No', 'N/A'])->nullable();
-            $table->enum('exterior_wall', ['Yes', 'No', 'N/A'])->nullable();
-            $table->enum('pool_fountain', ['Yes', 'No', 'N/A'])->nullable();
-            $table->enum('furniture_top', ['Yes', 'No', 'N/A'])->nullable();
-            $table->enum('translucent', ['Yes', 'No', 'N/A'])->nullable();
-            $table->enum('cut_to_size', ['Yes', 'No', 'N/A'])->nullable();
-            $table->enum('sealer', ['Yes', 'No', 'N/A'])->nullable();
-            $table->enum('abrasion_resistance', ['Low', 'Medium', 'High'])->nullable();
-            $table->enum('stain_resistance', ['Low', 'Medium', 'High'])->nullable();
-            $table->enum('etching_resistance', ['Low', 'Medium', 'High'])->nullable();
-            $table->enum('heat_resistance', ['Low', 'Medium', 'High'])->nullable();
-            $table->enum('uv_resistance', ['Low', 'Medium', 'High'])->nullable();
-            $table->enum('color_range', ['Low', 'Medium', 'High'])->nullable();
-            $table->enum('movement_index', ['Low', 'Medium', 'High'])->nullable();
             $table->boolean('status')->default(1);
-
             $table->timestamps();
         });
     }

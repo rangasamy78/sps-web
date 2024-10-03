@@ -351,4 +351,22 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/contact/save', [AssociateContactController::class, 'save'])->name('contacts.save');
     Route::get('/contact/list', [AssociateContactController::class, 'getContactDataTableList'])->name('contacts.list');
+
+    Route::post('/sub_category/{id}', [ProductController::class, 'getSubCategory'])->name('products.sub_category');
+    Route::post('/product_change_status/{id}', [ProductController::class, 'productChangeStatus'])->name('products.product_change_status');
+    Route::get('/price_update/{id}', [ProductController::class, 'productPriceUpdate'])->name('products.price_update');
+
+    Route::get('/product/stock', [ProductController::class, 'stockProduct'])->name('products.stock');
+    Route::get('/product/stock_list', [ProductController::class, 'getProductStockDataTableList'])->name('products.stock_list');
+
+    Route::get('/product/price_list_product', [ProductController::class, 'priceListProduct'])->name('products.price_list_product');
+    Route::get('/product/price_list_product_list', [ProductController::class, 'getProductpriceListDataTableList'])->name('products.price_list_product_list');
+
+    Route::get('/product/customer_price_list_product', [ProductController::class, 'customerpriceListProduct'])->name('products.customer_price_list_product');
+    Route::get('/product/customer_price_list_product_list', [ProductController::class, 'getcustomerProductpriceListDataTableList'])->name('products.customer_price_list_product_list');
+
+    Route::get('/{id}/product_website', [ProductController::class, 'productWebsite'])->name('products.product_website');
+    Route::put('/{id}/product_web', [ProductController::class, 'productWebsiteUpdate'])->name('products.product_web_update');
+    Route::get('/{id}/product_image', [ProductController::class, 'productImage'])->name('products.product_image');
+    Route::post('product/upload-files', [ProductController::class, 'uploadFiles'])->name('product.uploadFiles');
 });

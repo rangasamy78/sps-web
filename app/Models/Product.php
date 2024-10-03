@@ -46,12 +46,12 @@ class Product extends Model
         'purchasing_unit_cost',
         'avg_est_cost',
         'new_product_flag',
-        'guest_book',
+        'hide_on_website_or_guest_book',
         'is_featured',
         'web_user_name',
         'description_on_web',
         'notes',
-        'special_instruction', 
+        'special_intstruction',
         'disclaimer',
         'homeowner_price',
         'bundle_price',
@@ -61,7 +61,7 @@ class Product extends Model
         'special_price_per_sqft',
         'owner_approval_price',
         'loose_slab_per_slab',
-        'bundle_price_sqft',
+        'bundle_price_per_slab',
         'special_price_per_slab',
         'owner_approval_price_per_slab',
         'price12',
@@ -79,6 +79,54 @@ class Product extends Model
         'uom_six_id',
         'uom_six_value',
         'minimum_packing_unit_id',
-        'minimum_packing_unit_value'
+        'minimum_packing_unit_value',
     ];
+    
+
+    public function product_type()
+    {
+        return $this->belongsTo(ProductType::class);
+    }
+
+    public function product_category()
+    {
+        return $this->belongsTo(ProductCategory::class);
+    }
+    public function product_sub_category()
+    {
+        return $this->belongsTo(ProductSubCategory::class);
+    }
+    public function product_group()
+    {
+        return $this->belongsTo(ProductGroup::class);
+    }
+    public function country()
+    {
+        return $this->belongsTo(Country::class, 'product_origin_id');
+
+    }
+    public function product_price()
+    {
+        return $this->hasOne(ProductPrice::class);
+    }
+    public function price()
+    {
+        return $this->hasOne(ProductPrice::class);
+    }
+    public function product_color()
+    {
+        return $this->belongsTo(ProductColor::class, 'product_base_color_id');
+
+    }
+    public function unit_measure()
+    {
+        return $this->belongsTo(UnitMeasure::class, 'unit_of_measure_id');
+
+    }
+    public function product_kind()
+{
+    return $this->belongsTo(ProductKind::class, 'product_kind_id');
+}
+
+   
 }
