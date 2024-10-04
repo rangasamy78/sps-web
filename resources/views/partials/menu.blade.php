@@ -498,7 +498,7 @@
             </ul>
         </li>
         <!-- Lists -->
-        <li class="menu-item {{ request()->is('customers') || request()->is('suppliers') || request()->is('associates') || request()->is('expenditures') || request()->is('accounts*') || request()->is('bin_types*') || request()->is('file_types*') || request()->is('transaction_startings*') ? 'active open' : '' }}">
+        <li class="menu-item {{ request()->is('customers') || request()->is('suppliers') || request()->is('associates') || request()->is('expenditures') || request()->is('accounts*') || request()->is('bin_types*') || request()->is('file_types*') || request()->is('transaction_startings*') || request()->is('services')  ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="bx bx-shield menu-icon"></i>
                 <div class="text-truncate" data-i18n="Lists">Lists</div>
@@ -533,9 +533,9 @@
                                 </a>
                             </li>
 
-                            <li class="menu-item {{ request()->is('currencies') ? 'active' : '' }}">
-                                <a href="{{ route('currencies.index') }}" class="menu-link">
-                                    <div class="text-truncate" data-i18n="Currencies">Services</div>
+                            <li class="menu-item {{ request()->is('services') ? 'active' : '' }}">
+                                <a href="{{ route('services.index') }}" class="menu-link">
+                                    <div class="text-truncate" data-i18n="Services">Services</div>
                                 </a>
                             </li>
                         </ul>
@@ -571,7 +571,7 @@
                         </ul>
                     </li>
                     <!-- Accounting -->
-                    <li class="menu-item {{ request()->is('accounts*')  ? 'active open' : '' }}">
+                    <li class="menu-item {{ request()->is('accounts*') || request()->is('tax_codes') || request()->is('tax_authorities') || request()->is('tax_components') ? 'active open' : '' }}">
                         <a href="javascript:void(0);" class="menu-link menu-toggle ps-4">
                             <i class="bx bx-wallet menu-icon"></i>
                             <div class="text-truncate ps-1" data-i18n="Accounting">Accounting</div>
@@ -582,14 +582,19 @@
                                     <div class="text-truncate" data-i18n="Chart of Accounts">Chart of Accounts</div>
                                 </a>
                             </li>
-                            <li class="menu-item {{ request()->is('product_types*') ? 'active open' : '' }}">
-                                <a href="{{ route('product_types.index') }}" class="menu-link">
+                            <li class="menu-item {{ request()->is('tax_codes*') ? 'active open' : '' }}">
+                                <a href="{{ route('tax_codes.index') }}" class="menu-link">
                                     <div class="text-truncate" data-i18n="Tax Codes">Tax Codes</div>
                                 </a>
                             </li>
-                            <li class="menu-item {{ request()->is('product_categories*') ? 'active open' : '' }}">
-                                <a href="{{ route('product_categories.index') }}" class="menu-link">
+                            <li class="menu-item {{ request()->is('tax_authorities*') ? 'active open' : '' }}">
+                                <a href="{{ route('tax_authorities.index') }}" class="menu-link">
                                     <div class="text-truncate" data-i18n="Tax Authorities">Tax Authorities</div>
+                                </a>
+                            </li>
+                            <li class="menu-item {{ request()->is('tax_components*') ? 'active open' : '' }}">
+                                <a href="{{ route('tax_components.index') }}" class="menu-link">
+                                    <div class="text-truncate" data-i18n="Tax Components">Tax Components</div>
                                 </a>
                             </li>
                         </ul>
