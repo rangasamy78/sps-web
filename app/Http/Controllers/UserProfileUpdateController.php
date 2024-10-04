@@ -48,7 +48,6 @@ class UserProfileUpdateController extends Controller
                 'user_image' => isset($user_deetail) ? $user_deetail : ''
             ]);
         } catch (Exception $e) {
-            dd($e->getMessage());
             Log::error('Error saving User Profile Updating: ' . $e->getMessage());
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the User Profile Updating.']);
         }

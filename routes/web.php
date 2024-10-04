@@ -11,6 +11,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\TaxCodeController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\CustomerController;
@@ -22,14 +23,15 @@ use App\Http\Controllers\EventTypeController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\SubHeadingController;
 use App\Http\Controllers\VendorTypeController;
+use App\Http\Controllers\AccountFileController;
 use App\Http\Controllers\AccountTypeController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\ExpenditureController;
 use App\Http\Controllers\ProductKindController;
 use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\ProjectTypeController;
+use App\Http\Controllers\ServiceTypeController;
 use App\Http\Controllers\UnitMeasureController;
-use App\Http\Controllers\AccountFileController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\CustomerTypeController;
 use App\Http\Controllers\ProductColorController;
@@ -53,6 +55,7 @@ use App\Http\Controllers\SurveyQuestionController;
 use App\Http\Controllers\ExpenseCategoryController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ReceivingQcNoteController;
+use App\Http\Controllers\ServiceCategoryController;
 use App\Http\Controllers\TaxExemptReasonController;
 use App\Http\Controllers\OpportunityStageController;
 use App\Http\Controllers\ProductThicknessController;
@@ -77,8 +80,8 @@ use App\Http\Controllers\PurchaseShipmentMethodController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\AccountReceivableAgingPeriodController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
-use App\Http\Controllers\ContactController as ExpenditureContactController;
 use App\Http\Controllers\ContactController as AssociateContactController;
+use App\Http\Controllers\ContactController as ExpenditureContactController;
 use App\Http\Controllers\Customer\ContactController as CustomerContactController;
 
 /*
@@ -393,4 +396,13 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('tax_components', TaxComponentController::class);
     Route::get('/tax_component/list', [TaxComponentController::class, 'getTaxComponentDataTableList'])->name('tax_components.list');
 
+    Route::resource('service_categories', ServiceCategoryController::class);
+    Route::get('/service_category/list', [ServiceCategoryController::class, 'getServiceCategoryDataTableList'])->name('service_categories.list');
+
+    Route::resource('service_types', ServiceTypeController::class);
+    Route::get('/service_type/list', [ServiceTypeController::class, 'getServiceTypeDataTableList'])->name('service_types.list');
+
+    Route::resource('services', ServiceController::class);
+    Route::get('/service/list', [ServiceController::class, 'getServiceDataTableList'])->name('services.list');
+    Route::post('/service_change_status/{id}', [ServiceController::class, 'serviceChangeStatus'])->name('services.service_change_status');
 });

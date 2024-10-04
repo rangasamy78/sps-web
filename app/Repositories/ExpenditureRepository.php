@@ -28,7 +28,6 @@ class ExpenditureRepository implements CrudRepositoryInterface, DatatableReposit
         $data['is_print_1099'] = isset($data['is_print_1099']) ? 1 : 0;
         $data['is_frieght_expenditure'] = isset($data['is_frieght_expenditure']) ? 1 : 0;
         $data['is_sub_contractor'] = isset($data['is_sub_contractor']) ? 1 : 0;
-        // dd($data);
         $query = Expenditure::query()
             ->findOrFail($id)
             ->update($data);
@@ -44,7 +43,7 @@ class ExpenditureRepository implements CrudRepositoryInterface, DatatableReposit
     public function getExpenditureList($request)
     {
         $query = Expenditure::with('vendor_types', 'company', 'payment_method');
-        $query = Expenditure::query()->with('vendor_types');
+        // $query = Expenditure::query()->with('vendor_types');
         if (!empty($request->expenditure_name_search)) {
             $query->where(function ($q) use ($request) {
                 $q->where('expenditure_name', 'like', '%' . $request->expenditure_name_search . '%')
