@@ -76,7 +76,7 @@ return new class extends Migration
             $table->text('collection_notes')->nullable();
             $table->text('internal_notes')->nullable();
             $table->tinyInteger('is_copy_sale_order')->nullable();
-            $table->tinyInteger('status')->default(1)->comment('0: Inactive, 1: Active');
+            $table->tinyInteger('status')->default(1)->comment('1: Active , 2: Inactive');
             $table->timestamps();
 
         });

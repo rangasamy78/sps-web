@@ -128,21 +128,21 @@ class Customer extends Model
 
     public function sales_person()
     {
-        return $this->belongsTo(User::class, 'sales_person_id');
+        return $this->belongsTo(User::class, 'sales_person_id', 'id');
     }
 
     public function secondary_sales_person()
     {
-        return $this->belongsTo(User::class, 'secondary_sales_person_id');
+        return $this->belongsTo(User::class, 'secondary_sales_person_id', 'id');
     }
 
     public function price_list_label()
     {
-        return $this->belongsTo(PriceListLabel::class, 'price_list_label_id');
+        return $this->belongsTo(PriceListLabel::class, 'price_list_label_id', 'id');
     }
 
     public function tax_exempt_reason()
     {
-        return $this->belongsTo(TaxExemptReason::class, 'tax_exempt_reason_id');
+        return $this->belongsTo(TaxExemptReason::class, 'tax_exempt_reason_id', 'id');
     }
 }

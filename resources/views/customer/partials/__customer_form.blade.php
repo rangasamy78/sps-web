@@ -1,6 +1,5 @@
 <div class="row">
     <div class="col-12 col-lg-12">
-        <!-- Product Information -->
         <div class="card mb-4">
             <div class="card-header">
                 <h5 class="card-tile mb-0">Customer information</h5>
@@ -47,14 +46,12 @@
 </div>
 <div class="row">
     <div class="col-12 col-lg-4">
-        <!-- Product Information -->
         <div class="card mb-4">
             <div class="card-header">
                 <h5 class="card-tile mb-0">Contact Information:</h5>
             </div>
             <div class="card-body">
                 <div class="row mb-3">
-                    <!-- Phone and Phone 2 in the same row -->
                     <div class="col-12 col-lg-6">
                         <label class="form-label" for="phone">Primary Phone</label>
                         {!! Form::text('phone', null, ['class' => 'form-control', 'id' => 'phone', 'placeholder' => 'Enter Primary Phone']) !!}
@@ -65,7 +62,6 @@
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <!-- Mobile and Fax in the same row -->
                     <div class="col-12 col-lg-6">
                         <label class="form-label" for="mobile">Mobile</label>
                         {!! Form::text('mobile', null, ['class' => 'form-control', 'id' => 'mobile', 'placeholder' => 'Enter Mobile']) !!}
@@ -97,14 +93,12 @@
         </div>
     </div>
     <div class="col-12 col-lg-4">
-        <!-- Product Information -->
         <div class="card mb-4">
             <div class="card-header">
                 <h5 class="card-tile mb-0">Bill-To Address:</h5>
             </div>
             <div class="card-body">
                 <div class="row mb-3">
-                    <!-- Mobile and Fax in the same row -->
                     <div class="col-12 col-lg-12 mb-3">
                         <label class="form-label" for="address">Address</label>
                         {!! Form::text('address', null, ['class' => 'form-control', 'id' => 'address', 'placeholder' => 'Enter Address']) !!}
@@ -139,7 +133,6 @@
         </div>
     </div>
     <div class="col-12 col-lg-4">
-        <!-- Product Information -->
         <div class="card mb-4">
             <div class="card-header">
                 <h5 class="card-tile mb-0">Shipping Address:</h5>
@@ -185,14 +178,12 @@
 </div>
 <div class="row">
     <div class="col-12 col-lg-4">
-        <!-- Product Information -->
         <div class="card mb-4">
             <div class="card-header">
                 <h5 class="card-tile mb-0">Location Info:</h5>
             </div>
             <div class="card-body">
                 <div class="row ">
-                    <!-- Phone and Phone 2 in the same row -->
                     <div class="col-12 col-lg-12">
                         <label class="form-label" for="parent_location_id">Parent Location <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></sup></label>
                         {!! Form::select('parent_location_id', $data['companies'], null, ['class' => 'form-control' . ($errors->has('parent_location_id') ? ' is-invalid' : '') . ' select2',  'id' => 'parent_location_id', 'placeholder' => '--Select Company--', 'data-allow-clear' => 'true']) !!}
@@ -200,7 +191,6 @@
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <!-- Mobile and Fax in the same row -->
                     <div class="col-12 col-lg-6 mt-3">
                         {!! Form::checkbox('multi_location', 1, null, ['id' => 'multi_location']) !!}
                         <label class="form-label" for="multi_location">Multi Location Customer</label>
@@ -234,7 +224,6 @@
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <!-- Mobile and Fax in the same row -->
                     <div class="col-12 col-lg-6">
                         <label class="form-label" for="price_list_label_id">Price Level: <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></sup></label>
                         {!! Form::select('price_list_label_id', $data['priceListLabels'], null, ['class' => 'form-control' . ($errors->has('price_list_label_id') ? ' is-invalid' : '') . ' select2', 'id' => 'price_list_label_id', 'placeholder' => 'Select Price Level', 'data-allow-clear' => 'true']) !!}
@@ -242,7 +231,6 @@
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <!-- Mobile and Fax in the same row -->
                     <div class="col-12 col-lg-6">
                         {!! Form::checkbox('is_tax_exempt', 1, null, ['id' => 'is_tax_exempt']) !!}
                         {!! Form::label('is_tax_exempt', 'Tax Exempt', ['class' => 'form-label']) !!}
@@ -250,10 +238,10 @@
                     <div class="col-12 col-lg-6">
                         {!! Form::label('tax_exempt_reason_id', 'Tax Exempt Reason:', ['class' => 'form-label']) !!}
                         {!! Form::select('tax_exempt_reason_id', $data['taxExemptReasons'], null, ['class' => 'form-control select2', 'id' => 'tax_exempt_reason_id', 'placeholder' => 'Select Reason', 'data-allow-clear' => 'true']) !!}
+                        <span class="text-danger error-text tax_exempt_reason_id_error"></span>
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <!-- Mobile and Fax in the same row -->
                     <div class="col-12 col-lg-6">
                         <label class="form-label" for="sales_tax_id">Sales Tax:</label>
                         {!! Form::label('sales_tax_id', 'Sales Tax:', ['class' => 'form-label']) !!}
@@ -266,7 +254,6 @@
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <!-- Mobile and Fax in the same row -->
                     <div class="col-12 col-lg-6">
                         {!! Form::label('exempt_certificate_no', 'Exempt Certificate #:', ['class' => 'form-label']) !!}
                         {!! Form::text('exempt_certificate_no', null, ['class' => 'form-control', 'id' => 'exempt_certificate_no', 'placeholder' => 'Enter Certificate Number']) !!}
@@ -274,6 +261,7 @@
                     <div class="col-12 col-lg-6">
                         {!! Form::label('exempt_expiry_date', 'Exempt Expiry Date:', ['class' => 'form-label']) !!}
                         {!! Form::date('exempt_expiry_date', null, ['class' => 'form-control', 'id' => 'exempt_expiry_date']) !!}
+                        <span class="text-danger error-text exempt_expiry_date_error"></span>
                     </div>
                 </div>
                 <div class="row mb-3">

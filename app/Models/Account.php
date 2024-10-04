@@ -60,7 +60,7 @@ class Account extends Model
     {
         return $this->belongsTo(Currency::class, 'currency_id');
     }
-    
+
     public function company()
     {
         return $this->belongsTo(Company::class, 'account_operating_location_id');

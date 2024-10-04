@@ -11,6 +11,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\TaxCodeController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\FileTypeController;
@@ -36,6 +37,8 @@ use App\Http\Controllers\ProductGroupController;
 use App\Http\Controllers\ShipmentTermController;
 use App\Http\Controllers\SupplierPortController;
 use App\Http\Controllers\SupplierTypeController;
+use App\Http\Controllers\TaxAuthorityController;
+use App\Http\Controllers\TaxComponentController;
 use App\Http\Controllers\AboutUsOptionController;
 use App\Http\Controllers\AgingPeriodAPController;
 use App\Http\Controllers\EndUseSegmentController;
@@ -375,4 +378,19 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/account/is_subtype/{id}', [AccountController::class, 'getIsSubAccountOf'])->name('accounts.is_subtype');
     Route::resource('account_files', AccountFileController::class);
     Route::get('/account_file/list', [AccountFileController::class, 'getAccountFileDataTableList'])->name('account_files.list');
+    Route::post('/upload_image', [CustomerController::class, 'customerUploadImage'])->name('upload');
+    Route::get('/contacts/list/{type_id}', [ContactController::class, 'getContactDataTableList'])->name('contacts.list');
+    Route::post('/contacts/save', [ContactController::class, 'contactSave'])->name('contacts.save');
+    Route::post('/update/status/{id}', [CustomerController::class, 'updateStatus'])->name('update_status');
+
+    Route::resource('tax_codes', TaxCodeController::class);
+    Route::get('/tax_code/list', [TaxCodeController::class, 'getTaxCodeDataTableList'])->name('tax_codes.list');
+    Route::get('/tax_code/get-account-number/{id}', [TaxCodeController::class, 'getGLAccountNumber'])->name('tax_codes.gl-account');
+
+    Route::resource('tax_authorities', TaxAuthorityController::class);
+    Route::get('/tax_authority/list', [TaxAuthorityController::class, 'getTaxAuthorityDataTableList'])->name('tax_authorities.list');
+
+    Route::resource('tax_components', TaxComponentController::class);
+    Route::get('/tax_component/list', [TaxComponentController::class, 'getTaxComponentDataTableList'])->name('tax_components.list');
+
 });

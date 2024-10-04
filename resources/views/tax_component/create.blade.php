@@ -1,26 +1,25 @@
 @extends('layouts.admin')
 
-@section('title', 'Add Customer')
+@section('title', 'Add Tax Component')
 
 @section('styles')
 @endsection
 @section('content')
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="py-3 mb-4"><span class="text-muted fw-light">Home /</span><span> Add Customer</span></h4>
+            <h4 class="py-3 mb-4"><span class="text-muted fw-light">Home /</span><span> Add Tax Component</span></h4>
             <div class="app-ecommerce">
                 {!! Form::open([
-                    'id' => 'customerForm',
-                    'name' => 'customerForm',
+                    'id' => 'taxComponentForm',
+                    'name' => 'taxComponentForm',
                     'method' => 'POST',
                     'class' => 'form-horizontal',
                 ]) !!}
-                @csrf
-                @include('customer.partials.__customer_form')
+                @include('tax_component.partials.__tax_component_form')
                 <div class="row mb-3">
                     <div class="col-12 text-center">
-                        {!! Form::hidden('customer_id', '') !!}
-                        {!! Form::button('Save Customer', ['class' => 'btn btn-primary', 'id' => 'savedata', 'value' => 'create']) !!}
+                        {!! Form::hidden('tax_component_id', '') !!}
+                        {!! Form::button('Save Tax Component', ['class' => 'btn btn-primary', 'id' => 'savedata', 'value' => 'create']) !!}
                         {!! Form::reset('Reset', ['class' => 'btn btn-secondary']) !!}
                     </div>
                 </div>
@@ -31,5 +30,5 @@
     </div>
 @endsection
 @section('scripts')
-    @include('customer.__scripts')
+    @include('tax_component.__scripts')
 @endsection
