@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StateController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\BinTypeController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CountryController;
@@ -19,6 +20,7 @@ use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\ProjectTypeController;
 use App\Http\Controllers\UnitMeasureController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\ServiceTypeController;
 use App\Http\Controllers\CustomerTypeController;
 use App\Http\Controllers\ProductColorController;
 use App\Http\Controllers\ProductGroupController;
@@ -40,6 +42,7 @@ use App\Http\Controllers\ExpenseCategoryController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ReceivingQcNoteController;
 use App\Http\Controllers\TaxExemptReasonController;
+use App\Http\Controllers\ServiceCategoryController;
 use App\Http\Controllers\OpportunityStageController;
 use App\Http\Controllers\ProductThicknessController;
 use App\Http\Controllers\ReturnReasonCodeController;
@@ -292,4 +295,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/contact/save', [ExpenditureContactController::class, 'save'])->name('contacts.save');
     Route::get('/contact/list', [ExpenditureContactController::class, 'getContactDataTableList'])->name('contacts.list');
 
+    Route::resource('service_categories', ServiceCategoryController::class);
+    Route::get('/service_category/list', [ServiceCategoryController::class, 'getServiceCategoryDataTableList'])->name('service_categories.list');
+
+    Route::resource('service_types', ServiceTypeController::class);
+    Route::get('/service_type/list', [ServiceTypeController::class, 'getServiceTypeDataTableList'])->name('service_types.list');
+
+    Route::resource('services', ServiceController::class);
+    Route::get('/service/list', [ServiceController::class, 'getServiceDataTableList'])->name('services.list');
+    Route::post('/service_change_status/{id}', [ServiceController::class, 'serviceChangeStatus'])->name('services.service_change_status');
 });

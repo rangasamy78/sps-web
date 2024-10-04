@@ -15,7 +15,7 @@
                 <div class="col-12">
                     <div class="card mb-4">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h4 class="card-title mb-0 fw-bold">{{ $expenditure->expenditure_name ?? '' }}</h4>
+                            <h4><span class="card-title mb-0 fw-bold" >{{ $expenditure->expenditure_name ?? '' }}</span><span style="font-size: 14px"> @if(!empty($expenditure->expenditure_code)) ({{ $expenditure->expenditure_code ?? ''  }}) @endif</span></h4>
                         </div>
                         <div class="card-body">
                             <div class="row mb-3">
@@ -38,15 +38,17 @@
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col">
-                                        <label for="Payment Terms"><span class="text-dark fw-bold">Payment Terms: </span>{{ $expenditure->account_payment_terms->payment_label ?? '' }}</label>
+                                        <label for="Payment Terms"><span class="text-dark fw-bold">Type: </span>{{ $vendor_types->vendor_type_name ?? '' }}</label>
                                     </div>
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col">
-                                        <label for="Payment Terms"><span class="text-dark fw-bold">Default Payment Method: </span>{{ $expenditure->payment_method->payment_method_name ?? '' }}</label>
+                                        <label for="Payment Terms"><span class="text-dark fw-bold">Payment Terms: </span>{{ $account_payment_terms->payment_label ?? '' }}</label>
                                     </div>
                                 </div>
                             </div>
+
+
                             <div class="col-sm-12 col-md-6 col-lg-3">
                     <h5 style="text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 2px;">Contact Information</h5>
                     <div class="row mb-2">
@@ -59,7 +61,7 @@
                                         $expenditure->city,
                                         $expenditure->state,
                                         $expenditure->zip,
-                                        $expenditure->country->country_name,
+                                        $expenditure->country->country_name ?? '',
                                     ];
                                     $addressString = implode(', ', array_filter($addressParts, fn($part) => !empty($part)));
                                 @endphp
@@ -67,36 +69,48 @@
                             </label>
                         </div>
                     </div>
+                    @if(!empty($expenditure->primary_phone))
                     <div class="row mb-2">
                         <div class="col">
                             <label for="primary_phone"><span class="text-dark fw-bold">P:</span> {{ $expenditure->primary_phone ?? '' }}</label>
                         </div>
                     </div>
+                    @endif
+                    @if(!empty($expenditure->secondary_phone))
                     <div class="row mb-2">
                         <div class="col">
                             <label for="secondary_phone"><span class="text-dark fw-bold">P:</span> {{ $expenditure->secondary_phone ?? '' }}</label>
                         </div>
                     </div>
+                    @endif
+                    @if(!empty($expenditure->fax))
                     <div class="row mb-2">
                         <div class="col">
                             <label for="fax"><span class="text-dark fw-bold">F:</span> {{ $expenditure->fax ?? '' }}</label>
                         </div>
                     </div>
+                    @endif
+                    @if(!empty($expenditure->mobile))
                     <div class="row mb-2">
                         <div class="col">
                             <label for="mobile"><span class="text-dark fw-bold">M:</span> {{ $expenditure->mobile ?? '' }}</label>
                         </div>
                     </div>
+                    @endif
+                    @if(!empty($expenditure->email))
                     <div class="row mb-2">
                         <div class="col">
                             <label for="email"><span class="text-dark fw-bold">E:</span> {{ $expenditure->email ?? '' }}</label>
                         </div>
                     </div>
+                    @endif
+                    @if(!empty($expenditure->website))
                     <div class="row mb-2">
                         <div class="col">
                             <label for="website"><span class="text-dark fw-bold">Url:</span> {{ $expenditure->website ?? '' }}</label>
                         </div>
                     </div>
+                    @endif
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-3">
                     <h5 style="text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 2px;">Accounting Info:</h5>
@@ -122,11 +136,31 @@
                     </div>
                     <div class="row mb-2">
                         <div class="col">
-                            <label for="primary_phone"><span class="text-dark fw-bold">Expense Acct:</span> {{ $expenditure->payment_method->payment_method_name ?? '' }}</label>
+                            <label for="primary_phone"><span class="text-dark fw-bold">Default Payment Method:</span> {{ $linked_accounts->account_code ?? '' }}  -  {{$linked_accounts->account_name ?? '' }}</label>
                         </div>
                     </div>
                 </div>
-
+                @if(!empty($expenditure->is_print_1099))
+                <div class="row mb-2">
+                    <div class="col">
+                        <label for="Payment Terms">Form 1099 to be printed for this vendor</label>
+                    </div>
+                </div>
+                @endif
+                @if(!empty($expenditure->is_frieght_expenditure))
+                <div class="row mb-2">
+                    <div class="col">
+                        <label for="Payment Terms" >Bills from this Vendor get prorated towards the Landed Cost of Inventory</label>
+                    </div>
+                </div>
+                @endif
+                @if(!empty($expenditure->is_sub_contractor))
+                <div class="row mb-2">
+                    <div class="col">
+                        <label for="Payment Terms">Bills from this Vendor are prorated towards job costing / process costing</label>
+                    </div>
+                </div>
+                @endif
 
                             </div>
                         </div>

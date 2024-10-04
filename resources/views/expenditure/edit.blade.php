@@ -279,10 +279,11 @@
                                             </div>
                                             <div class="mb-3 col-6">
                                                 <label class="form-label" for="currency">Currency</label>
-                                                <select id="currency"  name="currency" class="select2 form-select"
+                                                <select id="currency_display"  name="currency_display" class="select2 form-select"
                                                     disabled="disabled">
                                                     <option value="USD" selected="selected">USD - USD</option>
                                                 </select>
+                                                <input type="hidden" name="currency" value="USD">
                                             </div>
                                         </div>
                                         <div class="row">
@@ -306,7 +307,7 @@
                                                 <select name="payment_method_id" id="payment_method_id" class="select2 form-select"
                                                     data-allow-clear="true">
                                                     <option value="">--Select Payment Term--</option>
-                                                    @foreach ($account_payment_terms as $key => $value)
+                                                    @foreach ($payment_methods as $key => $value)
                                                         <option value="{{ $key }}" {{ $key == old('payment_method_id', $expenditure->payment_method_id) ? 'selected' : ''}}>{{ $value }}</option>
                                                         </option>
                                                     @endforeach

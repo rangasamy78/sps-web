@@ -224,10 +224,11 @@
             $('.payment_net_due_day_error').html('');
         }
         $('button[name="btn_payment_standard_date_driven"]').on('click', function() {
-            const ids = ['codeFilter', 'labelFilter', 'termFilter', 'netDueFilter'];
+            const ids = ['codeFilter', 'labelFilter', 'netDueFilter'];
             ids.forEach(id => {
                 document.getElementById(id).value = '';
             });
+
             var toggleBtnVal = $(this).val();
             if (toggleBtnVal == '1') {
                 $('#payment_net_due_day_label, #show_payment_net_due_day_label').html('Net Days to Pay');
