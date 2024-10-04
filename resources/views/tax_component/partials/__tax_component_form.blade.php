@@ -26,8 +26,7 @@
                         <span class="text-danger error-text component_name_error"></span>
                     </div>
                     <div class="col-6 mb-3">
-                        <label class="form-label" for="component_tax_id">Component Tax ID <sup
-                                style="color:red; font-size: 0.9rem;"><strong>*</strong></sup></label>
+                        <label class="form-label" for="component_tax_id">Component Tax ID </label>
                         {!! Form::text('component_tax_id', null, [
                             'class' => 'form-control',
                             'id' => 'component_tax_id',

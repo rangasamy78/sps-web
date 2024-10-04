@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\TaxCode;
+use Illuminate\Support\Str;
 use App\Models\TaxComponent;
 use Illuminate\Http\Request;
 use App\Models\TaxCodeComponent;
@@ -110,8 +111,16 @@ class TaxCodeRepository implements CrudRepositoryInterface, DatatableRepositoryI
 
     public function delete(int $id)
     {
-        $query = $this->findOrFail($id)->delete();
-        return $query;
+        $taxComponents = TaxComponent::where('tax_code_id', $id)->get();
+        $taxCodeComponents = TaxCodeComponent::where('tax_code_id', $id)->get();
+        if ($taxComponents->isNotEmpty()) {
+            return response()->json(['status' => 'error', 'msg' => 'Tax code cannot be deleted because it has Tax Component.'], 200);
+        } else if ($taxCodeComponents->isNotEmpty()) {
+            return response()->json(['status' => 'error', 'msg' => 'Tax code cannot be deleted because it has Tax Code Component.'], 200);
+        } else {
+            $this->findOrFail($id)->delete();
+            return response()->json(['status' => 'success', 'msg' => 'Select Type Tax code deleted successfully.'], 200);
+        }
     }
 
     public function getTaxCodeList($request)
@@ -156,7 +165,7 @@ class TaxCodeRepository implements CrudRepositoryInterface, DatatableRepositoryI
             $value->tax_code_label = $value->tax_code_label ?? '';
             $value->current_rate   = $this->taxCodeService->getCurrentRate($value->id) ?? '';
             $value->rate_breakdown = $this->taxCodeService->getRateBreakDown($value->id) ?? '';
-            $value->notes          = $value->notes ?? '';
+            $value->notes          = $value->notes ? Str::limit($value->notes, 50) : '';
             $value->action         = "<div class='dropup'>
                 <button type='button' class='btn p-0 dropdown-toggle hide-arrow' data-bs-toggle='dropdown'>
                     <i class='bx bx-dots-vertical-rounded icon-color'></i>

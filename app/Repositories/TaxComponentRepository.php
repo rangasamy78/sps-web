@@ -43,14 +43,10 @@ class TaxComponentRepository implements CrudRepositoryInterface, DatatableReposi
             $query->where('component_name', 'like', '%' . $request->component_name . '%');
         }
         if (!empty($request->authority_id)) {
-            $query->whereHas('tax_authority', function ($q) use ($request) {
-                $q->where('id', $request->authority_id);
-            });
+            $query->where('authority_id', $request->authority_id);
         }
-        if (!empty($request->authority_id)) {
-            $query->whereHas('sales_tax_account', function ($q) use ($request) {
-                $q->where('id', $request->authority_id);
-            });
+        if (!empty($request->sales_tax_id)) {
+            $query->where('sales_tax_id', $request->sales_tax_id);
         }
         return $query;
     }

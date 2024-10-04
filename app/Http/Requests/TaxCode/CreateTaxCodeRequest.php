@@ -25,6 +25,14 @@ class CreateTaxCodeRequest extends FormRequest
             'tax_code' => 'required|unique:tax_codes,tax_code',
             'tax_code_label' => 'required',
             'effective_date' => 'required',
+            'tax_component_id.0' => 'required',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'tax_component_id.0.required' => 'The tax component is required.',
         ];
     }
 }

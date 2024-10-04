@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\TaxComponent\CreateTaxComponentRequest;
-
-use App\Http\Requests\TaxComponent\UpdateTaxComponentRequest;
+use Exception;
 use App\Models\Account;
+use Illuminate\Http\Request;
 use App\Models\TaxAuthority;
 use App\Models\TaxComponent;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Repositories\TaxComponentRepository;
 use App\Services\TaxComponent\TaxComponentService;
-use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;use Illuminate\Support\Facades\Log;
+use App\Http\Requests\TaxComponent\UpdateTaxComponentRequest;
+use App\Http\Requests\TaxComponent\CreateTaxComponentRequest;
 
 class TaxComponentController extends Controller
 {
@@ -27,8 +27,9 @@ class TaxComponentController extends Controller
 
     public function index()
     {
+        $sales_taxes     = Account::query()->select(DB::raw("CONCAT(account_number, ' - ', account_name) AS account_details"), 'id')->pluck('account_details', 'id');
         $tax_authorities = TaxAuthority::query()->pluck('authority_name', 'id');
-        return view('tax_component.tax_components', compact('tax_authorities'));
+        return view('tax_component.tax_components', compact('tax_authorities', 'sales_taxes'));
     }
 
     public function create()

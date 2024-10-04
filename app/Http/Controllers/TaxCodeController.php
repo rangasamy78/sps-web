@@ -10,10 +10,11 @@ use App\Models\TaxCode;
 use App\Models\TaxComponent;
 use Illuminate\Http\Request;
 use App\Models\TaxCodeComponent;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Repositories\TaxCodeRepository;
 use App\Services\TaxCode\TaxCodeService;
 use App\Http\Requests\TaxCode\UpdateTaxCodeRequest;
-use Illuminate\Support\Facades\DB;use Illuminate\Support\Facades\Log;
 
 class TaxCodeController extends Controller
 {
@@ -65,8 +66,13 @@ class TaxCodeController extends Controller
      */
     public function show($id)
     {
-        $tax_code = $this->taxCodeRepository->findOrFail($id);
-        return view('tax_code.show', compact('tax_code'));
+        $data                = $this->__getDropDownData();
+        $tax_code            = $this->taxCodeRepository->findOrFail($id);
+        $tax_code_components = TaxCodeComponent::query()->where('tax_code_id', $id)->get();
+        $tax_component       = TaxComponent::query()->where('tax_code_id', $id)->first();
+        $taxCodeComponents   = $this->taxCodeService->getTaxCodeComponents($id);
+
+        return view('tax_code.show', compact('data', 'tax_code', 'tax_component', 'tax_code_components', 'taxCodeComponents'));
     }
 
     /**
@@ -77,11 +83,12 @@ class TaxCodeController extends Controller
      */
     public function edit($id)
     {
+        $data                = $this->__getDropDownData();
         $tax_code            = $this->taxCodeRepository->findOrFail($id);
         $tax_code_components = TaxCodeComponent::query()->where('tax_code_id', $id)->get();
         $tax_component       = TaxComponent::query()->where('tax_code_id', $id)->first();
-        $data                = $this->__getDropDownData();
-        return view('tax_code.edit', compact('data', 'tax_code', 'tax_component', 'tax_code_components'));
+        $taxCodeComponents   = $this->taxCodeService->getTaxCodeComponents($id);
+        return view('tax_code.edit', compact('data', 'tax_code', 'tax_component', 'tax_code_components','taxCodeComponents'));
     }
 
     /**
@@ -112,18 +119,23 @@ class TaxCodeController extends Controller
     public function destroy($id)
     {
         try {
-            $taxCode = $this->taxCodeRepository->findOrFail($id);
-            if ($taxCode) {
-                $this->taxCodeRepository->delete($id);
-                return response()->json(['status' => 'success', 'msg' => 'Tax Code deleted successfully.']);
+            $selectType = $this->taxCodeRepository->findOrFail($id);
+            if ($selectType) {
+                $response = $this->taxCodeRepository->delete($id);
+                $data = $response->getData();
+                if ($data->status == 'success') {
+                    return response()->json(['status' => $data->status, 'msg' => $data->msg]);
+                } else if ($data->status == 'error') {
+                    return response()->json(['status' => $data->status, 'msg' => $data->msg]);
+                }
             } else {
-                return response()->json(['status' => 'false', 'msg' => 'Tax Code not found.']);
+                return response()->json(['status' => 'false', 'msg' => 'Select tax code not found.']);
             }
         } catch (Exception $e) {
-            // Log the exception for debugging purposes
-            Log::error('Error deleting tax code: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting tax code.']);
+            Log::error('Error deleting Select tax code : ' . $e->getMessage());
+            return response()->json(['status' => $data->status, 'msg' => $data->msg], 500);
         }
+        return $response;
     }
 
     public function getTaxCodeDataTableList(Request $request)

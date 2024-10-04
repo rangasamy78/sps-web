@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('tax_code_id')->nullable();
             $table->bigInteger('tax_component_id')->nullable();
-            $table->integer('rate')->nullable();
+            $table->string('gl_account_name')->nullable();
+            $table->decimal('rate', 8, 2)->nullable();
             $table->timestamps();
         });
     }

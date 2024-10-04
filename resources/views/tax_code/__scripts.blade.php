@@ -107,25 +107,25 @@
                     }
                 },
                 error: function(xhr) {
-                    handleAjaxError(xhr);
+                    var res = xhr.responseJSON;
+                    if ($.isEmptyObject(res) === false) {
+                        $.each(res.errors, function(prefix, val) {
+                            if (prefix.includes('.')) {
+                                let modifiedFieldName = prefix.split('.').join('_');;
+                                $('span.' + modifiedFieldName + '_error').text(val[0]);
+                            } else {
+                                $('span.' + prefix + '_error').text(val[0]);
+                            }
+                        });
+                    }
                     sending(button, true);
                 }
             });
         });
 
-        $('#authority_id').select2({
-            placeholder: 'Select Authority',
-            dropdownParent: $('#authority_id').parent()
-        });
-
         $('#sales_tax_id').select2({
             placeholder: 'Select Sales Tax Account',
             dropdownParent: $('#sales_tax_id').parent()
-        });
-
-        $('#authorityFilter').select2({
-            placeholder: 'Select Authority',
-            dropdownParent: $('#authorityFilter').parent()
         });
 
         $('body').on('click', '.deletebtn', function() {
@@ -170,7 +170,7 @@
                         </select></td>
                         <td><span id="tax_gl_account_${currentRowCount}"></span>
                             <input type="hidden" name="gl_account_name[]" class="form-control" id="gl_account_name_${currentRowCount}" placeholder="Enter Tax Gl Account"></td>
-                        <td><input type="text" name="tax_rate[]" class="form-control tax_rate" id="tax_rate_${currentRowCount}" placeholder="Enter Rate" disabled="disabled"></td>
+                        <td><div class="input-group"><input type="text" name="tax_rate[]" class="form-control tax_rate" id="tax_rate_${currentRowCount}" placeholder="Enter Rate" disabled="disabled"><span class="input-group-text">%</span></div></td>
                         <td><button type="button" name="remove" id="${currentRowCount}" class="btn btn-danger btn_remove">X</button></td>
                     </tr>
                 `);
@@ -234,7 +234,6 @@
                             $('#tax_gl_account_'+currentID).html(response.account_number);
                             $('#gl_account_name_'+currentID).val(response.account_number);
                         } else {
-                            alert(currentID)
                             $('#tax_gl_account_'+currentID).html('');
                             $('#gl_account_name_'+currentID).val('');
                         }
@@ -260,6 +259,11 @@
             $("#tax_change_item").hide();
             $(".tax_change_history_item").show();
             $("#tax_change_row_item").show();
+        });
+
+        $('#taxCodeForm input, #taxCodeForm select').on('input change', function() {
+            let fieldName = $(this).attr('id');
+            $('.' + fieldName + '_error').text('');
         });
 
      });
