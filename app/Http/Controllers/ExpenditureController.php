@@ -139,7 +139,6 @@ class ExpenditureController extends Controller
             ]);
         } catch (Exception $e) {
             Log::error('Error updating status: ' . $e->getMessage());
-
             return response()->json([
                 'status' => 'error',
                 'msg'    => 'Failed to update status.',
