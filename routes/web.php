@@ -318,7 +318,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('customers', CustomerController::class);
     Route::get('/customer/list', [CustomerController::class, 'getCustomerDataTableList'])->name('customers.list');
     Route::get('/customer/fetch-customer-billing-address', [CustomerController::class, 'fetchCustomerBillingAddress'])->name('customers.billing-address');
-    Route::prefix('customers')->name('customers.')->group(function() {
+    Route::prefix('customers')->name('customers.')->group(function () {
         Route::post('/upload-image', [CustomerController::class, 'customerUploadImage'])->name('upload');
         Route::get('/contacts/list/{type_id}', [CustomerContactController::class, 'getContactDataTableList'])->name('contacts.list');
         Route::post('/contacts/save', [CustomerContactController::class, 'contactSave'])->name('contacts.save');
@@ -405,4 +405,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('services', ServiceController::class);
     Route::get('/service/list', [ServiceController::class, 'getServiceDataTableList'])->name('services.list');
     Route::post('/service_change_status/{id}', [ServiceController::class, 'serviceChangeStatus'])->name('services.service_change_status');
+
+    Route::view('lists', 'lists.home')->name('lists');
 });
