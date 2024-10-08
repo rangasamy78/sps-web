@@ -46,7 +46,15 @@
                                         <label for="Payment Terms"><span class="text-dark fw-bold">Payment Terms: </span>{{ $account_payment_terms->payment_label ?? '' }}</label>
                                     </div>
                                 </div>
+                                <div class="row mb-2">
+                                    <div class="col">
+                                        <div class="col-sm-12"><span class="text-dark fw-bold">Internal Notes:</span>
+                                            <textarea class="form-control" style="background: lightgoldenrodyellow;" readonly >{{ $expenditure->internal_notes ?? '' }}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+
 
 
                             <div class="col-sm-12 col-md-6 col-lg-3">
@@ -141,7 +149,7 @@
                     </div>
                 </div>
                 @if(!empty($expenditure->is_print_1099))
-                <div class="row mb-2">
+                <div class="row mb-2 mt-3">
                     <div class="col">
                         <label for="Payment Terms">Form 1099 to be printed for this vendor</label>
                     </div>

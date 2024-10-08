@@ -102,12 +102,12 @@ class ServiceController extends Controller
     {
         $service                    = Service::with('service_price')->findOrFail($id);
         $unit_measures              = UnitMeasure::query()->join('services', 'unit_measures.id', '=', 'services.unit_of_measure_id')->where('services.id', $id)->first();
-        $service_categories         = ServiceCategory::query()->get();
-        $service_types              = ServiceType::query()->get();
-        $product_groups             = ProductGroup::all();
+        $service_categories         = ServiceCategory::query()->join('services', 'service_categories.id', '=', 'services.service_category_id')->where('services.id', $id)->first();
+        $service_types              = ServiceType::query()->join('services', 'service_types.id', '=', 'services.service_type_id')->where('services.id', $id)->first();
+        $product_groups             = ProductGroup::query()->join('services', 'product_groups.id', '=', 'services.service_group_id')->where('services.id', $id)->first();
         $gl_sales_accounts          = LinkedAccount::query()->join('services', 'linked_accounts.id', '=', 'services.gl_sales_account_id')->where('services.id', $id)->first();
         $gl_cost_of_sales_accounts  = LinkedAccount::query()->join('services', 'linked_accounts.id', '=', 'services.gl_cost_of_sales_account_id')->where('services.id', $id)->first();
-        $service_expenditures       = Expenditure::all();
+        $service_expenditures       = Expenditure::query()->join('services', 'expenditures.id', '=', 'services.expenditure_id')->where('services.id', $id)->first();
         $product_price_ranges       = ProductPriceRange::all();
         return view('service.__show', compact('service', 'unit_measures', 'service_categories', 'service_types', 'product_groups', 'gl_sales_accounts','gl_cost_of_sales_accounts', 'service_expenditures', 'product_price_ranges'));
     }

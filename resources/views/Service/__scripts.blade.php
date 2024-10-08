@@ -95,7 +95,7 @@
                         id: 'Add Service Category',
                     },
                     action: function(e, dt, node, config) {
-
+                        window.location.href = "{{ ('service_categories') }}";
                     }
                 },
                 {
@@ -105,7 +105,7 @@
                         id: 'Add Service Type',
                     },
                     action: function(e, dt, node, config) {
-
+                        window.location.href = "{{ ('service_types') }}";
                     }
                 },
                 {
