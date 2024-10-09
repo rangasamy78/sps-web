@@ -498,109 +498,107 @@
             </ul>
         </li>
         <!-- Lists -->
-        <li class="menu-item {{ request()->is('customers') || request()->is('suppliers') || request()->is('associates') || request()->is('expenditures') || request()->is('accounts*') || request()->is('bin_types*') || request()->is('file_types*') || request()->is('transaction_startings*') || request()->is('services')  ? 'active open' : '' }}">
+        <li class="menu-item {{ request()->is('products') || request()->is('products.stock') || request()->is('products.price_list_product') || request()->is('products.customer_price_list_product') || request()->is('associates') || request()->is('expenditures') || request()->is('accounts*') || request()->is('bin_types*') || request()->is('file_types*') || request()->is('transaction_startings*') || request()->is('services') ? 'active open' : '' }}">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <i class="bx bx-shield menu-icon"></i>
+            <div class="text-truncate" data-i18n="Lists">Lists</div>
+        </a>
+        <ul class="menu-sub">
+        <!-- Items Section -->
+        <li class="menu-item {{ request()->is('products') || request()->is('products.stock') || request()->is('products.price_list_product') || request()->is('products.customer_price_list_product') || request()->is('services') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="bx bx-shield menu-icon"></i>
-                <div class="text-truncate" data-i18n="Lists">Lists</div>
+                <i class="bx bx-package menu-icon"></i>
+                <div class="text-truncate" data-i18n="Items">Items</div>
             </a>
             <ul class="menu-sub">
-                <ul class="menu-item">
-                    <!-- items -->
-                    <li class="menu-item {{ request()->is('companies') ? 'active open' : '' }}">
-                        <a href="javascript:void(0);" class="menu-link menu-toggle ps-4">
-                            <i class="bx bx-package menu-icon"></i>
-                            <div class="text-truncate ps-1" data-i18n="Items">Items</div>
-                        </a>
-                        <ul class="menu-sub ps-2">
-                            <li class="menu-item {{ request()->is('companies') ? 'active' : '' }}">
-                                <a href="{{ route('companies.index') }}" class="menu-link">
-                                    <div class="text-truncate" data-i18n="Product Catalog">Product Catalog</div>
-                                </a>
-                            </li>
-                            <li class="menu-item {{ request()->is('states') ? 'active' : '' }}">
-                                <a href="{{ route('states.index') }}" class="menu-link">
-                                    <div class="text-truncate" data-i18n="Stock">Stock</div>
-                                </a>
-                            </li>
-                            <li class="menu-item {{ request()->is('bin_types') ? 'active' : '' }}">
-                                <a href="{{ route('bin_types.index') }}" class="menu-link">
-                                    <div class="text-truncate" data-i18n="Price List">Price List</div>
-                                </a>
-                            </li>
-                            <li class="menu-item {{ request()->is('file_types') ? 'active' : '' }}">
-                                <a href="{{ route('file_types.index') }}" class="menu-link">
-                                    <div class="text-truncate" data-i18n="File Types">Cust Price List</div>
-                                </a>
-                            </li>
+                <li class="menu-item {{ request()->is('products') ? 'active' : '' }}">
+                    <a href="{{ route('products.index') }}" class="menu-link">
+                        <div class="text-truncate" data-i18n="Product Catalog">Product Catalog</div>
+                    </a>
+                </li>
+                <!-- <li class="menu-item {{ request()->is('products.stock') ? 'active' : '' }}">
+                    <a href="{{ route('products.stock') }}" class="menu-link">
+                        <div class="text-truncate" data-i18n="Stock">Stock</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('products.price_list_product') ? 'active' : '' }}">
+                    <a href="{{ route('products.price_list_product') }}" class="menu-link">
+                        <div class="text-truncate" data-i18n="Price List">Price List</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('products.customer_price_list_product') ? 'active' : '' }}">
+                    <a href="{{ route('products.customer_price_list_product') }}" class="menu-link">
+                        <div class="text-truncate" data-i18n="Cust Price List">Cust Price List</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('services') ? 'active' : '' }}">
+                    <a href="{{ route('services.index') }}" class="menu-link">
+                        <div class="text-truncate" data-i18n="Services">Services</div>
+                    </a>
+                </li> -->
+            </ul>
+        </li>
 
-                            <li class="menu-item {{ request()->is('services') ? 'active' : '' }}">
-                                <a href="{{ route('services.index') }}" class="menu-link">
-                                    <div class="text-truncate" data-i18n="Services">Services</div>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+        <!-- Parties Section -->
+        <li class="menu-item {{ request()->is('customers*') || request()->is('associates*') || request()->is('expenditures*') || request()->is('suppliers*') ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="bx bx-user menu-icon"></i>
+                <div class="text-truncate" data-i18n="Parties">Parties</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item {{ request()->is('customers*') ? 'active' : '' }}">
+                    <a href="{{ route('customers.index') }}" class="menu-link">
+                        <div class="text-truncate" data-i18n="Customers">Customers</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('suppliers*') ? 'active' : '' }}">
+                    <a href="{{ route('suppliers.index') }}" class="menu-link">
+                        <div class="text-truncate" data-i18n="Suppliers">Suppliers</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('expenditures*') ? 'active' : '' }}">
+                    <a href="{{ route('expenditures.index') }}" class="menu-link">
+                        <div class="text-truncate" data-i18n="Expenditures">Expenditure</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('associates*') ? 'active' : '' }}">
+                    <a href="{{ route('associates.index') }}" class="menu-link">
+                        <div class="text-truncate" data-i18n="Associates">Associates</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
 
-                    <!-- Parties -->
-                    <li class="menu-item {{ request()->is('customers') || request()->is('associates') || request()->is('expenditures') || request()->is('suppliers*')  ? 'active open' : '' }}">
-                        <a href="javascript:void(0);" class="menu-link menu-toggle ps-4">
-                            <i class="bx bx-user menu-icon"></i>
-                            <div class="text-truncate ps-1" data-i18n="Parties">Parties</div>
-                        </a>
-                        <ul class="menu-sub ps-2">
-                            <li class="menu-item {{ request()->is('customers*') ? 'active open' : '' }}">
-                                <a href="{{ route('customers.index') }}" class="menu-link">
-                                    <div class="text-truncate" data-i18n="Customers">Customers</div>
-                                </a>
-                            </li>
-                            <li class="menu-item {{ request()->is('suppliers*') ? 'active open' : '' }}">
-                                <a href="{{ route('suppliers.index') }}" class="menu-link">
-                                    <div class="text-truncate" data-i18n="Suppliers">Suppliers</div>
-                                </a>
-                            </li>
-                            <li class="menu-item {{ request()->is('expenditures*') ? 'active open' : '' }}">
-                                <a href="{{ route('expenditures.index') }}" class="menu-link">
-                                    <div class="text-truncate" data-i18n="Expenditures">Expenditure</div>
-                                </a>
-                            </li>
-                            <li class="menu-item {{ request()->is('associates*') ? 'active open' : '' }}">
-                                <a href="{{ route('associates.index') }}" class="menu-link">
-                                    <div class="text-truncate" data-i18n="Associates">Associates</div>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <!-- Accounting -->
-                    <li class="menu-item {{ request()->is('accounts*') || request()->is('tax_codes') || request()->is('tax_authorities') || request()->is('tax_components') ? 'active open' : '' }}">
-                        <a href="javascript:void(0);" class="menu-link menu-toggle ps-4">
-                            <i class="bx bx-wallet menu-icon"></i>
-                            <div class="text-truncate ps-1" data-i18n="Accounting">Accounting</div>
-                        </a>
-                        <ul class="menu-sub ps-2">
-                            <li class="menu-item {{ request()->is('accounts*') ? 'active open' : '' }}">
-                                <a href="{{ route('accounts.index') }}" class="menu-link">
-                                    <div class="text-truncate" data-i18n="Chart of Accounts">Chart of Accounts</div>
-                                </a>
-                            </li>
-                            <li class="menu-item {{ request()->is('tax_codes*') ? 'active open' : '' }}">
-                                <a href="{{ route('tax_codes.index') }}" class="menu-link">
-                                    <div class="text-truncate" data-i18n="Tax Codes">Tax Codes</div>
-                                </a>
-                            </li>
-                            <li class="menu-item {{ request()->is('tax_authorities*') ? 'active open' : '' }}">
-                                <a href="{{ route('tax_authorities.index') }}" class="menu-link">
-                                    <div class="text-truncate" data-i18n="Tax Authorities">Tax Authorities</div>
-                                </a>
-                            </li>
-                            <li class="menu-item {{ request()->is('tax_components*') ? 'active open' : '' }}">
-                                <a href="{{ route('tax_components.index') }}" class="menu-link">
-                                    <div class="text-truncate" data-i18n="Tax Components">Tax Components</div>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
+        <!-- Accounting Section -->
+        <li class="menu-item {{ request()->is('accounts*') || request()->is('tax_codes*') || request()->is('tax_authorities*') || request()->is('tax_components*') ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="bx bx-wallet menu-icon"></i>
+                <div class="text-truncate" data-i18n="Accounting">Accounting</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item {{ request()->is('accounts*') ? 'active' : '' }}">
+                    <a href="{{ route('accounts.index') }}" class="menu-link">
+                        <div class="text-truncate" data-i18n="Chart of Accounts">Chart of Accounts</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('tax_codes*') ? 'active' : '' }}">
+                    <a href="{{ route('tax_codes.index') }}" class="menu-link">
+                        <div class="text-truncate" data-i18n="Tax Codes">Tax Codes</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('tax_authorities*') ? 'active' : '' }}">
+                    <a href="{{ route('tax_authorities.index') }}" class="menu-link">
+                        <div class="text-truncate" data-i18n="Tax Authorities">Tax Authorities</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('tax_components*') ? 'active' : '' }}">
+                    <a href="{{ route('tax_components.index') }}" class="menu-link">
+                        <div class="text-truncate" data-i18n="Tax Components">Tax Components</div>
+                    </a>
+                </li>
             </ul>
         </li>
     </ul>
+</li>
+</ul>
 </aside>

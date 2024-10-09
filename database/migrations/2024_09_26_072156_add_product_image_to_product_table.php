@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->renameColumn('name','first_name');
+        Schema::table('products', function (Blueprint $table) {
+            $table->string('image')->nullable()->after('minimum_packing_unit_value');
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->renameColumn('first_name','name');
+        Schema::table('products', function (Blueprint $table) {
+            $table->dropColumn('image');
         });
     }
 };

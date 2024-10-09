@@ -39,7 +39,7 @@ class AssociateRepository implements CrudRepositoryInterface, DatatableRepositor
     public function getAssociateList($request)
     {
 
-        $query = Associate::with('associate_type', 'location','user');
+        $query = Associate::with('associate_type', 'location', 'user');
 
         if (!empty($request->associate_name_code_contact_search)) {
             $query->where(function ($q) use ($request) {
@@ -97,42 +97,42 @@ class AssociateRepository implements CrudRepositoryInterface, DatatableRepositor
 
         $arrData->map(function ($value, $i) {
             $value->sno               = ++$i;
-            $value->associate_name    = "<a href='" . route('associates.show', $value->id) . "' class='associate-link'>" . ($value->associate_name ?? '') . "</a>";
-            $value->associate_type_id = "<a href='" . route('associates.show', $value->id) . "' class='associate-link'>" . ($value->associate_type->customer_type_name ?? '') . "</a>";
-            $value->location_id       = "<a href='" . route('associates.show', $value->id) . "' class='associate-link'>" . ($value->location->company_name ?? '') . "</a>";
+            $value->associate_name    = "<a href='" . route('associates.show', $value->id) . "' class='text-secondary'>" . ($value->associate_name ?? '') . "</a>";
+            $value->associate_type_id = "<a href='" . route('associates.show', $value->id) . "' class='text-secondary'>" . ($value->associate_type->customer_type_name ?? '') . "</a>";
+            $value->location_id       = "<a href='" . route('associates.show', $value->id) . "' class='text-secondary'>" . ($value->location->company_name ?? '') . "</a>";
             $value->address_combined  = trim(
-                "<a href='" . route('associates.show', $value->id) . "' class='associate-link'>" . ($value->address ?? '') . "</a><br>" .
-                "<a href='" . route('associates.show', $value->id) . "' class='associate-link'>" . ($value->contact_name ?? '') . "</a><br>" .
-                "<a href='" . route('associates.show', $value->id) . "' class='associate-link'>" . ($value->city ?? '') . "</a><br>" .
-                "<a href='" . route('associates.show', $value->id) . "' class='associate-link'>" . ($value->state ?? '') . "</a><br>" .
-                "<a href='" . route('associates.show', $value->id) . "' class='associate-link'>" . ($value->zip ?? '') . "</a>"
+                "<a href='" . route('associates.show', $value->id) . "' class='text-secondary'>" . ($value->address ?? '') . "</a><br>" .
+                "<a href='" . route('associates.show', $value->id) . "' class='text-secondary'>" . ($value->contact_name ?? '') . "</a><br>" .
+                "<a href='" . route('associates.show', $value->id) . "' class='text-secondary'>" . ($value->city ?? '') . "</a><br>" .
+                "<a href='" . route('associates.show', $value->id) . "' class='text-secondary'>" . ($value->state ?? '') . "</a><br>" .
+                "<a href='" . route('associates.show', $value->id) . "' class='text-secondary'>" . ($value->zip ?? '') . "</a>"
             );
 
             $phoneParts = [];
             if (!empty($value->primary_phone)) {
-                $phoneParts[] = "<a href='" . route('associates.show', $value->id) . "' class='associate-link'>P: {$value->primary_phone}</a>";
+                $phoneParts[] = "<a href='" . route('associates.show', $value->id) . "' class='text-secondary'>P: {$value->primary_phone}</a>";
             }
             if (!empty($value->secondary_phone)) {
-                $phoneParts[] = "<a href='" . route('associates.show', $value->id) . "' class='associate-link'>F: {$value->secondary_phone}</a>";
+                $phoneParts[] = "<a href='" . route('associates.show', $value->id) . "' class='text-secondary'>F: {$value->secondary_phone}</a>";
 
             }
             if (!empty($value->mobile)) {
-                $phoneParts[] = "<a href='" . route('associates.show', $value->id) . "' class='associate-link'>M: {$value->mobile}</a>";
+                $phoneParts[] = "<a href='" . route('associates.show', $value->id) . "' class='text-secondary'>M: {$value->mobile}</a>";
 
             }
             $value->phone_combined = !empty($phoneParts) ? implode('<br>', $phoneParts) : '';
 
             $emailParts = [];
             if (!empty($value->email)) {
-                $emailParts[] = "<a href='" . route('associates.show', $value->id) . "' class='associate-link'>E: {$value->email}</a>";
+                $emailParts[] = "<a href='" . route('associates.show', $value->id) . "' class='text-secondary'>E: {$value->email}</a>";
 
             }
             if (!empty($value->website)) {
-                $emailParts[] = "<a href='" . route('associates.show', $value->id) . "' class='associate-link'>W: {$value->website}</a>";
+                $emailParts[] = "<a href='" . route('associates.show', $value->id) . "' class='text-secondary'>W: {$value->website}</a>";
 
             }
             $value->email_combined = !empty($emailParts) ? implode('<br>', $emailParts) : '';
-            $value->internal_notes ="<a href='" . route('associates.show', $value->id) . "' class='associate-link'>" . ($value->internal_notes ?? '') . "</a>"; 
+            $value->internal_notes = "<a href='" . route('associates.show', $value->id) . "' class='text-secondary'>" . ($value->internal_notes ?? '') . "</a>";
             $value->status         = $value->status == 1
             ? '<button class="btn btn-success btn-sm change_status" data-id="' . $value->id . '">Active</button>'
             : '<button class="btn btn-danger btn-sm change_status" data-id="' . $value->id . '">Inactive</button>';

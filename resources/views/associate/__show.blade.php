@@ -37,7 +37,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-3">
-                    <h5 style="text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 2px;">Contact Information</h5>
+                    <h5 style="">Contact Information</h5>
                     <div class="row mb-2">
                         <div class="col">
                             <label for="supplier_name">

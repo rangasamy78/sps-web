@@ -5,11 +5,11 @@ namespace App\Repositories;
 use App\Interfaces\CrudRepositoryInterface;
 use App\Interfaces\DatatableRepositoryInterface;
 use App\Models\Product;
+use App\Models\ProductImage;
 use App\Models\ProductKind;
 use App\Models\ProductPrice;
 use App\Models\ProductSubCategory;
 use App\Models\ProductWebsite;
-use App\Models\ProductImage;
 use Illuminate\Http\Request;
 
 class ProductRepository implements CrudRepositoryInterface, DatatableRepositoryInterface
@@ -83,7 +83,7 @@ class ProductRepository implements CrudRepositoryInterface, DatatableRepositoryI
     public function getProductList($request)
     {
 
-        $query = Product::with('product_type', 'product_category', 'product_sub_category', 'product_group', 'country', 'product_price');
+        $query = Product::with('product_type', 'product_category', 'product_sub_category', 'product_group', 'country', 'product_price', 'supplier');
 
         if (!empty($request->price_range_search)) {
             $query->whereHas('product_price', function ($q) use ($request) {
@@ -156,24 +156,54 @@ class ProductRepository implements CrudRepositoryInterface, DatatableRepositoryI
 
         $arrData->map(function ($value, $i) {
             $value->sno                     = ++$i;
-            $value->product_name            = "<a href='" . route('products.show', $value->id) . "' class='product-link'>" . ($value->product_name ?? '') . "</a>";
-            $value->product_sku             = "<a href='" . route('products.show', $value->id) . "' class='product-link'>" . ($value->product_sku ?? '') . "</a>";
-            $value->product_kind_id         = "<a href='" . route('products.show', $value->id) . "' class='product-link'>" . ($value->product_kind->product_kind_name ?? '') . "</a>";
-            $value->product_type_id         = "<a href='" . route('products.show', $value->id) . "' class='product-link'>" . ($value->product_type->product_type ?? '') . "</a>";
-            $value->product_category_id     = "<a href='" . route('products.show', $value->id) . "' class='product-link'>" . ($value->product_category->product_category_name ?? '') . "</a>";
-            $value->product_sub_category_id = "<a href='" . route('products.show', $value->id) . "' class='product-link'>" . ($value->product_sub_category->product_sub_category_name ?? '') . "</a>";
-            $value->product_group_id        = "<a href='" . route('products.show', $value->id) . "' class='product-link'>" . ($value->product_group->product_group_name ?? '') . "</a>";
-            $value->product_origin_id       = "<a href='" . route('products.show', $value->id) . "' class='product-link'>" . ($value->country->country_name ?? '') . "</a>";
-            $value->preferred_supplier_id   = "<a href='" . route('products.show', $value->id) . "' class='product-link'>" . ($value->preferred_supplier_id ?? '') . "</a>";
+            $value->product_name            = "<a href='" . route('products.show', $value->id) . "' class='text-secondary'>" . ($value->product_name ?? '') . "</a>";
+            $value->product_sku             = "<a href='" . route('products.show', $value->id) . "' class='text-secondary'>" . ($value->product_sku ?? '') . "</a>";
+            $value->product_kind_id         = "<a href='" . route('products.show', $value->id) . "' class='text-secondary'>" . ($value->product_kind->product_kind_name ?? '') . "</a>";
+            $value->product_type_id         = "<a href='" . route('products.show', $value->id) . "' class='text-secondary'>" . ($value->product_type->product_type ?? '') . "</a>";
+            $value->product_category_id     = "<a href='" . route('products.show', $value->id) . "' class='text-secondary'>" . ($value->product_category->product_category_name ?? '') . "</a>";
+            $value->product_sub_category_id = "<a href='" . route('products.show', $value->id) . "' class='text-secondary'>" . ($value->product_sub_category->product_sub_category_name ?? '') . "</a>";
+            $value->product_group_id        = "<a href='" . route('products.show', $value->id) . "' class='text-secondary'>" . ($value->product_group->product_group_name ?? '') . "</a>";
+            $value->product_origin_id       = "<a href='" . route('products.show', $value->id) . "' class='text-secondary'>" . ($value->country->country_name ?? '') . "</a>";
+            $value->preferred_supplier_id   = "<a href='" . route('products.show', $value->id) . "' class='text-secondary'>" . ($value->supplier->supplier_name ?? '') . "</a>";
             $value->status                  = $value->status == 1
             ? '<button class="btn btn-success btn-sm change_status" data-id="' . $value->id . '">Active</button>'
             : '<button class="btn btn-danger btn-sm change_status" data-id="' . $value->id . '">Inactive</button>';
-            $value->action = "<div class='dropup'><button type='button' class='btn p-0 dropdown-toggle hide-arrow'
-             data-bs-toggle='dropdown'><i class='bx bx-dots-vertical-rounded icon-color'></i></button><div class='dropdown-menu'>
-             <a class='dropdown-item showbtn text-warning' href='" . route('products.show', $value->id) . "' data-id='" . $value->id . "'><i class='bx bx-show me-1 icon-warning'></i> Show</a>
-             <a class='dropdown-item editbtn text-success' href='" . route('products.edit', $value->id) . "' data-id='" . $value->id . "' ><i class='bx bx-edit-alt me-1 icon-success'></i> Edit </a>
-             <a class='dropdown-item webbtn text-dark' href='" . route('products.product_website', $value->id) . "' data-id='" . $value->id . "' ><i <i class='bx bx-info-circle'></i></i> Website </a>
-             <a class='dropdown-item deletebtn text-danger' href='javascript:void(0);' data-id='" . $value->id . "' ><i class='bx bx-trash me-1 icon-danger'></i> Delete</a> </div></div>";
+            $value->action = "<div class='dropup'>
+            <button type='button' class='btn p-0 dropdown-toggle hide-arrow' data-bs-toggle='dropdown'>
+                <i class='bx bx-dots-vertical-rounded icon-color'></i>
+            </button>";
+
+            if (!empty($value->notes)) {
+                // Icon for internal notes
+                $value->action .= "<img src='http://ultrastones.in/sps-web/public/assets/img/icon-image/internal_notes.png'
+                    style='width:16px;height:16px; margin-left:10px; vertical-align: middle;'
+                    title='" . htmlspecialchars($value->notes) . "'>";
+            }
+
+            $value->action .= "<span class='dot-s-val' title='Serialized Product'>S</span>";
+            if ($value->indivisible == 1) {
+                $value->action .= "<span class='dot-s-val' title='Indivisible Product'>I</span>";
+            } else {
+                $value->action .= "<span class='dot-d-val' title='Divisible Product'>D</span>";
+            }
+            $value->action .= "<span class='dot-ia-val' title='IA'>IA</span>";
+
+            $value->action .= "<div class='dropdown-menu'>
+            <a class='dropdown-item showbtn text-warning' href='" . route('products.show', $value->id) . "' data-id='" . $value->id . "'>
+                <i class='bx bx-show me-1 icon-warning'></i> Show
+            </a>
+            <a class='dropdown-item editbtn text-success' href='" . route('products.edit', $value->id) . "' data-id='" . $value->id . "'>
+                <i class='bx bx-edit-alt me-1 icon-success'></i> Edit
+            </a>
+            <a class='dropdown-item webbtn text-dark' href='" . route('products.product_website', $value->id) . "' data-id='" . $value->id . "'>
+                <i class='bx bx-info-circle'></i> Website
+            </a>
+            <a class='dropdown-item deletebtn text-danger' href='javascript:void(0);' data-id='" . $value->id . "'>
+                <i class='bx bx-trash me-1 icon-danger'></i> Delete
+            </a>
+        </div>
+        </div>";
+
         });
 
         $response = array(
@@ -543,9 +573,9 @@ class ProductRepository implements CrudRepositoryInterface, DatatableRepositoryI
 
     public function saveProductImage($productId, $filePath)
     {
-       
+
         return ProductImage::create([
-            'product_id' => $productId,
+            'product_id'    => $productId,
             'product_image' => $filePath,
         ]);
     }
