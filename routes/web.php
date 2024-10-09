@@ -415,4 +415,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('services', ServiceController::class);
     Route::get('/service/list', [ServiceController::class, 'getServiceDataTableList'])->name('services.list');
     Route::post('/service_change_status/{id}', [ServiceController::class, 'serviceChangeStatus'])->name('services.service_change_status');
+
+    Route::view('lists', 'lists.home')->name('lists');
 });
