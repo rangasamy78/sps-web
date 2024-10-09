@@ -8,7 +8,7 @@
 <div class="content-wrapper">
   <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="py-3 mb-4 float-right"><span class="text-muted fw-light">Product / </span>Edit</h4>
-    <form id="productForm" name="productForm" class="form-horizontal">
+    <form id="productForm" name="productForm" class="form-horizontal" enctype="multipart/form-data">
     <input type="hidden" name="product_id" id="product_id" value="{{$product->id}}">
                 <div class="row">
                   <div class="col-12 col-lg-8">
@@ -42,7 +42,12 @@
                             </label>
                             <select class="form-select select2" name="product_kind_id" id="product_kind_id" data-allow-clear="true">
                                 <option value="">--Select Kind--</option>
-                                <option value="1">Stock</option>
+                                @foreach($product_kind as $kind)
+                                    <option value="{{ $kind->id }}"
+                                        @if($kind->id == old('product_kind_id', $product->product_kind_id)) selected @endif>
+                                        {{ $kind->product_kind_name }}
+                                    </option>
+                                @endforeach
                             </select>
                             <span class="text-danger error-text product_kind_id_error"></span>
                           </div>
@@ -97,7 +102,7 @@
                                         {{ $cntry->country_name }}
                                     </option>
                                 @endforeach
-                               
+
                             </select>
                           </div>
                           <div class="col">
@@ -196,15 +201,20 @@
                             </select>
                               <span class="text-danger error-text unit_of_measure_id_error"></span>
                           </div>
+
                           <div class="col">
                             <label class="form-label" for="Weight">Weight</label>
-                            <input
-                              type="text"
-                              class="form-control"
-                              id="product_weight"
-                              value="{{$product->product_weight}}"
-                              name="product_weight"
-                              aria-label="Weight" />
+                            <div class="input-group">
+                          <input
+                          type="text"
+                          class="form-control"
+                          id="product_weight"
+                          value="{{$product->product_weight}}"
+                          name="product_weight"
+                          aria-label="Weight" />
+                        <span class="input-group-text">LBS</span>
+                        <span class="text-danger error-text product_weight_error"></span>
+                      </div>
                           </div>
                           <div class="col">
                             <label class="form-label" for="Size">Size
@@ -271,12 +281,12 @@
                         <div class="col">
                             <label class="form-label" for="GL Inventory Link Account">GL Inventory Link Account</label>
                             <select class="form-select select2" name="gl_inventory_link_account_id" id="gl_inventory_link_account_id" data-allow-clear="true">
-                            <option value="">--Select--</option>
-                                @foreach($product_type as $type)
-                                <option value="{{ $type->id }}"
-                                        @if($type->id == old('gl_inventory_link_account_id', $product->gl_inventory_link_account_id)) selected @endif>
-                                        {{ $type->product_type }}
-                                </option>
+                              <option value="">--Select GL Inventory Link Account--</option>
+                              @foreach($inventories as $key => $inventory)
+                                  <option value="{{ $inventory['value'] }}"
+                                      @if(isset($product) && $product->gl_inventory_link_account_id == $inventory['value']) selected @endif>
+                                      {{ $inventory['label'] }}
+                                  </option>
                               @endforeach
                               </select>
                               <span class="text-danger error-text gl_inventory_link_account_id_error"></span>
@@ -284,13 +294,13 @@
                           <div class="col">
                             <label class="form-label" for="GL Income Account">GL Income Account</label>
                             <select class="form-select select2" name="gl_income_account_id" id="gl_income_account_id" data-allow-clear="true">
-                            <option value="">--Select--</option>
-                            @foreach($product_type as $type)
-                                <option value="{{ $type->id }}"
-                                        @if($type->id == old('gl_income_account_id', $product->gl_income_account_id)) selected @endif>
-                                        {{ $type->product_type }}
-                                </option>
-                              @endforeach
+                          <option value="">--Select GL Income Account--</option>
+                          @foreach($sales as $key => $sale)
+                              <option value="{{ $sale['value'] }}"
+                                  @if(isset($product) && $product->gl_income_account_id == $sale['value']) selected @endif>
+                                  {{ $sale['label'] }}
+                              </option>
+                          @endforeach
                             </select>
                             <span class="text-danger error-text gl_income_account_id_error"></span>
                           </div>
@@ -298,14 +308,14 @@
                             <label class="form-label" for="GL Cost Of Goods Sold Account">GL Cost Of Goods Sold Account
                             </label>
                             <select class="form-select select2" name="gl_cogs_account_id" id="gl_cogs_account_id" data-allow-clear="true">
-                            <option value="">--Select--</option>
-                            @foreach($product_type as $type)
-                                <option value="{{ $type->id }}"
-                                        @if($type->id == old('gl_cogs_account_id', $product->gl_cogs_account_id)) selected @endif>
-                                        {{ $type->product_type }}
-                                </option>
+                            <option value="">--Select GL Cost Of Goods Sold Account--</option>
+                            @foreach($cogs as $key => $cog)
+                                  <option value="{{ $cog['value'] }}"
+                                      @if(isset($product) && $product->gl_cogs_account_id == $cog['value']) selected @endif>
+                                      {{ $cog['label'] }}
+                                  </option>
                               @endforeach
-                       
+
                             </select>
                               <span class="text-danger error-text gl_cogs_account_id_error"></span>
                           </div>
@@ -397,15 +407,25 @@
                         <div class="col">
                             <label class="form-label" for="Preferred Supplier">Preferred Supplier</label>
                             <select class="form-select select2" name="preferred_supplier_id" id="preferred_supplier_id" data-allow-clear="true">
-                                <option value="">--Select Preferred Supplier--</option>
-                                <option value="1">--Select--</option>
+                               <option value="">--Select Preferred Supplier--</option>
+                                  @foreach($supplier as $supply)
+                                      <option value="{{ $supply->id }}"
+                                          @if(isset($product) && $product->preferred_supplier_id == $supply->id) selected @endif>
+                                          {{ $supply->supplier_name }}
+                                      </option>
+                                  @endforeach
                             </select>
                           </div>
                           <div class="col">
                             <label class="form-label" for="Brand/Manufacturer">Brand/Manufacturer</label>
                             <select class="form-select select2" name="brand_or_manufacturer_id" id="brand_or_manufacturer_id" data-allow-clear="true">
-                                <option value="">--Select Brand/Manufacturer--</option>
-                                <option value="1">--Select--</option>
+                            <option value="">--Select Brand or Manufacturer--</option>
+                              @foreach($supplier as $supply)
+                                  <option value="{{ $supply->id }}"
+                                      @if(isset($product) && $product->brand_or_manufacturer_id == $supply->id) selected @endif>
+                                      {{ $supply->supplier_name }}
+                                  </option>
+                              @endforeach
                             </select>
                           </div>
                         </div>
@@ -527,39 +547,86 @@
                       </div>
                     </div>
                     <div class="card mb-4">
-                      <div class="card-body">
-                        <div class="row mb-3">
-                        <div class="col">
-                            <label class="form-label" for="Notes">Notes</label>
-                            <textarea
-                              class="form-control"
-                              id="notes"
-                              name="notes"
-                              aria-label="Notes" >{{$product->notes}}</textarea>
-                          </div>
-                          <div class="col">
-                            <label class="form-label" for="Special Instructions">Special Instructions</label>
-                            <textarea
-                              class="form-control"
-                              id="special_intstruction"
-                              name="special_intstruction"
-                              aria-label="Special Instructions">{{$product->special_intstruction}}</textarea>
-                          </div>
-                          <div class="col">
-                            <label class="form-label" for="Disclaimer">Disclaimer
-                            </label>
-                            <textarea
-                              class="form-control"
-                              id="disclaimer"
-                              placeholder="Disclaimer"
-                              name="disclaimer"
-                              aria-label="Disclaimer" >{{$product->disclaimer}}</textarea>
-                          </div>
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col">
+                <label class="form-label" for="Notes">Notes</label>
+                <textarea
+                    class="form-control"
+                    id="notes"
+                    name="notes"
+                    aria-label="Notes">{{ $product->notes }}</textarea>
+            </div>
+            <div class="col">
+                <label class="form-label" for="Special Instructions">Special Instructions</label>
+                <textarea
+                    class="form-control"
+                    id="special_intstruction"
+                    name="special_intstruction"
+                    aria-label="Special Instructions">{{ $product->special_intstruction }}</textarea>
+            </div>
+            <div class="col">
+                <label class="form-label" for="Disclaimer">Disclaimer</label>
+                <textarea
+                    class="form-control"
+                    id="disclaimer"
+                    name="disclaimer"
+                    aria-label="Disclaimer">{{ $product->disclaimer }}</textarea>
+            </div>
+        </div>
+
+        <!-- Product Image Section -->
+        <div class="row mb-3">
+            <div class="col">
+                <label class="form-label" for="Product Image">Product Image</label>
+
+                <div class="button-wrapper d-flex align-items-center">
+                    <!-- Upload button -->
+                    <label for="image" class="btn btn-primary me-2 mb-4" tabindex="0">
+                        <span class="d-none d-sm-block">Upload new photo</span>
+                        <i class="bx bx-upload d-block d-sm-none"></i>
+                        <input
+                            type="file"
+                            id="image"
+                            name="image"
+                            class="account-file-input"
+                            hidden
+                            accept="image/png, image/jpeg, image/jpg" />
+                    </label>
+                    <p class="text-muted mb-3 ms-2">Allowed JPG, GIF, JPEG or PNG. Max size of 1024K</p>
+                </div>
+                <button type="button" class="btn btn-label-secondary account-image-reset mb-4" hidden>
+                    <i class="bx bx-reset d-block d-sm-none"></i>
+                    <span class="d-none d-sm-block">Reset</span>
+                </button>
+
+                <span class="text-danger error-text image_error"></span>
+
+                <!-- Display current image if exists -->
+                              @if($product->image)
+                              <img
+                              src="{{ asset('storage/app/public/' . $product->image) }}"
+                              alt="Product Image"
+                              class="d-block rounded"
+                              height="100"
+                              width="100"
+                              id="uploadedAvatar" />
+
+                          @else
+                              <img
+                                  src="data:image/svg+xml, <svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'></svg>"
+                                  alt="No Image"
+                                  class="d-block rounded"
+                                  height="100"
+                                  width="100"
+                                  id="uploadedAvatar" />
+                          @endif
+
                         </div>
-                          <div>
-                        </div>
-                      </div>
                     </div>
+                </div>
+            </div>
+
                 </div>
                   <div class="col-12 col-lg-4">
 
@@ -861,7 +928,7 @@
                                   @if($unit->id == old('minimum_packing_unit_id', $product->minimum_packing_unit_id)) selected @endif>
                                   {{ $unit->unit_measure_name }}
                             </option>
-                            @endforeach                         
+                            @endforeach
                         </select>
                       </div>
                       <div class="col-md-6">
@@ -871,6 +938,7 @@
                         id="minimum_packing_unit_value"
                         name="minimum_packing_unit_value"
                         aria-label="" />
+                        <span class="text-danger error-text minimum_packing_unit_value_error"></span>
                       </div>
                     </div>
                   </div>

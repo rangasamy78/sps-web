@@ -5,13 +5,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\CountyController;
-use App\Http\Controllers\AccountController;
-use App\Http\Controllers\BinTypeController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\TaxCodeController;
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ServiceController;
-use App\Http\Controllers\TaxCodeController;
+use App\Http\Controllers\BinTypeController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\FileTypeController;
@@ -22,8 +22,9 @@ use App\Http\Controllers\EventTypeController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\SubHeadingController;
 use App\Http\Controllers\VendorTypeController;
-use App\Http\Controllers\AccountFileController;
+use App\Http\Controllers\ProductFileController;
 use App\Http\Controllers\AccountTypeController;
+use App\Http\Controllers\AccountFileController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\ExpenditureController;
 use App\Http\Controllers\ProductKindController;
@@ -32,6 +33,7 @@ use App\Http\Controllers\ProjectTypeController;
 use App\Http\Controllers\ServiceTypeController;
 use App\Http\Controllers\UnitMeasureController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\TaxComponentController;
 use App\Http\Controllers\CustomerTypeController;
 use App\Http\Controllers\ProductColorController;
 use App\Http\Controllers\ProductGroupController;
@@ -39,7 +41,6 @@ use App\Http\Controllers\ShipmentTermController;
 use App\Http\Controllers\SupplierPortController;
 use App\Http\Controllers\SupplierTypeController;
 use App\Http\Controllers\TaxAuthorityController;
-use App\Http\Controllers\TaxComponentController;
 use App\Http\Controllers\AboutUsOptionController;
 use App\Http\Controllers\AgingPeriodAPController;
 use App\Http\Controllers\EndUseSegmentController;
@@ -70,11 +71,12 @@ use App\Http\Controllers\ProbabilityToCloseController;
 use App\Http\Controllers\SelectTypeCategoryController;
 use App\Http\Controllers\SpecialAccountTypeController;
 use App\Http\Controllers\TransactionStartingController;
-use App\Http\Controllers\CustomerContactTitleController;
 use App\Http\Controllers\SupplierReturnStatusController;
+use App\Http\Controllers\CustomerContactTitleController;
 use App\Http\Controllers\PickTicketRestrictionController;
-use App\Http\Controllers\SelectTypeSubCategoryController;
 use App\Http\Controllers\SupplierCostListLabelController;
+use App\Http\Controllers\Supplier\SupplierFileController;
+use App\Http\Controllers\SelectTypeSubCategoryController;
 use App\Http\Controllers\PurchaseShipmentMethodController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\AccountReceivableAgingPeriodController;
@@ -83,7 +85,6 @@ use App\Http\Controllers\Supplier\ContactController as AssociateContactControlle
 use App\Http\Controllers\Supplier\ContactController as ExpenditureContactController;
 use App\Http\Controllers\Customer\ContactController as CustomerContactController;
 use App\Http\Controllers\Supplier\ContactController as SupplierContactController;
-use App\Http\Controllers\Supplier\SupplierFileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -94,7 +95,7 @@ use App\Http\Controllers\Supplier\SupplierFileController;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
-*/
+ */
 
 Route::get('/', function () {
     return view('auth.login');
@@ -364,6 +365,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('products', ProductController::class);
     Route::get('/product/list', [ProductController::class, 'getProductDataTableList'])->name('products.list');
+    Route::resource('product_files', ProductFileController::class);
+    Route::get('/product_file/list', [ProductFileController::class, 'getProductFileDataTableList'])->name(name: 'product_files.list');
 
     Route::post('/contact/save', [AssociateContactController::class, 'save'])->name('contacts.save');
     Route::get('/contact/list', [AssociateContactController::class, 'getContactDataTableList'])->name('contacts.list');
@@ -378,8 +381,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/product/price_list_product', [ProductController::class, 'priceListProduct'])->name('products.price_list_product');
     Route::get('/product/price_list_product_list', [ProductController::class, 'getProductpriceListDataTableList'])->name('products.price_list_product_list');
 
+    Route::get('/product/product_search', [ProductController::class, 'productSearch'])->name('products.product_search');
+    Route::get('/product/product_search_list', [ProductController::class, 'getProductSearchDataTableList'])->name('products.product_search_list');
+    Route::get('/get_product_images', [ProductController::class, 'getProductImages']);
+
+
     Route::get('/product/customer_price_list_product', [ProductController::class, 'customerpriceListProduct'])->name('products.customer_price_list_product');
     Route::get('/product/customer_price_list_product_list', [ProductController::class, 'getcustomerProductpriceListDataTableList'])->name('products.customer_price_list_product_list');
+
 
     Route::get('/{id}/product_website', [ProductController::class, 'productWebsite'])->name('products.product_website');
     Route::put('/{id}/product_web', [ProductController::class, 'productWebsiteUpdate'])->name('products.product_web_update');

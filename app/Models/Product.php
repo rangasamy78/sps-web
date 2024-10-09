@@ -80,6 +80,7 @@ class Product extends Model
         'uom_six_value',
         'minimum_packing_unit_id',
         'minimum_packing_unit_value',
+        'image'
     ];
     
 
@@ -128,5 +129,12 @@ class Product extends Model
     return $this->belongsTo(ProductKind::class, 'product_kind_id');
 }
 
-   
+public function supplier()
+{
+    return $this->belongsTo(Supplier::class, 'preferred_supplier_id');
+}
+public function preferred_brand()
+{
+    return $this->belongsTo(Supplier::class, 'brand_or_manufacturer_id');
+}
 }

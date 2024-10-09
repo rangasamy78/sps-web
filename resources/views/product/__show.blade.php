@@ -97,12 +97,12 @@
 
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-3">
-                            <h5 style="text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 2px;">
-                                Selling Prices for this Product: 
+                            <h5 style=" ">
+                                Selling Prices for this Product:
                                     <a href="{{ route('products.price_update', $product->id) }}" style="text-decoration: none;">
                                         <span style="font-size: 1.5em;">&#128425;</span>
                                     </a>
-                                   
+
                                 </h5>
                             </h5>
                                 <div class="row mb-2">
@@ -168,12 +168,12 @@
                             </div>
 
                             <div class="col-sm-12 col-md-6 col-lg-3">
-                                <h5 style="text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 2px;">Reorder Levels:
+                                <h5 style="">Reorder Levels:
                                 </h5>
 
                                 <div class="row mb-2">
                                     <div class="col">
-                                        <label for="primary_phone"><span class="text-dark fw-bold">Preferred Supplier:</span> </label>
+                                        <label for="primary_phone"><span class="text-dark fw-bold">Preferred Supplier:</span>{{ $product->supplier->supplier_name ?? '' }} </label>
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -187,7 +187,7 @@
                                     </div>
                                 </div>
 
-                                <h5 style="text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 2px;">Units:
+                                <h5 style="">Units:
                                 </h5>
 
                                 <div class="row mb-2">
@@ -195,9 +195,9 @@
                                         <label for="primary_phone"><span class="text-dark fw-bold">Base UOM:</span> {{ $product->unit_measure->unit_measure_name ?? '' }}</label>
                                     </div>
                                 </div>
-                               
 
-                                <h5 style="text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 2px;">Inventory Balance:
+
+                                <h5 style="">Inventory Balance:
                                 </h5>
 
                                 <div class="row mb-2">
@@ -205,9 +205,9 @@
                                         <label for="primary_phone"><span class="text-dark fw-bold">Available:</span> </label>
                                     </div>
                                 </div>
-                               
+
                             </div>
-                            
+
                             </div>
                         </div>
                     </div>
@@ -309,7 +309,7 @@
         </div>
 
         <div class="card mb-4">
-          
+
             <div class="card-body">
                 <div class="row">
                     <div class="col-12 pt-4 pt-md-0">
@@ -351,7 +351,7 @@
                             @include('product.details.info')
                             </div>
                             <div class="tab-pane fade" id="files">
-                            @include('product.details.files')
+                            @include('product.file.files')
                             </div>
                             <div class="tab-pane fade" id="crm">
                             @include('product.details.crm')
@@ -371,4 +371,5 @@
 @endsection
 @section('scripts')
 @include('product.__scripts')
+@include('product.file.__script')
 @endsection

@@ -15,16 +15,16 @@
 
             e.preventDefault();
             if (table) {
-            table.draw(); 
+            table.draw();
             }
             if (stocktable) {
-                stocktable.draw(); 
+                stocktable.draw();
             }
             if (ptable) {
-                ptable.draw(); 
+                ptable.draw();
             }
             if (cptable) {
-                cptable.draw(); 
+                cptable.draw();
             }
         });
 
@@ -39,7 +39,7 @@
             [0, 'desc']
         ],
         ajax: {
-            url: "{{ route('products.list') }}", 
+            url: "{{ route('products.list') }}",
             data: function(d) {
                 d.product_name_search = $('#productNameFilter').val();
                 d.product_type_search = $('#productTypeFilter').val();
@@ -87,10 +87,10 @@
                 data: 'product_sub_category_id',
                 name: 'product_sub_category_id'
             },
-            {
-                data: 'product_group_id',
-                name: 'product_group_id'
-            },
+            // {
+            //     data: 'product_group_id',
+            //     name: 'product_group_id'
+            // },
             {
                 data: 'product_origin_id',
                 name: 'product_origin_id'
@@ -172,7 +172,7 @@
                 id: 'searchProduct',
             },
             action: function(e, dt, node, config) {
-                window.location.href = "#";
+                window.location.href = "{{ route('products.product_search') }}";
             }
         }
     ]
@@ -190,7 +190,7 @@ $(document).ready(function() {
             [0, 'desc']
         ],
         ajax: {
-            url: "{{ route('products.stock_list') }}", 
+            url: "{{ route('products.stock_list') }}",
             data: function(d) {
                 d.product_name_search = $('#productNameFilter').val();
                 d.product_type_search = $('#productTypeFilter').val();
@@ -687,33 +687,88 @@ $(document).ready(function() {
         $('.' + fieldName + '_error').text('');
     });
     $('#savedata').click(function(e) {
+    e.preventDefault();
+    var button = $(this);
+    sending(button);
 
-        e.preventDefault();
-        var button = $(this);
-        sending(button);
-        var url = $('#product_id').val() ? "{{ route('products.update', ':id') }}".replace(':id', $('#product_id').val()) : "{{ route('products.store') }}";
-        var type = $('#product_id').val() ? "PUT" : "POST";
-        $.ajax({
-            url: url,
-            type: type,
-            data: $('#productForm').serialize(),
-            dataType: 'json',
-            success: function(response) {
+    var productId = $('#product_id').val();
 
-                if (response.status == "success") {
-                    $('#productForm').trigger("reset");
-                    $('#productModel').modal('hide');
-                    window.location.href = "{{ route('products.index') }}";
-                    showToast('success', response.msg);
-                    table.draw();
-                }
-            },
-            error: function(xhr) {
-                handleAjaxError(xhr);
-                sending(button, true);
+    if (productId) {
+        updateProduct(button, productId);
+    } else {
+        addProduct(button);
+    }
+});
+
+
+function addProduct(button) {
+    var formData = new FormData($('#productForm')[0]);
+    var url = "{{ route('products.store') }}";
+    var type = "POST";
+
+    $.ajax({
+        url: url,
+        type: type,
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: 'json',
+        success: function(response) {
+            if (response.status == "success") {
+                $('#productForm').trigger("reset");
+                $('#productModel').modal('hide');
+                window.location.href = "{{ route('products.index') }}";
+                showToast('success', response.msg);
+                table.draw();
             }
-        });
+        },
+        error: function(xhr) {
+            handleAjaxError(xhr);
+            sending(button, true);
+        }
     });
+}
+
+
+function updateProduct(button, productId) {
+    var formData = new FormData($('#productForm')[0]);
+    var url = "{{ route('products.update', ':id') }}".replace(':id', productId);
+    var type = "POST";
+    formData.append('_method', 'PUT');
+
+
+    formData.append('_token', '{{ csrf_token() }}');
+
+    $.ajax({
+        url: url,
+        type: type,
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: 'json',
+        beforeSend: function() {
+            sending(button, false);
+        },
+        success: function(response) {
+            if (response.status === "success") {
+                $('#productForm').trigger("reset");
+                $('#productModel').modal('hide');
+                window.location.href = "{{ route('products.index') }}";
+                showToast('success', response.msg);
+                table.draw();
+            } else {
+                showToast('error', 'Failed to update product.');
+            }
+        },
+        error: function(xhr) {
+            handleAjaxError(xhr);
+        },
+        complete: function() {
+            sending(button, true);
+        }
+    });
+}
+
 
     $('body').on('click', '.deletebtn', function() {
         var id = $(this).data('id');
@@ -732,7 +787,7 @@ $(document).ready(function() {
                 _token: '{{ csrf_token() }}'
             },
             success: function(response) {
-                
+
                     window.location.href = "{{ route('products.index') }}";
             },
             error: function(xhr) {
@@ -1006,7 +1061,7 @@ $('#product_kind_id').select2({
     });
     });
 
-         
+
     $(document).ready(function() {
     $('#indivisible').on('click', function() {
         if ($(this).is(':checked')) {
@@ -1016,10 +1071,10 @@ $('#product_kind_id').select2({
         }
     });
 
-          
+
     function showAlert() {
-      
-        $('#customAlert').fadeIn();       
+
+        $('#customAlert').fadeIn();
         $('#okButton').on('click', function() {
             $('#customAlert').fadeOut();
             $('#indivisible').prop('checked', true);
@@ -1120,6 +1175,42 @@ $('#uploadFileForm').on('submit', function(e) {
         }
     });
     });
+    document.getElementById('image').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        if (file) {
+            reader.onload = function (e) {
+
+                document.getElementById('uploadedAvatar').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+
+
+    $(document).ready(function() {
+    var table = $('#searchProductdatatable').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: '/get_product_images', // Adjust the route to match your Laravel route
+            type: 'GET',
+        },
+        columns: [
+            { data: 'id', name: 'id' },
+            { data: 'image', name: 'image', render: function(data, type, row) {
+                return `<img src="${data}" alt="Product Image" width="50">`; // Display the image
+            }}
+        ],
+        paging: true,
+        pageLength: 10,
+    });
+});
+
+
+
 
 
     });

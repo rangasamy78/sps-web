@@ -6,13 +6,52 @@
 <style>
   .product-link {
     color: black;
-    text-decoration: none; 
+    text-decoration: none;
 }
 
 .product-link:hover {
-    text-decoration: underline; 
+    text-decoration: underline;
 }
 
+.dot-s-val{
+    display:inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border-color: #c0b1e4;
+    background-color: #cab8f8;
+    margin-left:10px;
+    text-align:center;
+    line-height: 20px;
+    vertical-align: middle;
+    font-size: 12px;
+}
+.dot-d-val{
+    display:inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border-color: #94bed3;
+    background-color: #abddf6;
+    margin-left:10px;
+    text-align:center;
+    line-height: 20px;
+    vertical-align: middle;
+    font-size: 12px;
+}
+.dot-ia-val{
+    display:inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border-color: #94bed3;
+    background-color: #aeb8bd;
+    margin-left:10px;
+    text-align:center;
+    line-height: 20px;
+    vertical-align: middle;
+    font-size: 12px;
+}
 </style>
 @endsection
 @section('content')
@@ -35,7 +74,7 @@
                     <th>Type/Form</th>
                     <th>Category</th>
                     <th>SubCategory</th>
-                    <th>Group</th>
+                    <!-- <th>Group</th> -->
                     <th>Origin</th>
                     <th>Pref.Supplier</th>
                     <th>Status</th>

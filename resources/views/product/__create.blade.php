@@ -43,7 +43,7 @@
 <div class="content-wrapper">
   <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="py-3 mb-4 float-right"><span class="text-muted fw-light">Product / </span>Create</h4>
-    <form id="productForm" name="productForm" class="form-horizontal">
+    <form id="productForm" name="productForm" class="form-horizontal"  enctype="multipart/form-data">
                 <div class="row">
                   <div class="col-12 col-lg-8">
                     <div class="card mb-4">
@@ -76,7 +76,9 @@
                             </label>
                             <select class="form-select select2" name="product_kind_id" id="product_kind_id" data-allow-clear="true">
                                 <option value="">--Select Kind--</option>
-                                <option value="1">Stock</option>
+                                  @foreach($product_kind as $kind)
+                                  <option value="{{ $kind->id }}">{{ $kind->product_kind_name  }}</option>
+                                  @endforeach
                             </select>
                             <span class="text-danger error-text product_kind_id_error"></span>
                           </div>
@@ -201,14 +203,20 @@
                           </div>
                           <div class="col">
                             <label class="form-label" for="Weight">Weight</label>
-                            <input
-                              type="text"
-                              class="form-control"
-                              id="product_weight"
-                              placeholder="Weight"
-                              name="product_weight"
-                              aria-label="Weight" />
+                            <div class="input-group">
+                          <input
+                          type="text"
+                          class="form-control"
+                          id="product_weight"
+                          placeholder="Weight"
+                          name="product_weight"
+                          aria-label="Weight" />
+
+                        <span class="input-group-text">LBS</span>
+                        <span class="text-danger error-text product_weight_error"></span>
+                      </div>
                           </div>
+
                           <div class="col">
                             <label class="form-label" for="Size">Size
                             </label>
@@ -269,9 +277,9 @@
                             <label class="form-label" for="GL Inventory Link Account">GL Inventory Link Account</label>
                             <select class="form-select select2" name="gl_inventory_link_account_id" id="gl_inventory_link_account_id" data-allow-clear="true">
                                 <option value="">--Select GL Inventory Link Account--</option>
-                                @foreach($product_type as $type)
-                              <option value="{{ $type->id }}">{{ $type->product_type }}</option>
-                              @endforeach
+                                @foreach($inventories as $key => $inventory)
+                                        <option value="{{ $inventory['value'] }}">{{ $inventory['label'] }}</option>
+                                    @endforeach
                               </select>
                               <span class="text-danger error-text gl_inventory_link_account_id_error"></span>
                           </div>
@@ -279,9 +287,9 @@
                             <label class="form-label" for="GL Income Account">GL Income Account</label>
                             <select class="form-select select2" name="gl_income_account_id" id="gl_income_account_id" data-allow-clear="true">
                                 <option value="">--Select GL Income Account--</option>
-                                @foreach($product_type as $type)
-                              <option value="{{ $type->id }}">{{ $type->product_type }}</option>
-                              @endforeach
+                                @foreach($sales as $key => $sale)
+                                        <option value="{{ $sale['value'] }}">{{ $sale['label'] }}</option>
+                                    @endforeach
                             </select>
                             <span class="text-danger error-text gl_income_account_id_error"></span>
                           </div>
@@ -290,9 +298,9 @@
                             </label>
                             <select class="form-select select2" name="gl_cogs_account_id" id="gl_cogs_account_id" data-allow-clear="true">
                                 <option value="">--Select GL Cost Of Goods Sold Account--</option>
-                                @foreach($product_type as $type)
-                              <option value="{{ $type->id }}">{{ $type->product_type }}</option>
-                              @endforeach
+                                @foreach($cogs as $key => $cog)
+                                        <option value="{{ $cog['value'] }}">{{ $cog['label'] }}</option>
+                                    @endforeach
                             </select>
                               <span class="text-danger error-text gl_cogs_account_id_error"></span>
                           </div>
@@ -384,15 +392,19 @@
                         <div class="col">
                             <label class="form-label" for="Preferred Supplier">Preferred Supplier</label>
                             <select class="form-select select2" name="preferred_supplier_id" id="preferred_supplier_id" data-allow-clear="true">
-                                <option value="">--Select Preferred Supplier--</option>
-                                <option value="1">--Select--</option>
+                                  <option value="">--Select Preferred Supplier--</option>
+                                  @foreach($supplier as $supply)
+                                  <option value="{{ $supply->id }}">{{ $supply->supplier_name  }}</option>
+                                  @endforeach
                             </select>
                           </div>
                           <div class="col">
                             <label class="form-label" for="Brand/Manufacturer">Brand/Manufacturer</label>
                             <select class="form-select select2" name="brand_or_manufacturer_id" id="brand_or_manufacturer_id" data-allow-clear="true">
                                 <option value="">--Select Brand/Manufacturer--</option>
-                                <option value="1">--Select--</option>
+                                @foreach($supplier as $supply)
+                                  <option value="{{ $supply->id }}">{{ $supply->supplier_name  }}</option>
+                                  @endforeach
                             </select>
                           </div>
                         </div>
@@ -425,7 +437,9 @@
                           </label>
                           <select class="form-select select2" name="purchasing_unit_id" id="purchasing_unit_id" data-allow-clear="true">
                                 <option value="">--Select Purchasing Units--</option>
-                                <option value="1">--Select--</option>
+                                @foreach($unit_measure as $unit)
+                                  <option value="{{ $unit->id }}">{{ $unit->unit_measure_name }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="col">
@@ -544,6 +558,40 @@
                               aria-label="Disclaimer" ></textarea>
                           </div>
                         </div>
+                  <div class="row mb-3">
+                      <div class="col">
+                        <label class="form-label" for="Mobile">Product Image</label>
+
+                        <div class="button-wrapper d-flex align-items-center">
+                          <!-- Upload button -->
+                          <label for="image" class="btn btn-primary me-2 mb-4" tabindex="0">
+                            <span class="d-none d-sm-block">Upload new photo</span>
+                            <i class="bx bx-upload d-block d-sm-none"></i>
+                            <input
+                                type="file"
+                                id="image"
+                                name="image"
+                                class="account-file-input"
+                                hidden
+                                accept="image/png, image/jpeg, image/jpg" />
+                          </label>
+                          <p class="text-muted mb-3 ms-2">Allowed JPG, GIF, JPEG or PNG. Max size of 1024K</p>
+                        </div>
+                        <button type="button" class="btn btn-label-secondary account-image-reset mb-4" hidden>
+                            <i class="bx bx-reset d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Reset</span>
+                        </button>
+
+                        <span class="text-danger error-text image_error"></span>
+                                <img
+                                src="data:image/svg+xml, <svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'></svg>"
+                                alt=""
+                                class="d-block rounded"
+                                height="100"
+                                width="100"
+                                id="uploadedAvatar" />
+                              </div>
+                            </div>
                           <div>
                         </div>
                       </div>
@@ -828,7 +876,9 @@
                         id="minimum_packing_unit_value"
                         name="minimum_packing_unit_value"
                         aria-label="" />
+                        <span class="text-danger error-text minimum_packing_unit_value_error"></span>
                       </div>
+
                     </div>
                   </div>
                   </div>
