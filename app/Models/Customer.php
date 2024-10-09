@@ -145,4 +145,9 @@ class Customer extends Model
     {
         return $this->belongsTo(TaxExemptReason::class, 'tax_exempt_reason_id', 'id');
     }
+
+    public function payment_term()
+    {
+        return $this->belongsTo(AccountPaymentTerm::class, 'payment_terms_id', 'id');
+    }
 }

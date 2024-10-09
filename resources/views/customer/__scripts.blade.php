@@ -7,10 +7,11 @@
             }
         });
 
-        $('#customerNameFilter,#customerTypeFilter,#addressNameFilter,#customerPhoneFilter,#locationNameFilter,#statusFilter').on('keyup change', function(e) {
-            e.preventDefault();
-            table.draw();
-        });
+        $('#customerNameFilter,#customerTypeFilter,#addressNameFilter,#customerPhoneFilter,#locationNameFilter,#statusFilter')
+            .on('keyup change', function(e) {
+                e.preventDefault();
+                table.draw();
+            });
 
         var table = $('#datatable').DataTable({
             responsive: true,
@@ -36,8 +37,7 @@
                     }];
                 }
             },
-            columns: [
-                {
+            columns: [{
                     data: 'customer_name',
                     name: 'customer_name'
                 },
@@ -53,22 +53,22 @@
                     data: 'phone',
                     name: 'phone'
                 },
-                {
-                    data: 'parent_location_name',
-                    name: 'parent_location_name'
-                },
+                // {
+                //     data: 'parent_location_name',
+                //     name: 'parent_location_name'
+                // },
                 {
                     data: 'sales_person_name',
                     name: 'sales_person_name'
                 },
-                {
-                    data: 'price_list_label_name',
-                    name: 'price_list_label_name'
-                },
-                {
-                    data: 'sales_tax_name',
-                    name: 'sales_tax_name'
-                },
+                // {
+                //     data: 'price_list_label_name',
+                //     name: 'price_list_label_name'
+                // },
+                // {
+                //     data: 'sales_tax_name',
+                //     name: 'sales_tax_name'
+                // },
                 {
                     data: 'status',
                     name: 'status'
@@ -89,14 +89,26 @@
             },
             dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
             buttons: [{
-                text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add Customer</span>',
-                className: 'create-new btn btn-primary',
-                action: function (e, dt, node, config) {
-                    // Redirect to Laravel route
-                    window.location.href = "{{ route('customers.create') }}";
+                    text: '<span class="d-none d-sm-inline-block">Customer Type</span>',
+                    className: 'btn btn-secondary me-2',
+                    attr: {
+                        id: 'product',
+                    },
+                    action: function(e, dt, node, config) {
+                        window.location.href = "{{ route('customer_types.index') }}";
+                    }
+                },
+                {
+                    text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Add Customer</span>',
+                    className: 'create-new btn btn-primary me-2',
+                    attr: {
+                        id: 'createCustomer',
+                    },
+                    action: function(e, dt, node, config) {
+                        window.location.href = "{{ route('customers.create') }}";
+                    }
                 }
-            }],
-
+            ]
         });
 
         $('#savedata').click(function(e) {
@@ -104,7 +116,8 @@
             $('.error-text').text('');
             var button = $(this);
             sending(button);
-            var url = $('#customer_id').val() ? "{{ route('customers.update', ':id') }}".replace(':id', $('#customer_id').val()) : "{{ route('customers.store') }}";
+            var url = $('#customer_id').val() ? "{{ route('customers.update', ':id') }}".replace(':id',
+                $('#customer_id').val()) : "{{ route('customers.store') }}";
             var type = $('#customer_id').val() ? "PUT" : "POST";
 
             $.ajax({
@@ -116,7 +129,8 @@
                     if (response.status == "success") {
                         showToast('success', response.msg);
                         setTimeout(function() {
-                            window.location.href = "{{ route('customers.index') }}"; // Redirection after 2 seconds (adjust if needed)
+                            window.location.href =
+                            "{{ route('customers.index') }}"; // Redirection after 2 seconds (adjust if needed)
                         }, 2000);
                     }
                 },
@@ -238,7 +252,7 @@
         });
 
         $('#same_as_address').change(function() {
-            toggleShippingAddress(this);  // Pass the checkbox object to the function
+            toggleShippingAddress(this); // Pass the checkbox object to the function
         });
 
         $('body').on('click', '.deletebtn', function() {
@@ -297,18 +311,22 @@
                     $.ajax({
                         url: billingAddressUrl,
                         method: 'GET',
-                        data: { id: selectedCustomerId },
+                        data: {
+                            id: selectedCustomerId
+                        },
                         success: function(response) {
                             $('#address').val(response.address);
                             $('#address_2').val(response.address_2);
                             $('#city').val(response.city);
                             $('#state').val(response.state);
                             $('#zip').val(response.zip);
-                            $('#country_id').val(response.country_id).trigger('change');
+                            $('#country_id').val(response.country_id).trigger(
+                                'change');
                             $('#county').val(response.county);
                         },
                         error: function() {
-                            Swal.fire('Error', 'Failed to fetch customer address', 'error');
+                            Swal.fire('Error', 'Failed to fetch customer address',
+                                'error');
                         }
                     });
                 }
@@ -329,9 +347,11 @@
                 success: function(response) {
                     if (response.status === 'success') {
                         if (response.update_status == 1) {
-                            button.removeClass('btn-danger').addClass('btn-success').text('Active');
+                            button.removeClass('btn-danger').addClass('btn-success').text(
+                                'Active');
                         } else {
-                            button.removeClass('btn-success').addClass('btn-danger').text('Inactive');
+                            button.removeClass('btn-success').addClass('btn-danger').text(
+                                'Inactive');
                         }
                         showToast('success', response.msg);
                     }
@@ -352,5 +372,5 @@
 
         // // Trigger the change event on page load if checkbox is already checked
         // $('#is_allow_login').trigger('change');
-     });
+    });
 </script>

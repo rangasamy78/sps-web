@@ -4,7 +4,7 @@ namespace App\Traits;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
-use Intervention\Image\Facades\Image; // If you use the Intervention Image package
+use InvalidArgumentException;
 
 trait ImageUploadTrait
 {
@@ -16,15 +16,22 @@ trait ImageUploadTrait
      * @param string $disk
      * @return string|null
      */
-    public function uploadImage(UploadedFile $image, $folder, $disk = 'public')
-    {
-        // Generate a unique name for the image
-        $filename = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+    public $baseDir = 'app';
 
-        // Store the image in the specified folder
+    public function uploadImage(UploadedFile $image, $disk = 'images', $folder = null)
+    {
+        $extension = $image->getClientOriginalExtension();
+
+        $filename = time() . '_' . uniqid() . '.' . $extension;
+
+        $storagePath = $this->getStoragePath($disk, $folder);
+
+        if (!file_exists($storagePath)) {
+            mkdir($storagePath, 0755, true); // Create directory with 755 permissions
+        }
+
         $path = $image->storeAs($folder, $filename, $disk);
 
-        // Return the path to the image
         return $path;
     }
 
@@ -35,8 +42,24 @@ trait ImageUploadTrait
      * @param string $disk
      * @return bool
      */
-    public function deleteImage($path, $disk = 'public')
+    public function deleteImage($path, $disk = 'images')
     {
         return Storage::disk($disk)->delete($path);
+    }
+
+    protected function checkImageExtension(UploadedFile $image)
+    {
+        $extension = $image->getClientOriginalExtension();
+        if (!in_array($extension, $this->allowedExtensions)) {
+            throw new InvalidArgumentException("Invalid file extension: $extension. Allowed extensions are: " . implode(', ', $this->allowedExtensions));
+        }
+    }
+
+    protected function getStoragePath($disk, $folder)
+    {
+        switch ($disk) {
+            case env("FILESYSTEM_DISK"):
+                return storage_path($this->baseDir . '/' . $disk . '/' . ($folder ? $folder . '/' : ''));
+        }
     }
 }

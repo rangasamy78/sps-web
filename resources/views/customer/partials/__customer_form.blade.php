@@ -245,7 +245,7 @@
                     <div class="col-12 col-lg-6">
                         <label class="form-label" for="sales_tax_id">Sales Tax:</label>
                         {!! Form::label('sales_tax_id', 'Sales Tax:', ['class' => 'form-label']) !!}
-                        {!! Form::select('sales_tax_id', $data['users'], null, ['class' => 'form-control select2', 'id' => 'sales_tax_id', 'placeholder' => 'Select Sales Tax', 'data-allow-clear' => 'true']) !!}
+                        {!! Form::select('sales_tax_id', $data['salesTaxs'], null, ['class' => 'form-control select2', 'id' => 'sales_tax_id', 'placeholder' => 'Select Sales Tax', 'data-allow-clear' => 'true']) !!}
                     </div>
                     <div class="col-12 col-lg-6 mb-3">
                         <label class="form-label" for="payment_terms_id">Payment Terms: <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></sup></label>
@@ -333,6 +333,7 @@
                             <div class="col-12 col-lg-6">
                                 {!! Form::label('hold_days', '# of days for hold:', ['class' => 'form-label']) !!}
                                 {!! Form::text('hold_days', null, ['class' => 'form-control', 'id' => 'hold_days', 'placeholder' => 'Enter Hold Days']) !!}
+                                <span class="text-danger error-text hold_days_error"></span>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -361,11 +362,17 @@
                         <div class="row mb-3">
                             <div class="col-12 col-lg-6">
                                 {!! Form::label('credit_limit', 'Credit Limit:', ['class' => 'form-label']) !!}
-                                {!! Form::text('credit_limit', null, ['class' => 'form-control', 'id' => 'credit_limit', 'placeholder' => 'Enter Credit Limit']) !!}
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    {!! Form::text('credit_limit', null, ['class' => 'form-control', 'id' => 'credit_limit', 'placeholder' => 'Enter Credit Limit']) !!}
+                                </div>
+                                <span class="text-danger error-text credit_limit_error"></span>
                             </div>
+
+
                             <div class="col-12 col-lg-6">
                                 {!! Form::checkbox('is_credit_lock', 1, null, ['id' => 'is_credit_lock']) !!}
-                                {!! Form::label('is_credit_lock', 'Is Credit Lock Exempt', ['class' => 'form-label']) !!}
+                                {!! Form::label('is_credit_lock', 'Is Credit Lock Exempt', ['class' => 'form-label', 'style' => 'margin-top: 40px;']) !!}
                             </div>
                         </div>
                         <div class="row mb-3">

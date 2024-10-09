@@ -169,7 +169,11 @@ class CustomerController extends Controller
         $projectTypes        = ProjectType::query()->pluck('project_type_name', 'id');
         $endUseSegments      = EndUseSegment::query()->pluck('end_use_segment', 'id');
         $accountPaymentTerms = AccountPaymentTerm::query()->pluck('payment_label', 'id');
-        return compact('countries', 'customers', 'customerTypes', 'customer', 'companies', 'users', 'counties', 'priceListLabels', 'taxExemptReasons', 'aboutUsOptions', 'projectTypes', 'endUseSegments', 'accountPaymentTerms');
+        $salesTaxs           = DB::table('tax_codes')->join('tax_code_components', 'tax_codes.id', '=', 'tax_code_components.tax_code_id')
+                                ->select('tax_codes.id', DB::raw("CONCAT(tax_codes.tax_code, ' - ', tax_codes.tax_code_label, ' - ', SUM(tax_code_components.rate), ' %') as name"))
+                                ->groupBy('tax_codes.id')
+                                ->get()->pluck('name', 'id');
+        return compact('countries', 'customers', 'customerTypes', 'customer', 'companies', 'users', 'counties', 'priceListLabels', 'taxExemptReasons', 'aboutUsOptions', 'projectTypes', 'endUseSegments', 'accountPaymentTerms','salesTaxs');
     }
 
     public function customerUploadImage(Request $request)

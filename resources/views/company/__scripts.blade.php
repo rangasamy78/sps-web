@@ -48,7 +48,7 @@
                 {
                     data: 'logo',
                     render: function(data, type, row) {
-                        var imageUrl = '{{ asset("storage/app/public/") }}/' + data;
+                        var imageUrl = '{{ asset("storage/app/public/images/") }}/' + data;
                         return '<img src="' + imageUrl + '" width="50px" height="50px" class="img-thumbnail rounded-circle">';
                     }
                 },
@@ -122,7 +122,7 @@
                     if (response.status == "success") {
                         $('#addCompanyForm').trigger("reset");
                         $('#companyModel').modal('hide');
-                        let storagePath = `{{ asset('storage/app/public/') }}`;
+                        let storagePath = `{{ asset('storage/app/public/images/') }}`;
                         let defaultPath = `{{ asset('public/assets/img/branding/location-logo.png') }}`;
                         let logoUrl = response.company_logo ? `${storagePath}/${response.company_logo}` : defaultPath;
                         setImageSource('.app-brand .logo-container img', logoUrl, defaultPath);
@@ -169,7 +169,7 @@
             form.find('#phone_2').val(data.phone_2);
             form.find('#website').val(data.website);
             form.find('#is_bin_pre_defined').prop('checked', data.is_bin_pre_defined);
-            let logoUrl = data.logo ? `{{ asset('storage/app/public/') }}/${data.logo}` : '{{ asset('public / assets / img / branding / location - logo.png ') }}';
+            let logoUrl = data.logo ? `{{ asset('storage/app/public/images/') }}/${data.logo}` : '{{ asset('public / assets / img / branding / location - logo.png ') }}';
             form.find('#imagePreview #previewImage').attr('src', logoUrl).show();
         }
 
@@ -190,7 +190,7 @@
                     if (response.status == "success") {
                         $('#editCompanyForm').trigger("reset");
                         $('#editCompanyModel').modal('hide');
-                        let storagePath = `{{ asset('storage/app/public/') }}`;
+                        let storagePath = `{{ asset('storage/app/public/images/') }}`;
                         let defaultPath = `{{ asset('public/assets/img/branding/location-logo.png') }}`;
                         let logoUrl = response.company_logo ? `${storagePath}/${response.company_logo}` : defaultPath;
                         setImageSource('.app-brand .logo-container img', logoUrl, defaultPath);
@@ -254,7 +254,7 @@
                 $('#showCompanyForm #phone_2').val(data.phone_2);
                 $('#showCompanyForm #website').val(data.website);
                 $('#showCompanyForm #is_bin_pre_defined').prop('checked', data.is_bin_pre_defined);
-                let logoUrl = data.logo ? `{{ asset('storage/app/public/') }}/${data.logo}` : '{{ asset('public / assets / img / branding / location - logo.png ') }}';
+                let logoUrl = data.logo ? `{{ asset('storage/app/public/images/') }}/${data.logo}` : '{{ asset('public / assets / img / branding / location - logo.png ') }}';
                 $("#showCompanyForm #imagePreview #previewImage").attr('src', logoUrl).show();
             });
         });

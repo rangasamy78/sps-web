@@ -75,6 +75,16 @@
             },
             dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
             buttons: [{
+                text: '<span class="d-none d-sm-inline-block">Tax Components</span>',
+                className: 'btn btn-secondary me-2',
+                attr: {
+                    id: 'product',
+                },
+                action: function(e, dt, node, config) {
+                    window.location.href = "{{ route('tax_components.index') }}";
+                }
+            },
+            {
                 text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block" >Add Tax Code</span>',
                 className: 'create-new btn btn-primary',
                 action: function (e, dt, node, config) {
@@ -82,7 +92,6 @@
                     window.location.href = "{{ route('tax_codes.create') }}";
                 }
             }],
-
         });
 
         $('#savedata').click(function(e) {
