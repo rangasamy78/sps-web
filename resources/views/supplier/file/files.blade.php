@@ -1,6 +1,6 @@
 <div class="tab-pane" id="file" role="tabpanel">
     <h5 class="">Files</h5>
-    <form id="uploadFileForm" enctype="multipart/form-data">
+    <form id="uploadSupplierFileForm" enctype="multipart/form-data">
         <div class="row">
             <div class="d-flex align-items-start align-items-sm-center gap-4">
                 <div class="button-wrapper">
@@ -14,7 +14,7 @@
                             hidden
                             accept="image/png, image/jpeg, application/pdf, image/jpg, image/gif, image/bmp" multiple />
                     </label>
-                    <button type="submit" class="btn btn-secondary account-image-reset mb-4" data-id='{{ $account->id }}' id="saveFile" name="saveFile">
+                    <button type="submit" class="btn btn-secondary account-image-reset mb-4" data-id='{{ $supplier->id }}' id="saveFile" name="saveFile">
                         <i class="bx bx-reset d-block d-sm-none"></i>
                         <span class="d-none d-sm-block">Upload File</span>
                     </button>
@@ -22,19 +22,20 @@
             </div>
         </div>
         <div class="row">
-            <input type="text" class="form-control" hidden name="account_id" id="account_id" value="{{ $account->id }}">
+            <input type="text" class="form-control" hidden name="supplier_id" id="supplier_id" value="{{ $supplier->id }}">
         </div>
-        <table class="datatables-basic table tables-basic border-top table-striped" id="accountFile">
+        <table class="datatables-basic table tables-basic border-top table-striped" id="supplierFile">
             <thead class="table-header-bold">
                 <tr>
                     <th>Image</th>
                     <th>Title</th>
+                    <th>File Type</th>
                     <th>Notes</th>
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody id="fileUploadRow">
+            <tbody id="supplierFileUploadRow">
             </tbody>
         </table>
-    </form>
+
 </div>

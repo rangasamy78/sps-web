@@ -9,8 +9,7 @@
   <!-- Content -->
 
   <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="py-3 mb-4"><span class="text-muted fw-light">Home /</span> Supplier</h4>
-
+    <h4 class="py-3 mb-4"><a href="{{route('lists')}}" class="text-decoration-none text-dark"><span class="text-muted fw-light">Home /</span> Supplier</a></h4>
     <!-- Product List Widget -->
 
     <div class="card mb-4">

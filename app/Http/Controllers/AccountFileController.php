@@ -55,8 +55,8 @@ class AccountFileController extends Controller
         }
     }
 
-    public function getAccountFileDataTableList(Request $request)
+    public function getAccountFileDataTableList(Request $request, $id)
     {
-        return $this->accountFileRepository->dataTable($request);
+        return $this->accountFileRepository->dataTable($request, $id);
     }
 }

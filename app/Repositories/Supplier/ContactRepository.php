@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Supplier;
 
 use App\Models\Contact;
 use Illuminate\Http\Request;
+
 class ContactRepository
 {
     public function save(array $data)
@@ -13,13 +14,14 @@ class ContactRepository
         return $query->id;
     }
 
-    public function getContactList($request)
+    public function getContactList($id)
     {
-        $query = Contact::query();
+        $query = Contact::where('type', 'supplier')
+            ->where('type_id', $id);
         return $query;
     }
 
-    public function dataTable(Request $request)
+    public function dataTable(Request $request, $id)
     {
         $draw            = $request->get('draw');
         $start           = $request->get("start");
@@ -31,13 +33,13 @@ class ContactRepository
         $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
 
         $columnName = 'created_at';
-        $Contact   = $this->getContactList($request);
+        $Contact   = $this->getContactList($id);
         $total      = $Contact->count();
 
-        $totalFilter = $this->getContactList($request);
+        $totalFilter = $this->getContactList($id);
         $totalFilter = $totalFilter->count();
 
-        $arrData = $this->getContactList($request);
+        $arrData = $this->getContactList($id);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
         $arrData = $arrData->get();

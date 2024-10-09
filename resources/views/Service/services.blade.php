@@ -7,18 +7,17 @@
   .product-link {
     color: black;
     text-decoration: none;
-}
+  }
 
-.product-link:hover {
+  .product-link:hover {
     text-decoration: underline;
-}
-
+  }
 </style>
 @endsection
 @section('content')
 <div class="content-wrapper">
   <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="py-3 mb-4 float-right"><span class="text-muted fw-light">Home / </span>Service</h4>
+    <h4 class="py-3 mb-4 float-right"><a href="{{route('lists')}}" class="text-decoration-none text-dark"><span class="text-muted fw-light">Home / </span>Service</a></h4>
     @include('service.__search')
     <div class="row mb-3">
       <div class="col">

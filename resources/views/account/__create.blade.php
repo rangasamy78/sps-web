@@ -9,7 +9,9 @@
     <!-- Content -->
     <form id="accountForm">
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="py-3 mb-4"><span class="text-muted fw-light">Account /</span><span> Add Account</span></h4>
+            <h4 class="py-3 mb-4"><a href="{{route('accounts.index')}}" class="text-decoration-none text-dark"><span class="text-muted fw-light">Account /</span>
+                    Add Account</span>
+                </a></h4>
             <div class="app-ecommerce">
 
                 <div class="row">

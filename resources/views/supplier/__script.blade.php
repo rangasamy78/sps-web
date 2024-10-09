@@ -15,9 +15,6 @@
       processing: true,
       serverSide: true,
       searching: false,
-      order: [
-        [1, 'desc']
-      ],
       ajax: {
         url: "{{ route('suppliers.list') }}",
         data: function(d) {
@@ -29,11 +26,6 @@
           d.location_search = $('#locationFilter').val();
           d.payment_term_search = $('#paymentTermFilter').val();
           d.language_search = $('#languageFilter').val();
-          sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
-          d.order = [{
-            column: 1,
-            dir: sort
-          }];
         }
       },
       columns: [{
@@ -90,18 +82,63 @@
       rowCallback: function(row, data, index) {
         $('td:eq(0)', row).html(table.page.info().start + index + 1);
         if (data.status === 'Inactive') {
-          $(row).addClass('table-danger'); // You can replace this with a custom class
+          $(row).addClass('table-danger');
         }
       },
-      dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+      dom: '<"row mx-2"' +
+        '<"col-md-2"<"me-3"l>>' +
+        '<"col-md-10"<"dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-3 mb-md-0"fB>>' +
+        '>t' +
+        '<"row mx-2"' +
+        '<"col-sm-12 col-md-6"i>' +
+        '<"col-sm-12 col-md-6"p>' +
+        '>',
+      language: {
+        sLengthMenu: '_MENU_',
+        search: '',
+        searchPlaceholder: 'Search..'
+      },
       buttons: [{
-        text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Add Supplier</span>',
-        className: 'create-new btn btn-primary',
-        action: function(e, dt, node, config) {
-          window.location.href = "{{ route('suppliers.create') }}";
+          text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Add Supplier</span>',
+          className: 'create-new btn btn-primary',
+          action: function(e, dt, node, config) {
+            window.location.href = "{{ route('suppliers.create') }}";
+          }
+        },
+        {
+          extend: 'collection',
+          className: 'btn btn-label-secondary dropdown-toggle mx-3',
+          text: '<i class="bx bx-export me-1"></i>Export',
+          buttons: [{
+              extend: 'print',
+              text: '<i class="bx bx-printer me-2"></i>Print',
+              className: 'dropdown-item'
+            },
+            {
+              extend: 'csv',
+              text: '<i class="bx bx-file me-2"></i>Csv',
+              className: 'dropdown-item'
+            },
+            {
+              extend: 'excel',
+              text: '<i class="bx bxs-file-export me-2"></i>Excel',
+              className: 'dropdown-item'
+            },
+            {
+              extend: 'pdf',
+              text: '<i class="bx bxs-file-pdf me-2"></i>Pdf',
+              className: 'dropdown-item'
+            },
+            {
+              extend: 'copy',
+              text: '<i class="bx bx-copy me-2"></i>Copy',
+              className: 'dropdown-item'
+            }
+          ]
         }
-      }]
+      ]
     });
+
 
     $('#supplierForm input, #supplierForm select').on('input change', function() {
       let fieldName = $(this).attr('name');
@@ -121,6 +158,10 @@
       var url = $('#supplier_id').val() ? "{{ route('suppliers.update', ':id') }}".replace(':id', $('#supplier_id').val()) : "{{ route('suppliers.store') }}";
       var type = $('#supplier_id').val() ? "PUT" : "POST";
       var data = $('#supplier_id').val() ? $('#supplierEditForm').serialize() : $('#supplierForm').serialize();
+      var id = $('#supplier_id').val();
+      var redirect = id ?
+        "{{ route('suppliers.show', ':id') }}".replace(':id', id) :
+        "{{ route('suppliers.index') }}";
       $.ajax({
         url: url,
         type: type,
@@ -131,7 +172,7 @@
             $('#supplierForm').trigger("reset");
             showToast('success', response.msg);
             table.draw();
-            window.location.href = "{{ route(name: 'suppliers.index') }}";
+            window.location.href = redirect;
           }
         },
         error: function(xhr) {

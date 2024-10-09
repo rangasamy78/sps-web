@@ -8,7 +8,6 @@ use App\Http\Controllers\CountyController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\BinTypeController;
 use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ServiceController;
@@ -80,9 +79,11 @@ use App\Http\Controllers\PurchaseShipmentMethodController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\AccountReceivableAgingPeriodController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
-use App\Http\Controllers\ContactController as AssociateContactController;
-use App\Http\Controllers\ContactController as ExpenditureContactController;
+use App\Http\Controllers\Supplier\ContactController as AssociateContactController;
+use App\Http\Controllers\Supplier\ContactController as ExpenditureContactController;
 use App\Http\Controllers\Customer\ContactController as CustomerContactController;
+use App\Http\Controllers\Supplier\ContactController as SupplierContactController;
+use App\Http\Controllers\Supplier\SupplierFileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -335,13 +336,20 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/supplier/list', [SupplierController::class, 'getSupplierDataTableList'])->name('suppliers.list');
     Route::get('/supplier/status/{id}', [SupplierController::class, 'updateStatus'])->name('suppliers.status');
 
-    Route::post('/contact/save', [ContactController::class, 'save'])->name('contacts.save');
-    Route::get('/contact/list', [ContactController::class, 'getContactDataTableList'])->name('contacts.list');
+    Route::post('/contact/save', [SupplierContactController::class, 'save'])->name('contacts.save');
+    Route::get('/contact/list/{id}', [SupplierContactController::class, 'getSupplierContactDataTableList'])->name('supplier_contacts.list');
+
+    Route::resource('supplier_files', SupplierFileController::class);
+    Route::get('/supplier_file/list/{id}', [SupplierFileController::class, 'getSupplierFileDataTableList'])->name('supplier_files.list');
 
     Route::resource('accounts', AccountController::class);
     Route::get('/account/list', [AccountController::class, 'getAccountDataTableList'])->name('accounts.list');
     Route::get('/account/in_active_list', [AccountController::class, 'getInAccountDataTableList'])->name('accounts.in_active_list');
     Route::get('/account/status/{id}', [AccountController::class, 'updateStatus'])->name('accounts.status');
+    Route::get('/account/is_subtype/{id}', [AccountController::class, 'getIsSubAccountOf'])->name('accounts.is_subtype');
+
+    Route::resource('account_files', AccountFileController::class);
+    Route::get('/account_file/list/{id}', [AccountFileController::class, 'getAccountFileDataTableList'])->name('account_files.list');
 
     Route::resource('expenditures', ExpenditureController::class);
     Route::get('/expenditure/list', [ExpenditureController::class, 'getExpenditureDataTableList'])->name('expenditures.list');
@@ -378,12 +386,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/{id}/product_image', [ProductController::class, 'productImage'])->name('products.product_image');
     Route::post('product/upload-files', [ProductController::class, 'uploadFiles'])->name('product.uploadFiles');
 
-    Route::get('/account/is_subtype/{id}', [AccountController::class, 'getIsSubAccountOf'])->name('accounts.is_subtype');
-    Route::resource('account_files', AccountFileController::class);
-    Route::get('/account_file/list', [AccountFileController::class, 'getAccountFileDataTableList'])->name('account_files.list');
     Route::post('/upload_image', [CustomerController::class, 'customerUploadImage'])->name('upload');
-    Route::get('/contacts/list/{type_id}', [ContactController::class, 'getContactDataTableList'])->name('contacts.list');
-    Route::post('/contacts/save', [ContactController::class, 'contactSave'])->name('contacts.save');
     Route::post('/update/status/{id}', [CustomerController::class, 'updateStatus'])->name('update_status');
 
     Route::resource('tax_codes', TaxCodeController::class);

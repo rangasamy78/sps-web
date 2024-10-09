@@ -10,7 +10,7 @@
 
     <form id="supplierForm">
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="py-3 mb-4"><span class="text-muted fw-light">Supplier /</span><span> Add Supplier</span></h4>
+            <h4 class="py-3 mb-4"><a href="{{route('suppliers.index')}}" class="text-decoration-none text-dark"><span class="text-muted fw-light">Supplier /</span><span> Add Supplier</span></a></h4>
             <div class="app-ecommerce">
                 <div class="row">
                     <!-- First column-->
@@ -183,7 +183,7 @@
                                                 <div class="mb-3 col-6">
                                                     <label class="form-label" for="credit_limit">Credit Limit</label>
                                                     <input
-                                                        type="text"
+                                                        type="number"
                                                         class="form-control"
                                                         id="credit_limit"
                                                         placeholder="Enter Credit Limit"

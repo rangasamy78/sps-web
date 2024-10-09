@@ -10,6 +10,7 @@ use App\Models\Country;
 use App\Models\Currency;
 use App\Models\Supplier;
 use App\Models\Language;
+use App\Models\FileType;
 use App\Models\SupplierType;
 use App\Models\SupplierPort;
 use Illuminate\Http\Request;
@@ -75,9 +76,10 @@ class SupplierController extends Controller
     {
         $countyies = County::query()->select('id', 'county_name')->get();
         $countries = Country::query()->select('id', 'country_name')->get();
+        $fileTypes = FileType::where('view_in', 'Party')->select('id', 'file_Type')->get();
         $supplier = $this->supplierRepository->findOrFail($id);
         $supplier->supplier_since = Carbon::parse($supplier->supplier_since)->format('F j, Y');
-        return view('supplier.__show', compact('supplier', 'countyies', 'countries'));
+        return view('supplier.__show', compact('supplier', 'countyies', 'countries', 'fileTypes'));
     }
 
     public function edit($id)

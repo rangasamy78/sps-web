@@ -10,10 +10,10 @@ class FileType extends Model
     use HasFactory;
     protected $table = 'file_types';
     /**
-    * The attributes that are mass assignable.
-    *
-    * @var array<int, string>
-    */
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'id',
         'view_in',
@@ -22,7 +22,7 @@ class FileType extends Model
         'file_type_quote',
         'file_type_saleorder',
         'file_type_invoice'
-        
+
     ];
 
     protected static $predefinedViewInOptions = [

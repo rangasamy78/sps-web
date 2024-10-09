@@ -3,13 +3,18 @@
 @section('title', 'Show Supplier')
 
 @section('styles')
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-straight/css/uicons-regular-straight.css'>
 @endsection
 @section('content')
 <div class="content-wrapper">
     <!-- Content -->
 
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="py-3 mb-4"><span class="text-muted fw-light">Supplier /</span><span> Show Supplier</span></h4>
+
+        <h4 class="py-3 mb-4"><a href="{{route('suppliers.index')}}" class="text-decoration-none text-dark "><span class="text-muted fw-light">Supplier /</span><span> Show Supplier</span></a></h4>
+
         <div class="app-ecommerce">
             <div class="row">
                 <!-- first column -->
@@ -28,27 +33,65 @@
                                     class="btn btn-primary rounded-circle editbtn"
                                     data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="top" data-bs-custom-class="tooltip-dark" title="Edit Supplier"
                                     style="width: 35px; height: 38px; display: flex; align-items: center; justify-content: center;">
-                                    <i class="bx bx-edit" style="font-size: 18px;"></i>
+                                    <i class="fi fi-rr-pencil fs-4" style="font-size: 18px;"></i>
                                 </a>
                                 <div class='dropdown ms-2'> <!-- Add margin to separate buttons -->
                                     <button type='button' class='btn p-0 dropdown-toggle hide-arrow btn-primary rounded-circle' data-bs-toggle='dropdown' aria-expanded="false" style="width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;">
-                                        <i class='bx bx-plus-circle icon-color' data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Action"></i> <!-- Icon inside the button -->
+                                        <i class='fi fi-rr-redo icon-color fs-4' data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Action"></i> <!-- Icon inside the button -->
                                     </button>
                                     <div class='dropdown-menu'>
-                                        <a class='dropdown-item showbtn text-warning' href='{{ route('suppliers.index') }}'>
+                                        <a class='dropdown-item showbtn fw-bold text-dark' href='{{ route('suppliers.index') }}'>
                                             <i class='bx bx-list-ul'></i> List All Supplier
                                         </a>
-                                        <a class='dropdown-item inactivebtn text-success' href='' data-id='{{ $supplier->id }}'>
+                                        <a class='dropdown-item inactivebtn fw-bold text-dark' href='' data-id='{{ $supplier->id }}'>
                                             <i class='bx bx-check-circle'></i> @if($supplier->status == 0)Active Supplier
                                             @else
                                             Inactive Supplier
                                             @endif
                                         </a>
-
-                                        <a class='dropdown-item deletebtn text-danger' href='javascript:void(0);' data-id='{{ $supplier->id }}'>
+                                        <a class='dropdown-item deletebtn fw-bold text-dark' href='javascript:void(0);' data-id='{{ $supplier->id }}'>
                                             <i class='bx bx-trash me-1 icon-danger'></i> Delete this Supplier
                                         </a>
+                                        <a class='dropdown-item fw-bold text-dark' href='javascript:void(0);' data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="coming soon">
+                                            <i class='bx bx-duplicate'></i> Duplicate Supplier Record
+                                        </a>
+                                        <a class='dropdown-item fw-bold text-dark' href='javascript:void(0);' data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="coming soon">
+                                            <i class='bx bxs-user-detail'></i></i> Reclassify As Vendor
+                                        </a>
+                                        <a class='dropdown-item fw-bold text-dark' href='javascript:void(0);' data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="coming soon">
+                                            <i class='bx bx-purchase-tag-alt'></i> Create PO
+                                        </a>
+                                        <a class='dropdown-item fw-bold text-dark' href='javascript:void(0);' data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="coming soon">
+                                            <i class='bx bxs-file-plus'></i> Create Supplier Invoice
+                                        </a>
+                                        <a class='dropdown-item fw-bold text-dark' href='javascript:void(0);' data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="coming soon">
+                                            <i class='bx bxl-paypal'></i> Pay this Supplier
+                                        </a>
+                                        <a class='dropdown-item fw-bold text-dark' href='javascript:void(0);' data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="coming soon">
+                                            <i class='bx bxs-report'></i> Record a Refund
+                                        </a>
+                                        <a class='dropdown-item fw-bold text-dark' href='javascript:void(0);' data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="coming soon">
+                                            <i class='bx bx-list-check'></i> List Pre-Purchase Requests
+                                        </a>
+                                        <a class='dropdown-item fw-bold text-dark' href='javascript:void(0);' data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="coming soon">
+                                            <i class='bx bx-log-in-circle'></i> View Log
+                                        </a>
                                     </div>
+
+                                </div>
+                                <div class='dropdown ms-2'> <!-- Add margin to separate buttons -->
+                                    <button type='button' class='btn p-0 dropdown-toggle hide-arrow btn-primary rounded-circle' data-bs-toggle='dropdown' aria-expanded="false" style="width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;">
+                                        <i class='fi fi-tr-curve-arrow icon-color fs-4' data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Reports"></i> <!-- Icon inside the button -->
+                                    </button>
+                                    <div class='dropdown-menu'>
+                                        <a class='dropdown-item fw-bold text-dark' href='javascript:void(0);' data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="coming soon">
+                                            <i class='bx bxs-calculator'></i> Supplier Ledger
+                                        </a>
+                                        <a class='dropdown-item fw-bold text-dark' href='javascript:void(0);' data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="coming soon">
+                                            <i class='bx bx-history'></i> Purchase History
+                                        </a>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -56,7 +99,7 @@
                         <div class="card-body">
                             <div class="row mb-3">
                                 <div class="col-sm-12 col-md-6 col-lg-4 ">
-                                    <h5 style="text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 2px;">Basic Information</h5>
+                                    <h5>Basic Information</h5>
                                     <div class="row mb-2">
                                         <div class="col">
                                             <label for="supplier_name"><span class="text-dark fw-bold">Print Name / DBA:</span> {{ $supplier->print_name }}</label>
@@ -84,7 +127,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-12 col-md-6 col-lg-3">
-                                    <h5 style="text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 2px;">Contact Information</h5>
+                                    <h5>Contact Information</h5>
                                     <div class="row mb-2">
                                         <div class="col">
                                             <label for="supplier_name"><span class="text-dark fw-bold">Contact:</span> {{ $supplier->contact_name }}</label>
@@ -108,7 +151,7 @@
 
                                 </div>
                                 <div class="col-sm-12 col-md-6 col-lg-2">
-                                    <h5 style="text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 2px;">Supplier Information</h5>
+                                    <h5>Supplier Information</h5>
                                     <div class="row mb-2">
                                         <div class="col">
                                             <label for="supplier_name"><span class="text-dark fw-bold">Port:</span> {{ $supplier->supplier_port->supplier_port_name??'' }}</label>
@@ -129,10 +172,16 @@
                                             <label for="supplier_name"><span class="text-dark fw-bold">Supplier Since:</span> {{ $supplier->supplier_since }}</label>
                                         </div>
                                     </div>
-
+                                    @if($supplier->credit_limit)
+                                    <div class="row mb-2">
+                                        <div class="col">
+                                            <label for="supplier_name"><span class="text-dark fw-bold">Credit Limit:</span> $ {{ $supplier->credit_limit }}</label>
+                                        </div>
+                                    </div>
+                                    @endif
                                 </div>
                                 <div class="col-sm-12 col-md-6 col-lg-3">
-                                    <h5 style="text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 2px;">Supplier Balance</h5>
+                                    <h5>Supplier Balance</h5>
                                     <div class="row">
                                         <div class="col-10">
                                             <div class="row mb-2">
@@ -250,7 +299,7 @@
                                     </button>
                                 </li>
                                 <li class="nav-item">
-                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#restock">
+                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#file">
                                         <i class="bx bx-folder me-2"></i>
                                         <span class="align-middle">Files</span>
                                     </button>
@@ -286,6 +335,7 @@
                                         @include('supplier.price_sheet.__price_sheets')
                                         <!-- /Attributes Tab -->
                                         <!-- Advanced Tab -->
+                                        @include('supplier.file.files')
                                         <!-- /Advanced Tab -->
                                     </div>
                                 </div>
@@ -309,5 +359,5 @@
 @include('supplier.account_payable.__script')
 @include('supplier.payment.__script')
 @include('supplier.price_sheet.__script')
-
+@include('supplier.file.__script')
 @endsection

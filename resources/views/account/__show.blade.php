@@ -3,12 +3,15 @@
 @section('title', 'Show Account')
 
 @section('styles')
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-straight/css/uicons-regular-straight.css'>
 @endsection
 @section('content')
 <div class="content-wrapper">
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="py-3 mb-4"><span class="text-muted fw-light">Account /</span><span> Show Account</span></h4>
+        <h4 class="py-3 mb-4"><a href="{{route('accounts.index')}}" class="text-decoration-none text-dark"><span class="text-muted fw-light">Account /</span><span> Show Account</span></a></h4>
         <div class="app-ecommerce">
             <div class="row">
                 <!-- first column -->
@@ -27,25 +30,33 @@
                                     class="btn btn-primary rounded-circle editbtn"
                                     data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="top" data-bs-custom-class="tooltip-dark" title="Edit Account"
                                     style="width: 35px; height: 38px; display: flex; align-items: center; justify-content: center;">
-                                    <i class="bx bx-edit" style="font-size: 18px;"></i>
+                                    <i class="fi fi-rr-pencil fs-4" style="font-size: 18px;"></i>
                                 </a>
                                 <div class='dropdown ms-2'> <!-- Add margin to separate buttons -->
                                     <button type='button' class='btn p-0 dropdown-toggle hide-arrow btn-primary rounded-circle' data-bs-toggle='dropdown' aria-expanded="false" style="width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;">
-                                        <i class='bx bx-plus-circle icon-color' data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Action"></i> <!-- Icon inside the button -->
+                                        <i class='fi fi-rr-redo icon-color fs-4' data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Action"></i> <!-- Icon inside the button -->
                                     </button>
                                     <div class='dropdown-menu'>
-                                        <a class='dropdown-item showbtn text-warning' href='{{ route('accounts.index') }}'>
+                                        <a class='dropdown-item showbtn text-dark fw-bold' href='{{ route('accounts.index') }}'>
                                             <i class='bx bx-list-ul'></i> List All Account
                                         </a>
-                                        <a class='dropdown-item inactivebtn text-success' href='' data-id='{{ $account->id }}'>
+                                        <a class='dropdown-item inactivebtn text-dark fw-bold' href='' data-id='{{ $account->id }}'>
                                             <i class='bx bx-check-circle'></i> @if($account->status == 0)Active Account
                                             @else
                                             Inactive Account
                                             @endif
                                         </a>
-
-                                        <a class='dropdown-item deletebtn text-danger' href='javascript:void(0);' data-id='{{ $account->id }}'>
-                                            <i class='bx bx-trash me-1 icon-danger'></i> Delete this Account
+                                        <a class='dropdown-item deletebtn text-dark fw-bold' href='javascript:void(0);' data-id='{{ $account->id }}'>
+                                            <i class='bx bx-trash me-1'></i> Delete this Account
+                                        </a>
+                                        <a class='dropdown-item text-dark fw-bold' href='javascript:void(0);' data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="coming soon">
+                                            <i class='bx bx-duplicate'></i> Duplicate Account
+                                        </a>
+                                        <a class='dropdown-item text-dark fw-bold' href='javascript:void(0);' data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="coming soon">
+                                            <i class='bx bx-log-in-circle'></i> View Log
+                                        </a>
+                                        <a class='dropdown-item text-dark fw-bold' href='javascript:void(0);' data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="coming soon">
+                                            <i class='bx bx-transfer'></i> Transaction count by Line Purpose
                                         </a>
                                     </div>
                                 </div>
