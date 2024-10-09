@@ -7,7 +7,7 @@
 @section('content')
 <div class="content-wrapper">
   <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="py-3 mb-4 float-right"><span class="text-muted fw-light">Home / </span> Tax Components</h4>
+    <h4 class="py-3 mb-4 float-right"><a href="{{route('lists')}}" class="text-decoration-none text-dark"><span class="text-muted fw-light">Home / </span> Tax Components</a></h4>
     @include('tax_component.__search')
     <div class="row mb-3">
       <div class="col">

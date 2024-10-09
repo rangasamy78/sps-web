@@ -7,9 +7,7 @@
             }
         });
 
-        var table1 = $('#supplierAP').DataTable({
-            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12"i><"col-sm-12"p>>',
-        });
+        var table_ap = $('#supplierAP').DataTable({});
 
     });
 </script>

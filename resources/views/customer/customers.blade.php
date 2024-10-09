@@ -7,7 +7,7 @@
 @section('content')
 <div class="content-wrapper">
   <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="py-3 mb-4 float-right"><span class="text-muted fw-light">Home / </span> Customer</h4>
+    <h4 class="py-3 mb-4 float-right"><a href="{{route('lists')}}" class="text-decoration-none text-dark"><span class="text-muted fw-light">Home / </span> Customer</a></h4>
     @include('customer.__search')
     <div class="row mb-3">
       <div class="col">

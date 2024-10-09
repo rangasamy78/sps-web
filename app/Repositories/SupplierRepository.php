@@ -104,13 +104,13 @@ class SupplierRepository implements CrudRepositoryInterface, DatatableRepository
 
         $arrData->map(function ($value) {
             $value->supplier_name = "<a href='" . route('suppliers.show', $value->id) . "' class='text-secondary    '>" . ($value->supplier_name ?? '') . "</a>";
-            $value->currency_id        = $value->currency ? $value->currency->currency_name : '';
-            $value->supplier_type_id   = $value->supplier_type ? $value->supplier_type->supplier_type_name : '';
-            $value->remit_address      = $value->remit_address ?? '';
-            $value->mobile             = $value->mobile ?? '';
-            $value->parent_location_id = $value->location ? $value->location->company_name : '';
-            $value->payment_terms_id   = $value->payment_term ? $value->payment_term->payment_label : '';
-            $value->language_id        = $value->language ? $value->language->language_name : '';
+            $value->currency_id        = "<a href='" . route('suppliers.show', $value->id) . "' class='text-secondary    '>" . ($value->currency ? $value->currency->currency_name : '') . "</a>";
+            $value->supplier_type_id   = "<a href='" . route('suppliers.show', $value->id) . "' class='text-secondary    '>" . ($value->supplier_type ? $value->supplier_type->supplier_type_name : '') . "</a>";
+            $value->remit_address      = "<a href='" . route('suppliers.show', $value->id) . "' class='text-secondary    '>" . ($value->remit_address ?? '') . "</a>";
+            $value->mobile             = "<a href='" . route('suppliers.show', $value->id) . "' class='text-secondary    '>" . ($value->mobile ?? '') . "</a>";
+            $value->parent_location_id = "<a href='" . route('suppliers.show', $value->id) . "' class='text-secondary    '>" . ($value->location ? $value->location->company_name : '') . "</a>";
+            $value->payment_terms_id   = "<a href='" . route('suppliers.show', $value->id) . "' class='text-secondary    '>" . ($value->payment_term ? $value->payment_term->payment_label : '') . "</a>";
+            $value->language_id        = "<a href='" . route('suppliers.show', $value->id) . "' class='text-secondary    '>" . ($value->language ? $value->language->language_name : '') . "</a>";
             $value->combined_notes = "<div class='d-flex align-items-center'>" . (!empty($value->shipping_instruction) ? "<span class='avatar-initial rounded bg-label-secondary me-2' data-bs-toggle='tooltip' data-bs-placement='top'    title='" . htmlspecialchars($value->shipping_instruction ? $value->shipping_instruction : 'Shipping Instruction', ENT_QUOTES, 'UTF-8') . "'><i class='bx bx-package bx-sm'></i></span>" : '') . "" . (!empty($value->internal_notes) ? "<span class='avatar-initial rounded bg-label-secondary me-2' data-bs-toggle='tooltip' data-bs-placement='top'   title='" . htmlspecialchars($value->internal_notes ? $value->internal_notes : 'Internal Notes', ENT_QUOTES, 'UTF-8') . "'><i class='bx bx-note bx-sm'></i></span>" : '') . "</div>";
             $value->status = $value->status === 0 ? 'Inactive' : 'Active';
             $value->action             = "<div class='dropup'><button type='button' class='btn p-0 dropdown-toggle hide-arrow' data-bs-toggle='dropdown'><i class='bx bx-dots-vertical-rounded icon-color'></i></button><div class='dropdown-menu'><a class='dropdown-item showbtn text-warning' href='javascript:void(0);' data-id='" . $value->id . "' ><i class='bx bx-show me-1 icon-warning'></i> Show</a><a class='dropdown-item editbtn text-success'  href='" . route('suppliers.edit', $value->id) . "' data-id='" . $value->id . "' > <i class='bx bx-edit-alt me-1 icon-success'></i> Edit </a></div> </div>";

@@ -6,7 +6,10 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        // Get supplier ID from the input field
+        $id = $('#supplier_id').val();
 
+        // Initialize the DataTable
         var table_contact = $('#supplierContact').DataTable({
             responsive: true,
             processing: true,
@@ -16,11 +19,13 @@
                 [0, 'desc']
             ],
             ajax: {
-                url: "{{ route('contacts.list') }}",
+                url: "{{ route('supplier_contacts.list', ':id') }}".replace(':id', $id), // Replace placeholder with the actual ID
+                type: 'GET',
                 data: function(d) {
+                    // Adjust the sorting column dynamically
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{
-                        column: 1,
+                        column: 1, // Adjust the column number as needed
                         dir: sort
                     }];
                 }
@@ -47,6 +52,7 @@
                 }
             ],
             rowCallback: function(row, data, index) {
+                // Adjust row numbering
                 $('td:eq(0)', row).html(table_contact.page.info().start + index + 1);
             },
             dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"fB>>t<"row"<"col-sm-12"i><"col-sm-12"p>>',
@@ -58,9 +64,12 @@
                     'data-bs-target': '#offcanvasRight',
                     'aria-controls': 'offcanvasExample',
                 },
-                action: function(e, dt, node, config) {}
+                action: function(e, dt, node, config) {
+                    // Add contact button functionality
+                }
             }]
         });
+
 
         $('#saveContactForm input, #saveContactForm select').on('input change', function() {
             let fieldName = $(this).attr('name');

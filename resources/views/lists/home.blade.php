@@ -14,10 +14,10 @@
 <div class="content-wrapper">
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="py-3 mb-4"><span class="text-muted fw-light">Lists /</span> Home</h4>
+        <h4 class="py-3 mb-4"><a href="{{route('lists')}}" class="text-decoration-none text-dark"><span class="text-muted fw-light">Lists /</span> Home</a></h4>
         <!-- Cards with charts & info -->
         <div class="row">
-            <span class="fw-bold pe-2 mb-1 fs-6">Items</span>
+            <h4 class="fw-bold pe-2 mb-1 text-dark">Items</h4>
             <div class="col-lg-2 mb-4">
                 <div class="card card-border-shadow-primary">
                     <div class="card-body">
@@ -148,7 +148,7 @@
         <!--/ items -->
         <!-- parties -->
         <div class="row">
-            <span class="fw-bold pe-2 mb-1 fs-6">Parties</span>
+            <h4 class="fw-bold pe-2 mb-1  text-dark">Parties</h4>
             <div class="col-sm-6 col-lg-3 mb-4">
                 <div class="card card-border-shadow-primary h-100">
                     <div class="card-body">
@@ -266,7 +266,7 @@
         <!--/ parties-->
         <!-- company -->
         <div class="row">
-            <span class="fw-bold pe-2 mb-1 fs-6">Company</span>
+            <h4 class="fw-bold pe-2 mb-1  text-dark">Company</h4>
             <div class="col-sm-6 col-lg-3 mb-4">
                 <div class="card card-border-shadow-primary h-100">
                     <div class="card-body">
@@ -355,7 +355,7 @@
         <!-- end company -->
         <!-- accounting -->
         <div class="row">
-            <span class="fw-bold pe-2 mb-1 fs-6">Accounting</span>
+            <h4 class="fw-bold pe-2 mb-1  text-dark">Accounting</h4>
             <div class="col-sm-6 col-lg-3 mb-4">
                 <div class="card card-border-shadow-primary h-100">
                     <div class="card-body">
