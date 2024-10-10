@@ -10,7 +10,41 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card mb-6">
-                        <h5 class="card-header">{{ $customer->customer_name  }} ( {{ $customer->customer_code }})</h5>
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4 class="card-title mb-0 fw-bold">
+                                {{ $customer->customer_name  }} ( {{ $customer->customer_code }})
+                            </h4>
+                            <div class="d-flex align-items-center"> <!-- Container for buttons -->
+                                <a href="{{ route('customers.edit', $customer->id) }}"
+                                    data-id="{{ $customer->id }}"
+                                    class="btn btn-primary rounded-circle editbtn"
+                                    data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="top" data-bs-custom-class="tooltip-dark" title="Edit Customer"
+                                    style="width: 35px; height: 38px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="bx bx-edit" style="font-size: 18px;"></i>
+                                </a>
+                                <div class='dropdown ms-2'> <!-- Add margin to separate buttons -->
+                                    <button type='button' class='btn p-0 dropdown-toggle hide-arrow btn-primary rounded-circle' data-bs-toggle='dropdown' aria-expanded="false" style="width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;">
+                                        <i class='bx bx-plus-circle icon-color' data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Action"></i> <!-- Icon inside the button -->
+                                    </button>
+                                    <div class='dropdown-menu'>
+                                        <a class='dropdown-item showbtn text-warning' href='{{ route('customers.index') }}'>
+                                            <i class='bx bx-list-ul'></i> List All Customer
+                                        </a>
+                                        <a class='dropdown-item inactivebtn text-success' href='' data-id='{{ $customer->id }}'>
+                                            <i class='bx bx-check-circle'></i> @if($customer->status == 0)Active Customer
+                                            @else
+                                            Inactive Customer
+                                            @endif
+                                        </a>
+
+                                        <a class='dropdown-item deletebtn text-danger' href='javascript:void(0);' data-id='{{ $customer->id }}'>
+                                            <i class='bx bx-trash me-1 icon-danger'></i> Delete this Customer
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-2">
