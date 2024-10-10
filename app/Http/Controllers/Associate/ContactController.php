@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Customer;
+namespace App\Http\Controllers\Associate;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Customer\Contact\CreateContactRequest;
-use App\Repositories\Customer\ContactRepository;
+use App\Http\Requests\Associate\Contact\CreateContactRequest;
+use App\Repositories\Associate\ContactRepository;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -17,7 +17,7 @@ class ContactController extends Controller
     {
         $this->contactRepository = $contactRepository;
     }
-
+ 
     public function contactSave(CreateContactRequest $request)
     {
         try {
@@ -29,7 +29,7 @@ class ContactController extends Controller
         }
     }
 
-    public function getContactDataTableList(Request $request, $type_id)
+    public function getAssociateContactDataTableList(Request $request, $type_id)
     {
 
         return $this->contactRepository->dataTable($request, $type_id);

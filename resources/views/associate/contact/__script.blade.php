@@ -7,6 +7,7 @@
             }
         });
 
+        $id = $('#associate_id').val();
         var table_contact = $('#associateContact').DataTable({
             responsive: true,
             processing: true,
@@ -16,8 +17,11 @@
                 [0, 'desc']
             ],
             ajax: {
-                url: "{{ route('contacts.list') }}",
+                url: "{{ route('associate_contacts.list', ':id') }}".replace(':id', $id),
+                type: 'GET',
                 data: function(d) {
+
+
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{
                         column: 1,

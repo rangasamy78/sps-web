@@ -507,6 +507,8 @@ class ProductRepository implements CrudRepositoryInterface, DatatableRepositoryI
         return $query;
     }
 
+    
+
     public function dataCustomerPriceListTable(Request $request)
     {
         $draw            = $request->get('draw');
@@ -579,5 +581,144 @@ class ProductRepository implements CrudRepositoryInterface, DatatableRepositoryI
             'product_image' => $filePath,
         ]);
     }
+    // public function getSearchProductList(Request $request)
+    // {
+    //     $query = Product::with(
+    //         'product_type', 'product_category', 'product_sub_category', 
+    //         'product_group', 'country', 'product_price', 'product_kind'
+    //     );
+        
+    //     // Filters for price range
+    //     if (!empty($request->price_range)) {
+    //         $query->whereHas('product_price', function ($q) use ($request) {
+    //             $q->whereIn('price_range_id', (array)$request->price_range);
+    //         });
+    //     }
+        
+    //     // Product Kind filter
+    //     if (!empty($request->product_kind)) {
+    //         $query->whereIn('product_kind_id', (array)$request->product_kind);
+    //     }
+    
+    //     // Product Name search
+    //     if (!empty($request->product_name)) {
+    //         $query->where('product_name', 'like', '%' . $request->product_name . '%');
+    //     }
+        
+    //     // Product Type filter
+    //     if (!empty($request->product_type)) {
+    //         $query->whereIn('product_type_id', (array)$request->product_type);
+    //     }
+        
+    //     // Product Category filter
+    //     if (!empty($request->product_category)) {
+    //         $query->whereIn('product_category_id', (array)$request->product_category);
+    //     }
+        
+    //     // Product Group filter
+    //     if (!empty($request->product_group)) {
+    //         $query->whereIn('product_group_id', (array)$request->product_group);
+    //     }
+        
+    //     // Product Origin filter
+    //     if (!empty($request->product_origin)) {
+    //         $query->whereIn('product_origin_id', (array)$request->product_origin);
+    //     }
+        
+    //     // UOM filter
+    //     if (!empty($request->product_uom)) {
+    //         $query->where('product_uom', 'like', '%' . $request->product_uom . '%');
+    //     }
+    
+    //     // Color filter
+    //     if (!empty($request->product_color)) {
+    //         $query->where('product_color', 'like', '%' . $request->product_color . '%');
+    //     }
+    
+    //     // Filter for 'Stock' product kind, if it exists
+    //     $productKindId = ProductKind::query()->where('product_kind_name', 'Stock')->first();
+    //     if ($productKindId) {
+    //         $query->where('product_kind_id', $productKindId->id);
+    //     }
+    
+    //     return $query;
+    // }
+    
+    public function dataSearchListTable(Request $request)
+    {
+        $draw            = $request->get('draw');
+        $start           = $request->get("start");
+        $rowPerPage      = $request->get("length");
+        $orderArray      = $request->get('order');
+        $columnNameArray = $request->get('columns');
+    
+        // Set default sorting parameters
+        $columnIndex     = $orderArray[0]['column'] ?? 0;
+        $columnName      = $columnNameArray[$columnIndex]['data'];
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
+    
+        // Set the column to be ordered by. Default is 'created_at'
+        $validColumns = ['product_name', 'product_sku', 'product_kind_id', 'product_type_id', 'product_category_id', 'product_sub_category_id', 'product_group_id', 'product_origin_id', 'preferred_supplier_id', 'status'];
+        if (!in_array($columnName, $validColumns)) {
+            $columnName = 'created_at';
+        }
+    
+        // Get the filtered list of products based on the request
+        $productQuery = $this->getSearchProductList($request);
+        $total        = $productQuery->count();  // Count before pagination
+    
+        $totalFilter  = $this->getSearchProductList($request);
+        $totalFilter  = $totalFilter->count();   // Count after filters
+    
+        // Paginate and order the results
+        $arrData = $productQuery
+            ->orderBy($columnName, $columnSortOrder)
+            ->skip($start)
+            ->take($rowPerPage)
+            ->get();
+    
+        // Map the data for each product with necessary fields and links
+        $arrData->map(function ($value, $i) {
+            $value->sno = ++$i;
+            $value->product_name = "<a href='" . route('products.show', $value->id) . "' class='product-link'>" . ($value->product_name ?? '') . "</a>";
+            $value->product_sku = "<a href='" . route('products.show', $value->id) . "' class='product-link'>" . ($value->product_sku ?? '') . "</a>";
+            $value->product_kind_id = "<a href='" . route('products.show', $value->id) . "' class='product-link'>" . ($value->product_kind->product_kind_name ?? '') . "</a>";
+            $value->product_type_id = "<a href='" . route('products.show', $value->id) . "' class='product-link'>" . ($value->product_type->product_type ?? '') . "</a>";
+            $value->product_category_id = "<a href='" . route('products.show', $value->id) . "' class='product-link'>" . ($value->product_category->product_category_name ?? '') . "</a>";
+            $value->product_sub_category_id = "<a href='" . route('products.show', $value->id) . "' class='product-link'>" . ($value->product_sub_category->product_sub_category_name ?? '') . "</a>";
+            $value->product_group_id = "<a href='" . route('products.show', $value->id) . "' class='product-link'>" . ($value->product_group->product_group_name ?? '') . "</a>";
+            $value->product_origin_id = "<a href='" . route('products.show', $value->id) . "' class='product-link'>" . ($value->country->country_name ?? '') . "</a>";
+            $value->preferred_supplier_id = "<a href='" . route('products.show', $value->id) . "' class='product-link'>" . ($value->preferred_supplier_id ?? '') . "</a>";
+            $value->status = $value->status == 1
+                ? '<button class="btn btn-success btn-sm change_status" data-id="' . $value->id . '">Active</button>'
+                : '<button class="btn btn-danger btn-sm change_status" data-id="' . $value->id . '">Inactive</button>';
+            
+            $value->action = "<div class='dropup'>
+                <button type='button' class='btn p-0 dropdown-toggle hide-arrow' data-bs-toggle='dropdown'>
+                <i class='bx bx-dots-vertical-rounded icon-color'></i></button>
+                <div class='dropdown-menu'>
+                <a class='dropdown-item showbtn text-warning' href='" . route('products.show', $value->id) . "' data-id='" . $value->id . "'>
+                <i class='bx bx-show me-1 icon-warning'></i> Show</a>
+                <a class='dropdown-item editbtn text-success' href='" . route('products.edit', $value->id) . "' data-id='" . $value->id . "'>
+                <i class='bx bx-edit-alt me-1 icon-success'></i> Edit</a>
+                <a class='dropdown-item webbtn text-dark' href='" . route('products.product_website', $value->id) . "' data-id='" . $value->id . "'>
+                <i class='bx bx-info-circle'></i> Website</a>
+                <a class='dropdown-item deletebtn text-danger' href='javascript:void(0);' data-id='" . $value->id . "'>
+                <i class='bx bx-trash me-1 icon-danger'></i> Delete</a></div></div>";
+        });
+    
+        // Return the response as JSON
+        return response()->json([
+            "draw" => intval($draw),
+            "recordsTotal" => $total,
+            "recordsFiltered" => $totalFilter,
+            "data" => $arrData
+        ]);
+    }
+    
+
+    
+
+    
 
 }

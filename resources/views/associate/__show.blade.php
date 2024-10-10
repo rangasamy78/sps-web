@@ -91,13 +91,13 @@
                         <div class="d-flex justify-content-between mb-3 pe-md-3">
                             <ul class="nav nav-pills flex-column flex-md-row mb-4">
                                 <li class="nav-item me-3">
-                                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#contact">
+                                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#contacts">
                                         <i class="bx bx-phone me-2"></i>
                                         <span class="align-middle">Contacts</span>
                                     </button>
                                 </li>
                                 <li class="nav-item me-3">
-                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#account_payable">
+                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#files_data">
                                         <i class="bx bx-wallet me-2"></i>
                                         <span class="align-middle">Files</span>
                                     </button>
@@ -109,22 +109,24 @@
 
                     <!-- /Navigation -->
                     <div class="card mb-4">
-                        <div class="card-header">
 
-                        </div>
                         <div class="card-body">
                             <div class="row">
-
                                 <div class="col-12 pt-4 pt-md-0">
                                     <div class="tab-content p-0 pe-md-5 ps-md-3">
-
+                                        <div class="tab-pane fade show active" id="contacts">
                                         @include('associate.contact.__contacts')
+                                        </div>
+                                        <div class="tab-pane fade" id="files_data">
+                                        @include('associate.file.files')
+                                        </div>
+
 
                                     </div>
                                 </div>
-
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -139,4 +141,5 @@
 @section('scripts')
 @include('associate.__scripts')
 @include('associate.contact.__script')
+@include('associate.file.__script')
 @endsection
