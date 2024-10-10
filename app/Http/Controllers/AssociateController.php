@@ -34,11 +34,10 @@ class AssociateController extends Controller
     }
     public function create()
     {
-       
+
         $primary_sale = User::whereHas('department', function ($query) {
             $query->where('department_name', 'Sales');
         })->get();
-
         $secondary_sale = User::whereHas('department', function ($query) {
             $query->where('department_name', 'Sales');
         })->get();
@@ -76,10 +75,10 @@ class AssociateController extends Controller
     public function show($id)
     {
         $associate = Associate::findOrFail($id);
-        $countyies         = County::query()->get();      
-        $countries        = Country::query()->get();
+        $countyies = County::query()->get();
+        $countries = Country::query()->get();
 
-        return view('associate.__show', compact('associate','countries','countyies'));
+        return view('associate.__show', compact('associate', 'countries', 'countyies'));
     }
 
     /**
@@ -183,7 +182,5 @@ class AssociateController extends Controller
             ], 500);
         }
     }
-
-    
 
 }

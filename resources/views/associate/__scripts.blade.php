@@ -95,7 +95,38 @@
                     action: function(e, dt, node, config) {
                         window.location.href = "{{ route('associates.create') }}";
                     }
-                }],
+                },
+                {
+                    extend: 'collection',
+                    className: 'btn btn-label-secondary dropdown-toggle mx-3',
+                    text: '<i class="bx bx-export me-1"></i>Export',
+                    buttons: [{
+                        extend: 'print',
+                        text: '<i class="bx bx-printer me-2"></i>Print',
+                        className: 'dropdown-item'
+                        },
+                        {
+                        extend: 'csv',
+                        text: '<i class="bx bx-file me-2"></i>Csv',
+                        className: 'dropdown-item'
+                        },
+                        {
+                        extend: 'excel',
+                        text: '<i class="bx bxs-file-export me-2"></i>Excel',
+                        className: 'dropdown-item'
+                        },
+                        {
+                        extend: 'pdf',
+                        text: '<i class="bx bxs-file-pdf me-2"></i>Pdf',
+                        className: 'dropdown-item'
+                        },
+                        {
+                        extend: 'copy',
+                        text: '<i class="bx bx-copy me-2"></i>Copy',
+                        className: 'dropdown-item'
+                        }
+                    ]
+                    }],
                 action: function(e, dt, node, config) {
 
                     $('#savedata').html("Save Associate");

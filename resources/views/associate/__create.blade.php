@@ -96,7 +96,7 @@
                             <select class="form-select select2" name="primary_sales_id" id="primary_sales_id" data-allow-clear="true">
                                 <option value="">--Select Primary Sales Person--</option>
                                 @foreach($primary_sale as $sale)
-                                  <option value="{{ $sale->id }}">{{ $sale->name }}</option>
+                                  <option value="{{ $sale->id }}">{{ $sale->first_name }} {{ $sale->last_name }}</option>
                                   @endforeach
                             </select>
 
@@ -106,7 +106,7 @@
                             <select class="form-select select2" name="secondary_sales_id" id="secondary_sales_id" data-allow-clear="true">
                                 <option value="">--Select Sec. SalesRep--</option>
                                 @foreach($secondary_sale as $sales)
-                                  <option value="{{ $sales->id }}">{{ $sales->name }}</option>
+                                  <option value="{{ $sales->id }}">{{ $sale->first_name }} {{ $sale->last_name }}</option>
                                   @endforeach
                             </select>
                           </div>

@@ -1,6 +1,5 @@
 <script type="text/javascript">
     $(function() {
-
         var table;
         var stocktable;
         var ptable;
@@ -174,7 +173,38 @@
             action: function(e, dt, node, config) {
                 window.location.href = "{{ route('products.product_search') }}";
             }
-        }
+        },
+        {
+                    extend: 'collection',
+                    className: 'btn btn-label-secondary dropdown-toggle mx-3',
+                    text: '<i class="bx bx-export me-1"></i>Export',
+                    buttons: [{
+                        extend: 'print',
+                        text: '<i class="bx bx-printer me-2"></i>Print',
+                        className: 'dropdown-item'
+                        },
+                        {
+                        extend: 'csv',
+                        text: '<i class="bx bx-file me-2"></i>Csv',
+                        className: 'dropdown-item'
+                        },
+                        {
+                        extend: 'excel',
+                        text: '<i class="bx bxs-file-export me-2"></i>Excel',
+                        className: 'dropdown-item'
+                        },
+                        {
+                        extend: 'pdf',
+                        text: '<i class="bx bxs-file-pdf me-2"></i>Pdf',
+                        className: 'dropdown-item'
+                        },
+                        {
+                        extend: 'copy',
+                        text: '<i class="bx bx-copy me-2"></i>Copy',
+                        className: 'dropdown-item'
+                        }
+                    ]
+                    }
     ]
 
     });
@@ -323,7 +353,7 @@ $(document).ready(function() {
                 id: 'searchProduct',
             },
             action: function(e, dt, node, config) {
-                window.location.href = "#";
+                window.location.href = "{{ route('products.product_search') }}";
             }
         }
     ]
@@ -513,7 +543,7 @@ $(document).ready(function() {
                 id: 'searchProduct',
             },
             action: function(e, dt, node, config) {
-                window.location.href = "#";
+                window.location.href = "{{ route('products.product_search') }}";
             }
         }
     ]
@@ -674,7 +704,7 @@ $(document).ready(function() {
                 id: 'searchProduct',
             },
             action: function(e, dt, node, config) {
-                window.location.href = "#";
+                window.location.href = "{{ route('products.product_search') }}";
             }
         }
         ]
@@ -1189,26 +1219,7 @@ $('#uploadFileForm').on('submit', function(e) {
     });
 
 
-
-    $(document).ready(function() {
-    var table = $('#searchProductdatatable').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: {
-            url: '/get_product_images', // Adjust the route to match your Laravel route
-            type: 'GET',
-        },
-        columns: [
-            { data: 'id', name: 'id' },
-            { data: 'image', name: 'image', render: function(data, type, row) {
-                return `<img src="${data}" alt="Product Image" width="50">`; // Display the image
-            }}
-        ],
-        paging: true,
-        pageLength: 10,
-    });
-});
-
+   
 
 
 

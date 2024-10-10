@@ -381,6 +381,33 @@ class ProductController extends Controller
     {
         return $this->productRepository->dataCustomerPriceListTable($request);
     }
+    public function getProductSearchDataTableList(Request $request)
+    {
+        $query = Product::with(
+            'product_type', 'product_category', 'product_sub_category',
+            'product_group', 'country', 'product_price', 'product_kind'
+        );
+    
+        // Apply filters (as in your original code)
+        if (!empty($request->price_range)) {
+            $query->whereHas('product_price', function ($q) use ($request) {
+                $q->whereIn('price_range_id', (array)$request->price_range);
+            });
+        }
+    
+        // Other filters go here...
+    
+        $products = $query->paginate(15);
+    
+        // Return only the table rows for AJAX request
+        if ($request->ajax()) {
+            return view('product.partials.product_rows', compact('products'))->render();
+        }
+    
+        // For non-AJAX requests, return the full view
+        return view('product.product_search', compact('products'));
+    }
+    
 
     public function stockProduct()
     {
@@ -429,7 +456,9 @@ class ProductController extends Controller
 
     public function productSearch()
     {
-        $products            = Product::query()->get();
+        $products            = Product::paginate(15);
+        $product             = Product::query()->get();
+        $product_kind        = ProductKind::query()->get();
         $product_type        = ProductType::query()->get();
         $product_color       = ProductColor::query()->get();
         $country             = Country::query()->get();
@@ -440,17 +469,7 @@ class ProductController extends Controller
         $product_finish      = ProductFinish::all();
         $unit_measure        = UnitMeasure::all();
         $product_price_range = ProductPriceRange::all();
-        return view('product.product_search', compact('products', 'product_type', 'product_color', 'product_category', 'country', 'product_group', 'product_thickness', 'product_finish', 'unit_measure', 'product_price_range'));
-    }
-    public function getProductImages(Request $request)
-    {
-        $query = Product::select('id', 'image')->paginate(10); // Customize the select as per your need
-        // dd($query);
-        return response()->json([
-            'data'            => $query->items(), // Get the current page items
-            'recordsTotal' => $query->total(),
-            'recordsFiltered' => $query->total(),
-        ]);
+        return view('product.product_search', compact('product', 'product_kind', 'products', 'product_type', 'product_color', 'product_category', 'country', 'product_group', 'product_thickness', 'product_finish', 'unit_measure', 'product_price_range'));
     }
 
     public function productWebsite($id)

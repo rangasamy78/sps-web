@@ -606,7 +606,7 @@
                       </div>
                       <div class="card-body">
                         <div class="mb-3">
-                          <label class="form-label" for="Homeowner Price">Homeowner Price</label>
+                          <label class="form-label" for="Homeowner Price">Homeowner Price($)</label>
                           <input
                             type="text"
                             class="form-control"
@@ -617,7 +617,7 @@
                             <span class="text-danger error-text homeowner_price_error"></span>
                         </div>
                         <div class="mb-3">
-                          <label class="form-label" for="Bundle Price">Bundle Price</label>
+                          <label class="form-label" for="Bundle Price">Bundle Price($)</label>
                           <input
                             type="text"
                             class="form-control"
@@ -628,7 +628,7 @@
                             <span class="text-danger error-text bundle_price_error"></span>
                         </div>
                         <div class="mb-3">
-                          <label class="form-label" for="Special Price">Special Price</label>
+                          <label class="form-label" for="Special Price">Special Price($)</label>
                           <input
                             type="text"
                             class="form-control"
@@ -639,7 +639,7 @@
                             <span class="text-danger error-text special_price_error"></span>
                         </div>
                         <div class="mb-3">
-                          <label class="form-label" for="Loose Slab Price Per SQFT">Loose Slab Price Per SQFT</label>
+                          <label class="form-label" for="Loose Slab Price Per SQFT">Loose Slab Price Per SQFT($)</label>
                           <input
                             type="text"
                             class="form-control"
@@ -650,7 +650,7 @@
                             <span class="text-danger error-text loose_slab_price_error"></span>
                         </div>
                         <div class="mb-3">
-                          <label class="form-label" for="Bundle Price Per SQFT">Bundle Price Per SQFT</label>
+                          <label class="form-label" for="Bundle Price Per SQFT">Bundle Price Per SQFT($)</label>
                           <input
                             type="text"
                             class="form-control"
@@ -662,7 +662,7 @@
 
                         </div>
                         <div class="mb-3">
-                          <label class="form-label" for="Special Price Per SQFT">Special Price Per SQFT</label>
+                          <label class="form-label" for="Special Price Per SQFT">Special Price Per SQFT($)</label>
                           <input
                             type="text"
                             class="form-control"
@@ -673,7 +673,7 @@
                             <span class="text-danger error-text special_price_per_sqft_error"></span>
                         </div>
                         <div class="mb-3">
-                          <label class="form-label" for="Owner Approval Price Per SQFT">Owner Approval Price Per SQFT</label>
+                          <label class="form-label" for="Owner Approval Price Per SQFT">Owner Approval Price Per SQFT($)</label>
                           <input
                             type="text"
                             class="form-control"
@@ -684,7 +684,7 @@
                             <span class="text-danger error-text owner_approval_price_error"></span>
                         </div>
                         <div class="mb-3">
-                          <label class="form-label" for="Loose Slab Price Per Slab">Loose Slab Price Per Slab</label>
+                          <label class="form-label" for="Loose Slab Price Per Slab">Loose Slab Price Per Slab($)</label>
                           <input
                             type="text"
                             class="form-control"
@@ -694,7 +694,7 @@
                             aria-label="Loose Slab Price Per Slab" />
                             <span class="text-danger error-text loose_slab_per_slab_error"></span>
                         </div> <div class="mb-3">
-                          <label class="form-label" for="Bundle Price Per Slab">Bundle Price Per Slab</label>
+                          <label class="form-label" for="Bundle Price Per Slab">Bundle Price Per Slab($)</label>
                           <input
                             type="text"
                             class="form-control"
@@ -705,7 +705,7 @@
                             <span class="text-danger error-text bundle_price_per_slab_error"></span>
                         </div>
                         <div class="mb-3">
-                          <label class="form-label" for="Special Price Per Slab">Special Price Per Slab</label>
+                          <label class="form-label" for="Special Price Per Slab">Special Price Per Slab($)</label>
                           <input
                             type="text"
                             class="form-control"
@@ -716,7 +716,7 @@
                             <span class="text-danger error-text special_price_per_slab_error"></span>
                         </div>
                         <div class="mb-3">
-                          <label class="form-label" for="Owner Approval Price Per Slab">Owner Approval Price Per Slab</label>
+                          <label class="form-label" for="Owner Approval Price Per Slab">Owner Approval Price Per Slab($)</label>
                           <input
                             type="text"
                             class="form-control"
@@ -727,7 +727,7 @@
                             <span class="text-danger error-text owner_approval_price_per_slab_error"></span>
                         </div>
                         <div class="mb-3">
-                          <label class="form-label" for="Price12">Price12</label>
+                          <label class="form-label" for="Price12">Price12($)</label>
                           <input
                             type="text"
                             class="form-control"
