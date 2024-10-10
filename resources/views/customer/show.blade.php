@@ -14,7 +14,7 @@
                             <h4 class="card-title mb-0 fw-bold">
                                 {{ $customer->customer_name  }} ( {{ $customer->customer_code }})
                             </h4>
-                            <div class="d-flex align-items-center"> <!-- Container for buttons -->
+                            <div class="d-flex align-items-center">
                                 <a href="{{ route('customers.edit', $customer->id) }}"
                                     data-id="{{ $customer->id }}"
                                     class="btn btn-primary rounded-circle editbtn"
@@ -22,7 +22,7 @@
                                     style="width: 35px; height: 38px; display: flex; align-items: center; justify-content: center;">
                                     <i class="bx bx-edit" style="font-size: 18px;"></i>
                                 </a>
-                                <div class='dropdown ms-2'> <!-- Add margin to separate buttons -->
+                                <div class='dropdown ms-2'>
                                     <button type='button' class='btn p-0 dropdown-toggle hide-arrow btn-primary rounded-circle' data-bs-toggle='dropdown' aria-expanded="false" style="width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;">
                                         <i class='bx bx-plus-circle icon-color' data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Action"></i> <!-- Icon inside the button -->
                                     </button>
@@ -30,7 +30,7 @@
                                         <a class='dropdown-item showbtn text-warning' href='{{ route('customers.index') }}'>
                                             <i class='bx bx-list-ul'></i> List All Customer
                                         </a>
-                                        <a class='dropdown-item inactivebtn text-success' href='' data-id='{{ $customer->id }}'>
+                                        <a class='dropdown-item inactivebtn text-success change_status' data-id='{{ $customer->id }}'>
                                             <i class='bx bx-check-circle'></i> @if($customer->status == 0)Active Customer
                                             @else
                                             Inactive Customer
@@ -58,7 +58,9 @@
                                             <img id="previewImage" class="img-fluid rounded mb-4 previewImage" src="#" height="150" width="150" alt="User avatar" style="display:none;margin-top: 10px;margin-left: 20px;">
                                             {{-- <img id="previewImage" class="previewImage" src="" alt="Image Preview" width="100" height="100" style="display:none; margin-top: 15px;border: 1px solid;border-radius: 50px;margin-left: 38px;"> --}}
                                         @endif
+                                        <button type="submit" class="btn btn-primary" id="btn-save" value="create" style="margin-left: 50px;">Upload</button>
                                     </form>
+                                    <span class="text-danger error-text customer_image_error"></span>
                                 </div>
                                 <div class="col-10">
                                     <div class="row">
@@ -409,32 +411,102 @@
                 }
             });
 
-            $('#customer_image').on('change', function() {
-                var formData = new FormData($('#showCustomerForm')[0]);
-                var imageUrl = "{{ route('customers.upload') }}";
+            $(document).on('click', '.change_status', function() {
+                var id = $(this).data('id');
+                var button = $(this);
+                var url = "{{ route('customers.update_status', ':id') }}";
+                url = url.replace(':id', id);
+                var currentUrl = window.location.href;
+                var redirectUrl = currentUrl.replace(/\/\d+$/, '');
+                redirectUrl += '/' + id;
                 $.ajax({
-                    url: imageUrl, // Your route to handle image upload
+                    url: url,
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            showToast('success', response.msg);
+                            var redirectUrl = getRedirectUrl(id);
+                            setTimeout(function() {
+                                window.location.href = redirectUrl; // Redirect after delay
+                            }, 2000);
+                        }
+                    },
+                    error: function() {
+                        Swal.fire('Error', 'Something went wrong!', 'error');
+                    }
+                });
+            });
+
+            // $('#customer_image').on('change', function() {
+            //     var formData = new FormData($('#showCustomerForm')[0]);
+            //     var imageUrl = "{{ route('customers.upload') }}";
+            //     $.ajax({
+            //         url: imageUrl, // Your route to handle image upload
+            //         type: 'POST',
+            //         data: formData,
+            //         contentType: false,
+            //         processData: false,
+            //         success: function(response) {
+            //             if (response.status == "success") {
+            //                 showToast('success', response.msg);
+            //             }
+            //         },
+            //         error: function(xhr) {
+
+            //         }
+            //     });
+            // });
+
+            $('body').on('click', '#btn-save', function (e) {
+                e.preventDefault();
+                var button = $(this);
+                sending(button);
+                var imageUrl = "{{ route('customers.upload') }}";
+                var formData = new FormData($('#showCustomerForm')[0]);
+                $.ajax({
+                    url: imageUrl,
                     type: 'POST',
                     data: formData,
+                    cache:false,
                     contentType: false,
                     processData: false,
                     success: function(response) {
                         if (response.status == "success") {
                             showToast('success', response.msg);
+                            setTimeout(function() {
+                                window.location.href =
+                                "{{ route('customers.index') }}"; // Redirection after 2 seconds (adjust if needed)
+                            }, 2000);
                         }
                     },
                     error: function(xhr) {
-
+                        handleAjaxError(xhr);
+                        sending(button, true);
                     }
                 });
             });
 
             $('#customer_image').on('change', function (e) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#previewImage').attr('src', e.target.result).show();
+                var file = this.files[0];
+                if (file) {
+                    var fileExtension = file.name.split('.').pop().toLowerCase();
+                    var allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+                    if (allowedExtensions.includes(fileExtension)) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            $(".customer_image_error").html('');
+                            $('#previewImage').attr('src', e.target.result).show();
+                        }
+                        reader.readAsDataURL(file); // Read the file as a data URL
+                    } else {
+                        alert('Please upload an image file (jpg, jpeg, png, gif).');
+                        $('#customer_image').val(''); // Clear the file input
+                        // $('#previewImage').hide(); // Hide the image preview
+                    }
                 }
-                reader.readAsDataURL(this.files[0]);
             });
 
             document.addEventListener("click",function (e){

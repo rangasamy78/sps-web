@@ -138,3 +138,10 @@ setTimeout(() => {
     $('.dataTables_length .form-select').removeClass('form-select-sm').css('padding-left',
         '30px');
 }, 300);
+
+function getRedirectUrl(id) {
+    var currentUrl = window.location.href;
+    var redirectUrl = currentUrl.replace(/\/\d+$/, '');
+    redirectUrl += '/' + id;
+    return redirectUrl;
+}

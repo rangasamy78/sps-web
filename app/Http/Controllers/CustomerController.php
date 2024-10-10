@@ -22,6 +22,8 @@ use App\Repositories\CustomerRepository;
 use App\Services\Customer\CustomerService;
 use App\Http\Requests\Customer\UpdateCustomerRequest;
 use App\Http\Requests\Customer\CreateCustomerRequest;
+use App\Http\Requests\Customer\CreateCustomerImageRequest;
+
 class CustomerController extends Controller
 {
     public $customerService;
@@ -145,7 +147,7 @@ class CustomerController extends Controller
 
     public function fetchCustomerBillingAddress(Request $request)
     {
-        $customerId = $request->query('id'); // Or use $request->input('id') based on your needs
+        $customerId = $request->query('id');
         $address    = $this->customerService->getBillingAddress($customerId);
 
         if (isset($address['error'])) {
@@ -170,13 +172,13 @@ class CustomerController extends Controller
         $endUseSegments      = EndUseSegment::query()->pluck('end_use_segment', 'id');
         $accountPaymentTerms = AccountPaymentTerm::query()->pluck('payment_label', 'id');
         $salesTaxs           = DB::table('tax_codes')->join('tax_code_components', 'tax_codes.id', '=', 'tax_code_components.tax_code_id')
-                                ->select('tax_codes.id', DB::raw("CONCAT(tax_codes.tax_code, ' - ', tax_codes.tax_code_label, ' - ', SUM(tax_code_components.rate), ' %') as name"))
-                                ->groupBy('tax_codes.id')
-                                ->get()->pluck('name', 'id');
-        return compact('countries', 'customers', 'customerTypes', 'customer', 'companies', 'users', 'counties', 'priceListLabels', 'taxExemptReasons', 'aboutUsOptions', 'projectTypes', 'endUseSegments', 'accountPaymentTerms','salesTaxs');
+            ->select('tax_codes.id', DB::raw("CONCAT(tax_codes.tax_code, ' - ', tax_codes.tax_code_label, ' - ', SUM(tax_code_components.rate), ' %') as name"))
+            ->groupBy('tax_codes.id')
+            ->get()->pluck('name', 'id');
+        return compact('countries', 'customers', 'customerTypes', 'customer', 'companies', 'users', 'counties', 'priceListLabels', 'taxExemptReasons', 'aboutUsOptions', 'projectTypes', 'endUseSegments', 'accountPaymentTerms', 'salesTaxs');
     }
 
-    public function customerUploadImage(Request $request)
+    public function customerUploadImage(CreateCustomerImageRequest $request)
     {
         if ($request->hasFile('customer_image')) {
             $this->customerRepository->updateImage($request->only('customer_image'), $request->id);
@@ -189,14 +191,14 @@ class CustomerController extends Controller
     {
         try {
             $customer         = $this->customerRepository->findOrFail($id);
-            $update_status     = $customer->status == 1 ? 0 : 1;
+            $update_status    = $customer->status == 1 ? 0 : 1;
             $customer->status = $update_status;
             $customer->save();
 
             return response()->json([
-                'status'     => 'success',
+                'status'        => 'success',
                 'update_status' => $update_status,
-                'msg'        => 'Status updated successfully.',
+                'msg'           => 'Status updated successfully.',
             ]);
         } catch (Exception $e) {
             Log::error('Error updating status: ' . $e->getMessage());
