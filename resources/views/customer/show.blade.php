@@ -51,11 +51,11 @@
                                     <form id="showCustomerForm" name="showCustomerForm" class="form-horizontal" enctype="multipart/form-data">
                                         <input type="hidden" class="form-control" id="id" name="id" value="{{ $customer->id }}">
                                         <input type="file" class="form-control" id="customer_image" name="customer_image">
-                                        @if($customer->customer_image)
+                                        @if(!empty($customer->customer_image))
                                             {{-- <img id="previewImage" class="previewImage" src="{{ asset('storage/app/public/'.$customer->customer_image)}}" alt="Image Preview" width="100" height="100" style="margin-top: 15px;border: 1px solid;border-radius: 50px;margin-left: 38px;"> --}}
                                             <img id="previewImage" class="img-fluid rounded mb-4 previewImage" src="{{ asset('storage/app/public/images/'.$customer->customer_image)}}" height="150" width="150" alt="User avatar" style="margin-top: 10px;margin-left: 20px;">
                                             @else
-                                            <img id="previewImage" class="img-fluid rounded mb-4 previewImage" src="#" height="150" width="150" alt="User avatar" style="display:none;margin-top: 10px;margin-left: 20px;">
+                                            <img id="previewImage" class="img-fluid rounded mb-4 previewImage" src="{{ asset('public/assets/img/branding/location-logo.png')}}" height="150" width="150" alt="User avatar" style="margin-top: 10px;margin-left: 20px;">
                                             {{-- <img id="previewImage" class="previewImage" src="" alt="Image Preview" width="100" height="100" style="display:none; margin-top: 15px;border: 1px solid;border-radius: 50px;margin-left: 38px;"> --}}
                                         @endif
                                         <button type="submit" class="btn btn-primary" id="btn-save" value="create" style="margin-left: 50px;">Upload</button>
