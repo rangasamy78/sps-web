@@ -45,11 +45,11 @@ return [
         ],
 
         'images' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/images'),
-            'url' => env('APP_URL') . '/storage/images',
-            'visibility' => 'public',
-            'throw' => false,
+            'driver' => env('IMAGES_DRIVER', 'local'),
+            'root' => env('IMAGES_ROOT', storage_path('app/public/images')),
+            'url' => env('IMAGES_URL', env('APP_URL') . '/storage/images'),
+            'visibility' => env('IMAGES_VISIBILITY', 'public'),
+            'throw' => env('IMAGES_THROW', false),
         ],
 
         's3' => [
