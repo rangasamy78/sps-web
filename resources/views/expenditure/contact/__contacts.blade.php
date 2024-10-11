@@ -8,6 +8,7 @@
                 <th>Address</th>
                 <th>Phones</th>
                 <th>Notes</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -15,7 +16,6 @@
         </tbody>
     </table>
 </div>
-
 <form name="saveContactForm" id="saveContactForm">
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
         aria-labelledby="offcanvasEndLabel">
@@ -91,10 +91,10 @@
             <div class="form-group mb-3">
                 <label for="county_id" class="form-label">County</label>
                 <div class="col-sm-12">
-                    <select type="text" id="county_id" name="county_id" class="form-select">
-                        {{-- @foreach($countyies as $county)
-                        <option value="{{ $county->id }}">{{ $county->county_name }}</option>
-                        @expenditure --}}
+                    <select id="county_id" name="county_id" class="select2 form-select" data-allow-clear="true">
+                        @foreach($counties as $key => $value)
+                        <option value="{{ $key }}">{{ $value }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <span class="text-danger error-text county_id_error"></span>
@@ -116,10 +116,10 @@
             <div class="form-group mb-3">
                 <label for="country_id" class="form-label">Country</label>
                 <div class="col-sm-12">
-                    <select type="text" id="country_id" name="country_id" class="form-select">
-                        {{-- @foreach($countries as $country)
-                        <option value="{{ $country->id }}">{{ $country->country_name }}</option>
-                        @endforeach --}}
+                    <select id="country_id" name="country_id" class="select2 form-select" data-allow-clear="true">
+                        @foreach ($country as $key => $value)
+                            <option value="{{ $key }}">{{ $value }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <span class="text-danger error-text country_id_error"></span>

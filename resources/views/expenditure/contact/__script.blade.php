@@ -1,6 +1,6 @@
 <script type="text/javascript">
     $(function() {
-
+        var expenditureUrl =  "{{ route('expenditures.contacts.list', ':type_id') }}".replace(':type_id', $('#type_id').val());
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -16,7 +16,7 @@
                 [0, 'desc']
             ],
             ajax: {
-                url: "{{ route('contacts.list') }}",
+                url: expenditureUrl,
                 data: function(d) {
                     sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                     d.order = [{
@@ -44,6 +44,10 @@
                 {
                     data: 'internal_notes',
                     name: 'internal_notes'
+                },
+                {
+                    data: 'action',
+                    name: 'action'
                 }
             ],
             rowCallback: function(row, data, index) {
@@ -58,8 +62,20 @@
                     'data-bs-target': '#offcanvasRight',
                     'aria-controls': 'offcanvasExample',
                 },
-                action: function(e, dt, node, config) {}
+                action: function(e, dt, node, config) {
+                    $('#saveContactForm').trigger("reset");
+                }
             }]
+        });
+
+        $('#country_id').select2({
+            placeholder: 'Select Country',
+            dropdownParent: $('#country_id').parent()
+        });
+
+        $('#county_id').select2({
+            placeholder: 'Select County',
+            dropdownParent: $('#country_id').parent()
         });
 
         $('#saveContactForm input, #saveContactForm select').on('input change', function() {
@@ -71,7 +87,7 @@
             var button = $('#savecontactdata');
             sending(button);
             $.ajax({
-                url: "{{ route('contacts.save') }}",
+                url: "{{ route('expenditures.contacts.save') }}",
                 type: "POST",
                 data: $('#saveContactForm').serialize(),
                 dataType: 'json',
@@ -99,6 +115,44 @@
                     button.removeAttr('data-bs-dismiss');
                 }
             });
+        });
+        $('body').on('click', '.deletebtn', function() {
+            var id = $(this).data('id');
+            confirmDelete(id, function() {
+                deleteExpenditure(id);
+            });
+        });
+
+        function deleteExpenditure(id) {
+            var url = "{{ route('expenditures.contacts.destroy', ':id') }}".replace(':id', id);
+            $.ajax({
+                url: url,
+                type: "DELETE",
+                data: {
+                    id: id,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    function getIdFromUrl() {
+                        let path = window.location.pathname;
+                        let segments = path.split('/');
+                        return segments.pop();
+                    }
+
+                    let id = getIdFromUrl();
+
+                    window.location.href = "{{ route('expenditures.show', ':id') }}".replace(':id', id);
+                    handleAjaxResponse(response, table);
+                },
+                error: function(xhr) {
+                    console.error('Error:', xhr.statusText);
+                    showError('Oops!', 'Failed to fetch data.');
+                }
+            });
+        }
+
+        $('body').on('click', '.editbtn', function() {
+            $('#offcanvasRight').offcanvas('show');
         });
 
     });

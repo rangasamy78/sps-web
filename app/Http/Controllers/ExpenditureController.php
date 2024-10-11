@@ -3,17 +3,18 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use App\Models\County;
 use App\Models\Company;
 use App\Models\Country;
 use App\Models\VendorType;
 use App\Models\Expenditure;
+use Illuminate\Http\Request;
 use App\Models\LinkedAccount;
 use App\Models\PaymentMethod;
 use App\Models\AccountPaymentTerm;
-use App\Repositories\ExpenditureRepository;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Repositories\ExpenditureRepository;
 use App\Http\Requests\Expenditure\CreateExpenditureRequest;
 use App\Http\Requests\Expenditure\UpdateExpenditureRequest;
 
@@ -63,10 +64,11 @@ class ExpenditureController extends Controller
         $vendor_types                = VendorType::query()->join('expenditures', 'vendor_types.id', '=', 'expenditures.expenditure_type_id')->where('expenditures.id', $id)->first();
         $company                     = Company::query()->pluck('company_name', 'id');
         $country                     = Country::query()->pluck('country_name', 'id');
+        $counties                     = County::query()->pluck('county_name', 'id');
         $payment_methods             = PaymentMethod::query()->pluck('payment_method_name', 'id');
         $linked_accounts             = LinkedAccount::query()->join('expenditures', 'linked_accounts.id', '=', 'expenditures.expense_account_id')->where('expenditures.id', $id)->first();
         $account_payment_terms       = AccountPaymentTerm::query()->join('expenditures', 'account_payment_terms.id', '=', 'expenditures.payment_terms')->where('account_payment_terms.id', $id)->first();
-        return view('expenditure.__show', compact('expenditure', 'vendor_types','company','country','payment_methods','linked_accounts','account_payment_terms'));
+        return view('expenditure.__show', compact('expenditure', 'vendor_types','company','country','payment_methods','linked_accounts','account_payment_terms','counties'));
     }
 
     public function edit($id)

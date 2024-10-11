@@ -12,7 +12,6 @@
              table.draw();
          });
 
-
         var table = $('#datatable').DataTable({
             responsive: true,
             processing: true,
@@ -95,7 +94,7 @@
                         id: 'Add Service Category',
                     },
                     action: function(e, dt, node, config) {
-
+                        window.location.href = "{{ ('service_categories') }}";
                     }
                 },
                 {
@@ -105,7 +104,7 @@
                         id: 'Add Service Type',
                     },
                     action: function(e, dt, node, config) {
-
+                        window.location.href = "{{ ('service_types') }}";
                     }
                 },
                 {
@@ -118,10 +117,7 @@
                         window.location.href = "{{ route('services.create') }}";
                     }
                 }
-
             ]
-
-
         });
 
 
@@ -255,8 +251,6 @@
             dropdownParent: $('#price_range_id').parent()
         });
 
-
-
         $(document).on('click', '.change_status', function() {
 
         var id = $(this).data('id');
@@ -271,11 +265,7 @@
             },
             success: function(response) {
                 if (response.status === 'success') {
-                    if (response.new_status == 1) {
-                        button.removeClass('btn-danger').addClass('btn-success').text('Active');
-                    } else {
-                        button.removeClass('btn-success').addClass('btn-danger').text('Inactive');
-                    }
+                    window.location.href = "{{ route('services.show', ':id') }}".replace(':id', id);
                     showToast('success', response.msg);
                 }
             }
