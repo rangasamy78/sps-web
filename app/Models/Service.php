@@ -12,6 +12,8 @@ class Service extends Model
 
     protected $table = 'services';
 
+    public const IMAGE_FOLDER = 'service';
+
     protected $fillable = [
         'service_name',
         'service_sku',
@@ -31,6 +33,7 @@ class Service extends Model
         'notes',
         'internal_instruction',
         'disclaimer',
+        'service_image',
         'status'
     ];
     public function unit_measures()

@@ -63,7 +63,6 @@ class ServiceController extends Controller
     public function store(CreateServiceRequest $request)
     {
         try {
-            // Ensure checkboxes are set to 0 if not checked
             $serviceData = $request->only('service_name', 'service_sku', 'unit_of_measure_id', 'service_category_id', 'service_type_id', 'service_group_id', 'expenditure_id', 'avg_est_cost', 'gl_sales_account_id', 'gl_cost_of_sales_account_id', 'is_taxable_item', 'frequent_in_so', 'frequent_in_customer_cm', 'frequent_in_po', 'frequent_in_supplier_cm', 'notes', 'internal_instruction', 'disclaimer'
             );
 
@@ -134,7 +133,6 @@ class ServiceController extends Controller
         $service_expenditures = Expenditure::all();
         $product_price_ranges = ProductPriceRange::all();
         return view('service.__edit', compact('service','unit_measures', 'service_categories', 'service_types', 'product_groups', 'linked_accounts', 'service_expenditures', 'product_price_ranges'));
-
     }
 
     /**
@@ -229,5 +227,14 @@ class ServiceController extends Controller
                 'msg'    => 'Failed to update status.',
             ], 500);
         }
+    }
+
+    public function serviceUploadImage(Request $request)
+    {
+        if ($request->hasFile('service_image')) {
+            $this->serviceRepository->updateImage($request->only('service_image'), $request->id);
+            return response()->json(['status' => 'success', 'msg' => 'Image uploaded successfully']);
+        }
+        return response()->json(['status' => 'false', 'msg' => 'Image upload failed.'], 400);
     }
 }

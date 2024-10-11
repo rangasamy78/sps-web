@@ -14,28 +14,62 @@
 @endsection
 @section('content')
     <div class="content-wrapper">
-        <!-- Content -->
-
         <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="py-3 mb-4"><span class="text-muted fw-light">Product /</span><span> Show Services</span></h4>
             <div class="app-ecommerce">
                 <div class="row">
-                    <!-- first column -->
-                    {{-- {{ $product_groups }} --}}
-                    {{-- {{ $unit_measures->unit_measure_name }} --}}
                     <div class="col-12">
                         <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="row">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <h4><span class="card-title mb-0 fw-bold">{{ $service->service_name ?? '' }}</span><span
                                         style="font-size: 14px">
                                         @if (!empty($service->service_sku))
                                             ({{ $service->service_sku ?? '' }})
                                         @endif
-                                    </span></h4>
+                                    </span>@if($service->status == 0)
+                                    <span class="text-danger fw-bold">(InActive)</span>
+                                    @endif</h4>
+                                    <div class="d-flex align-items-center"> <!-- Container for buttons -->
+                                        <a href="{{ route('services.edit', $service->id) }}"
+                                            data-id="{{ $service->id }}"
+                                            class="btn btn-primary rounded-circle editbtn"
+                                            data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="top" data-bs-custom-class="tooltip-dark" title="Edit Service"
+                                            style="width: 35px; height: 38px; display: flex; align-items: center; justify-content: center;">
+                                            <i class="bx bx-edit" style="font-size: 18px;"></i>
+                                        </a>
+                                        <div class='dropdown ms-2'> <!-- Add margin to separate buttons -->
+                                            <button type='button' class='btn p-0 dropdown-toggle hide-arrow btn-primary rounded-circle' data-bs-toggle='dropdown' aria-expanded="false" style="width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;">
+                                                <i class='bx bx-plus-circle icon-color' data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Action"></i> <!-- Icon inside the button -->
+                                            </button>
+                                            <div class='dropdown-menu'>
+                                                <a class='dropdown-item showbtn text-warning' href='{{ route('services.index') }}'>
+                                                    <i class='bx bx-list-ul'></i> List All Service
+                                                </a>
+                                                <a class='dropdown-item change_status text-success' data-id='{{ $service->id }}'>
+                                                    <i class='bx bx-check-circle'></i> @if($service->status == 0)Active Service
+                                                    @else
+                                                    Inactive Service
+                                                    @endif
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
                             </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-sm-12 col-md-6 col-lg-4">
+                            <div class="col-2">
+                                <form id="showServiceForm" name="showServiceForm" class="form-horizontal" enctype="multipart/form-data">
+                                    <input type="hidden" class="form-control" id="id" name="id" value="{{ $service->id }}">
+                                    <input type="file" class="form-control" id="service_image" name="service_image">
+                                    @if($service->service_image)
+                                        <img id="previewImage" class="img-fluid rounded mb-4 previewImage" src="{{ asset('storage/app/public/'.$service->service_image)}}" height="150" width="150" alt="User avatar" style="margin-top: 10px;margin-left: 20px;">
+                                        @else
+                                        <img id="previewImage" class="img-fluid rounded mb-4 previewImage" src="#" height="150" width="150" alt="User avatar" style="display:none;margin-top: 10px;margin-left: 20px;">
+                                    @endif
+                                </form>
+                            </div>
+
+                                    <div class="col-sm-12 col-md-6 col-lg-3">
                                         <div class="row mb-2">
                                             <div class="col">
                                                 <label><span class="text-dark fw-bold">Service Type: </span>
@@ -83,7 +117,7 @@
 
 
                                     </div>
-                                    <div class="col-sm-12 col-md-6 col-lg-3">
+                                    <div class="col-sm-12 col-md-6 col-lg-4">
                                         <h5
                                             style="text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 2px;">
                                             Selling Prices for this Service:
@@ -247,10 +281,10 @@
                                         <div class="col-sm-12 col-md-6 col-lg-4">Notes
                                             <textarea class="form-control" style="background: lightgoldenrodyellow;" readonly >{{ $service->notes ?? '' }}</textarea>
                                         </div>
-                                        <div class="col-sm-12 col-md-6 col-lg-3">Special Instructions
+                                        <div class="col-sm-12 col-md-6 col-lg-4">Special Instructions
                                             <textarea class="form-control"  style="background: lightgoldenrodyellow;" readonly>{{ $service->internal_instruction ?? '' }}</textarea>
                                         </div>
-                                        <div class="col-sm-12 col-md-6 col-lg-3">Disclaimer
+                                        <div class="col-sm-12 col-md-6 col-lg-4">Disclaimer
                                             <textarea class="form-control"  style="background: lightgoldenrodyellow;" readonly>{{ $service->disclaimer ?? '' }}</textarea>
                                         </div>
                                     </div>
@@ -259,11 +293,9 @@
                         </div>
                     </div>
 
-                    <!-- /first column -->
                 </div>
                 <div class="row">
                     <div class="col-12 order-0 order-md-1">
-                        <!-- Navigation -->
                         <div class="col-12  mx-auto card-separator">
                             <div class="d-flex justify-content-between mb-3 pe-md-3">
                                 <ul class="nav nav-pills flex-column flex-md-row mb-4">
@@ -329,8 +361,6 @@
                                 </ul>
                             </div>
                         </div>
-
-                        <!-- /Navigation -->
                         <div class="card mb-4">
                             <div class="card-header">
 
@@ -351,12 +381,60 @@
                 </div>
             </div>
         </div>
-        <!-- / Content -->
         <div class="content-backdrop fade"></div>
 
     </div>
 
 @endsection
 @section('scripts')
+<script type="text/javascript">
+    $(function() {
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $('#service_image').on('change', function() {
+            var formData = new FormData($('#showServiceForm')[0]);
+            var imageUrl = "{{ route('services.upload') }}";
+            $.ajax({
+                url: imageUrl, // Your route to handle image upload
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    if (response.status == "success") {
+                        showToast('success', response.msg);
+                    }
+                },
+                error: function(xhr) {
+
+                }
+            });
+        });
+
+        $('#service_image').on('change', function (e) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#previewImage').attr('src', e.target.result).show();
+            }
+            reader.readAsDataURL(this.files[0]);
+        });
+
+        document.addEventListener("click",function (e){
+            if(e.target.classList.contains("previewImage")){
+                const src = e.target.getAttribute("src");
+                document.querySelector(".service_modal_img").src = src;
+                const myModal = new bootstrap.Modal(document.getElementById('service_popup'));
+                myModal.show();
+            }
+        });
+
+    });
+
+</script>
     @include('service.__scripts')
 @endsection

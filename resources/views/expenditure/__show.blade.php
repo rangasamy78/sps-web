@@ -15,7 +15,34 @@
                 <div class="col-12">
                     <div class="card mb-4">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h4><span class="card-title mb-0 fw-bold" >{{ $expenditure->expenditure_name ?? '' }}</span><span style="font-size: 14px"> @if(!empty($expenditure->expenditure_code)) ({{ $expenditure->expenditure_code ?? ''  }}) @endif</span></h4>
+                            <h4><span class="card-title mb-0 fw-bold" >{{ $expenditure->expenditure_name ?? '' }}</span><span style="font-size: 14px"> @if(!empty($expenditure->expenditure_code)) ({{ $expenditure->expenditure_code ?? ''  }}) @endif</span>@if($expenditure->status == 0)
+                                <span class="text-danger fw-bold">(InActive)</span>
+                                @endif</h4>
+                            <div class="d-flex align-items-center"> <!-- Container for buttons -->
+                                <a href="{{ route('expenditures.edit', $expenditure->id) }}"
+                                    data-id="{{ $expenditure->id }}"
+                                    class="btn btn-primary rounded-circle editbtn"
+                                    data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="top" data-bs-custom-class="tooltip-dark" title="Edit Expenditure"
+                                    style="width: 35px; height: 38px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="bx bx-edit" style="font-size: 18px;"></i>
+                                </a>
+                                <div class='dropdown ms-2'> <!-- Add margin to separate buttons -->
+                                    <button type='button' class='btn p-0 dropdown-toggle hide-arrow btn-primary rounded-circle' data-bs-toggle='dropdown' aria-expanded="false" style="width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;">
+                                        <i class='bx bx-plus-circle icon-color' data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Action"></i> <!-- Icon inside the button -->
+                                    </button>
+                                    <div class='dropdown-menu'>
+                                        <a class='dropdown-item showbtn text-warning' href='{{ route('expenditures.index') }}'>
+                                            <i class='bx bx-list-ul'></i> List All Expenditure
+                                        </a>
+                                        <a class='dropdown-item change_status text-success' data-id='{{ $expenditure->id }}'>
+                                            <i class='bx bx-check-circle'></i> @if($expenditure->status == 0)Active Expenditure
+                                            @else
+                                            Inactive Expenditure
+                                            @endif
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="row mb-3">

@@ -2,11 +2,11 @@
 
 namespace App\Repositories;
 
+use App\Models\Expenditure;
+use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Model;
 use App\Interfaces\CrudRepositoryInterface;
 use App\Interfaces\DatatableRepositoryInterface;
-use App\Models\Expenditure;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 
 class ExpenditureRepository implements CrudRepositoryInterface, DatatableRepositoryInterface
 {
@@ -91,16 +91,16 @@ class ExpenditureRepository implements CrudRepositoryInterface, DatatableReposit
         $arrData = $arrData->get();
 
         $arrData->map(function ($value) {
-            $value->expenditure_name = "<a href='" . route('expenditures.show', $value->id) . "' class='expenditures-link'><b>" . ($value->expenditure_name ?? '') . "</b></a>";
-            $value->print_name = "<a href='" . route('expenditures.show', $value->id) . "' class='expenditures-link'>" . ($value->print_name ?? '') . "</a>";
-            $value->expenditure_type_id = "<a href='" . route('expenditures.show', $value->id) . "' class='expenditures-link'>" . ($value->vendor_types->vendor_type_name ?? '') . "</a>";
+            $value->expenditure_name = "<a href='" . route('expenditures.show', $value->id) . "' class='text-secondary'><b>" . ($value->expenditure_name ?? '') . "</b></a>";
+            $value->print_name = $value->print_name ?? '';
+            $value->expenditure_type_id = $value->vendor_types->vendor_type_name ?? '';
 
-            $value->address_combined = "<a href='" . route('expenditures.show', $value->id) . "' class='expenditures-link'>" . (trim(
+            $value->address_combined = trim(
                 ($value->address ?? '') . "<br>" .
                 ($value->city ?? '') . "<br>" .
                 ($value->state ?? '') . "<br>" .
                 ($value->zip ?? '') . "<br>" .
-                ($value->country->country_name ?? ''))) . "</a>";
+                ($value->country->country_name ?? ''));
             $phoneParts = [];
             if (!empty($value->primary_phone)) {
                 $phoneParts[] = "P: {$value->primary_phone}";
@@ -120,21 +120,18 @@ class ExpenditureRepository implements CrudRepositoryInterface, DatatableReposit
             if (!empty($value->website)) {
                 $phoneParts[] = "W: {$value->website}";
             }
-            $value->phone_combined = !empty($phoneParts) ? "<a href='" . route('expenditures.show', $value->id) . "' class='expenditures-link'>" . implode('<br>', $phoneParts) . "</a>" : '';
-            $value->parent_location_id = "<a href='" . route('expenditures.show', $value->id) . "' class='expenditures-link'>" . ($value->company->company_name ?? '') . "</a>";
-            $value->payment_method_id = "<a href='" . route('expenditures.show', $value->id) . "' class='expenditures-link'>" . ($value->payment_method->payment_method_name ?? '') . "</a>";
-            $value->account = "<a href='" . route('expenditures.show', $value->id) . "' class='expenditures-link'>" . ($value->account ?? '') . "</a>";
-            $value->internal_notes = "<a href='" . route('expenditures.show', $value->id) . "' class='expenditures-link'>" . ($value->internal_notes ?? '') . "</a>";
+            $value->phone_combined = !empty($phoneParts) ?  implode('<br>', $phoneParts)  : '';
+            $value->parent_location_id = $value->company->company_name ?? '';
+            $value->payment_method_id = $value->payment_method->payment_method_name ?? '';
+            $value->account = $value->account ?? '';
+            $value->internal_notes = "<div class='d-flex align-items-center'>" . (!empty($value->internal_notes) ? "<span class='avatar-initial rounded bg-label-secondary me-2' data-bs-toggle='tooltip' data-bs-placement='top'   title='" . htmlspecialchars($value->internal_notes ? $value->internal_notes : 'Internal Notes', ENT_QUOTES, 'UTF-8') . "'><i class='bx bx-note bx-sm'></i></span>" :'') . "</div>";
             $value->status = $value->status == 1
-            ? '<button class="btn btn-success btn-sm change_status" data-id="' . $value->id . '">Active</button>'
-            : '<button class="btn btn-danger btn-sm change_status" data-id="' . $value->id . '">Inactive</button>';
-
+            ? 'Active' : 'Inactive';
             $value->action = "<div class='dropup'><button type='button' class='btn p-0 dropdown-toggle hide-arrow' data-bs-toggle='dropdown'>
                 <i class='bx bx-dots-vertical-rounded icon-color'></i></button>
                 <div class='dropdown-menu'><a class='dropdown-item showbtn text-warning' href='" . route('expenditures.show', $value->id) . "' data-id='" . $value->id . "' >
                 <i class='bx bx-show me-1 icon-warning'></i> Show</a>
-                <a class='dropdown-item editbtn text-success' href='" . route('expenditures.edit', $value->id) . "' data-id='" . $value->id . "' ><i class='bx bx-edit-alt me-1 icon-success'></i> Edit </a>
-                <a class='dropdown-item deletebtn text-danger' href='javascript:void(0);' data-id='" . $value->id . "' ><i class='bx bx-trash me-1 icon-danger'></i> Delete</a> </div></div>";
+                <a class='dropdown-item editbtn text-success' href='" . route('expenditures.edit', $value->id) . "' data-id='" . $value->id . "' ><i class='bx bx-edit-alt me-1 icon-success'></i> Edit </a>";
             return $value;
         });
 

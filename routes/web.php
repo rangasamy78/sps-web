@@ -81,8 +81,8 @@ use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\AccountReceivableAgingPeriodController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
 use App\Http\Controllers\ContactController as AssociateContactController;
-use App\Http\Controllers\ContactController as ExpenditureContactController;
 use App\Http\Controllers\Customer\ContactController as CustomerContactController;
+use App\Http\Controllers\Expenditure\ExpenditureController as ExpenditureContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -346,9 +346,11 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('expenditures', ExpenditureController::class);
     Route::get('/expenditure/list', [ExpenditureController::class, 'getExpenditureDataTableList'])->name('expenditures.list');
     Route::post('/expenditure_change_status/{id}', [ExpenditureController::class, 'expenditureChangeStatus'])->name('expenditures.expenditure_change_status');
-
-    Route::post('/contact/save', [ExpenditureContactController::class, 'save'])->name('contacts.save');
-    Route::get('/contact/list', [ExpenditureContactController::class, 'getContactDataTableList'])->name('contacts.list');
+    Route::prefix('expenditures')->name('expenditures.')->group(function() {
+        Route::get('/contacts/list/{type_id}', [ExpenditureContactController::class, 'getContactDataTableList'])->name('contacts.list');
+        Route::post('/contacts/save', [ExpenditureContactController::class, 'contactSave'])->name('contacts.save');
+        Route::delete('/contacts/{id}/delete', [ExpenditureContactController::class, 'destroy'])->name('contacts.destroy');
+    });
 
     Route::resource('associates', AssociateController::class);
     Route::get('/associate/list', [AssociateController::class, 'getAssociateDataTableList'])->name('associates.list');
@@ -405,4 +407,5 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('services', ServiceController::class);
     Route::get('/service/list', [ServiceController::class, 'getServiceDataTableList'])->name('services.list');
     Route::post('/service_change_status/{id}', [ServiceController::class, 'serviceChangeStatus'])->name('services.service_change_status');
+    Route::post('/services/upload', [ServiceController::class, 'serviceUploadImage'])->name('services.upload');
 });
