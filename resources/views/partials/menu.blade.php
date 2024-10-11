@@ -8,7 +8,7 @@
         </a> --}}
         <div class="logo-container">
             <a href="{{ route('home') }}" class="app-brand-link">
-                @php $logo = isset($company) ? asset('storage/app/public/'. $company->logo ) : asset('public/assets/img/branding/location-logo.png') @endphp
+                @php $logo = isset($company) ? asset('storage/app/public/images/'. $company->logo ) : asset('public/assets/img/branding/location-logo.png') @endphp
                 <img src="{{ $logo }}" alt="Logo" class="center-logo">
             </a>
         </div>

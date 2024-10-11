@@ -34,6 +34,7 @@ return new class extends Migration
             $table->string('zip', 10)->nullable();
             $table->string('county', 50)->nullable();
             $table->bigInteger('country_id')->unsigned()->nullable();
+            $table->string('customer_image')->nullable();
             $table->text('shipping_address')->nullable();
             $table->text('shipping_address_2')->nullable();
             $table->string('shipping_city', 50)->nullable();

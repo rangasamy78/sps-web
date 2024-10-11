@@ -53,7 +53,7 @@ class CustomerRepository implements CrudRepositoryInterface, DatatableRepository
     public function buildBaseQuery()
     {
         return Customer::query()
-            ->with(['country', 'shipping_country', 'customer_type', 'parent_location', 'sales_person', 'secondary_sales_person', 'price_list_label', 'tax_exempt_reason']);
+            ->with(['country', 'shipping_country', 'customer_type', 'parent_location', 'sales_person', 'secondary_sales_person', 'price_list_label', 'tax_exempt_reason', 'payment_term']);
     }
 
     public function getCustomerList($request)
@@ -153,10 +153,10 @@ class CustomerRepository implements CrudRepositoryInterface, DatatableRepository
             $value->customer_type_name    = $value->customer_type ? "<a href='" . route('customers.show', $value->id) . "' class='customer-link'>" . $value->customer_type->customer_type_name . "</a>" : '';
             $value->address               = $this->customerService->__formataddressParts($value);
             $value->phone                 = "<a href='" . route('customers.show', $value->id) . "' class='customer-link'>" . $this->customerService->__formatPhoneParts($value) . "</a>";
-            $value->parent_location_name  = $value->parent_location ? "<a href='" . route('customers.show', $value->id) . "' class='customer-link'>" . $value->parent_location->company_name . "</a>" : '';
+            // $value->parent_location_name  = $value->parent_location ? "<a href='" . route('customers.show', $value->id) . "' class='customer-link'>" . $value->parent_location->company_name . "</a>" : '';
             $value->sales_person_name     = "<a href='" . route('customers.show', $value->id) . "' class='customer-link'>" . $this->customerService->__formatSalesPersonParts($value) . "</a>";
-            $value->price_list_label_name = isset($value->price_list_label) ? $value->price_list_label->price_code . '-' . $value->price_list_label->price_label : '';
-            $value->sales_tax_name        = $value->sales_tax_id ?? '';
+            // $value->price_list_label_name = isset($value->price_list_label) ? $value->price_list_label->price_code . '-' . $value->price_list_label->price_label : '';
+            // $value->sales_tax_name        = $value->payment_term ? $value->payment_term->payment_label : '';
             $value->status                = $value->status == 1 ? '<button class="btn btn-success btn-sm change_status" data-id="' . $value->id . '">Active</button>' : '<button class="btn btn-danger btn-sm change_status" data-id="' . $value->id . '">Inactive</button>';
             $value->image                 = $this->customerService->__formatImageNoteParts($value);
             $value->action                = "<div class='dropup'>
@@ -264,10 +264,10 @@ class CustomerRepository implements CrudRepositoryInterface, DatatableRepository
     {
         $customer = $this->findOrFail($id);
         if (isset($data['customer_image']) && $data['customer_image'] instanceof UploadedFile) {
-            if ($customer->customer_image && Storage::disk('public')->exists($customer->customer_image)) {
-                Storage::disk('public')->delete($customer->customer_image);
+            if ($customer->customer_image && Storage::disk('images')->exists($customer->customer_image)) {
+                Storage::disk('images')->delete($customer->customer_image);
             }
-            $data['customer_image'] = $this->uploadImage($data['customer_image'], Customer::IMAGE_FOLDER);
+            $data['customer_image'] = $this->uploadImage($data['customer_image'], env("FILESYSTEM_DISK"), Customer::IMAGE_FOLDER);
         }
         $customer->update($data);
         return $customer;

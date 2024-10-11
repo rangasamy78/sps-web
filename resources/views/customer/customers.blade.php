@@ -21,13 +21,10 @@
                     <th>Type</th>
                     <th>Address</th>
                     <th>Phones</th>
-                    <th>Parent Loc.</th>
                     <th>Sales Person</th>
-                    <th>Price Levels</th>
-                    <th>Pmt.Terms / Sales Tax</th>
                     <th>Status</th>
-                    <th>Actions</th>
                     <th></th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>

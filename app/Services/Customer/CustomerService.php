@@ -51,21 +51,21 @@ class CustomerService
         if (!empty($value->phone)) {
             $phoneParts[] = 'P: ' . $value->phone;
         }
-        if (!empty($value->phone_2)) {
-            $phoneParts[] = 'P1: ' . $value->phone_2;
-        }
-        if (!empty($value->fax)) {
-            $phoneParts[] = 'F: ' . $value->fax;
-        }
-        if (!empty($value->mobile)) {
-            $phoneParts[] = 'M: ' . $value->mobile;
-        }
+        // if (!empty($value->phone_2)) {
+        //     $phoneParts[] = 'P1: ' . $value->phone_2;
+        // }
+        // if (!empty($value->fax)) {
+        //     $phoneParts[] = 'F: ' . $value->fax;
+        // }
+        // if (!empty($value->mobile)) {
+        //     $phoneParts[] = 'M: ' . $value->mobile;
+        // }
         if (!empty($value->email)) {
             $phoneParts[] = 'E: ' . $value->email;
         }
-        if (!empty($value->accounting_email)) {
-            $phoneParts[] = 'A.E: ' . $value->accounting_email;
-        }
+        // if (!empty($value->accounting_email)) {
+        //     $phoneParts[] = 'A.E: ' . $value->accounting_email;
+        // }
         return !empty($phoneParts) ? implode('<br>', $phoneParts) : '';
     }
 
@@ -75,12 +75,12 @@ class CustomerService
         if (!empty($value->customer_name)) {
             $customerParts[] = $value->customer_name;
         }
-        if (!empty($value->print_name)) {
-            $customerParts[] = 'DBA: ' . $value->print_name;
-        }
-        if (!empty($value->contact_name)) {
-            $customerParts[] = 'C: ' . $value->contact_name;
-        }
+        // if (!empty($value->print_name)) {
+        //     $customerParts[] = 'DBA: ' . $value->print_name;
+        // }
+        // if (!empty($value->contact_name)) {
+        //     $customerParts[] = 'C: ' . $value->contact_name;
+        // }
 
         return !empty($customerParts) ? implode('<br>', $customerParts) : '';
     }
@@ -91,9 +91,9 @@ class CustomerService
         if (!empty($value->sales_person)) {
             $salesPersonParts[] = $value->sales_person->full_name."<sup>1</sup>";
         }
-        if (!empty($value->secondary_sales_person)) {
-            $salesPersonParts[] = $value->secondary_sales_person->full_name."<sup>2</sup>";
-        }
+        // if (!empty($value->secondary_sales_person)) {
+        //     $salesPersonParts[] = $value->secondary_sales_person->full_name."<sup>2</sup>";
+        // }
 
         return !empty($salesPersonParts) ? implode('<br>', $salesPersonParts) : '';
     }
@@ -101,23 +101,23 @@ class CustomerService
     public function __formataddressParts($value)
     {
         $addressParts = [];
-        $placeParts = [];
-        if (!empty($value->internal_notes)) {
-            $addressParts[] = $value->address;
-        }
-        if (!empty($value->city)) {
-            $placeParts[] = $value->city;
-        }
+        // $placeParts = [];
+        // if (!empty($value->internal_notes)) {
+        //     $addressParts[] = $value->address;
+        // }
+        // if (!empty($value->city)) {
+        //     $placeParts[] = $value->city;
+        // }
         if (!empty($value->state)) {
-            $placeParts[] = $value->state;
+            $addressParts[] = $value->state;
         }
-        if (!empty($value->zip)) {
-            $placeParts[] = $value->zip;
-        }
-        if (!empty($placeParts)) {
-            $address = implode(' ', $placeParts); // Create a single string separated by spaces
-            $addressParts[] = $address;
-        }
+        // if (!empty($value->zip)) {
+        //     $placeParts[] = $value->zip;
+        // }
+        // if (!empty($placeParts)) {
+        //     $address = implode(' ', $placeParts); // Create a single string separated by spaces
+        //     $addressParts[] = $address;
+        // }
         if (!empty($value->county)) {
             $addressParts[] = $value->county;
         }
