@@ -53,6 +53,7 @@ use App\Http\Controllers\PriceListLabelController;
 use App\Http\Controllers\ShipmentMethodController;
 use App\Http\Controllers\SurveyQuestionController;
 use App\Http\Controllers\ExpenseCategoryController;
+use App\Http\Controllers\PrePurchaseTermController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ReceivingQcNoteController;
 use App\Http\Controllers\ServiceCategoryController;
@@ -428,4 +429,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('special_instructions', SpecialInstructionController::class);
     Route::get('/special_instruction/list', [SpecialInstructionController::class, 'getSpecialInstructionDataTableList'])->name('special_instructions.list');
+
+    Route::resource('pre_purchase_terms', PrePurchaseTermController::class);
+    Route::get('/pre_purchase_term/list', [PrePurchaseTermController::class, 'getPrePurchaseTermDataTableList'])->name('pre_purchase_terms.list');
 });
