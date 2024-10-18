@@ -85,6 +85,7 @@ use App\Http\Controllers\Associate\ContactController as AssociateContactControll
 use App\Http\Controllers\Customer\ContactController as CustomerContactController;
 use App\Http\Controllers\Supplier\ContactController as SupplierContactController;
 use App\Http\Controllers\Expenditure\ContactController as ExpenditureContactController;
+use App\Http\Controllers\OpportunityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -355,7 +356,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('expenditures', ExpenditureController::class);
     Route::get('/expenditure/list', [ExpenditureController::class, 'getExpenditureDataTableList'])->name('expenditures.list');
     Route::post('/expenditure_change_status/{id}', [ExpenditureController::class, 'expenditureChangeStatus'])->name('expenditures.expenditure_change_status');
-    Route::prefix('expenditures')->name('expenditures.')->group(function() {
+    Route::prefix('expenditures')->name('expenditures.')->group(function () {
         Route::get('/contacts/list/{type_id}', [ExpenditureContactController::class, 'getContactDataTableList'])->name('contacts.list');
         Route::post('/contacts/save', [ExpenditureContactController::class, 'contactSave'])->name('contacts.save');
         Route::delete('/contacts/{id}/delete', [ExpenditureContactController::class, 'destroy'])->name('contacts.destroy');
@@ -420,4 +421,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/services/upload', [ServiceController::class, 'serviceUploadImage'])->name('services.upload');
 
     Route::view('lists', 'lists.home')->name('lists');
+
+    Route::resource('opportunities', OpportunityController::class);
+    Route::get('/opportunity/list', [OpportunityController::class, 'getOpportunityDataTableList'])->name('opportunities.list');
+    Route::get('/opportunity/customer/{id}', [OpportunityController::class, 'getCustomerDetails'])->name('customers.details');
 });

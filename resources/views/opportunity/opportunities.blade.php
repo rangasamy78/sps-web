@@ -1,17 +1,16 @@
 @extends('layouts.admin')
 
-@section('title', 'Account')
+@section('title', 'Opportunity')
 
 @section('styles')
 <style>
-
 </style>
 @endsection
 @section('content')
 <div class="content-wrapper">
   <!-- Content -->
   <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="py-3 mb-4"><a href="{{route('lists')}}" class="text-decoration-none text-dark"><span class="text-muted fw-light">Home /</span> Account</a></h4>
+    <h4 class="py-3 mb-4"><a href="{{route('lists')}}" class="text-decoration-none text-dark"><span class="text-muted fw-light">Home /</span> Opportunity</a></h4>
     <!-- Product List Widget -->
     <div class="row">
       <div class="col-12 order-0 order-md-1">
@@ -26,7 +25,7 @@
                 </button>
               </li>
               <li class="nav-item me-3">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#newAddcount" onclick="window.location.href='{{ route('accounts.create') }}';">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#newAddcount">
                   <i class="bx bx-plus me-sm-1"></i>
                   <span class="align-middle">New Account</span>
                 </button>
@@ -60,11 +59,8 @@
             <div class="row">
               <!-- Options -->
               <div class="col-12">
-                <div class="tab-content p-0 pe-md-5">
-                  @include('account.all_account_list.all_account_lists')
-                  @include('account.in_active_account.in_active_accounts')
-                  @include('account.trial_balance.trial_balances')
-                  @include('account.trial_balance_by_location.trial_balance_by_locations')
+                <div class="tab-content p-0 pe-md-5  ">
+                  @include('opportunity.all_opportunity.all_opportunities')
                 </div>
               </div>
               <!-- /Options-->
@@ -79,8 +75,5 @@
 </div>
 @endsection
 @section('scripts')
-@include('account.__script')
-@include('account.in_active_account.__script')
-@include('account.trial_balance.__script')
-@include('account.trial_balance_by_location.__script')
+@include('opportunity.__script')
 @endsection
