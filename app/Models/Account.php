@@ -65,4 +65,9 @@ class Account extends Model
     {
         return $this->belongsTo(Company::class, 'account_operating_location_id');
     }
+
+    public function customer()
+    {
+        return $this->hasMany(Customer::class, 'sales_tax_id');
+    }
 }

@@ -10,20 +10,20 @@ class Customer extends Model
 {
     use HasFactory;
     /**
-    * The table associated with the model.
-    *
-    * @var string
-    */
-   protected $table = 'customers';
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'customers';
 
-   public const IMAGE_FOLDER = 'customer';
+    public const IMAGE_FOLDER = 'customer';
 
-   /**
-   * The attributes that are mass assignable.
-   *
-   * @var array<int, string>
-   */
-   protected $fillable = [
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
         'customer_name',
         'customer_code',
         'customer_type_id',
@@ -87,14 +87,14 @@ class Customer extends Model
         'delivery_instructions',
         'collection_notes',
         'internal_notes',
-   ];
+    ];
 
-   protected function name(): Attribute
-   {
-       return Attribute::make(
-           get: fn (string $value) => ucfirst($value),
-       );
-   }
+    protected function name(): Attribute
+    {
+        return Attribute::make(
+            get: fn(string $value) => ucfirst($value),
+        );
+    }
 
     protected static function boot()
     {
@@ -149,5 +149,9 @@ class Customer extends Model
     public function payment_term()
     {
         return $this->belongsTo(AccountPaymentTerm::class, 'payment_terms_id', 'id');
+    }
+    public function sales_tax()
+    {
+        return $this->belongsTo(Account::class, 'sales_tax_id', 'id');
     }
 }

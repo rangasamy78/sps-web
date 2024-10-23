@@ -334,17 +334,23 @@
                 <div class="card card-border-shadow-primary h-100">
                     <div class="card-body">
                         <div class="d-flex flex-column align-items-center">
-                            <div class="card-title mb-auto">
-                                <span class="rounded bg-label-dark p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                                    <i class="fi fi-ts-shelves" style="font-size: 50px;"></i>
-                                </span>
-                            </div>
+                            <a href="{{route('consignments.index')}}" class="text-decoration-none">
+                                <div class="card-title mb-auto">
+                                    <span class="rounded bg-label-dark p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                        <i class="fi fi-ts-shelves" style="font-size: 50px;"></i>
+                                    </span>
+                                </div>
+                            </a>
                             <div class="d-flex justify-content-center align-items-center mt-2">
                                 <div class="col-11">
-                                    <h5 class="card-title mb-0 text-dark text-center">Consignment</h5>
+                                    <a href="{{route('consignments.index')}}" class="text-decoration-none">
+                                        <h5 class="card-title mb-0 text-dark text-center">Consignment</h5>
+                                    </a>
                                 </div>
                                 <div class="col-1">
-                                    <i class="fi fi-rr-plus text-primary ps-3" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Consignment" style="font-size: 25px;"></i>
+                                    <a href="{{route('consignments.create')}}" class="text-decoration-none">
+                                        <i class="fi fi-rr-plus text-primary ps-3" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Consignment" style="font-size: 25px;"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>

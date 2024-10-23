@@ -8,6 +8,7 @@ use App\Models\County;
 use App\Models\Country;
 use App\Models\Company;
 use App\Models\Customer;
+use App\Models\Consignment;
 use App\Models\ProjectType;
 use Illuminate\Http\Request;
 use App\Models\CustomerType;
@@ -78,7 +79,8 @@ class CustomerController extends Controller
         $customer  = $query->findOrFail($id);
         $countries = Country::query()->pluck('country_name', 'id');
         $counties  = County::query()->pluck('county_name', 'id');
-        return view('customer.show', compact('customer', 'countries', 'counties'));
+        $consignment  = Consignment::query()->pluck('consignment_location_id', 'id');
+        return view('customer.show', compact('customer', 'countries', 'counties', 'consignment'));
     }
 
     /**
