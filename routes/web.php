@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\CountyController;
+use App\Http\Controllers\MyEventController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\TaxCodeController;
 use App\Http\Controllers\AccountController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\BinTypeController;
+use App\Http\Controllers\FollowUpController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\FileTypeController;
@@ -42,6 +44,8 @@ use App\Http\Controllers\SupplierPortController;
 use App\Http\Controllers\SupplierTypeController;
 use App\Http\Controllers\TaxAuthorityController;
 use App\Http\Controllers\AboutUsOptionController;
+use App\Http\Controllers\VisitCalendarController;
+use App\Http\Controllers\EventCalendarController;
 use App\Http\Controllers\AgingPeriodAPController;
 use App\Http\Controllers\EndUseSegmentController;
 use App\Http\Controllers\LinkedAccountController;
@@ -70,6 +74,7 @@ use App\Http\Controllers\PrintDocDisclaimerController;
 use App\Http\Controllers\ProbabilityToCloseController;
 use App\Http\Controllers\SelectTypeCategoryController;
 use App\Http\Controllers\SpecialAccountTypeController;
+use App\Http\Controllers\QuoteStageDashboardController;
 use App\Http\Controllers\TransactionStartingController;
 use App\Http\Controllers\SupplierReturnStatusController;
 use App\Http\Controllers\CustomerContactTitleController;
@@ -420,4 +425,17 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/services/upload', [ServiceController::class, 'serviceUploadImage'])->name('services.upload');
 
     Route::view('lists', 'lists.home')->name('lists');
+
+    Route::resource('visit_calendars', VisitCalendarController::class);
+
+    Route::resource('quote_stages_dashboard', QuoteStageDashboardController::class);
+
+    Route::get('/follow_ups', [FollowUpController::class, 'index'])->name('follow_ups.index');
+
+    Route::resource('event_calendars', EventCalendarController::class);
+
+    Route::resource('my_events', MyEventController::class);
+    Route::get('/my_event/list', [MyEventController::class, 'getMyEventDataTableList'])->name('my_events.list');
+    Route::post('/set_as_complete/{id}', [MyEventController::class, 'setAsComplete'])->name('my_events.set_as_complete');
+    Route::get('/my_events/{event}', [MyEventController::class, 'show'])->name('my_event.show');
 });

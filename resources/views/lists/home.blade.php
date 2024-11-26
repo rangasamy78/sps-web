@@ -221,12 +221,12 @@
                                 <div class="d-flex justify-content-center align-items-center mt-2">
                                     <div class="col-11">
                                         <a href="{{route('expenditures.index')}}" class="text-decoration-none">
-                                            <h5 class="card-title mb-0 text-dark text-center">Vendors</h5>
+                                            <h5 class="card-title mb-0 text-dark text-center">Expenditures</h5>
                                         </a>
                                     </div>
                                     <div class="col-1">
                                         <a href="{{route('expenditures.create')}}" class="text-decoration-none">
-                                            <i class="fi fi-rr-plus text-primary ps-3" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Vendor" style="font-size: 25px;"></i>
+                                            <i class="fi fi-rr-plus text-primary ps-3" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Expenditure" style="font-size: 25px;"></i>
                                         </a>
                                     </div>
                                 </div>
