@@ -38,7 +38,7 @@ class EventRepository
 
     public function getEventList(Request $request)
     {
-        $query = Event::with('user', 'assignedTo', 'eventType', 'product');
+        $query = Event::with('user', 'assigned_user', 'event_type', 'product');
         return $query;
     }
 
@@ -67,9 +67,9 @@ class EventRepository
         $arrData->map(function ($value) {
             $value->check = '<div class="form-check"><input type="checkbox" class="form-check-input event_check" id="mark_as_complete" name="mark_as_complete" value="1" ' . ($value->mark_as_complete ? 'checked' : '') . '  data-id="' . htmlspecialchars($value->id) . '"></div>';
             $value->entered_by_id = $value->user->first_name ?? '';
-            $value->assigned_to_id = $value->assignedTo->first_name ?? '';
+            $value->assigned_to_id = $value->assigned_user->first_name ?? '';
             $value->title_description = $value->event_title . ($value->description ?? '');
-            $value->event_type_id = $value->eventType->product_type ?? '';
+            $value->event_type_id = $value->event_type->product_type ?? '';
             $scheduleDateTime = Carbon::parse($value->schedule_date . ' ' . ($value->schedule_time ?? ''))->format('Y-m-d H:i:s');
             $value->time_date = $scheduleDateTime;
             $value->product_name_price = $value->product->product_name ?? '';
