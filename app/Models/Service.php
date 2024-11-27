@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Service extends Model
@@ -59,5 +58,9 @@ class Service extends Model
     public function Service_expenditure()
     {
         return $this->belongsTo(Expenditure::class);
+    }
+    public function unit_measure()
+    {
+        return $this->belongsTo(UnitMeasure::class, 'unit_of_measure_id');
     }
 }

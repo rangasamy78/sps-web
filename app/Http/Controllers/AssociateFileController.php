@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\AssociateFile;
-use App\Repositories\AssociateFileRepository;
 use Exception;
 use Illuminate\Http\Request;
+use App\Models\AssociateFile;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use App\Repositories\AssociateFileRepository;
 
 class AssociateFileController extends Controller
 {
@@ -55,8 +55,8 @@ class AssociateFileController extends Controller
         }
     }
 
-    public function getAssociateFileDataTableList(Request $request)
+    public function getAssociateFileDataTableList(Request $request,$id)
     {
-        return $this->associateFileRepository->dataTable($request);
+        return $this->associateFileRepository->dataTable($request,$id);
     }
 }

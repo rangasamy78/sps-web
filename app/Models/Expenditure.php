@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Expenditure extends Model
 {
@@ -83,5 +82,10 @@ class Expenditure extends Model
     public function payment_method()
     {
         return $this->belongsTo(PaymentMethod::class, 'payment_method_id');
+    }
+    
+    public function expenditure()
+    {
+        return $this->belongsTo(Expenditure::class, 'vendor_id');
     }
 }

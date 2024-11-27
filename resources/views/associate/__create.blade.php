@@ -15,7 +15,7 @@
                       <div class="card-body">
                         <div class="row mb-3">
                           <div class="col">
-                            <label class="form-label" for="ecommerce-product-sku">Associate Name</label>
+                            <label class="form-label" for="ecommerce-product-sku">Associate Name <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                             <input
                               type="text"
                               class="form-control"

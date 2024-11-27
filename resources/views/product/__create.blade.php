@@ -50,7 +50,7 @@
                       <div class="card-body">
                         <div class="row mb-3">
                           <div class="col">
-                            <label class="form-label" for="Name">Name</label>
+                            <label class="form-label" for="Name">Name <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                             <input
                               type="text"
                               class="form-control"
@@ -62,7 +62,7 @@
                           </div>
                           <div class="col">
                             <label class="form-label" for="SKU">SKU
-                            </label>
+                            <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                             <input
                               type="text"
                               class="form-control"
@@ -97,7 +97,7 @@
                           </div>
                           <div class="col">
                             <label class="form-label" for="Referred By">Type / Form
-                            </label>
+                            <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                             <select class="form-select select2" name="product_type_id" id="product_type_id" data-allow-clear="true" >
                                 <option value="">--Select Type / Form--</option>
                                 @foreach($product_type as $type)
@@ -193,7 +193,7 @@
                       <div class="card-body">
                         <div class="row mb-3">
                         <div class="col">
-                            <label class="form-label" for="Units of Measure">Units of Measure</label>
+                            <label class="form-label" for="Units of Measure">Units of Measure <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                             <select class="form-select select2" name="unit_of_measure_id" id="unit_of_measure_id" data-allow-clear="true">
                                 <option value="">--Select Units of Measure--</option>
                                 @foreach($unit_measure as $unit)
@@ -275,7 +275,7 @@
                       <div class="card-body">
                         <div class="row mb-3">
                         <div class="col">
-                            <label class="form-label" for="GL Inventory Link Account">GL Inventory Link Account</label>
+                            <label class="form-label" for="GL Inventory Link Account">GL Inventory Link Account <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                             <select class="form-select select2" name="gl_inventory_link_account_id" id="gl_inventory_link_account_id" data-allow-clear="true">
                                 <option value="">--Select GL Inventory Link Account--</option>
                                 @foreach($inventories as $key => $inventory)
@@ -285,7 +285,7 @@
                               <span class="text-danger error-text gl_inventory_link_account_id_error"></span>
                           </div>
                           <div class="col">
-                            <label class="form-label" for="GL Income Account">GL Income Account</label>
+                            <label class="form-label" for="GL Income Account">GL Income Account <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                             <select class="form-select select2" name="gl_income_account_id" id="gl_income_account_id" data-allow-clear="true">
                                 <option value="">--Select GL Income Account--</option>
                                 @foreach($sales as $key => $sale)
@@ -296,7 +296,7 @@
                           </div>
                           <div class="col">
                             <label class="form-label" for="GL Cost Of Goods Sold Account">GL Cost Of Goods Sold Account
-                            </label>
+                            <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                             <select class="form-select select2" name="gl_cogs_account_id" id="gl_cogs_account_id" data-allow-clear="true">
                                 <option value="">--Select GL Cost Of Goods Sold Account--</option>
                                 @foreach($cogs as $key => $cog)
@@ -607,7 +607,7 @@
                       </div>
                       <div class="card-body">
                         <div class="mb-3">
-                          <label class="form-label" for="Homeowner Price">Homeowner Price($)</label>
+                          <label class="form-label" for="Homeowner Price">Homeowner Price($) <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                           <input
                             type="text"
                             class="form-control"

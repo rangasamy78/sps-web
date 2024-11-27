@@ -2,26 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Product\CreateProductRequest;
-use App\Http\Requests\Product\FileProductRequest;
-use App\Http\Requests\Product\UpdateProductRequest;
+use Exception;
 use App\Models\Country;
 use App\Models\Product;
-use App\Models\ProductCategory;
-use App\Models\ProductColor;
-use App\Models\ProductFinish;
-use App\Models\ProductGroup;
-use App\Models\ProductKind;
-use App\Models\ProductPriceRange;
-use App\Models\ProductSubCategory;
-use App\Models\ProductThickness;
-use App\Models\ProductType;
 use App\Models\Supplier;
+use App\Models\ProductKind;
+use App\Models\ProductType;
+use App\Models\ProductColor;
 use App\Models\UnitMeasure;
-use App\Repositories\DropDownRepository;
+use App\Models\ProductGroup;
+use App\Models\ProductFinish;
+use App\Models\ProductCategory;
+use App\Models\ProductPriceRange;
+use App\Models\ProductThickness;
+use App\Models\ProductSubCategory;
 use App\Repositories\ProductRepository;
-use Exception;
+use App\Repositories\DropDownRepository;
 use Illuminate\Http\Request;use Illuminate\Support\Facades\Log;
+use App\Http\Requests\Product\{CreateProductRequest, FileProductRequest,UpdateProductRequest};
 
 class ProductController extends Controller
 {
@@ -233,7 +231,6 @@ class ProductController extends Controller
     {
 
         try {
-            // Get the product data and price data from the request
             $data = [
                 'productData' => $request->only(
                     'product_name', 'product_sku', 'product_kind_id', 'product_alternate_name', 'product_type_id',
@@ -262,7 +259,6 @@ class ProductController extends Controller
                 ),
             ];
 
-            // Update boolean flags
             $data['productData']['indivisible']  = $request->has('indivisible') ? 1 : 0;
             $data['productData']['manufactured'] = $request->has('manufactured') ? 1 : 0;
             $data['productData']['generic']      = $request->has('generic') ? 1 : 0;
@@ -272,25 +268,19 @@ class ProductController extends Controller
             $data['productData']['hide_on_website_or_guest_book'] = $request->has('hide_on_website_or_guest_book') ? 1 : 0;
             $data['productData']['is_featured']                   = $request->has('is_featured') ? 1 : 0;
 
-            // Handle the image upload if a file is present
             $imagePath = null;
             if ($request->hasFile('image')) {
                 $image     = $request->file('image');
-                $imagePath = $image->store('storage/app/public/', 'public'); // Save the image in the 'public' disk
+                $imagePath = $image->store('storage/app/public/', 'public');
             }
 
-            // If an image was uploaded, add its path to the product data
             if ($imagePath) {
                 $data['productData']['image'] = $imagePath;
             }
 
-            // Update the product using the repository
             $this->productRepository->update($data, $product->id);
-
-            // Return success response
             return response()->json(['status' => 'success', 'msg' => 'Product updated successfully.']);
         } catch (Exception $e) {
-            // Log the error and return a failure response
             Log::error('Error updating product: ' . $e->getMessage());
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the product.']);
         }
@@ -387,27 +377,20 @@ class ProductController extends Controller
             'product_type', 'product_category', 'product_sub_category',
             'product_group', 'country', 'product_price', 'product_kind'
         );
-    
-        // Apply filters (as in your original code)
+
         if (!empty($request->price_range)) {
             $query->whereHas('product_price', function ($q) use ($request) {
                 $q->whereIn('price_range_id', (array)$request->price_range);
             });
         }
-    
-        // Other filters go here...
-    
+
         $products = $query->paginate(15);
-    
-        // Return only the table rows for AJAX request
+
         if ($request->ajax()) {
             return view('product.partials.product_rows', compact('products'))->render();
         }
-    
-        // For non-AJAX requests, return the full view
         return view('product.product_search', compact('products'));
     }
-    
 
     public function stockProduct()
     {
