@@ -16,11 +16,11 @@ class Event extends Model
     {
         return $this->belongsTo(User::class, 'entered_by_id');
     }
-    public function assignedTo()
+    public function assigned_user()
     {
         return $this->belongsTo(User::class, 'assigned_to_id');
     }
-    public function eventType()
+    public function event_type()
     {
         return $this->belongsTo(EventType::class, 'event_type_id');
     }
