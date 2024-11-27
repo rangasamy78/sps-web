@@ -496,6 +496,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/set_as_complete/{id}', [MyEventController::class, 'setAsComplete'])->name('my_events.set_as_complete');
     Route::get('/my_events/{event}', [MyEventController::class, 'show'])->name('my_event.show');
 
+    Route::resource('vendor_pos', VendorPoController::class);
+    Route::get('/vendor_po/list', [VendorPoController::class, 'getVendorPoDataTableList'])->name('vendor_pos.list');
+    Route::get('/fetch_service_details', [VendorPoController::class, 'FetchServiceData'])->name('fetch_service_details');
+    Route::get('/fetch_vendor_details/{id}', [VendorPoController::class, 'FetchVendorData'])->name('fetch_vendor_details');
+    Route::get('/vendor_po/details/{id}', [VendorPoController::class, 'getVendorPoDetails'])->name('vendor_pos.details');
+    Route::get('/vendor_po/po_details', [VendorPoController::class, 'FetchVendorPoDetails'])->name('vendor_pos.po_details');
     Route::resource('vendor_po_files', VendorPoFileController::class);
     Route::get('/vendor_po_file/list/{id}', [VendorPoFileController::class, 'getVendorPoFileDataTableList'])->name('vendor_po_files.list');
     Route::get('/vendor_po/pre_payment/{id}', [VendorPoController::class, 'prePayment'])->name('vendor_pos.pre_payment');

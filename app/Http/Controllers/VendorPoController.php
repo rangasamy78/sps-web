@@ -16,7 +16,7 @@ use App\Models\AccountPaymentTerm;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Repositories\VendorPoRepository;
-use App\Http\Requests\Product\{CreateNewBillRequest, CreatePrepaymentRequest,CreateVendorPoRequest};
+use App\Http\Requests\VendorPo\{CreateNewBillRequest, CreatePrepaymentRequest,CreateVendorPoRequest};
 
 class VendorPoController extends Controller
 {
@@ -51,17 +51,17 @@ class VendorPoController extends Controller
      */
     public function store(CreateVendorPoRequest $request)
     {
-        DB::beginTransaction(); 
+        DB::beginTransaction();
         try {
             $vendorPo = $this->vendorPoRepository->store($request->only(
                 'transaction_number', 'vendor_id', 'location_id', 'transaction_date',
                 'eta_date', 'payment_term_id', 'address', 'address2', 'city', 'state',
                 'zip', 'country_id', 'phone', 'fax', 'email', 'extended_total', 'printed_notes', 'internal_notes', 'vendor_po_terms_id'
             ));
-                      
+
             $items = $request->input('items', []);
             foreach ($items as $item) {
-                if (!empty($item['service'])) { 
+                if (!empty($item['service'])) {
                     VendorPoDetails::create([
                         'vendor_po_id'   => $vendorPo->id,
                         'service'        => $item['service_id'],
@@ -133,7 +133,7 @@ class VendorPoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, VendorPo $vendorPo)
-    {      
+    {
         DB::beginTransaction();
 
         try {
@@ -145,7 +145,7 @@ class VendorPoController extends Controller
             ), $vendorPo->id);
 
             $vendorPoDetail = DB::table('vendor_po_details')->where('vendor_po_id', $vendorPo->id)->first();
-          
+
             if ($vendorPoDetail) {
                 $deleted = DB::table('vendor_po_details')->where('vendor_po_id', $vendorPo->id)->delete();
             }
@@ -170,11 +170,11 @@ class VendorPoController extends Controller
                 }
             }
 
-            DB::commit(); 
+            DB::commit();
             return response()->json(['id' => $vendorPo->id, 'status' => 'success', 'msg' => 'Vendor PO updated successfully.']);
 
         } catch (Exception $e) {
-            DB::rollBack(); 
+            DB::rollBack();
             Log::error('Error updating vendor PO: ' . $e->getMessage());
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the vendor PO.']);
         }
@@ -338,14 +338,14 @@ class VendorPoController extends Controller
                 'updated_at',
             ]);
             $bill = $this->vendorPoRepository->storenewBill($data);
-            $billDetails = $request->input('bill_details'); 
+            $billDetails = $request->input('bill_details');
 
             if ($billDetails && is_array($billDetails)) {
                 foreach ($billDetails as $detail) {
                     $detailData = [
                         'bill_check'        => $detail['bill_check'] ?? null,
                         'vendor_po_id'      => $detail['vendor_po_id'] ?? null,
-                        'vendor_po_bill_id' => $bill->id, 
+                        'vendor_po_bill_id' => $bill->id,
                         'account_id' => $detail['account_id'] ?? null,
                         'location_id'       => $detail['location_id'] ?? null,
                         'service'           => $detail['service'] ?? null,
