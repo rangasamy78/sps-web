@@ -63,4 +63,8 @@ class Service extends Model
     {
         return $this->belongsTo(UnitMeasure::class, 'unit_of_measure_id');
     }
+    public function visit_service()
+    {
+        return $this->hasMany(VisitService::class, 'service_id');
+    }
 }

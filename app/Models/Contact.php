@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 class Contact extends Model
 {
     use HasFactory;
@@ -46,5 +47,8 @@ class Contact extends Model
         return $query->where('type_id', $typeId)
             ->where('type', $type);
     }
-
+    public function opportunityConatct()
+    {
+        return $this->hasMany(OpportunityContact::class, 'contact_id');
+    }
 }

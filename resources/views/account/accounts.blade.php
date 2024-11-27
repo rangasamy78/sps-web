@@ -60,7 +60,7 @@
             <div class="row">
               <!-- Options -->
               <div class="col-12">
-                <div class="tab-content p-0 pe-md-5  ">
+                <div class="tab-content p-0 pe-md-5">
                   @include('account.all_account_list.all_account_lists')
                   @include('account.in_active_account.in_active_accounts')
                   @include('account.trial_balance.trial_balances')

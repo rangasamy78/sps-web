@@ -100,3 +100,8 @@
 .lblPeriod {
     background-color: #e6e6e696 !important;
 }
+
+/* textarea style */
+textarea {
+    resize: none;
+}

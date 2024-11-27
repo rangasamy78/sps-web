@@ -11,8 +11,8 @@ trait ImageUploadTrait
      * Handle image upload and save it to a specified folder.
      *
      * @param \Illuminate\Http\UploadedFile $image
-     * @param string $folder
      * @param string $disk
+     * @param string $folder
      * @return string|null
      */
     public function uploadImage(UploadedFile $image, $folder, $disk = 'public')

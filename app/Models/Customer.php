@@ -150,8 +150,14 @@ class Customer extends Model
     {
         return $this->belongsTo(AccountPaymentTerm::class, 'payment_terms_id', 'id');
     }
+
     public function sales_tax()
     {
         return $this->belongsTo(Account::class, 'sales_tax_id', 'id');
+    }
+
+    public function opportunity()
+    {
+        return $this->hasMany(Opportunity::class, 'billing_customer_id', 'id');
     }
 }

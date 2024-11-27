@@ -20,13 +20,16 @@ class PriceListLabel extends Model
         'sales_person_commission',
     ];
     public function priceListCustomerType()
-{
-    return $this->hasMany(PriceListLabelCustomerType::class);
-}
+    {
+        return $this->hasMany(PriceListLabelCustomerType::class);
+    }
 
-public function priceListLocation()
-{
-    return $this->hasMany(PriceListLabelLocation::class);
-}
-    
+    public function priceListLocation()
+    {
+        return $this->hasMany(PriceListLabelLocation::class);
+    }
+    public function opportunity()
+    {
+        return $this->hasMany(Opportunity::class, 'price_level_label_id');
+    }
 }

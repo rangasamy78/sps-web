@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VisitController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\CountyController;
 use App\Http\Controllers\AccountController;
@@ -25,6 +26,7 @@ use App\Http\Controllers\EventTypeController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\SubHeadingController;
 use App\Http\Controllers\VendorTypeController;
+use App\Http\Controllers\OpportunityController;
 use App\Http\Controllers\AccountFileController;
 use App\Http\Controllers\AccountTypeController;
 use App\Http\Controllers\ConsignmentController;
@@ -97,13 +99,16 @@ use App\Http\Controllers\PrePurchaseRequestEventController;
 use App\Http\Controllers\PrePurchaseResponseTermController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\PrePurchaseRequestProductController;
+use App\Http\Controllers\Opportunity\OpportunityFileController;
 use App\Http\Controllers\AccountReceivableAgingPeriodController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
 use App\Http\Controllers\PrePurchaseRequestSupplierRequestController;
-use App\Http\Controllers\Customer\ContactController as CustomerContactController;
 use App\Http\Controllers\Supplier\ContactController as SupplierContactController;
+use App\Http\Controllers\Customer\ContactController as CustomerContactController;
 use App\Http\Controllers\Associate\ContactController as AssociateContactController;
+use App\Http\Controllers\Opportunity\EventController as OpportunityEventController;
 use App\Http\Controllers\Expenditure\ContactController as ExpenditureContactController;
+use App\Http\Controllers\Opportunity\ContactController as OpportunityContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -343,6 +348,8 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/upload-image', [CustomerController::class, 'customerUploadImage'])->name('upload');
         Route::get('/contacts/list/{type_id}', [CustomerContactController::class, 'getContactDataTableList'])->name('contacts.list');
         Route::post('/contacts/save', [CustomerContactController::class, 'contactSave'])->name('contacts.save');
+        Route::get('/contacts/edit/{id}', [CustomerContactController::class, 'contactEdit'])->name('contacts.edit');
+        Route::put('/contacts/update/{id}', [CustomerContactController::class, 'contactUpdate'])->name('contacts.update');
         Route::post('/update/status/{id}', [CustomerController::class, 'updateStatus'])->name('update_status');
     });
 
@@ -530,4 +537,41 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/purchase_order/purchase_details/{id}', [PurchaseOrderController::class, 'deletePoDetails'])->name('deletePo');
     Route::get('/fetch_product_po_details/{id}', [PurchaseOrderController::class, 'FetchProductPoData'])->name('fetch_product_po_details');
     Route::get('/fetch_po_products/{id}', [PurchaseOrderController::class, 'FetchPoproductDetails'])->name('fetch_po_products');
+    //OPPORTUNITY , VISIT AND HOME PAGE
+    Route::view('/pre_sales', 'pre_sales.home')->name('pre_sales');
+    Route::view('/purchases', 'purchases.home')->name('purchases');
+    Route::resource('opportunities', OpportunityController::class);
+    Route::get('/opportunity/list', [OpportunityController::class, 'getOpportunityDataTableList'])->name('opportunities.list');
+    Route::get('/opportunity/ship_to_list/{id}', [OpportunityController::class, 'getAllShipToDataTableList'])->name('opportunities.ship_to_list');
+    Route::get('/opportunity/customer_list', [OpportunityController::class, 'getAllCustomerDataTableList'])->name('opportunities.customer_list');
+    Route::get('/opportunity/associate_list', [OpportunityController::class, 'getAllAssociateDataTableList'])->name('opportunities.associate_list');
+    Route::patch('/opportunity/internal_notes/{id}', [OpportunityController::class, 'updateInternalNotes'])->name('opportunities.internal_notes');
+    Route::patch('/opportunity/probability_close/{id}', [OpportunityController::class, 'updateProbabilityClose'])->name('opportunities.probability_close');
+    Route::patch('/opportunity/stages/{id}', [OpportunityController::class, 'updateStages'])->name('opportunities.stages');
+    Route::prefix('opportunities')->name('opportunities.')->group(function () {
+        Route::post('/contact/save', [OpportunityContactController::class, 'save'])->name('contact.save');
+        Route::get('/contact/list/{id}', [OpportunityContactController::class, 'getOpportunityContactDataTableList'])->name('contacts.list');
+        Route::delete('/contacts/{id}/delete', [OpportunityContactController::class, 'destroy'])->name('contacts.destroy');
+        Route::get('/bill_to_contact/list/{id}', [OpportunityContactController::class, 'getOpportunityBillToContactDataTableList'])->name('bill_to_contacts.list');
+        Route::delete('/bill_to_contact/{id}/delete', [OpportunityContactController::class, 'billTodestroy'])->name('bill_to_contacts.destroy');
+    });
+    Route::resource('opportunity_files', OpportunityFileController::class);
+    Route::get('/opportunity_file/list/{id}', [OpportunityFileController::class, 'getOpportunityFileDataTableList'])->name('opportunity_files.list');
+    Route::prefix('events')->group(function () {
+        Route::resource('events', OpportunityEventController::class);
+        Route::get('/event/list', [OpportunityEventController::class, 'getEventDataTableList'])->name('events.list');
+        Route::get('/product_list', [OpportunityEventController::class, 'getAllProductDataTableList'])->name('events.product_list');
+    });
+    Route::resource('visits', VisitController::class);
+    Route::get('/visit/list/{id}', [VisitController::class, 'getVisitProductDataTableList'])->name('visits.list');
+    Route::get('/visit/show_add_product/{id}', [VisitController::class, 'showAddProduct'])->name('visits.show_add_product');
+    Route::get('/visit/search_product', [VisitController::class, 'searchProduct'])->name('visits.search_product');
+    Route::get('/get-product', [VisitController::class, 'getProduct'])->name('visits.get_product');
+    Route::get('/get-product-price', [VisitController::class, 'getProductPrice'])->name('visits.get_product_price');
+    Route::post('/save_visit_product', [VisitController::class, 'saveVisitProduct'])->name('visits.save_visit_product');
+    Route::get('/edit_visit_product/{id}', [VisitController::class, 'editVisitProduct'])->name('visits.edit_visit_product');
+    Route::put('/update_visit_product/{id}', [VisitController::class, 'updateVisitProduct'])->name('visits.update_visit_product');
+    Route::delete('/delete_visit_product/{id}', [VisitController::class, 'deleteVisitProduct'])->name('visits.delete_visit_product');
+    Route::get('/visit/opportunity_detail/{id}', [VisitController::class, 'getOpportunityDetail'])->name('visits.opportunity_detail');
+    //END OPPORTUNITY , VISIT AND HOME PAGE
 });
