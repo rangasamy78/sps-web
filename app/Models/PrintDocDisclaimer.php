@@ -22,7 +22,9 @@ class PrintDocDisclaimer extends Model
         'select_type_sub_category_id',
         'policy',
     ];
-    
+
+    const PRE_PURCHASE_TERMS = "Pre Purchase Terms";
+
     public function select_type_category()
     {
         return $this->belongsTo(SelectTypeCategory::class);
@@ -31,7 +33,7 @@ class PrintDocDisclaimer extends Model
     public function select_type_sub_category()
     {
         return $this->belongsTo(SelectTypeSubCategory::class);
-    }   
-   
+    }
+
 }
 

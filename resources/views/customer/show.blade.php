@@ -86,6 +86,22 @@
                                         @if($customer->delivery_instructions)
                                         <p class="mb-1"><span class="text-dark fw-bold">Parent Location </span>:</p>
                                         <p class="mb-1">{{ $customer->parent_location->company_name ?? '' }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-2">
+                                    <form id="showCustomerForm" name="showCustomerForm" class="form-horizontal" enctype="multipart/form-data">
+                                        <input type="hidden" class="form-control" id="id" name="id" value="{{ $customer->id }}">
+                                        <input type="file" class="form-control" id="customer_image" name="customer_image">
+                                        @if(!empty($customer->customer_image))
+                                            {{-- <img id="previewImage" class="previewImage" src="{{ asset('storage/app/public/'.$customer->customer_image)}}" alt="Image Preview" width="100" height="100" style="margin-top: 15px;border: 1px solid;border-radius: 50px;margin-left: 38px;"> --}}
+                                            <img id="previewImage" class="img-fluid rounded mb-4 previewImage" src="{{ asset('storage/app/public/'.$customer->customer_image)}}" height="150" width="150" alt="User avatar" style="margin-top: 10px;margin-left: 20px;">
+                                            @else
+                                            <img id="previewImage" class="img-fluid rounded mb-4 previewImage" src="{{ asset('public/assets/img/branding/location-logo.png')}}" height="150" width="150" alt="User avatar" style="margin-top: 10px;margin-left: 20px;">
+                                            {{-- <img id="previewImage" class="previewImage" src="" alt="Image Preview" width="100" height="100" style="display:none; margin-top: 15px;border: 1px solid;border-radius: 50px;margin-left: 38px;"> --}}
                                         @endif
                                     </div>
                                     <div class="col-4">

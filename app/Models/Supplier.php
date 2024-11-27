@@ -88,4 +88,9 @@ class Supplier extends Model
     {
         return $this->belongsTo(SupplierPort::class, 'supplier_port_id');
     }
+    public function remit_country()
+    {
+        return $this->belongsTo(Country::class, 'remit_country_id');
+    }
+
 }

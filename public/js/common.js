@@ -41,6 +41,32 @@ function handleAjaxError(xhr, operationType, modelName) {
     // showError(errorTitle, errorMessage);
 }
 
+function handleArrayAjaxError(xhr, operationType, modelName) {
+    var res = xhr.responseJSON;
+    if ($.isEmptyObject(res) === false) {
+        $.each(res.errors, function(prefix, val) {
+            if (prefix.includes('.')) {
+                let modifiedFieldName = prefix.split('.').join('_');
+                console.log('span.' + modifiedFieldName + '_error');
+                $('span.' + modifiedFieldName + '_error').text(val[0]);
+            } else {
+                $('span.' + prefix + '_error').text(val[0]);
+            }
+        });
+    }
+
+    // Determine operation type and update UI accordingly
+    if (operationType === 'create') {
+        $('#savedata').html('Save '+ modelName);
+    } else if (operationType === 'update') {
+        $('#savedata').html('Update '+ modelName);
+    }
+
+    // var errorMessage = xhr.responseJSON.msg || 'An error occurred.';
+    // var errorTitle = type === 'POST' ? 'Created!' : 'Updated!';
+    // showError(errorTitle, errorMessage);
+}
+
 function confirmDelete(id, callback) {
     Swal.fire({
         title: 'Are you sure?',
@@ -144,4 +170,13 @@ function getRedirectUrl(id) {
     var redirectUrl = currentUrl.replace(/\/\d+$/, '');
     redirectUrl += '/' + id;
     return redirectUrl;
+}
+
+function setFormattedDateInput(selector) {
+    var today = new Date();
+    var formattedDate = today.getFullYear() + '-' +
+    ('0' + (today.getMonth() + 1)).slice(-2) + '-' +
+    ('0' + today.getDate()).slice(-2);
+    $(selector).val(formattedDate);
+    // $(selector).attr('min', formattedDate).val(formattedDate);
 }

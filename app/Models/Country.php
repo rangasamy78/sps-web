@@ -25,6 +25,8 @@ class Country extends Model
        'country_name','country_code','lead_time'
    ];
 
+   const UNITED_STATES = "United States";
+
    protected function countryName(): Attribute
    {
        return Attribute::make(

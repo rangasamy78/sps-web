@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use App\Models\EventType;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Route;
@@ -73,5 +74,21 @@ if (!function_exists('define_companies_routes')) {
             Route::post('/{id}/update', [CompanyController::class, 'update'])->name('update');
             Route::get('/{id}/show', [CompanyController::class, 'show'])->name('show');
         });
+    }
+}
+
+if (!function_exists('toDbDateDisplay')) {
+    function toDbDateDisplay($date)
+    {
+        $result = !empty($date) ? Carbon::parse($date)->format('M d, Y') : '';
+        return $result;
+    }
+}
+
+if (!function_exists('toDbDateTimeDisplay')) {
+    function toDbDateTimeDisplay($date)
+    {
+        $result = !empty($date) ? Carbon::parse($date)->format('M d Y h:i A') : '';
+        return $result;
     }
 }

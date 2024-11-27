@@ -48,7 +48,7 @@
                 {
                     data: 'logo',
                     render: function(data, type, row) {
-                        var imageUrl = '{{ asset("storage/app/public/images/") }}/' + data;
+                        var imageUrl = '{{ asset("storage/app/public/") }}/' + data;
                         return '<img src="' + imageUrl + '" width="50px" height="50px" class="img-thumbnail rounded-circle">';
                     }
                 },
@@ -122,7 +122,7 @@
                     if (response.status == "success") {
                         $('#addCompanyForm').trigger("reset");
                         $('#companyModel').modal('hide');
-                        let storagePath = `{{ asset('storage/app/public/images/') }}`;
+                        let storagePath = `{{ asset('storage/app/public/') }}`;
                         let defaultPath = `{{ asset('public/assets/img/branding/location-logo.png') }}`;
                         let logoUrl = response.company_logo ? `${storagePath}/${response.company_logo}` : defaultPath;
                         setImageSource('.app-brand .logo-container img', logoUrl, defaultPath);
@@ -154,6 +154,7 @@
         });
 
         function populateEditForm(data) {
+            let defaultPath = `{{ asset('public/assets/img/branding/location-logo.png') }}`;
             const form = $('#editCompanyModel');
             form.find('#modelHeading').html("Edit Company");
             form.find('#savedata').val("edit-Company").html("Update Company");
@@ -169,7 +170,7 @@
             form.find('#phone_2').val(data.phone_2);
             form.find('#website').val(data.website);
             form.find('#is_bin_pre_defined').prop('checked', data.is_bin_pre_defined);
-            let logoUrl = data.logo ? `{{ asset('storage/app/public/images/') }}/${data.logo}` : '{{ asset('public / assets / img / branding / location - logo.png ') }}';
+            let logoUrl = data.logo ? `{{ asset('storage/app/public/') }}/${data.logo}` : defaultPath;
             form.find('#imagePreview #previewImage').attr('src', logoUrl).show();
         }
 
@@ -190,7 +191,7 @@
                     if (response.status == "success") {
                         $('#editCompanyForm').trigger("reset");
                         $('#editCompanyModel').modal('hide');
-                        let storagePath = `{{ asset('storage/app/public/images/') }}`;
+                        let storagePath = `{{ asset('storage/app/public/') }}`;
                         let defaultPath = `{{ asset('public/assets/img/branding/location-logo.png') }}`;
                         let logoUrl = response.company_logo ? `${storagePath}/${response.company_logo}` : defaultPath;
                         setImageSource('.app-brand .logo-container img', logoUrl, defaultPath);
@@ -240,6 +241,7 @@
         $('body').on('click', '.showbtn', function() {
             var id = $(this).data('id');
             $.get("{{ route('companies.index') }}" + '/' + id + '/show', function(data) {
+                let defaultPath = `{{ asset('public/assets/img/branding/location-logo.png') }}`;
                 $('#showCompanyForm #modelHeading').html("Show Company");
                 $('#showCompanyForm #savedata').val("show-Company");
                 $('#showCompanyModel').modal('show');
@@ -254,7 +256,7 @@
                 $('#showCompanyForm #phone_2').val(data.phone_2);
                 $('#showCompanyForm #website').val(data.website);
                 $('#showCompanyForm #is_bin_pre_defined').prop('checked', data.is_bin_pre_defined);
-                let logoUrl = data.logo ? `{{ asset('storage/app/public/images/') }}/${data.logo}` : '{{ asset('public / assets / img / branding / location - logo.png ') }}';
+                let logoUrl = data.logo ? `{{ asset('storage/app/public/') }}/${data.logo}` : defaultPath;
                 $("#showCompanyForm #imagePreview #previewImage").attr('src', logoUrl).show();
             });
         });
