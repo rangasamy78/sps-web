@@ -15,7 +15,7 @@ use App\Models\AccountPaymentTerm;
 use App\Models\PurchaseOrderProduct;
 use App\Repositories\PurchaseOrderRepository;
 use Illuminate\Support\Facades\Log;use Illuminate\Support\Facades\Validator;
-use App\Http\Requests\Product\{SupplierInvoiceRequest, CreatePurchaseOrderRequest,UpdatePurchaseOrderRequest};
+use App\Http\Requests\PurchaseOrder\{SupplierInvoiceRequest, CreatePurchaseOrderRequest,UpdatePurchaseOrderRequest};
 
 class PurchaseOrderController extends Controller
 {
@@ -40,11 +40,11 @@ class PurchaseOrderController extends Controller
 
     public function PurchaseOrderPo(Request $request)
     {
-        
+
         $validator = Validator::make($request->all(), [
-            'quantity' => 'required|numeric|min:1', 
+            'quantity' => 'required|numeric|min:1',
             'unit_price' => 'required|numeric|min:0.01',
-            'extended' => 'required|numeric|min:0.01', 
+            'extended' => 'required|numeric|min:0.01',
         ], [
             'quantity.required'   => 'The quantity field is required.',
             'quantity.numeric'    => 'The quantity must be a valid number.',
@@ -59,7 +59,7 @@ class PurchaseOrderController extends Controller
             'extended.min'        => 'The extended price must be at least 0.01.',
         ]);
 
-       
+
         if ($validator->fails()) {
             return response()->json([
                 'status' => 'false',
@@ -69,7 +69,7 @@ class PurchaseOrderController extends Controller
         }
 
         try {
-           
+
             $purchasePo = $this->purchaseOrderRepository->storeProductPo($request->only(
                 'po_id',
                 'product_id',
@@ -87,10 +87,10 @@ class PurchaseOrderController extends Controller
                 'extended',
             ));
 
-            
-            $subtotal = $this->purchaseOrderRepository->calculateSubtotal($request->po_id); 
-            $total    = $this->purchaseOrderRepository->calculateSubtotal($request->po_id); 
-          
+
+            $subtotal = $this->purchaseOrderRepository->calculateSubtotal($request->po_id);
+            $total    = $this->purchaseOrderRepository->calculateSubtotal($request->po_id);
+
             return response()->json([
                 'status'   => 'success',
                 'msg'      => 'Purchase Order saved successfully.',
@@ -107,7 +107,7 @@ class PurchaseOrderController extends Controller
                 'total'    => $total,
             ]);
         } catch (Exception $e) {
-            
+
             Log::error('Error saving Purchase Order: ' . $e->getMessage());
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Purchase Order.']);
         }
@@ -175,7 +175,7 @@ class PurchaseOrderController extends Controller
 
     public function PurchaseOrderPoUpdate(Request $request)
     {
-      
+
         $validator = Validator::make($request->all(), [
             'edit_id'    => 'nullable|integer|exists:purchase_order_products,id',
             'quantity'   => 'required|numeric|min:1',
@@ -193,7 +193,7 @@ class PurchaseOrderController extends Controller
             'extended.numeric'    => 'The extended price must be a valid number.',
             'extended.min'        => 'The extended price must be at least 0.01.',
         ]);
-       
+
         if ($validator->fails()) {
             return response()->json([
                 'status' => 'false',
@@ -221,7 +221,7 @@ class PurchaseOrderController extends Controller
             );
 
             if ($request->has('edit_id')) {
-                
+
                 $purchasePo = $this->purchaseOrderRepository->updateProductPo($data, $request->edit_id);
 
                 if (!$purchasePo) {
@@ -233,9 +233,9 @@ class PurchaseOrderController extends Controller
 
                 $message = 'Purchase Order updated successfully.';
             }
-          
+
             $subtotal = $this->purchaseOrderRepository->calculateSubtotal($request->po_id);
-            $total    = $this->purchaseOrderRepository->calculateSubtotal($request->po_id);          
+            $total    = $this->purchaseOrderRepository->calculateSubtotal($request->po_id);
             return response()->json([
                 'status'   => 'success',
                 'msg'      => $message,
@@ -470,7 +470,7 @@ class PurchaseOrderController extends Controller
                 'total'));
             return response()->json(['id' => $supplierInv->id, 'status' => 'success', 'msg' => 'Supplier Invoice saved successfully.']);
         } catch (Exception $e) {
-            
+
             Log::error('Error saving Supplier Invoice: ' . $e->getMessage());
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Supplier Invoice.']);
         }
@@ -538,6 +538,6 @@ class PurchaseOrderController extends Controller
         }
     }
 
- 
+
 
 }
