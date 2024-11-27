@@ -20,31 +20,7 @@
               <li class="nav-item me-3">
                 <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#allAccount">
                   <i class="bx bx-wallet me-sm-1"></i>
-                  <span class="align-middle">All Account</span>
-                </button>
-              </li>
-              <li class="nav-item me-3">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#newAddcount">
-                  <i class="bx bx-plus me-sm-1"></i>
-                  <span class="align-middle">New Account</span>
-                </button>
-              </li>
-              <li class="nav-item me-3">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#allTrialBalance">
-                  <i class="bx bx-receipt me-2"></i>
-                  <span class="align-middle">Trial Balance</span>
-                </button>
-              </li>
-              <li class="nav-item me-3">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#allTrialBalanceByLocation">
-                  <i class="bx bx-map me-2"></i>
-                  <span class="align-middle">Trial Balance-By Location</span>
-                </button>
-              </li>
-              <li class="nav-item me-3">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#inActiveTab">
-                  <i class="bx bx-x me-2"></i>
-                  <span class="align-middle">In Active Account</span>
+                  <span class="align-middle">All Opportunity</span>
                 </button>
               </li>
             </ul>
