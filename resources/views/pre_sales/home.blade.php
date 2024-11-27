@@ -289,7 +289,7 @@
                                         <a href="{{ route('visit_calendars.index') }}" class="text-decoration-none flex-grow-1 ps-4">
                                             <h6 class="card-title mb-0 text-dark text-center">Visit Calendar</h6>
                                         </a>
-                                        <a href="{{ route('visit_calendars.create') }}" class="text-primary">
+                                        <a href="#" class="text-primary">
                                             <i class="fi fi-rr-plus fs-4" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Calendar" style="font-size: 25px;"></i>
                                         </a>
                                     </div>
@@ -324,7 +324,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="d-flex align-items-center border-dark mb-1 p-1 border-bottom">
-                                        <a href="{{ route('batch_quotes_close.index') }}" class="text-decoration-none flex-grow-1 ps-4">
+                                        <a href="#" class="text-decoration-none flex-grow-1 ps-4">
                                             <h6 class="card-title mb-0 text-dark text-center">Batch Quote Close</h6>
                                         </a>
                                     </div>
