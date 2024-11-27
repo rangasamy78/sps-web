@@ -12,24 +12,26 @@ trait ImageUploadTrait
      * Handle image upload and save it to a specified folder.
      *
      * @param \Illuminate\Http\UploadedFile $image
-     * @param string $folder
      * @param string $disk
+     * @param string $folder
      * @return string|null
      */
-    public $baseDir = 'app';
-
     public function uploadImage(UploadedFile $image, $disk = 'images', $folder = null)
     {
+        // Get the file extension
         $extension = $image->getClientOriginalExtension();
 
+        // Generate a unique filename
         $filename = time() . '_' . uniqid() . '.' . $extension;
 
-        $storagePath = $this->getStoragePath($disk, $folder);
-
-        if (!file_exists($storagePath)) {
-            mkdir($storagePath, 0755, true); // Create directory with 755 permissions
+        // Ensure the folder exists (use Storage's built-in method)
+        if ($folder) {
+            if (!Storage::disk($disk)->exists($folder)) {
+                Storage::disk($disk)->makeDirectory($folder); // Creates the folder if it doesn't exist
+            }
         }
 
+        // Store the file and return the path
         $path = $image->storeAs($folder, $filename, $disk);
 
         return $path;
@@ -47,19 +49,19 @@ trait ImageUploadTrait
         return Storage::disk($disk)->delete($path);
     }
 
+    /**
+     * Check if the image extension is allowed.
+     *
+     * @param \Illuminate\Http\UploadedFile $image
+     * @return void
+     */
     protected function checkImageExtension(UploadedFile $image)
     {
+        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif']; // Define allowed extensions
         $extension = $image->getClientOriginalExtension();
-        if (!in_array($extension, $this->allowedExtensions)) {
-            throw new InvalidArgumentException("Invalid file extension: $extension. Allowed extensions are: " . implode(', ', $this->allowedExtensions));
-        }
-    }
 
-    protected function getStoragePath($disk, $folder)
-    {
-        switch ($disk) {
-            case env("FILESYSTEM_DISK"):
-                return storage_path($this->baseDir . '/' . $disk . '/' . ($folder ? $folder . '/' : ''));
+        if (!in_array($extension, $allowedExtensions)) {
+            throw new InvalidArgumentException("Invalid file extension: $extension. Allowed extensions are: " . implode(', ', $allowedExtensions));
         }
     }
 }

@@ -6,17 +6,19 @@
     <table class="datatables-basic table tables-basic border-top table-striped" id="datatablesOpportunity">
       <thead class="table-header-bold">
         <tr>
-          <th>Sl.No</th>
-          <th>Account Number</th>
-          <th>Account Name</th>
-          <th>Alternate Number</th>
-          <th>Alternate Name</th>
-          <th>Account Type</th>
-          <th>Account Sub Type</th>
-          <th>Special Account Type</th>
-          <th>Sub Account Of</th>
-          <th>Balance</th>
-          <th>Status</th>
+          <th>Opportunity #</th>
+          <th>Date - Time</th>
+          <th>Job Name</th>
+          <th>Delivery Type</th>
+          <th>Bill To Customer</th>
+          <th>Location</th>
+          <th>End Use</th>
+          <th>Project Type</th>
+          <th width="250px">Sales Person</th>
+          <th>Associates</th>
+          <th>Days</th>
+          <th>Subtransactions</th>
+          <th>Internal Notes</th>
           <th>actions</th>
         </tr>
       </thead>

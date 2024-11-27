@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -63,7 +64,22 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Designation::class);
     }
-
+    public function opportunity()
+    {
+        return $this->hasMany(Opportunity::class, 'primary_sales_person_id');
+    }
+    public function opportunitySecondary()
+    {
+        return $this->hasMany(Opportunity::class, 'secondary_sales_person_id');
+    }
+    public function event()
+    {
+        return $this->hasMany(Event::class, 'entered_by_id');
+    }
+    public function eventAssignedTo()
+    {
+        return $this->hasMany(Event::class, 'assigned_to_id');
+    }
     public function getFullNameAttribute()
     {
         return trim($this->first_name . ' ' . $this->last_name);

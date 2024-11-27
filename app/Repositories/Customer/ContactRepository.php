@@ -14,12 +14,23 @@ class ContactRepository
     {
         $this->customerService = $customerService;
     }
+    public function findOrFail(int $id)
+    {
+        return Contact::query()
+            ->findOrFail($id);
+    }
 
     public function save(array $data)
     {
         $query = Contact::query()
             ->create($data);
         return $query->id;
+    }
+    public function update(array $data, int $id)
+    {
+        return Contact::query()
+            ->findOrFail($id)
+            ->update($data);
     }
 
     public function getContactList($request, $typeId)

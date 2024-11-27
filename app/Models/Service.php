@@ -60,4 +60,8 @@ class Service extends Model
     {
         return $this->belongsTo(Expenditure::class);
     }
+    public function visit_service()
+    {
+        return $this->hasMany(VisitService::class, 'service_id');
+    }
 }

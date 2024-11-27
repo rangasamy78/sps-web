@@ -11,19 +11,19 @@ class Company extends Model
     use HasFactory;
 
     /**
-    * The table associated with the model.
-    *
-    * @var string
-    */
-   protected $table = 'companies';
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'companies';
 
-   public const IMAGE_FOLDER = 'company';
-   /**
-   * The attributes that are mass assignable.
-   *
-   * @var array<int, string>
-   */
-   protected $fillable = [
+    public const IMAGE_FOLDER = 'company';
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
         'company_name',
         'email',
         'address_line_1',
@@ -47,5 +47,10 @@ class Company extends Model
     public function account()
     {
         return $this->hasMany(Account::class, 'account_operating_location_id');
+    }
+
+    public function opportunity()
+    {
+        return $this->hasMany(Opportunity::class, 'location_id');
     }
 }

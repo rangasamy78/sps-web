@@ -504,5 +504,19 @@
                 <div class="text-truncate" data-i18n="Lists">Lists</div>
             </a>
         </li>
+        <!-- pre sales -->
+        <li class="menu-item {{ request()->is('pre_sales*')||request()->is('products*') || request()->is('products.stock')|| request()->is('products.stock_list') || request()->is('products.price_list_product') || request()->is('products.customer_price_list_product*') || request()->is('associates*')  || request()->is('customers*') || request()->is('tax_codes*')|| request()->is('tax_authorities*') ? 'active open' : '' }}">
+            <a href="{{ route(name: 'pre_sales') }}" class="menu-link">
+                <i class="bx bx-cart menu-icon"></i>
+                <div class="text-truncate" data-i18n="Pre Sales">Pre Sales</div>
+            </a>
+        </li>
+        <!-- Purchase -->
+        <li class="menu-item {{ request()->is('purchases*')||request()->is('products*') || request()->is('products.stock')|| request()->is('products.stock_list') || request()->is('products.price_list_product') || request()->is('products.customer_price_list_product*') || request()->is('suppliers*') ? 'active open' : '' }}">
+            <a href="{{ route(name: 'purchases') }}" class="menu-link">
+                <i class="bx bx-shopping-bag menu-icon"></i>
+                <div class="text-truncate" data-i18n="Purchase">Purchase</div>
+            </a>
+        </li>
     </ul>
 </aside>

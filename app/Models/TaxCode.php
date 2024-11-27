@@ -15,10 +15,10 @@ class TaxCode extends Model
      */
     protected $table = 'tax_codes';
     /**
-    * The attributes that are mass assignable.
-    *
-    * @var array<int, string>
-    */
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'sort_order',
         'tax_code',
@@ -31,5 +31,9 @@ class TaxCode extends Model
     public function tax_code_component()
     {
         return $this->hasMany(TaxCodeComponent::class);
+    }
+    public function opportunity()
+    {
+        return $this->hasMany(Opportunity::class, 'sales_tax_id');
     }
 }

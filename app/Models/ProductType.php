@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ProductType extends Model
 {
@@ -11,10 +12,10 @@ class ProductType extends Model
     protected $table = 'product_types';
 
     /**
-    * The attributes that are mass assignable.
-    *
-    * @var array<int, string>
-    */
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'product_type',
         'indivisible',
@@ -39,4 +40,8 @@ class ProductType extends Model
         return $this->belongsTo(LinkedAccount::class, 'cogs_gl_account_id');
     }
 
+    function product()
+    {
+        return $this->HasMany(Product::class, 'product_type_id');
+    }
 }

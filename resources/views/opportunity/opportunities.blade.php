@@ -3,8 +3,7 @@
 @section('title', 'Opportunity')
 
 @section('styles')
-<style>
-</style>
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
 @endsection
 @section('content')
 <div class="content-wrapper">

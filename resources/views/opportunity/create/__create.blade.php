@@ -11,7 +11,7 @@
 @section('content')
 <div class="content-wrapper">
     <!-- Content -->
-    <form id="accountForm">
+    <form id="opportunityForm">
         <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="py-3 mb-4"><a href="{{route('opportunities.index')}}" class="text-decoration-none text-dark"><span class="text-muted fw-light">Opportunity /</span>
                     Add Opportunity</span>
@@ -27,10 +27,23 @@
                             <div class="card-body">
                                 <div class="row mb-3">
                                     <div class="col-lg-2 col-sm-4 col-md-3 pt-sm-2">
-                                        <input type="hidden" class="form-control" id="opportunity" name="opportunity">
+                                        <input type="hidden" class="form-control" id="opportunity_id" name="opportunity_id">
+                                        <input type="hidden" class="form-control" id="opportunity_code" name="opportunity_code" value="{{$count+1}}">
+                                        <input type="hidden" class="form-control" id="login_user_id" name="login_user_id" value="{{ Auth::id() }}">
                                         <label class="form-label" for="opportunity_date">Date <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                                         <input type="date" class="form-control" id="opportunity_date" name="opportunity_date" aria-label="date" />
                                         <span class="text-danger error-text opportunity_date_error"></span>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-4 col-md-3 pt-sm-2">
+                                        <label class="form-label" for="location_id">Location <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                                        <select id="location_id" name="location_id" class="select2 form-select" data-allow-clear="true">
+                                            <option value="">--select--</option>
+                                            @foreach ($data['companies'] as $company)
+                                            <option value="{{ $company->id }}">{{ $company->company_name }}</option>
+                                            @endforeach
+
+                                        </select>
+                                        <span class="text-danger error-text location_id_error"></span>
                                     </div>
                                     <div class="col-lg-2 col-sm-4 col-md-3 pt-sm-2">
                                         <label class="form-label" for="end_use_segment_id">End-use Segment</label>
@@ -50,39 +63,39 @@
                                             <option value="{{ $id }}">{{ $project_type_name}}</option>
                                             @endforeach
                                         </select>
-                                        <span class="text-danger error-text account_name_error"></span>
+                                        <span class="text-danger error-text project_type_id_error"></span>
                                     </div>
                                     <div class="col-lg-2 col-sm-4 col-md-3 pt-sm-2">
                                         <label class="form-label" for="code">Stage</label>
-                                        <select id="stage_id" name="stage_id" class="select2 form-select" data-allow-clear="true">
+                                        <select id="opportunity_stage_id" name="opportunity_stage_id" class="select2 form-select" data-allow-clear="true">
                                             <option value="">--select--</option>
                                             @foreach($data['opportunityStages'] as $id => $opportunity_stage)
                                             <option value="{{ $id }}">{{ $opportunity_stage}}</option>
                                             @endforeach
                                         </select>
-                                        <span class="text-danger error-text account_name_error"></span>
+                                        <span class="text-danger error-text stage_id_error"></span>
                                     </div>
                                     <div class="col-lg-4 col-sm-8 col-md-12 pt-sm-2">
                                         <label class="form-label" for="code">Contact Mode</label>
 
                                         <div class="d-flex align-items-center flex-wrap gap-1 p-1">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="contact_mode" id="radio1" value="option1">
+                                                <input class="form-check-input" type="radio" name="contact_mode" id="radio1" value="1">
                                                 <label class="form-check-label" for="radio1"><i class="fi fi-ss-walking fs-3"></i></label>
                                             </div>
 
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="contact_mode" id="radio2" value="option2">
+                                                <input class="form-check-input" type="radio" name="contact_mode" id="radio2" value="2">
                                                 <label class="form-check-label" for="radio2"><i class="fi fi-ss-phone-call fs-3"></i></label>
                                             </div>
 
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="contact_mode" id="radio3" value="option3">
+                                                <input class="form-check-input" type="radio" name="contact_mode" id="radio3" value="3">
                                                 <label class="form-check-label" for="radio3"><i class="fi fi-rs-fax fs-3"></i></label>
                                             </div>
 
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="contact_mode" id="radio4" value="option4">
+                                                <input class="form-check-input" type="radio" name="contact_mode" id="radio4" value="4">
                                                 <label class="form-check-label" for="radio4"><i class="fi fi-ss-envelope fs-3"></i></label>
                                             </div>
                                         </div>
@@ -108,14 +121,15 @@
                                 <div class="row mb-3">
                                     <div class="col">
                                         <label class="form-label" for="billing_customer_id">Billing Customer <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                                        <input type="hidden" class="form-control bg-label-secondary" readonly id="billing_customer_id" name="billing_customer_id" />
                                         <div class="input-group">
-                                            <input type="text" class="form-control bg-label-secondary" readonly id="billing_customer_id" name="billing_customer_id" aria-label="Biiling Customer" />
+                                            <input type="text" class="form-control bg-label-secondary" readonly id="billing_customer_name" name="billing_customer_name" aria-label="Biiling Customer" />
                                             <span class="input-group-text bg-primary" data-bs-toggle="modal"
                                                 data-bs-target="#searchCustomer">
                                                 <i class="fi fi-rr-search text-white"></i>
                                             </span>
                                         </div>
-                                        <span class="text-danger error-text account_number_error"></span>
+                                        <span class="text-danger error-text billing_customer_id_error"></span>
                                     </div>
                                     <div class="col">
                                         <label class="form-label" for="attn">Attn</label>
@@ -204,8 +218,8 @@
                                         <label class="form-label" for="primary_sales_person_id">Primary Sales Person <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                                         <select id="primary_sales_person_id" name="primary_sales_person_id" class="form-select select2" data-allow-clear="true">
                                             <option value="">--select--</option>
-                                            @foreach($data['users'] as $key => $user)
-                                            <option value="{{ $user->id }}">{{ $user->first_name }}</option>
+                                            @foreach($data['users'] as $id => $name)
+                                            <option value="{{ $id }}">{{ $name }}</option>
                                             @endforeach
                                         </select>
                                         <span class="text-danger error-text primary_sales_person_id_error"></span>
@@ -216,8 +230,8 @@
                                         <label class="form-label" for="secondary_sales_person_id">Secondary Sales Person</label>
                                         <select id="secondary_sales_person_id" name="secondary_sales_person_id" class="select2 form-select" data-allow-clear="true">
                                             <option value="">--select--</option>
-                                            @foreach($data['users'] as $key => $user)
-                                            <option value="{{ $user->id }}">{{ $user->first_name }}</option>
+                                            @foreach($data['users'] as $id => $name)
+                                            <option value="{{ $id }}">{{ $name}}</option>
                                             @endforeach
                                         </select>
                                         <span class="text-danger error-text secondary_sales_person_id_error"></span>
@@ -230,11 +244,11 @@
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-6">
-                                        <label class="form-label" for="sales_tax_id">Sales Tax <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                                        <label class="form-label" for="sales_tax_id">Sales Tax</label>
                                         <select id="sales_tax_id" name="sales_tax_id" class="select2 form-select" data-allow-clear="true">
                                             <option value="">--select--</option>
-                                            @foreach($data['salesTaxs'] as $id => $name)
-                                            <option value="{{ $id }}">{{ $name}}</option>
+                                            @foreach($data['salesTaxs'] as $id => $tax_name)
+                                            <option value="{{ $id }}">{{ $tax_name}}</option>
                                             @endforeach
                                         </select>
                                         <span class="text-danger error-text sales_tax_id_error"></span>
@@ -255,18 +269,18 @@
                                         <div class="row mb-1">
                                             <div class="mb-3 col">
                                                 <label class="form-label mb-1" for="special_instructions">Special / Delivery Instructions</label>
-                                                <textarea id="special_instructions" name="special_instructions" class="form-control" rows="2" placeholder="Enter Special / Delivery Instruction" style="resize:none"></textarea>
+                                                <textarea id="special_instructions" name="special_instructions" class="form-control" rows="3" placeholder="Enter Special / Delivery Instruction" style="resize:none"></textarea>
                                                 <span class="text-danger error-text special_instructions_error"></span>
                                             </div>
 
                                             <div class="mb-3 col-12">
                                                 <label class="form-label mb-1" for="branch_name">Internal Notes</label>
-                                                <textarea id="internal_notes" name="internal_notes" class="form-control" rows="2" placeholder="Enter Internal Notes" style="resize:none"></textarea>
+                                                <textarea id="internal_notes" name="internal_notes" class="form-control" rows="3" placeholder="Enter Internal Notes" style="resize:none"></textarea>
                                                 <span class="text-danger error-text internal_notes_error"></span>
                                             </div>
                                             <div class="mb-3 col-12">
                                                 <label class="form-label mb-1" for="printed_notes">Printed Notes</label>
-                                                <textarea id="printed_notes" name="printed_notes" class="form-control" rows="2" placeholder="Enter Printed Notes" style="resize:none"></textarea>
+                                                <textarea id="printed_notes" name="printed_notes" class="form-control" rows="3" placeholder="Enter Printed Notes" style="resize:none"></textarea>
                                                 <span class="text-danger error-text printed_notes_error"></span>
                                             </div>
                                         </div>
@@ -287,222 +301,184 @@
                                 <h5 class="card-title mb-0">Ship To</h5>
                             </div>
                             <div class="card-body">
-                                <!-- Base Price -->
-                                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="pills-pick_up-tab" data-bs-toggle="pill" data-bs-target="#pills-pick_up" type="button" role="tab" aria-controls="pills-pick_up" aria-selected="true">
-                                            Pick Up
-                                        </button>
-                                    </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link active" id="pills-delivery-tab" data-bs-toggle="pill" data-bs-target="#pills-delivery" type="button" role="tab" aria-controls="pills-delivery" aria-selected="false">
+                                <ul class="nav nav-pills mb-3 d-flex" id="pills-tab" role="tablist">
+                                    <li class="nav-item me-4" role="presentation">
+                                        <button class="nav-link active" id="ship_to_type" name="ship_to_type" value="Delivery" data-type="delivery" data-bs-toggle="pill" data-bs-target="#pills-delivery" type="button" role="tab">
                                             Delivery
                                         </button>
                                     </li>
+                                    <li class="nav-item me-4" role="presentation">
+                                        <button class="nav-link" id="ship_to_type" name="ship_to_type" value="Pick Up" data-type="pickup" data-bs-toggle="pill" data-bs-target="#pills-pickup" type="button" role="tab">
+                                            Pick Up
+                                        </button>
+                                    </li>
                                 </ul>
-                                <div class="tab-content" id="pills-tabContent">
-                                    <div class="tab-pane fade" id="pills-pick_up" role="tabpanel" aria-labelledby="pills-pick_up-tab">
-                                        <div class="row mb-3">
-                                            <div class="col">
-                                                <label class="form-label" for="pick_end_customer">End Customer / Job Name (Copy Bill To)(Copy Lot / Division)</label>
-                                                <input type="text" class="form-control" id="pick_end_customer" name="pick_end_customer" aria-label="Statement End Day" />
-                                                <span class="text-danger error-text pick_end_customer_error"></span>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <div class="col-6">
-                                                <label class="form-label" for="pick_attn">Attn</label>
-                                                <input type="text" class="form-control" id="pick_attn" name="pick_attn" aria-label="Attn" />
-                                                <span class="text-danger error-text pick_attn_error"></span>
-                                            </div>
-                                            <div class="col-6">
-                                                <label class="form-label" for="pick_phone">Phone</label>
-                                                <input type="text" class="form-control" id="pick_phone" name="pick_phone" aria-label="Phone" />
-                                                <span class="text-danger error-text pick_phone_error"></span>
-                                            </div>
 
-                                        </div>
-                                        <div class="row mb-3">
-                                            <div class="col-6">
-                                                <label class="form-label" for="pick_fax">Fax</label>
-                                                <input type="text" class="form-control" id="pick_fax" name="pick_fax" aria-label="Fax" />
-                                                <span class="text-danger error-text pick_fax_error"></span>
-                                            </div>
-                                            <div class="col-6">
-                                                <label class="form-label" for="pick_mobile">Mobile</label>
-                                                <input type="text" class="form-control" id="pick_mobile" name="pick_mobile" aria-label="Mobile" />
-                                                <span class="text-danger error-text pick_mobile_error"></span>
-                                            </div>
-
-                                        </div>
-                                        <div class="row mb-3">
-                                            <div class="col-6">
-                                                <label class="form-label" for="pick_lot">Lot</label>
-                                                <input type="text" class="form-control" id="pick_lot" name="pick_lot" aria-label="Lot" />
-                                                <span class="text-danger error-text pick_lot_error"></span>
-                                            </div>
-                                            <div class="col-6">
-                                                <label class="form-label" for="pick_sub_division">Subdivision</label>
-                                                <input type="text" class="form-control" id="pick_sub_division" placeholder="Enter Subdivision" name="pick_sub_division" aria-label="Statement End Day" />
-                                                <span class="text-danger error-text pick_sub_division_error"></span>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <div class="col-6">
-                                                <label class="form-label" for="pick_email">Email</label>
-                                                <input type="text" class="form-control" id="pick_email" placeholder="Enter Email" name="pick_email" aria-label="Email" />
-                                                <span class="text-danger error-text pick_email_error"></span>
-                                            </div>
-                                            <div class="col-6">
-                                                <label class="form-label" for="pick_how_did_hear_about_us_id">How did you hear about us? <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
-                                                <select id="pick_how_did_hear_about_us_id" name="pick_how_did_hear_about_us_id" class="select2 form-select" data-allow-clear="true">
-                                                    <option value="">--select--</option>
-                                                    @foreach($data['aboutUsOptions'] as $id => $how_did_you_hear_option)
-                                                    <option value="{{ $id }}">{{ $how_did_you_hear_option}}</option>
-                                                    @endforeach
-                                                </select>
-                                                <span class="text-danger error-text pick_how_did_hear_about_us_id_error"></span>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-4">
-                                            <div class="col d-flex align-items-center">
-                                                <input class="form-check-input" type="checkbox" value="1" id="pick_is_do_not_send_email" name="pick_is_do_not_send_email" />
-                                                <label class="form-label ps-2 mb-0" for="pick_is_do_not_send_email"> Do not send any email updates.
+                                <div class="tab-content">
+                                    <!-- Common Fields -->
+                                    <div id="common-fields">
+                                        <div class="row mb-2">
+                                            <div class="col-8">
+                                                <label class="form-label" for="ship_to_job_name">
+                                                    End Customer / Job Name
+                                                    <button type="button" id="copy_bill_to" class="btn btn-link p-0 ms-3" style="text-decoration: underline;">(Copy Bill To)</button>
+                                                    <button type="button" id="copy_lot_division" class="btn btn-link p-0 ms-3" style="text-decoration: underline;">(Copy Lot / Division)</button>
                                                 </label>
-                                                <span class="text-danger error-text pick_is_do_not_send_email_error ms-2"></span>
+                                                <input type="text" class="form-control" id="ship_to_job_name" name="ship_to_job_name" placeholder="Enter End Customer / Job Name" />
+                                                <span class="text-danger error-text ship_to_job_name_error"></span>
+                                            </div>
+                                            <div class="col-4">
+                                                <label class="form-label" for="ship_to_attn">Attn</label>
+                                                <input type="text" class="form-control" id="ship_to_attn" name="ship_to_attn" placeholder="Enter Attn" />
+                                                <span class="text-danger error-text ship_to_attn_error"></span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade show active" id="pills-delivery" role="tabpanel" aria-labelledby="pills-delivery-tab">
-                                        <div class="row mb-3">
-                                            <div class="col-12">
-                                                <label class="form-label" for="delivery_end_customer">End Customer / Job Name (Copy Bill To)(Copy Lot/Division)</label>
-                                                <input type="text" class="form-control" id="delivery_end_customer" placeholder="Enter End Customer / Job Name" name="delivery_end_customer" aria-label="End Customer / Job Name" />
-                                                <span class="text-danger error-text delivery_end_customer_error"></span>
+
+                                    <!-- Delivery-Specific Fields -->
+                                    <div id="delivery-fields" class="conditional-fields">
+                                        <div class="row mb-2">
+                                            <div class="col">
+                                                <label class="form-label" for="ship_to">Ship To<button type="button" id="ship_to_copy_bill" name="ship_to_copy_bill" class="btn btn-link p-0 ms-3" style="text-decoration: underline;">(Copy Bill To)</button></label>
+                                                <input type="hidden" class="form-control" id="ship_to_id" readonly name="ship_to_id" aria-label="Ship To" />
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="ship_to" readonly name="ship_to" aria-label="Ship To" />
+                                                    <span class="input-group-text bg-primary" id="ship_to_icon">
+                                                        <i class="fi fi-rr-search text-white"></i>
+                                                    </span>
+                                                </div>
+                                                <span class="text-danger error-textship_to_id_error"></span>
                                             </div>
                                         </div>
-                                        <div class="row mb-3">
+                                        <div class="row mb-2">
                                             <div class="col-6">
-                                                <label class="form-label" for="delivery_attn">Attn</label>
-                                                <input type="text" class="form-control" id="delivery_attn" placeholder="Enter Attn" name="delivery_attn" aria-label="Attn" />
-                                                <span class="text-danger error-text delivery_attn_error"></span>
+                                                <label class="form-label" for="ship_to_name">ShipTo Name</label>
+                                                <input type="text" class="form-control" id="ship_to_name" placeholder="Enter Ship To Name" name="ship_to_name" aria-label="ShipTo Name" />
+                                                <span class="text-danger error-text ship_to_name_error"></span>
                                             </div>
                                             <div class="col-6">
-                                                <label class="form-label" for="delivery_ship_to">Ship To</label>
-                                                <input type="text" class="form-control" id="delivery_ship_to" placeholder="Enter Ship To" name="delivery_ship_to" aria-label="Ship To" />
-                                                <span class="text-danger error-text statement_end_day_error"></span>
+                                                <label class="form-label" for="ship_to_address">Address</label>
+                                                <input type="text" class="form-control" id="ship_to_address" placeholder="Enter Address" name="ship_to_address" aria-label="Address" />
+                                                <span class="text-danger error-text ship_to_address_error"></span>
                                             </div>
                                         </div>
-                                        <div class="row mb-3">
+                                        <div class="row mb-2">
                                             <div class="col-6">
-                                                <label class="form-label" for="delivery_ship_to_name">ShipTo Name</label>
-                                                <input type="text" class="form-control" id="delivery_ship_to_name" placeholder="Enter Ship To Name" name="delivery_ship_to_name" aria-label="ShipTo Name" />
-                                                <span class="text-danger error-text delivery_ship_to_name_error"></span>
+                                                <label class="form-label" for="ship_to_suite">Suite / Unit#</label>
+                                                <input type="text" class="form-control" id="ship_to_suite" placeholder="Enter Suite / Unit" name="ship_to_suite" aria-label="Suite / Unit" />
+                                                <span class="text-danger error-text ship_to_suite_error"></span>
                                             </div>
                                             <div class="col-6">
-                                                <label class="form-label" for="delivery_address">Address</label>
-                                                <input type="text" class="form-control" id="delivery_address" placeholder="Enter Address" name="delivery_address" aria-label="Address" />
-                                                <span class="text-danger error-text delivery_address_error"></span>
+                                                <label class="form-label" for="ship_to_city">City</label>
+                                                <input type="text" class="form-control" id="ship_to_city" placeholder="Enter City" name="ship_to_city" aria-label="City" />
+                                                <span class="text-danger error-text ship_to_city_error"></span>
+                                            </div>
+
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-6">
+                                                <label class="form-label" for="ship_to_state">State</label>
+                                                <input type="text" class="form-control" id="ship_to_state" placeholder="Enter State" name="ship_to_state" aria-label="State" />
+                                                <span class="text-danger error-text ship_to_state_error"></span>
+                                            </div>
+                                            <div class="col-6">
+                                                <label class="form-label" for="ship_to_zip">Zip <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                                                <input type="text" class="form-control" id="ship_to_zip" placeholder="Enter Zip" name="ship_to_zip" aria-label="Zip" />
+                                                <span class="text-danger error-text ship_to_zip_error"></span>
                                             </div>
                                         </div>
-                                        <div class="row mb-3">
-                                            <div class="col-4">
-                                                <label class="form-label" for="delivery_suite">Suite / Unit#</label>
-                                                <input type="text" class="form-control" id="delivery_suite" placeholder="Enter Suite / Unit" name="delivery_suite" aria-label="Suite / Unit" />
-                                                <span class="text-danger error-text delivery_suite_error"></span>
-                                            </div>
-                                            <div class="col-4">
-                                                <label class="form-label" for="delivery_city">City</label>
-                                                <input type="text" class="form-control" id="delivery_city" placeholder="Enter City" name="delivery_city" aria-label="City" />
-                                                <span class="text-danger error-text delivery_city_error"></span>
-                                            </div>
-                                            <div class="col-4">
-                                                <label class="form-label" for="delivery_state">State</label>
-                                                <input type="text" class="form-control" id="delivery_state" placeholder="Enter State" name="delivery_state" aria-label="State" />
-                                                <span class="text-danger error-text delivery_state_error"></span>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <div class="col-4">
-                                                <label class="form-label" for="delivery_zip">Zip <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
-                                                <input type="text" class="form-control" id="delivery_zip" placeholder="Enter Zip" name="delivery_zip" aria-label="Zip" />
-                                                <span class="text-danger error-text delivery_zip_error"></span>
-                                            </div>
-                                            <div class="col-4">
-                                                <label class="form-label" for="delivery_county_id">County</label>
-                                                <select id="delivery_county_id" name="delivery_county_id" class="select2 form-select" data-allow-clear="true">
+                                        <div class="row mb-2">
+
+                                            <div class="col-6">
+                                                <label class="form-label" for="ship_to_county_id">County</label>
+                                                <select id="ship_to_county_id" name="ship_to_county_id" class="select2 form-select" data-allow-clear="true">
                                                     <option value="">--select--</option>
+                                                    @foreach($data['counties'] as $id => $county_name)
+                                                    <option value="{{ $id }}">{{ $county_name}}</option>
+                                                    @endforeach
                                                 </select>
-                                                <span class="text-danger error-text delivery_county_id_error"></span>
+                                                <span class="text-danger error-text ship_to_county_id_error"></span>
                                             </div>
-                                            <div class="col-4">
-                                                <label class="form-label" for="delivery_country_id">Country</label>
-                                                <select id="delivery_country_id" name="delivery_country_id" class="select2 form-select" data-allow-clear="true">
+                                            <div class="col-6">
+                                                <label class="form-label" for="ship_to_country_id">Country</label>
+                                                <select id="ship_to_country_id" name="ship_to_country_id" class="select2 form-select" data-allow-clear="true">
                                                     <option value="">--select--</option>
                                                     @foreach($data['countries'] as $id => $country_name)
                                                     <option value="{{ $id }}">{{ $country_name}}</option>
                                                     @endforeach
                                                 </select>
-                                                <span class="text-danger error-text delivery_country_id_error"></span>
+                                                <span class="text-danger error-text ship_to_country_id_error"></span>
                                             </div>
                                         </div>
-
-                                        <div class="row mb-3">
-                                            <div class="col-4">
-                                                <label class="form-label" for="delivery_phone">Phone</label>
-                                                <input type="text" class="form-control" id="delivery_phone" placeholder="Enter Phone" name="delivery_phone" aria-label="Phone" />
-                                                <span class="text-danger error-text delivery_phone_error"></span>
-                                            </div>
-                                            <div class="col-4">
-                                                <label class="form-label" for="delivery_fax">Fax</label>
-                                                <input type="text" class="form-control" id="delivery_fax" placeholder="Enter Fax" name="delivery_fax" aria-label="Fax" />
-                                                <span class="text-danger error-text delivery_fax_error"></span>
-                                            </div>
-                                            <div class="col-4">
-                                                <label class="form-label" for="delivery_mobile">Mobile</label>
-                                                <input type="text" class="form-control" id="delivery_mobile" placeholder="Enter Mobile" name="delivery_mobile" aria-label="Mobile" />
-                                                <span class="text-danger error-text delivery_mobile_error"></span>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <div class="col-4">
-                                                <label class="form-label" for="delivery_lot">Lot</label>
-                                                <input type="text" class="form-control" id="delivery_lot" placeholder="Enter Lot" name="delivery_lot" aria-label="Lot" />
-                                                <span class="text-danger error-text delivery_lot_error"></span>
-                                            </div>
-                                            <div class="col-4">
-                                                <label class="form-label" for="delivery_sub_division">Subdivision</label>
-                                                <input type="text" class="form-control" id="delivery_sub_division" placeholder="Enter Subdivision" name="delivery_sub_division" aria-label="Subdivision" />
-                                                <span class="text-danger error-text delivery_sub_division_error"></span>
-                                            </div>
-                                            <div class="col-4">
-                                                <label class="form-label" for="delivery_email">Email</label>
-                                                <input type="text" class="form-control" id="delivery_email" placeholder="Enter Email" name="delivery_email" aria-label="Email" />
-                                                <span class="text-danger error-text delivery_email_error"></span>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-3">
+                                    </div>
+                                    <div id="common-fields">
+                                        <div class="row mb-2">
                                             <div class="col-6">
-                                                <label class="form-label" for="delivery_how_did_hear_about_us_id">How did you hear about us? <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
-                                                <select id="delivery_how_did_hear_about_us_id" name="delivery_how_did_hear_about_us_id" class="select2 form-select" data-allow-clear="true">
+                                                <label class="form-label" for="ship_to_phone">Phone</label>
+                                                <input type="text" class="form-control" id="ship_to_phone" name="ship_to_phone" placeholder="Enter Phone" />
+                                                <span class="text-danger error-text ship_to_phone_error"></span>
+                                            </div>
+                                            <div class="col-6">
+                                                <label class="form-label" for="ship_to_fax">Fax</label>
+                                                <input type="text" class="form-control" id="ship_to_fax" placeholder="Enter Fax" name="ship_to_fax" aria-label="ship_to_Fax" />
+                                                <span class="text-danger error-text ship_to_fax_error"></span>
+                                            </div>
+
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-6">
+                                                <label class="form-label" for="ship_to_mobile">Mobile</label>
+                                                <input type="text" class="form-control" id="ship_to_mobile" placeholder="Enter Mobile" name="ship_to_mobile" aria-label="Mobile" />
+                                                <span class="text-danger error-text ship_to_mobile_error"></span>
+                                            </div>
+                                            <div class="col-6">
+                                                <label class="form-label" for="ship_to_lot">Lot</label>
+                                                <input type="text" class="form-control" id="ship_to_lot" placeholder="Enter Lot" name="ship_to_lot" aria-label="Lot" />
+                                                <span class="text-danger error-text ship_to_lot_error"></span>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-6">
+                                                <label class="form-label" for="ship_to_sub_division">Subdivision</label>
+                                                <input type="text" class="form-control" id="ship_to_sub_division" placeholder="Enter Subdivision" name="ship_to_sub_division" aria-label="Subdivision" />
+                                                <span class="text-danger error-text ship_to_sub_division_error"></span>
+                                            </div>
+                                            <div class="col-6">
+                                                <label class="form-label" for="ship_to_email">Email</label>
+                                                <input type="text" class="form-control" id="ship_to_email" placeholder="Enter Email" name="ship_to_email" aria-label="Email" />
+                                                <span class="text-danger error-text ship_to_email_error"></span>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-6">
+                                                <label class="form-label" for="how_did_hear_about_us_id">How did you hear about us? <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                                                <select id="how_did_hear_about_us_id" name="how_did_hear_about_us_id" class="select2 form-select" data-allow-clear="true">
                                                     <option value="">--select--</option>
                                                     @foreach($data['aboutUsOptions'] as $id => $how_did_you_hear_option)
                                                     <option value="{{ $id }}">{{ $how_did_you_hear_option}}</option>
                                                     @endforeach
                                                 </select>
-                                                <span class="text-danger error-text delivery_how_did_hear_about_us_id_error"></span>
+                                                <span class="text-danger error-text how_did_hear_about_us_id_error"></span>
                                             </div>
                                             <div class="col-6 d-flex align-items-center">
-                                                <input class="form-check-input" type="checkbox" value="1" id="delivery_is_do_not_send_email" name="delivery_is_do_not_send_email" />
-                                                <label class="form-label ps-2 mb-0" for="delivery_is_do_not_send_email"> Do not send any email updates.
+                                                <input class="form-check-input" type="checkbox" value="1" id="is_do_not_send_email" name="is_do_not_send_email" />
+                                                <label class="form-label ps-2 mb-0" for="is_do_not_send_email"> Do not send any email updates.
                                                 </label>
-                                                <span class="text-danger error-text delivery_is_do_not_send_email_error ms-2"></span>
+                                                <span class="text-danger error-text is_do_not_send_email_error ms-2"></span>
                                             </div>
                                         </div>
                                     </div>
-
+                                    <!-- Pick-Up Specific Fields -->
+                                    <div id="pickup-fields" class="conditional-fields d-none">
+                                        <!-- feature update -->
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
                         <!-- /Contact Card -->
                         <!-- Remit to address Card -->
@@ -520,12 +496,14 @@
                                         </div>
                                         <div class="d-flex">
                                             <div class="input-group flex-grow-1">
-                                                <input type="text" class="form-control bg-label-secondary" readonly id="fabricator_id" name="fabricator_id" aria-label="Statement End Day" />
-                                                <span class="input-group-text bg-primary">
+                                                <input type="text" class="form-control bg-label-secondary" readonly name="fabricator_name" id="fabricator_name" />
+                                                <input type="hidden" id="fabricator_id" name="fabricator_id" />
+                                                <span class="input-group-text bg-primary" data-bs-toggle="modal"
+                                                    data-bs-target="#searchAssociate">
                                                     <i class="fi fi-rr-search text-white"></i>
                                                 </span>
                                             </div>
-                                            <button class="btn btn-label-danger button ms-2 btn-sm"><i class="fi fi-rr-cross  fw-bold"></i></button>
+                                            <button type="button" id="clearFabricator" class="btn btn-label-danger button ms-2 btn-sm clear-associate" data-target="fabricator"><i class="fi fi-rr-cross fw-bold"></i></button>
                                         </div>
                                         <span class="text-danger error-text fabricator_id_error"></span>
                                     </div>
@@ -539,12 +517,14 @@
                                         </div>
                                         <div class="d-flex">
                                             <div class="input-group flex-grow-1">
-                                                <input type="text" class="form-control bg-label-secondary" readonly id="designer_id" name="designer_id" aria-label="Statement End Day" />
-                                                <span class="input-group-text bg-primary">
+                                                <input type="text" class="form-control bg-label-secondary" readonly id="designer_name" name="designer_name" />
+                                                <input type="hidden" id="designer_id" name="designer_id" />
+                                                <span class="input-group-text bg-primary" data-bs-toggle="modal"
+                                                    data-bs-target="#searchAssociate">
                                                     <i class="fi fi-rr-search text-white"></i>
                                                 </span>
                                             </div>
-                                            <button class="btn btn-label-danger button ms-2 btn-sm"><i class="fi fi-rr-cross  fw-bold"></i></button>
+                                            <button type="button" id="clearDesigner" class="btn btn-label-danger button ms-2 btn-sm clear-associate" data-target="designer"><i class="fi fi-rr-cross fw-bold"></i></button>
                                         </div>
                                         <span class="text-danger error-text designer_id_error"></span>
                                     </div>
@@ -557,12 +537,14 @@
                                         </div>
                                         <div class="d-flex">
                                             <div class="input-group flex-grow-1">
-                                                <input type="text" class="form-control bg-label-secondary" readonly id="builder_id" name="builder_id" aria-label="Statement End Day" />
-                                                <span class="input-group-text bg-primary">
+                                                <input type="text" class="form-control bg-label-secondary" readonly id="builder_name" name="builder_name" />
+                                                <input type="hidden" id="builder_id" name="builder_id" />
+                                                <span class="input-group-text bg-primary" data-bs-toggle="modal"
+                                                    data-bs-target="#searchAssociate">
                                                     <i class="fi fi-rr-search text-white"></i>
                                                 </span>
                                             </div>
-                                            <button class="btn btn-label-danger button ms-2 btn-sm"><i class="fi fi-rr-cross  fw-bold"></i></button>
+                                            <button type="button" id="clearBuilder" class="btn btn-label-danger button ms-2 btn-sm clear-associate" data-target="builder"><i class="fi fi-rr-cross fw-bold"></i></button>
                                         </div>
                                         <span class="text-danger error-text internal_notes_error"></span>
                                     </div>
@@ -579,7 +561,7 @@
                 </div>
                 <div class="row">
                     <div class="col-12 d-flex justify-content-end gap-2">
-                        <button type="submit" class="btn btn-primary btn-md" id="savedata" name="savedata">Save New Account</button>
+                        <button type="submit" class="btn btn-primary btn-md" id="savedata" name="savedata">Save New Opportunity</button>
                         <button type="button" class="btn btn-secondary btn-md" id="cancelButton" name="cancelButton">Cancel</button>
                     </div>
                 </div>

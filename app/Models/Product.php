@@ -82,11 +82,11 @@ class Product extends Model
         'minimum_packing_unit_value',
         'image'
     ];
-    
+
 
     public function product_type()
     {
-        return $this->belongsTo(ProductType::class);
+        return $this->belongsTo(ProductType::class, 'product_type_id');
     }
 
     public function product_category()
@@ -104,7 +104,6 @@ class Product extends Model
     public function country()
     {
         return $this->belongsTo(Country::class, 'product_origin_id');
-
     }
     public function product_price()
     {
@@ -117,24 +116,30 @@ class Product extends Model
     public function product_color()
     {
         return $this->belongsTo(ProductColor::class, 'product_base_color_id');
-
     }
     public function unit_measure()
     {
         return $this->belongsTo(UnitMeasure::class, 'unit_of_measure_id');
-
     }
     public function product_kind()
-{
-    return $this->belongsTo(ProductKind::class, 'product_kind_id');
-}
+    {
+        return $this->belongsTo(ProductKind::class, 'product_kind_id');
+    }
 
-public function supplier()
-{
-    return $this->belongsTo(Supplier::class, 'preferred_supplier_id');
-}
-public function preferred_brand()
-{
-    return $this->belongsTo(Supplier::class, 'brand_or_manufacturer_id');
-}
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class, 'preferred_supplier_id');
+    }
+    public function preferred_brand()
+    {
+        return $this->belongsTo(Supplier::class, 'brand_or_manufacturer_id');
+    }
+    public function event()
+    {
+        return $this->hasMany(Event::class, 'product_id');
+    }
+    public function visit_product()
+    {
+        return $this->hasMany(VisitProduct::class, 'product_id');
+    }
 }
