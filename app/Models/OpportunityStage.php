@@ -25,11 +25,16 @@ class OpportunityStage extends Model
        'opportunity_stage'
    ];
 
-   protected function opportunityStage(): Attribute
-   {
+    protected function opportunityStage(): Attribute
+    {
        return Attribute::make(
            get: fn (string $value) => ucfirst($value),
        );
+    }
+
+    public function Opportunity()
+    {
+        return $this->hasMany(Opportunity::class, 'opportunity_stage_id');
     }
 
 }

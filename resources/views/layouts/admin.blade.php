@@ -47,6 +47,7 @@
     <link rel="stylesheet" href="{{asset('public/assets/vendor/libs/bootstrap-select/bootstrap-select.css')}}" />
     <link rel="stylesheet" href="{{ asset('public/assets/vendor/libs/sweetalert2/sweetalert2.css') }}" />
     <link rel="stylesheet" href="{{ asset('public/css/style.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css" />
     {{-- Page CSS --}}
     @yield('styles')
 
@@ -126,6 +127,8 @@
     <!-- Common JS -->
     <script src="{{ asset('public/js/common.js') }}"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
     {{-- Page JS --}}
     @yield('scripts')
 

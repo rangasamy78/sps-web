@@ -30,4 +30,9 @@ class ProbabilityToClose extends Model
            get: fn (string $value) => ucfirst($value),
        );
     }
+
+    public function Probability()
+    {
+        return $this->hasMany(Opportunity::class, 'probability_to_close_id');
+    }
 }

@@ -252,24 +252,23 @@
         });
 
         $(document).on('click', '.change_status', function() {
-
-        var id = $(this).data('id');
-        var button = $(this);
-        var url = "{{ route('services.service_change_status', ':id') }}";
-        url = url.replace(':id', id);
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: {
-                _token: "{{ csrf_token() }}"
-            },
-            success: function(response) {
-                if (response.status === 'success') {
-                    window.location.href = "{{ route('services.show', ':id') }}".replace(':id', id);
-                    showToast('success', response.msg);
+            var id = $(this).data('id');
+            var button = $(this);
+            var url = "{{ route('services.service_change_status', ':id') }}";
+            url = url.replace(':id', id);
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        window.location.href = "{{ route('services.show', ':id') }}".replace(':id', id);
+                        showToast('success', response.msg);
+                    }
                 }
-            }
-        });
+            });
         });
 
     });
