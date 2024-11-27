@@ -1,0 +1,213 @@
+@extends('layouts.admin')
+@section('title', 'PO Details')
+@section('styles')
+@endsection
+@section('content')
+<div class="content-wrapper">
+    <!-- Content -->
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="py-3 mb-4"><span class="text-muted fw-light"> PO /</span><span>Purchase Order</span></h4>
+        <div class="app-ecommerce">
+            <div class="row">
+                <!-- first column -->
+                <div class="col-12">
+                    <div class="card mb-4">
+
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col-sm-12 col-md-6 col-lg-4">
+                                    <div class="row mb-2">
+                                        <div class="col">
+
+                                            <label for="Type"><span class="text-dark fw-bold">Purchase Order#:
+                                                </span><span>{{ $purchase_order->po_number ?? '' }} </span> </label>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col">
+                                            <label for="Location"><span class="text-dark fw-bold"> </span><span><?php
+$formattedDate = $purchase_order->po_date ? \Carbon\Carbon::parse($purchase_order->po_date)->format('d-m-Y') : ''; ?>
+                                                    <label><span
+                                                            class="text-dark fw-bold">&nbsp;</span>{{ $formattedDate ?? '' }}</label></span></label>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col">
+                                            <label for="Parent Location"><span class="text-dark fw-bold">Supplier:
+                                                </span><span> {{ $purchase_order->supplier->supplier_name ?? '' }}<br>
+                                                    {{ $purchase_order->supplier_address_id ?? '' }}<br>
+                                                    {{ $purchase_order->supplier_address ?? '' }}<br>{{ $purchase_order->supplier_suite ?? '' }}</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col">
+                                            <label for="Payment Terms"><span class="text-dark fw-bold">Ship To:
+                                                </span><span>{{ $purchase_order->location->company_name ?? '' }}<br>{{ $purchase_order->purchase_location_address ?? '' }}<br>{{ $purchase_order->purchase_location_suite ?? '' }}<br>{{ $purchase_order->purchase_location_city ?? '' }}<br></span></label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-12 col-md-6 col-lg-3">
+                                    <div class="row mb-2">
+                                        <div class="col">
+                                            <label for="supplier_name">
+                                                <span class="text-dark fw-bold">Purchase Location:
+                                                    :</span><span>
+                                                    {{ $purchase_order->location->company_name ?? '' }}</span>
+
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-2">
+                                        <div class="col">
+                                            <label for="primary_phone"><span class="text-dark fw-bold">Payment
+                                                    Terms:</span><span>
+                                                    {{ $purchase_order->payment_terms->payment_label ?? '' }}</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col">
+                                            <label for="primary_phone"><span class="text-dark fw-bold">Shipment
+                                                    Terms:</span><span>
+                                                    {{ $purchase_order->shipment_term->shipment_term_name ?? '' }}</span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-2">
+                                        <div class="col">
+                                            <label for="primary_phone"><span class="text-dark fw-bold">P.O.
+                                                    Terms:</span><span> {{ $purchase_order->terms ?? '' }}</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-6">
+                                        <label for="internal_notes" class="text-dark fw-bold">Internal Notes:</label>
+                                        <textarea id="internal_notes" name="internal_notes" class="form-control"
+                                            rows="3">
+                        {{ $purchase_order->internal_notes ?? '' }}
+                    </textarea>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-6">
+                                        <label for="special_instructions" class="text-dark fw-bold">Special
+                                            Instructions:</label>
+                                        <textarea id="special_instructions" name="special_instructions"
+                                            class="form-control" rows="3">
+                        {{ $purchase_order->special_instructions ?? '' }}
+                    </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /first column -->
+            </div>
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header"><strong>Supplier Invoice/Packing Lists</strong></div>
+                    <div class="card-body" style="padding: 0;">
+                        <div style="overflow-x: auto;">
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <div class="card pt-0 p-4">
+                                        <div class="row">
+                                            <div class="col">
+                                                <input type="hidden" name="po_id" id="po_id"
+                                                    value="{{ $purchase_order->id ?? '' }}">
+                                                <table
+                                                    class="datatables-basic table tables-basic border-top table-striped"
+                                                    id="supplierInvoiceTable">
+                                                    <thead class="table-header-bold">
+                                                        <tr class="odd gradeX">
+                                                            <th>Date</th>
+                                                            <th>Transaction</th>
+                                                            <th>Invoice# </th>
+                                                            <th>Total</th>
+                                                            <th>ETA Date </th>
+                                                            <th>Received Date </th>
+                                                            <th>Container# </th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 order-0 order-md-1">
+                    <!-- Navigation -->
+                    <div class="col-12  mx-auto card-separator">
+                        <div class="d-flex justify-content-between mb-3 pe-md-3">
+                            <ul class="nav nav-pills flex-column flex-md-row mb-4">
+                                <li class="nav-item me-3">
+                                    <button class="nav-link active" data-bs-toggle="tab"
+                                        data-bs-target="#product_details">
+
+                                        <span class="align-middle">Products</span>
+                                    </button>
+                                </li>
+                                <li class="nav-item me-3">
+                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#files">
+
+                                        <span class="align-middle">Files</span>
+                                    </button>
+                                </li>
+                                <li class="nav-item me-3">
+                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#crm">
+
+                                        <span class="align-middle">CRM</span>
+                                    </button>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12 pt-4 pt-md-0">
+                                    <div class="tab-content p-0 pe-md-5 ps-md-3">
+                                        <div class="tab-pane fade show active" id="product_details">
+                                            @include('purchase_order.product_po.product_po_details')
+                                        </div>
+                                        <div class="tab-pane fade" id="files">
+                                            @include('purchase_order.product_file.files')
+                                        </div>
+                                        <div class="tab-pane fade" id="crm">
+                                            @include('purchase_order.product_crm.crm')
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- / Content -->
+    <div class="content-backdrop fade"></div>
+</div>
+
+@endsection
+@section('scripts')
+
+@include('purchase_order.__scripts')
+@include('purchase_order.purchase_order_details.__scripts')
+@endsection

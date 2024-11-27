@@ -504,5 +504,12 @@
                 <div class="text-truncate" data-i18n="Lists">Lists</div>
             </a>
         </li>
+         <!-- Purchase -->
+         <li class="menu-item {{ request()->is('lists*')||request()->is('products*') || request()->is('products.stock')|| request()->is('products.stock_list') || request()->is('products.price_list_product') || request()->is('products.customer_price_list_product*') || request()->is('associates*') || request()->is('expenditures*') || request()->is('accounts*') || request()->is('suppliers*') || request()->is('customers*') || request()->is('tax_codes*')|| request()->is('tax_authorities*') || request()->is('services*') ? 'active open' : '' }}">
+            <a href="{{ route(name: 'lists') }}" class="menu-link">
+                <i class="bx bx-shield menu-icon"></i>
+                <div class="text-truncate" data-i18n="Purchase">Purchase</div>
+            </a>
+        </li>
     </ul>
 </aside>

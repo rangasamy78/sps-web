@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Associate;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Associate\Contact\CreateContactRequest;
-use App\Repositories\Associate\ContactRepository;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use App\Repositories\Associate\ContactRepository;
+use App\Http\Requests\Associate\Contact\CreateContactRequest;
 
 class ContactController extends Controller
 {
@@ -29,10 +29,9 @@ class ContactController extends Controller
         }
     }
 
-    public function getAssociateContactDataTableList(Request $request, $type_id)
+    public function getAssociateContactDataTableList(Request $request, $id)
     {
-
-        return $this->contactRepository->dataTable($request, $type_id);
+        return $this->contactRepository->dataTable($request, $id);
     }
 
 }

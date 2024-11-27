@@ -2,14 +2,14 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\CrudRepositoryInterface;
-use App\Interfaces\DatatableRepositoryInterface;
+use Illuminate\Http\Request;
 use App\Models\AssociateFile;
 use App\Traits\ImageUploadTrait;
-use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use App\Interfaces\CrudRepositoryInterface;
+use App\Interfaces\DatatableRepositoryInterface;
 
-class AssociateFileRepository implements CrudRepositoryInterface, DatatableRepositoryInterface
+class AssociateFileRepository implements CrudRepositoryInterface
 {
     use ImageUploadTrait;
     public function findOrFail(int $id)
@@ -21,8 +21,8 @@ class AssociateFileRepository implements CrudRepositoryInterface, DatatableRepos
     public function store(array $data)
     {
         $associateId = $data['associate_id'];
-        $fileNames = $data['file_name'];
-        $notes     = $data['notes'];
+        $fileNames   = $data['file_name'];
+        $notes       = $data['notes'];
         foreach ($fileNames as $key => $fileInput) {
             if (!empty($fileInput)) {
                 if ($fileInput instanceof UploadedFile) {
@@ -31,8 +31,8 @@ class AssociateFileRepository implements CrudRepositoryInterface, DatatableRepos
                     continue;
                 }
                 AssociateFile::create([
-                    'file_name'  => $filePath,
-                    'notes'      => $notes[$key] ?? null,
+                    'file_name'    => $filePath,
+                    'notes'        => $notes[$key] ?? null,
                     'associate_id' => $associateId,
                 ]);
             }
@@ -53,14 +53,13 @@ class AssociateFileRepository implements CrudRepositoryInterface, DatatableRepos
         return $query;
     }
 
-    public function getAssociateFileList($request)
+    public function getAssociateFileList($id)
     {
-
-        $query = AssociateFile::query();
+        $query = AssociateFile::where('associate_id', $id);
         return $query;
     }
 
-    public function dataTable(Request $request)
+    public function dataTable(Request $request,$id)
     {
         $draw            = $request->get('draw');
         $start           = $request->get("start");
@@ -72,13 +71,13 @@ class AssociateFileRepository implements CrudRepositoryInterface, DatatableRepos
         $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
 
         $columnName      = 'created_at';
-        $PriceListLabels = $this->getAssociateFileList($request);
+        $PriceListLabels = $this->getAssociateFileList($id);
         $total           = $PriceListLabels->count();
 
-        $totalFilter = $this->getAssociateFileList($request);
+        $totalFilter = $this->getAssociateFileList($id);
         $totalFilter = $totalFilter->count();
 
-        $arrData = $this->getAssociateFileList($request);
+        $arrData = $this->getAssociateFileList($id);
         $arrData = $arrData->skip($start)->take($rowPerPage);
         $arrData = $arrData->orderBy($columnName, $columnSortOrder);
         $arrData = $arrData->get();
