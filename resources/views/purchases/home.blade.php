@@ -34,12 +34,12 @@
                                             </div>
                                             <div class="d-flex justify-content-between w-100">
                                                 <div class="col-11 text-center">
-                                                    <a href="{{ route('products.index') }}" class="text-decoration-none">
+                                                    <a href="{{ route('pre_purchase_requests.index') }}" class="text-decoration-none">
                                                         <h6 class="card-title mb-1 text-dark">Pre-Purchase Request</h6>
                                                     </a>
                                                 </div>
                                                 <div class="col-1">
-                                                    <a href="{{ route('products.create') }}" class="text-primary">
+                                                    <a href="{{ route('pre_purchase_requests.create') }}" class="text-primary">
                                                         <i class="fi fi-rr-plus text-primary fs-5" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add PO" style="font-size: 25px;"></i>
                                                     </a>
                                                 </div>
@@ -50,7 +50,7 @@
                                         <div class="d-flex flex-column justify-content-center align-items-center w-100 border-bottom mt-1">
                                             <div class="d-flex justify-content-between w-100">
                                                 <div class="col-11 text-center">
-                                                    <a href="{{ route('products.index') }}" class="text-decoration-none">
+                                                    <a href="#" class="text-decoration-none">
                                                         <h6 class="card-title mb-1 text-dark">To be Purchased</h6>
                                                     </a>
                                                 </div>
@@ -59,7 +59,7 @@
                                         <div class="d-flex flex-column justify-content-center align-items-center w-100 mt-1">
                                             <div class="d-flex justify-content-between w-100">
                                                 <div class="col-11 text-center">
-                                                    <a href="{{ route('products.index') }}" class="text-decoration-none">
+                                                    <a href="#" class="text-decoration-none">
                                                         <h6 class="card-title mb-1 text-dark">To be Allocated</h6>
                                                     </a>
                                                 </div>
@@ -94,12 +94,12 @@
                                             </div>
                                             <div class="d-flex justify-content-between w-100">
                                                 <div class="col-11 text-center">
-                                                    <a href="{{ route('products.index') }}" class="text-decoration-none">
+                                                    <a href="{{ route('vendor_pos.index') }}" class="text-decoration-none">
                                                         <h6 class="card-title mb-1 text-dark">Freight POs</h6>
                                                     </a>
                                                 </div>
                                                 <div class="col-1">
-                                                    <a href="{{ route('products.create') }}" class="text-primary">
+                                                    <a href="{{ route('vendor_pos.create') }}" class="text-primary">
                                                         <i class="fi fi-rr-plus text-primary fs-5" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Freight PO" style="font-size: 25px;"></i>
                                                     </a>
                                                 </div>
@@ -110,7 +110,7 @@
                                         <div class="d-flex flex-column justify-content-center align-items-center w-100 border-bottom mt-1">
                                             <div class="d-flex justify-content-between w-100">
                                                 <div class="col-11 text-center">
-                                                    <a href="{{ route('products.index') }}" class="text-decoration-none">
+                                                    <a href="{{ route('freight_bills.index') }}" class="text-decoration-none">
                                                         <h6 class="card-title mb-1 text-dark">Freight Bills</h6>
                                                     </a>
                                                 </div>
@@ -119,12 +119,12 @@
                                         <div class="d-flex flex-column justify-content-center align-items-center w-100 mt-1">
                                             <div class="d-flex justify-content-between w-100">
                                                 <div class="col-11 text-center">
-                                                    <a href="{{ route('products.index') }}" class="text-decoration-none">
+                                                    <a href="{{ route('freight_vendors.index') }}" class="text-decoration-none">
                                                         <h6 class="card-title mb-1 text-dark">Freight Vendors</h6>
                                                     </a>
                                                 </div>
                                                 <div class="col-1">
-                                                    <a href="{{ route('products.create') }}" class="text-primary">
+                                                    <a href="{{ route('freight_vendors.create') }}" class="text-primary">
                                                         <i class="fi fi-rr-plus text-primary fs-5" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Freight Vendor" style="font-size: 25px;"></i>
                                                     </a>
                                                 </div>
@@ -211,12 +211,12 @@
                                         </div>
                                         <div class="d-flex justify-content-between w-100">
                                             <div class="col-11 text-center">
-                                                <a href="{{ route('products.index') }}" class="text-decoration-none">
+                                                <a href="{{ route('purchase_orders.index') }}" class="text-decoration-none">
                                                     <h6 class="card-title mb-1 text-dark">All Pos</h6>
                                                 </a>
                                             </div>
                                             <div class="col-1">
-                                                <a href="{{ route('products.create') }}" class="text-primary">
+                                                <a href="{{ route('purchase_orders.create') }}" class="text-primary">
                                                     <i class="fi fi-rr-plus text-primary fs-5" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Po" style="font-size: 25px;"></i>
                                                 </a>
                                             </div>
@@ -227,7 +227,7 @@
                                     <div class="d-flex flex-column justify-content-center align-items-center w-100 border-bottom mt-1">
                                         <div class="d-flex justify-content-between w-100">
                                             <div class="col-11 text-center">
-                                                <a href="{{ route('products.index') }}" class="text-decoration-none">
+                                                <a href="#" class="text-decoration-none">
                                                     <h6 class="card-title mb-1 text-dark">Open Pos</h6>
                                                 </a>
                                             </div>
@@ -236,7 +236,7 @@
                                     <div class="d-flex flex-column justify-content-center align-items-center w-100 mt-1">
                                         <div class="d-flex justify-content-between w-100">
                                             <div class="col-11 text-center">
-                                                <a href="{{ route('products.index') }}" class="text-decoration-none">
+                                                <a href="#" class="text-decoration-none">
                                                     <h6 class="card-title mb-1 text-dark">UnApproved POs</h6>
                                                 </a>
                                             </div>

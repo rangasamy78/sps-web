@@ -286,45 +286,45 @@
                                 </div>
                                 <div class="row">
                                     <div class="d-flex align-items-center border-dark mb-1 p-1 border-bottom">
-                                        <a href="{{ route('products.index') }}" class="text-decoration-none flex-grow-1 ps-4">
+                                        <a href="{{ route('visit_calendars.index') }}" class="text-decoration-none flex-grow-1 ps-4">
                                             <h6 class="card-title mb-0 text-dark text-center">Visit Calendar</h6>
                                         </a>
-                                        <a href="{{ route('products.create') }}" class="text-primary">
+                                        <a href="{{ route('visit_calendars.create') }}" class="text-primary">
                                             <i class="fi fi-rr-plus fs-4" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Calendar" style="font-size: 25px;"></i>
                                         </a>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="d-flex align-items-center border-dark mb-1 p-1 border-bottom">
-                                        <a href="{{ route('products.index') }}" class="text-decoration-none flex-grow-1 ps-4">
+                                        <a href="{{ route('my_events.index') }}" class="text-decoration-none flex-grow-1 ps-4">
                                             <h6 class="card-title mb-0 text-dark text-center">My Events</h6>
                                         </a>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="d-flex align-items-center border-dark mb-1 p-1 border-bottom">
-                                        <a href="{{ route('products.index') }}" class="text-decoration-none flex-grow-1 ps-4">
+                                        <a href="{{ route('event_calendars.index') }}" class="text-decoration-none flex-grow-1 ps-4">
                                             <h6 class="card-title mb-0 text-dark text-center">My Event Calendar</h6>
                                         </a>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="d-flex align-items-center border-dark mb-1 p-1 border-bottom">
-                                        <a href="{{ route('products.index') }}" class="text-decoration-none flex-grow-1 ps-4">
+                                        <a href="{{ route('quote_stages_dashboard.index') }}" class="text-decoration-none flex-grow-1 ps-4">
                                             <h6 class="card-title mb-0 text-dark text-center">Quote Follow-Up:Stage</h6>
                                         </a>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="d-flex align-items-center border-dark mb-1 p-1 border-bottom">
-                                        <a href="{{ route('products.index') }}" class="text-decoration-none flex-grow-1 ps-4">
+                                        <a href="{{ route('follow_ups.index') }}" class="text-decoration-none flex-grow-1 ps-4">
                                             <h6 class="card-title mb-0 text-dark text-center">Follow-Up:%</h6>
                                         </a>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="d-flex align-items-center border-dark mb-1 p-1 border-bottom">
-                                        <a href="{{ route('products.index') }}" class="text-decoration-none flex-grow-1 ps-4">
+                                        <a href="{{ route('batch_quotes_close.index') }}" class="text-decoration-none flex-grow-1 ps-4">
                                             <h6 class="card-title mb-0 text-dark text-center">Batch Quote Close</h6>
                                         </a>
                                     </div>
