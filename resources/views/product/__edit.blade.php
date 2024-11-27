@@ -36,6 +36,7 @@
                               value="{{$product->product_sku}}"
                               name="product_sku"
                               aria-label="SKU" />
+                              <span class="text-danger error-text product_sku_error"></span>
                           </div>
                           <div class="col">
                             <label class="form-label" for="Kind">Kind
@@ -642,7 +643,7 @@
                             type="text"
                             class="form-control"
                             id="homeowner_price"
-                            value="{{$product->product_price->homeowner_price}}"
+                            value="{{$product->product_price->homeowner_price ?? ''}}"
                             name="homeowner_price"
                             aria-label="Homeowner Price" />
                             <span class="text-danger error-text homeowner_price_error"></span>
@@ -653,7 +654,7 @@
                             type="text"
                             class="form-control"
                             id="bundle_price"
-                            value="{{$product->product_price->bundle_price}}"
+                            value="{{$product->product_price->bundle_price  ?? ''}}"
                             name="bundle_price"
                             aria-label="Bundle Price" />
                             <span class="text-danger error-text bundle_price_error"></span>
@@ -664,7 +665,7 @@
                             type="text"
                             class="form-control"
                             id="special_price"
-                            value="{{$product->product_price->special_price}}"
+                            value="{{$product->product_price->special_price ?? ''}}"
                             name="special_price"
                             aria-label="Special Price" />
                             <span class="text-danger error-text special_price_error"></span>
@@ -675,7 +676,7 @@
                             type="text"
                             class="form-control"
                             id="loose_slab_price"
-                            value="{{$product->product_price->loose_slab_price}}"
+                            value="{{$product->product_price->loose_slab_price ?? ''}}"
                             name="loose_slab_price"
                             aria-label="Loose Slab Price Per SQFT" />
                             <span class="text-danger error-text loose_slab_price_error"></span>
@@ -686,7 +687,7 @@
                             type="text"
                             class="form-control"
                             id="bundle_price_sqft"
-                            value="{{$product->product_price->bundle_price_sqft}}"
+                            value="{{$product->product_price->bundle_price_sqft ?? ''}}"
                             name="bundle_price_sqft"
                             aria-label="Zip" />
                             <span class="text-danger error-text bundle_price_sqft_error"></span>
@@ -698,7 +699,7 @@
                             type="text"
                             class="form-control"
                             id="special_price_per_sqft"
-                            value="{{$product->product_price->special_price_per_sqft}}"
+                            value="{{$product->product_price->special_price_per_sqft ?? ''}}"
                             name="special_price_per_sqft"
                             aria-label="Special Price Per SQFT" />
                             <span class="text-danger error-text special_price_per_sqft_error"></span>
@@ -709,7 +710,7 @@
                             type="text"
                             class="form-control"
                             id="owner_approval_price"
-                            value="{{$product->product_price->owner_approval_price}}"
+                            value="{{$product->product_price->owner_approval_price ?? ''}}"
                             name="owner_approval_price"
                             aria-label="Owner Approval Price Per SQFT" />
                             <span class="text-danger error-text owner_approval_price_error"></span>
@@ -720,7 +721,7 @@
                             type="text"
                             class="form-control"
                             id="loose_slab_per_slab"
-                            value="{{$product->product_price->loose_slab_per_slab}}"
+                            value="{{$product->product_price->loose_slab_per_slab ?? ''}}"
                             name="loose_slab_per_slab"
                             aria-label="Loose Slab Price Per Slab" />
                             <span class="text-danger error-text loose_slab_per_slab_error"></span>
@@ -730,7 +731,7 @@
                             type="text"
                             class="form-control"
                             id="bundle_price_per_slab"
-                            value="{{$product->product_price->bundle_price_per_slab}}"
+                            value="{{$product->product_price->bundle_price_per_slab ?? ''}}"
                             name="bundle_price_per_slab"
                             aria-label="Bundle Price Per Slab" />
                             <span class="text-danger error-text loose_slab_per_slab_error"></span>
@@ -741,7 +742,7 @@
                             type="text"
                             class="form-control"
                             id="special_price_per_slab"
-                            value="{{$product->product_price->special_price_per_slab}}"
+                            value="{{$product->product_price->special_price_per_slab ?? ''}}"
                             name="special_price_per_slab"
                             aria-label="Special Price Per Slab" />
                             <span class="text-danger error-text special_price_per_slab_error"></span>
@@ -752,7 +753,7 @@
                             type="text"
                             class="form-control"
                             id="owner_approval_price_per_slab"
-                            value="{{$product->product_price->owner_approval_price_per_slab}}"
+                            value="{{$product->product_price->owner_approval_price_per_slab ?? ''}}"
                             name="owner_approval_price_per_slab"
                             aria-label="" />
                             <span class="text-danger error-text owner_approval_price_per_slab_error"></span>
@@ -763,7 +764,7 @@
                             type="text"
                             class="form-control"
                             id="price12"
-                            value="{{$product->product_price->price12}}"
+                            value="{{$product->product_price->price12 ?? ''}}"
                             name="price12"
                             aria-label="" />
                             <span class="text-danger error-text price12_error"></span>

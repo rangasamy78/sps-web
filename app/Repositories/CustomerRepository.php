@@ -264,10 +264,10 @@ class CustomerRepository implements CrudRepositoryInterface, DatatableRepository
     {
         $customer = $this->findOrFail($id);
         if (isset($data['customer_image']) && $data['customer_image'] instanceof UploadedFile) {
-            if ($customer->customer_image && Storage::disk('images')->exists($customer->customer_image)) {
-                Storage::disk('images')->delete($customer->customer_image);
+            if ($customer->customer_image && Storage::disk('public')->exists($customer->customer_image)) {
+                Storage::disk('public')->delete($customer->customer_image);
             }
-            $data['customer_image'] = $this->uploadImage($data['customer_image'], env("FILESYSTEM_DISK"), Customer::IMAGE_FOLDER);
+            $data['customer_image'] = $this->uploadImage($data['customer_image'],  Customer::IMAGE_FOLDER);
         }
         $customer->update($data);
         return $customer;

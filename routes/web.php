@@ -80,10 +80,15 @@ use App\Http\Controllers\PickTicketRestrictionController;
 use App\Http\Controllers\SelectTypeSubCategoryController;
 use App\Http\Controllers\Supplier\SupplierFileController;
 use App\Http\Controllers\SupplierCostListLabelController;
+use App\Http\Controllers\PrePurchaseRequestFileController;
 use App\Http\Controllers\PurchaseShipmentMethodController;
+use App\Http\Controllers\PrePurchaseRequestEventController;
+use App\Http\Controllers\PrePurchaseResponseTermController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
+use App\Http\Controllers\PrePurchaseRequestProductController;
 use App\Http\Controllers\AccountReceivableAgingPeriodController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
+use App\Http\Controllers\PrePurchaseRequestSupplierRequestController;
 use App\Http\Controllers\Customer\ContactController as CustomerContactController;
 use App\Http\Controllers\Supplier\ContactController as SupplierContactController;
 use App\Http\Controllers\Associate\ContactController as AssociateContactController;
@@ -398,8 +403,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/{id}/product_image', [ProductController::class, 'productImage'])->name('products.product_image');
     Route::post('product/upload-files', [ProductController::class, 'uploadFiles'])->name('product.uploadFiles');
 
-    Route::post('/upload_image', [CustomerController::class, 'customerUploadImage'])->name('upload');
-    Route::post('/update/status/{id}', [CustomerController::class, 'updateStatus'])->name('update_status');
+    // Route::post('/upload_image', [CustomerController::class, 'customerUploadImage'])->name('upload');
+    // Route::post('/update/status/{id}', [CustomerController::class, 'updateStatus'])->name('update_status');
 
     Route::resource('tax_codes', TaxCodeController::class);
     Route::get('/tax_code/list', [TaxCodeController::class, 'getTaxCodeDataTableList'])->name('tax_codes.list');
@@ -423,13 +428,48 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/services/upload', [ServiceController::class, 'serviceUploadImage'])->name('services.upload');
 
     Route::view('lists', 'lists.home')->name('lists');
-
+    //Start pre_purchase_requests
     Route::resource('pre_purchase_requests', PrePurchaseRequestController::class);
     Route::get('/pre_purchase_request/list', [PrePurchaseRequestController::class, 'getPrePurchaseRequestDataTableList'])->name('pre_purchase_requests.list');
-
+    Route::get('/get_supplier_address', [PrePurchaseRequestController::class, 'getSupplierAddress'])->name('get_supplier_address');
+    Route::get('/get_purchase_location_address', [PrePurchaseRequestController::class, 'getPurchaseLocationAddress'])->name('get_purchase_location_address');
+    Route::get('/get_shipto_location_address', [PrePurchaseRequestController::class, 'getShipToLocationAddress'])->name('get_ship_to_location_address');
+    Route::get('/get-pre-purchase-term-policy', [PrePurchaseRequestController::class, 'getPrePurchaseTermPolicy'])->name('get_pre_purchase_term_policy');
+    Route::get('/get_supplier_primary_address', [PrePurchaseRequestController::class, 'getSupplierPrimaryAddress'])->name('get_supplier_primary_address');
+    Route::get('/get_contact_address', [PrePurchaseRequestController::class, 'getContactAddress'])->name('get_contact_address');
+    Route::post('/internal_note/save', [PrePurchaseRequestController::class, 'internalNoteSave'])->name('internal_notes.store');
+    Route::get('/internal_note/list', [PrePurchaseRequestController::class, 'getInternalNotes'])->name('internal_notes.list');
+    Route::resource('pre_purchase_request_products', PrePurchaseRequestProductController::class);
+    Route::get('/pre_purchase_request_product/list', [PrePurchaseRequestProductController::class, 'getPrePurchaseRequestProductDataTableList'])->name('pre_purchase_request_products.list');
+    Route::resource('pre_purchase_request_events', PrePurchaseRequestEventController::class);
+    Route::get('/pre_purchase_request_event/list', [PrePurchaseRequestEventController::class, 'getPrePurchaseRequestEventDataTableList'])->name('pre_purchase_request_events.list');
+    Route::get('/get_pre_purchase_request_product_details', [PrePurchaseRequestProductController::class, 'getPrePurchaseRequestProductDetails'])->name('get_pre_purchase_request_product_details');
+    Route::prefix('pre_purchase_request_files')->name('pre_purchase_request_files.')->group(function () {
+        Route::get('/', [PrePurchaseRequestFileController::class, 'index'])->name('index');
+        Route::post('/store', [PrePurchaseRequestFileController::class, 'store'])->name('store');
+        Route::delete('/{id}/delete', [PrePurchaseRequestFileController::class, 'destroy'])->name('destroy');
+        Route::get('/{id}/edit', [PrePurchaseRequestFileController::class, 'edit'])->name('edit');
+        Route::post('/{id}/update', [PrePurchaseRequestFileController::class, 'update'])->name('update');
+        Route::get('/{id}/show', [PrePurchaseRequestFileController::class, 'show'])->name('show');
+    });
+    Route::get('/pre_purchase_request_file/list', [PrePurchaseRequestFileController::class, 'getPrePurchaseRequestFileDataTableList'])->name('pre_purchase_request_files.list');
+    Route::resource('pre_purchase_supplier_requests', PrePurchaseRequestSupplierRequestController::class);
+    Route::get('/pre_purchase_supplier_request/list', [PrePurchaseRequestSupplierRequestController::class, 'getPrePurchaseRequestSupplierRequestDataTableList'])->name('pre_purchase_supplier_requests.list');
+    Route::get('pre_purchase/{id}/response', [PrePurchaseRequestFileController::class, 'prePurchaseResponse'])->name('pre_purchase.response');
+    Route::get('pre_purchase_response/create/{pre_purchase_response_id}', [PrePurchaseResponseTermController::class, 'create'])->name('pre_purchase_response.create');
+    Route::post('pre_purchase_response/store', [PrePurchaseResponseTermController::class, 'store'])->name('pre_purchase_response.store');
+    Route::get('pre_purchase/{pre_purchase_request_id}/supplier/{supplier_request_id}/complete', [PrePurchaseResponseTermController::class, 'createComplete'])->name('pre_purchase.complete');
+    Route::post('pre_purchase_response/complete', [PrePurchaseResponseTermController::class, 'completeStore'])->name('pre_purchase_complete.store');
+    Route::post('/supplier-response-view', [PrePurchaseResponseTermController::class, 'SupplierResponseView'])->name('pre_purchase_compare.response');
+    Route::post('/compare_update_status', [PrePurchaseResponseTermController::class, 'updateStatus'])->name('pre_purchase_compare.update.status');
+    Route::post('/compare_reject_status', [PrePurchaseResponseTermController::class, 'rejectStatus'])->name('pre_purchase_compare.reject.status');
+    Route::get('pre_purchase_multiple_request/create', [PrePurchaseRequestSupplierRequestController::class, 'multipleCreate'])->name('pre_purchase.multiple.create');
+    Route::post('pre_purchase_request/multi_store', [PrePurchaseRequestSupplierRequestController::class, 'multipleStore'])->name('pre_purchase.multiple.store');
+    Route::get('/get_supplier_details', [PrePurchaseRequestSupplierRequestController::class, 'getSupplierDetails'])->name('get_supplier_details');
+    Route::get('/get_supplier_compare_details', [PrePurchaseRequestSupplierRequestController::class, 'getSupplierCompareDetails'])->name('get_supplier_compare_details');
     Route::resource('special_instructions', SpecialInstructionController::class);
     Route::get('/special_instruction/list', [SpecialInstructionController::class, 'getSpecialInstructionDataTableList'])->name('special_instructions.list');
-
     Route::resource('pre_purchase_terms', PrePurchaseTermController::class);
     Route::get('/pre_purchase_term/list', [PrePurchaseTermController::class, 'getPrePurchaseTermDataTableList'])->name('pre_purchase_terms.list');
+    //End pre_purchase_requests
 });

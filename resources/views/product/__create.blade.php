@@ -70,6 +70,7 @@
                               placeholder="SKU"
                               name="product_sku"
                               aria-label="SKU" />
+                              <span class="text-danger error-text product_sku_error"></span>
                           </div>
                           <div class="col">
                             <label class="form-label" for="Kind">Kind
