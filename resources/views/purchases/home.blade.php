@@ -124,7 +124,7 @@
                                                     </a>
                                                 </div>
                                                 <div class="col-1">
-                                                    <a href="{{ route('vendor_pos.create') }}" class="text-primary">
+                                                    <a href="{{route('expenditures.create')}}" class="text-primary">
                                                         <i class="fi fi-rr-plus text-primary fs-5" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Freight Vendor" style="font-size: 18px !important;"></i>
                                                     </a>
                                                 </div>
