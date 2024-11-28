@@ -3,6 +3,7 @@
 namespace App\Services\User;
 
 use App\Models\Designation;
+use Illuminate\Support\Facades\Log;
 
 class UserService
 {
