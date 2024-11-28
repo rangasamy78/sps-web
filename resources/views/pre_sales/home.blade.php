@@ -23,7 +23,7 @@
                                     <div class="d-flex flex-column align-items-center">
                                         <div class="card-title mb-auto">
                                             <span class="p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                                                <img src="{{ asset('public/images/associate.png') }}" alt="Not Found" width="100px" height="80px">
+                                                <img src="{{ asset('public/images/associate.png') }}" alt="Not Found" >
                                             </span>
                                         </div>
 
@@ -35,7 +35,7 @@
                                             </div>
                                             <div class="col-1">
                                                 <a href="{{ route('associates.create') }}" class="text-primary">
-                                                    <i class="fi fi-rr-plus text-primary ps-4" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Associate" style="font-size: 25px;"></i>
+                                                    <i class="fi fi-rr-plus text-primary ps-4" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Associate" style="font-size: 18px !important;"></i>
                                                 </a>
                                             </div>
                                         </div>
@@ -54,7 +54,7 @@
                                     <div class="d-flex flex-column align-items-center w-100">
                                         <div class="card-title mb-auto">
                                             <span class="p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                                                <img src="{{ asset('public/images/product.png') }}" alt="not found" width="100px" height="75px">
+                                                <img src="{{ asset('public/images/product.png') }}" alt="not found" >
                                             </span>
                                         </div>
 
@@ -68,7 +68,7 @@
                                                 </div>
                                                 <div class="col-1">
                                                     <a href="{{ route('products.create') }}" class="text-primary">
-                                                        <i class="fi fi-rr-plus text-primary fs-4" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Product" style="font-size: 25px;"></i>
+                                                        <i class="fi fi-rr-plus text-primary fs-4" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Product" style="font-size: 18px !important;"></i>
                                                     </a>
                                                 </div>
                                             </div>
@@ -84,7 +84,7 @@
                                                 </div>
                                                 <div class="col-1">
                                                     <a href="{{ route('services.create') }}" class="text-primary">
-                                                        <i class="fi fi-rr-plus text-primary fs-4" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Service" style="font-size: 25px;"></i>
+                                                        <i class="fi fi-rr-plus text-primary fs-4" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Service" style="font-size: 18px !important;"></i>
                                                     </a>
                                                 </div>
                                             </div>
@@ -113,7 +113,7 @@
                                     <div class="d-flex flex-column align-items-center w-100">
                                         <div class="card-title mb-auto">
                                             <span class="p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                                                <img src="{{ asset('public/images/customer.png') }}" alt="not found" width="100px" height="75px">
+                                                <img src="{{ asset('public/images/customer.png') }}" alt="not found" >
                                             </span>
                                         </div>
 
@@ -127,7 +127,7 @@
                                                 </div>
                                                 <div class="col-1">
                                                     <a href="{{ route('customers.create') }}" class="text-primary">
-                                                        <i class="fi fi-rr-plus text-primary fs-4" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Product" style="font-size: 25px;"></i>
+                                                        <i class="fi fi-rr-plus text-primary fs-4" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Product" style="font-size: 18px !important;"></i>
                                                     </a>
                                                 </div>
                                             </div>
@@ -143,7 +143,7 @@
                                                 </div>
                                                 <div class="col-1">
                                                     <a href="{{ route('products.create') }}" class="text-primary">
-                                                        <i class="fi fi-rr-plus text-primary fs-4" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Service" style="font-size: 25px;"></i>
+                                                        <i class="fi fi-rr-plus text-primary fs-4" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Service" style="font-size: 18px !important;"></i>
                                                     </a>
                                                 </div>
                                             </div>
@@ -173,7 +173,7 @@
                                                 <h6 class="card-title mb-0 text-dark text-center">Opportunities</h6>
                                             </a>
                                             <a href="{{ route('opportunities.create') }}" class="text-primary ms-1 mt-1">
-                                                <i class="fi fi-rr-plus" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Opportunity" style="font-size: 25px;"></i>
+                                                <i class="fi fi-rr-plus" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Opportunity" style="font-size: 18px !important;"></i>
                                             </a>
                                         </div>
                                     </div>
@@ -184,7 +184,7 @@
                                             <!-- First item (Icon + Label) -->
                                             <div class="d-flex align-items-center border-dark mb-2 p-2 border-bottom border-top">
                                                 <a href="javascript:void(0)" class="text-primary me-3">
-                                                    <i class="fi fi-rr-plus fs-4" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Visit" style="font-size: 25px;"></i>
+                                                    <i class="fi fi-rr-plus fs-4" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Visit" style="font-size: 18px !important;"></i>
                                                 </a>
                                                 <a href="javascript:void(0)" class="text-decoration-none flex-grow-1">
                                                     <h6 class="card-title mb-0 text-dark text-center">Visits</h6>
@@ -194,7 +194,7 @@
                                             <!-- Second item (Icon + Label) -->
                                             <div class="d-flex align-items-center border-dark mb-2 p-2 border-bottom">
                                                 <a href="javascript:void(0)" class="text-primary me-3">
-                                                    <i class="fi fi-rr-plus fs-4" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Sample Order" style="font-size: 25px;"></i>
+                                                    <i class="fi fi-rr-plus fs-4" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Sample Order" style="font-size: 18px !important;"></i>
                                                 </a>
                                                 <a href="javascript:void(0)" class="text-decoration-none flex-grow-1">
                                                     <h6 class="card-title mb-0 text-dark text-center">Sample Orders</h6>
@@ -204,7 +204,7 @@
                                             <!-- Third item (Icon + Label) -->
                                             <div class="d-flex align-items-center border-dark mb-2 p-2 border-bottom">
                                                 <a href="javascript:void(0)" class="text-primary me-3">
-                                                    <i class="fi fi-rr-plus fs-4" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Quotes" style="font-size: 25px;"></i>
+                                                    <i class="fi fi-rr-plus fs-4" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Quotes" style="font-size: 18px !important;"></i>
                                                 </a>
                                                 <a href="javascript:void(0)" class="text-decoration-none flex-grow-1">
                                                     <h6 class="card-title mb-0 text-dark text-center">Quotes</h6>
@@ -214,7 +214,7 @@
                                             <!-- Fourth item (Icon + Label) -->
                                             <div class="d-flex align-items-center border-dark mb-2 p-2 border-bottom">
                                                 <a href="javascript:void(0)" class="text-primary me-3">
-                                                    <i class="fi fi-rr-plus fs-4" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Hold" style="font-size: 25px;"></i>
+                                                    <i class="fi fi-rr-plus fs-4" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Hold" style="font-size: 18px !important;"></i>
                                                 </a>
                                                 <a href="javascript:void(0)" class="text-decoration-none flex-grow-1">
                                                     <h6 class="card-title mb-0 text-dark text-center">Holds</h6>
@@ -249,7 +249,7 @@
                                     <div class="d-flex flex-column align-items-center">
                                         <div class="card-title mb-auto">
                                             <span class="p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                                                <img src="{{ asset('public/images/sale.png') }}" alt="Not Found" width="100px" height="80px">
+                                                <img src="{{ asset('public/images/sale.png') }}" alt="Not Found" >
                                             </span>
                                         </div>
 
@@ -261,7 +261,7 @@
                                             </div>
                                             <div class="col-1">
                                                 <a href="javascript:void(0)" class="text-primary">
-                                                    <i class="fi fi-rr-plus text-primary ps-4" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Sale Order" style="font-size: 25px;"></i>
+                                                    <i class="fi fi-rr-plus text-primary ps-4" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Sale Order" style="font-size: 18px !important;"></i>
                                                 </a>
                                             </div>
                                         </div>
@@ -281,7 +281,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col d-flex justify-content-center">
-                                        <img src="{{ asset('public/images/calendar.png') }}" alt="Not Found" width="100px" height="75px">
+                                        <img src="{{ asset('public/images/calendar.png') }}" alt="Not Found" >
                                     </div>
                                 </div>
                                 <div class="row">
@@ -290,7 +290,7 @@
                                             <h6 class="card-title mb-0 text-dark text-center">Visit Calendar</h6>
                                         </a>
                                         <a href="#" class="text-primary">
-                                            <i class="fi fi-rr-plus fs-4" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Calendar" style="font-size: 25px;"></i>
+                                            <i class="fi fi-rr-plus fs-4" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Calendar" style="font-size: 18px !important;"></i>
                                         </a>
                                     </div>
                                 </div>
@@ -342,14 +342,14 @@
                                     <div class="d-flex flex-column align-items-center w-100">
                                         <div class="card-title mb-auto">
                                             <span class="p-1 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                                                <img src="{{ asset('public/images/dashboard.png') }}" alt="not found" width="100px" height="75px">
+                                                <img src="{{ asset('public/images/dashboard.png') }}" alt="not found" >
                                             </span>
                                         </div>
 
                                         <!-- Products Section with Bottom Border -->
                                         <div class="d-flex flex-column justify-content-center align-items-center w-100 border-bottom border-1 border-dark rounded-lg pb-2">
                                             <div class="d-flex justify-content-between w-100">
-                                                <div class="col-11 text-center">
+                                                <div class="col-12 text-center">
                                                     <a href="javascript:void(0)" class="text-decoration-none">
                                                         <h6 class="card-title mb-1 text-dark">Avg Opportunity Size</h6>
                                                     </a>
@@ -360,7 +360,7 @@
                                         <!-- Services Section -->
                                         <div class="d-flex flex-column justify-content-center align-items-center w-100 mt-1">
                                             <div class="d-flex justify-content-between w-100">
-                                                <div class="col-11 text-center">
+                                                <div class="col-12 text-center">
                                                     <a href="javascript:void(0)" class="text-decoration-none">
                                                         <h6 class="card-title mb-1 text-dark">Sales Pipeline</h6>
                                                     </a>

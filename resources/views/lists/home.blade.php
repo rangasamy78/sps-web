@@ -24,7 +24,7 @@
                         <div class="d-flex justify-content-center">
                             <div class="d-flex flex-column align-items-center">
                                 <div class="card-title mb-auto">
-                                    <span class="rounded bg-label-dark p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                    <span class="rounded  p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
                                         <i class="fi fi-tr-catalog" style="font-size: 50px;"></i>
                                     </span>
                                 </div>
@@ -44,7 +44,7 @@
                                 <div class="d-flex flex-column align-items-center">
                                     <a href="{{route('products.index')}}" class="text-decoration-none">
                                         <div class="card-title mb-auto">
-                                            <span class="rounded bg-label-dark p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                            <span class="rounded  p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
                                                 <i class="fi fi-tr-boxes" style="font-size: 50px;"></i>
                                             </span>
                                         </div>
@@ -69,7 +69,7 @@
                                 <a href="{{route('products.stock')}}" class="text-primary">
                                     <div class="d-flex flex-column align-items-center">
                                         <div class="card-title mb-auto">
-                                            <span class="rounded bg-label-dark p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                            <span class="rounded  p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
                                                 <i class="fi fi-tr-supplier-alt" style="font-size: 50px;"></i>
                                             </span>
                                         </div>
@@ -85,7 +85,7 @@
                                 <div class="d-flex justify-content-center">
                                     <div class="d-flex flex-column align-items-center">
                                         <div class="card-title mb-auto">
-                                            <span class="rounded bg-label-dark p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                            <span class="rounded  p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
                                                 <i class="fi fi-tr-tags" style="font-size: 50px;"></i>
                                             </span>
                                         </div>
@@ -101,7 +101,7 @@
                                 <div class="d-flex justify-content-center">
                                     <div class="d-flex flex-column align-items-center">
                                         <div class="card-title mb-auto">
-                                            <span class="rounded bg-label-dark p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                            <span class="rounded  p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
                                                 <i class="fi fi-tr-hand-holding-usd" style="font-size: 50px;"></i>
                                             </span>
                                         </div>
@@ -122,7 +122,7 @@
                             <div class="d-flex flex-column align-items-center">
                                 <a href="{{route('services.index')}}" class="text-decoration-none">
                                     <div class="card-title mb-auto">
-                                        <span class="rounded bg-label-dark p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                        <span class="rounded  p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
                                             <i class="fi fi-tr-person-dolly-empty" style="font-size: 50px;"></i>
                                         </span>
                                     </div>
@@ -156,7 +156,7 @@
                             <div class="d-flex flex-column align-items-center">
                                 <a href="{{route('customers.index')}}" class="text-decoration-none">
                                     <div class="card-title mb-auto">
-                                        <span class="rounded bg-label-dark p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                        <span class="rounded  p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
                                             <i class="fi fi-ts-customer-care" style="font-size: 50px;"></i>
                                         </span>
                                     </div>
@@ -183,7 +183,7 @@
                             <div class="d-flex flex-column align-items-center">
                                 <a href="{{route('suppliers.index')}}" class="text-decoration-none">
                                     <div class="card-title mb-auto">
-                                        <span class="rounded bg-label-dark p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                        <span class="rounded  p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
                                             <i class="fi fi-ts-supplier" style="font-size: 50px;"></i>
                                         </span>
                                     </div>
@@ -213,7 +213,7 @@
                             <div class="d-flex flex-column align-items-center">
                                 <a href="{{route('expenditures.index')}}" class="text-decoration-none">
                                     <div class="card-title mb-auto">
-                                        <span class="rounded bg-label-dark p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                        <span class="rounded  p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
                                             <i class="fi fi-tr-seller" style="font-size: 50px;"></i>
                                         </span>
                                     </div>
@@ -241,7 +241,7 @@
                         <div class="d-flex flex-column align-items-center">
                             <a href="{{route('associates.index')}}" class="text-decoration-none">
                                 <div class="card-title mb-auto">
-                                    <span class="rounded bg-label-dark p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                    <span class="rounded  p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
                                         <i class="fi fi-tr-users-alt" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Supplier" style="font-size: 50px;"></i>
                                     </span>
                                 </div>
@@ -272,7 +272,7 @@
                     <div class="card-body">
                         <div class="d-flex flex-column align-items-center">
                             <div class="card-title mb-auto">
-                                <span class="rounded bg-label-dark p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                <span class="rounded  p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
                                     <i class="fi fi-tr-warehouse-alt" style="font-size: 50px;"></i>
                                 </span>
                             </div>
@@ -293,7 +293,7 @@
                     <div class="card-body">
                         <div class="d-flex flex-column align-items-center">
                             <div class="card-title mb-auto">
-                                <span class="rounded bg-label-dark p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                <span class="rounded  p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
                                     <i class="fi fi-tr-employees-woman-man" style="font-size: 50px;"></i>
                                 </span>
                             </div>
@@ -314,7 +314,7 @@
                     <div class="card-body">
                         <div class="d-flex flex-column align-items-center">
                             <div class="card-title mb-auto">
-                                <span class="rounded bg-label-dark p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                <span class="rounded  p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
                                     <i class="fi fi-ts-convert-shapes" style="font-size: 50px;"></i>
                                 </span>
                             </div>
@@ -336,7 +336,7 @@
                         <div class="d-flex flex-column align-items-center">
                             <a href="{{route('consignments.index')}}" class="text-decoration-none">
                                 <div class="card-title mb-auto">
-                                    <span class="rounded bg-label-dark p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                    <span class="rounded  p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
                                         <i class="fi fi-ts-shelves" style="font-size: 50px;"></i>
                                     </span>
                                 </div>
@@ -368,7 +368,7 @@
                         <div class="d-flex flex-column align-items-center">
                             <a href="{{route('accounts.index')}}" class="text-decoration-none">
                                 <div class="card-title mb-auto">
-                                    <span class="rounded bg-label-dark p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                    <span class="rounded  p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
                                         <i class="fi fi-ts-file-invoice-dollar" style="font-size: 50px;"></i>
                                     </span>
                                 </div>
@@ -395,7 +395,7 @@
                         <div class="d-flex flex-column align-items-center">
                             <a href="{{route('tax_codes.index')}}" class="text-decoration-none">
                                 <div class="card-title mb-auto">
-                                    <span class="rounded bg-label-dark p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                    <span class="rounded  p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
                                         <i class="fi fi-ts-tax-alt" style="font-size: 50px;"></i>
                                     </span>
                                 </div>
@@ -422,7 +422,7 @@
                         <div class="d-flex flex-column align-items-center">
                             <a href="{{route('tax_authorities.index')}}" class="text-decoration-none">
                                 <div class="card-title mb-auto">
-                                    <span class="rounded bg-label-dark p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                    <span class="rounded  p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
                                         <i class="fi fi-ts-money-check-edit" style="font-size: 50px;"></i>
                                     </span>
                                 </div>
