@@ -15,10 +15,10 @@
         <!-- Cards with charts & info -->
         <!-- 1st row -->
         <div class="row">
-            <div class="col-3">
+            <div class="col-lg-3 col-sm-2">
                 &nbsp;
             </div>
-            <div class="col-3">
+            <div class="col-lg-3 col-sm-4">
                 <div class="row">
                     <div class="col-lg-9">
                         <div class="card card-border-shadow-primary">
@@ -78,7 +78,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-lg-3 col-sm-4">
                 <div class="row">
                     <div class="col-lg-9">
                         <div class="card card-border-shadow-primary">
@@ -143,14 +143,14 @@
                     </div>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-lg-3 col-sm-2">
 
             </div>
         </div>
         <!-- end 1st row -->
         <!-- 2nd row -->
         <div class="row mt-2">
-            <div class="col-3">
+            <div class="col-lg-3 col-sm-3">
                 <div class="row">
                     <div class="col-lg-10">
                         <div class="card card-border-shadow-primary">
@@ -196,7 +196,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-lg-3 col-sm-3">
                 <div class="row">
                     <div class="col-lg-9">
                         <div class="card card-border-shadow-primary">
@@ -245,15 +245,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row mt-2">
+                        <!-- <div class="row mt-2">
                             <div class="col-12 d-flex justify-content-center">
                                 <img src="{{ asset('public/images/d-arrow.png') }}" alt="Not Found" width="30px" height="25px">
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-lg-3 col-sm-3">
                 <div class="row">
                     <div class="col-lg-9">
                         <div class="card card-border-shadow-primary">
@@ -296,15 +296,15 @@
                             </div>
 
                         </div>
-                        <div class="row mt-2">
+                        <!-- <div class="row mt-2">
                             <div class="col-12 d-flex justify-content-center">
                                 <img src="{{ asset('public/images/d-arrow.png') }}" alt="Not Found" width="30px" height="25px">
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-lg-3 col-sm-3">
                 <div class="row">
                     <div class="col-lg-9">
                         <div class="card card-border-shadow-primary">
@@ -319,7 +319,7 @@
                                                 </span>
                                             </div>
                                             <div class="d-flex justify-content-between w-100">
-                                                <div class="col-12 text-center">
+                                                <div class="col-11 text-center">
                                                     <a href="{{ route('products.index') }}" class="text-decoration-none">
                                                         <h6 class="card-title mb-1 text-dark">Inventory</h6>
                                                     </a>
@@ -331,23 +331,51 @@
                             </div>
 
                         </div>
-                        <div class="row mt-2">
+                        <!-- <div class="row mt-2">
                             <div class="col-12 d-flex justify-content-center">
                                 <img src="{{ asset('public/images/d-arrow.png') }}" alt="Not Found" width="30px" height="25px">
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
         </div>
         <!-- end 2nd row -->
         <!-- 3rd row -->
-        <div class="row mt-2">
-            <div class="col-3">
+        <div class="row mt-4">
+            <div class="col-lg-3 col-sm-3">
                 &nbsp;
             </div>
-            <div class="col-3">
+            <div class="col-lg-3 col-sm-3">
                 <div class="row">
+                    <div class="col  d-flex justify-content-center">
+                        <img src="{{ asset('public/images/d-arrow.png') }}" alt="Not Found" width="30px" height="25px">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-3">
+                <div class="row">
+                    <div class="col d-flex justify-content-center">
+                        <img src="{{ asset('public/images/d-arrow.png') }}" alt="Not Found" width="30px" height="25px">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-3">
+                <div class="row">
+                    <div class="col d-flex justify-content-center">
+                        <img src="{{ asset('public/images/d-arrow.png') }}" alt="Not Found" width="30px" height="25px">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end 3rd row -->
+        <!-- 4rd row -->
+        <div class="row">
+            <div class="col-lg-3 col-sm-3">
+                &nbsp;
+            </div>
+            <div class="col-lg-3 col-sm-3 mb-sm-3">
+                <div class="row mt-3">
                     <div class="col-lg-9">
                         <div class="card card-border-shadow-primary">
                             <div class="card-body">
@@ -360,7 +388,7 @@
                                             </span>
                                         </div>
                                         <div class="d-flex justify-content-between w-100">
-                                            <div class="col-12 text-center">
+                                            <div class="col-11 text-center">
                                                 <a href="{{ route('products.index') }}" class="text-decoration-none">
                                                     <h6 class="card-title mb-1 text-dark">Batch PO Close</h6>
                                                 </a>
@@ -374,7 +402,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-lg-3 col-sm-3 mt-sm-3">
                 <div class="row">
                     <div class="col-lg-9">
                         <div class="card card-border-shadow-primary">
@@ -404,11 +432,12 @@
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-lg-3 col-sm-3 mt-sm-3">
                 <div class="row">
                     <div class="col-lg-9">
                         <div class="card card-border-shadow-primary">
@@ -423,7 +452,7 @@
                                                 </span>
                                             </div>
                                             <div class="d-flex justify-content-between w-100">
-                                                <div class="col-12 text-center">
+                                                <div class="col-11 text-center">
                                                     <a href="{{ route('products.index') }}" class="text-decoration-none">
                                                         <h6 class="card-title mb-1 text-dark">Inventory Returns</h6>
                                                     </a>
