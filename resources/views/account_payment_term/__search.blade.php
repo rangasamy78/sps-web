@@ -10,8 +10,8 @@
         <div class="col-12 col-sm-6 col-lg-3">
             <select class="form-select select2" name="termFilter[]" id="termFilter" multiple >
                 <option value="">--Select Payment Type--</option>
-                @foreach ($account_types as $key => $account_type)
-                <option value="{{ $account_type['value'] }}">{{ $account_type['label'] }}</option>
+                @foreach ($term_types as $key => $term_type)
+                    <option value="{{ $term_type['value'] }}">{{ $term_type['label'] }}</option>
                 @endforeach
             </select>
         </div>

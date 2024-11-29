@@ -1,6 +1,7 @@
 <?php
 namespace App\Services\AccountPaymentTerm;
 
+use App\Models\TermType;
 use App\Models\AccountType;
 use App\Models\AccountPaymentTerm;
 
@@ -11,12 +12,12 @@ class AccountPaymentTermService
         return AccountType::query()->pluck('account_type_name','id');
     }
 
-    public static function getAccountTypeList($id)
+    public static function getTermTypeList($id)
     {
-        $accountTypeName = AccountType::query()
+        $termTypeName = TermType::query()
             ->where('id', $id)
-            ->value('account_type_name');
-        return $accountTypeName;
+            ->value('term_type_name');
+        return $termTypeName;
     }
 
     function getPaymentUsage($notUsedSales, $notUsedPurchases)
