@@ -16,8 +16,8 @@ return new class extends Migration
             $table->integer('event_type_id');
             $table->integer('entered_by_id');
             $table->date('schedule_date')->nullable();
-            $table->integer('assigned_to_id');
             $table->time('schedule_time')->nullable();
+            $table->integer('assigned_to_id');
             $table->string('follower_id')->nullable();
             $table->string('event_title');
             $table->string('party_name')->nullable();
@@ -25,6 +25,8 @@ return new class extends Migration
             $table->string('product_id')->nullable();
             $table->string('price')->nullable();
             $table->text('description')->nullable();
+            $table->string('type')->nullable();
+            $table->bigInteger('type_id')->unsigned()->nullable();
             $table->integer('mark_as_complete')->default(0);
             $table->timestamps();
         });
