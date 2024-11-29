@@ -3,8 +3,8 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\VisitController;
 use App\Http\Controllers\StateController;
+use App\Http\Controllers\VisitController;
 use App\Http\Controllers\CountyController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\BinTypeController;
@@ -20,19 +20,20 @@ use App\Http\Controllers\FileTypeController;
 use App\Http\Controllers\FollowUpController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\TermTypeController;
 use App\Http\Controllers\VendorPoController;
 use App\Http\Controllers\AssociateController;
 use App\Http\Controllers\EventTypeController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\SubHeadingController;
 use App\Http\Controllers\VendorTypeController;
-use App\Http\Controllers\OpportunityController;
 use App\Http\Controllers\AccountFileController;
 use App\Http\Controllers\AccountTypeController;
 use App\Http\Controllers\ConsignmentController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\ExpenditureController;
 use App\Http\Controllers\FreightBillController;
+use App\Http\Controllers\OpportunityController;
 use App\Http\Controllers\ProductFileController;
 use App\Http\Controllers\ProductKindController;
 use App\Http\Controllers\ProductTypeController;
@@ -103,8 +104,8 @@ use App\Http\Controllers\Opportunity\OpportunityFileController;
 use App\Http\Controllers\AccountReceivableAgingPeriodController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
 use App\Http\Controllers\PrePurchaseRequestSupplierRequestController;
-use App\Http\Controllers\Supplier\ContactController as SupplierContactController;
 use App\Http\Controllers\Customer\ContactController as CustomerContactController;
+use App\Http\Controllers\Supplier\ContactController as SupplierContactController;
 use App\Http\Controllers\Associate\ContactController as AssociateContactController;
 use App\Http\Controllers\Opportunity\EventController as OpportunityEventController;
 use App\Http\Controllers\Expenditure\ContactController as ExpenditureContactController;
@@ -359,6 +360,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('special_account_types', SpecialAccountTypeController::class);
     Route::get('/special_account_type/list', [SpecialAccountTypeController::class, 'getSpecialAccounttypeDataTableList'])->name('special_account_types.list');
 
+    Route::resource('term_types', TermTypeController::class);
+    Route::get('/term_type/list', [TermTypeController::class, 'getTermTypeDataTable'])->name('term_types.list');
+
     Route::resource('suppliers', SupplierController::class);
     Route::get('/supplier/list', [SupplierController::class, 'getSupplierDataTableList'])->name('suppliers.list');
     Route::get('/supplier/status/{id}', [SupplierController::class, 'updateStatus'])->name('suppliers.status');
@@ -574,4 +578,6 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/delete_visit_product/{id}', [VisitController::class, 'deleteVisitProduct'])->name('visits.delete_visit_product');
     Route::get('/visit/opportunity_detail/{id}', [VisitController::class, 'getOpportunityDetail'])->name('visits.opportunity_detail');
     //END OPPORTUNITY , VISIT AND HOME PAGE
+
 });
+
