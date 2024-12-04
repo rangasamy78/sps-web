@@ -29,4 +29,10 @@ class VendorType extends Model
             get: fn (string $value) => ucfirst($value),
         );
     }
+
+    public function expenditures()
+    {
+        return $this->hasMany(Expenditure::class, 'expenditure_type_id', 'id');
+    }
+
 }

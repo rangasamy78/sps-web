@@ -43,7 +43,7 @@ $formattedDate = $purchase_order->po_date ? \Carbon\Carbon::parse($purchase_orde
                                     <div class="row mb-2">
                                         <div class="col">
                                             <label for="Payment Terms"><span class="text-dark fw-bold">Ship To:
-                                                </span><span>{{ $purchase_order->location->company_name ?? '' }}<br>{{ $purchase_order->purchase_location_address ?? '' }}<br>{{ $purchase_order->purchase_location_suite ?? '' }}<br>{{ $purchase_order->purchase_location_city ?? '' }}<br></span></label>
+                                                </span><span>{{ $purchase_order->ship_locations->company_name ?? '' }}<br>{{ $purchase_order->purchase_location_address ?? '' }}<br>{{ $purchase_order->purchase_location_suite ?? '' }}<br>{{ $purchase_order->purchase_location_city ?? '' }}<br></span></label>
                                         </div>
                                     </div>
                                 </div>
@@ -87,22 +87,33 @@ $formattedDate = $purchase_order->po_date ? \Carbon\Carbon::parse($purchase_orde
                                     </div>
                                 </div>
                                 <div class="row mb-2">
+                                <label for="primary_phone"><span class="text-dark fw-bold">Internal Notes:</span>
+                                <span> {{ $purchase_order->internal_notes ?? '' }}</span>
+                                            </label>
                                     <div class="col-6">
-                                        <label for="internal_notes" class="text-dark fw-bold">Internal Notes:</label>
+                                        <label for="internal_notes" class="text-dark fw-bold">Add Internal Notes:</label>
                                         <textarea id="internal_notes" name="internal_notes" class="form-control"
                                             rows="3">
-                        {{ $purchase_order->internal_notes ?? '' }}
+                     
                     </textarea>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-6">
+                                        <label for="special_instructions" class="text-dark fw-bold">Printed Notes:</label>
+                                        <input type="text" name="special_instructions"
+                                            class="form-control" value=" {{ $purchase_order->printed_notes ?? '' }}" />
+                       
+                  
                                     </div>
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col-6">
                                         <label for="special_instructions" class="text-dark fw-bold">Special
                                             Instructions:</label>
-                                        <textarea id="special_instructions" name="special_instructions"
-                                            class="form-control" rows="3">
-                        {{ $purchase_order->special_instructions ?? '' }}
-                    </textarea>
+                                            <input type="text" name="special_instructions"
+                                            class="form-control" value=" {{ $purchase_order->special_instructions ?? '' }}" />
+                                      
                                     </div>
                                 </div>
                             </div>
@@ -210,4 +221,5 @@ $formattedDate = $purchase_order->po_date ? \Carbon\Carbon::parse($purchase_orde
 
 @include('purchase_order.__scripts')
 @include('purchase_order.purchase_order_details.__scripts')
+
 @endsection

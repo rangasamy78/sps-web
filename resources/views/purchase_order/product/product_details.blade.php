@@ -59,8 +59,8 @@
                                                     <label for="product_name" class="form-label pb-1">Min. L X
                                                         W:</label>
                                                     <div class="col-md-2">
-                                                        <input type="text" class="form-control" id="min_l_w"
-                                                            name="min_l_w" aria-label="" />
+                                                        <input type="text" class="form-control" id="length"
+                                                            name="length" aria-label="" />
                                                     </div>
                                                     <div class="col-md-1">
                                                         <label for="product_name" class="form-label pb-1"> X </label>
@@ -68,8 +68,8 @@
                                                     </div>
 
                                                     <div class="col-md-2">
-                                                        <input type="text" class="form-control" id="min_l_w_value"
-                                                            name="min_l_w_value" aria-label=""
+                                                        <input type="text" class="form-control" id="width"
+                                                            name="width" aria-label=""
                                                             style="margin-left: -54px;" />
                                                     </div>
                                                     <div class="col-md-2">
@@ -180,8 +180,8 @@
                                             <div class="row mb-3">
                                                 <label for="product_name" class="form-label pb-1">Min. L X W:</label>
                                                 <div class="col-md-2">
-                                                    <input type="text" class="form-control" id="edit_min_l_w"
-                                                        name="min_l_w" aria-label="" />
+                                                    <input type="text" class="form-control" id="edit_length"
+                                                        name="length" aria-label="" />
                                                 </div>
                                                 <div class="col-md-1">
                                                     <label for="product_name" class="form-label pb-1"> X </label>
@@ -189,8 +189,8 @@
                                                 </div>
 
                                                 <div class="col-md-2">
-                                                    <input type="text" class="form-control" id="edit_min_l_w_value"
-                                                        name="min_l_w_value" aria-label=""
+                                                    <input type="text" class="form-control" id="edit_width"
+                                                        name="width" aria-label=""
                                                         style="margin-left: -54px;" />
                                                 </div>
                                                 <div class="col-md-2">

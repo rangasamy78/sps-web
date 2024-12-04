@@ -88,4 +88,9 @@ class Expenditure extends Model
     {
         return $this->belongsTo(Expenditure::class, 'vendor_id');
     }
+    public function vendorType()
+    {
+        return $this->belongsTo(VendorType::class, 'expenditure_type_id', 'id');
+    }
+
 }

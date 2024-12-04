@@ -87,7 +87,7 @@ class PurchaseOrder extends Model
         return $this->belongsTo(Company::class, 'ship_to_location_id');
        
     }
-    public function payment_term()
+    public function payment_terms()
     {
         return $this->belongsTo(AccountPaymentTerm::class, 'payment_term_id');
        
