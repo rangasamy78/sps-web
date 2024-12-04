@@ -189,19 +189,22 @@
         }
 
         function calculateTotal() {
+            var length = parseFloat($('#length').val()) || 0;
+            var width = parseFloat($('#width').val()) || 0;
             var qty1 = parseFloat($('#picking_qty').val()) || 0;
             var qty2 = parseFloat($('#picking_unit').val()) || 0;
             var total = 0;
             var totalCost = 0;
             if (qty1 > 0 && qty2 > 0) {
                 var avg_est_cost = $("#avg_est_cost").val();
-                var total = qty1 * qty2;
-                var totalCost = total * avg_est_cost;
-                $('#slab').val(total);
-                $('#pur_qty').val(total.toFixed(2));
+                var total = ((length * width) * (qty1 * qty2));
+                var slabCalc = qty1 * qty2;
+                var totalCost =  convertInchesToSquareFeet(total);
+                $('#slab').val(slabCalc);
+                $('#pur_qty').val(slabCalc.toFixed(2));
                 $('#qty').val(totalCost.toFixed(2));
             } else {
-                $('#slab, #qty').val('');
+                $('#slab, #qty, #pur_qty').val('');
             }
         }
 
@@ -250,6 +253,10 @@
             var qty = parseFloat($(this).val()) || 0;
             $(this).val(qty.toFixed(2));
         });
+
+        function convertInchesToSquareFeet(inches) {
+            return inches / 144; // 1 square foot = 144 square inches
+        }
 
     });
 </script>
