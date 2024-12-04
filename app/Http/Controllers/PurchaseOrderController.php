@@ -7,14 +7,18 @@ use App\Models\Company;
 use App\Models\Country;
 use App\Models\Product;
 use App\Models\Supplier;
+use App\Models\Expenditure;
 use Illuminate\Http\Request;
+use App\Models\SupplierPort;
 use App\Models\ShipmentTerm;
 use App\Models\PurchaseOrder;
 use App\Models\SupplierInvoice;
 use App\Models\AccountPaymentTerm;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Models\PurchaseOrderProduct;
+use Illuminate\Support\Facades\Validator;
 use App\Repositories\PurchaseOrderRepository;
-use Illuminate\Support\Facades\Log;use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\PurchaseOrder\{SupplierInvoiceRequest, CreatePurchaseOrderRequest,UpdatePurchaseOrderRequest};
 
 class PurchaseOrderController extends Controller
@@ -58,8 +62,7 @@ class PurchaseOrderController extends Controller
             'extended.numeric'    => 'The extended price must be a valid number.',
             'extended.min'        => 'The extended price must be at least 0.01.',
         ]);
-
-
+        
         if ($validator->fails()) {
             return response()->json([
                 'status' => 'false',
@@ -67,7 +70,6 @@ class PurchaseOrderController extends Controller
                 'errors' => $validator->errors(),
             ]);
         }
-
         try {
 
             $purchasePo = $this->purchaseOrderRepository->storeProductPo($request->only(
@@ -77,8 +79,8 @@ class PurchaseOrderController extends Controller
                 'purchased_as',
                 'description',
                 'supplier_purchasng_note',
-                'min_l_w',
-                'min_l_w_value',
+                'length',
+                'width',
                 'bundles',
                 'slab_bundles',
                 'slab',
@@ -210,8 +212,8 @@ class PurchaseOrderController extends Controller
                 'purchased_as',
                 'description',
                 'supplier_purchasng_note',
-                'min_l_w',
-                'min_l_w_value',
+                'length',
+                'width',
                 'bundles',
                 'slab_bundles',
                 'slab',
@@ -329,12 +331,28 @@ class PurchaseOrderController extends Controller
     public function create()
     {
 
+        $lastPo = DB::table('purchase_orders')
+            ->orderBy('id', 'desc')
+            ->value('po_number'); 
+        $newPo = $lastPo 
+            ? str_pad(((int)$lastPo + 1) % 10000, 4, '0', STR_PAD_LEFT) 
+            : '0001';
+
         $shipment_terms = ShipmentTerm::query()->select('id', 'shipment_term_name')->get();
         $supplier       = Supplier::query()->select('id', 'supplier_name')->get();
         $payment_terms  = AccountPaymentTerm::query()->select('id', 'payment_label')->get();
         $location       = Company::query()->get();
         $country        = Country::query()->get();
-        return view('purchase_order.__create', compact('shipment_terms', 'supplier', 'payment_terms', 'location', 'country'));
+        $discharge        = SupplierPort::query()->get();
+        $arrival        = SupplierPort::query()->get();
+        $departure        = SupplierPort::query()->get();
+
+        $freight = Expenditure::whereHas('vendorType', function ($query) {
+            $query->where('vendor_type_name', 'INTRANSIT Freight');
+        })->get();         
+        
+       
+        return view('purchase_order.__create', compact('shipment_terms', 'supplier', 'payment_terms', 'location', 'country','discharge','arrival','departure','newPo','freight'));
 
     }
     public function getPoDetails($id)
@@ -391,11 +409,15 @@ class PurchaseOrderController extends Controller
     {
         $product        = Product::query()->get();
         $purchase_order = PurchaseOrder::findOrFail($id);
+        $productPo = PurchaseOrderProduct::where('po_id', $id)
+                ->join('products', 'products.id', '=', 'purchase_order_products.product_id')
+                ->select('purchase_order_products.*', 'products.*') 
+                ->get();
         $location       = Company::query()->get();
         $payment_terms  = AccountPaymentTerm::query()->get();
         $country        = Country::query()->get();
         $purchasePo     = PurchaseOrderProduct::query()->where('po_id', $id)->get();
-        return view('purchase_order.purchase_order_details', compact('product', 'purchasePo', 'purchase_order', 'location', 'payment_terms', 'country'));
+        return view('purchase_order.purchase_order_details', compact('product', 'purchasePo', 'purchase_order', 'location', 'payment_terms', 'country','productPo'));
 
     }
     public function SupplierInvoice($id)
@@ -406,8 +428,12 @@ class PurchaseOrderController extends Controller
         $location       = Company::query()->get();
         $country        = Country::query()->get();
         $po_id          = $id;
+        $productPo = PurchaseOrderProduct::where('po_id', $id)
+        ->join('products', 'products.id', '=', 'purchase_order_products.product_id')
+        ->select('purchase_order_products.*', 'products.*') 
+        ->get();
 
-        return view('supplier_invoice.supplier_invoices', compact('po_id', 'shipment_terms', 'supplier', 'payment_terms', 'location', 'country'));
+        return view('supplier_invoice.supplier_invoices', compact('po_id', 'shipment_terms', 'supplier', 'payment_terms', 'location', 'country','productPo'));
 
     }
 
@@ -522,6 +548,22 @@ class PurchaseOrderController extends Controller
         }
     }
     public function FetchPoproductDetails($id)
+    {
+
+        $po = $this->purchaseOrderRepository->dataFetchFromProduct($id);
+        if ($po) {
+            return response()->json([
+                'success' => true,
+                'data'    => $po,
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Po not found',
+            ]);
+        }
+    }
+    public function getPoProductPoDataTableList($id)
     {
 
         $po = $this->purchaseOrderRepository->dataFetchFromProduct($id);

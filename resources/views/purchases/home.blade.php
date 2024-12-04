@@ -269,13 +269,13 @@
                                             </div>
                                             <div class="d-flex justify-content-between w-100">
                                                 <div class="col-11 text-center">
-                                                    <a href="{{ route('suppliers.index') }}" class="text-decoration-none">
+                                                    <a href="{{ route('supplier_invoices.index') }}" class="text-decoration-none">
                                                         <h6 class="card-title mb-1 text-dark">All Supplier Invoices/Packing Lists</h6>
                                                     </a>
                                                 </div>
                                                 <div class="col-1">
-                                                    <a href="{{ route('suppliers.create') }}" class="text-primary">
-                                                        <i class="fi fi-rr-plus text-primary fs-5" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Supplier" style="font-size: 18px !important;"></i>
+                                                    <a href="{{ route('supplier_invoices.create') }}" class="text-primary">
+                                                        <i class="fi fi-rr-plus text-primary fs-5" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Supplier Invoice" style="font-size: 18px !important;"></i>
                                                     </a>
                                                 </div>
                                             </div>
