@@ -70,6 +70,7 @@ use App\Http\Controllers\PrePurchaseTermController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ReceivingQcNoteController;
 use App\Http\Controllers\ServiceCategoryController;
+use App\Http\Controllers\SupplierInvoiceController;
 use App\Http\Controllers\TaxExemptReasonController;
 use App\Http\Controllers\OpportunityStageController;
 use App\Http\Controllers\ProductThicknessController;
@@ -579,5 +580,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/visit/opportunity_detail/{id}', [VisitController::class, 'getOpportunityDetail'])->name('visits.opportunity_detail');
     //END OPPORTUNITY , VISIT AND HOME PAGE
 
+    Route::get('/purchase_order/po_details', [PurchaseOrderController::class, 'getPoProductPoDataTableList'])->name('purchase_orders.po_product_details');
+    Route::resource('supplier_invoices', SupplierInvoiceController::class);
+    Route::get('/supplier_invoice/list', [SupplierInvoiceController::class, 'getSupplierInvoiceDataTableList'])->name('supplier_invoices.list');
 });
 
