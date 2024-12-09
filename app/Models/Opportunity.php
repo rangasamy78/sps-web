@@ -25,11 +25,11 @@ class Opportunity extends Model
     {
         return $this->belongsTo(Customer::class, 'billing_customer_id');
     }
-    public function endUseSegment()
+    public function end_use_segment()
     {
         return $this->belongsTo(EndUseSegment::class, 'end_use_segment_id');
     }
-    public function projectType()
+    public function project_type()
     {
         return $this->belongsTo(ProjectType::class, 'project_type_id');
     }
@@ -48,5 +48,21 @@ class Opportunity extends Model
     public function visit()
     {
         return $this->hasMany(Visit::class, 'opportunity_id');
+    }
+    public function how_did_you_hear()
+    {
+        return $this->belongsTo(AboutUsOption::class, 'how_did_hear_about_us_id');
+    }
+    public function fabricator()
+    {
+        return $this->belongsTo(Associate::class, 'fabricator_id');
+    }
+    public function designer()
+    {
+        return $this->belongsTo(Associate::class, 'designer_id');
+    }
+    public function builder()
+    {
+        return $this->belongsTo(Associate::class, 'builder_id');
     }
 }

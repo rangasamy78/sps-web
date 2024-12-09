@@ -59,6 +59,7 @@
             var inputName = $(this).attr('name');
             $('.' + inputName + '_error').html('');
         });
+
         $('#saveAssociate').click(function(e) {
             e.preventDefault();
             var button = $(this);
@@ -146,21 +147,19 @@
             },
         });
 
-
-
         //associate pop up
         $(' #nameFilter,#codeFilter,#phoneFilter', ).on('keyup change', function(e) {
             e.preventDefault();
             table_associate_list.draw();
         });
-        let currentNameField = null; // Track the name input field
-        let currentIdField = null; // Track the corresponding hidden ID input field
+        let currentNameField = null;
+        let currentIdField = null;
 
         // Handle search icon click to store the correct input fields
         $('.input-group-text').on('click', function() {
-            const container = $(this).closest('.d-flex'); // Get the container of the clicked element
-            currentNameField = container.find('input[type="text"]'); // Name field (readonly)
-            currentIdField = container.find('input[type="hidden"]'); // Hidden ID field
+            const container = $(this).closest('.d-flex');
+            currentNameField = container.find('input[type="text"]');
+            currentIdField = container.find('input[type="hidden"]');
         });
 
         // DataTable initialization
@@ -209,6 +208,7 @@
                 });
             },
         });
+
         //  clear button
         $('.clear-associate').on('click', function(event) {
             event.preventDefault(); // Prevent any default action, just in case
@@ -222,6 +222,7 @@
             e.preventDefault();
             table_ship_to_list.draw();
         });
+
         $('#ship_to,#ship_to_icon').on('click', function() {
             let customer_id = $('#billing_customer_id').val();
             if (customer_id) {
@@ -276,6 +277,100 @@
 
         $('#cancelButton').click(function() {
             window.location.href = "{{ route('opportunities.index') }}";
+        });
+
+        // Function to copy the billing customer name to a target field
+        function copyBillingCustomer(target) {
+            let billingCustomer = $('#billing_customer_name').val();
+            $(target).val(billingCustomer || '');
+        }
+
+        // Function to concatenate lot and sub-division with the billing customer name
+        function setCustomerWithLotAndDivision(lotSelector, subDivisionSelector, target) {
+            let billingCustomer = $('#billing_customer_name').val();
+            let lot = $(lotSelector).val();
+            let subDivision = $(subDivisionSelector).val();
+            let formattedCustomer = billingCustomer;
+            if (lot || subDivision) {
+                formattedCustomer += ` (${lot || ''}/${subDivision || ''})`;
+            }
+            $(target).val(formattedCustomer);
+        }
+
+        // Event listeners for pick and delivery operations
+        $('#copy_bill_to').click(function() {
+            copyBillingCustomer('#ship_to_job_name');
+        });
+        $('#copy_lot_division').click(function() {
+            setCustomerWithLotAndDivision('#ship_to_lot', '#ship_to_sub_division', '#ship_to_job_name');
+        });
+        $('#ship_to_copy_bill').click(function() {
+            const fields = [{
+                    from: 'billing_customer_id',
+                    to: 'ship_to_id'
+                },
+                {
+                    from: 'billing_customer_name',
+                    to: 'ship_to_name'
+                },
+                {
+                    from: 'address',
+                    to: 'ship_to_address'
+                },
+                {
+                    from: 'suite',
+                    to: 'ship_to_suite'
+                },
+                {
+                    from: 'city',
+                    to: 'ship_to_city'
+                },
+                {
+                    from: 'state',
+                    to: 'ship_to_state'
+                },
+                {
+                    from: 'zip',
+                    to: 'ship_to_zip'
+                },
+                {
+                    from: 'country',
+                    to: 'ship_to_country_id'
+                },
+                {
+                    from: 'phone',
+                    to: 'ship_to_phone'
+                },
+                {
+                    from: 'fax',
+                    to: 'ship_to_fax'
+                },
+                {
+                    from: 'mobile',
+                    to: 'ship_to_mobile'
+                },
+                {
+                    from: 'email',
+                    to: 'ship_to_email'
+                }
+            ];
+
+            // Loop through each field and copy the values
+            fields.forEach(({
+                from,
+                to
+            }) => {
+                $(`#${to}`).val($(`#${from}`).val());
+            });
+        });
+
+        //ship to fields hide and show
+        document.querySelectorAll('[data-bs-toggle="pill"]').forEach(button => {
+            button.addEventListener('click', () => {
+                const type = button.getAttribute('data-type');
+                document.querySelectorAll('.conditional-fields').forEach(field => field.classList.add('d-none'));
+                document.querySelector(`#${type}-fields`).classList.remove('d-none');
+            });
         });
 
     });

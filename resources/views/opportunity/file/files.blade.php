@@ -1,4 +1,4 @@
-<div class="tab-pane" id="file" role="tabpanel">
+<div class="tab-pane fade show active" id="file" role="tabpanel">
     <h5 class="">Files</h5>
     <form id="uploadopportunityFileForm" enctype="multipart/form-data">
         <div class="row">

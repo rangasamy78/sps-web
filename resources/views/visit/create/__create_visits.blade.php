@@ -232,7 +232,7 @@
                                 <div class="row mt-2">
                                     <div class="col">
                                         <label class="form-label">Printed Notes for this Visit</label>
-                                        <textarea class="form-control" rows="2" name="visit_printed_notes" id="visit_printed_notes" placeholder="Enter Printed Notes">{{$opportunity->internal_notes}}</textarea>
+                                        <textarea class="form-control" rows="2" name="visit_printed_notes" id="visit_printed_notes" placeholder="Enter Printed Notes"></textarea>
                                         <span class="text-danger error-text visit_printed_notes_error"></span>
                                     </div>
                                 </div>
@@ -251,7 +251,7 @@
                                 <div class="row mb-3">
                                     <div class="col">
                                         <label class="form-label">Append new Special Instructions for this Opportunity</label>
-                                        <textarea class="form-control" rows="3" name="special_instructions" id="special_instructions" placeholder="Enter Special Instructions">{{$opportunity->internal_notes}}</textarea>
+                                        <textarea class="form-control" rows="3" name="special_instructions" id="special_instructions" placeholder="Enter Special Instructions">{{$opportunity->special_instructions}}</textarea>
                                     </div>
                                 </div>
                                 <div class="row mt-3">

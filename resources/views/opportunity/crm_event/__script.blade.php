@@ -8,14 +8,13 @@
         });
 
         // Initialize DataTable for opportunityCrmEvent
-        // var $id = $('#opportunity_id').val();
         var table_opportunity_event = $('#opportunityCrmEvent').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
             searching: false,
             ajax: {
-                url: "{{ route('events.list') }}",
+                url: "{{ route('events.list', ':id') }}".replace(':id', $('#opportunity_id').val()),
                 type: 'GET',
                 data: function(d) {
                     // Optional data to be sent with the request
@@ -68,6 +67,7 @@
                 }
             }],
         });
+
         // Save Event button functionality
         $('#saveEvent').click(function(e) {
             e.preventDefault();
@@ -162,8 +162,6 @@
                 });
             }
         });
-
-
 
         // Function to update date and time
         const updateDateTime = () => {

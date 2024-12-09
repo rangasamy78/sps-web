@@ -13,6 +13,7 @@ class ContactRepository
         return OpportunityContact::query()
             ->findOrFail($id);
     }
+    
     public function save(array $data)
     {
         $opportunityId = $data['opportunity_id'];
@@ -26,6 +27,7 @@ class ContactRepository
             }
         }
     }
+
     public function delete(int $id)
     {
         $this->findOrFail($id)->delete();
@@ -84,7 +86,7 @@ class ContactRepository
 
     public function getBillToContactList(Request $request, $id)
     {
-        $query = Contact::where('type', 'customer')
+        $query = Contact::where('type', operator: 'customer')
             ->where('type_id', $id);
         return $query;
     }

@@ -16,9 +16,10 @@
             e.preventDefault();
             var button = $(this);
             sending(button);
-            var url = "{{ route('visits.store') }}";
-            var type = "POST";
-            var data = $('#formAddNewVisit').serialize();
+            var url = $('#visit_id').val() ? "{{ route('visits.update', ':id') }}".replace(':id', $('#visit_id').val()) : "{{ route('visits.store') }}";
+            var type = $('#visit_id').val() ? "PUT" : "POST";
+            var data = $('#visit_id').val() ? $('#formUpdateVisit').serialize() : $('#formAddNewVisit').serialize();
+            var id = $('#visit_id').val();
             $.ajax({
                 url: url,
                 type: type,
@@ -29,7 +30,7 @@
                         $('#formAddNewVisit').trigger("reset");
                         sending(button, true);
                         showToast('success', response.msg);
-                        const url = "{{ route('visits.show_add_product', ':id') }}".replace(':id', response.visit_id);
+                        const url = "{{ route('visits.edit_visit_product', ':id') }}".replace(':id', response.visit_id);
                         window.location.href = url;
                     }
                 },
@@ -39,6 +40,7 @@
                 }
             });
         });
+
         //search product
         $('#searchProductBtn').click(function() {
             var table_search_product = $('#searchProductsTable').DataTable({
@@ -164,15 +166,15 @@
         });
 
         $('#visit_product').on('click', '.copy_all', function() {
-            var currentRow = $(this).closest('tr'); // The row where the image is clicked
-            var unitPrice = currentRow.find('.product-price').val(); // Get the unit price from the clicked row
+            var currentRow = $(this).closest('tr');
+            var unitPrice = currentRow.find('.product-price').val();
             if (unitPrice) {
                 currentRow.nextAll('tr').each(function() {
-                    $(this).find('.product-price').val(unitPrice); // Set the unit price for the next rows in the product table
+                    $(this).find('.product-price').val(unitPrice);
                 });
                 // Also update the service table rows with the same unit price
                 $('#visit_service').find('tr').each(function() {
-                    $(this).find('.service-unit-price').val(unitPrice); // Set the unit price for the service table
+                    $(this).find('.service-unit-price').val(unitPrice);
                 });
             }
         });
@@ -353,8 +355,8 @@
         });
 
         $('#cancelBtn').click(function() {
-            const opportunityId = $('#opportunity_id').val();
-            const url = "{{ route('opportunities.show', ':id') }}".replace(':id', opportunityId);
+            const opportunityId = $('#visit_id').val();
+            const url = "{{ route('visits.show', ':id') }}".replace(':id', opportunityId);
             window.location.href = url;
         });
 

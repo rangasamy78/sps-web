@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Associate extends Model
 {
@@ -37,12 +37,12 @@ class Associate extends Model
         'status',
     ];
 
-    
+
     public function associate_type()
     {
         return $this->belongsTo(CustomerType::class);
     }
-    
+
     public function location()
     {
         return $this->belongsTo(Company::class);
@@ -51,6 +51,16 @@ class Associate extends Model
     {
         return $this->belongsTo(User::class, 'primary_sales_id');
     }
+    public function opportunity_fabricator()
+    {
+        return $this->hasMany(Opportunity::class, 'fabricator_id');
+    }
+    public function opportunity_designer()
+    {
+        return $this->hasMany(Opportunity::class, 'designer_id');
+    }
+    public function opportunity_builder()
+    {
+        return $this->hasMany(Opportunity::class, 'builder_id');
+    }
 }
-
-

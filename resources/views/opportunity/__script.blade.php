@@ -75,9 +75,7 @@
           searchable: false
         }
       ],
-      rowCallback: function(row, data, index) {
-
-      },
+      rowCallback: function(row, data, index) {},
       dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"B>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       buttons: [{
           text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Add Opportunity</span>',
@@ -156,104 +154,6 @@
         }
       });
     });
-    // Function to copy the billing customer name to a target field
-    function copyBillingCustomer(target) {
-      let billingCustomer = $('#billing_customer_name').val();
-      $(target).val(billingCustomer || '');
-    }
-    // Function to concatenate lot and sub-division with the billing customer name
-    function setCustomerWithLotAndDivision(lotSelector, subDivisionSelector, target) {
-      let billingCustomer = $('#billing_customer_name').val();
-      let lot = $(lotSelector).val();
-      let subDivision = $(subDivisionSelector).val();
-      let formattedCustomer = billingCustomer;
-      if (lot || subDivision) {
-        formattedCustomer += ` (${lot || ''}/${subDivision || ''})`;
-      }
-      $(target).val(formattedCustomer);
-    }
-    // Event listeners for pick and delivery operations
-    $('#copy_bill_to').click(function() {
-      copyBillingCustomer('#ship_to_job_name');
-    });
-    $('#copy_lot_division').click(function() {
-      setCustomerWithLotAndDivision('#ship_to_lot', '#ship_to_sub_division', '#ship_to_job_name');
-    });
-    // $('#delivery_copy_bill').click(function() {
-    //   copyBillingCustomer('#ship_to_job_name');
-    // });
-    // $('#delivery_lot_division').click(function() {
-    //   setCustomerWithLotAndDivision('#ship_to_lot', '#ship_to_sub_division', '#ship_to_job_name');
-    // });
-
-    $('#ship_to_copy_bill').click(function() {
-      const fields = [{
-          from: 'billing_customer_id',
-          to: 'ship_to_id'
-        },
-        {
-          from: 'billing_customer_name',
-          to: 'ship_to_name'
-        },
-        {
-          from: 'address',
-          to: 'ship_to_address'
-        },
-        {
-          from: 'suite',
-          to: 'ship_to_suite'
-        },
-        {
-          from: 'city',
-          to: 'ship_to_city'
-        },
-        {
-          from: 'state',
-          to: 'ship_to_state'
-        },
-        {
-          from: 'zip',
-          to: 'ship_to_zip'
-        },
-        {
-          from: 'country',
-          to: 'ship_to_country_id'
-        },
-        {
-          from: 'phone',
-          to: 'ship_to_phone'
-        },
-        {
-          from: 'fax',
-          to: 'ship_to_fax'
-        },
-        {
-          from: 'mobile',
-          to: 'ship_to_mobile'
-        },
-        {
-          from: 'email',
-          to: 'ship_to_email'
-        }
-      ];
-
-      // Loop through each field and copy the values
-      fields.forEach(({
-        from,
-        to
-      }) => {
-        $(`#${to}`).val($(`#${from}`).val());
-      });
-    });
-    //ship to fields hide and show
-    document.querySelectorAll('[data-bs-toggle="pill"]').forEach(button => {
-      button.addEventListener('click', () => {
-        const type = button.getAttribute('data-type');
-        document.querySelectorAll('.conditional-fields').forEach(field => field.classList.add('d-none'));
-        document.querySelector(`#${type}-fields`).classList.remove('d-none');
-      });
-    });
-
 
   });
 </script>

@@ -21,9 +21,17 @@ class UpdateVisitRequest extends FormRequest
      */
     public function rules(): array
     {
-        $visit = $this->route('visit')->id;
         return [
-            'vendor_type_name' => 'required|string|max:255|unique:vendor_types,vendor_type_name,' . $visit,
+            'opportunity_id' => 'required|integer',
+            'visit_label' => 'nullable|string',
+            'visit_date' => 'required|date',
+            'visit_time' => 'nullable|date_format:H:i:s', // Use `date_format` for specific time formats
+            'sales_person_id' => 'nullable|integer',
+            'price_level_id' => 'nullable|integer',
+            'visit_printed_notes' => 'nullable|string', // Use boolean if true/false
+            'probability_close_id' => 'nullable|integer',
+            'survey_rating' => 'nullable|string|max:255', // Adding max length for consistency
+            'checkout' => 'nullable|numeric', // For decimal or numeric values
         ];
     }
 }

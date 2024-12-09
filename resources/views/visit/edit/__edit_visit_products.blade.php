@@ -50,7 +50,7 @@
                                         <div class="row p-1">
                                             <div class="d-flex align-items-center">
                                                 <img src="{{ asset('public/images/SecSales.png') }}" alt="Image not found">
-                                                <select class="form-select ms-3 text-dark fw-bold">
+                                                <select class="form-select ms-3 text-dark fw-bold" id="secondary_sales_person_id" name="secondary_sales_person_id">
                                                     <option value="">--select--</option>
                                                     @foreach ($data['users'] as $id => $name)
                                                     <option value="{{$id}}" {{ $secondary_sales && $secondary_sales->id == $id ? 'selected' : '' }}>

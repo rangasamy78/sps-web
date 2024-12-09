@@ -69,6 +69,7 @@ use App\Http\Controllers\PrePurchaseTermController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ReceivingQcNoteController;
 use App\Http\Controllers\ServiceCategoryController;
+use App\Http\Controllers\Visit\VisitFileController;
 use App\Http\Controllers\TaxExemptReasonController;
 use App\Http\Controllers\OpportunityStageController;
 use App\Http\Controllers\ProductThicknessController;
@@ -103,6 +104,8 @@ use App\Http\Controllers\Opportunity\OpportunityFileController;
 use App\Http\Controllers\AccountReceivableAgingPeriodController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
 use App\Http\Controllers\PrePurchaseRequestSupplierRequestController;
+use App\Http\Controllers\Visit\EventController as VisitEventController;
+use App\Http\Controllers\Visit\ContactController as VisitContactController;
 use App\Http\Controllers\Supplier\ContactController as SupplierContactController;
 use App\Http\Controllers\Customer\ContactController as CustomerContactController;
 use App\Http\Controllers\Associate\ContactController as AssociateContactController;
@@ -559,10 +562,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/opportunity_file/list/{id}', [OpportunityFileController::class, 'getOpportunityFileDataTableList'])->name('opportunity_files.list');
     Route::prefix('events')->group(function () {
         Route::resource('events', OpportunityEventController::class);
-        Route::get('/event/list', [OpportunityEventController::class, 'getEventDataTableList'])->name('events.list');
+        Route::get('/event/list/{id}', [OpportunityEventController::class, 'getEventDataTableList'])->name('events.list');
         Route::get('/product_list', [OpportunityEventController::class, 'getAllProductDataTableList'])->name('events.product_list');
     });
     Route::resource('visits', VisitController::class);
+    Route::get('/visit/opportunity_detail/{id}', [VisitController::class, 'getOpportunityDetail'])->name('visits.opportunity_detail');
     Route::get('/visit/list/{id}', [VisitController::class, 'getVisitProductDataTableList'])->name('visits.list');
     Route::get('/visit/show_add_product/{id}', [VisitController::class, 'showAddProduct'])->name('visits.show_add_product');
     Route::get('/visit/search_product', [VisitController::class, 'searchProduct'])->name('visits.search_product');
@@ -572,6 +576,34 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/edit_visit_product/{id}', [VisitController::class, 'editVisitProduct'])->name('visits.edit_visit_product');
     Route::put('/update_visit_product/{id}', [VisitController::class, 'updateVisitProduct'])->name('visits.update_visit_product');
     Route::delete('/delete_visit_product/{id}', [VisitController::class, 'deleteVisitProduct'])->name('visits.delete_visit_product');
-    Route::get('/visit/opportunity_detail/{id}', [VisitController::class, 'getOpportunityDetail'])->name('visits.opportunity_detail');
+    Route::patch('/update_visit_checkout/{id}', [VisitController::class, 'updateCheckout'])->name('visits.checkout');
+    Route::patch('/update_visit_survey/{id}', [VisitController::class, 'updateSurveyRate'])->name('visits.survey');
+
+    Route::prefix('visit_lists')->name('visit.lists.')->group(function () {
+        Route::get('/list', [VisitController::class, 'getVisitDataTableList'])->name('list');
+        Route::get('/list/{id}', [VisitController::class, 'getAllVisitDataTableList'])->name('list_all');
+    });
+
+    Route::prefix('visit_opportunities')->name('visit.opportunities.')->group(function () {
+        Route::get('/index', [VisitController::class, 'indexOpportunityVisit'])->name('index');
+        Route::post('/save', [VisitController::class, 'saveOpportunityVisit'])->name('save');
+        Route::get('/edit/{id}', [VisitController::class, 'editOpportunityVisit'])->name('edit');
+        Route::put('/update/{id}', [VisitController::class, 'updateOpportunityVisit'])->name('update');
+    });
+
+    Route::resource('visit_files', VisitFileController::class);
+    Route::get('/visit_file/list/{id}', [VisitFileController::class, 'getVisitFileDataTableList'])->name('visit_files.list');
+
+    Route::prefix('visit_events')->group(function () {
+        Route::resource('visit_events', VisitEventController::class);
+        Route::get('/visit_event/list/{id}', [VisitEventController::class, 'getVisitEventDataTableList'])->name('visit_events.list');
+    });
+
+    Route::prefix('visits')->name('visits.')->group(function () {
+        Route::post('/contact/save', [VisitContactController::class, 'save'])->name('contact.save');
+        Route::get('/contact/list/{id}', [VisitContactController::class, 'getCustomerContactDataTableList'])->name('contacts.list');
+        Route::delete('/contacts/{id}/delete', [VisitContactController::class, 'destroy'])->name('contacts.destroy');
+        Route::patch('/probability_close/{id}', [VisitController::class, 'updateProbabilityClose'])->name('probability_close');
+    });
     //END OPPORTUNITY , VISIT AND HOME PAGE
 });

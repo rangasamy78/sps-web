@@ -36,13 +36,15 @@ class EventRepository
         $this->findOrFail($id)->delete();
     }
 
-    public function getEventList(Request $request)
+    public function getEventList(Request $request, $id)
     {
-        $query = Event::with('user', 'assigned_user', 'event_type', 'product');
+        $query = Event::with(['user', 'assigned_user', 'event_type', 'product'])
+            ->where('type', 'opportunity')
+            ->where('type_id', $id);
         return $query;
     }
 
-    public function dataTable(Request $request)
+    public function dataTable(Request $request, $id)
     {
         $draw            = $request->get('draw');
         $start           = $request->get("start");
@@ -54,13 +56,13 @@ class EventRepository
         $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
 
         $columnName     = 'created_at';
-        $aboutUsOptions = $this->getEventList($request);
+        $aboutUsOptions = $this->getEventList($request, $id);
         $total          = $aboutUsOptions->count();
 
-        $totalFilter = $this->getEventList($request);
+        $totalFilter = $this->getEventList($request, $id);
         $totalFilter = $totalFilter->count();
 
-        $arrData     = $this->getEventList($request);
+        $arrData     = $this->getEventList($request, $id);
         $arrData     = $arrData->skip($start)->take($rowPerPage);
         $arrData     = $arrData->orderBy($columnName, $columnSortOrder);
         $arrData = $arrData->get();
@@ -68,7 +70,15 @@ class EventRepository
             $value->check = '<div class="form-check"><input type="checkbox" class="form-check-input event_check" id="mark_as_complete" name="mark_as_complete" value="1" ' . ($value->mark_as_complete ? 'checked' : '') . '  data-id="' . htmlspecialchars($value->id) . '"></div>';
             $value->entered_by_id = $value->user->first_name ?? '';
             $value->assigned_to_id = $value->assigned_user->first_name ?? '';
-            $value->title_description = $value->event_title . ($value->description ?? '');
+            $value->title_description = '';
+            $listItems = '';
+            if ($value->description) {
+                $listItems .= "<li> <i class='fi fi-rr-circle-d text-dark fw-bold'></i>&nbsp;" . htmlspecialchars($value->description) . "</li>";
+            }
+            if ($value->event_title) {
+                $listItems .= "<li> <i class='fi fi-rr-circle-t text-dark fw-bold'></i>&nbsp;" . htmlspecialchars($value->event_title) . "</li>";
+            }
+            $value->title_description = $listItems ? "<ul style='list-style-type: none; padding: 0; margin: 0;'>$listItems</ul>" : '';
             $value->event_type_id = $value->event_type->product_type ?? '';
             $scheduleDateTime = Carbon::parse($value->schedule_date . ' ' . ($value->schedule_time ?? ''))->format('Y-m-d H:i:s');
             $value->time_date = $scheduleDateTime;

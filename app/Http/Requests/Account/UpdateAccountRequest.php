@@ -23,12 +23,12 @@ class UpdateAccountRequest extends FormRequest
     {
         return [
             'account_name'                     => 'required|string|max:255',
-            'account_number'                   => 'required|numeric|max:50|unique:accounts,account_number,' .  $this->route('account')->id,
+            'account_number'                   => 'required|numeric|unique:accounts,account_number,' .  $this->route('account')->id,
             'account_type_id'                  => 'required|numeric|exists:account_types,id',
             'account_sub_type_id'              => 'nullable|numeric|exists:account_sub_types,id',
             'special_account_type_id'          => 'nullable|numeric|exists:special_account_types,id',
             'account_operating_location_id'    => 'nullable|numeric|exists:locations,id',
-            'alternate_number'                 => 'nullable|numeric|max:50',
+            'alternate_number'                 => 'nullable|numeric',
             'alternate_name'                   => 'nullable|string|max:255',
             'is_sub_account_of_id'             => 'nullable|numeric|exists:accounts,id',
             'currency_id'                      => 'required|numeric|exists:currencies,id',

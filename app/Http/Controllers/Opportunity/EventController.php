@@ -60,8 +60,9 @@ class EventController extends Controller
     {
         return $this->eventRepository->dataTableGetProduct($request);
     }
-    public function getEventDataTableList(Request $request)
+
+    public function getEventDataTableList(Request $request, $id)
     {
-        return $this->eventRepository->dataTable($request);
+        return $this->eventRepository->dataTable($request, $id);
     }
 }

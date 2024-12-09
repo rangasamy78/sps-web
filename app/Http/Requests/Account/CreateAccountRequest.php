@@ -23,12 +23,12 @@ class CreateAccountRequest extends FormRequest
     {
         return [
             'account_name'                     => 'required|string|max:255',
-            'account_number'                   => 'required|numeric|max:50|unique:accounts,account_number',
+            'account_number'                   => 'required|numeric|unique:accounts,account_number',
             'account_type_id'                  => 'required|numeric',
             'account_sub_type_id'              => 'nullable|numeric',
             'special_account_type_id'          => 'nullable|numeric',
             'account_operating_location_id'    => 'nullable|numeric',
-            'alternate_number'                 => 'nullable|numeric|max:50',
+            'alternate_number'                 => 'nullable|numeric',
             'alternate_name'                   => 'nullable|string|max:255',
             'is_sub_account_of_id'             => 'nullable|numeric',
             'currency_id'                      => 'required|numeric',

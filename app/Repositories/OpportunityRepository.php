@@ -51,7 +51,7 @@ class OpportunityRepository implements CrudRepositoryInterface, DatatableReposit
 
     public function getOpportunityList($request)
     {
-        $query = Opportunity::with(['primary_user', 'secondary_user', 'customer', 'endUseSegment', 'projectType']);
+        $query = Opportunity::with(['primary_user', 'secondary_user', 'customer', 'end_use_segment', 'project_type']);
         return $query;
     }
 
@@ -91,8 +91,8 @@ class OpportunityRepository implements CrudRepositoryInterface, DatatableReposit
             $value->delivery                   = $value->delivery_method;
             $value->customer_1                 = "<a href='" . route('opportunities.show', $value->id) . "'class='text-secondary'>" . ($value->customer->customer_name ?? '') . "</a>";
             $value->location                   = "<a href='" . route('opportunities.show', $value->id) . "'class='text-secondary'>" . (Company::find($value->customer->parent_location_id)->company_name ?? '') . "</a>";
-            $value->endUseSegment              = "<a href='" . route('opportunities.show', $value->id) . "'class='text-secondary'>" . ($value->endUseSegment->end_use_segment ?? '') . "</a>";
-            $value->projectTypeName            = "<a href='" . route('opportunities.show', $value->id) . "'class='text-secondary'>" . ($value->projectType->project_type_name ?? '') . "</a>";
+            $value->endUseSegment              = "<a href='" . route('opportunities.show', $value->id) . "'class='text-secondary'>" . ($value->end_use_segment->end_use_segment ?? '') . "</a>";
+            $value->projectTypeName            = "<a href='" . route('opportunities.show', $value->id) . "'class='text-secondary'>" . ($value->project_type->project_type_name ?? '') . "</a>";
             $value->sales_person = "<a href='" . route('opportunities.show', $value->id) . "' class='text-secondary'><ul style='list-style-type: none; padding: 0; margin: 0;'><li><i class='fi fi-rr-user'></i> " . e($value->primary_user?->first_name ?? '') . "</li><li><i class='fi fi-rr-user'></i> " . e($value->secondary_user?->first_name ?? '') . "</li></ul></a>";
             $value->associates = "<a href='" . route('opportunities.show', $value->id) . "' class='text-secondary'><ul style='list-style-type: none; padding: 0; margin: 0;font-size:8pt'><li><i class='fi fi-rr-user'></i> " . e($this->getAssociate($value->fabricator_id)) . "</li><li><i class='fi fi-rr-user'></i> " . e($this->getAssociate($value->designer_id)) . "</li><li><i class='fi fi-rr-user'></i> " . e($this->getAssociate($value->builder_id)) . "</li></ul></a>";
             $value->days = "<a href='" . route('opportunities.show', $value->id) . "' class='text-secondary'>" . ($value->opportunity_code ?? '') . " (" . Carbon::parse($value->created_at)->diffInDays(Carbon::now()) . " days)</a>";

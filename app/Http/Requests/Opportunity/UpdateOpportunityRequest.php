@@ -23,7 +23,6 @@ class UpdateOpportunityRequest extends FormRequest
     public function rules(): array
     {
         $opportunityId = optional($this->route('opportunity'))->id; // Handle case when route param might be null
-
         return [
             'opportunity_code' => 'required|string|unique:opportunities,opportunity_code,' . $opportunityId,
             'opportunity_date' => 'required|string|max:255',

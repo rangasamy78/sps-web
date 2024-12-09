@@ -47,8 +47,12 @@ class Contact extends Model
         return $query->where('type_id', $typeId)
             ->where('type', $type);
     }
-    public function opportunityConatct()
+    public function opportunity_contact()
     {
         return $this->hasMany(OpportunityContact::class, 'contact_id');
+    }
+    public function visit_contact()
+    {
+        return $this->hasMany(VisitContact::class, 'contact_id');
     }
 }

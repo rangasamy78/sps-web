@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class AboutUsOption extends Model
 {
@@ -16,7 +16,12 @@ class AboutUsOption extends Model
     protected function howDidYouHearOption(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => ucfirst($value),
+            get: fn(string $value) => ucfirst($value),
         );
+    }
+
+    public function opportunity()
+    {
+        return $this->hasMany(Opportunity::class, 'how_did_hear_about_us_id');
     }
 }

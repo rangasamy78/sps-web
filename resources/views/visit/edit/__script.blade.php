@@ -12,7 +12,6 @@
             $('.' + inputName + '_error').html('');
         });
 
-
         $('#nextStepAddProductBtn').click(function(e) {
             e.preventDefault();
             var button = $(this);
@@ -165,15 +164,15 @@
         });
 
         $('#visit_product').on('click', '.copy_all', function() {
-            var currentRow = $(this).closest('tr'); // The row where the image is clicked
-            var unitPrice = currentRow.find('.product-price').val(); // Get the unit price from the clicked row
+            var currentRow = $(this).closest('tr');
+            var unitPrice = currentRow.find('.product-price').val();
             if (unitPrice) {
                 currentRow.nextAll('tr').each(function() {
-                    $(this).find('.product-price').val(unitPrice); // Set the unit price for the next rows in the product table
+                    $(this).find('.product-price').val(unitPrice);
                 });
                 // Also update the service table rows with the same unit price
                 $('#visit_service').find('tr').each(function() {
-                    $(this).find('.service-unit-price').val(unitPrice); // Set the unit price for the service table
+                    $(this).find('.service-unit-price').val(unitPrice);
                 });
             }
         });
@@ -188,7 +187,6 @@
                 subtotal += amount;
                 tax_subtotal += amount;
             });
-
             // Calculate service amounts
             $('.service-amount').each(function() {
                 var amount = parseFloat($(this).val()) || 0;
@@ -255,7 +253,6 @@
                             price11: prices.owner_approval_price_per_slab,
                             price12: prices.price12
                         };
-                        // Populate the modal with prices dynamically
                         for (var fieldId in priceFields) {
                             $('#' + fieldId).html(priceFields[fieldId] || 'N/A');
                         }
@@ -289,69 +286,63 @@
         $(document).ready(function() {
             $('#updateVisitProductBtn').click(function(e) {
                 e.preventDefault();
-
                 var button = $(this);
                 sending(button);
-
-                // Create a new FormData object with the form data
                 var formData = new FormData($('#updateVisitProductForm')[0]);
-
-                // Collect product data
                 $('#updateVisitProductForm #visit_product tbody tr').each(function(index) {
                     var row = $(this);
-                    formData.append(`visit_products[${index}][product_id]`, row.find('input[name="product_id[]"]').val());
-                    formData.append(`visit_products[${index}][is_sold_as]`, row.find('input[name="is_sold_as[]"]').prop('checked') ? 1 : 0);
-                    formData.append(`visit_products[${index}][product_description]`, row.find('input[name="product_description[]"]').val());
-                    formData.append(`visit_products[${index}][product_quantity]`, parseFloat(row.find('input[name="product_quantity[]"]').val()) || 0);
-                    formData.append(`visit_products[${index}][product_unit_price]`, parseFloat(row.find('input[name="product_unit_price[]"]').val()) || 0);
-                    formData.append(`visit_products[${index}][product_amount]`, parseFloat(row.find('input[name="product_amount[]"]').val()) || 0);
+                    var productId = row.find('input[name="product_id[]"]').val();
+                    if (productId) { // Only append if productId is not empty
+                        formData.append(`visit_products[${index}][product_id]`, productId);
+                        formData.append(`visit_products[${index}][is_sold_as]`, row.find('input[name="is_sold_as[]"]').prop('checked') ? 1 : 0);
+                        formData.append(`visit_products[${index}][product_description]`, row.find('input[name="product_description[]"]').val());
+                        formData.append(`visit_products[${index}][product_quantity]`, parseFloat(row.find('input[name="product_quantity[]"]').val()) || 0);
+                        formData.append(`visit_products[${index}][product_unit_price]`, parseFloat(row.find('input[name="product_unit_price[]"]').val()) || 0);
+                        formData.append(`visit_products[${index}][product_amount]`, parseFloat(row.find('input[name="product_amount[]"]').val()) || 0);
+                    }
                 });
-
                 // Collect service data
                 $('#updateVisitProductForm #visit_service tbody tr').each(function(index) {
                     var row = $(this);
-                    formData.append(`visit_services[${index}][service_id]`, row.find('select[name="service_id[]"]').val());
-                    formData.append(`visit_services[${index}][service_description]`, row.find('input[name="service_description[]"]').val());
-                    formData.append(`visit_services[${index}][service_quantity]`, parseFloat(row.find('input[name="service_quantity[]"]').val()) || 0);
-                    formData.append(`visit_services[${index}][service_unit_price]`, parseFloat(row.find('input[name="service_unit_price[]"]').val()) || 0);
-                    formData.append(`visit_services[${index}][service_amount]`, parseFloat(row.find('input[name="service_amount[]"]').val()) || 0);
-                    formData.append(`visit_services[${index}][is_tax]`, row.find('input[name="is_tax[]"]').prop('checked') ? 1 : 0);
+                    var serviceId = row.find('select[name="service_id[]"]').val();
+                    if (serviceId) { // Only append if serviceId is not empty
+                        formData.append(`visit_services[${index}][service_id]`, serviceId);
+                        formData.append(`visit_services[${index}][service_description]`, row.find('input[name="service_description[]"]').val());
+                        formData.append(`visit_services[${index}][service_quantity]`, parseFloat(row.find('input[name="service_quantity[]"]').val()) || 0);
+                        formData.append(`visit_services[${index}][service_unit_price]`, parseFloat(row.find('input[name="service_unit_price[]"]').val()) || 0);
+                        formData.append(`visit_services[${index}][service_amount]`, parseFloat(row.find('input[name="service_amount[]"]').val()) || 0);
+                        formData.append(`visit_services[${index}][is_tax]`, row.find('input[name="is_tax[]"]').prop('checked') ? 1 : 0);
+                    }
                 });
-
-                // Debug: Log FormData contents
-                for (var pair of formData.entries()) {
-                    console.log(pair[0] + ': ' + pair[1]);
-                }
-
                 // Construct the URL dynamically
                 var url = "{{ route('visits.update_visit_product', ':id') }}".replace(':id', $('#visit_id').val());
-                alert(url);
+
                 // Perform AJAX request
                 $.ajax({
                     url: url,
-                    type: "PUT",
+                    type: "POST", // Use POST for Laravel's method spoofing
                     headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        'X-HTTP-Method-Override': 'PUT' // Spoof PUT method
                     },
                     processData: false,
                     contentType: false,
                     data: formData,
-                    dataType: 'json',
                     success: function(response) {
                         console.log('Response:', response);
 
                         if (response.status === "success") {
-                            $('#visitProductForm').trigger("reset");
+                            $('#updateVisitProductForm').trigger("reset");
                             sending(button, true);
                             showToast('success', response.msg);
                             window.location.href = "{{ route('visits.show', ':id') }}".replace(':id', $('#visit_id').val());
                         } else {
                             sending(button, true);
-                            showToast('error', 'Failed to save the visit data.');
+                            showToast('error', response.msg || 'Failed to save the visit data.');
                         }
                     },
-                    error: function(xhr, status, error) {
-                        console.error('AJAX Error:', error);
+                    error: function(xhr) {
+                        console.error('AJAX Error:', xhr.responseText);
                         handleAjaxError(xhr);
                         sending(button, true);
                     }
@@ -378,20 +369,17 @@
             const url = "{{ route('opportunities.show', ':id') }}".replace(':id', opportunityId);
             window.location.href = url;
         });
+
         //delete visit product
         $('body').on('click', '.delete-visit-product', function() {
-            // Get the closest button that has the `data-id` attribute
             var id = $(this).closest('button').data('id');
-            // alert(id);
             confirmDelete(id, function() {
                 deleteVisitProduct(id);
             });
         });
 
-
         function deleteVisitProduct(id) {
             var url = "{{ route('visits.delete_visit_product', ':id') }}".replace(':id', id);
-
             $.ajax({
                 url: url,
                 type: "DELETE",

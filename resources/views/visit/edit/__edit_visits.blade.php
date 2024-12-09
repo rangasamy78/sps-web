@@ -176,7 +176,7 @@
             </div>
             <!-- buttons for visit,holds,sample order,quotes -->
             <!-- //visit Details -->
-            <form id="formAddNewVisit">
+            <form id="formUpdateVisit">
                 <div class="row mt-3">
                     <div class="col-lg-6 col-sm-12">
                         <div class="card mb-1">
@@ -189,20 +189,21 @@
                                 <div class="row">
                                     <div class="col">
                                         <input type="hidden" class="form-control" name="opportunity_id" id="opportunity_id" value="{{$opportunity->id}}">
+                                        <input type="hidden" class="form-control" name="visit_id" id="visit_id" value="{{$visit->id}}">
                                         <label class="form-label">Visit Label</label>
-                                        <input type="text" class="form-control" name="visit_label" id="visit_label" placeholder="Enter Visit Label">
+                                        <input type="text" class="form-control" name="visit_label" id="visit_label" placeholder="Enter Visit Label" value="{{$visit->visit_label}}">
                                         <span class="text-danger error-text visit_label_error"></span>
                                     </div>
                                 </div>
                                 <div class="row mt-2">
                                     <div class="col-6">
                                         <label class="form-label">Visit Date <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
-                                        <input type="date" class="form-control" name="visit_date" id="visit_date">
+                                        <input type="date" class="form-control" name="visit_date" id="visit_date" value="{{$visit->visit_date}}">
                                         <span class="text-danger error-text visit_date_error"></span>
                                     </div>
                                     <div class="col-6">
                                         <label class="form-label">Visit Time</label>
-                                        <input type="time" class="form-control" name="visit_time" id="visit_time">
+                                        <input type="time" class="form-control" name="visit_time" id="visit_time" value="{{$visit->visit_time}}">
                                         <span class="text-danger error-text visit_time_error"></span>
                                     </div>
                                 </div>
@@ -212,7 +213,7 @@
                                         <select class="form-select select2" name="sales_person_id" id="sales_person_id" data-allow-clear="true">
                                             <option value="">--select--</option>
                                             @foreach($data['users'] as $id => $name)
-                                            <option value="{{ $id }}">{{ $name }}</option>
+                                            <option value="{{ $id }}" {{ isset($visit) && $visit->sales_person_id == $id ? 'selected' : '' }}>{{ $name }}</option>
                                             @endforeach
                                         </select>
                                         <span class="text-danger error-text sales_person_id_error"></span>
@@ -232,7 +233,7 @@
                                 <div class="row mt-2">
                                     <div class="col">
                                         <label class="form-label">Printed Notes for this Visit</label>
-                                        <textarea class="form-control" rows="2" name="visit_printed_notes" id="visit_printed_notes" placeholder="Enter Printed Notes">{{$opportunity->internal_notes}}</textarea>
+                                        <textarea class="form-control" rows="2" name="visit_printed_notes" id="visit_printed_notes" placeholder="Enter Printed Notes">{{$visit->visit_printed_notes}}</textarea>
                                         <span class="text-danger error-text visit_printed_notes_error"></span>
                                     </div>
                                 </div>

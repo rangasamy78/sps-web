@@ -18,9 +18,15 @@
           <div class="d-flex justify-content-between mb-3">
             <ul class="nav nav-pills flex-column flex-md-row mb-4">
               <li class="nav-item me-3">
-                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#allAccount">
+                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#allOpportunity">
                   <i class="bx bx-wallet me-sm-1"></i>
                   <span class="align-middle">All Opportunity</span>
+                </button>
+              </li>
+              <li class="nav-item me-3">
+                <button class="nav-link" id="allVisitTab" data-bs-toggle="tab" data-bs-target="#allVisit">
+                  <i class="bx bx-wallet me-sm-1"></i>
+                  <span class="align-middle">All Visit</span>
                 </button>
               </li>
             </ul>
@@ -36,6 +42,7 @@
               <div class="col-12">
                 <div class="tab-content p-0 pe-md-5  ">
                   @include('opportunity.all_opportunity.all_opportunities')
+                  @include('opportunity.all_visit.all_visits')
                 </div>
               </div>
               <!-- /Options-->
@@ -47,8 +54,10 @@
   </div>
   <!-- / Content -->
   <div class="content-backdrop fade"></div>
+  @include('opportunity.all_visit.__model')
 </div>
 @endsection
 @section('scripts')
 @include('opportunity.__script')
+@include('opportunity.all_visit.__script')
 @endsection

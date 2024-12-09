@@ -25,7 +25,7 @@
                                 <span class="text-dark fw-bold">Delivery Opportunity # {{$opportunity->opportunity_code}} {{$opportunity->ship_to_job_name}} @ <a href="{{route('companies.index')}}">{{$company->company_name}}</a></span>
                             </h4>
                             <div class="d-flex align-items-center"> <!-- Container for buttons -->
-                                <a href="{{ route('opportunities.edit', $opportunity->id) }}"
+                                <a href="{{ route('visits.edit', $opportunity->id) }}"
                                     data-id="{{ $opportunity->id }}"
                                     class="btn btn-primary rounded-circle editbtn"
                                     data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="top" data-bs-custom-class="tooltip-dark" title="Update Opportunity"
@@ -387,7 +387,7 @@
                         <div class="d-flex justify-content-between mb-3 pe-md-3">
                             <ul class="nav nav-pills flex-column flex-md-row mb-4">
                                 <li class="nav-item">
-                                    <button class="nav-link " data-bs-toggle="tab" data-bs-target="#file">
+                                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#file">
                                         <i class="bx bx-folder me-2"></i>
                                         <span class="align-middle">Files</span>
                                     </button>
@@ -399,7 +399,7 @@
                                     </button>
                                 </li>
                                 <li class="nav-item me-3">
-                                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#BillToContact">
+                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#BillToContact">
                                         <i class="bx bx-phone me-2"></i>
                                         <span class="align-middle">Contacts</span>
                                     </button>
