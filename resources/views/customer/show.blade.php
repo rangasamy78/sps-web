@@ -86,6 +86,7 @@
                                         @if($customer->delivery_instructions)
                                         <p class="mb-1"><span class="text-dark fw-bold">Parent Location </span>:</p>
                                         <p class="mb-1">{{ $customer->parent_location->company_name ?? '' }}</p>
+                                        @endif
                                 </div>
                             </div>
                         </div>

@@ -52,6 +52,7 @@
                     <div class="col-12 col-lg-12 mb-3">
                         <label class="form-label" for="supplier">Supplier:</label>
                         {!! Form::select('supplier_id', $data['suppliers'], null, ['class' => 'form-control select2', 'id' => 'supplier_id', 'placeholder' => '--Select Supplier--', 'data-allow-clear' => 'true']) !!}
+                        <span class="text-danger error-text supplier_id_error"></span>
                     </div>
                     <div class="col-12 col-lg-12 mb-3">
                         <label class="form-label" for="supplier_primary_address">Select Address:</label>

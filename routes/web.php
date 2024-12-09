@@ -3,8 +3,8 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\VisitController;
 use App\Http\Controllers\StateController;
+use App\Http\Controllers\VisitController;
 use App\Http\Controllers\CountyController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\BinTypeController;
@@ -20,19 +20,20 @@ use App\Http\Controllers\FileTypeController;
 use App\Http\Controllers\FollowUpController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\TermTypeController;
 use App\Http\Controllers\VendorPoController;
 use App\Http\Controllers\AssociateController;
 use App\Http\Controllers\EventTypeController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\SubHeadingController;
 use App\Http\Controllers\VendorTypeController;
-use App\Http\Controllers\OpportunityController;
 use App\Http\Controllers\AccountFileController;
 use App\Http\Controllers\AccountTypeController;
 use App\Http\Controllers\ConsignmentController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\ExpenditureController;
 use App\Http\Controllers\FreightBillController;
+use App\Http\Controllers\OpportunityController;
 use App\Http\Controllers\ProductFileController;
 use App\Http\Controllers\ProductKindController;
 use App\Http\Controllers\ProductTypeController;
@@ -70,6 +71,7 @@ use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ReceivingQcNoteController;
 use App\Http\Controllers\ServiceCategoryController;
 use App\Http\Controllers\Visit\VisitFileController;
+use App\Http\Controllers\SupplierInvoiceController;
 use App\Http\Controllers\TaxExemptReasonController;
 use App\Http\Controllers\OpportunityStageController;
 use App\Http\Controllers\ProductThicknessController;
@@ -362,6 +364,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('special_account_types', SpecialAccountTypeController::class);
     Route::get('/special_account_type/list', [SpecialAccountTypeController::class, 'getSpecialAccounttypeDataTableList'])->name('special_account_types.list');
 
+    Route::resource('term_types', TermTypeController::class);
+    Route::get('/term_type/list', [TermTypeController::class, 'getTermTypeDataTable'])->name('term_types.list');
+
     Route::resource('suppliers', SupplierController::class);
     Route::get('/supplier/list', [SupplierController::class, 'getSupplierDataTableList'])->name('suppliers.list');
     Route::get('/supplier/status/{id}', [SupplierController::class, 'updateStatus'])->name('suppliers.status');
@@ -606,4 +611,8 @@ Route::middleware(['auth'])->group(function () {
         Route::patch('/probability_close/{id}', [VisitController::class, 'updateProbabilityClose'])->name('probability_close');
     });
     //END OPPORTUNITY , VISIT AND HOME PAGE
+
+    Route::get('/purchase_order/po_details', [PurchaseOrderController::class, 'getPoProductPoDataTableList'])->name('purchase_orders.po_product_details');
+    Route::resource('supplier_invoices', SupplierInvoiceController::class);
+    Route::get('/supplier_invoice/list', [SupplierInvoiceController::class, 'getSupplierInvoiceDataTableList'])->name('supplier_invoices.list');
 });

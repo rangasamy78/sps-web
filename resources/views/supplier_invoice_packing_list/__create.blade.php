@@ -6,7 +6,7 @@
 <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="py-3 mb-4 float-right"><span class="text-muted fw-light"> </span>Add New Supplier Invoice </h4>
-        <form id="supplierInvoiceForm" name="supplierInvoiceForm" class="form-horizontal" enctype="multipart/form-data">
+        <form id="supplierInvoicePackingForm" name="supplierInvoicePackingForm" class="form-horizontal" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-12 col-lg-8">
                     <div class="card mb-4">
@@ -15,8 +15,8 @@
                                 <div class="col">
                                     <label class="form-label" for="SIPL/Bill#">SIPL/Bill#:
                                         <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
-                                    <input type="hidden" name="po_id" id="po_id" value="{{$po_id}}">
-                                    <input type="text" class="form-control" id="sipl_bill" placeholder="SIPL/Bill#"
+                                        <input type="hidden" name="supplier_invoice_id" id="supplier_invoice_id">
+                                    <input type="text" class="form-control" id="sipl_bill" value="{{$newPo}}"  readonly 
                                         name="sipl_bill" aria-label="SIPL/Bill#" />
                                     <span class="text-danger error-text sipl_bill_error"></span>
                                 </div>
@@ -126,7 +126,7 @@
                                     <label class="form-label" for="Shipment Terms">Payment Hold:
                                     </label>
                                     <input type="checkbox" id="payment_hold" name="payment_hold"
-                                        aria-label="Payment Hold" />
+                                        aria-label="Payment Hold"  />
                                 </div>
 
                                 <div class="col-4">
@@ -467,6 +467,24 @@
                                         placeholder="Internal Notes" name="internal_notes" aria-label=""></textarea>
                                 </div>
                             </div>
+                            <label class="form-label" for="Country">Terms:
+                            </label>
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                <select class="form-select select2" name="pre_purchase_term_id"
+                                        id="pre_purchase_term_id" data-allow-clear="true">
+                                        <option value="">--Select Terms--</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                         
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <textarea type="text" class="form-control" id="terms_value"
+                                        placeholder="" name="terms_value" aria-label=""></textarea>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -476,47 +494,38 @@
                             <div class="col-12 pt-4 pt-md-0">
                                 <div class="tab-content p-0 pe-md-5 ps-md-3">
                                     <div class="" id="product_details">
-                                        <table class="datatables-basic table tables-basic border-top table-striped"
-                                            id="productFile">
-                                            <thead class="table-header-bold">
-                                                <tr>
-                                                    <th>PO# </th>
-                                                    <th>Product</th>
-                                                    <th>Description</th>
-                                                    <th>Supp./Pur. Note </th>
-                                                    <th>Alt.Qty </th>
-                                                    <th>Pr./Alt.UOM </th>
-                                                    <th>Qty</th>
-                                                    <th>Unit Price </th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th>Extended</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            @foreach ($productPo as $product)
-                                                <tr>
-                                                    <td>{{ $product->po_id ?? 'N/A' }}</td>
-                                                    <td>{{ $product->product_name ?? 'N/A' }}</td>
-                                                    <td>{{ $product->description ?? 'N/A' }}</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td>{{ $product->quantity ?? '0' }}</td>
-                                                    <td>${{ number_format($product->unit_price ?? 0, 2) }}</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td>${{ number_format($product->extended ?? 0, 2) }}</td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                        </table>
+                                    
+                                        <table class="datatables-basic table tables-basic border-top table-striped" id="supplierProducts">
+                                        <thead class="table-header-bold">
+                                            <tr>
+                                            <td> <input type="checkbox" class="form-check-input" id="wiring_instruction_id" name="wiring_instruction_id" /></td>
+                                            <th>PO# </th>
+                                            <th>Product</th>
+                                            <th>Description</th>
+                                            <th>Supp./Pur. Note </th>
+                                            <th>Alt.Qty </th>
+                                            <th>Pr./Alt.UOM </th>
+                                            <th>Qty</th>
+                                            <th>Unit Price </th>
+                                            <th></th>
+                                            <th></th>
+                                            <th>Extended</th>
+                                            </tr>
+                                    </thead>
+                                    <tbody>
+                            </tbody>
+                                   
+                                    
+                                </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+
+                             
 
                 <div class="card mb-4">
                     <div class="card-body">
@@ -609,5 +618,5 @@
 </div>
 @endsection
 @section('scripts')
-@include('supplier_invoice.__scripts')
+@include('supplier_invoice_packing_list.__scripts')
 @endsection

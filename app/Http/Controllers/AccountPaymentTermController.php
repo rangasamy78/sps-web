@@ -21,8 +21,8 @@ class AccountPaymentTermController extends Controller
 
     public function index()
     {
-        $account_types = $this->dropDownRepository->dropDownPopulate('account_types');
-        return view('account_payment_term.account_payment_terms', compact('account_types'));
+        $term_types = $this->dropDownRepository->dropDownPopulate('term_types');
+        return view('account_payment_term.account_payment_terms', compact('term_types'));
     }
 
     public function store(CreateAccountPaymentTermRequest $request)

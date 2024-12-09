@@ -16,7 +16,7 @@
                                     <label class="form-label" for="P.O.#">P.O.#:
                                         <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                                     <input type="text" class="form-control" id="po_number" placeholder="P.O.#"
-                                        name="po_number" aria-label="P.O.#" />
++                                        name="po_number" aria-label="P.O.#" value="{{$newPo}}"  readonly />
                                     <span class="text-danger error-text po_number_error"></span>
                                 </div>
                                 <div class="col">
@@ -111,41 +111,41 @@
                                 <div class="col">
                                     <label class="form-label" for="Address">Address:
                                     </label>
-                                    <input type="text" class="form-control" id="supplier_address" placeholder="Address"
+                                    <input type="text" class="form-control" readonly id="supplier_address" placeholder="Address"
                                         name="supplier_address" aria-label="Address" />
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col">
                                     <label class="form-label" for="Suite / Unit#">Suite / Unit#: </label>
-                                    <input type="text" class="form-control" id="supplier_suite"
+                                    <input type="text" class="form-control" readonly id="supplier_suite"
                                         placeholder="Suite / Unit#" name="supplier_suite" aria-label="Suite / Unit#" />
                                 </div>
                                 <div class="col">
                                     <label class="form-label" for="City">City:
                                     </label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="supplier_city" placeholder="City"
+                                        <input type="text" class="form-control" readonly id="supplier_city" placeholder="City"
                                             name="supplier_city" aria-label="City" />
                                     </div>
                                 </div>
                                 <div class="col">
                                     <label class="form-label" for="State"> State:
                                     </label>
-                                    <input type="text" class="form-control" id="supplier_state" placeholder="State"
+                                    <input type="text" class="form-control" readonly id="supplier_state" placeholder="State"
                                         name="supplier_state" aria-label="State" />
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col">
                                     <label class="form-label" for="Zip">Zip:</label>
-                                    <input type="text" class="form-control" id="zip" placeholder="Zip" name="zip"
+                                    <input type="text" class="form-control" readonly id="zip" placeholder="Zip" name="zip"
                                         aria-label="Zip" />
                                 </div>
                                 <div class="col">
                                     <label class="form-label" for="Country">Country:
                                     </label>
-                                    <select class="form-select select2" name="country_id" id="country_id"
+                                    <select class="form-select select2" readonly name="country_id" id="country_id"
                                         data-allow-clear="true">
                                         <option value="">--Select Country--</option>
                                     </select>
@@ -390,6 +390,9 @@
                                 <select class="form-select select2" name="freight_forwarder_id"
                                     id="freight_forwarder_id" data-allow-clear="true">
                                     <option value="">--Select Freight Forwarder--</option>
+                                    @foreach($freight as $fr)
+                                        <option value="{{ $fr->id }}">{{ $fr->expenditure_name  }}</option>
+                                        @endforeach
 
                                 </select>
                             </div>
@@ -424,6 +427,9 @@
                                 <select class="form-select select2" name="departure_port_id" id="departure_port_id"
                                     data-allow-clear="true">
                                     <option value="">--Select Departure Port--</option>
+                                    @foreach($departure as $port)
+                                        <option value="{{ $port->id }}">{{ $port->supplier_port_name  }}</option>
+                                    @endforeach
 
                                 </select>
 
@@ -440,6 +446,9 @@
                                 <select class="form-select select2" name="arrival_port_id" id="arrival_port_id"
                                     data-allow-clear="true">
                                     <option value="">--Select Departure Port--</option>
+                                    @foreach($arrival as $port)
+                                        <option value="{{ $port->id }}">{{ $port->supplier_port_name  }}</option>
+                                    @endforeach
 
                                 </select>
 
@@ -456,6 +465,9 @@
                                 <select class="form-select select2" name="discharge_port_id" id="discharge_port_id"
                                     data-allow-clear="true">
                                     <option value="">--Select Departure Port--</option>
+                                    @foreach($discharge as $port)
+                                        <option value="{{ $port->id }}">{{ $port->supplier_port_name  }}</option>
+                                    @endforeach
 
                                 </select>
 
@@ -514,7 +526,7 @@
                                 <label class="form-label" for="Country">&nbsp;
                                 </label>
                                 <div class="col-md-12">
-                                    <textarea type="text" class="form-control" id="internal_notes" name="internal_notes"
+                                    <textarea type="text" class="form-control" id="special_instructions" name="special_instructions"
                                         aria-label=""></textarea>
                                 </div>
 

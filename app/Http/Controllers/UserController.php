@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\Department;
 use App\Models\Designation;
 use Illuminate\Http\Request;
-use App\Services\User\userService;
+use App\Services\User\UserService;
 use Illuminate\Support\Facades\Log;
 use App\Repositories\UserRepository;
 use App\Http\Requests\User\{CreateUserRequest, UpdateUserRequest};
@@ -80,7 +80,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateUserRequest $request, User $user)
-    {       
+    {
         try {
             $this->userRepository->update($request->only('first_name','last_name', 'code', 'email','password','department_id', 'designation_id'), $user->id);
             return response()->json(['status' => 'success', 'msg' => 'User updated successfully.']);
@@ -118,10 +118,10 @@ class UserController extends Controller
     {
         return $this->userRepository->dataTable($request);
     }
-    
+
     public function getDesignation(Request $request)
     {
         return $this->userService->getDesignation($request);
-    } 
-    
+    }
+
 }

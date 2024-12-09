@@ -23,6 +23,7 @@ class UpdatePrePurchaseRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'supplier_id' => 'required',
             'pre_purchase_date' => 'required|date',
             'requested_by_id' => 'required|exists:users,id',
             'purchase_location_id' => 'required',
@@ -39,14 +40,15 @@ class UpdatePrePurchaseRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'pre_purchase_date.required' => 'The pre-purchase date is required.',
-            'pre_purchase_date.date' => 'The pre-purchase date must be a valid date.',
+            'supplier_id.required' => 'The supplier id is required.',
+            'pre_purchase_date.required' => 'The pre purchase date is required.',
+            'pre_purchase_date.date' => 'The pre purchase date must be a valid date.',
             'requested_by_id.required' => 'The requester ID is required.',
             'requested_by_id.exists' => 'The selected requester does not exist in our records.',
-            'purchase_location_id.required' => 'The purchase location ID is required.',
+            'purchase_location_id.required' => 'The purchase location is required.',
             'purchase_location_id.exists' => 'The selected purchase location does not exist in our records.',
-            'ship_to_location_id.required' => 'The ship-to location ID is required.',
-            'ship_to_location_id.exists' => 'The selected ship-to location does not exist in our records.',
+            'ship_to_location_id.required' => 'The ship to location is required.',
+            'ship_to_location_id.exists' => 'The selected ship to location does not exist in our records.',
             'conversion_rate.required' => 'The conversion rate is required.',
             'conversion_rate.numeric' => 'The conversion rate must be a number.',
             'conversion_rate.min' => 'The conversion rate must be at least 0.',

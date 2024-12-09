@@ -19,7 +19,7 @@ class LanguageController extends Controller
 
     public function index()
     {
-        return view('Language.languages');
+        return view('language.languages');
     }
 
     /**

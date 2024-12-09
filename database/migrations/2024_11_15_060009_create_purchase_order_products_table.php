@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -19,8 +18,8 @@ return new class extends Migration
             $table->tinyInteger('purchased_as')->default(0)->notNull();
             $table->text('description')->nullable();
             $table->text('supplier_purchasng_note')->nullable();
-            $table->integer('min_l_w')->nullable();
-            $table->integer('min_l_w_value')->nullable();
+            $table->integer('length')->nullable();
+            $table->integer('width')->nullable();
             $table->integer('bundles')->nullable();
             $table->integer('slab_bundles')->nullable();
             $table->integer('slab')->nullable();

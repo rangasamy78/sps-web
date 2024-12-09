@@ -15,10 +15,10 @@
         <!-- Cards with charts & info -->
         <!-- 1st row -->
         <div class="row">
-            <div class="col-3">
+            <div class="col-lg-3 col-sm-2">
                 &nbsp;
             </div>
-            <div class="col-3">
+            <div class="col-lg-3 col-sm-4">
                 <div class="row">
                     <div class="col-lg-9">
                         <div class="card card-border-shadow-primary">
@@ -29,7 +29,7 @@
                                         <div class="d-flex flex-column justify-content-center align-items-center w-100 border-bottom border-1 border-light rounded-lg pb-1">
                                             <div class="card-title mb-auto">
                                                 <span class="p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                                                    <img src="{{ asset('public/images/Po.png') }}" alt="not found" width="100px" height="75px">
+                                                    <img src="{{ asset('public/images/Po.png') }}" alt="not found" >
                                                 </span>
                                             </div>
                                             <div class="d-flex justify-content-between w-100">
@@ -40,7 +40,7 @@
                                                 </div>
                                                 <div class="col-1">
                                                     <a href="{{ route('pre_purchase_requests.create') }}" class="text-primary">
-                                                        <i class="fi fi-rr-plus text-primary fs-5" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add PO" style="font-size: 25px;"></i>
+                                                        <i class="fi fi-rr-plus text-primary fs-5" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add PO" style="font-size: 18px !important;"></i>
                                                     </a>
                                                 </div>
                                             </div>
@@ -78,7 +78,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-lg-3 col-sm-4">
                 <div class="row">
                     <div class="col-lg-9">
                         <div class="card card-border-shadow-primary">
@@ -89,7 +89,7 @@
                                         <div class="d-flex flex-column justify-content-center align-items-center w-100 border-bottom border-1 border-light rounded-lg pb-1">
                                             <div class="card-title mb-auto">
                                                 <span class="p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                                                    <img src="{{ asset('public/images/freightbill.png') }}" alt="not found" width="100px" height="75px">
+                                                    <img src="{{ asset('public/images/freightbill.png') }}" alt="not found" >
                                                 </span>
                                             </div>
                                             <div class="d-flex justify-content-between w-100">
@@ -100,7 +100,7 @@
                                                 </div>
                                                 <div class="col-1">
                                                     <a href="{{ route('vendor_pos.create') }}" class="text-primary">
-                                                        <i class="fi fi-rr-plus text-primary fs-5" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Freight PO" style="font-size: 25px;"></i>
+                                                        <i class="fi fi-rr-plus text-primary fs-5" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Freight PO" style="font-size: 18px !important;"></i>
                                                     </a>
                                                 </div>
                                             </div>
@@ -124,8 +124,8 @@
                                                     </a>
                                                 </div>
                                                 <div class="col-1">
-                                                    <a href="{{ route('freight_vendors.create') }}" class="text-primary">
-                                                        <i class="fi fi-rr-plus text-primary fs-5" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Freight Vendor" style="font-size: 25px;"></i>
+                                                    <a href="{{route('expenditures.create')}}" class="text-primary">
+                                                        <i class="fi fi-rr-plus text-primary fs-5" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Freight Vendor" style="font-size: 18px !important;"></i>
                                                     </a>
                                                 </div>
                                             </div>
@@ -143,14 +143,14 @@
                     </div>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-lg-3 col-sm-2">
 
             </div>
         </div>
         <!-- end 1st row -->
         <!-- 2nd row -->
         <div class="row mt-2">
-            <div class="col-3">
+            <div class="col-lg-3 col-sm-3">
                 <div class="row">
                     <div class="col-lg-10">
                         <div class="card card-border-shadow-primary">
@@ -167,7 +167,7 @@
                                                 </div>
                                                 <div class="col-1">
                                                     <a href="{{ route('suppliers.create') }}" class="text-primary">
-                                                        <i class="fi fi-rr-plus text-primary fs-5" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Supplier" style="font-size: 25px;"></i>
+                                                        <i class="fi fi-rr-plus text-primary fs-5" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Supplier" style="font-size: 18px !important;"></i>
                                                     </a>
                                                 </div>
                                             </div>
@@ -183,7 +183,7 @@
                                                 </div>
                                                 <div class="col-1">
                                                     <a href="{{ route('products.create') }}" class="text-primary">
-                                                        <i class="fi fi-rr-plus text-primary fs-5" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Product" style="font-size: 25px;"></i>
+                                                        <i class="fi fi-rr-plus text-primary fs-5" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Product" style="font-size: 18px !important;"></i>
                                                     </a>
                                                 </div>
                                             </div>
@@ -196,7 +196,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-lg-3 col-sm-3">
                 <div class="row">
                     <div class="col-lg-9">
                         <div class="card card-border-shadow-primary">
@@ -206,7 +206,7 @@
                                     <div class="d-flex flex-column justify-content-center align-items-center w-100 border-bottom border-1 border-light rounded-lg pb-1">
                                         <div class="card-title mb-auto">
                                             <span class="p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                                                <img src="{{ asset('public/images/Po.png') }}" alt="not found" width="100px" height="75px">
+                                                <img src="{{ asset('public/images/Po.png') }}" alt="not found" >
                                             </span>
                                         </div>
                                         <div class="d-flex justify-content-between w-100">
@@ -217,7 +217,7 @@
                                             </div>
                                             <div class="col-1">
                                                 <a href="{{ route('purchase_orders.create') }}" class="text-primary">
-                                                    <i class="fi fi-rr-plus text-primary fs-5" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Po" style="font-size: 25px;"></i>
+                                                    <i class="fi fi-rr-plus text-primary fs-5" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Po" style="font-size: 18px !important;"></i>
                                                 </a>
                                             </div>
                                         </div>
@@ -245,15 +245,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row mt-2">
+                        <!-- <div class="row mt-2">
                             <div class="col-12 d-flex justify-content-center">
                                 <img src="{{ asset('public/images/d-arrow.png') }}" alt="Not Found" width="30px" height="25px">
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-lg-3 col-sm-3">
                 <div class="row">
                     <div class="col-lg-9">
                         <div class="card card-border-shadow-primary">
@@ -264,18 +264,18 @@
                                         <div class="d-flex flex-column justify-content-center align-items-center w-100 border-bottom border-1 border-light rounded-lg pb-1">
                                             <div class="card-title mb-auto">
                                                 <span class="p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                                                    <img src="{{ asset('public/images/supplierinvoice_new.png') }}" alt="not found" width="100px" height="75px">
+                                                    <img src="{{ asset('public/images/supplierinvoice_new.png') }}" alt="not found" >
                                                 </span>
                                             </div>
                                             <div class="d-flex justify-content-between w-100">
                                                 <div class="col-11 text-center">
-                                                    <a href="{{ route('suppliers.index') }}" class="text-decoration-none">
+                                                    <a href="{{ route('supplier_invoices.index') }}" class="text-decoration-none">
                                                         <h6 class="card-title mb-1 text-dark">All Supplier Invoices/Packing Lists</h6>
                                                     </a>
                                                 </div>
                                                 <div class="col-1">
-                                                    <a href="{{ route('suppliers.create') }}" class="text-primary">
-                                                        <i class="fi fi-rr-plus text-primary fs-5" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Supplier" style="font-size: 25px;"></i>
+                                                    <a href="{{ route('supplier_invoices.create') }}" class="text-primary">
+                                                        <i class="fi fi-rr-plus text-primary fs-5" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Supplier Invoice" style="font-size: 18px !important;"></i>
                                                     </a>
                                                 </div>
                                             </div>
@@ -296,15 +296,15 @@
                             </div>
 
                         </div>
-                        <div class="row mt-2">
+                        <!-- <div class="row mt-2">
                             <div class="col-12 d-flex justify-content-center">
                                 <img src="{{ asset('public/images/d-arrow.png') }}" alt="Not Found" width="30px" height="25px">
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-lg-3 col-sm-3">
                 <div class="row">
                     <div class="col-lg-9">
                         <div class="card card-border-shadow-primary">
@@ -315,7 +315,7 @@
                                         <div class="d-flex flex-column justify-content-center align-items-center w-100 border-bottom border-1 border-light rounded-lg pb-1">
                                             <div class="card-title mb-auto">
                                                 <span class="p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                                                    <img src="{{ asset('public/images/invetory.png') }}" alt="not found" width="100px" height="75px">
+                                                    <img src="{{ asset('public/images/invetory.png') }}" alt="not found" >
                                                 </span>
                                             </div>
                                             <div class="d-flex justify-content-between w-100">
@@ -331,23 +331,51 @@
                             </div>
 
                         </div>
-                        <div class="row mt-2">
+                        <!-- <div class="row mt-2">
                             <div class="col-12 d-flex justify-content-center">
                                 <img src="{{ asset('public/images/d-arrow.png') }}" alt="Not Found" width="30px" height="25px">
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
         </div>
         <!-- end 2nd row -->
         <!-- 3rd row -->
-        <div class="row mt-2">
-            <div class="col-3">
+        <div class="row mt-4">
+            <div class="col-lg-3 col-sm-3">
                 &nbsp;
             </div>
-            <div class="col-3">
+            <div class="col-lg-3 col-sm-3">
                 <div class="row">
+                    <div class="col  d-flex justify-content-center">
+                        <img src="{{ asset('public/images/d-arrow.png') }}" alt="Not Found" width="30px" height="25px">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-3">
+                <div class="row">
+                    <div class="col d-flex justify-content-center">
+                        <img src="{{ asset('public/images/d-arrow.png') }}" alt="Not Found" width="30px" height="25px">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-3">
+                <div class="row">
+                    <div class="col d-flex justify-content-center">
+                        <img src="{{ asset('public/images/d-arrow.png') }}" alt="Not Found" width="30px" height="25px">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end 3rd row -->
+        <!-- 4rd row -->
+        <div class="row">
+            <div class="col-lg-3 col-sm-3">
+                &nbsp;
+            </div>
+            <div class="col-lg-3 col-sm-3 mb-sm-3">
+                <div class="row mt-3">
                     <div class="col-lg-9">
                         <div class="card card-border-shadow-primary">
                             <div class="card-body">
@@ -356,7 +384,7 @@
                                     <div class="d-flex flex-column justify-content-center align-items-center w-100 border-bottom border-1 border-light rounded-lg pb-1">
                                         <div class="card-title mb-auto">
                                             <span class="p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                                                <img src="{{ asset('public/images/Po.png') }}" alt="not found" width="100px" height="75px">
+                                                <img src="{{ asset('public/images/Po.png') }}" alt="not found" >
                                             </span>
                                         </div>
                                         <div class="d-flex justify-content-between w-100">
@@ -374,7 +402,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-lg-3 col-sm-3 mt-sm-3">
                 <div class="row">
                     <div class="col-lg-9">
                         <div class="card card-border-shadow-primary">
@@ -385,7 +413,7 @@
                                         <div class="d-flex flex-column justify-content-center align-items-center w-100 border-1 border-light rounded-lg pb-1">
                                             <div class="card-title mb-auto">
                                                 <span class="p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                                                    <img src="{{ asset('public/images/Inven.Inventory.png') }}" alt="not found" width="100px" height="75px">
+                                                    <img src="{{ asset('public/images/Inven.Inventory.png') }}" alt="not found" >
                                                 </span>
                                             </div>
                                             <div class="d-flex justify-content-between w-100">
@@ -409,7 +437,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-lg-3 col-sm-3 mt-sm-3">
                 <div class="row">
                     <div class="col-lg-9">
                         <div class="card card-border-shadow-primary">
@@ -420,7 +448,7 @@
                                         <div class="d-flex flex-column justify-content-center align-items-center w-100 border-bottom border-1 border-light rounded-lg pb-1">
                                             <div class="card-title mb-auto">
                                                 <span class="p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                                                    <img src="{{ asset('public/images/inventoryreturns1.png') }}" alt="not found" width="100px" height="75px">
+                                                    <img src="{{ asset('public/images/inventoryreturns1.png') }}" alt="not found" >
                                                 </span>
                                             </div>
                                             <div class="d-flex justify-content-between w-100">

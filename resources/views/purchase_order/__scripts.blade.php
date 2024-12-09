@@ -249,8 +249,8 @@ $(function() {
                         $('#edit_description').val(response.data.description);
                         $('#edit_supplier_purchasng_note').val(response.data
                             .supplier_purchasng_note);
-                        $('#edit_min_l_w').val(response.data.min_l_w);
-                        $('#edit_min_l_w_value').val(response.data.min_l_w_value);
+                        $('#edit_length').val(response.data.length);
+                        $('#edit_width').val(response.data.width);
                         $('#edit_bundles').val(response.data.bundles);
                         $('#edit_slabs').val(response.data.slab);
                         $('#edit_slab_bundles').val(response.data.slab_bundles);
