@@ -13,6 +13,10 @@ class Opportunity extends Model
 
     protected $table = 'opportunities';
 
+    public function opportunity_stage()
+    {
+        return $this->belongsTo(OpportunityStage::class, 'opportunity_stage_id');
+    }
     public function primary_user()
     {
         return $this->belongsTo(User::class, 'primary_sales_person_id');

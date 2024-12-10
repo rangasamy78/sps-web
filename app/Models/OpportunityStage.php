@@ -32,7 +32,7 @@ class OpportunityStage extends Model
        );
     }
 
-    public function Opportunity()
+    public function opportunities()
     {
         return $this->hasMany(Opportunity::class, 'opportunity_stage_id');
     }
