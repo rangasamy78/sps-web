@@ -65,6 +65,7 @@ use App\Http\Controllers\AdjustmentTypeController;
 use App\Http\Controllers\PriceListLabelController;
 use App\Http\Controllers\ShipmentMethodController;
 use App\Http\Controllers\SurveyQuestionController;
+use App\Http\Controllers\CustomerBinTypeController;
 use App\Http\Controllers\ExpenseCategoryController;
 use App\Http\Controllers\PrePurchaseTermController;
 use App\Http\Controllers\ProductCategoryController;
@@ -101,6 +102,7 @@ use App\Http\Controllers\PrePurchaseRequestEventController;
 use App\Http\Controllers\PrePurchaseResponseTermController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\PrePurchaseRequestProductController;
+use App\Http\Controllers\SupplierInvoicePackingItemController;
 use App\Http\Controllers\Opportunity\OpportunityFileController;
 use App\Http\Controllers\AccountReceivableAgingPeriodController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
@@ -583,5 +585,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/purchase_order/po_details', [PurchaseOrderController::class, 'getPoProductPoDataTableList'])->name('purchase_orders.po_product_details');
     Route::resource('supplier_invoices', SupplierInvoiceController::class);
     Route::get('/supplier_invoice/list', [SupplierInvoiceController::class, 'getSupplierInvoiceDataTableList'])->name('supplier_invoices.list');
+    /* Packing List */
+    Route::get('/supplier_invoice/packing_list', [SupplierInvoicePackingItemController::class, 'index'])->name('supplier_invoice.packing_list');
+
+    Route::resource('customer_bin_types', CustomerBinTypeController::class);
+    Route::get('/customer_bin_type/list', [CustomerBinTypeController::class, 'getCustomerBinTypeDataTableList'])->name('customer_bin_types.list');
+
 });
 
