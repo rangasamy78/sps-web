@@ -56,6 +56,7 @@ use App\Http\Controllers\AdjustmentTypeController;
 use App\Http\Controllers\PriceListLabelController;
 use App\Http\Controllers\ShipmentMethodController;
 use App\Http\Controllers\SurveyQuestionController;
+use App\Http\Controllers\BatchCloseQuoteController;
 use App\Http\Controllers\ExpenseCategoryController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ReceivingQcNoteController;
@@ -438,4 +439,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/my_event/list', [MyEventController::class, 'getMyEventDataTableList'])->name('my_events.list');
     Route::post('/set_as_complete/{id}', [MyEventController::class, 'setAsComplete'])->name('my_events.set_as_complete');
     Route::get('/my_events/{event}', [MyEventController::class, 'show'])->name('my_event.show');
+
+    Route::get('batch_close_quotes', [BatchCloseQuoteController::class, 'index'])->name('batch_close_quotes.index');
+    Route::get('/batch_close_quote/list', [BatchCloseQuoteController::class, 'getBatchCloseQuoteDataTableList'])->name('batch_close_quotes.list');
+    Route::post('/batch_close_quote/updatestatus', [BatchCloseQuoteController::class, 'updatestatus'])->name('batch_close_quotes.updatestatus');
 });

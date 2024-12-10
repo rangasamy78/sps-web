@@ -24,21 +24,14 @@ class FollowUpController extends Controller
         }
 
         $probabilityToClose = ProbabilityToClose::with(['Probability' => function ($query) use ($startDate, $endDate) {
-            $query->whereBetween('opportunity_date', [$startDate, $endDate]);
+                $query->whereBetween('opportunities.opportunity_date', [$startDate, $endDate])
+                    ->leftjoin('customers', 'opportunities.billing_customer_id', '=', 'customers.id')
+                    ->leftjoin('users', 'opportunities.primary_sales_person_id', '=', 'users.id')
+                    ->leftjoin('companies', 'opportunities.location_id', '=', 'companies.id')
+                    ->select('opportunities.*', 'customers.customer_name as customer_name', 'customers.phone as phone', 'customers.accounting_email as accounting_email', DB::raw("CONCAT(first_name, ' ', last_name) AS full_name"), 'companies.company_name');
         }])
         ->get();
 
         return view('follow_up.follow_ups', compact('probabilityToClose', 'startDate', 'endDate'));
-    }
-    public function filterData(Request $request)
-    {
-        $startDate = $request->input('start_date');
-        $endDate = $request->input('end_date');
-
-        $probabilityToClose = ProbabilityToClose::with(['Probability' => function ($query) use ($startDate, $endDate) {
-            $query->whereBetween('opportunity_date', [$startDate, $endDate]);
-        }])
-        ->get();
-        return response()->json($startDate);
     }
 }
