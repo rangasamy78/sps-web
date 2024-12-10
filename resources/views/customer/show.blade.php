@@ -351,8 +351,10 @@
             </div>
         </div>
     </div>
+@include('consignment.__model')
 @endsection
 @section('scripts')
+@include('consignment.__script')
     <script type="text/javascript">
         $(function() {
 
