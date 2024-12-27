@@ -160,4 +160,8 @@ class Customer extends Model
     {
         return $this->hasMany(Opportunity::class, 'billing_customer_id', 'id');
     }
+    public function saleOrder()
+    {
+        return $this->hasMany(SaleOrder::class, 'billing_customer_id', 'id');
+    }
 }

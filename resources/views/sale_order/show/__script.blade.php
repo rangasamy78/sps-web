@@ -13,7 +13,7 @@
             serverSide: true,
             searching: true,
             ajax: {
-                url: "{{ route('opportunities.contacts.list', ':id') }}".replace(':id', $('#customer_id').val()),
+                url: "{{ route('sale_orders.contacts.list', ':id') }}".replace(':id', $('#customer_id').val()),
                 data: function(d) {
                     // You can add additional parameters to the request if needed
                 }
@@ -62,10 +62,10 @@
 
             if (selectedContactIds.length > 0) {
                 $.ajax({
-                    url: "{{ route('opportunities.contact.save') }}",
+                    url: "{{ route('sale_orders.contact.save') }}",
                     method: 'POST',
                     data: {
-                        opportunity_id: $('input[name="opportunity_id"]').val(),
+                        sales_order_id: $('input[name="sales_order_id"]').val(),
                         contact_id: selectedContactIds,
                         _token: '{{ csrf_token() }}'
                     },
@@ -77,9 +77,9 @@
                             let contactHTML = '';
                             response.contacts.forEach(function(contact) {
                                 contactHTML += `
-                            <div class="contact-item d-flex justify-content-between border-bottom align-items-center p-1 rounded mb-1" style="font-size:0.75rem;" id="contact_${contact.opportunity_contact_id}">
+                            <div class="contact-item d-flex justify-content-between border-bottom align-items-center p-1 rounded mb-1" style="font-size:0.75rem;" id="contact_${contact.sale_order_contact_id}">
                                 <span class="fw-semibold">${contact.name}</span>
-                                <button class="btn btn-label-danger btn-sm rounded-circle delete-contact p-2" data-id="${contact.opportunity_contact_id}">
+                                <button class="btn btn-label-danger btn-sm rounded-circle delete-contact p-2" data-id="${contact.sale_order_contact_id}">
                                     <i class="fas fa-trash-alt fa-xs"></i>
                                 </button>
                             </div>`;
@@ -116,7 +116,7 @@
         });
 
         function deleteOpportunityContact(id) {
-            var url = "{{ route('opportunities.contacts.destroy', ':id') }}".replace(':id', id);
+            var url = "{{ route('sale_orders.contacts.destroy', ':id') }}".replace(':id', id);
             $.ajax({
                 url: url,
                 type: "DELETE",
@@ -161,7 +161,6 @@
             sending(button);
             var url = $('#contact_id').val() ? "{{ route('customers.contacts.update', ':id') }}".replace(':id', $('#contact_id').val()) : "{{ route('customers.contacts.save') }}";
             var type = $('#contact_id').val() ? "PUT" : "POST";
-            alert(url);
             $.ajax({
                 type: type,
                 url: url,
@@ -199,13 +198,13 @@
         //internal notes update
         $('#updateInternalNote').click(function() {
             var internalNotes = $('#internal_notes').val();
-            var opportunityId = $('#opportunity_id').val();
+            var opportunityId = $('#sales_order_id').val();
             var loggedInUser = $('#logged_in_user').val();
             var currentDateTime = new Date().toLocaleString();
             var updatedNotes = `${loggedInUser} ${currentDateTime} : ${internalNotes} \n\n`;
             if (internalNotes) {
                 $.ajax({
-                    url: "{{ route('opportunities.internal_notes', ':id ') }}".replace(':id', opportunityId),
+                    url: "{{ route('sale_orders.internal_notes', ':id ') }}".replace(':id', opportunityId),
                     type: 'PATCH',
                     data: {
                         internal_notes: updatedNotes,

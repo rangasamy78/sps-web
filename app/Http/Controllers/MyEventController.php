@@ -42,7 +42,7 @@ class MyEventController extends Controller
         });
 
         $products = Product::query()->select('products.id', 'product_name', 'product_sku', 'product_type')
-            ->join('product_types', 'products.product_type_id', '=', 'product_types.id')
+            ->leftjoin('product_types', 'products.product_type_id', '=', 'product_types.id')
             ->get();
 
         $customers = Customer::query()

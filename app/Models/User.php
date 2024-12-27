@@ -84,4 +84,12 @@ class User extends Authenticatable
     {
         return trim($this->first_name . ' ' . $this->last_name);
     }
+    public function saleOrder()
+    {
+        return $this->hasMany(SaleOrder::class, 'primary_sales_person_id');
+    }
+    public function saleOrderSecondary()
+    {
+        return $this->hasMany(SaleOrder::class, 'secondary_sales_person_id');
+    }
 }

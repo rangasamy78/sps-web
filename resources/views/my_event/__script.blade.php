@@ -247,6 +247,13 @@
                 }
             });
         });
+            var pathname = window.location.pathname;
+            var dateMatch = pathname.match(/\/(\d{4}-\d{2}-\d{2})$/);
+
+            if (dateMatch) {
+                var scheduleDateInput = document.getElementById('schedule_date');
+                scheduleDateInput.value = dateMatch[1];  
+            }
 
     });
 </script>
