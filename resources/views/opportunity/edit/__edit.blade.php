@@ -580,7 +580,7 @@
                 </div>
                 <div class="row">
                     <div class="col-12 d-flex justify-content-end gap-2">
-                        <button type="submit" class="btn btn-primary btn-md" id="savedata" name="savedata">Save New Opportunity</button>
+                        <button type="submit" class="btn btn-primary btn-md" id="savedata" name="savedata">Update Opportunity</button>
                         <button type="button" class="btn btn-secondary btn-md" id="editCancelButton" name="editCancelButton">Cancel</button>
                     </div>
                 </div>

@@ -25,7 +25,7 @@
                                 <span class="text-dark fw-bold">Delivery Opportunity # {{$opportunity->opportunity_code}} {{$opportunity->ship_to_job_name}} @ <a href="{{route('companies.index')}}">{{$company->company_name}}</a></span>
                             </h4>
                             <div class="d-flex align-items-center"> <!-- Container for buttons -->
-                                <a href="{{ route('visits.edit', $opportunity->id) }}"
+                                <a href="{{ route('opportunities.edit', $opportunity->id) }}"
                                     data-id="{{ $opportunity->id }}"
                                     class="btn btn-primary rounded-circle editbtn"
                                     data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="top" data-bs-custom-class="tooltip-dark" title="Update Opportunity"
@@ -86,7 +86,7 @@
 
                                     </div>
                                 </div>
-                                @if($taxcode && $taxcode->tax_code_label)
+                                @if(optional($taxcode)->tax_code_label)
                                 <div class="col-sm-12 col-md-6 col-lg-3">
                                     <div class="row mb-2">
                                         <div class="col">
@@ -101,7 +101,7 @@
                                 @endif
                                 <div class="col-sm-12 col-md-6 col-lg-3">
                                     <div class="row mb-2">
-                                        @if($price_list->price_code)
+                                        @if(optional($price_list)->price_code)
                                         <div class="col-6">
                                             <span id="print_name_value" class="d-block">
                                                 {{ $price_list->price_code }}-{{ $price_list->price_label }}
@@ -109,7 +109,7 @@
                                             <label for="created_by" class="form-label text-dark fw-bold" style="font-size:8pt">Price Level</label>
                                         </div>
                                         @endif
-                                        @if($payment_term->payment_label)
+                                        @if(optional($payment_term)->payment_label)
                                         <div class="col-6">
                                             <span id="print_name_value" class="d-block">
                                                 {{ $payment_term->payment_label }}
@@ -166,7 +166,7 @@
                                     <div class="row">
                                         <div class="col"><label class="form-label">{{$customer->address}}</label></div>
                                     </div>
-                                    @if ($customer->phone)
+                                    @if (optional($customer)->phone)
                                     <div class="row">
                                         <div class="col">
                                             <i class='bx bx-phone-call text-dark'></i>
@@ -174,7 +174,7 @@
                                         </div>
                                     </div>
                                     @endif
-                                    @if ($customer->email)
+                                    @if (optional($customer)->email)
                                     <div class="row">
                                         <div class="col"><i class='bx bx-envelope text-dark'></i><label class="form-label ms-1">{{$customer->email}}</label></div>
                                     </div>
@@ -185,12 +185,12 @@
                                         Ship To:
                                         <span class="text-dark" style="font-size: 0.75rem;">{{$opportunity->ship_to_name}}</span>
                                     </h6>
-                                    @if ($opportunity->ship_to_address)
+                                    @if (optional($opportunity)->ship_to_address)
                                     <div class="row">
                                         <div class="col"><label class="form-label">{{$opportunity->ship_to_address}}</label></div>
                                     </div>
                                     @endif
-                                    @if ($opportunity->ship_to_phone)
+                                    @if (optional($opportunity)->ship_to_phone)
                                     <div class="row">
                                         <div class="col"><i class='bx bx-phone-call text-dark'></i><label class="form-label ms-1">{{$opportunity->ship_to_phone}}</label></div>
                                     </div>
@@ -207,14 +207,14 @@
                                         <span class="text-dark" style="font-size: 0.75rem;">{{$company->company_name}}</span>
                                     </h6>
                                     <div class="row">
-                                        <div class="col"> @if($primary_sales && $primary_sales->first_name)<i class='bx bx-user text-dark'></i><label class="form-label ms-1">{{$primary_sales->first_name}}&nbsp;{{$primary_sales->last_name}}</label>@else
+                                        <div class="col"> @if(optional($primary_sales)->first_name)<i class='bx bx-user text-dark'></i><label class="form-label ms-1">{{$primary_sales->first_name}}&nbsp;{{$primary_sales->last_name}}</label>@else
                                             <!-- No secondary sales person assigned -->
                                             @endif
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col">
-                                            @if($secondary_sales && $secondary_sales->first_name)<i class="bx bx-user text-dark"></i><label class="form-label ms-1">{{ $secondary_sales->first_name }} &nbsp;{{ $secondary_sales->last_name }}</label>
+                                            @if(optional($secondary_sales)->first_name)<i class="bx bx-user text-dark"></i><label class="form-label ms-1">{{ $secondary_sales->first_name }} &nbsp;{{ $secondary_sales->last_name }}</label>
                                             @else
                                             <!-- No secondary sales person assigned -->
                                             @endif
@@ -260,7 +260,7 @@
                                         </button>
                                     </div>
                                 </div>
-                                @if($opportunity->internal_notes)
+                                @if(optional($opportunity)->internal_notes)
                                 <div class="col-lg-6 col-sm-12">
                                     <label class="form-label fw-bold text-dark">Internal Notes</label>
                                     <textarea class="form-control" readonly id="internal_notes_input">{{$opportunity->internal_notes}}</textarea>
@@ -268,7 +268,7 @@
                                 @endif
                             </div>
                             <div class="row mt-3">
-                                @if($opportunity->special_instructions)
+                                @if(optional($opportunity)->special_instructions)
                                 <div class="col-lg-6 col-sm-12">
                                     <label class="form-label fw-bold text-dark">Special / Delivery Instructions</label>
                                     <textarea class="form-control" rows="1" readonly id="special_instructions" name="special_instructions">{{$opportunity->special_instructions}}</textarea>
@@ -328,11 +328,9 @@
                         onclick="window.location.href='{{ route('visits.opportunity_detail', $opportunity->id) }}'">
                         <i class="fi fi-rr-plus me-2"></i> Visit
                     </button>
-
-
-                    <button type="button" class="btn btn-dark  btn-sm"><i class="fi fi-rr-plus me-2"></i> Sample Order</button>
+                    <button type="button" class="btn btn-dark  btn-sm" onclick="window.location.href='{{ route('create.index_sample_order', $opportunity->id) }}'"><i class="fi fi-rr-plus me-2"></i> Sample Order</button>
+                    <button type="button" class="btn btn-dark  btn-sm" onclick="window.location.href='{{ route('quote.index_quote', $opportunity->id) }}'"><i class="fi fi-rr-plus me-2"></i> Quotes</button>
                     <button type="button" class="btn btn-dark  btn-sm"><i class="fi fi-rr-plus me-2"></i> Holds</button>
-                    <button type="button" class="btn btn-dark  btn-sm"><i class="fi fi-rr-plus me-2"></i> Quotes</button>
                     <button type="button" class="btn btn-dark  btn-sm"><i class="fi fi-rr-plus me-2"></i> Sales Order</button>
                 </div>
             </div>

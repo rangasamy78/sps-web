@@ -32,4 +32,8 @@ class PriceListLabel extends Model
     {
         return $this->hasMany(Opportunity::class, 'price_level_label_id');
     }
+    public function quote()
+    {
+        return $this->hasMany(Quote::class, 'price_level_id');
+    }
 }

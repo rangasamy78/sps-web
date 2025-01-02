@@ -47,7 +47,7 @@
                 serverSide: true,
                 searching: false,
                 ajax: {
-                    url: "{{ route('visits.search_product') }}",
+                    url: "{{ route('products.search_product') }}",
                     type: 'GET',
                     data: function(d) {
                         d.name = $('#search_product_name_sku').val();
@@ -95,7 +95,7 @@
         $(document).on('change', '.product_checkbox', function() {
             if ($(this).is(':checked')) {
                 var dataId = $(this).data('id');
-                var url = "{{ route('visits.get_product') }}";
+                var url = "{{ route('products.get_product') }}";
 
                 $.ajax({
                     url: url,
@@ -229,7 +229,7 @@
             var priceInput = row.find('.product-price');
             var quantityInput = row.find('.product-quantity');
             var amountInput = row.find('.product-amount');
-            var url = "{{ route('visits.get_product_price') }}";
+            var url = "{{ route('products.get_product_price') }}";
             $.ajax({
                 url: url,
                 type: 'GET',
@@ -282,6 +282,40 @@
             });
         });
 
+        $(document).on('change', 'select[name="service_id[]"]', function() {
+            var id = $(this).val();
+            var row = $(this).closest('tr');
+            var priceInput = row.find('.service-unit-price');
+            var quantityInput = row.find('.service-quantity');
+            quantityInput.val(1);
+            var amountInput = row.find('.service-amount');
+            var url = "{{ route('products.get_service_price') }}";
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: {
+                    id: id
+                },
+                success: function(response) {
+                    if (response && response.status === 'success' && response.data) {
+                        priceInput.val(response.data.unit_price);
+                        var quantity = quantityInput.val() || 0;
+                        amountInput.val((quantity * response.data.unit_price).toFixed(2));
+                        calculateTotals();
+                    } else {
+                        alert('Failed to fetch service price');
+                        priceInput.val('');
+                        amountInput.val('');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                    alert('An error occurred while fetching service price.');
+                    priceInput.val('');
+                    amountInput.val('');
+                }
+            });
+        });
         // Function to collect form data and send it via AJAX
         $(document).ready(function() {
             $('#updateVisitProductBtn').click(function(e) {

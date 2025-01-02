@@ -35,4 +35,9 @@ class ProjectType extends Model
     {
         return $this->hasMany(Opportunity::class, 'end_use_segment_id');
     }
+
+    public function quote()
+    {
+        return $this->hasMany(Quote::class, 'project_type_id', 'id');
+    }
 }

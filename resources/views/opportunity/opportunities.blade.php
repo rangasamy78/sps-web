@@ -29,6 +29,18 @@
                   <span class="align-middle">All Visit</span>
                 </button>
               </li>
+              <li class="nav-item me-3">
+                <button class="nav-link" id="allVisitTab" data-bs-toggle="tab" data-bs-target="#allSampleOrder">
+                  <i class="bx bx-wallet me-sm-1"></i>
+                  <span class="align-middle">All Sample Order</span>
+                </button>
+              </li>
+              <li class="nav-item me-3">
+                <button class="nav-link" id="allVisitTab" data-bs-toggle="tab" data-bs-target="#allQuote">
+                  <i class="bx bx-wallet me-sm-1"></i>
+                  <span class="align-middle">All Quote</span>
+                </button>
+              </li>
             </ul>
           </div>
         </div>
@@ -43,6 +55,8 @@
                 <div class="tab-content p-0 pe-md-5  ">
                   @include('opportunity.all_opportunity.all_opportunities')
                   @include('opportunity.all_visit.all_visits')
+                  @include('opportunity.all_sample_order.all_sample_orders')
+                  @include('opportunity.all_quote.all_quotes')
                 </div>
               </div>
               <!-- /Options-->
@@ -55,9 +69,13 @@
   <!-- / Content -->
   <div class="content-backdrop fade"></div>
   @include('opportunity.all_visit.__model')
+  @include('opportunity.all_sample_order.__model')
+  @include('opportunity.all_quote.__model')
 </div>
 @endsection
 @section('scripts')
 @include('opportunity.__script')
 @include('opportunity.all_visit.__script')
+@include('opportunity.all_sample_order.__script')
+@include('opportunity.all_quote.__script')
 @endsection

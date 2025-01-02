@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -28,5 +29,9 @@ class ProductPrice extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+    public function price_range()
+    {
+        return $this->belongsTo(ProductPriceRange::class,'price_range_id');
     }
 }

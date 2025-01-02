@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\VisitController;
 use App\Http\Controllers\CountyController;
@@ -40,6 +41,9 @@ use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\ProjectTypeController;
 use App\Http\Controllers\ServiceTypeController;
 use App\Http\Controllers\UnitMeasureController;
+use App\Http\Controllers\QuoteFooterController;
+use App\Http\Controllers\QuoteHeaderController;
+use App\Http\Controllers\SampleOrderController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\CustomerTypeController;
 use App\Http\Controllers\ProductColorController;
@@ -73,7 +77,9 @@ use App\Http\Controllers\ServiceCategoryController;
 use App\Http\Controllers\Visit\VisitFileController;
 use App\Http\Controllers\SupplierInvoiceController;
 use App\Http\Controllers\TaxExemptReasonController;
+use App\Http\Controllers\Quote\QuoteFileController;
 use App\Http\Controllers\OpportunityStageController;
+use App\Http\Controllers\QuotePrintedNoteController;
 use App\Http\Controllers\ProductThicknessController;
 use App\Http\Controllers\ReturnReasonCodeController;
 use App\Http\Controllers\ProductPriceRangeController;
@@ -100,20 +106,32 @@ use App\Http\Controllers\PrePurchaseRequestFileController;
 use App\Http\Controllers\PurchaseShipmentMethodController;
 use App\Http\Controllers\PrePurchaseRequestEventController;
 use App\Http\Controllers\PrePurchaseResponseTermController;
+use App\Http\Controllers\Quote\Lines\QuoteServiceController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\PrePurchaseRequestProductController;
 use App\Http\Controllers\Opportunity\OpportunityFileController;
+use App\Http\Controllers\SampleOrder\SampleOrderFileController;
 use App\Http\Controllers\AccountReceivableAgingPeriodController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
+use App\Http\Controllers\Quote\Lines\QuoteReceiveDepositController;
 use App\Http\Controllers\PrePurchaseRequestSupplierRequestController;
+use App\Http\Controllers\Quote\Lines\QuoteOptionLineServiceController;
+use App\Http\Controllers\Quote\Lines\QuoteOptionLineProductController;
 use App\Http\Controllers\Visit\EventController as VisitEventController;
+use App\Http\Controllers\Quote\EventController as QuoteEventController;
 use App\Http\Controllers\Visit\ContactController as VisitContactController;
-use App\Http\Controllers\Supplier\ContactController as SupplierContactController;
+use App\Http\Controllers\Quote\Lines\QuoteProductPriceCalculatorController;
+use App\Http\Controllers\Quote\ContactController as QuoteContactController;
 use App\Http\Controllers\Customer\ContactController as CustomerContactController;
+use App\Http\Controllers\Supplier\ContactController as SupplierContactController;
+use App\Http\Controllers\SampleOrder\EventController as SampleOrderEventController;
 use App\Http\Controllers\Associate\ContactController as AssociateContactController;
 use App\Http\Controllers\Opportunity\EventController as OpportunityEventController;
+use App\Http\Controllers\Quote\Lines\QuoteProductController as QuoteProductController;
+use App\Http\Controllers\SampleOrder\ContactController as SampleOrderContactController;
 use App\Http\Controllers\Expenditure\ContactController as ExpenditureContactController;
 use App\Http\Controllers\Opportunity\ContactController as OpportunityContactController;
+use App\Http\Controllers\Opportunity\ProductDetail\ProductListController as OpportunityProductListcontroller;
 
 /*
 |--------------------------------------------------------------------------
@@ -545,7 +563,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/purchase_order/purchase_details/{id}', [PurchaseOrderController::class, 'deletePoDetails'])->name('deletePo');
     Route::get('/fetch_product_po_details/{id}', [PurchaseOrderController::class, 'FetchProductPoData'])->name('fetch_product_po_details');
     Route::get('/fetch_po_products/{id}', [PurchaseOrderController::class, 'FetchPoproductDetails'])->name('fetch_po_products');
-    //OPPORTUNITY , VISIT AND HOME PAGE
+    //OPPORTUNITY , VISIT,SAMPLE ORDER, QUOTE AND HOME PAGE
     Route::view('/pre_sales', 'pre_sales.home')->name('pre_sales');
     Route::view('/purchases', 'purchases.home')->name('purchases');
     Route::resource('opportunities', OpportunityController::class);
@@ -570,13 +588,17 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/event/list/{id}', [OpportunityEventController::class, 'getEventDataTableList'])->name('events.list');
         Route::get('/product_list', [OpportunityEventController::class, 'getAllProductDataTableList'])->name('events.product_list');
     });
+    Route::prefix('product_lists')->name('products.')->group(function () {
+        Route::get('/search_product', [OpportunityProductListcontroller::class, 'searchProduct'])->name('search_product');
+        Route::get('/get-product', [OpportunityProductListcontroller::class, 'getProduct'])->name('get_product');
+        Route::get('/get-product-price', [OpportunityProductListcontroller::class, 'getProductPrice'])->name('get_product_price');
+        Route::get('/get-service-price', [OpportunityProductListcontroller::class, 'getServicePrice'])->name('get_service_price');
+    });
+
     Route::resource('visits', VisitController::class);
     Route::get('/visit/opportunity_detail/{id}', [VisitController::class, 'getOpportunityDetail'])->name('visits.opportunity_detail');
     Route::get('/visit/list/{id}', [VisitController::class, 'getVisitProductDataTableList'])->name('visits.list');
     Route::get('/visit/show_add_product/{id}', [VisitController::class, 'showAddProduct'])->name('visits.show_add_product');
-    Route::get('/visit/search_product', [VisitController::class, 'searchProduct'])->name('visits.search_product');
-    Route::get('/get-product', [VisitController::class, 'getProduct'])->name('visits.get_product');
-    Route::get('/get-product-price', [VisitController::class, 'getProductPrice'])->name('visits.get_product_price');
     Route::post('/save_visit_product', [VisitController::class, 'saveVisitProduct'])->name('visits.save_visit_product');
     Route::get('/edit_visit_product/{id}', [VisitController::class, 'editVisitProduct'])->name('visits.edit_visit_product');
     Route::put('/update_visit_product/{id}', [VisitController::class, 'updateVisitProduct'])->name('visits.update_visit_product');
@@ -610,7 +632,99 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/contacts/{id}/delete', [VisitContactController::class, 'destroy'])->name('contacts.destroy');
         Route::patch('/probability_close/{id}', [VisitController::class, 'updateProbabilityClose'])->name('probability_close');
     });
-    //END OPPORTUNITY , VISIT AND HOME PAGE
+    Route::prefix('sample_orders')->name('create.')->group(function () {
+        Route::resource('sample_orders', SampleOrderController::class);
+        Route::get('/list', [SampleOrderController::class, 'getSampleOrderDataTableList'])->name('list');
+        Route::get('/list/{id}', [SampleOrderController::class, 'getAllSampleOrderDataTableList'])->name('list_all');
+
+        Route::get('/index/{id}', [SampleOrderController::class, 'indexSampleOrder'])->name('index_sample_order');
+        Route::get('/index/product/{id}', [SampleOrderController::class, 'indexProductSampleOrder'])->name('index_product');
+        Route::post('/save_product', [SampleOrderController::class, 'saveSampleOrderProduct'])->name('save_product');
+        Route::get('/product/list/{id}', [SampleOrderController::class, 'getSampleOrderProductDataTableList'])->name('products.list');
+        Route::get('/edit_product/{id}', [SampleOrderController::class, 'editSampleOrderProduct'])->name('edit_product');
+        Route::put('/update_product/{id}', [SampleOrderController::class, 'updateSampleOrderProduct'])->name('update_product');
+        Route::delete('/delete_product/{id}', [SampleOrderController::class, 'deleteSampleOrderProduct'])->name('delete_product');
+        Route::patch('/probability_close/{id}', [SampleOrderController::class, 'updateProbabilityClose'])->name('probability_close');
+        Route::patch('/status/{id}', [SampleOrderController::class, 'updateStatus'])->name('status');
+        //sample order and opportunity
+        Route::get('/index', [SampleOrderController::class, 'indexOpportunitySampleOrder'])->name('index');
+        Route::post('/save', [SampleOrderController::class, 'saveOpportunitySampleOrder'])->name('save');
+        Route::get('/edit/{id}', [SampleOrderController::class, 'editOpportunitySampleOrder'])->name('edit');
+        Route::put('/update/{id}', [SampleOrderController::class, 'updateOpportunitySampleOrder'])->name('update');
+        //sample order
+        Route::resource('sample_order_files', SampleOrderFileController::class);
+        Route::get('/sample_order_file/list/{id}', [SampleOrderFileController::class, 'getSampleOrderFileDataTableList'])->name('sample_order_files.list');
+        //event
+        Route::resource('sample_order_events', SampleOrderEventController::class);
+        Route::get('/sample_order_event/list/{id}', [SampleOrderEventController::class, 'getSampleOrderEventDataTableList'])->name('sample_order_events.list');
+        //contact
+        Route::post('/contact/save', [SampleOrderContactController::class, 'save'])->name('contact.save');
+        Route::get('/contact/list/{id}', [SampleOrderContactController::class, 'getCustomerContactDataTableList'])->name('contacts.list');
+        Route::delete('/contacts/{id}/delete', [SampleOrderContactController::class, 'destroy'])->name('contacts.destroy');
+    });
+    //quote header
+    Route::resource('quote_headers', QuoteHeaderController::class);
+    Route::get('/quote_header/list', [QuoteHeaderController::class, 'getQuoteHeaderDataTableList'])->name('quote_headers.list');
+
+    //quote footer
+    Route::resource('quote_footers', QuoteFooterController::class);
+    Route::get('/quote_footer/list', [QuoteFooterController::class, 'getQuoteFooterDataTableList'])->name('quote_footers.list');
+
+    //quote printed note
+    Route::resource('quote_printed_notes', QuotePrintedNoteController::class);
+    Route::get('/quote_printed_note/list', [QuotePrintedNoteController::class, 'getQuotePrintedNoteDataTableList'])->name('quote_printed_notes.list');
+
+    //quote
+    Route::prefix('quotes')->name('quote.')->group(function () {
+        Route::resource('quotes', QuoteController::class);
+        Route::get('/index/{id}', [QuoteController::class, 'indexQuote'])->name('index_quote');
+        Route::get('/list', [QuoteController::class, 'getQuoteDataTableList'])->name('list');
+        Route::get('/list_all/{id}', [QuoteController::class, 'getAllQuoteDataTableList'])->name('list_all');
+        Route::patch('internal_notes/{id}', [QuoteController::class, 'updateInternalNotes'])->name('internal_notes');
+        Route::patch('/probability_close/{id}', [QuoteController::class, 'updateProbabilityClose'])->name('probability_close');
+        Route::patch('/survey/{id}', [QuoteController::class, 'updateSurveyRate'])->name('survey');
+        Route::patch('/status/{id}', [QuoteController::class, 'updateQuoteStatus'])->name('status');
+        //quote and opportunity
+        Route::get('/index', [QuoteController::class, 'indexOpportunityQuote'])->name('index');
+        Route::post('/save', [QuoteController::class, 'saveOpportunityQuote'])->name('save');
+        // quote Product
+        Route::resource('quote_products', QuoteProductController::class);
+        Route::get('/product_list', [QuoteProductController::class, 'getAllProductDataTableList'])->name('product_list');
+        Route::get('/service_product_list/{id}', [QuoteProductController::class, 'getAllServiceProductDataTableList'])->name('service_product_list');
+        //optinal line product
+        Route::resource('quote_option_line_products', QuoteOptionLineProductController::class);
+        Route::get('/option_line_product', [QuoteOptionLineProductController::class, 'getAllOptionLineProductDataTableList'])->name('option_line_product');
+        Route::get('lists/{id}', [QuoteOptionLineProductController::class, 'show'])->name('option_line_product_lists');
+        // quote Service
+        Route::resource('quote_services', QuoteServiceController::class);
+        Route::get('/service_list', [QuoteServiceController::class, 'getAllServiceDataTableList'])->name('service_list');
+        //optinal line service
+        Route::resource('quote_option_line_services', QuoteOptionLineServiceController::class);
+        Route::get('/option_line_service', [QuoteOptionLineServiceController::class, 'getAllOptionLineServiceDataTableList'])->name('option_line_service');
+        Route::get('/get-service', [QuoteOptionLineServiceController::class, 'getService'])->name('get_service');
+        Route::get('option_line_service_list/{id}', [QuoteOptionLineServiceController::class, 'show'])->name('option_line_service_lists');
+        //price calulator from cost
+        Route::get('supplier_detail/{id}', [QuoteProductPriceCalculatorController::class, 'getSupplierDetail'])->name('supplier_detail');
+        Route::get('tax_amount/{id}', [QuoteProductPriceCalculatorController::class, 'getTaxAmount'])->name('tax_amount');
+        Route::Post('price_calculator_store', [QuoteProductPriceCalculatorController::class, 'store'])->name('price_calculator_store');
+        Route::get('price_calculator_show/{id}', [QuoteProductPriceCalculatorController::class, 'show'])->name('price_calculator_show');
+        Route::delete('/price_calculator_inventory/{id}', [QuoteProductPriceCalculatorController::class, 'destroy'])->name('price_calculator_inventory_delete');
+        //recieve deposit
+        Route::get('/receive_deposit/index/{id}', [QuoteReceiveDepositController::class, 'index'])->name('receive_index');
+        Route::post('/receive_deposit/store', [QuoteReceiveDepositController::class, 'store'])->name('receive_store');
+        // contact
+        Route::resource('contacts', QuoteContactController::class);
+        Route::get('/list/{id}', [QuoteContactController::class, 'getAllQuoteContactDataTableList'])->name('contact_list');
+        Route::get('/customer_contact/list/{id}', [QuoteContactController::class, 'getCustomerContactDataTableList'])->name('customer_contact_list');
+        Route::delete('/customer_contact/{id}/delete', [QuoteContactController::class, 'customerContactDestroy'])->name('customer_contact.destroy');
+        //file
+        Route::resource('files', QuoteFileController::class);
+        Route::get('/quote_file/list/{id}', [QuoteFileController::class, 'getQuoteFileDataTableList'])->name('quote_file.list');
+        //event
+        Route::resource('events', QuoteEventController::class);
+        Route::get('/event/list/{id}', [QuoteEventController::class, 'getQuoteEventDataTableList'])->name('events.list');
+    });
+    //END OPPORTUNITY , VISIT, sample order ,quote AND HOME PAGE
 
     Route::get('/purchase_order/po_details', [PurchaseOrderController::class, 'getPoProductPoDataTableList'])->name('purchase_orders.po_product_details');
     Route::resource('supplier_invoices', SupplierInvoiceController::class);

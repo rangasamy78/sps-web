@@ -87,8 +87,8 @@ class OpportunityFileRepository implements CrudRepositoryInterface
         $arrData->map(function ($value) {
             $fileTypes = FileType::where('file_type_opportunity', 1)->select('id', 'file_Type')->get();
             $value->id = $value->id ?? '';
-            $value->image = '<img src="' . (pathinfo($value->file_name, PATHINFO_EXTENSION) === 'pdf' ? asset('public/assets/img/elements/22.png') : asset('storage/app/public/images/' . $value->file_name)) . '" alt="file-preview" class="d-block rounded" height="40" width="40" />';
-            $value->file_name = '<label>' . $value->file_name . '</label>';
+            $value->image = '<img src="' . (pathinfo($value->file_name, PATHINFO_EXTENSION) === 'pdf' ? asset('public/assets/img/elements/22.png') : asset('storage/app/public/' . $value->file_name)) . '" alt="file-preview" class="d-block rounded" height="40" width="40" />';
+            $value->file_name = '<a href="' . asset('storage/app/public/' . $value->file_name) . '" class="text-secondary" target="_blank">' . $value->file_name . '</a>';
             $fileTypeOptions = '<option>--select--</option>';
             foreach ($fileTypes as $fileType) {
                 $fileTypeOptions .= '<option value="' . $fileType->id . '"' . ($value->file_type_id == $fileType->id ? ' selected' : '') . '>' . $fileType->file_Type . '</option>';

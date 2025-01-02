@@ -212,7 +212,7 @@
 
                                             <!-- Item 2 -->
                                             <div class="d-flex align-items-center border-bottom border-dark mb-2 p-2">
-                                                <a href="javascript:void(0)" class="text-primary me-3">
+                                                <a href="{{ route('create.index') }}" class="text-primary me-3">
                                                     <i class="fi fi-rr-plus fs-5" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Sample Order"></i>
                                                 </a>
                                                 <a href="javascript:void(0)" class="text-decoration-none flex-grow-1">
@@ -222,7 +222,7 @@
 
                                             <!-- Item 3 -->
                                             <div class="d-flex align-items-center border-bottom border-dark mb-2 p-2">
-                                                <a href="javascript:void(0)" class="text-primary me-3">
+                                                <a href="{{ route('quote.index') }}" class="text-primary me-3">
                                                     <i class="fi fi-rr-plus fs-5" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Quotes"></i>
                                                 </a>
                                                 <a href="javascript:void(0)" class="text-decoration-none flex-grow-1">
