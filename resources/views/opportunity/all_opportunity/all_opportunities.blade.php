@@ -6,6 +6,7 @@
     <table class="datatables-basic table tables-basic border-top table-striped" id="datatablesOpportunity">
       <thead class="table-header-bold">
         <tr>
+          <th>Sl.No.</th>
           <th>Opportunity #</th>
           <th>Date - Time</th>
           <th>Job Name</th>

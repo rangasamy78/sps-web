@@ -16,10 +16,13 @@
             e.preventDefault();
             var button = $(this);
             sending(button);
-            var url = $('#visit_id').val() ? "{{ route('visits.update', ':id') }}".replace(':id', $('#visit_id').val()) : "{{ route('visits.store') }}";
+
+            var url = $('#visit_id').val() ?
+                "{{ route('visits.update', ':id') }}".replace(':id', $('#visit_id').val()) :
+                "{{ route('visits.store') }}";
             var type = $('#visit_id').val() ? "PUT" : "POST";
             var data = $('#visit_id').val() ? $('#formUpdateVisit').serialize() : $('#formAddNewVisit').serialize();
-            var id = $('#visit_id').val();
+
             $.ajax({
                 url: url,
                 type: type,
@@ -27,11 +30,15 @@
                 dataType: 'json',
                 success: function(response) {
                     if (response.status == "success") {
+                        var id = $('#visit_id').val();
+                        var redirectUrl = id ?
+                            "{{ route('visits.edit_visit_product', ':id') }}".replace(':id', response.visit_id) :
+                            "{{ route('visits.show_add_product', ':id') }}".replace(':id', response.visit_id);
+
                         $('#formAddNewVisit').trigger("reset");
                         sending(button, true);
                         showToast('success', response.msg);
-                        const url = "{{ route('visits.edit_visit_product', ':id') }}".replace(':id', response.visit_id);
-                        window.location.href = url;
+                        window.location.href = redirectUrl;
                     }
                 },
                 error: function(xhr) {
@@ -41,6 +48,7 @@
             });
         });
 
+
         //search product
         $('#searchProductBtn').click(function() {
             var table_search_product = $('#searchProductsTable').DataTable({
@@ -49,7 +57,7 @@
                 serverSide: true,
                 searching: false,
                 ajax: {
-                    url: "{{ route('visits.search_product') }}",
+                    url: "{{ route('products.search_product') }}",
                     type: 'GET',
                     data: function(d) {
                         d.name = $('#search_product_name_sku').val();
@@ -97,7 +105,7 @@
         $(document).on('change', '.product_checkbox', function() {
             if ($(this).is(':checked')) {
                 var dataId = $(this).data('id');
-                var url = "{{ route('visits.get_product') }}";
+                var url = "{{ route('products.get_product') }}";
 
                 $.ajax({
                     url: url,
@@ -232,7 +240,7 @@
             var priceInput = row.find('.product-price');
             var quantityInput = row.find('.product-quantity');
             var amountInput = row.find('.product-amount');
-            var url = "{{ route('visits.get_product_price') }}";
+            var url = "{{ route('products.get_product_price') }}";
             $.ajax({
                 url: url,
                 type: 'GET',
@@ -282,6 +290,42 @@
                 error: function(xhr) {
                     console.error('Error:', xhr.responseJSON);
                     alert('An error occurred while fetching the product.');
+                }
+            });
+        });
+
+        // Attach change event to service select dropdowns
+        $(document).on('change', 'select[name="service_id[]"]', function() {
+            var id = $(this).val();
+            var row = $(this).closest('tr');
+            var priceInput = row.find('.service-unit-price');
+            var quantityInput = row.find('.service-quantity');
+            quantityInput.val(1);
+            var amountInput = row.find('.service-amount');
+            var url = "{{ route('products.get_service_price') }}";
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: {
+                    id: id
+                },
+                success: function(response) {
+                    if (response && response.status === 'success' && response.data) {
+                        priceInput.val(response.data.unit_price);
+                        var quantity = quantityInput.val() || 0;
+                        amountInput.val((quantity * response.data.unit_price).toFixed(2));
+                        calculateTotals();
+                    } else {
+                        alert('Failed to fetch service price');
+                        priceInput.val('');
+                        amountInput.val('');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                    alert('An error occurred while fetching service price.');
+                    priceInput.val('');
+                    amountInput.val('');
                 }
             });
         });

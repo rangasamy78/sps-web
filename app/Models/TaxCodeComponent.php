@@ -16,10 +16,10 @@ class TaxCodeComponent extends Model
      */
     protected $table = 'tax_code_components';
     /**
-    * The attributes that are mass assignable.
-    *
-    * @var array<int, string>
-    */
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'tax_code_id',
         'tax_component_id',
@@ -29,7 +29,6 @@ class TaxCodeComponent extends Model
 
     public function tax_code()
     {
-        return $this->belongsTo(TaxCode::class);
+        return $this->belongsTo(TaxCode::class, 'tax_code_id');
     }
-
 }

@@ -219,8 +219,8 @@
                             <label for="payment_terms_id" class="form-label">Payment Terms <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                             <select id="payment_terms_id" name="payment_terms_id" class="select2 form-select" data-allow-clear="true">
                                 <option value="">--select--</option>
-                                @foreach($data['paymentTerms'] as $key => $paymentTerm)
-                                <option value="{{ $paymentTerm->id }}">{{ $paymentTerm->payment_label }}</option>
+                                @foreach($data['paymentTerms'] as $payment)
+                                <option value="{{ $payment->id }}">{{ $payment->payment_label }}</option>
                                 @endforeach
                             </select>
                             <span class="text-danger error-text payment_terms_id_error"></span>

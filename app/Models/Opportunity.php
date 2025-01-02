@@ -69,4 +69,13 @@ class Opportunity extends Model
     {
         return $this->belongsTo(Associate::class, 'builder_id');
     }
+
+    public function sample_order()
+    {
+        return $this->hasMany(SampleOrder::class, 'opportunity_id');
+    }
+    public function quote()
+    {
+        return $this->hasMany(Quote::class, 'opportunity_id', 'id');
+    }
 }

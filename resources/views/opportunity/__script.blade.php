@@ -12,11 +12,26 @@
       processing: true,
       serverSide: true,
       searching: false,
+      order: [
+        [0, 'desc']
+      ],
       ajax: {
         url: "{{ route('opportunities.list') }}",
-        data: function(d) {}
+        data: function(d) {
+          d.how_did_you_hear_option_search = $('#howDidYouHearOptionFilter').val();
+          sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
+          d.order = [{
+            column: 1,
+            dir: sort
+          }];
+        }
       },
       columns: [{
+          data: null,
+          name: 'serial',
+          orderable: false,
+          searchable: false
+        }, {
           data: 'opportunity_code',
           name: 'opportunity_code'
         },
@@ -75,7 +90,9 @@
           searchable: false
         }
       ],
-      rowCallback: function(row, data, index) {},
+      rowCallback: function(row, data, index) {
+        $('td:eq(0)', row).html(table_opportunity.page.info().start + index + 1);
+      },
       dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex align-items-center justify-content-end"B>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       buttons: [{
           text: '<i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Add Opportunity</span>',
