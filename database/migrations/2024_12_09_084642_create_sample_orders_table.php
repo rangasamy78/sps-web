@@ -33,7 +33,7 @@ return new class extends Migration
             $table->text('sample_order_printed_notes')->nullable();
             $table->text('sample_order_special_instructions')->nullable();
             $table->unsignedBigInteger('probability_close_id')->nullable();
-            $table->enum('status', ['created', 'ready_to_ship', 'shipped', 'closed'])->default('created');
+            $table->enum('status', ['initiate', 'shipped', 'closed'])->default('initiate');
             $table->decimal('total', 8, 2)->nullable();
             $table->timestamps();
         });

@@ -126,12 +126,17 @@ use App\Http\Controllers\Quote\ContactController as QuoteContactController;
 use App\Http\Controllers\Customer\ContactController as CustomerContactController;
 use App\Http\Controllers\Supplier\ContactController as SupplierContactController;
 use App\Http\Controllers\SampleOrder\EventController as SampleOrderEventController;
+use App\Http\Controllers\Hold\EventController as HoldEventController;
 use App\Http\Controllers\Associate\ContactController as AssociateContactController;
 use App\Http\Controllers\Opportunity\EventController as OpportunityEventController;
 use App\Http\Controllers\Quote\Lines\QuoteProductController as QuoteProductController;
 use App\Http\Controllers\SampleOrder\ContactController as SampleOrderContactController;
+use App\Http\Controllers\Hold\ContactController as HoldContactController;
 use App\Http\Controllers\Expenditure\ContactController as ExpenditureContactController;
+use App\Http\Controllers\Hold\HoldFileController;
+use App\Http\Controllers\HoldController;
 use App\Http\Controllers\Opportunity\ContactController as OpportunityContactController;
+use App\Http\Controllers\Opportunity\OpportunityConvertController as ConvertController;
 use App\Http\Controllers\Opportunity\ProductDetail\ProductListController as OpportunityProductListcontroller;
 
 /*
@@ -569,12 +574,15 @@ Route::middleware(['auth'])->group(function () {
     Route::view('/purchases', 'purchases.home')->name('purchases');
     Route::resource('opportunities', OpportunityController::class);
     Route::get('/opportunity/list', [OpportunityController::class, 'getOpportunityDataTableList'])->name('opportunities.list');
+    Route::get('/subtransaction/list/{id}', [OpportunityController::class, 'getAllSubtransactionDataTableList'])->name('subtransactions.list');
+
     Route::get('/opportunity/ship_to_list/{id}', [OpportunityController::class, 'getAllShipToDataTableList'])->name('opportunities.ship_to_list');
     Route::get('/opportunity/customer_list', [OpportunityController::class, 'getAllCustomerDataTableList'])->name('opportunities.customer_list');
     Route::get('/opportunity/associate_list', [OpportunityController::class, 'getAllAssociateDataTableList'])->name('opportunities.associate_list');
     Route::patch('/opportunity/internal_notes/{id}', [OpportunityController::class, 'updateInternalNotes'])->name('opportunities.internal_notes');
     Route::patch('/opportunity/probability_close/{id}', [OpportunityController::class, 'updateProbabilityClose'])->name('opportunities.probability_close');
     Route::patch('/opportunity/stages/{id}', [OpportunityController::class, 'updateStages'])->name('opportunities.stages');
+    Route::patch('/survey/{id}', [OpportunityController::class, 'updateSurveyRate'])->name('opportunities.survey');
     Route::prefix('opportunities')->name('opportunities.')->group(function () {
         Route::post('/contact/save', [OpportunityContactController::class, 'save'])->name('contact.save');
         Route::get('/contact/list/{id}', [OpportunityContactController::class, 'getOpportunityContactDataTableList'])->name('contacts.list');
@@ -582,6 +590,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/bill_to_contact/list/{id}', [OpportunityContactController::class, 'getOpportunityBillToContactDataTableList'])->name('bill_to_contacts.list');
         Route::delete('/bill_to_contact/{id}/delete', [OpportunityContactController::class, 'billTodestroy'])->name('bill_to_contacts.destroy');
     });
+
     Route::resource('opportunity_files', OpportunityFileController::class);
     Route::get('/opportunity_file/list/{id}', [OpportunityFileController::class, 'getOpportunityFileDataTableList'])->name('opportunity_files.list');
     Route::prefix('events')->group(function () {
@@ -606,6 +615,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/delete_visit_product/{id}', [VisitController::class, 'deleteVisitProduct'])->name('visits.delete_visit_product');
     Route::patch('/update_visit_checkout/{id}', [VisitController::class, 'updateCheckout'])->name('visits.checkout');
     Route::patch('/update_visit_survey/{id}', [VisitController::class, 'updateSurveyRate'])->name('visits.survey');
+
 
     Route::prefix('visit_lists')->name('visit.lists.')->group(function () {
         Route::get('/list', [VisitController::class, 'getVisitDataTableList'])->name('list');
@@ -724,6 +734,47 @@ Route::middleware(['auth'])->group(function () {
         //event
         Route::resource('events', QuoteEventController::class);
         Route::get('/event/list/{id}', [QuoteEventController::class, 'getQuoteEventDataTableList'])->name('events.list');
+    });
+
+    //hold
+    Route::prefix('holds')->name('hold.')->group(function () {
+        Route::resource('holds', HoldController::class);
+        Route::get('/index/{id}', [HoldController::class, 'indexHold'])->name('index_hold');
+        Route::get('/list', [HoldController::class, 'getHoldDataTableList'])->name('hold_list');
+        Route::get('/index_product/{id}', [HoldController::class, 'indexProductHold'])->name('index_product');
+        Route::post('/save_product', [HoldController::class, 'saveHoldProduct'])->name('save_product');
+        Route::get('/product/list/{id}', [HoldController::class, 'getHoldProductDataTableList'])->name('products.list');
+        Route::get('/edit_product/{id}', [HoldController::class, 'editHoldProduct'])->name('edit_product');
+        Route::delete('/delete_product/{id}', [HoldController::class, 'deleteHoldProduct'])->name('delete_product');
+        Route::patch('/probability_close/{id}', [HoldController::class, 'updateProbabilityClose'])->name('probability_close');
+        Route::patch('internal_notes/{id}', [HoldController::class, 'updateInternalNotes'])->name('internal_notes');
+        Route::patch('/survey/{id}', [HoldController::class, 'updateSurveyRate'])->name('survey');
+        Route::get('/index_release/{id}', [HoldController::class, 'indexHoldRelease'])->name('index_release');
+        Route::post('/update_release', [HoldController::class, 'updateHoldRelease'])->name('update_release');
+        //hold and opportunity
+        Route::get('/index', [HoldController::class, 'indexOpportunityHold'])->name('index');
+        Route::post('/save', [HoldController::class, 'saveOpportunityHold'])->name('save');
+        //hold file
+        Route::resource('hold_files', HoldFileController::class);
+        Route::get('/hold_file/list/{id}', [HoldFileController::class, 'getHoldFileDataTableList'])->name('hold_files.list');
+        //event
+        Route::resource('hold_events', HoldEventController::class);
+        Route::get('/hold_event/list/{id}', [HoldEventController::class, 'getHoldEventDataTableList'])->name('hold_events.list');
+        //  //contact
+        Route::post('/contact/save', [HoldContactController::class, 'save'])->name('contact.save');
+        Route::get('/contact/list/{id}', action: [HoldContactController::class, 'getCustomerContactDataTableList'])->name('contacts.list');
+        Route::delete('/contacts/{id}/delete', [HoldContactController::class, 'destroy'])->name('contacts.destroy');
+    });
+    Route::prefix('converts')->name('convert.')->group(function () {
+        //visits converts
+        Route::get('/convert_visit/index/{id}', [VisitController::class, 'indexConvertSampleAndQuote'])->name('convert_visit');
+        Route::post('/save_convert_visit', [ConvertController::class, 'saveConvertVisit'])->name('save_convert_visit');
+        //sample order converts
+        Route::get('/convert_sample_order/index/{id}', [SampleOrderController::class, 'indexConvertVisitAndQuote'])->name('convert_sample_order');
+        Route::post('/save_convert_sample_order', [ConvertController::class, 'saveConvertSampleOrder'])->name('save_convert_sample_order');
+        // quote converts
+        Route::get('/convert_quote/index/{id}', [QuoteController::class, 'indexConvertVisitAndSample'])->name('convert_quote');
+        Route::post('/save_convert_quote', [ConvertController::class, 'saveConvertQuote'])->name('save_convert_quote');
     });
     //END OPPORTUNITY , VISIT, sample order ,quote AND HOME PAGE
 

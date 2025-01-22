@@ -75,7 +75,6 @@ class SampleOrderRepository implements CrudRepositoryInterface
         return $productQuery->unionAll($serviceQuery);
     }
 
-
     public function dataTable(Request $request, $id)
     {
         $draw = $request->get('draw');
@@ -118,7 +117,7 @@ class SampleOrderRepository implements CrudRepositoryInterface
             $value->supp_ref = '';
             $value->quantity = $value->quantity ?? '';
             $value->unit_price = "<input type='hidden' readonly class='border-0 text-secondary unit-price' value='" . ($value->unit_price ?? '') . "'>" . ($value->unit_price ?? '');
-            $value->amount = $value->amount ?? '';
+            $value->amount = "<input type='hidden' readonly class='border-0 text-secondary amount' value='" . ($value->amount ?? '') . "'>" . ($value->amount ?? '');
             $value->action = "<a class='dropdown-item showbtn text-warning' href='" . route('create.edit_product', $value->id) . "' data-id='{$value->id}'><i class='bx bxs-edit'></i></a>";
         });
 
@@ -186,7 +185,6 @@ class SampleOrderRepository implements CrudRepositoryInterface
             "data"            => $data,
         ]);
     }
-
 
     public function getSampleOrderList(Request $request)
     {
@@ -279,41 +277,19 @@ class SampleOrderRepository implements CrudRepositoryInterface
             $value->date_time = "<a href='" . route('create.sample_orders.show', $value->id) . "' class='text-secondary' style='font-size:8pt;'>" . \Carbon\Carbon::parse($value->created_at)->format('M d, Y, h:i A') . "</a>";
             $value->sample_order = $value->opportunity_id . '-' . $value->position ?? '';
             $value->sample_order_label = $value->sample_order_label ?? '';
-            $value->status = '<div class="progress mb-3">
-                    <div
-                      class="progress-bar bg-primary shadow-none"
-                      role="progressbar"
-                      style="width: 25%"
-                      aria-valuenow="15"
-                      aria-valuemin="0"
-                      aria-valuemax="100"></div>
-                    <div
-                      class="progress-bar bg-success shadow-none"
-                      role="progressbar"
-                      style="width: 25%"
-                      aria-valuenow="30"
-                      aria-valuemin="0"
-                      aria-valuemax="100"></div>
-                    <div
-                      class="progress-bar bg-danger shadow-none"
-                      role="progressbar"
-                      style="width: 25%"
-                      aria-valuenow="20"
-                      aria-valuemin="0"
-                      aria-valuemax="100"></div>
-                    <div
-                      class="progress-bar bg-danger shadow-none"
-                      role="progressbar"
-                      style="width: 25%"
-                      aria-valuenow="20"
-                      aria-valuemin="0"
-                      aria-valuemax="100"></div>
-                  </div>';
+            if ($value->status == 'initiate') {
+                $value->status = '<div class="progress mb-1"><div class="progress-bar shadow-none fw-bold" role="progressbar" style="width: 100%; background-color: rgba(156, 156, 208, 0.71);" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div></div><div class="status-text-bottom text-center text-dark fw-bold" style="font-size:9pt">Initiate</div>';
+            } else if ($value->status == 'shipped') {
+                $value->status = '<div class="progress mb-1"><div class="progress-bar shadow-none fw-bold" role="progressbar" style="width: 50%; background-color: rgba(156, 156, 208, 0.71);" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div><div class="progress-bar shadow-none fw-bold" role="progressbar" style="width: 50%; background-color: rgba(144, 183, 212, 0.49);" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div></div>
+                <div class="status-text-bottom text-center text-dark fw-bold" style="font-size:9pt"><div class="d-flex justify-content-between"><span class="text-start">Initiate</span><span class="text-end">Shipped</span></div></div>';
+            } else if ($value->status == 'closed') {
+                $value->status = '<div class="progress mb-1"><div class="progress-bar shadow-none fw-bold" role="progressbar" style="width: 33%; background-color: rgba(156, 156, 208, 0.71);" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div><div class="progress-bar shadow-none fw-bold" role="progressbar" style="width: 33%; background-color: rgba(144, 183, 212, 0.49);" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div><div class="progress-bar shadow-none fw-bold" role="progressbar" style="width: 33%; background-color: rgba(200, 160, 209, 0.49);" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div></div><div class="status-text-bottom text-center text-dark fw-bold p-1" style="font-size:9pt"><div class="d-flex justify-content-between"><span class="text-start">Initiate</span><span class="text-center">Shipped</span><span class="text-end">Closed</span></div></div>';
+            }
             $value->help_cust = "<a href='" . route('visits.edit_visit_product', $value->id) . "' class='btn btn-dark' style='font-size:8pt;'>Help Cust.</a>";
             $createdAt = \Carbon\Carbon::parse($value->created_at);
             $value->day = 1;
             $value->total = $value->total ?? '';
-            $value->printed_notes = "<a href='" . route('visits.show', $value->id) . "' class='text-secondary' style='display: block; margin-bottom: 10px;'>" . "<div style='display: flex; align-items: center; gap: 10px;'>" . (!empty($value->sample_order_printed_notes) ? "<i class='fi fi-rr-note-sticky text-dark fw-bold fs-3' data-bs-toggle='tooltip' data-bs-placement='top' title='Printed Notes: " . htmlspecialchars($value->sample_order_printed_notes, ENT_QUOTES, 'UTF-8') . "'></i>" : "") . "</div></a>";
+            $value->printed_notes = "<a href='" . route('visits.show', $value->id) . "' class='text-secondary' style='display: block; margin-bottom: 10px;'>" . "<div style='display: flex; align-items: center; gap: 10px;'>" . (!empty($value->sample_order_printed_notes) ? "<i class='fi fi-rr-note-sticky text-dark fw-bold fs-4' data-bs-toggle='tooltip' data-bs-placement='top' title='Printed Notes: " . htmlspecialchars($value->sample_order_printed_notes, ENT_QUOTES, 'UTF-8') . "'></i>" : "") . "</div></a>";
             $value->action = "<div class='dropup'><button type='button' class='btn p-0 dropdown-toggle hide-arrow' data-bs-toggle='dropdown'><i class='bx bx-dots-vertical-rounded icon-color'></i></button><div class='dropdown-menu'><a class='dropdown-item editbtn text-success' href='" . route('create.sample_orders.edit', $value->id) . "' data-id='" . $value->id . "'><i class='bx bx-edit-alt me-1 icon-success'></i> Edit</a></div></div>";
         });
         $response = array(
@@ -322,7 +298,6 @@ class SampleOrderRepository implements CrudRepositoryInterface
             "recordsFiltered" => $totalFilter,
             "data"            => $arrData,
         );
-
         return response()->json($response);
     }
 }

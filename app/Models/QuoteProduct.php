@@ -17,4 +17,8 @@ class QuoteProduct extends Model
     {
         return $this->belongsTo(Quote::class, 'quote_id', 'id');
     }
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id', 'id');
+    }
 }

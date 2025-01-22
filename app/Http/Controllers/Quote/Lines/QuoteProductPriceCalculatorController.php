@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Quote\Lines;
 use Exception;
 use App\Models\Supplier;
 use App\Models\TaxComponent;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Models\QuoteProductPriceCalculator;
@@ -24,7 +23,7 @@ class QuoteProductPriceCalculatorController extends Controller
         $this->quotePriceCalculatorInventoryDetailRepository = $quotePriceCalculatorInventoryDetailRepository;
     }
 
-   
+
     public function getSupplierDetail($id)
     {
         try {

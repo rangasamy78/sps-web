@@ -6,6 +6,7 @@
 <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
 <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
 <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-straight/css/uicons-regular-straight.css'>
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>
 @endsection
 @section('content')
 <div class="content-wrapper">
@@ -37,7 +38,7 @@
                                         <i class='fi fi-rr-redo icon-color fs-4' data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="More"></i> <!-- Icon inside the button -->
                                     </button>
                                     <div class='dropdown-menu'>
-                                        <a class='dropdown-item showbtn fw-bold text-dark' href='{{ route('opportunities.index') }}'>
+                                        <a class='dropdown-item showbtn fw-bold text-dark' href='{{ route('opportunities.index') }}?tab=opportunities'>
                                             <i class='bx bx-list-ul'></i> List All opportunity
                                         </a>
                                         <a class='dropdown-item deletebtn fw-bold text-dark' href='javascript:void(0);' data-id='{{ $opportunity->id }}'>
@@ -77,11 +78,15 @@
                                     <div class="row mb-2">
                                         <div class="col">
                                             <!-- <label for="print_name" class="form-label text-dark fw-bold">Print Name / DBA:</label> -->
+                                            @if(optional($date))
                                             <span id="print_name_value" class="d-block">
                                                 {{ $date }}
                                             </span>
+                                            @endif
+                                            @if(optional($user)->first_name)
                                             <label for="created_by" class="form-label text-dark fw-bold font-size" style="font-size:8pt">Created By</label>
                                             <span id="created_by_value" style="font-size:9pt"> {{$user->first_name}} {{$user->last_name}} <span class="form-label text-dark fw-bold">on</span> {{$opportunity_date}}</span>
+                                            @endif
                                         </div>
 
                                     </div>
@@ -120,39 +125,43 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-12 col-md-6 col-lg-3">
-
-                                    <div class="row">
+                                    <div class="row d-flex justify-content-end">
                                         <!-- Box 1 -->
-                                        <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                                        @if($visitCount)
+                                        <div class="col-lg-3 col-md-3 col-sm-6 mb-3">
                                             <div class="small-box text-center">
-                                                <h6 class="mb-2"> 1</h6>
+                                                <h6 class="mb-2">{{$visitCount}}</h6>
                                                 <p class="bg-dark text-white" style="font-size: 0.75rem;">Visit</p>
                                             </div>
                                         </div>
-
+                                        @endif
                                         <!-- Box 2 -->
-                                        <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                                        @if($sampleOrderCount)
+                                        <div class="col-lg-3 col-md-3 col-sm-6 mb-3">
                                             <div class="small-box text-center">
-                                                <h6 class="mb-2">2</h6>
+                                                <h6 class="mb-2">{{$sampleOrderCount}}</h6>
                                                 <p class="bg-dark text-white" style="font-size: 0.75rem;">S.Order</p>
                                             </div>
                                         </div>
-
+                                        @endif
+                                        @if($holdCount)
                                         <!-- Box 3 -->
-                                        <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                                        <div class="col-lg-3 col-md-3 col-sm-6 mb-3">
                                             <div class="small-box text-center">
-                                                <h6 class="mb-2">3</h6>
+                                                <h6 class="mb-2">{{$holdCount}}</h6>
                                                 <p class="bg-dark text-white" style="font-size: 0.75rem;">Hold</p>
                                             </div>
                                         </div>
-
+                                        @endif
+                                        @if($quoteCount)
                                         <!-- Box 4 -->
-                                        <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                                        <div class="col-lg-3 col-md-3 col-sm-6 mb-3">
                                             <div class="small-box text-center">
-                                                <h6 class="mb-2">4</h6>
+                                                <h6 class="mb-2">{{$quoteCount}}</h6>
                                                 <p class="bg-dark text-white" style="font-size: 0.75rem;">Quote</p>
                                             </div>
                                         </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -263,7 +272,7 @@
                                 @if(optional($opportunity)->internal_notes)
                                 <div class="col-lg-6 col-sm-12">
                                     <label class="form-label fw-bold text-dark">Internal Notes</label>
-                                    <textarea class="form-control" readonly id="internal_notes_input">{{$opportunity->internal_notes}}</textarea>
+                                    <textarea class="form-control" readonly rows="1" id="internal_notes_input">{{$opportunity->internal_notes}}</textarea>
                                 </div>
                                 @endif
                             </div>
@@ -297,7 +306,8 @@
                                 </div>
                                 <div class="col-lg-2 col-sm-2">
                                     <label class="form-label fw-bold text-dark">Total Value</label><br>
-                                    <span class="">$23324.00</span>
+                                    <input type="text" id="totalSum" hidden readonly class="form-control" placeholder="Total" value="{{$total}}">
+                                    <span class="">$ {{$total}}</span>
                                 </div>
                             </div>
                         </div>
@@ -309,15 +319,11 @@
             <div class="row mb-3">
                 <div class="col-3   ">
                     <label for="survey-rating" class="form-label">Survey Rating:</label>
-                    <div id="survey-rating">
-                        <i class="fi fi-rr-star text-dark"></i>
-                        <i class="fi fi-rr-star text-dark fw-bold"></i>
-                        <i class="fi fi-rr-star text-dark fw-bold"></i>
-                        <i class="fi fi-rr-star text-dark fw-bold"></i>
-                        <i class="fi fi-rr-star text-dark fw-bold"></i>
-                        <i class="fi fi-rr-star text-dark fw-bold"></i>
-                        <i class="fi fi-rr-star text-dark fw-bold"></i>
-                        <i class="fi fi-rr-clip-mail text-primary fw-dark"></i>
+                    <div id="survey-rating" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#surveyRateModel">
+                        @for ($i=0;$i<=8;$i++)
+                            <i class="fi fi-rr-star text-dark"></i>
+                            @endfor
+                            <i class="fi fi-rr-clip-mail text-primary fw-dark"></i>
                     </div>
                 </div>
 
@@ -330,7 +336,7 @@
                     </button>
                     <button type="button" class="btn btn-dark  btn-sm" onclick="window.location.href='{{ route('create.index_sample_order', $opportunity->id) }}'"><i class="fi fi-rr-plus me-2"></i> Sample Order</button>
                     <button type="button" class="btn btn-dark  btn-sm" onclick="window.location.href='{{ route('quote.index_quote', $opportunity->id) }}'"><i class="fi fi-rr-plus me-2"></i> Quotes</button>
-                    <button type="button" class="btn btn-dark  btn-sm"><i class="fi fi-rr-plus me-2"></i> Holds</button>
+                    <button type="button" class="btn btn-dark  btn-sm" onclick="window.location.href='{{ route('hold.index_hold', $opportunity->id) }}'"><i class="fi fi-rr-plus me-2"></i> Holds</button>
                     <button type="button" class="btn btn-dark  btn-sm"><i class="fi fi-rr-plus me-2"></i> Sales Order</button>
                 </div>
             </div>
@@ -358,7 +364,6 @@
                                                     <th>Transaction #</th>
                                                     <th>Project Type</th>
                                                     <th>End-Use Segment</th>
-                                                    <th>Project Type</th>
                                                     <th>Label</th>
                                                     <th>Total</th>
                                                     <th>Sales Orders</th>

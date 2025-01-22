@@ -16,4 +16,8 @@ class SampleOrderProduct extends Model
     {
         return $this->belongsTo(SampleOrder::class, 'sample_order_id');
     }
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
 }

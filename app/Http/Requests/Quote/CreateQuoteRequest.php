@@ -25,7 +25,7 @@ class CreateQuoteRequest extends FormRequest
             'opportunity_id' => 'required|integer|exists:opportunities,id',
             'quote_label' => 'nullable|string|max:255',
             'quote_date' => 'required|date',
-            'quote_time' => 'nullable|date_format:H:i',
+            'quote_time' => 'nullable|',
             'expiry_date' => 'required|date',
             'customer_po' => 'nullable|string|max:100',
             'price_level_id' => 'required|integer|exists:price_list_labels,id',

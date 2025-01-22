@@ -63,4 +63,8 @@ class Contact extends Model
     {
         return $this->hasMany(QuoteContact::class, 'contact_id');
     }
+    public function hold_contact()
+    {
+        return $this->hasMany(HoldContact::class, 'contact_id');
+    }
 }

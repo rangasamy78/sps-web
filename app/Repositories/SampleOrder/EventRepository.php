@@ -80,7 +80,7 @@ class EventRepository
                 $listItems .= "<li> <i class='fi fi-rr-circle-t text-dark fw-bold'></i>&nbsp;" . htmlspecialchars($value->event_title) . "</li>";
             }
             $value->title_description = $listItems ? "<ul style='list-style-type: none; padding: 0; margin: 0;'>$listItems</ul>" : '';
-            $value->event_type_id = $value->event_type->product_type ?? '';
+            $value->event_type_id = $value->event_type->event_type_name ?? '';
             $scheduleDateTime = Carbon::parse($value->schedule_date . ' ' . ($value->schedule_time ?? ''))->format('Y-m-d H:i:s');
             $value->time_date = $scheduleDateTime;
             $value->product_name_price = $value->product->product_name ?? '';

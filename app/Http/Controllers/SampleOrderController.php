@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\User;
+use App\Models\Hold;
+use App\Models\Quote;
 use App\Models\Visit;
 use App\Models\County;
 use App\Models\Service;
@@ -19,6 +21,8 @@ use App\Models\SampleOrder;
 use App\Models\Opportunity;
 use App\Models\ProjectType;
 use App\Models\ProductType;
+use App\Models\QuoteFooter;
+use App\Models\QuoteHeader;
 use App\Models\TaxComponent;
 use App\Models\CustomerType;
 use Illuminate\Http\Request;
@@ -27,6 +31,7 @@ use App\Models\AboutUsOption;
 use App\Models\PriceListLabel;
 use App\Models\ProductCategory;
 use App\Models\OpportunityStage;
+use App\Models\QuotePrintedNote;
 use App\Models\ProbabilityToClose;
 use App\Models\SampleOrderContact;
 use App\Models\SampleOrderProduct;
@@ -35,23 +40,28 @@ use Illuminate\Support\Facades\DB;
 use App\Models\AccountPaymentTerm;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use App\Repositories\QuoteRepository;
 use App\Repositories\SampleOrderRepository;
 use App\Repositories\OpportunityRepository;
+use App\Repositories\VisitRepository;
+use App\Http\Requests\Opportunity\CreateOpportunityRequest;
 use App\Http\Requests\SampleOrder\Opportunity\UpdateOpportunitySampleOrderRequest;
 use App\Http\Requests\SampleOrder\{CreateSampleOrderRequest, UpdateSampleOrderRequest};
-use App\Http\Requests\Opportunity\{CreateOpportunityRequest, UpdateOpportunityRequest};
 use App\Http\Requests\SampleOrder\SampleOrderProduct\{CreateSampleOrderProductRequest, UpdateSampleOrderProductRequest};
 use App\Http\Requests\SampleOrder\SampleOrderService\{CreateSampleOrderServiceRequest, UpdateSampleOrderServiceRequest};
-
 
 class SampleOrderController extends Controller
 {
     private SampleOrderRepository $sampleOrderRepository;
     private OpportunityRepository $opportunityRepository;
-    public function __construct(SampleOrderRepository $sampleOrderRepository, OpportunityRepository $opportunityRepository)
+    private VisitRepository $visitRepository;
+    private QuoteRepository $quoteRepository;
+    public function __construct(SampleOrderRepository $sampleOrderRepository, OpportunityRepository $opportunityRepository, VisitRepository $visitRepository, QuoteRepository $quoteRepository)
     {
         $this->opportunityRepository = $opportunityRepository;
         $this->sampleOrderRepository = $sampleOrderRepository;
+        $this->visitRepository = $visitRepository;
+        $this->quoteRepository = $quoteRepository;
     }
 
     public function indexSampleOrder($id)
@@ -209,6 +219,8 @@ class SampleOrderController extends Controller
         }) + 1;
         $sampleOrderCount = SampleOrder::where('opportunity_id', $sampleOrder->opportunity_id)->count();
         $visitCount = Visit::where('opportunity_id', $sampleOrder->opportunity_id)->count();
+        $holdCount = Hold::where('opportunity_id', $sampleOrder->opportunity_id)->count();
+        $quoteCount = Quote::where('opportunity_id', $sampleOrder->opportunity_id)->count();
         $sampleOrderDate = $sampleOrder->created_at ? \Carbon\Carbon::parse($sampleOrder->created_at)->format('M d Y g:iA') : null;
         $opportunity_date = $opportunity->created_at ? \Carbon\Carbon::parse($opportunity->created_at)->format('M d Y g:iA') : null;
 
@@ -259,6 +271,8 @@ class SampleOrderController extends Controller
             'howDidHear',
             'sampleOrderCount',
             'visitCount',
+            'holdCount',
+            'quoteCount',
             'fileTypes',
             'contacts',
             'statuses'
@@ -525,7 +539,6 @@ class SampleOrderController extends Controller
         }
     }
 
-
     public function edit($id)
     {
         $data = $this->getDropDownData();
@@ -547,7 +560,6 @@ class SampleOrderController extends Controller
         $fabricator = $opportunity?->fabricator;
         return view('sample_order.edit.__edit_sample_orders', compact('data', 'sampleOrder', 'opportunity', 'customer', 'opportunity_date', 'taxcode', 'price_list', 'payment_term', 'endUseSegment', 'howDidHear', 'projectType', 'company', 'primarySale', 'secondarySale', 'fabricator'));
     }
-
 
     public function update(UpdateSampleOrderRequest $request, SampleOrder $sampleOrder)
     {
@@ -578,6 +590,36 @@ class SampleOrderController extends Controller
                 'trace' => $e->getTraceAsString(),
             ]);
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Sample Order.'], 500);
+        }
+    }
+
+    public function indexConvertVisitAndQuote($id, Request $request)
+    {
+        $type = $request->query('type');
+        $data = $this->getDropDownData();
+        $sampleOrder = SampleOrder::findOrFail($id);
+        $opportunity = $sampleOrder->opportunities;
+        $customer = $opportunity?->customer;
+        $opportunity_date = $opportunity?->created_at ? $opportunity->created_at->format('M d Y g:iA') : null;
+        $taxcode = $opportunity?->sales_tax;
+        $taxAmount = $taxcode ? TaxComponent::where('tax_code_id', $taxcode->id)->first() : null;
+        $price_list = $opportunity?->price_list;
+        $payment_term = $customer?->payment_term;
+        $endUseSegment = $opportunity?->end_use_segment;
+        $howDidHear = $opportunity?->how_did_you_hear;
+        $projectType = $opportunity?->project_type;
+        $company = $opportunity?->location;
+        $primarySale = $opportunity?->primary_user;
+        $secondarySale = $opportunity?->secondary_user;
+        $fabricator = $opportunity?->fabricator;
+        $designer = $opportunity?->designer;
+        $builder = $opportunity?->builder;
+        $sampleOrderProducts = SampleOrderProduct::with(['product.unit_measure'])->where('sample_order_id', $id)->get();
+        $sampleOrderServices = SampleOrderService::with(['service.unit_measure'])->where('sample_order_id', $id)->get();
+        if ($type == 'visit') {
+            return view('opportunity.opportunity_convert.sample_order_converts.visit', compact('data', 'sampleOrder', 'opportunity', 'customer', 'opportunity_date', 'taxcode', 'taxAmount', 'price_list', 'payment_term', 'endUseSegment', 'howDidHear', 'projectType', 'company', 'primarySale', 'secondarySale', 'fabricator', 'designer', 'builder', 'sampleOrderProducts', 'sampleOrderServices'));
+        } else if ($type == 'quote') {
+            return view('opportunity.opportunity_convert.sample_order_converts.quote', compact('data', 'sampleOrder', 'opportunity', 'customer', 'opportunity_date', 'taxcode', 'taxAmount', 'price_list', 'payment_term', 'endUseSegment', 'howDidHear', 'projectType', 'company', 'primarySale', 'secondarySale', 'fabricator', 'designer', 'builder', 'sampleOrderProducts', 'sampleOrderServices'));
         }
     }
 
@@ -617,7 +659,10 @@ class SampleOrderController extends Controller
                 DB::raw("CONCAT(print_doc_disclaimers.title, ' ', print_doc_disclaimers.policy) as policy_name")
             )
             ->pluck('policy_name', 'id');
-        return compact('companies', 'paymentTerms', 'users', 'priceListLabels', 'customerTypes', 'customers', 'customerCount', 'associates', 'countries', 'counties', 'salesTaxs', 'endUseSegments', 'projectTypes', 'opportunityStages', 'aboutUsOptions', 'probabilityCloses', 'eventTypes', 'productTypes', 'productCategories', 'suppliers', 'services', 'documentFooters');
+        $quoteFooter = QuoteFooter::query()->pluck('quote_footer_name', 'id');
+        $quoteHeader = QuoteHeader::query()->pluck('quote_header_name', 'id');
+        $quotePrintedNote = QuotePrintedNote::query()->pluck('quote_printed_notes_name', 'id');
+        return compact('companies', 'paymentTerms', 'users', 'priceListLabels', 'customerTypes', 'customers', 'customerCount', 'associates', 'countries', 'counties', 'salesTaxs', 'endUseSegments', 'projectTypes', 'opportunityStages', 'aboutUsOptions', 'probabilityCloses', 'eventTypes', 'productTypes', 'productCategories', 'suppliers', 'services', 'documentFooters', 'quoteFooter', 'quoteHeader', 'quotePrintedNote');
     }
 
     public function getSampleOrderDataTableList(Request $request)

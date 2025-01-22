@@ -17,7 +17,6 @@
                     Add Opportunity</span>
                 </a></h4>
             <div class="app-ecommerce">
-
                 <div class="row">
                     <div class="col-12">
                         <div class="card  mb-4">
@@ -31,7 +30,7 @@
                                         <input type="hidden" class="form-control" id="opportunity_code" name="opportunity_code" value="{{$count+1}}">
                                         <input type="hidden" class="form-control" id="login_user_id" name="login_user_id" value="{{ Auth::id() }}">
                                         <label class="form-label" for="opportunity_date">Date <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
-                                        <input type="date" class="form-control" id="opportunity_date" name="opportunity_date" aria-label="date" />
+                                        <input type="date" class="form-control" id="opportunity_date" name="opportunity_date" value="{{Carbon\Carbon::now()->format('Y-m-d')}}" aria-label="date" />
                                         <span class="text-danger error-text opportunity_date_error"></span>
                                     </div>
                                     <div class="col-lg-2 col-sm-4 col-md-3 pt-sm-2">
@@ -244,7 +243,7 @@
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-6">
-                                        <label class="form-label" for="sales_tax_id">Sales Tax</label>
+                                        <label class="form-label" for="sales_tax_id">Sales Tax <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                                         <select id="sales_tax_id" name="sales_tax_id" class="select2 form-select" data-allow-clear="true">
                                             <option value="">--select--</option>
                                             @foreach($data['salesTaxs'] as $id => $tax_name)

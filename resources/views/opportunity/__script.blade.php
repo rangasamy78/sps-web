@@ -150,7 +150,7 @@
       var id = $('#opportunity_id').val();
       var redirect = id ?
         "{{ route('opportunities.show', ':id') }}".replace(':id', id) :
-        "{{ route('opportunities.index') }}";
+        "{{ route('opportunities.index') }}?tab=opportunities";
       $.ajax({
         url: url,
         type: type,

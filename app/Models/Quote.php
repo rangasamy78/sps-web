@@ -39,4 +39,12 @@ class Quote extends Model
     {
         return $this->hasMany(QuoteProduct::class, 'quote_id', 'id');
     }
+    public function quote_service()
+    {
+        return $this->hasMany(QuoteService::class, 'quote_id', 'id');
+    }
+    public function end_use_segments()
+    {
+        return $this->belongsTo(EndUseSegment::class, 'end_use_segment_id', 'id');
+    }
 }

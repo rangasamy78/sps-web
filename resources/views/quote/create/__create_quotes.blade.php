@@ -18,20 +18,21 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
+                            @if(optional($opportunity_date))
                             <h5 class="card-title mb-0 fw-bold">
                                 <span>{{$opportunity_date}}</span>
                             </h5>
+                            @endif
                         </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-lg-3 col-sm-6 border-end border-dark">
                                     <h6 class="bg-label-primary text-white text-center p-2 rounded">
                                         Job Name:
-                                        <span class="text-dark" style="font-size: 0.75rem;">{{$customer->customer_name}}</span>
+                                        <span class="text-dark" style="font-size: 0.75rem;">{{$customer->customer_name??''}}</span>
                                     </h6>
-                                    <!-- <label class="form-label text-primary" style="font-size:8pt">Job Name: <span class="text-dark">{{$customer->customer_name}}</span></label> -->
                                     <div class="row">
-                                        <div class="col"><span class="text-dark fw-bold">{{$opportunity->ship_to_job_name}}</span></div>
+                                        <div class="col"><span class="text-dark fw-bold">{{$opportunity->ship_to_job_name??''}}</span></div>
                                     </div>
                                     <div class="row">
                                         <span class="text-dark" style="font-size:9pt">{{$opportunity->ship_to_address??''}}&nbsp;{{$opportunity->ship_to_city??''}}&nbsp;{{$opportunity->ship_to_state??''}}&nbsp;{{$opportunity->ship_to_zip??''}}</span>
@@ -40,11 +41,11 @@
                                 <div class="col-lg-3 col-sm-6 border-end p-1 border-dark">
                                     <h6 class="bg-label-primary text-white text-center p-2 rounded">
                                         Bill To:
-                                        <span class="text-dark" style="font-size: 0.75rem;">{{$customer->customer_name}}</span>
+                                        <span class="text-dark" style="font-size: 0.75rem;">{{$customer->customer_name??''}}</span>
                                     </h6>
                                     <!-- <label class="form-label text-primary">Bill To</label> -->
                                     <div class="row">
-                                        <div class="col"><span class="text-dark fw-bold">{{$customer->customer_name}}</span></div>
+                                        <div class="col"><span class="text-dark fw-bold">{{$customer->customer_name??''}}</span></div>
                                     </div>
                                     <div class="row">
                                         <span class="text-dark" style="font-size:9pt">{{$customer->address??''}}&nbsp;{{$customer->city??''}}&nbsp;{{$customer->state??''}}&nbsp;{{$customer->zip??''}}</span>
@@ -54,30 +55,21 @@
                                     @if (optional($price_list)->price_label)
                                     <div class="row">
                                         <div class="col">
-                                            <label for="created_by" class="form-label" style="font-size:8pt">Price Level</label>
-                                            <span id="print_name_value" class="d-block text-dark fw-bold">
-                                                {{$price_list->price_label}}-{{$price_list->price_code??''}}
-                                            </span>
+                                            <label for="created_by" class="form-label" style="font-size:8pt">Price Level<div id="print_name_value" class="d-block text-dark fw-bold">{{$price_list->price_label}}-{{$price_list->price_code??''}}</div></label>
                                         </div>
                                     </div>
                                     @endif
                                     @if (optional($taxcode)->tax_code)
                                     <div class="row">
                                         <div class="col">
-                                            <label for="created_by" class="form-label" style="font-size:8pt">Sales Tax</label>
-                                            <span id="print_name_value" class="d-block text-dark fw-bold">
-                                                {{ $taxcode->tax_code }}
-                                            </span>
+                                            <label for="created_by" class="form-label" style="font-size:8pt">Sales Tax <div id="print_name_value" class="d-block text-dark fw-bold">{{ $taxcode->tax_code }}</div></label>
                                         </div>
                                     </div>
                                     @endif
                                     @if (optional($payment_term)->payment_label)
                                     <div class="row">
                                         <div class="col">
-                                            <label for="created_by" class="form-label" style="font-size:8pt">Payment Terms</label>
-                                            <span id="print_name_value" class="d-block text-dark fw-bold">
-                                                {{ $payment_term->payment_label ?? 'N/A' }}
-                                            </span>
+                                            <label for="created_by" class="form-label" style="font-size:8pt">Payment Terms <div id="print_name_value" class="d-block text-dark fw-bold">{{ $payment_term->payment_label ?? 'N/A' }}</div></label>
                                         </div>
                                     </div>
                                     @endif
@@ -86,20 +78,14 @@
                                     @if (optional($opportunity)->tax_code)
                                     <div class="row">
                                         <div class="col">
-                                            <label for="created_by" class="form-label" style="font-size:8pt">Delivery Type</label>
-                                            <span class="d-block text-dark fw-bold">
-                                                {{$opportunity->ship_to_type}}
-                                            </span>
+                                            <label for="created_by" class="form-label" style="font-size:8pt">Delivery Type<div class="d-block text-dark fw-bold">{{$opportunity->ship_to_type}}</div></label>
                                         </div>
                                     </div>
                                     @endif
                                     @if (optional($howDidHear)->how_did_you_hear_option)
                                     <div class="row">
                                         <div class="col">
-                                            <label for="created_by" class="form-label" style="font-size:8pt">How did you hear about us?</label>
-                                            <span class="d-block text-dark fw-bold">
-                                                {{$howDidHear->how_did_you_hear_option}}
-                                            </span>
+                                            <label for="created_by" class="form-label" style="font-size:8pt">How did you hear about us?<div class="d-block text-dark fw-bold">{{$howDidHear->how_did_you_hear_option}}</div></label>
                                         </div>
                                     </div>
                                     @endif
@@ -171,17 +157,17 @@
                                 <div class="row mt-3">
                                     <div class="col-lg-4 col-sm-6">
                                         <label class="form-label" for="quote_date">Quote Date <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
-                                        <input type="date" class="form-control" name="quote_date" id="quote_date">
+                                        <input type="date" class="form-control" name="quote_date" id="quote_date" value="{{Carbon\Carbon::now()->format('Y-m-d')}}">
                                         <span class="text-danger error-text quote_date_error"></span>
                                     </div>
                                     <div class="col-lg-4 col-sm-6">
                                         <label class="form-label" for="quote_time">Quote Time</label>
-                                        <input type="time" class="form-control" name="quote_time" id="quote_time">
+                                        <input type="time" class="form-control" name="quote_time" id="quote_time" value="{{ \Carbon\Carbon::now()->setTimezone('Asia/Kolkata')->format('h:i') }}">
                                         <span class="text-danger error-text quote_time_error"></span>
                                     </div>
                                     <div class="col-lg-4 col-sm-12">
                                         <label class="form-label" for="expiry_date">Expiry Date <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
-                                        <input type="date" class="form-control" name="expiry_date" id="expiry_date">
+                                        <input type="date" class="form-control" name="expiry_date" id="expiry_date" value="{{Carbon\Carbon::now()->format('Y-m-d')}}">
                                         <span class="text-danger error-text expiry_date_error"></span>
                                     </div>
                                 </div>
@@ -232,8 +218,8 @@
                                         <label class="form-label" for="payment_terms_id">Payment Terms <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                                         <select class="select2 form-select" id="payment_terms_id" name="payment_terms_id">
                                             <option value="">--select--</option>
-                                            @foreach($data['paymentTerms'] as $id => $payment_label)
-                                            <option value="{{ $id }}">{{ $payment_label }}</option>
+                                            @foreach($data['paymentTerms'] as $paymentTerm)
+                                            <option value="{{ $paymentTerm->id }}">{{ $paymentTerm->payment_label }}</option>
                                             @endforeach
                                         </select>
                                         <span class="text-danger error-text payment_terms_id_error"></span>

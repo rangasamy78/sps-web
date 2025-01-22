@@ -37,7 +37,7 @@ class UpdateOpportunityRequest extends FormRequest
             'primary_sales_person_id' => 'required|integer|exists:users,id',
             'secondary_sales_person_id' => 'nullable|integer|exists:users,id',
             'total_value' => 'nullable|numeric|min:0',
-            'sales_tax_id' => 'nullable|integer|exists:tax_codes,id',
+            'sales_tax_id' => 'required|integer|exists:tax_codes,id',
 
             // Delivery Information
             'ship_to_type' => 'required|string', // Ensure ship_to_type is required

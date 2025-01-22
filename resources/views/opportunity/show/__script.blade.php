@@ -7,7 +7,78 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        
+
+        //sub transactions
+        var Id = $('#opportunity_id').val();
+        $('#datatableSubTransction').css('font-size', '10pt');
+
+        var tbale_subtransaction = $('#datatableSubTransction').DataTable({
+            responsive: true,
+            processing: true,
+            serverSide: true,
+            searching: false,
+
+            ajax: {
+                url: "{{ route('subtransactions.list', ':id') }}".replace(':id', Id),
+                data: function(d) {
+                    // You can pass additional parameters to the server if needed here
+                },
+                dataSrc: function(json) {
+                    // Convert the object to an array, as DataTable expects an array of data
+                    return Object.values(json.data);
+                }
+            },
+            columns: [{
+                    data: 'date',
+                    name: 'date'
+                },
+                {
+                    data: 'time',
+                    name: 'time'
+                },
+                {
+                    data: 'days',
+                    name: 'days'
+                },
+                {
+                    data: 'expiryDate',
+                    name: 'expiryDate'
+                },
+                {
+                    data: 'transaction',
+                    name: 'transaction'
+                },
+                {
+                    data: 'projectType',
+                    name: 'projectType'
+                },
+                {
+                    data: 'endUseSegment',
+                    name: 'endUseSegment'
+                },
+                {
+                    data: 'label',
+                    name: 'label'
+                },
+                {
+                    data: 'total',
+                    name: 'total'
+                },
+                {
+                    data: 'salesOrder',
+                    name: 'salesOrder'
+                },
+                {
+                    data: 'action',
+                    name: 'action'
+                },
+            ],
+            rowCallback: function(row, data, index) {
+                // Adjusting the row numbering based on the current page
+                // $('td:eq(0)', row).html(tbale_subtransaction.page.info().start + index + 1);
+            },
+        });
+
 
         //internal notes update
         $('#updateInternalNote').click(function() {
@@ -101,7 +172,36 @@
                 });
             }
         });
+        // update survey rating
+        $('#saveSurvey').click(function() {
+            var id = $(this).data('id');
+            var rating = $('#survey_rating_notes').val();
+            if (rating) {
+                $.ajax({
+                    url: "{{ route('opportunities.survey', ':id') }}".replace(':id', id),
+                    type: 'PATCH',
+                    data: {
+                        survey_rating_notes: rating,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            showToast('success', response.msg);
+                            $('#checkout').hide();
+                        } else {
+                            alert('Failed to update opportunity survey rating: ' + response.msg);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("An error occurred:", error);
+                        alert('An error occurred while updating opportunity stages');
+                    }
+                });
+            } else {
+                alert('Enter a Notes')
 
+            }
+        });
 
     });
 

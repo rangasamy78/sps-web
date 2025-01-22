@@ -54,30 +54,21 @@
                                     @if (optional($price_list)->price_label)
                                     <div class="row">
                                         <div class="col">
-                                            <label for="created_by" class="form-label" style="font-size:8pt">Price Level</label>
-                                            <span id="print_name_value" class="d-block text-dark fw-bold">
-                                                {{$price_list->price_label}}-{{$price_list->price_code??''}}
-                                            </span>
+                                            <label for="created_by" class="form-label" style="font-size:8pt">Price Level <div id="print_name_value" class="d-block text-dark fw-bold">{{$price_list->price_label}}-{{$price_list->price_code??''}}</div></label>
                                         </div>
                                     </div>
                                     @endif
                                     @if (optional($taxcode)->tax_code)
                                     <div class="row">
                                         <div class="col">
-                                            <label for="created_by" class="form-label" style="font-size:8pt">Sales Tax</label>
-                                            <span id="print_name_value" class="d-block text-dark fw-bold">
-                                                {{ $taxcode->tax_code }}
-                                            </span>
+                                            <label for="created_by" class="form-label" style="font-size:8pt">Sales Tax <div id="print_name_value" class="d-block text-dark fw-bold">{{ $taxcode->tax_code }}</div></label>
                                         </div>
                                     </div>
                                     @endif
                                     @if (optional($payment_term)->payment_label)
                                     <div class="row">
                                         <div class="col">
-                                            <label for="created_by" class="form-label" style="font-size:8pt">Payment Terms</label>
-                                            <span id="print_name_value" class="d-block text-dark fw-bold">
-                                                {{ $payment_term->payment_label ?? 'N/A' }}
-                                            </span>
+                                            <label for="created_by" class="form-label" style="font-size:8pt">Payment Terms <div id="print_name_value" class="d-block text-dark fw-bold">{{ $payment_term->payment_label ?? 'N/A' }}</div></label>
                                         </div>
                                     </div>
                                     @endif
@@ -86,20 +77,14 @@
                                     @if (optional($opportunity)->tax_code)
                                     <div class="row">
                                         <div class="col">
-                                            <label for="created_by" class="form-label" style="font-size:8pt">Delivery Type</label>
-                                            <span class="d-block text-dark fw-bold">
-                                                {{$opportunity->ship_to_type}}
-                                            </span>
+                                            <label for="created_by" class="form-label" style="font-size:8pt">Delivery Type<div class="d-block text-dark fw-bold">{{$opportunity->ship_to_type}}</div> </label>
                                         </div>
                                     </div>
                                     @endif
                                     @if (optional($howDidHear)->how_did_you_hear_option)
                                     <div class="row">
                                         <div class="col">
-                                            <label for="created_by" class="form-label" style="font-size:8pt">How did you hear about us?</label>
-                                            <span class="d-block text-dark fw-bold">
-                                                {{$howDidHear->how_did_you_hear_option}}
-                                            </span>
+                                            <label for="created_by" class="form-label" style="font-size:8pt">How did you hear about us?<div class="d-block text-dark fw-bold">{{$howDidHear->how_did_you_hear_option}}</div></label>
                                         </div>
                                     </div>
                                     @endif
@@ -118,14 +103,18 @@
                             </div>
                             <div class="row mt-2">
                                 <div class="row">
+                                    @if(optional($opportunity)->internal_notes)
                                     <div class="col-6">
                                         <label class="form-label fw-bold text-dark">Internal Notes</label>
                                         <textarea class="form-control bg-label-warning text-dark" readonly rows="1" id="internal_notes_input">{{$opportunity->internal_notes}}</textarea>
                                     </div>
+                                    @endif
+                                    @if(optional($opportunity)->special_instructions)
                                     <div class="col-6">
                                         <label class="form-label fw-bold text-dark">Special Instructions</label>
                                         <textarea class="form-control bg-label-warning text-dark" readonly rows="1" id="special_notes_input">{{$opportunity->special_instructions}}</textarea>
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -147,8 +136,8 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-lg-6 col-sm-12">
-                                        <input type="date" class="form-control" hidden name="open_by_date" id="open_by_date" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
-                                        <input type="text" class="form-control" hidden name="opened_by_id" id="opened_by_id" value="{{auth()->id()}}">
+                                        <input type="date" class="form-control" hidden name="status_update_date" id="status_update_date" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+                                        <input type="text" class="form-control" hidden name="status_update_user_id" id="status_update_user_id" value="{{auth()->id()}}">
                                         <input type="text" class="form-control" hidden name="status" id="status" value="open">
                                         <input type="hidden" class="form-control" name="opportunity_id" id="opportunity_id" value="{{$opportunity->id}}">
                                         <input type="hidden" class="form-control" name="quote_id" id="quote_id" value="{{$quote->id}}">
@@ -231,8 +220,8 @@
                                         <label class="form-label" for="payment_terms_id">Payment Terms <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                                         <select class="select2 form-select" id="payment_terms_id" name="payment_terms_id">
                                             <option value="">--select--</option>
-                                            @foreach($data['paymentTerms'] as $id => $payment_label)
-                                            <option value="{{ $id }}" {{ isset($quote) && $quote->payment_terms_id == $id ? 'selected' : '' }}>{{ $payment_label }}</option>
+                                            @foreach($data['paymentTerms'] as $paymentTerm)
+                                            <option value="{{$paymentTerm->id }}" {{ isset($quote) && $quote->payment_terms_id == $paymentTerm->id ? 'selected' : '' }}>{{ $paymentTerm->payment_label }}</option>
                                             @endforeach
                                         </select>
                                         <span class="text-danger error-text payment_terms_id_error"></span>
@@ -244,7 +233,7 @@
                                         <select class="select2 form-select" id="sales_tax_id" name="sales_tax_id">
                                             <option value="">--select--</option>
                                             @foreach($data['salesTaxs'] as $id => $tax_name)
-                                            <option value="{{ $id }}" {{ isset($opportunity) && $opportunity->sales_tax_id == $id ? 'selected' : '' }}>{{ $tax_name }}</option>
+                                            <option value="{{ $id }}" {{ isset($quote) && $quote->sales_tax_id == $id ? 'selected' : '' }}>{{ $tax_name }}</option>
                                             @endforeach
                                         </select>
                                         <span class="text-danger error-text sales_tax_id_error"></span>

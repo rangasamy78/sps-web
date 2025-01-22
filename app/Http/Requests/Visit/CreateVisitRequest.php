@@ -26,13 +26,17 @@ class CreateVisitRequest extends FormRequest
             'opportunity_id' => 'required|integer',
             'visit_label' => 'nullable|string',
             'visit_date' => 'required|date',
-            'visit_time' => 'nullable|date_format:H:i', // Use `date_format` for specific time formats
+            'visit_time' => 'nullable', // Use `date_format` for specific time formats
             'sales_person_id' => 'nullable|integer',
             'price_level_id' => 'nullable|integer',
+            'end_use_segment_id' => 'nullable|integer',
+            'project_type_id' => 'nullable|integer',
             'visit_printed_notes' => 'nullable|string', // Use boolean if true/false
+            'visit_internal_notes' => 'nullable|string', // Use boolean if true/false
             'probability_close_id' => 'nullable|integer',
             'survey_rating' => 'nullable|string|max:255', // Adding max length for consistency
             'checkout' => 'nullable|numeric', // For decimal or numeric values
+            'total' => 'nullable|numeric', // For decimal or numeric values
         ];
     }
 

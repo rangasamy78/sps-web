@@ -27,17 +27,27 @@
                                             <span class="text-dark fw-bold">Sample Order <span class="text-primary">#{{$opportunity->opportunity_code}}</span> {{$opportunity->ship_to_job_name}} </span><br>
                                         </h6>
                                         <div class="row p-1">
-                                            <span style="font-size:9pt">{{$opportunity_date}}&nbsp;|&nbsp;{{$opportunity->ship_to_type}}</span>
+                                            <span style="font-size:9pt">{{$opportunity_date}}
+                                                @if(optional($opportunity)->ship_to_type)
+                                                &nbsp;|&nbsp;{{$opportunity->ship_to_type}}
+                                                @endif
+                                            </span>
                                         </div>
+                                        @if(optional($price_list)->price_label)
                                         <div class="row p-1">
                                             <span style="font-size:10pt">Price:<span class="text-dark fw-bold ms-3">{{$price_list->price_label}}-{{$price_list->price_code}}</span>
                                         </div>
+                                        @endif
+                                        @if(optional($customer)->customer_name)
                                         <div class="row p-1">
                                             <span style="font-size:10pt">Bill to:<span class="text-dark fw-bold ms-2">{{$customer->customer_name}}</span></span>
                                         </div>
+                                        @endif
+                                        @if(optional($opportunity)->ship_to_job_name)
                                         <div class="row p-1">
                                             <span style="font-size:10pt">Job:<span class="text-dark fw-bold ms-4">{{$opportunity->ship_to_job_name}}</span></span>
                                         </div>
+                                        @endif
                                     </div>
                                     <div class="col-lg-6 col-md-12 col-sm-12">
                                         <h6 class="card-title mb-0 fw-bold">

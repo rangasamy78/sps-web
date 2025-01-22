@@ -17,4 +17,8 @@ class SampleOrderService extends Model
     {
         return $this->belongsTo(SampleOrder::class, 'sample_order_id');
     }
+    public function service()
+    {
+        return $this->belongsTo(Service::class, 'service_id');
+    }
 }

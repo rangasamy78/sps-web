@@ -16,5 +16,8 @@ class VisitService extends Model
     {
         return $this->belongsTo(Visit::class);
     }
-    
+    public function service()
+    {
+        return $this->belongsTo(Service::class, 'service_id');
+    }
 }

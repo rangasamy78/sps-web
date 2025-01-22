@@ -47,6 +47,7 @@
                     name: 'notes'
                 }
             ],
+
             rowCallback: function(row, data) {
                 $(row).on('click', function() {
                     const id = data.opportunity_id;
@@ -107,6 +108,14 @@
                         name: 'action'
                     }
                 ],
+                columnDefs: [{
+                    targets: 4,
+                    width: '250px',
+                    className: 'text-center',
+                    createdCell: function(td, cellData, rowData, row, col) {
+                        $(td).css('width', '250px');
+                    }
+                }],
                 rowCallback: function(row, data) {}
             });
         }

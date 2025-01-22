@@ -519,21 +519,30 @@
             </ul>
         </li>
         <!-- Lists -->
-        <li class="menu-item {{ request()->is('lists*')||request()->is('products*') || request()->is('products.stock')|| request()->is('products.stock_list') || request()->is('products.price_list_product') || request()->is('products.customer_price_list_product*') || request()->is('associates*') || request()->is('expenditures*') || request()->is('accounts*') || request()->is('suppliers*') || request()->is('customers*') || request()->is('tax_codes*')|| request()->is('tax_authorities*') || request()->is('services*')|| request()->is('consignments*') ? 'active open' : '' }}">
+        <li class="menu-item {{ (request()->is('lists*') ||request()->is('associates*') ||request()->is('expenditures*') ||request()->is('accounts*') ||request()->is('suppliers*') ||request()->is('customers*') ||request()->is('products*') ||request()->is('tax_codes*') ||request()->is('tax_authorities*') ||request()->is('services*') ||request()->is('consignments*')) ? 'active open' : '' }}">
             <a href="{{ route(name: 'lists') }}" class="menu-link">
                 <i class="bx bx-shield menu-icon"></i>
                 <div class="text-truncate" data-i18n="Lists">Lists</div>
             </a>
         </li>
-        <!-- pre sales -->
-        <li class="menu-item {{ request()->is('pre_sales*')||request()->is('products*') || request()->is('products.stock')|| request()->is('products.stock_list') || request()->is('products.price_list_product') || request()->is('products.customer_price_list_product*') || request()->is('associates*')  || request()->is('customers*') || request()->is('tax_codes*')|| request()->is('tax_authorities*') ? 'active open' : '' }}">
+
+        <!-- Pre Sales -->
+        <li class="menu-item {{ (request()->is('pre_sales*') ||request()->is('opportunities*') ||request()->is('opportunities.index') ||request()->is('opportunities.create') ||request()->is('visit*') ||request()->is('visit.opportunities.index') ||request()->is('visit_events*') ||request()->is('visit_opportunities*') ||request()->is('visit_lists*') ||request()->is('visit.opportunities.index') ||request()->is('visits*')||request()->is('sample_orders*')||request()->is('quotes*') ||request()->is('holds*') ||request()->is('converts*') ||request()->is('visit_calendars.index') ||request()->is('my_events*') ||request()->is('event_calendars*') ||request()->is('quote_stages_dashboard*') ||request()->is('follow_ups*'))? 'active open' : '' }}">
             <a href="{{ route(name: 'pre_sales') }}" class="menu-link">
                 <i class="bx bx-cart menu-icon"></i>
                 <div class="text-truncate" data-i18n="Pre Sales">Pre Sales</div>
             </a>
         </li>
+
         <!-- Purchase -->
-        <li class="menu-item {{ request()->is('purchases*')||request()->is('products*') || request()->is('products.stock')|| request()->is('products.stock_list') || request()->is('products.price_list_product') || request()->is('products.customer_price_list_product*') || request()->is('suppliers*') ? 'active open' : '' }}">
+        <li class="menu-item {{ request()->is('purchases*')
+        || request()->is('pre_purchase_requests*') || 
+        request()->is('vendor_pos*') ||
+         request()->is('freight_bills*') || 
+         request()->is('purchase_orders*') || 
+         request()->is('event_calendars*') || 
+         request()->is('supplier_invoices*') || 
+         request()->is('freight_vendors*') ? 'active open' : '' }}">
             <a href="{{ route(name: 'purchases') }}" class="menu-link">
                 <i class="bx bx-shopping-bag menu-icon"></i>
                 <div class="text-truncate" data-i18n="Purchase">Purchase</div>

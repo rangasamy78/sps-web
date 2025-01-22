@@ -67,4 +67,13 @@ class Service extends Model
     {
         return $this->hasMany(VisitService::class, 'service_id');
     }
+    public function sample_order_service()
+    {
+        return $this->hasMany(SampleOrderService::class, 'service_id');
+    }
+
+    public function quote_service()
+    {
+        return $this->hasMany(QuoteService::class, 'service_id');
+    }
 }

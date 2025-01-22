@@ -40,4 +40,8 @@ class TaxCode extends Model
     {
         return $this->hasMany(Quote::class, 'sales_tax_id');
     }
+    public function hold()
+    {
+        return $this->hasMany(hold::class, 'sales_tax_id');
+    }
 }

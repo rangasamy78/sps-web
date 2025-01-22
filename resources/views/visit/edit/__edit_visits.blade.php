@@ -22,40 +22,41 @@
                     <div class="card mb-1">
                         <div class="card-header">
                             <h4 class="card-title mb-0 fw-bold">
-                                <span class="text-dark fw-bold">{{$opportunity->opportunity_code}}- {{$customer->customer_name}}</span><br>
+                                <span class="text-dark fw-bold">{{$opportunity->opportunity_code??''}}- {{$customer->customer_name??''}}</span><br>
                             </h4>
+                            @if(optional($opportunity_date))
                             <div class="row p-1">
                                 <span>{{$opportunity_date}}</span>
                             </div>
-
+                            @endif
                         </div>
-
                         <div class="card-body">
                             <div class="row mb-2">
+                                @if(optional($opportunity)->ship_to_type)
                                 <div class="col-sm-12 col-md-6 col-lg-3">
                                     <div class="row mb-2">
                                         <div class="col">
-                                            <!-- <label for="print_name" class="form-label text-dark fw-bold">Print Name / DBA:</label> -->
                                             <label for="created_by" class="form-label" style="font-size:8pt">Delivery Type</label>
                                             <span class="d-block  text-dark fw-bold">
                                                 {{$opportunity->ship_to_type}}
                                             </span>
                                         </div>
-
                                     </div>
                                 </div>
-
+                                @endif
+                                @if(optional($price_list)->price_label)
                                 <div class="col-sm-12 col-md-6 col-lg-3">
                                     <div class="row mb-2">
                                         <div class="col">
                                             <label for="created_by" class="form-label" style="font-size:8pt">Price Level</label>
                                             <span id="print_name_value" class="d-block  text-dark fw-bold">
-                                                {{$price_list->price_label}}-{{$price_list->price_code}}
+                                                {{$price_list->price_label}}-{{$price_list->price_code??''}}
                                             </span>
                                         </div>
                                     </div>
                                 </div>
-
+                                @endif
+                                @if(optional($taxcode)->tax_code)
                                 <div class="col-sm-12 col-md-6 col-lg-3">
                                     <div class="row mb-2">
                                         <div class="col">
@@ -66,6 +67,8 @@
                                         </div>
                                     </div>
                                 </div>
+                                @endif
+                                @if(optional($payment_term)->payment_label)
                                 <div class="col-sm-12 col-md-6 col-lg-3">
                                     <div class="row mb-2">
                                         <div class="col">
@@ -76,23 +79,29 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                @endif
                             </div>
                             <div class="row">
                                 <div class="col-lg-3 col-sm-6 border-end p-1 border-dark">
                                     <label class="form-label text-primary" style="font-size:8pt">Job Name</label>
+                                    @if(optional($opportunity)->ship_to_job_name)
                                     <div class="row">
                                         <div class="col"><span class="text-dark fw-bold">{{$opportunity->ship_to_job_name}}</span></div>
                                     </div>
+                                    @endif
+                                    @if(optional($opportunity)->ship_to_address)
                                     <div class="row">
                                         <span class="text-dark" style="font-size:9pt">{{$opportunity->ship_to_address??''}}&nbsp;{{$opportunity->ship_to_city??''}}&nbsp;{{$opportunity->ship_to_state??''}}&nbsp;{{$opportunity->ship_to_zip??''}}</span>
                                     </div>
+                                    @endif
                                 </div>
                                 <div class="col-lg-3 col-sm-6 border-end p-1 border-dark">
                                     <label class="form-label text-primary">Bill To</label>
+                                    @if(optional($customer)->customer_name)
                                     <div class="row">
                                         <div class="col"><span class="text-dark fw-bold">{{$customer->customer_name}}</span></div>
                                     </div>
+                                    @endif
                                     <div class="row">
                                         <span class="text-dark" style="font-size:9pt">{{$customer->address??''}}&nbsp;{{$customer->city??''}}&nbsp;{{$customer->state??''}}&nbsp;{{$customer->zip??''}}</span>
                                     </div>
@@ -100,33 +109,38 @@
                                 </div>
                                 <div class="col-lg-3 col-sm-6 border-end p-1 border-dark">
                                     <label class="form-label text-primary">Ship To</label>
+                                    @if(optional($opportunity)->ship_to_name)
                                     <div class=" row">
                                         <div class="col"><span class="text-dark fw-bold">{{$opportunity->ship_to_name}}</span>
                                         </div>
                                     </div>
+                                    @endif
                                     <div class="row">
                                         <span class="text-dark" style="font-size:9pt">{{$opportunity->ship_to_address??''}}&nbsp;{{$opportunity->ship_to_city??''}}&nbsp;{{$opportunity->ship_to_state??''}}&nbsp;{{$opportunity->ship_to_zip??''}}</span>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-sm-6 p-1">
-                                    <label class="form-label text-primary">End-Use Segment</label>
+                                    @if(optional($endUseSegment)->end_use_segment)
                                     <div class="row">
                                         <div class="col showContact">
-                                            <span class="text-dark fw-bold">{{$endUseSegment->end_use_segment??''}}</span>
+                                            <label class="form-label text-primary">End-Use Segment<div class="text-dark fw-bold">{{$endUseSegment->end_use_segment??''}}</div></label>
                                         </div>
                                     </div>
-                                    <label class="form-label text-primary">Project Type</label>
+                                    @endif
+                                    @if(optional($projectType)->project_type_name)
                                     <div class="row">
                                         <div class="col showContact">
-                                            <span class="text-dark fw-bold">{{$projectType->project_type_name??''}}</span>
+                                            <label class="form-label text-primary">Project Type<div class="text-dark fw-bold">{{$projectType->project_type_name??''}}</div></label>
                                         </div>
                                     </div>
-                                    <label class="form-label text-primary">How did you hear about us?</label>
+                                    @endif
+                                    @if(optional($howDidHear)->how_did_you_hear_option)
                                     <div class="row">
                                         <div class="col showContact">
-                                            <span class="text-dark fw-bold">{{$howDidHear->how_did_you_hear_option??''}}</span>
+                                            <label class="form-label text-primary">How did you hear about us?<div class="text-dark fw-bold">{{$howDidHear->how_did_you_hear_option??''}}</div></label>
                                         </div>
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                             <div class="row border-bottom border-dark mt-3">
@@ -135,38 +149,49 @@
                                 <div class="col-lg-6 col-sm-12">
                                     <div class="row">
                                         <div class="col-lg-6 col-sm-12">
+                                            @if(optional($company)->company_name)
                                             <div class="row">
-                                                <label class="form-label">Location</label>
-                                                <span class="text-dark fw-bold">{{$company->company_name??''}}</span>
+                                                <label class="form-label">Location <div class="text-dark fw-bold">{{$company->company_name??''}}</div></label>
                                             </div>
+                                            @endif
+                                            @if(optional($primarySale)->first_name)
                                             <div class="row">
-                                                <span class="text-dark"><i class="fi fi-rr-user-tag"></i>{{$primarySale->first_name??''}}&nbsp;{{$primarySale->last_name??''}}</span>
+                                                <span class="text-dark"><i class="fi fi-rr-user-tag text-dark fw-bold fs-5"></i>{{$primarySale->first_name??''}}&nbsp;{{$primarySale->last_name??''}}</span>
                                             </div>
+                                            @endif
+                                            @if(optional($secondarySale)->first_name)
                                             <div class="row">
                                                 <span class="text-dark"><i class="fi fi-rr-user-tag"></i>{{$secondarySale->first_name ??''}}</span>
                                             </div>
+                                            @endif
                                         </div>
+                                        @if(optional($fabricator)->associate_name)
                                         <div class="col-lg-6 col-sm-12">
                                             <div class="row">
                                                 <label class="form-label">Fabricator</label>
                                                 <span class="text-dark fw-bold">{{$fabricator->associate_name??''}}</span>
                                             </div>
                                         </div>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-sm-12">
+                                    @if(optional($opportunity)->internal_notes)
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <label class="form-label fw-bold text-dark">Internal Notes</label>
                                             <textarea class="form-control bg-label-warning text-dark" readonly rows="1" id="internal_notes_input">{{$opportunity->internal_notes}}</textarea>
                                         </div>
                                     </div>
+                                    @endif
+                                    @if(optional($opportunity)->special_instructions)
                                     <div class="row mt-1">
                                         <div class="col-sm-12">
                                             <label class="form-label fw-bold text-dark">Special Instructions</label>
                                             <textarea class="form-control bg-label-warning text-dark" readonly rows="1" id="special_notes_input">{{$opportunity->special_instructions}}</textarea>
                                         </div>
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>

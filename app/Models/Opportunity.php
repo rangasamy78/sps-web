@@ -78,4 +78,8 @@ class Opportunity extends Model
     {
         return $this->hasMany(Quote::class, 'opportunity_id', 'id');
     }
+    public function hold()
+    {
+        return $this->hasMany(hold::class, 'opportunity_id', 'id');
+    }
 }

@@ -215,6 +215,7 @@
             $('#visit_sub_total').html('$' + subtotal.toFixed(2));
             $('#tax_code_amount_label').html('$' + tax.toFixed(2));
             $('#visit_total').html('$' + total.toFixed(2));
+            $('#total').val(total ? total.toFixed(2) : '0.00');
         }
 
         $(document).on('input', '.service-quantity, .service-unit-price', function() {

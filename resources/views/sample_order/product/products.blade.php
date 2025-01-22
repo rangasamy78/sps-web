@@ -61,9 +61,9 @@
     </div>
     <div class="row mt-2">
         <div class="col d-flex justify-content-end gap-2">
-            <button class="btn btn-secondary btn-sm"> + Visit</button>
-            <button class="btn btn-secondary btn-sm"> + Ouote</button>
-            <button class="btn btn-secondary btn-sm"> + Hold</button>
+            <button class="btn btn-secondary btn-sm" onclick="window.location.href='{{ route('convert.convert_sample_order', $sampleOrder->id) }}?type=visit'">+ Visit</button>
+            <button class="btn btn-secondary btn-sm" onclick="window.location.href='{{ route('convert.convert_sample_order', $sampleOrder->id) }}?type=quote'"> + Ouote</button>
+            <button class="btn btn-secondary btn-sm" onclick="window.location.href='{{ route('hold.index_hold', $opportunity->id) }}'"> + Hold</button>
             <button class="btn btn-secondary btn-sm"> + Sale Order</button>
         </div>
     </div>

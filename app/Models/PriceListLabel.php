@@ -36,4 +36,8 @@ class PriceListLabel extends Model
     {
         return $this->hasMany(Quote::class, 'price_level_id');
     }
+    public function hold()
+    {
+        return $this->hasMany(Hold::class, 'price_level_id');
+    }
 }

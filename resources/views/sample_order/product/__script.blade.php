@@ -102,11 +102,11 @@
             let taxSubtotal = 0;
             const taxRate = parseFloat($('#tax_code_amount').val()) || 0;
             $('#sampleOrderProductDataTable tbody tr').each(function() {
-                const unitPrice = parseFloat($(this).find('.unit-price').val()) || 0;
+                const amount = parseFloat($(this).find('.amount').val()) || 0;
                 const taxApplicable = $(this).find('.tax').val();
-                subtotal += unitPrice;
+                subtotal += amount;
                 if (taxApplicable == 1) {
-                    taxSubtotal += unitPrice;
+                    taxSubtotal += amount;
                 }
             });
             const tax = (taxSubtotal * taxRate) / 100;

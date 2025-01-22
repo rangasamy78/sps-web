@@ -66,9 +66,9 @@
             @endif
         </div>
         <div class="col-10 d-flex justify-content-end gap-2">
-            <button class="btn btn-secondary btn-sm"> + Sample Order</button>
-            <button class="btn btn-secondary btn-sm"> + Ouote</button>
-            <button class="btn btn-secondary btn-sm"> + Hold</button>
+            <button class="btn btn-secondary btn-sm" onclick="window.location.href='{{ route('convert.convert_visit', $visit->id) }}?type=sample'">+ Sample Order</button>
+            <button class="btn btn-secondary btn-sm" onclick="window.location.href='{{ route('convert.convert_visit', $visit->id) }}?type=quote'"> + Ouote</button>
+            <button class="btn btn-secondary btn-sm" onclick="window.location.href='{{ route('hold.index_hold', $opportunity->id) }}'"> + Hold</button>
             <button class="btn btn-secondary btn-sm"> + Sale Order</button>
         </div>
     </div>

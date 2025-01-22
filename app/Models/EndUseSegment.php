@@ -27,4 +27,16 @@ class EndUseSegment extends Model
    {
       return $this->hasMany(Opportunity::class, 'project_type_id');
    }
+   public function quote()
+   {
+      return $this->hasMany(Quote::class, 'end_use_segment_id', 'id');
+   }
+   public function sample_order()
+   {
+      return $this->hasMany(SampleOrder::class, 'end_use_segment_id', 'id');
+   }
+   public function visit()
+   {
+      return $this->hasMany(Visit::class, 'end_use_segment_id', 'id');
+   }
 }

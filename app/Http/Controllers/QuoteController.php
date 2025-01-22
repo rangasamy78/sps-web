@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\User;
+use App\Models\Hold;
 use App\Models\Visit;
 use App\Models\Quote;
 use App\Models\County;
@@ -23,7 +24,10 @@ use App\Models\ProjectType;
 use App\Models\QuoteHeader;
 use App\Models\Opportunity;
 use App\Models\ProductType;
+use App\Models\SampleOrder;
 use App\Models\QuoteContact;
+use App\Models\QuoteProduct;
+use App\Models\QuoteService;
 use App\Models\TaxComponent;
 use Illuminate\Http\Request;
 use App\Models\CustomerType;
@@ -46,7 +50,7 @@ use App\Http\Controllers\Controller;
 use App\Repositories\QuoteRepository;
 use App\Repositories\OpportunityRepository;
 use App\Http\Requests\Quote\{CreateQuoteRequest, UpdateQuoteRequest};
-use App\Http\Requests\Opportunity\{CreateOpportunityRequest, UpdateOpportunityRequest};
+use App\Http\Requests\Opportunity\CreateOpportunityRequest;
 
 class QuoteController extends Controller
 {
@@ -108,6 +112,8 @@ class QuoteController extends Controller
         }) + 1;
         $quoteCount = Quote::where('opportunity_id', $quote->opportunity_id)->count();
         $visitCount = Visit::where('opportunity_id', $quote->opportunity_id)->count();
+        $sampleOrderCount = SampleOrder::where('opportunity_id', $quote->opportunity_id)->count();
+        $holdCount = Hold::where('opportunity_id', $quote->opportunity_id)->count();
         $quoteDate = $quote->created_at ? \Carbon\Carbon::parse($quote->created_at)->format('M d Y g:iA') : null;
         $opportunity_date = $opportunity->created_at ? \Carbon\Carbon::parse($opportunity->created_at)->format('M d Y g:iA') : null;
         $paymentTerm = $quote?->payment_term;
@@ -138,7 +144,7 @@ class QuoteController extends Controller
                 'quote_contact_id' => $quoteContact->id,
             ];
         });
-        return view('quote.show.__show', compact('data', 'quote', 'opportunity', 'position', 'quoteDate', 'opportunity_date', 'paymentTerm', 'company', 'priceList', 'customer', 'primarySale', 'secondarySale', 'taxCode', 'endUseSegment', 'projectType', 'taxAmount', 'loginPerson', 'fabricator', 'designer', 'builder', 'howDidHear', 'quoteCount', 'visitCount', 'fileTypes', 'contacts'));
+        return view('quote.show.__show', compact('data', 'quote', 'opportunity', 'position', 'quoteDate', 'opportunity_date', 'paymentTerm', 'company', 'priceList', 'customer', 'primarySale', 'secondarySale', 'taxCode', 'endUseSegment', 'projectType', 'taxAmount', 'loginPerson', 'fabricator', 'designer', 'builder', 'howDidHear', 'quoteCount', 'visitCount', 'sampleOrderCount', 'holdCount', 'fileTypes', 'contacts'));
     }
 
     public function updateProbabilityClose(Request $request, $id)
@@ -222,7 +228,6 @@ class QuoteController extends Controller
     public function indexOpportunityQuote()
     {
         $data = $this->getDropDownData();
-        // dd($data);
         $count = Opportunity::count();
         return view('quote.create.__create_oppotunity_quotes', compact('data', 'count'));
     }
@@ -331,6 +336,36 @@ class QuoteController extends Controller
                 'trace' => $e->getTraceAsString(),
             ]);
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Quote.'], 500);
+        }
+    }
+
+    public function indexConvertVisitAndSample($id, Request $request)
+    {
+        $type = $request->query('type');
+        $data = $this->getDropDownData();
+        $quote = Quote::findOrFail($id);
+        $opportunity = $quote->opportunities;
+        $customer = $opportunity?->customer;
+        $opportunity_date = $opportunity?->created_at ? $opportunity->created_at->format('M d Y g:iA') : null;
+        $taxcode = $opportunity?->sales_tax;
+        $taxAmount = $taxcode ? TaxComponent::where('tax_code_id', $taxcode->id)->first() : null;
+        $price_list = $opportunity?->price_list;
+        $payment_term = $customer?->payment_term;
+        $endUseSegment = $opportunity?->end_use_segment;
+        $howDidHear = $opportunity?->how_did_you_hear;
+        $projectType = $opportunity?->project_type;
+        $company = $opportunity?->location;
+        $primarySale = $opportunity?->primary_user;
+        $secondarySale = $opportunity?->secondary_user;
+        $fabricator = $opportunity?->fabricator;
+        $designer = $opportunity?->designer;
+        $builder = $opportunity?->builder;
+        $quoteProducts = QuoteProduct::with(['product.unit_measure'])->where('quote_id', $id)->get();
+        $quoteServices = QuoteService::with(['service.unit_measure'])->where('quote_id', $id)->get();
+        if ($type == 'visit') {
+            return view('opportunity.opportunity_convert.quote_converts.visit', compact('data', 'quote', 'opportunity', 'customer', 'opportunity_date', 'taxcode', 'taxAmount', 'price_list', 'payment_term', 'endUseSegment', 'howDidHear', 'projectType', 'company', 'primarySale', 'secondarySale', 'fabricator', 'designer', 'builder', 'quoteProducts', 'quoteServices'));
+        } elseif ($type == 'sample') {
+            return view('opportunity.opportunity_convert.quote_converts.sample_order', compact('data', 'quote', 'opportunity', 'customer', 'opportunity_date', 'taxcode', 'taxAmount', 'price_list', 'payment_term', 'endUseSegment', 'howDidHear', 'projectType', 'company', 'primarySale', 'secondarySale', 'fabricator', 'designer', 'builder', 'quoteProducts', 'quoteServices'));
         }
     }
 

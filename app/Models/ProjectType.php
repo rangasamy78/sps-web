@@ -40,4 +40,16 @@ class ProjectType extends Model
     {
         return $this->hasMany(Quote::class, 'project_type_id', 'id');
     }
+    public function hold()
+    {
+        return $this->hasMany(Hold::class, 'project_type_id');
+    }
+    public function visit()
+    {
+        return $this->hasMany(Visit::class, 'project_type_id');
+    }
+    public function sample_order()
+    {
+        return $this->hasMany(SampleOrder::class, 'project_type_id');
+    }
 }

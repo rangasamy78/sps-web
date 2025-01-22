@@ -54,7 +54,7 @@
                             <a class='dropdown-item deletebtn fw-bold text-dark' href='javascript:void(0);' data-id='{{ $quote->id }}'>
                                 <i class='bx bx-trash me-1 icon-danger'></i> Delete Quote
                             </a>
-                            <a class='dropdown-item showbtn fw-bold text-dark' href='{{ route('opportunities.index') }}'>
+                            <a class='dropdown-item showbtn fw-bold text-dark' href='{{ route('opportunities.index') }}?tab=quotes'>
                                 <i class='bx bx-list-ul'></i> List All Quote
                             </a>
                             <a class='dropdown-item fw-bold text-dark' href='javascript:void(0);' data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="coming soon">
@@ -123,38 +123,51 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-sm-12">
-                                    <div class="row test-end">
+                                    <div class="row d-flex justify-content-end">
                                         <!-- Box 1 -->
+                                        @if($visitCount)
                                         <div class="col-lg-3 col-md-3 col-sm-6 mb-3">
-                                            <div class="small-box text-center">
-                                                <h6 class="mb-2">{{$visitCount}}</h6>
-                                                <p class="bg-dark text-white" style="font-size: 0.75rem;">Visit</p>
-                                            </div>
+                                            <a href="{{ route('opportunities.show', $opportunity->id) }}">
+                                                <div class="small-box text-center">
+                                                    <h6 class="mb-2">{{$visitCount}}</h6>
+                                                    <p class="bg-dark text-white" style="font-size: 0.75rem;">Visit</p>
+                                                </div>
+                                            </a>
                                         </div>
-
+                                        @endif
                                         <!-- Box 2 -->
+                                        @if($sampleOrderCount)
                                         <div class="col-lg-3 col-md-3 col-sm-6 mb-3">
-                                            <div class="small-box text-center">
-                                                <h6 class="mb-2">{{$quoteCount}}</h6>
-                                                <p class="bg-dark text-white" style="font-size: 0.75rem;">S.Order</p>
-                                            </div>
+                                            <a href="{{ route('opportunities.show', $opportunity->id) }}">
+                                                <div class="small-box text-center">
+                                                    <h6 class="mb-2">{{$sampleOrderCount}}</h6>
+                                                    <p class="bg-dark text-white" style="font-size: 0.75rem;">S.Order</p>
+                                                </div>
+                                            </a>
                                         </div>
-
+                                        @endif
+                                        @if($holdCount)
                                         <!-- Box 3 -->
                                         <div class="col-lg-3 col-md-3 col-sm-6 mb-3">
-                                            <div class="small-box text-center">
-                                                <h6 class="mb-2">3</h6>
-                                                <p class="bg-dark text-white" style="font-size: 0.75rem;">Hold</p>
-                                            </div>
+                                            <a href="{{ route('opportunities.show', $opportunity->id) }}">
+                                                <div class="small-box text-center">
+                                                    <h6 class="mb-2">{{$holdCount}}</h6>
+                                                    <p class="bg-dark text-white" style="font-size: 0.75rem;">Hold</p>
+                                                </div>
+                                            </a>
                                         </div>
-
+                                        @endif
+                                        @if($quoteCount)
                                         <!-- Box 4 -->
                                         <div class="col-lg-3 col-md-3 col-sm-6 mb-3">
-                                            <div class="small-box text-center">
-                                                <h6 class="mb-2">4</h6>
-                                                <p class="bg-dark text-white" style="font-size: 0.75rem;">Quote</p>
-                                            </div>
+                                            <a href="{{ route('opportunities.show', $opportunity->id) }}">
+                                                <div class="small-box text-center">
+                                                    <h6 class="mb-2">{{$quoteCount}}</h6>
+                                                    <p class="bg-dark text-white" style="font-size: 0.75rem;">Quote</p>
+                                                </div>
+                                            </a>
                                         </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

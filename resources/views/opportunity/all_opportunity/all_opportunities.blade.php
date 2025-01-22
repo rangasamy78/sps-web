@@ -1,4 +1,4 @@
-<div class="tab-pane fade show active" id="allOpportunity" role="tabpanel">
+<div class="tab-pane fade" id="opportunitiesTab" role="tabpanel">
   <h4 class="card-title">Opportunity</h4>
   <div class="d-flex justify-content-between align-items-center row py-3 gap-2 gap-md-0">
   </div>

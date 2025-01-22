@@ -7,6 +7,7 @@
 <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
 <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-straight/css/uicons-regular-straight.css'>
 
+
 @endsection
 @section('content')
 <div class="content-wrapper">
@@ -54,7 +55,7 @@
                                                 <a class='dropdown-item deletebtn fw-bold text-dark' href='javascript:void(0);' data-id='{{ $sampleOrder->id }}'>
                                                     <i class='bx bx-trash me-1 icon-danger'></i> Delete Sample Order
                                                 </a>
-                                                <a class='dropdown-item showbtn fw-bold text-dark' href='{{ route('opportunities.index') }}'>
+                                                <a class='dropdown-item showbtn fw-bold text-dark' href='{{ route('opportunities.index') }}?tab=samples'>
                                                     <i class='bx bx-list-ul'></i> List All Sample Order
                                                 </a>
                                                 <a class='dropdown-item fw-bold text-dark' href='javascript:void(0);' data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="coming soon">
@@ -87,38 +88,51 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-sm-12">
-                                    <div class="row test-end">
+                                    <div class="row d-flex justify-content-end">
                                         <!-- Box 1 -->
+                                        @if($visitCount)
                                         <div class="col-lg-3 col-md-3 col-sm-6 mb-3">
-                                            <div class="small-box text-center">
-                                                <h6 class="mb-2">{{$visitCount}}</h6>
-                                                <p class="bg-dark text-white" style="font-size: 0.75rem;">Visit</p>
-                                            </div>
+                                            <a href="{{ route('opportunities.show', $opportunity->id) }}">
+                                                <div class="small-box text-center">
+                                                    <h6 class="mb-2">{{$visitCount}}</h6>
+                                                    <p class="bg-dark text-white" style="font-size: 0.75rem;">Visit</p>
+                                                </div>
+                                            </a>
                                         </div>
-
+                                        @endif
                                         <!-- Box 2 -->
+                                        @if($sampleOrderCount)
                                         <div class="col-lg-3 col-md-3 col-sm-6 mb-3">
-                                            <div class="small-box text-center">
-                                                <h6 class="mb-2">{{$sampleOrderCount}}</h6>
-                                                <p class="bg-dark text-white" style="font-size: 0.75rem;">S.Order</p>
-                                            </div>
+                                            <a href="{{ route('opportunities.show', $opportunity->id) }}">
+                                                <div class="small-box text-center">
+                                                    <h6 class="mb-2">{{$sampleOrderCount}}</h6>
+                                                    <p class="bg-dark text-white" style="font-size: 0.75rem;">S.Order</p>
+                                                </div>
+                                            </a>
                                         </div>
-
+                                        @endif
+                                        @if($holdCount)
                                         <!-- Box 3 -->
                                         <div class="col-lg-3 col-md-3 col-sm-6 mb-3">
-                                            <div class="small-box text-center">
-                                                <h6 class="mb-2">3</h6>
-                                                <p class="bg-dark text-white" style="font-size: 0.75rem;">Hold</p>
-                                            </div>
+                                            <a href="{{ route('opportunities.show', $opportunity->id) }}">
+                                                <div class="small-box text-center">
+                                                    <h6 class="mb-2">{{$holdCount}}</h6>
+                                                    <p class="bg-dark text-white" style="font-size: 0.75rem;">Hold</p>
+                                                </div>
+                                            </a>
                                         </div>
-
+                                        @endif
+                                        @if($quoteCount)
                                         <!-- Box 4 -->
                                         <div class="col-lg-3 col-md-3 col-sm-6 mb-3">
-                                            <div class="small-box text-center">
-                                                <h6 class="mb-2">4</h6>
-                                                <p class="bg-dark text-white" style="font-size: 0.75rem;">Quote</p>
-                                            </div>
+                                            <a href="{{ route('opportunities.show', $opportunity->id) }}">
+                                                <div class="small-box text-center">
+                                                    <h6 class="mb-2">{{$quoteCount}}</h6>
+                                                    <p class="bg-dark text-white" style="font-size: 0.75rem;">Quote</p>
+                                                </div>
+                                            </a>
                                         </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -129,20 +143,20 @@
                                 <div class="col-lg-2 col-sm-6 border-end border-dark">
                                     <label class="form-label text-primary" style="font-size:8pt">Bill To</label>
                                     <div class="row">
-                                        <div class="col"><span class="text-dark fw-bold" style="font-size:10pt">{{$customer->customer_name}}</span></div>
+                                        <div class="col"><span class="text-dark fw-bold" style="font-size:10pt">{{$customer->customer_name??''}}</span></div>
                                     </div>
                                     <div class="row">
-                                        <span class="text-dark" style="font-size:8pt">{{$customer->address}}</span>
+                                        <span class="text-dark" style="font-size:8pt">{{$customer->address??''}}</span>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-sm-6 border-end border-dark">
                                     <label class="form-label text-primary" style="font-size:8pt">Job / Home Owner</label>
                                     <div class="row">
-                                        <div class="col"><span class="text-dark fw-bold" style="font-size:10pt">{{$opportunity->ship_to_job_name}}</span></div>
+                                        <div class="col"><span class="text-dark fw-bold" style="font-size:10pt">{{$opportunity->ship_to_job_name??''}}</span></div>
                                     </div>
                                     <div class="row">
                                         <span class="text-dark" style="font-size:8pt">
-                                            {{$opportunity->ship_to_address}}
+                                            {{$opportunity->ship_to_address??''}}
                                             @if($opportunity->ship_to_suite) {{$opportunity->ship_to_suite}} @endif
                                             {{$opportunity->ship_to_city}}
                                             @if($opportunity->ship_to_city && $opportunity->ship_to_state) , @endif
@@ -151,36 +165,31 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-sm-6 border-end border-dark">
-                                    @if($fabricator)
-                                    <label class="form-label text-primary" style="font-size:8pt">Fabricator</label>
+                                    @if(optional($fabricator)->associate_name)
                                     <div class=" row">
-                                        <div class="col"><span class="text-dark fw-bold" style="font-size:9pt">{{$fabricator->associate_name??''}}</span>
-                                        </div>
+                                        <label class="form-label text-primary" style="font-size:8pt">Fabricator<div class="text-dark fw-bold" style="font-size:9pt">{{$fabricator->associate_name??''}}</div></label>
                                     </div>
                                     @endif
-                                    @if($designer)
-                                    <label class="form-label text-primary" style="font-size:8pt">Designer</label>
+                                    @if(optional($designer)->associate_name)
                                     <div class=" row">
-                                        <div class="col"><span class="text-dark fw-bold" style="font-size:9pt">{{$designer->associate_name??''}}</span>
-                                        </div>
+                                        <label class="form-label text-primary" style="font-size:8pt">Designer <div class="text-dark fw-bold" style="font-size:9pt">{{$designer->associate_name??''}}</div></label>
                                     </div>
                                     @endif
-                                    @if($builder)
-                                    <label class="form-label text-primary" style="font-size:8pt">Builder</label>
+                                    @if(optional($builder)->associate_name)
                                     <div class=" row">
-                                        <div class="col"><span class="text-dark fw-bold" style="font-size:9pt">{{$builder->associate_name??''}}</span>
-                                        </div>
+                                        <label class="form-label text-primary" style="font-size:8pt">Builder<div class="text-dark fw-bold" style="font-size:9pt">{{$builder->associate_name??''}}</div></label>
                                     </div>
                                     @endif
                                 </div>
                                 <div class="col-lg-3 col-sm-6 border-end border-dark">
-                                    <label class="form-label text-primary" style="font-size:8pt">Samples Ship To</label>
+                                    @if(optional($sampleOrder)->attn)
                                     <div class="row">
-                                        <div class="col"><span class="text-dark fw-bold" style="font-size:10pt">{{$sampleOrder->attn}}</span></div>
+                                        <label class="form-label text-primary" style="font-size:8pt">Samples Ship To<div class="text-dark fw-bold" style="font-size:10pt">{{$sampleOrder->attn}}</div></label>
                                     </div>
+                                    @endif
                                     <div class="row">
                                         <span class="text-dark" style="font-size:8pt">
-                                            {{$sampleOrder->address}}
+                                            {{$sampleOrder->address??''}}
                                             @if($sampleOrder->suite) {{$sampleOrder->suite}} @endif
                                             {{$sampleOrder->city}}
                                             @if($sampleOrder->city && $sampleOrder->state) , @endif
@@ -192,7 +201,7 @@
                                         <span class="text-dark" style="font-size:8pt"><span class="text-dark fw-bold">Tracking#:</span> {{$sampleOrder->tracking}}</span>
                                     </div>
                                     @endif
-                                    @if (!empty($contacts))
+                                    @if (!empty($contacts)&& count($contacts)>0)
                                     <div class="row">
                                         <div class="col">
                                             <label class="form-label text-primary" style="font-size:8pt">Contact</label>
@@ -246,40 +255,46 @@
                             </div>
                             <div class="row mt-2">
                                 <div class="col-lg-6 col-sm-12">
+                                    @if(optional($sampleOrder)->sample_order_printed_notes)
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <label class="form-label fw-bold text-dark">Printed Notes</label>
                                             <textarea class="form-control bg-label-warning text-dark" readonly rows="1" id="sample_order_printed_notes" name="sample_order_printed_notes">{{$sampleOrder->sample_order_printed_notes}}</textarea>
                                         </div>
                                     </div>
+                                    @endif
                                     <div class="row mt-2">
-                                        @if($primarySale)
+                                        @if(optional($primarySale)->first_name)
                                         <div class="col-6">
                                             <label class="form-label fw-bold text-dark">Primary Sales Persons</label>
-                                            <div class="text-dark">{{$primarySale->first_name}}</div>
+                                            <div class="text-dark">{{$primarySale->first_name}} {{$primarySale->last_name}}</div>
                                         </div>
                                         @endif
-                                        @if($secondarySale)
+                                        @if(optional($secondarySale)->first_name)
                                         <div class="col-6">
                                             <label class="form-label fw-bold text-dark">Secondary Sales Persons</label>
-                                            <div class="text-dark">{{$secondarySale->first_name}}</div>
+                                            <div class="text-dark">{{$secondarySale->first_name}} {{$secondarySale->last_name}}</div>
                                         </div>
                                         @endif
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-sm-12">
+                                    @if(optional($opportunity)->internal_notes)
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <label class="form-label fw-bold text-dark">Internal Notes</label>
                                             <textarea class="form-control bg-label-warning text-dark" readonly rows="1" id="internal_notes_input">{{$opportunity->internal_notes}}</textarea>
                                         </div>
                                     </div>
+                                    @endif
+                                    @if(optional($opportunity)->special_instructions)
                                     <div class="row mt-2">
                                         <div class="col-sm-12">
                                             <label class="form-label fw-bold text-dark">Special Instructions</label>
                                             <textarea class="form-control bg-label-warning text-dark" readonly rows="1" id="special_notes_input">{{$opportunity->special_instructions}}</textarea>
                                         </div>
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>

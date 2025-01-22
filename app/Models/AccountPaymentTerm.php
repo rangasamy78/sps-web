@@ -29,4 +29,8 @@ class AccountPaymentTerm extends Model
     {
         return $this->hasMany(Quote::class, 'payment_terms_id');
     }
+    public function hold()
+    {
+        return $this->hasMany(Hold::class, 'payment_term_id');
+    }
 }

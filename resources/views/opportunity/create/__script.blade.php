@@ -313,6 +313,10 @@
                 },
                 {
                     from: 'billing_customer_name',
+                    to: 'ship_to'
+                },
+                {
+                    from: 'billing_customer_name',
                     to: 'ship_to_name'
                 },
                 {

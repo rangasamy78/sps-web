@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\User;
+use App\Models\Hold;
+use App\Models\Quote;
+use App\Models\Visit;
 use App\Models\County;
 use App\Models\Company;
 use App\Models\Country;
@@ -14,6 +17,7 @@ use App\Models\EventType;
 use App\Models\Associate;
 use App\Models\Opportunity;
 use App\Models\ProjectType;
+use App\Models\SampleOrder;
 use Illuminate\Http\Request;
 use App\Models\CustomerType;
 use App\Models\EndUseSegment;
@@ -110,7 +114,25 @@ class OpportunityController extends Controller
 
         $fileTypes = FileType::where('file_type_opportunity', 1)->select('id', 'file_Type')->get();
         $data = $this->getDropDownData();
-        return view('opportunity.show.__show', compact('opportunity', 'customer', 'company', 'date', 'opportunity_date', 'user', 'primary_sales', 'secondary_sales', 'taxcode', 'price_list', 'payment_term', 'how_did_hear', 'contacts', 'fileTypes', 'data'));
+        $quoteCount = Quote::where('opportunity_id', $opportunity->id)->count();
+        $visitCount = Visit::where('opportunity_id', $opportunity->id)->count();
+        $sampleOrderCount = SampleOrder::where('opportunity_id', $opportunity->id)->count();
+        $holdCount = Hold::where('opportunity_id', $opportunity->id)->count();
+        if (!empty($opportunity->total_value)) {
+            $total = number_format($opportunity->total_value, 3);
+        } else {
+            $total = collect([
+                Quote::where('opportunity_id', $opportunity->id)->sum('total'),
+                Visit::where('opportunity_id', $opportunity->id)->sum('total'),
+                SampleOrder::where('opportunity_id', $opportunity->id)->sum('total'),
+                Hold::where('opportunity_id', $opportunity->id)->sum('total'),
+            ])->sum();
+
+            // Optionally assign this calculated total to $opportunity->total_value
+            $total = number_format($total, 3);
+        }
+
+        return view('opportunity.show.__show', compact('opportunity', 'customer', 'company', 'date', 'opportunity_date', 'user', 'primary_sales', 'secondary_sales', 'taxcode', 'price_list', 'payment_term', 'how_did_hear', 'contacts', 'fileTypes', 'data', 'quoteCount', 'visitCount', 'sampleOrderCount', 'holdCount', 'total'));
     }
 
     public function edit($id)
@@ -121,13 +143,29 @@ class OpportunityController extends Controller
         $fabricator = Associate::find($opportunity->fabricator_id) ?? new Associate(['associate_name' => '']);
         $designer = Associate::find($opportunity->designer_id) ?? new Associate(['associate_name' => '']);
         $builder = Associate::find($opportunity->builder_id) ?? new Associate(['associate_name' => '']);
+        if (!empty($opportunity->total_value)) {
+            $opportunity->total_value = number_format($opportunity->total_value, 3);
+        } else {
+            $total = collect([
+                Quote::where('opportunity_id', $opportunity->id)->sum('total'),
+                Visit::where('opportunity_id', $opportunity->id)->sum('total'),
+                SampleOrder::where('opportunity_id', $opportunity->id)->sum('total'),
+                Hold::where('opportunity_id', $opportunity->id)->sum('total'),
+            ])->sum();
+
+            // Optionally assign this calculated total to $opportunity->total_value
+            $opportunity->total_value = number_format($total, 3);
+        }
+
+
         return view('opportunity.edit.__edit', compact(
             'opportunity',
             'billCustomer',
             'fabricator',
             'designer',
             'builder',
-            'data'
+            'data',
+            'total'
         ));
     }
 
@@ -188,10 +226,19 @@ class OpportunityController extends Controller
         }
     }
 
-    public function destroy(Opportunity $opportunity)
+    public function updateSurveyRate(Request $request, $id)
     {
-        //
+        try {
+            $opportunity = Opportunity::findOrFail($id);
+            $opportunity->survey_rating_notes = $request->input('survey_rating_notes');
+            $opportunity->save();
+            return response()->json(['status' => 'success', 'msg' => 'Opportunity Survey Rating updated successfully.']);
+        } catch (Exception $e) {
+            Log::error('Error updating Opportunity Survey Rating: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating Opportunity Survey Rating.']);
+        }
     }
+
     public function getOpportunityDataTableList(Request $request)
     {
         return $this->opportunityRepository->dataTable($request);
@@ -200,12 +247,19 @@ class OpportunityController extends Controller
     {
         return $this->opportunityRepository->dataTableAllCustomer($request);
     }
+
     public function getAllAssociateDataTableList(Request $request)
     {
         return $this->opportunityRepository->dataTableAllAssociate($request);
     }
+
     public function getAllShipToDataTableList(Request $request, $id)
     {
         return $this->opportunityRepository->dataTableAllShipTo($request, $id);
+    }
+
+    public function getAllSubtransactionDataTableList(Request $request, $id)
+    {
+        return $this->opportunityRepository->dataTableAllSubtransaction($request, $id);
     }
 }
