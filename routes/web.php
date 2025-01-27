@@ -585,8 +585,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/purchase_order/po_details', [PurchaseOrderController::class, 'getPoProductPoDataTableList'])->name('purchase_orders.po_product_details');
     Route::resource('supplier_invoices', SupplierInvoiceController::class);
     Route::get('/supplier_invoice/list', [SupplierInvoiceController::class, 'getSupplierInvoiceDataTableList'])->name('supplier_invoices.list');
-    /* Packing List */
-    Route::get('/supplier_invoice/packing_list', [SupplierInvoicePackingItemController::class, 'index'])->name('supplier_invoice.packing_list');
+    /* SUPPLIER INVOICE PACKING ITEMS */
+    Route::resource('supplier_invoice_packing_items', SupplierInvoicePackingItemController::class);
+    Route::post('supplier_invoice_packing_items/update-multiple', [SupplierInvoicePackingItemController::class, 'updateMultiple'])->name('supplier_invoice_packing_items.update_multiple');
+    Route::post('supplier_invoice_packing_items/delete-multiple', [SupplierInvoicePackingItemController::class, 'deleteMultiple'])->name('supplier_invoice_packing_items.delete_multiple');
+    Route::get('/supplier_invoice_packing_fetch_all', [SupplierInvoicePackingItemController::class, 'fetchProductsAll'])->name('supplier_invoice_packing_items.fetch_products_all');
+    Route::post('supplier_invoice_packing_items/note-update', [SupplierInvoicePackingItemController::class, 'updateNote'])->name('supplier_invoice_packing_items.note_update');
+    Route::post('supplier_invoice_packing_items/get_assign_slab_multiple', [SupplierInvoicePackingItemController::class, 'getAssignSlabMultiple'])->name('supplier_invoice_packing_items.assign_slab_multiple');
+    Route::post('supplier_invoice_packing_items/get_update_slab_multiple', [SupplierInvoicePackingItemController::class, 'getUpdateSlabMultiple'])->name('supplier_invoice_packing_items.update_slab_multiple');
 
     Route::resource('customer_bin_types', CustomerBinTypeController::class);
     Route::get('/customer_bin_type/list', [CustomerBinTypeController::class, 'getCustomerBinTypeDataTableList'])->name('customer_bin_types.list');
