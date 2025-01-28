@@ -66,6 +66,7 @@ use App\Http\Controllers\PriceListLabelController;
 use App\Http\Controllers\ShipmentMethodController;
 use App\Http\Controllers\SurveyQuestionController;
 use App\Http\Controllers\BatchCloseQuoteController;
+use App\Http\Controllers\CustomerBinTypeController;
 use App\Http\Controllers\ExpenseCategoryController;
 use App\Http\Controllers\PrePurchaseTermController;
 use App\Http\Controllers\ProductCategoryController;
@@ -103,6 +104,7 @@ use App\Http\Controllers\PrePurchaseRequestEventController;
 use App\Http\Controllers\PrePurchaseResponseTermController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\PrePurchaseRequestProductController;
+use App\Http\Controllers\SupplierInvoicePackingItemController;
 use App\Http\Controllers\Opportunity\OpportunityFileController;
 use App\Http\Controllers\AccountReceivableAgingPeriodController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
@@ -612,11 +614,22 @@ Route::middleware(['auth'])->group(function () {
         Route::patch('/probability_close/{id}', [VisitController::class, 'updateProbabilityClose'])->name('probability_close');
     });
     //END OPPORTUNITY , VISIT AND HOME PAGE
-
     Route::get('/purchase_order/po_details', [PurchaseOrderController::class, 'getPoProductPoDataTableList'])->name('purchase_orders.po_product_details');
     Route::resource('supplier_invoices', SupplierInvoiceController::class);
     Route::get('/supplier_invoice/list', [SupplierInvoiceController::class, 'getSupplierInvoiceDataTableList'])->name('supplier_invoices.list');
     Route::get('batch_close_quotes', [BatchCloseQuoteController::class, 'index'])->name('batch_close_quotes.index');
     Route::get('/batch_close_quote/list', [BatchCloseQuoteController::class, 'getBatchCloseQuoteDataTableList'])->name('batch_close_quotes.list');
     Route::post('/batch_close_quote/updatestatus', [BatchCloseQuoteController::class, 'updatestatus'])->name('batch_close_quotes.updatestatus');
+    /* SUPPLIER INVOICE PACKING ITEMS */
+    Route::resource('supplier_invoice_packing_items', SupplierInvoicePackingItemController::class);
+    Route::post('supplier_invoice_packing_items/update-multiple', [SupplierInvoicePackingItemController::class, 'updateMultiple'])->name('supplier_invoice_packing_items.update_multiple');
+    Route::post('supplier_invoice_packing_items/delete-multiple', [SupplierInvoicePackingItemController::class, 'deleteMultiple'])->name('supplier_invoice_packing_items.delete_multiple');
+    Route::get('/supplier_invoice_packing_fetch_all', [SupplierInvoicePackingItemController::class, 'fetchProductsAll'])->name('supplier_invoice_packing_items.fetch_products_all');
+    Route::post('supplier_invoice_packing_items/note-update', [SupplierInvoicePackingItemController::class, 'updateNote'])->name('supplier_invoice_packing_items.note_update');
+    Route::post('supplier_invoice_packing_items/get_assign_slab_multiple', [SupplierInvoicePackingItemController::class, 'getAssignSlabMultiple'])->name('supplier_invoice_packing_items.assign_slab_multiple');
+    Route::post('supplier_invoice_packing_items/get_update_slab_multiple', [SupplierInvoicePackingItemController::class, 'getUpdateSlabMultiple'])->name('supplier_invoice_packing_items.update_slab_multiple');
+
+    Route::resource('customer_bin_types', CustomerBinTypeController::class);
+    Route::get('/customer_bin_type/list', [CustomerBinTypeController::class, 'getCustomerBinTypeDataTableList'])->name('customer_bin_types.list');
+
 });

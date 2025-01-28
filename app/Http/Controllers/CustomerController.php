@@ -2,28 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
-use App\Models\User;
-use App\Models\County;
-use App\Models\Country;
-use App\Models\Company;
-use App\Models\Customer;
-use App\Models\Consignment;
-use App\Models\ProjectType;
-use Illuminate\Http\Request;
-use App\Models\CustomerType;
+use App\Http\Requests\Customer\CreateCustomerImageRequest;
+use App\Http\Requests\Customer\CreateCustomerRequest;
+use App\Http\Requests\Customer\UpdateCustomerRequest;
 use App\Models\AboutUsOption;
+use App\Models\AccountPaymentTerm;
+use App\Models\BinType;
+use App\Models\Company;
+use App\Models\Consignment;
+use App\Models\Country;
+use App\Models\County;
+use App\Models\Customer;
+use App\Models\CustomerType;
 use App\Models\EndUseSegment;
 use App\Models\PriceListLabel;
+use App\Models\ProjectType;
 use App\Models\TaxExemptReason;
-use Illuminate\Support\Facades\DB;
-use App\Models\AccountPaymentTerm;
-use Illuminate\Support\Facades\Log;
+use App\Models\User;
 use App\Repositories\CustomerRepository;
 use App\Services\Customer\CustomerService;
-use App\Http\Requests\Customer\UpdateCustomerRequest;
-use App\Http\Requests\Customer\CreateCustomerRequest;
-use App\Http\Requests\Customer\CreateCustomerImageRequest;
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class CustomerController extends Controller
 {
@@ -75,12 +76,14 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        $query     = $this->customerRepository->buildBaseQuery();
-        $customer  = $query->findOrFail($id);
-        $countries = Country::query()->pluck('country_name', 'id');
-        $counties  = County::query()->pluck('county_name', 'id');
-        $consignment  = Consignment::query()->pluck('consignment_location_id', 'id');
-        return view('customer.show', compact('customer', 'countries', 'counties', 'consignment'));
+        $query       = $this->customerRepository->buildBaseQuery();
+        $customer    = $query->findOrFail($id);
+        $countries   = Country::query()->pluck('country_name', 'id');
+        $counties    = County::query()->pluck('county_name', 'id');
+        $consignment = Consignment::query()->pluck('consignment_location_id', 'id');
+        $binTypes    = BinType::query()->pluck('bin_type', 'id');
+
+        return view('customer.show', compact('customer', 'countries', 'counties', 'consignment', 'binTypes'));
     }
 
     /**
