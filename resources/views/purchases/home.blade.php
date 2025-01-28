@@ -4,7 +4,12 @@
 
 @section('styles')
 <!-- product catalog -->
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-thin-straight/css/uicons-thin-straight.css'>
 <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-thin-chubby/css/uicons-thin-chubby.css'>
 @endsection
 @section('content')
 
@@ -12,467 +17,490 @@
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="py-3 mb-4"><a href="{{route('purchases')}}" class="text-decoration-none text-dark"><span class="text-muted fw-light">Purchase /</span> Home</a></h4>
-        <!-- Cards with charts & info -->
-        <!-- 1st row -->
         <div class="row">
-            <div class="col-lg-3 col-sm-2">
-                &nbsp;
-            </div>
-            <div class="col-lg-3 col-sm-4">
-                <div class="row">
-                    <div class="col-lg-9">
-                        <div class="card card-border-shadow-primary">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-center">
-                                    <div class="d-flex flex-column align-items-center w-100">
-                                        <!-- Products Section with Bottom Border -->
-                                        <div class="d-flex flex-column justify-content-center align-items-center w-100 border-bottom border-1 border-light rounded-lg pb-1">
-                                            <div class="card-title mb-auto">
-                                                <span class="p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                                                    <img src="{{ asset('public/images/Po.png') }}" alt="not found" >
-                                                </span>
-                                            </div>
-                                            <div class="d-flex justify-content-between w-100">
-                                                <div class="col-11 text-center">
-                                                    <a href="{{ route('pre_purchase_requests.index') }}" class="text-decoration-none">
-                                                        <h6 class="card-title mb-1 text-dark">Pre-Purchase Request</h6>
-                                                    </a>
-                                                </div>
-                                                <div class="col-1">
-                                                    <a href="{{ route('pre_purchase_requests.create') }}" class="text-primary">
-                                                        <i class="fi fi-rr-plus text-primary fs-5" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add PO" style="font-size: 18px !important;"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
+            <div class="col">
+                <div class="nav-align-top mb-4">
+                    <ul class="nav nav-pills mb-3 d-flex gap-3 flex-wrap" role="tablist">
+                        <li class="nav-item flex-fill cursor-pointer">
+                            <div class="card h-100 nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#pre_purchase" aria-controls="pre_purchase" aria-selected="false">
+                                <div class="card-body">
+                                    <div class="d-flex flex-column align-items-center">
+                                        <div class="card-title mb-auto">
+                                            <span class="rounded p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                                <i class="fi fi-tr-shopping-cart-buyer fw-bold text-dark" style="font-size: 50px;"></i>
+                                            </span>
                                         </div>
-
-                                        <!-- Services Section -->
-                                        <div class="d-flex flex-column justify-content-center align-items-center w-100 border-bottom mt-1">
-                                            <div class="d-flex justify-content-between w-100">
-                                                <div class="col-11 text-center">
-                                                    <a href="#" class="text-decoration-none">
-                                                        <h6 class="card-title mb-1 text-dark">To be Purchased</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex flex-column justify-content-center align-items-center w-100 mt-1">
-                                            <div class="d-flex justify-content-between w-100">
-                                                <div class="col-11 text-center">
-                                                    <a href="#" class="text-decoration-none">
-                                                        <h6 class="card-title mb-1 text-dark">To be Allocated</h6>
-                                                    </a>
-                                                </div>
+                                        <div class="d-flex justify-content-center align-items-center mt-2">
+                                            <div class="col-12">
+                                                <h5 class="card-title mb-0 text-dark text-center">Pre-Purchase</h5>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </li>
 
-                        </div>
-                        <div class="row mt-2">
-                            <div class="col-12 d-flex justify-content-center">
-                                <img src="{{ asset('public/images/d-arrow.png') }}" alt="Not Found" width="30px" height="25px">
+                        <li class="nav-item flex-fill cursor-pointer">
+                            <div class="card h-100 nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#freight" aria-controls="freight" aria-selected="false">
+                                <div class="card-body">
+                                    <div class="d-flex flex-column align-items-center">
+                                        <div class="card-title mb-auto">
+                                            <span class="rounded p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                                <i class="fi fi-tr-forklift fw-bold text-dark" style="font-size: 50px;"></i>
+                                            </span>
+                                        </div>
+                                        <div class="d-flex justify-content-center align-items-center mt-2">
+                                            <div class="col-12">
+                                                <h5 class="card-title mb-0 text-dark text-center">Freights</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="nav-item flex-fill cursor-pointer">
+                            <div class="card h-100 nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#purchase" aria-controls="purchase" aria-selected="false">
+                                <div class="card-body">
+                                    <div class="d-flex flex-column align-items-center">
+                                        <div class="card-title mb-auto">
+                                            <span class="rounded p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                                <i class="fi fi-tr-marketplace-alt fw-bold text-dark" style="font-size: 50px;"></i>
+                                            </span>
+                                        </div>
+                                        <div class="d-flex justify-content-center align-items-center mt-2">
+                                            <div class="col-12">
+                                                <h5 class="card-title mb-0 text-dark text-center">Purchase Order</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item flex-fill cursor-pointer">
+                            <div class="card h-100 nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#sipl" aria-controls="sipl" aria-selected="false">
+                                <div class="card-body">
+                                    <div class="d-flex flex-column align-items-center">
+                                        <div class="card-title mb-auto">
+                                            <span class="rounded p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                                <i class="fi fi-tr-dolly-flatbed-alt fw-bold text-dark" style="font-size: 50px;"></i>
+                                            </span>
+                                        </div>
+                                        <div class="d-flex justify-content-center align-items-center mt-2">
+                                            <div class="col-12">
+                                                <h5 class="card-title mb-0 text-dark text-center">SIPL</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item flex-fill cursor-pointer">
+                            <div class="card h-100 nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#in_transit" aria-controls="in_transit" aria-selected="false">
+                                <div class="card-body">
+                                    <div class="d-flex flex-column align-items-center">
+                                        <div class="card-title mb-auto">
+                                            <span class="rounded p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                                <i class="fi fi-tc-ship fw-bold text-dark" style="font-size: 50px;"></i>
+                                            </span>
+                                        </div>
+                                        <div class="d-flex justify-content-center align-items-center mt-2">
+                                            <div class="col-12">
+                                                <h5 class="card-title mb-0 text-dark text-center">In Transit</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item flex-fill cursor-pointer">
+                            <div class="card h-100 nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#miscellaneous" aria-controls="miscellaneous" aria-selected="false">
+                                <div class="card-body">
+                                    <div class="d-flex flex-column align-items-center">
+                                        <div class="card-title mb-auto">
+                                            <span class="rounded p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                                <i class="fi fi-tr-inventory-alt fw-bold text-dark" style="font-size: 50px;"></i>
+                                            </span>
+                                        </div>
+                                        <div class="d-flex justify-content-center align-items-center mt-2">
+                                            <div class="col-12">
+                                                <h5 class="card-title mb-0 text-dark text-center">Miscellaneous</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="tab-content p-0 mt-2">
+                        <div class="tab-pane fade card" id="pre_purchase" role="tabpanel">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-4 col-sm-6">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <a href="{{ route('pre_purchase_requests.index') }}" class="text-decoration-none">
+                                                <div class="card-title mb-auto">
+                                                    <span class="rounded  p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                                        <i class="fi fi-tr-store-buyer" style="font-size: 50px;"></i>
+                                                    </span>
+                                                </div>
+                                            </a>
+                                            <div class="d-flex justify-content-center align-items-center mt-2">
+                                                <div class="col-11">
+                                                    <a href="{{ route('pre_purchase_requests.index') }}" class="text-decoration-none">
+                                                        <h5 class="card-title mb-0 text-dark text-center">Pre-Purchase Request</h5>
+                                                    </a>
+                                                </div>
+                                                <div class="col-1">
+                                                    <a href="{{ route('pre_purchase_requests.create') }}" class="text-decoration-none">
+                                                        <i class="fi fi-rr-plus text-primary ps-3" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Pre-Purchase Request" style="font-size: 25px;"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-sm-6">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <a href="#" class="text-decoration-none">
+                                                <div class="card-title mb-auto">
+                                                    <span class="rounded  p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                                        <i class="fi fi-tr-cart-arrow-down" style="font-size: 50px;"></i>
+                                                    </span>
+                                                </div>
+                                            </a>
+                                            <div class="d-flex justify-content-center align-items-center mt-2">
+                                                <div class="col">
+                                                    <a href="#" class="text-primary">
+                                                        <h5 class="card-title mb-0 text-dark text-center">To be Purchased</h5>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-sm-6">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <a href="#" class="text-decoration-none">
+                                                <div class="card-title mb-auto">
+                                                    <span class="rounded  p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                                        <i class="fi fi-tr-warehouse-alt" style="font-size: 50px;"></i>
+                                                    </span>
+                                                </div>
+                                            </a>
+                                            <div class="d-flex justify-content-center align-items-center mt-2">
+                                                <div class="col">
+                                                    <h5 class="card-title mb-0 text-dark text-center">To be Allocated</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-4">
-                <div class="row">
-                    <div class="col-lg-9">
-                        <div class="card card-border-shadow-primary">
+                        <div class="tab-pane fade card" id="freight" role="tabpanel">
                             <div class="card-body">
-                                <div class="d-flex justify-content-center">
-                                    <div class="d-flex flex-column align-items-center w-100">
-                                        <!-- Products Section with Bottom Border -->
-                                        <div class="d-flex flex-column justify-content-center align-items-center w-100 border-bottom border-1 border-light rounded-lg pb-1">
-                                            <div class="card-title mb-auto">
-                                                <span class="p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                                                    <img src="{{ asset('public/images/freightbill.png') }}" alt="not found" >
-                                                </span>
-                                            </div>
-                                            <div class="d-flex justify-content-between w-100">
-                                                <div class="col-11 text-center">
+                                <div class="row">
+                                    <div class="col-lg-4 col-sm-6">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <a href="{{ route('vendor_pos.index') }}" class="text-decoration-none">
+                                                <div class="card-title mb-auto">
+                                                    <span class="rounded  p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                                        <i class="fi fi-tr-shipping-timed" style="font-size: 50px;"></i>
+                                                    </span>
+                                                </div>
+                                            </a>
+                                            <div class="d-flex justify-content-center align-items-center mt-2">
+                                                <div class="col-11">
                                                     <a href="{{ route('vendor_pos.index') }}" class="text-decoration-none">
-                                                        <h6 class="card-title mb-1 text-dark">Freight POs</h6>
+                                                        <h5 class="card-title mb-1 text-dark text-center">Freight POs</h5>
                                                     </a>
                                                 </div>
                                                 <div class="col-1">
                                                     <a href="{{ route('vendor_pos.create') }}" class="text-primary">
-                                                        <i class="fi fi-rr-plus text-primary fs-5" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Freight PO" style="font-size: 18px !important;"></i>
+                                                        <i class="fi fi-rr-plus text-primary ps-3" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Freight POs" style="font-size: 25px;"></i>
                                                     </a>
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <!-- Services Section -->
-                                        <div class="d-flex flex-column justify-content-center align-items-center w-100 border-bottom mt-1">
-                                            <div class="d-flex justify-content-between w-100">
-                                                <div class="col-11 text-center">
+                                    </div>
+                                    <div class="col-lg-4 col-sm-6">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <a href="{{ route('freight_bills.index') }}" class="text-decoration-none">
+                                                <div class="card-title mb-auto">
+                                                    <span class="rounded  p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                                        <i class="fi fi-tr-file-invoice-dollar" style="font-size: 50px;"></i>
+                                                    </span>
+                                                </div>
+                                            </a>
+                                            <div class="d-flex justify-content-center align-items-center mt-2">
+                                                <div class="col">
                                                     <a href="{{ route('freight_bills.index') }}" class="text-decoration-none">
-                                                        <h6 class="card-title mb-1 text-dark">Freight Bills</h6>
+                                                        <h5 class="card-title mb-0 text-dark text-center">Freight Bills</h5>
                                                     </a>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="d-flex flex-column justify-content-center align-items-center w-100 mt-1">
-                                            <div class="d-flex justify-content-between w-100">
-                                                <div class="col-11 text-center">
+                                    </div>
+                                    <div class="col-lg-4 col-sm-6">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <a href="{{ route('freight_vendors.index') }}" class="text-decoration-none">
+                                                <div class="card-title mb-auto">
+                                                    <span class="rounded  p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                                        <i class="fi fi-tr-seller" style="font-size: 50px;"></i>
+                                                    </span>
+                                                </div>
+                                            </a>
+                                            <div class="d-flex justify-content-center align-items-center mt-2">
+                                                <div class="col-11">
                                                     <a href="{{ route('freight_vendors.index') }}" class="text-decoration-none">
-                                                        <h6 class="card-title mb-1 text-dark">Freight Vendors</h6>
+                                                        <h5 class="card-title mb-0 text-dark text-center">Freight Vendors</h5>
                                                     </a>
                                                 </div>
                                                 <div class="col-1">
                                                     <a href="{{route('expenditures.create')}}" class="text-primary">
-                                                        <i class="fi fi-rr-plus text-primary fs-5" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Freight Vendor" style="font-size: 18px !important;"></i>
+                                                        <i class="fi fi-rr-plus text-primary ps-3" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Freight Vendors" style="font-size: 25px;"></i>
                                                     </a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                        </div>
-                        <div class="row mt-2">
-                            <div class="col-12 d-flex justify-content-center">
-                                <img src="{{ asset('public/images/d-arrow.png') }}" alt="Not Found" width="30px" height="25px">
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-2">
-
-            </div>
-        </div>
-        <!-- end 1st row -->
-        <!-- 2nd row -->
-        <div class="row mt-2">
-            <div class="col-lg-3 col-sm-3">
-                <div class="row">
-                    <div class="col-lg-10">
-                        <div class="card card-border-shadow-primary">
+                        <div class="tab-pane fade card" id="purchase" role="tabpanel">
                             <div class="card-body">
-                                <div class="d-flex justify-content-center">
-                                    <div class="d-flex flex-column align-items-center w-100">
-                                        <!-- Products Section with Bottom Border -->
-                                        <div class="d-flex flex-column justify-content-center align-items-center w-100 border-bottom border-1 border-light rounded-lg pb-1">
-                                            <div class="d-flex justify-content-between w-100">
-                                                <div class="col-11 text-center">
-                                                    <a href="{{ route('suppliers.index') }}" class="text-decoration-none">
-                                                        <h6 class="card-title mb-1 text-dark">Inventory Suppliers</h6>
+                                <div class="row">
+                                    <div class="col-lg-3 col-sm-6">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <a href="{{ route('purchase_orders.index') }}" class="text-decoration-none">
+                                                <div class="card-title mb-auto">
+                                                    <span class="rounded  p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                                        <i class="fi fi-tr-shopping-cart-nft" style="font-size: 50px;"></i>
+                                                    </span>
+                                                </div>
+                                            </a>
+                                            <div class="d-flex justify-content-center align-items-center mt-2">
+                                                <div class="col-11">
+                                                    <a href="{{ route('purchase_orders.index') }}" class="text-decoration-none">
+                                                        <h5 class="card-title mb-0 text-dark text-center">All POs</h5>
                                                     </a>
                                                 </div>
                                                 <div class="col-1">
-                                                    <a href="{{ route('suppliers.create') }}" class="text-primary">
-                                                        <i class="fi fi-rr-plus text-primary fs-5" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Supplier" style="font-size: 18px !important;"></i>
+                                                    <a href="{{ route('purchase_orders.create') }}" class="text-decoration-none">
+                                                        <i class="fi fi-rr-plus text-primary ps-3" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Purchase Order" style="font-size: 25px;"></i>
                                                     </a>
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="col-lg-3 col-sm-6">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <a href="#" class="text-decoration-none">
+                                                <div class="card-title mb-auto">
+                                                    <span class="rounded  p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                                        <i class="fi fi-tr-cart-shopping-fast" style="font-size: 50px;"></i>
+                                                    </span>
+                                                </div>
+                                            </a>
+                                            <div class="d-flex justify-content-center align-items-center mt-2">
+                                                <div class="col-12">
+                                                    <a href="#" class="text-decoration-none">
+                                                        <h5 class="card-title mb-0 text-dark text-center">Open POs</h5>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-sm-6">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <a href="{{ route('event_calendars.index') }}" class="text-decoration-none">
+                                                <div class="card-title mb-auto">
+                                                    <span class="rounded  p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                                        <i class="fi fi-tr-file-exclamation" style="font-size: 50px;"></i>
+                                                    </span>
+                                                </div>
+                                            </a>
+                                            <div class="d-flex justify-content-center align-items-center mt-2">
+                                                <div class="col">
+                                                    <a href="{{ route('event_calendars.index') }}" class="text-decoration-none">
+                                                        <h5 class="card-title mb-0 text-dark text-center">Unapproved POs</h5>
+                                                    </a>
+                                                </div>
 
-                                        <!-- Services Section -->
-                                        <div class="d-flex flex-column justify-content-center align-items-center w-100 ">
-                                            <div class="d-flex justify-content-between w-100">
-                                                <div class="col-11 text-center">
-                                                    <a href="{{ route('products.index') }}" class="text-decoration-none">
-                                                        <h6 class="card-title mb-1 text-dark">Products</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-sm-6">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <a href="#" class="text-decoration-none">
+                                                <div class="card-title mb-auto">
+                                                    <span class="rounded  p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                                        <i class="fi fi-ts-rectangle-xmark" style="font-size: 50px;"></i>
+                                                    </span>
+                                                </div>
+                                            </a>
+                                            <div class="d-flex justify-content-center align-items-center mt-2">
+                                                <div class="col-12">
+                                                    <a href="#" class="text-decoration-none">
+                                                        <h5 class="card-title mb-1 text-dark text-center">Batch PO Close</h5>
                                                     </a>
                                                 </div>
-                                                <div class="col-1">
-                                                    <a href="{{ route('products.create') }}" class="text-primary">
-                                                        <i class="fi fi-rr-plus text-primary fs-5" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Product" style="font-size: 18px !important;"></i>
-                                                    </a>
-                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-3">
-                <div class="row">
-                    <div class="col-lg-9">
-                        <div class="card card-border-shadow-primary">
-                            <div class="card-body">
-                                <div class="d-flex flex-column align-items-center w-100">
-                                    <!-- Products Section with Bottom Border -->
-                                    <div class="d-flex flex-column justify-content-center align-items-center w-100 border-bottom border-1 border-light rounded-lg pb-1">
-                                        <div class="card-title mb-auto">
-                                            <span class="p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                                                <img src="{{ asset('public/images/Po.png') }}" alt="not found" >
-                                            </span>
-                                        </div>
-                                        <div class="d-flex justify-content-between w-100">
-                                            <div class="col-11 text-center">
-                                                <a href="{{ route('purchase_orders.index') }}" class="text-decoration-none">
-                                                    <h6 class="card-title mb-1 text-dark">All Pos</h6>
-                                                </a>
-                                            </div>
-                                            <div class="col-1">
-                                                <a href="{{ route('purchase_orders.create') }}" class="text-primary">
-                                                    <i class="fi fi-rr-plus text-primary fs-5" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Po" style="font-size: 18px !important;"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Services Section -->
-                                    <div class="d-flex flex-column justify-content-center align-items-center w-100 border-bottom mt-1">
-                                        <div class="d-flex justify-content-between w-100">
-                                            <div class="col-11 text-center">
-                                                <a href="#" class="text-decoration-none">
-                                                    <h6 class="card-title mb-1 text-dark">Open Pos</h6>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex flex-column justify-content-center align-items-center w-100 mt-1">
-                                        <div class="d-flex justify-content-between w-100">
-                                            <div class="col-11 text-center">
-                                                <a href="#" class="text-decoration-none">
-                                                    <h6 class="card-title mb-1 text-dark">UnApproved POs</h6>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
-                        <!-- <div class="row mt-2">
-                            <div class="col-12 d-flex justify-content-center">
-                                <img src="{{ asset('public/images/d-arrow.png') }}" alt="Not Found" width="30px" height="25px">
-                            </div>
-                        </div> -->
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-3">
-                <div class="row">
-                    <div class="col-lg-9">
-                        <div class="card card-border-shadow-primary">
+                        <div class="tab-pane fade card" id="sipl" role="tabpanel">
                             <div class="card-body">
-                                <div class="d-flex justify-content-center">
-                                    <div class="d-flex flex-column align-items-center w-100">
-                                        <!-- Products Section with Bottom Border -->
-                                        <div class="d-flex flex-column justify-content-center align-items-center w-100 border-bottom border-1 border-light rounded-lg pb-1">
-                                            <div class="card-title mb-auto">
-                                                <span class="p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                                                    <img src="{{ asset('public/images/supplierinvoice_new.png') }}" alt="not found" >
-                                                </span>
-                                            </div>
-                                            <div class="d-flex justify-content-between w-100">
-                                                <div class="col-11 text-center">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <a href="{{ route('supplier_invoices.index') }}" class="text-decoration-none">
+                                                <div class="card-title mb-auto">
+                                                    <span class="rounded  p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                                        <i class="fi fi-tr-point-of-sale-bill" style="font-size: 50px;"></i>
+                                                    </span>
+                                                </div>
+                                            </a>
+                                            <div class="d-flex justify-content-center align-items-center mt-2">
+                                                <div class="col-11">
                                                     <a href="{{ route('supplier_invoices.index') }}" class="text-decoration-none">
-                                                        <h6 class="card-title mb-1 text-dark">All Supplier Invoices/Packing Lists</h6>
+                                                        <h5 class="card-title mb-0 text-dark text-center">All Supplier Invoices / Packing Lists</h5>
                                                     </a>
                                                 </div>
                                                 <div class="col-1">
-                                                    <a href="{{ route('supplier_invoices.create') }}" class="text-primary">
-                                                        <i class="fi fi-rr-plus text-primary fs-5" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Supplier Invoice" style="font-size: 18px !important;"></i>
+                                                    <a href="{{ route('supplier_invoices.create') }}" class="text-decoration-none">
+                                                        <i class="fi fi-rr-plus text-primary ps-3" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="Add Supplier Invoices" style="font-size: 25px;"></i>
                                                     </a>
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <!-- Services Section -->
-                                        <div class="d-flex flex-column justify-content-center align-items-center w-100 border-bottom mt-1">
-                                            <div class="d-flex justify-content-between w-100">
-                                                <div class="col-11 text-center">
-                                                    <a href="{{ route('products.index') }}" class="text-decoration-none">
-                                                        <h6 class="card-title mb-1 text-dark">Inventory Not Received</h6>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <a href="#" class="text-decoration-none">
+                                                <div class="card-title mb-auto">
+                                                    <span class="rounded  p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                                        <i class="fi fi-tr-do-not-enter" style="font-size: 50px;"></i>
+                                                    </span>
+                                                </div>
+                                            </a>
+                                            <div class="d-flex justify-content-center align-items-center mt-2">
+                                                <div class="col">
+                                                    <a href="#" class="text-decoration-none">
+                                                        <h5 class="card-title mb-0 text-dark text-center">Inventory Not Received</h5>
                                                     </a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
+                            </div>
                         </div>
-                        <!-- <div class="row mt-2">
-                            <div class="col-12 d-flex justify-content-center">
-                                <img src="{{ asset('public/images/d-arrow.png') }}" alt="Not Found" width="30px" height="25px">
-                            </div>
-                        </div> -->
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-3">
-                <div class="row">
-                    <div class="col-lg-9">
-                        <div class="card card-border-shadow-primary">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-center">
-                                    <div class="d-flex flex-column align-items-center w-100">
-                                        <!-- Products Section with Bottom Border -->
-                                        <div class="d-flex flex-column justify-content-center align-items-center w-100 border-bottom border-1 border-light rounded-lg pb-1">
-                                            <div class="card-title mb-auto">
-                                                <span class="p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                                                    <img src="{{ asset('public/images/invetory.png') }}" alt="not found" >
-                                                </span>
-                                            </div>
-                                            <div class="d-flex justify-content-between w-100">
-                                                <div class="col-11 text-center">
-                                                    <a href="{{ route('products.index') }}" class="text-decoration-none">
-                                                        <h6 class="card-title mb-1 text-dark">Inventory</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <!-- <div class="row mt-2">
-                            <div class="col-12 d-flex justify-content-center">
-                                <img src="{{ asset('public/images/d-arrow.png') }}" alt="Not Found" width="30px" height="25px">
-                            </div>
-                        </div> -->
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- end 2nd row -->
-        <!-- 3rd row -->
-        <div class="row mt-4">
-            <div class="col-lg-3 col-sm-3">
-                &nbsp;
-            </div>
-            <div class="col-lg-3 col-sm-3">
-                <div class="row">
-                    <div class="col  d-flex justify-content-center">
-                        <img src="{{ asset('public/images/d-arrow.png') }}" alt="Not Found" width="30px" height="25px">
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-3">
-                <div class="row">
-                    <div class="col d-flex justify-content-center">
-                        <img src="{{ asset('public/images/d-arrow.png') }}" alt="Not Found" width="30px" height="25px">
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-3">
-                <div class="row">
-                    <div class="col d-flex justify-content-center">
-                        <img src="{{ asset('public/images/d-arrow.png') }}" alt="Not Found" width="30px" height="25px">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- end 3rd row -->
-        <!-- 4rd row -->
-        <div class="row">
-            <div class="col-lg-3 col-sm-3">
-                &nbsp;
-            </div>
-            <div class="col-lg-3 col-sm-3 mb-sm-3">
-                <div class="row mt-3">
-                    <div class="col-lg-9">
-                        <div class="card card-border-shadow-primary">
-                            <div class="card-body">
-                                <div class="d-flex flex-column align-items-center w-100">
-                                    <!-- Products Section with Bottom Border -->
-                                    <div class="d-flex flex-column justify-content-center align-items-center w-100 border-bottom border-1 border-light rounded-lg pb-1">
-                                        <div class="card-title mb-auto">
-                                            <span class="p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                                                <img src="{{ asset('public/images/Po.png') }}" alt="not found" >
-                                            </span>
-                                        </div>
-                                        <div class="d-flex justify-content-between w-100">
-                                            <div class="col-11 text-center">
-                                                <a href="{{ route('products.index') }}" class="text-decoration-none">
-                                                    <h6 class="card-title mb-1 text-dark">Batch PO Close</h6>
+                        <div class="tab-pane fade card" id="in_transit" role="tabpanel">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-sm-6">
+                                            <div class="d-flex flex-column align-items-center">
+                                                <a href="#" class="text-decoration-none">
+                                                    <div class="card-title mb-auto">
+                                                        <span class="rounded  p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                                            <i class="fi fi-tr-ballot" style="font-size: 50px;"></i>
+                                                        </span>
+                                                    </div>
                                                 </a>
+                                                <div class="d-flex justify-content-center align-items-center mt-2">
+                                                    <div class="col">
+                                                        <a href="#" class="text-decoration-none">
+                                                            <h5 class="card-title mb-0 text-dark text-center">List</h5>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-sm-6">
+                                            <div class="d-flex flex-column align-items-center">
+                                                <a href="{{ route('products.create') }}" class="text-decoration-none">
+                                                    <div class="card-title mb-auto">
+                                                        <span class="rounded  p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                                            <i class="fi fi-tr-daily-calendar" style="font-size: 50px;"></i>
+                                                        </span>
+                                                    </div>
+                                                </a>
+                                                <div class="d-flex justify-content-center align-items-center mt-2">
+                                                    <div class="col">
+                                                        <a href="{{ route('products.create') }}" class="text-decoration-none">
+                                                            <h5 class="card-title mb-0 text-dark text-center">Calendar</h5>
+                                                        </a>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
-
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-3 mt-sm-3">
-                <div class="row">
-                    <div class="col-lg-9">
-                        <div class="card card-border-shadow-primary">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-center">
-                                    <div class="d-flex flex-column align-items-center w-100">
-                                        <!-- Products Section with Bottom Border -->
-                                        <div class="d-flex flex-column justify-content-center align-items-center w-100 border-1 border-light rounded-lg pb-1">
-                                            <div class="card-title mb-auto">
-                                                <span class="p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                                                    <img src="{{ asset('public/images/Inven.Inventory.png') }}" alt="not found" >
-                                                </span>
-                                            </div>
-                                            <div class="d-flex justify-content-between w-100">
-                                                <div class="col-6 text-center">
-                                                    <a href="{{ route('products.index') }}" class="text-decoration-none">
-                                                        <h6 class="card-title mb-1 text-dark">List</h6>
-                                                    </a>
+                        <div class="tab-pane fade card" id="miscellaneous" role="tabpanel">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-sm-6">
+                                            <div class="d-flex flex-column align-items-center">
+                                                <a href="#" class="text-decoration-none">
+                                                    <div class="card-title mb-auto">
+                                                        <span class="rounded  p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                                            <i class="fi fi-tr-member-list" style="font-size: 50px;"></i>
+                                                        </span>
+                                                    </div>
+                                                </a>
+                                                <div class="d-flex justify-content-center align-items-center mt-2">
+                                                    <div class="col">
+                                                        <a href="#" class="text-decoration-none">
+                                                            <h5 class="card-title mb-0 text-dark text-center">Inventory</h5>
+                                                        </a>
+                                                    </div>
                                                 </div>
-                                                <div class="col-6">
-                                                    <a href="{{ route('products.create') }}" class="text-primary">
-                                                        <h6 class="card-title mb-1 text-dark">Calender</h6>
-                                                    </a>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-sm-6">
+                                            <div class="d-flex flex-column align-items-center">
+                                                <a href="#" class="text-decoration-none">
+                                                    <div class="card-title mb-auto">
+                                                        <span class="rounded  p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                                            <i class="fi fi-tr-window-restore" style="font-size: 50px;"></i>
+                                                        </span>
+                                                    </div>
+                                                </a>
+                                                <div class="d-flex justify-content-center align-items-center mt-2">
+                                                    <div class="col">
+                                                        <a href="#" class="text-decoration-none">
+                                                            <h5 class="card-title mb-0 text-dark text-center">Inventory Returns</h5>
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-3 mt-sm-3">
-                <div class="row">
-                    <div class="col-lg-9">
-                        <div class="card card-border-shadow-primary">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-center">
-                                    <div class="d-flex flex-column align-items-center w-100">
-                                        <!-- Products Section with Bottom Border -->
-                                        <div class="d-flex flex-column justify-content-center align-items-center w-100 border-bottom border-1 border-light rounded-lg pb-1">
-                                            <div class="card-title mb-auto">
-                                                <span class="p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                                                    <img src="{{ asset('public/images/inventoryreturns1.png') }}" alt="not found" >
-                                                </span>
-                                            </div>
-                                            <div class="d-flex justify-content-between w-100">
-                                                <div class="col-11 text-center">
-                                                    <a href="{{ route('products.index') }}" class="text-decoration-none">
-                                                        <h6 class="card-title mb-1 text-dark">Inventory Returns</h6>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- end 3rd row -->
         <!-- / Content -->
         <div class="content-backdrop fade"></div>
     </div>
 
     @endsection
     @section('scripts')
+    @include('lists.__script')
     @endsection

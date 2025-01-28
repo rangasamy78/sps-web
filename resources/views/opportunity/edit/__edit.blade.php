@@ -257,13 +257,13 @@
                                     </div>
                                     <div class="col-6">
                                         <label class="form-label" for="total_value">Total Value $</label>
-                                        <input type="text" class="form-control" id="total_value" name="total_value" aria-label="Total Value" />
+                                        <input type="text" class="form-control" id="total_value" name="total_value" value="{{$total??0}}" aria-label="Total Value" />
                                         <span class="text-danger error-text total_value_error"></span>
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-6">
-                                        <label class="form-label" for="sales_tax_id">Sales Tax</label>
+                                        <label class="form-label" for="sales_tax_id">Sales Tax <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                                         <select id="sales_tax_id" name="sales_tax_id" class="select2 form-select" data-allow-clear="true">
                                             <option value="">--select--</option>
                                             @foreach($data['salesTaxs'] as $id => $tax_name)
@@ -580,7 +580,7 @@
                 </div>
                 <div class="row">
                     <div class="col-12 d-flex justify-content-end gap-2">
-                        <button type="submit" class="btn btn-primary btn-md" id="savedata" name="savedata">Save New Opportunity</button>
+                        <button type="submit" class="btn btn-primary btn-md" id="savedata" name="savedata">Update Opportunity</button>
                         <button type="button" class="btn btn-secondary btn-md" id="editCancelButton" name="editCancelButton">Cancel</button>
                     </div>
                 </div>

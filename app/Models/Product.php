@@ -142,4 +142,12 @@ class Product extends Model
     {
         return $this->hasMany(VisitProduct::class, 'product_id');
     }
+    public function sample_order_product()
+    {
+        return $this->hasMany(SampleOrderProduct::class, 'product_id');
+    }
+    public function quote_product()
+    {
+        return $this->hasMany(QuoteProduct::class, 'product_id');
+    }
 }
