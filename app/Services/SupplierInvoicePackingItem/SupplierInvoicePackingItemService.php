@@ -421,4 +421,15 @@ class SupplierInvoicePackingItemService
             })->values()->toArray();
         return [$records , $data['selectedItemIds']];
     }
+
+    public function delete(int $id)
+    {
+        $products = PurchaseOrderProduct::where('id', $id)->get();
+        if ($products->isNotEmpty()) {
+            return response()->json(['status' => 'error', 'msg' => 'The product cannot be deleted because it is associated with SIPL.'], 200);
+        } else {
+            $this->findOrFail($id)->delete();
+            return response()->json(['status' => 'success', 'msg' => 'Select Product deleted successfully.'], 200);
+        }
+    }
 }

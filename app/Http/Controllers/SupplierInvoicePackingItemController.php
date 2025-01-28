@@ -99,21 +99,26 @@ class SupplierInvoicePackingItemController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         try {
-            $product = PurchaseOrderProduct::findOrFail($id);
+            $product = $this->supplierInvoicePackingItemService->findOrFail($id);
             if ($product) {
-                $product->delete();
+                $response = $this->supplierInvoicePackingItemService->delete($id);
+                $data = $response->getData();
+                if ($data->status == 'success') {
+                    return response()->json(['status' => $data->status, 'msg' => $data->msg]);
+                } else if ($data->status == 'error') {
+                    return response()->json(['status' => $data->status, 'msg' => $data->msg]);
+                }
+            } else {
+                return response()->json(['status' => 'false', 'msg' => 'Product deleted successfully.']);
             }
-            return response()->json(['status' => 'success', 'msg' => 'Product deleted successfully.']);
-        }  catch (Exception $e) {
-            Log::error('Error deleting product: ' . $e->getMessage());
-            return response()->json(['status' => 'error', 'msg' => 'An error occurred while deleting the Product.'], 500);
+        } catch (Exception $e) {
+            Log::error('Error deleting product : ' . $e->getMessage());
+            return response()->json(['status' => $data->status, 'msg' => $data->msg], 500);
         }
+        return $response;
     }
 
     public function deleteMultiple(Request $request)
