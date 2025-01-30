@@ -19,4 +19,6 @@ class SelectTypeSubCategory extends Model
         'select_type_category_id',
         'select_type_sub_category_name',
     ];    
+
+  
 }

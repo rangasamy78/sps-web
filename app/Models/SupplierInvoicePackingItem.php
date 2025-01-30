@@ -13,13 +13,13 @@ class SupplierInvoicePackingItem extends Model
      *
      * @var string
      */
-    protected $_table = 'supplier_invoice_packing_items';
+    protected $table = 'supplier_invoice_packing_items';
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-    protected $_fillable = [
+    protected $fillable = [
         'product_id',
         'po_id',
         'bar_code_no',
@@ -50,25 +50,7 @@ class SupplierInvoicePackingItem extends Model
 
     public function product()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class, 'product_id');
     }
 
-    public function updatePackingItem($selectedData)
-    {
-        $this->update([
-            'lot_block'    => $selectedData['lot_block'],
-            'bundle'       => $selectedData['bundle'],
-            'supplier_ref' => $selectedData['supplier_ref'],
-            'pack_length'  => $selectedData['pack_length'],
-            'pack_width'   => $selectedData['pack_width'],
-            'rec_length'   => $selectedData['rec_length'],
-            'rec_width'    => $selectedData['rec_width'],
-            'notes'        => $selectedData['notes'],
-        ]);
-    }
-
-    public function updateNoteItem($data)
-    {
-        return $this->update(['notes' => $data['note']]);
-    }
 }

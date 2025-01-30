@@ -82,8 +82,6 @@ class Product extends Model
         'minimum_packing_unit_value',
         'image'
     ];
-
-
     public function product_type()
     {
         return $this->belongsTo(ProductType::class, 'product_type_id');
@@ -149,5 +147,24 @@ class Product extends Model
     public function quote_product()
     {
         return $this->hasMany(QuoteProduct::class, 'product_id');
+    }
+    function linked_account_inventory_gl()
+    {
+        return $this->belongsTo(Account::class, 'gl_inventory_link_account_id');
+    }
+
+    function linked_account_sales_gl()
+    {
+        return $this->belongsTo(Account::class, 'gl_income_account_id');
+    }
+
+    function linked_account_cogs_gl()
+    {
+        return $this->belongsTo(Account::class, 'gl_cogs_account_id');
+    }
+
+    public function purchaseOrderProducts()
+    {
+        return $this->hasMany(PurchaseOrderProduct::class, 'product_id');
     }
 }

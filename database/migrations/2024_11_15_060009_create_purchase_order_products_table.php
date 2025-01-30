@@ -15,7 +15,7 @@ return new class extends Migration
             $table->unsignedBigInteger('po_id');
             $table->unsignedBigInteger('product_id');
             $table->string('so')->nullable();
-            $table->tinyInteger('purchased_as')->default(0)->notNull();
+            $table->unsignedInteger('purchased_as')->nullable();
             $table->text('description')->nullable();
             $table->text('supplier_purchasng_note')->nullable();
             $table->integer('length')->nullable();
@@ -26,6 +26,7 @@ return new class extends Migration
             $table->integer('quantity')->nullable();
             $table->decimal('unit_price', 10, 2)->nullable();
             $table->decimal('extended', 10, 2)->nullable();
+            $table->string('sipl_created')->default(0);
             $table->timestamps();
         });
 

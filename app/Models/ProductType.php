@@ -27,17 +27,17 @@ class ProductType extends Model
 
     function linked_account_inventory_gl()
     {
-        return $this->belongsTo(LinkedAccount::class, 'inventory_gl_account_id');
+        return $this->belongsTo(Account::class, 'inventory_gl_account_id');
     }
 
     function linked_account_sales_gl()
     {
-        return $this->belongsTo(LinkedAccount::class, 'sales_gl_account_id');
+        return $this->belongsTo(Account::class, 'sales_gl_account_id');
     }
 
     function linked_account_cogs_gl()
     {
-        return $this->belongsTo(LinkedAccount::class, 'cogs_gl_account_id');
+        return $this->belongsTo(Account::class, 'cogs_gl_account_id');
     }
 
     function product()

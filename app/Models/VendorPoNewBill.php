@@ -26,4 +26,10 @@ class VendorPoNewBill extends Model
     {
         return $this->hasMany(VendorPoNewBillDetails::class, 'vendor_po_bill_id');
     }
+    public function company()
+    {
+        return $this->hasMany(Company::class, 'contact_location_id');
+    }
+  
+    
 }

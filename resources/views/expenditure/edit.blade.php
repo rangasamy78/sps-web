@@ -293,10 +293,13 @@
                                                 <select id="expense_account_id" name="expense_account_id" class="select2 form-select"
                                                     data-allow-clear="true">
                                                     <option value="">--Select Default Expense Account--</option>
-                                                    @foreach ($linked_accounts as $key => $value)
-                                                        <option value="{{ $key }}" {{ $key == old('expense_account_id', $expenditure->expense_account_id) ? 'selected' : ''}}>{{ $value }}</option>
+                                                    @foreach($linked_accounts as $acc)
+                                                        <option value="{{ $acc->id }}" 
+                                                            {{ $acc->id == $expenditure->expense_account_id ? 'selected' : '' }}>
+                                                            {{ $acc->account_number }} - {{ $acc->account_name }}
                                                         </option>
                                                     @endforeach
+
                                                 </select>
                                             </div>
                                         </div>

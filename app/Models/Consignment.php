@@ -11,5 +11,11 @@ class Consignment extends Model
 
     protected $fillable = ['consignment_date', 'consignment_location_id', 'consignment_type'];
     protected $table = 'consignments';
+
+    public function customer()
+{
+    return $this->belongsTo(Customer::class, 'consignment_location_id', 'id');
+}
+
     
 }

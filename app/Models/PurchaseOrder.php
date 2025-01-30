@@ -92,4 +92,7 @@ class PurchaseOrder extends Model
         return $this->belongsTo(AccountPaymentTerm::class, 'payment_term_id');
        
     }
+    
+  
+    
 }

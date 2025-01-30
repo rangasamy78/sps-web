@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Purchase Order')
+@section('title', 'Supplier Invoice')
 
 @section('content')
 <div class="content-wrapper">
@@ -17,7 +17,7 @@
                                         <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                                     <input type="hidden" name="po_id" id="po_id" value="{{$po_id}}">
                                     <input type="text" class="form-control" id="sipl_bill" placeholder="SIPL/Bill#"
-                                        name="sipl_bill" aria-label="SIPL/Bill#" />
+                                        name="sipl_bill" value="{{ $purchase_order->po_number }}" aria-label="SIPL/Bill#" />
                                     <span class="text-danger error-text sipl_bill_error"></span>
                                 </div>
                                 <div class="col">
@@ -71,7 +71,10 @@
                                         data-allow-clear="true">
                                         <option value="">--Select Payment Terms--</option>
                                         @foreach($payment_terms as $terms)
-                                        <option value="{{ $terms->id }}">{{ $terms->payment_label  }}</option>
+                                            <option value="{{ $terms->id }}" 
+                                                    @if($terms->id == $purchase_order->payment_term_id) selected @endif>
+                                                {{ $terms->payment_label }}
+                                            </option>
                                         @endforeach
                                     </select>
                                     <span class="text-danger error-text payment_term_id_error"></span>
@@ -101,13 +104,13 @@
                                 <div class="col-4">
                                     <label class="form-label" for="Shipment Terms">Delivery Method:
                                     </label>
-                                    <select class="form-select select2" name="delivery_method_id"
-                                        id="delivery_method_id" data-allow-clear="true">
-                                        <option value="">--Select Shipment Terms--</option>
-                                        @foreach($shipment_terms as $ship)
-                                        <option value="{{ $ship->id }}">{{ $ship->shipment_term_name  }}</option>
-                                        @endforeach
-                                    </select>
+                                <select class="form-select select2" name="delivery_method" id="delivery_method" data-allow-clear="true">
+                                <option value="">--Select Shipment Terms--</option>
+                                <option value="pickup">Pickup</option>
+                                <option value="delivery">Delivery</option>
+                                <option value="other">Other</option>
+                                </select>
+
                                 </div>
                                 <div class="col-4">
                                     <label class="form-label" for="Shipment Terms">Shipment Terms:
@@ -116,8 +119,11 @@
                                         data-allow-clear="true">
                                         <option value="">--Select Shipment Terms--</option>
                                         @foreach($shipment_terms as $ship)
-                                        <option value="{{ $ship->id }}">{{ $ship->shipment_term_name  }}</option>
-                                        @endforeach
+                                        <option value="{{ $ship->id }}" 
+                                                @if($ship->id == $purchase_order->shipment_term_id) selected @endif>
+                                            {{ $ship->shipment_term_name }}
+                                        </option>
+                                    @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -149,27 +155,24 @@
                                 <div class="col">
                                     <label class="form-label" for="Units of Measure">Supplier <sup
                                             style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
-                                    <select class="form-select select2" name="supplier_id" id="supplier_id"
-                                        data-allow-clear="true">
-                                        <option value="">--Select Supplier--</option>
-                                        @foreach($supplier as $supply)
-                                        <option value="{{ $supply->id }}">{{ $supply->supplier_name  }}</option>
-                                        @endforeach
+                                            <input type="text" class="form-control" id="supplier_address" readonly value="{{$purchase_supplier->supplier_name}}" 
+                                            name="supplier_address" aria-label="Address" />
 
-                                    </select>
+                                            <input type="hidden" class="form-control" id="supplier_id" readonly value="{{$purchase_supplier->id}}" 
+                                            name="supplier_id"  />
                                     <span class="text-danger error-text supplier_id_error"></span>
                                 </div>
 
                                 <div class="col">
                                     <label class="form-label" for="Address">Address:
                                     </label>
-                                    <input type="text" class="form-control" id="supplier_address" placeholder="Address"
+                                    <input type="text" class="form-control" id="supplier_address" readonly value="{{$purchase_order->supplier_address}}" placeholder="Address"
                                         name="supplier_address" aria-label="Address" />
                                 </div>
                                 <div class="col">
                                     <label class="form-label" for="Suite / Unit#">Suite / Unit#: </label>
                                     <input type="text" class="form-control" id="supplier_suite"
-                                        placeholder="Suite / Unit#" name="supplier_suite" aria-label="Suite / Unit#" />
+                                        placeholder="Suite / Unit#" name="supplier_suite" readonly value="{{$purchase_order->supplier_suite}}" aria-label="Suite / Unit#" />
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -177,19 +180,19 @@
                                     <label class="form-label" for="City">City:
                                     </label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="supplier_city" placeholder="City"
+                                        <input type="text" class="form-control" id="supplier_city" readonly value="{{$purchase_order->supplier_city}}" placeholder="City"
                                             name="supplier_city" aria-label="City" />
                                     </div>
                                 </div>
                                 <div class="col">
                                     <label class="form-label" for="State"> State:
                                     </label>
-                                    <input type="text" class="form-control" id="supplier_state" placeholder="State"
+                                    <input type="text" class="form-control" id="supplier_state" readonly value="{{$purchase_order->supplier_state}}" placeholder="State"
                                         name="supplier_state" aria-label="State" />
                                 </div>
                                 <div class="col">
                                     <label class="form-label" for="Zip">Zip:</label>
-                                    <input type="text" class="form-control" id="supplier_zip" placeholder="Zip"
+                                    <input type="text" class="form-control" id="supplier_zip"  readonly value="{{$purchase_order->supplier_zip}}" placeholder="Zip"
                                         name="supplier_zip" aria-label="Zip" />
                                 </div>
                             </div>
@@ -222,9 +225,13 @@
                                     <select class="form-select select2" name="purchase_location_id"
                                         id="purchase_location_id" data-allow-clear="true">
                                         <option value="">--Select Location --</option>
-                                        @foreach($location as $loc)
-                                        <option value="{{ $loc->id }}">{{ $loc->company_name  }}</option>
-                                        @endforeach
+                                        @foreach($consignment_location as $loc)
+                                    <option value="{{ $loc->customer->id }}" 
+                                        {{ $purchase_order->purchase_location_id == $loc->customer->id ? 'selected' : '' }}>
+                                        {{ $loc->customer->customer_name }}
+                                    </option>
+                                @endforeach
+
 
                                     </select>
                                     <span class="text-danger error-text purchase_location_id_error"></span>
@@ -234,7 +241,7 @@
                                     </label>
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="purchase_location_address"
-                                            placeholder="Address" name="purchase_location_address"
+                                            placeholder="Address" value="{{$purchase_order->purchase_location_address}}" name="purchase_location_address"
                                             aria-label="Address" />
                                     </div>
                                 </div>
@@ -243,7 +250,7 @@
 
                                     </label>
                                     <input type="text" class="form-control" id="purchase_location_suite"
-                                        placeholder="Suite / Unit#" name="purchase_location_suite"
+                                        placeholder="Suite / Unit#" value="{{$purchase_order->purchase_location_suite}}" name="purchase_location_suite"
                                         aria-label="Suite / Unit#" />
                                 </div>
                             </div>
@@ -253,12 +260,12 @@
 
                                     </label>
                                     <input type="text" class="form-control" id="purchase_location_city"
-                                        placeholder="City" name="purchase_location_city" aria-label="City" />
+                                        placeholder="City" name="purchase_location_city" value="{{$purchase_order->purchase_location_city}}" aria-label="City" />
                                 </div>
                                 <div class="col">
                                     <label class="form-label" for="State">State </label>
                                     <input type="text" class="form-control" id="purchase_location_state"
-                                        placeholder="State" name="purchase_location_state" aria-label="State" />
+                                        placeholder="State" name="purchase_location_state" value="{{$purchase_order->purchase_location_state}}" aria-label="State" />
 
                                 </div>
                                 <div class="col">
@@ -266,7 +273,7 @@
                                     </label>
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="purchase_location_zip"
-                                            placeholder="Zip" name="purchase_location_zip" aria-label="Zip" />
+                                            placeholder="Zip" value="{{$purchase_order->purchase_location_zip}}" name="purchase_location_zip" aria-label="Zip" />
                                     </div>
                                 </div>
                             </div>
@@ -301,9 +308,12 @@
                                     <select class="form-select select2" name="ship_to_location_id"
                                         id="ship_to_location_id" data-allow-clear="true">
                                         <option value="">--Select Ship To Location--</option>
-                                        @foreach($location as $loc)
-                                        <option value="{{ $loc->id }}">{{ $loc->company_name  }}</option>
-                                        @endforeach
+                                        @foreach($consignment_location as $loc)
+                                    <option value="{{ $loc->customer->id }}" 
+                                        {{ $purchase_order->ship_to_location_id == $loc->customer->id ? 'selected' : '' }}>
+                                        {{ $loc->customer->customer_name }}
+                                    </option>
+                                @endforeach
 
                                     </select>
                                     <span class="text-danger error-text ship_to_location_id_error"></span>
@@ -321,7 +331,7 @@
 
                                     </label>
                                     <input type="text" class="form-control" id="ship_to_location_address"
-                                        placeholder="Address" name="ship_to_location_address" aria-label="Address" />
+                                        placeholder="Address"  value="{{$purchase_order->ship_to_location_address}}" name="ship_to_location_address" aria-label="Address" />
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -330,12 +340,12 @@
 
                                     </label>
                                     <input type="text" class="form-control" id="ship_to_location_suite"
-                                        placeholder="Suite / Unit#" name="ship_to_location_suite"
+                                        placeholder="Suite / Unit#" value="{{$purchase_order->ship_to_location_suite}}" name="ship_to_location_suite"
                                         aria-label="Suite / Unit#" />
                                 </div>
                                 <div class="col">
                                     <label class="form-label" for="City">City </label>
-                                    <input type="text" class="form-control" id="ship_to_location_city"
+                                    <input type="text" class="form-control" value="{{$purchase_order->ship_to_location_city}}" id="ship_to_location_city"
                                         placeholder="City" name="ship_to_location_city" aria-label="Size" />
 
                                 </div>
@@ -343,7 +353,7 @@
                                     <label class="form-label" for="State">State:
                                     </label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="ship_to_location_state"
+                                        <input type="text" class="form-control" value="{{$purchase_order->ship_to_location_state}}" id="ship_to_location_state"
                                             placeholder="State" name="ship_to_location_state" aria-label="State" />
                                     </div>
                                 </div>
@@ -352,7 +362,7 @@
                                 <div class="col-4">
                                     <label class="form-label" for="Zip">Zip:
                                     </label>
-                                    <input type="text" class="form-control" id="ship_to_location_zip" placeholder="Zip"
+                                    <input type="text" class="form-control" id="ship_to_location_zip" value="{{$purchase_order->ship_to_location_zip}}" placeholder="Zip"
                                         name="ship_to_location_zip" aria-label="Zip" />
                                 </div>
                                 <div class="col-4">
@@ -480,6 +490,9 @@
                                             id="productFile">
                                             <thead class="table-header-bold">
                                                 <tr>
+                                                    <td>
+                                                    <input type="checkbox" id="selectAll">
+                                                    </td>
                                                     <th>PO# </th>
                                                     <th>Product</th>
                                                     <th>Description</th>
@@ -489,24 +502,69 @@
                                                     <th>Qty</th>
                                                     <th>Unit Price </th>
                                                     <th></th>
-                                                    <th></th>
                                                     <th>Extended</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+
+                                            @php
+                                                $subTotal = 0; 
+                                            @endphp
+
                                             @foreach ($productPo as $product)
+                                                @php
+                                                    $extended = $product->extended ?? 0; 
+                                                    $subTotal += $extended; 
+                                                @endphp
+                                            
                                                 <tr>
-                                                    <td>{{ $product->po_id ?? 'N/A' }}</td>
-                                                    <td>{{ $product->product_name ?? 'N/A' }}</td>
-                                                    <td>{{ $product->description ?? 'N/A' }}</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td>{{ $product->quantity ?? '0' }}</td>
-                                                    <td>${{ number_format($product->unit_price ?? 0, 2) }}</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td>${{ number_format($product->extended ?? 0, 2) }}</td>
+                                                    <td>
+                                                        <input type="checkbox" class="rowCheckbox" checked value="{{ $product->id }}">
+                                                    </td>
+                                                    <td>{{ $purchase_order->po_number ?? '' }}</td>
+                                                    <td>
+                                                    <select class="form-select select2" name="product_id" id="product_id" data-allow-clear="true">
+                                                        <option value="">--Select Product--</option>
+                                                        @foreach($products as $prd)
+                                                            <option value="{{ $prd->id }}" 
+                                                                {{ isset($product) && $product->id == $prd->id ? 'selected' : '' }}>
+                                                                {{ $prd->product_name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" 
+                                                            name="supp_per_note" 
+                                                            class="form-control" 
+                                                            value="{{ $product->description ?? '' }}">
+                                                    </td>
+                                                    <td>  <input type="text" 
+                                                            name="supp_note" 
+                                                            class="form-control" 
+                                                            value=""></td>
+                                                   
+                                                    <td><input type="text" 
+                                                            name="alt_quantity" 
+                                                            class="form-control" 
+                                                            value="{{$product->slab}}">Slabs</td>
+                                                   </td>
+                                                   <td></td>
+                                                    <td>$<input type="text" 
+                                                            name="quantity" 
+                                                            class="form-control" 
+                                                            value="{{ number_format($product->quantity ?? 0, 2) }}">SF</td>
+                                                    <td>$<input type="text" 
+                                                            name="unit_price" 
+                                                            class="form-control" 
+                                                            value="{{ number_format($product->unit_price ?? 0, 2) }}">SF</td>
+                                                  
+                                                    <td>SP</td>
+                                                    
+                                                    <td>$<input type="text" 
+                                                            name="extended" 
+                                                            class="form-control" 
+                                                            value="{{ number_format($product->extended ?? 0, 2) }}"></td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -525,73 +583,60 @@
                                 <div class="tab-content p-0 pe-md-5 ps-md-3">
                                     <div class="" id="product_details">
                                     <table class="datatables-basic table tables-basic border-top table-striped" id="productFile">
-                <thead class="table-header-bold">
-                    <tr>
-                        <th>Service</th>
-                        <th>Account</th>
-                        <th>Description</th>
-                        <th>Extended</th>
-                    </tr>
-                </thead>
-                <tbody id="fileUploadRow">
-                    <tr>
-                    <td> <select class="form-select select2" name="freight_forwarder_id"
-                                            id="freight_forwarder_id" data-allow-clear="true">
-                                            <option value="">--Select --</option>
-                                        </select></td>
-                                        <td> <select class="form-select select2" name="freight_forwarder_id"
-                                            id="freight_forwarder_id" data-allow-clear="true">
-                                            <option value="">--Select --</option>
-                                        </select></td>
-                        <td><input type="text" class="form-control" id="description" placeholder="Description"
-                        name="description" aria-label="Description" /></td>
-                        <td><input type="text" class="form-control" id="extended" placeholder=""
-                        name="extended" aria-label="" /></td>
-                    </tr>
-                    <tr>
-                    <td> <select class="form-select select2" name="freight_forwarder_id"
-                                            id="freight_forwarder_id" data-allow-clear="true">
-                                            <option value="">--Select --</option>
-                                        </select></td>
-                                        <td> <select class="form-select select2" name="freight_forwarder_id"
-                                            id="freight_forwarder_id" data-allow-clear="true">
-                                            <option value="">--Select --</option>
-                                        </select></td>
-                        <td><input type="text" class="form-control" id="description" placeholder="Description"
-                        name="description" aria-label="Description" /></td>
-                        <td><input type="text" class="form-control" id="extended" placeholder=""
-                        name="extended" aria-label="" /></td>
-                    </tr>
-                    <tr>
-                    <td> <select class="form-select select2" name="freight_forwarder_id"
-                                            id="freight_forwarder_id" data-allow-clear="true">
-                                            <option value="">--Select --</option>
-                                        </select></td>
-                                        <td> <select class="form-select select2" name="freight_forwarder_id"
-                                            id="freight_forwarder_id" data-allow-clear="true">
-                                            <option value="">--Select --</option>
-                                        </select></td>
-                        <td><input type="text" class="form-control" id="description" placeholder="Description"
-                        name="description" aria-label="Description" /></td>
-                        <td><input type="text" class="form-control" id="extended" placeholder=""
-                        name="extended" aria-label="" /></td>
-                    </tr>
-                </tbody>
-                <tfoot>
-        <tr>
-            <td colspan="3" style="text-align: right;"><strong>Items Total:</strong></td>
-            <td>$00.00</td>
-        </tr>
-        <tr>
-            <td colspan="3" style="text-align: right;"><strong>Other Total:</strong></td>
-            <td>$00.00</td>
-        </tr>
-        <tr>
-            <td colspan="3" style="text-align: right;"><strong>Total:</strong></td>
-            <td>$00.00</td>
-        </tr>
-    </tfoot>
-            </table>
+                                            <thead class="table-header-bold">
+                                                <tr>
+                                                    <th>Service</th>
+                                                    <th>Account</th>
+                                                    <th>Description</th>
+                                                    <th>Extended</th>
+                                                </tr>
+                                            </thead>
+                                           
+                                           <tbody id="fileUploadRow">
+                                        @for ($i = 1; $i <= 3; $i++)
+                                            <tr>
+                                                <td>
+                                                    <select class="form-select select2" name="service_id_[{{ $i }}]" id="service_id_{{ $i }}" onchange="fetchAccounts({{ $i }})" data-allow-clear="true">
+                                                        <option value="">--Select Service--</option>
+                                                        @foreach($services as $service)
+                                                            <option value="{{ $service->id }}">{{ $service->service_name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-select select2" name="freight_forwarder_id_[{{ $i }}]" id="freight_forwarder_id_{{ $i }}" data-allow-clear="true">
+                                                        <option value="">--Select--</option>
+                                                        @foreach($account as $acc)
+                                                            <option value="{{ $acc->id }}">{{ $acc->account_number }} - {{ $acc->account_name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" id="description_{{ $i }}" placeholder="Description" name="description_[{{ $i }}]" aria-label="Description" />
+                                                </td>
+                                                <td>
+                                                    <input type="number" class="form-control extended" id="extended_{{ $i }}" placeholder="" name="extended_[{{ $i }}]" aria-label="Extended" oninput="calculateTotals()" />
+                                                </td>
+                                            </tr>
+                                        @endfor
+                                    </tbody>
+
+                                            
+                                            <tfoot>
+                                                                        <tr>
+                                    <td colspan="3" style="text-align: right;"><strong>Items Total:</strong></td>
+                                    <td id="itemsTotal">${{ number_format($subTotal, 2) }}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" style="text-align: right;"><strong>Other Total:</strong></td>
+                                    <td id="otherTotal">$0.00</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" style="text-align: right;"><strong>Total:</strong></td>
+                                    <td id="totalSum">$0.00</td>
+                                </tr>
+                                </tfoot>
+                                </table>
                                     </div>
                                 </div>
                             </div>
@@ -609,5 +654,5 @@
 </div>
 @endsection
 @section('scripts')
-@include('supplier_invoice.__scripts')
+@include('purchase_order.supplier_invoice.__scripts')
 @endsection

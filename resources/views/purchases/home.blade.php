@@ -380,19 +380,36 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-6">
-                                        <div class="d-flex flex-column align-items-center">
-                                            <a href="#" class="text-decoration-none">
-                                                <div class="card-title mb-auto">
-                                                    <span class="rounded  p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                                                        <i class="fi fi-tr-do-not-enter" style="font-size: 50px;"></i>
-                                                    </span>
-                                                </div>
-                                            </a>
-                                            <div class="d-flex justify-content-center align-items-center mt-2">
-                                                <div class="col">
-                                                    <a href="#" class="text-decoration-none">
-                                                        <h5 class="card-title mb-0 text-dark text-center">Inventory Not Received</h5>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- <div class="row mt-2">
+                            <div class="col-12 d-flex justify-content-center">
+                                <img src="{{ asset('public/images/d-arrow.png') }}" alt="Not Found" width="30px" height="25px">
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-3">
+                <div class="row">
+                    <div class="col-lg-9">
+                        <div class="card card-border-shadow-primary">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-center">
+                                    <div class="d-flex flex-column align-items-center w-100">
+                                        <!-- Products Section with Bottom Border -->
+                                        <div class="d-flex flex-column justify-content-center align-items-center w-100 border-bottom border-1 border-light rounded-lg pb-1">
+                                            <div class="card-title mb-auto">
+                                                <span class="p-2 d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                                    <img src="{{ asset('public/images/invetory.png') }}" alt="not found" >
+                                                </span>
+                                            </div>
+                                            <div class="d-flex justify-content-between w-100">
+                                                <div class="col-11 text-center">
+                                                    <a href="{{ route('products.index') }}" class="text-decoration-none">
+                                                        <h6 class="card-title mb-1 text-dark">Inventory</h6>
                                                     </a>
                                                 </div>
                                             </div>

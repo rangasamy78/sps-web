@@ -68,7 +68,6 @@
                                     @if(!empty($customer->address))
                                         <p class="mb-1">{{ $customer->address }}</p>
                                     @endif
-
                                     @if(!empty($customer->state) || !empty($customer->city) || !empty($customer->zip))
                                         <p class="mb-1">
                                             {{ $customer->state ?? '' }}
@@ -76,7 +75,6 @@
                                             {{ $customer->zip ?? '' }}
                                         </p>
                                     @endif
-
                                     @if(!empty($customer->county) || !empty($customer->country->country_name))
                                         <p class="mb-1">
                                             {{ $customer->county ?? '' }}
@@ -121,6 +119,18 @@
                                     @endif
                                     @if(!empty($customer->accounting_email))
                                     <p class="mb-1">{{ "A.E : ". $customer->accounting_email ?? ''}} </p>
+                                    <a class='dropdown-item deletebtn text-danger' href='javascript:void(0);' data-id='{{ $customer->id }}'>
+                                        <i class='bx bx-trash me-1 icon-danger'></i> Delete this Customer
+                                    </a>
+                                    @if($consignment->contains($customer->id))
+
+                                    <button type="button" class="btn dropdown-item text-dark deleteconsignment" id="deleteconsignment" name="deleteconsignment" data-id="{{ $customer->id }}">
+                                        <i class='bx bx-check-circle'></i> Remove Consignment Location
+                                    </button>
+                                    @else
+                                    <button type="button" class="btn dropdown-item text-dark" data-bs-toggle="modal" data-bs-target="#ConsignmentModel">
+                                        <i class='bx bx-check-circle'></i> Setup as Consignment Location
+                                    </button>
                                     @endif
                                 </div>
                             </div>
@@ -219,6 +229,12 @@
                                         <p class="mb-1"><strong>Internal Notes</strong>: </p>
                                         <p class="mb-1">{{ $customer->internal_notes }} </p>
                                     @endif
+                                    </div>
+                                    <div class="col-4">
+                                        @if($customer->delivery_instructions)
+                                        <p class="mb-1"><span class="text-dark fw-bold">Parent Location </span>:</p>
+                                        <p class="mb-1">{{ $customer->parent_location->company_name ?? '' }}</p>
+                                        @endif
                                 </div>
                             </div>
                         </div>

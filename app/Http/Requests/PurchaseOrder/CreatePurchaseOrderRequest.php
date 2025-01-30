@@ -22,7 +22,7 @@ class CreatePurchaseOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'po_number'            => 'required|unique:purchase_orders,po_number',
+            'po_number'            => 'required',
             'supplier_id'          => 'required',
             'payment_term_id'      => 'required',
             'purchase_location_id' => 'required',

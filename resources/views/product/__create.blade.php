@@ -278,8 +278,9 @@
                             <label class="form-label" for="GL Inventory Link Account">GL Inventory Link Account <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                             <select class="form-select select2" name="gl_inventory_link_account_id" id="gl_inventory_link_account_id" data-allow-clear="true">
                                 <option value="">--Select GL Inventory Link Account--</option>
-                                @foreach($inventories as $key => $inventory)
-                                        <option value="{{ $inventory['value'] }}">{{ $inventory['label'] }}</option>
+                             
+                                    @foreach($inventories as $acc)
+                                    <option value="{{ $acc->id }}">{{ $acc->account_number }}-{{ $acc->account_name }}</option>
                                     @endforeach
                               </select>
                               <span class="text-danger error-text gl_inventory_link_account_id_error"></span>
@@ -288,8 +289,8 @@
                             <label class="form-label" for="GL Income Account">GL Income Account <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                             <select class="form-select select2" name="gl_income_account_id" id="gl_income_account_id" data-allow-clear="true">
                                 <option value="">--Select GL Income Account--</option>
-                                @foreach($sales as $key => $sale)
-                                        <option value="{{ $sale['value'] }}">{{ $sale['label'] }}</option>
+                                @foreach($sales as $acc)
+                                    <option value="{{ $acc->id }}">{{ $acc->account_number }}-{{ $acc->account_name }}</option>
                                     @endforeach
                             </select>
                             <span class="text-danger error-text gl_income_account_id_error"></span>
@@ -299,8 +300,8 @@
                             <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                             <select class="form-select select2" name="gl_cogs_account_id" id="gl_cogs_account_id" data-allow-clear="true">
                                 <option value="">--Select GL Cost Of Goods Sold Account--</option>
-                                @foreach($cogs as $key => $cog)
-                                        <option value="{{ $cog['value'] }}">{{ $cog['label'] }}</option>
+                                @foreach($cogs as $acc)
+                                    <option value="{{ $acc->id }}">{{ $acc->account_number }}-{{ $acc->account_name }}</option>
                                     @endforeach
                             </select>
                               <span class="text-danger error-text gl_cogs_account_id_error"></span>

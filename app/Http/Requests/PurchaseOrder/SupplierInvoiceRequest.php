@@ -22,14 +22,14 @@ class SupplierInvoiceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'sipl_bill'               => 'required|unique:purchase_orders,po_number',
+            'sipl_bill'               => 'required',
             'entry_date'              => 'required|date',
             'invoice'                 => 'required|string',
             'ship_date'               => 'required|date',
             'invoice_date'            => 'required|date',
             'payment_term_id'         => 'required|numeric|min:1',
             'due_date'                => 'required|date',
-            'supplier_id'             => 'required|numeric|min:1',
+         
             'purchase_location_id'    => 'required|numeric|min:1',
             'ship_to_location_id'     => 'required|numeric|min:1',
         ];
@@ -44,7 +44,7 @@ class SupplierInvoiceRequest extends FormRequest
     {
         return [
             'sipl_bill.required'               => 'The bill number is required.',
-            'sipl_bill.unique'                 => 'The bill number must be unique.',
+            
             'entry_date.required'              => 'The entry date is required.',
             'entry_date.date'                  => 'The entry date must be a valid date.',
             'invoice.required'                 => 'The invoice is required.',
@@ -57,8 +57,7 @@ class SupplierInvoiceRequest extends FormRequest
             'payment_term_id.min'              => 'Payment terms must be greater than zero.',
             'due_date.required'                => 'The due date is required.',
             'due_date.date'                    => 'The due date must be a valid date.',
-            'supplier_id.required'             => 'Please select a supplier.',
-            'supplier_id.numeric'              => 'The supplier must be a valid numeric value.',
+            
             'supplier_id.min'                  => 'The supplier must be greater than zero.',
             'purchase_location_id.required'    => 'Please select a purchase location.',
             'purchase_location_id.numeric'     => 'The purchase location must be a valid numeric value.',

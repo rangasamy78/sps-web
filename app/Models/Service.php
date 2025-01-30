@@ -71,9 +71,21 @@ class Service extends Model
     {
         return $this->hasMany(SampleOrderService::class, 'service_id');
     }
-
     public function quote_service()
     {
         return $this->hasMany(QuoteService::class, 'service_id');
+    }
+    function linked_account_gl()
+    {
+        return $this->belongsTo(Account::class, 'gl_sales_account_id');
+    }
+    function linked_account()
+    {
+        return $this->belongsTo(Account::class, 'gl_cost_of_sales_account_id');
+    }
+
+    public function services()
+    {
+        return $this->hasMany(OtherCharges::class, 'service_id');
     }
 }
