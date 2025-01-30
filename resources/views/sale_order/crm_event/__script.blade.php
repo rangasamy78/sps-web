@@ -14,8 +14,7 @@
             ajax: {
                 url: "{{ route('events.list', ':id') }}".replace(':id', $('#sales_order_id').val()),
                 type: 'GET',
-                data: function(d) {
-                },
+                data: function(d) {},
             },
             columns: [{
                     data: 'check',
@@ -59,8 +58,7 @@
                     'data-bs-target': '#crmEvent',
                     'aria-controls': 'crmEvent',
                 },
-                action: function(e, dt, node, config) {
-                }
+                action: function(e, dt, node, config) {}
             }],
         });
 
@@ -70,7 +68,7 @@
             sending(button);
             var data = $('#addCrmEventForm').serialize();
             $.ajax({
-                url: '{{ route("events.store") }}',
+                url: '{{ route('events.store') }}',
                 type: 'POST',
                 data: data,
                 dataType: 'json',
@@ -98,7 +96,7 @@
             };
 
             $.ajax({
-                url: '{{ route("events.update", ":id") }}'.replace(':id', id),
+                url: '{{ route('events.update', ':id') }}'.replace(':id', id),
                 type: 'PUT',
                 data: data,
                 dataType: 'json',

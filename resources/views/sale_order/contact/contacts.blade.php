@@ -1,7 +1,8 @@
 <div class="tab-pane" id="BillToContact" role="tabpanel">
     <h5 class="">Bill To Contacts</h5>
     <div class="row">
-        <input type="text" class="form-control" hidden name="sales_order_id" id="sales_order_id" value="{{ $sale_order->id }}">
+        <input type="text" class="form-control" hidden name="sales_order_id" id="sales_order_id"
+            value="{{ $sale_order->id }}">
     </div>
     <table class="datatables-basic table tables-basic border-top table-striped" id="sales_orderBillToContact">
         <thead class="table-header-bold">

@@ -1,7 +1,5 @@
 <script type="text/javascript">
     $(function() {
-
-        // CSRF token setup for AJAX requests
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -13,9 +11,9 @@
             serverSide: true,
             searching: true,
             ajax: {
-                url: "{{ route('sale_orders.contacts.list', ':id') }}".replace(':id', $('#customer_id').val()),
-                data: function(d) {
-                }
+                url: "{{ route('sale_orders.contacts.list', ':id') }}".replace(':id', $('#customer_id')
+                    .val()),
+                data: function(d) {}
             },
             columns: [{
                     data: 'select_all',
@@ -38,8 +36,7 @@
                     orderable: true
                 }
             ],
-            rowCallback: function(row, data, index) {
-            }
+            rowCallback: function(row, data, index) {}
         });
 
         $('#selectAllCheckbox').on('click', function() {
@@ -151,7 +148,8 @@
             e.preventDefault();
             var button = $(this);
             sending(button);
-            var url = $('#contact_id').val() ? "{{ route('customers.contacts.update', ':id') }}".replace(':id', $('#contact_id').val()) : "{{ route('customers.contacts.save') }}";
+            var url = $('#contact_id').val() ? "{{ route('customers.contacts.update', ':id') }}"
+                .replace(':id', $('#contact_id').val()) : "{{ route('customers.contacts.save') }}";
             var type = $('#contact_id').val() ? "PUT" : "POST";
             $.ajax({
                 type: type,
@@ -193,7 +191,8 @@
             var updatedNotes = `${loggedInUser} ${currentDateTime} : ${internalNotes} \n\n`;
             if (internalNotes) {
                 $.ajax({
-                    url: "{{ route('sale_orders.internal_notes', ':id ') }}".replace(':id', opportunityId),
+                    url: "{{ route('sale_orders.internal_notes', ':id ') }}".replace(':id',
+                        opportunityId),
                     type: 'PATCH',
                     data: {
                         internal_notes: updatedNotes,
@@ -227,7 +226,8 @@
 
             if (selectedValue) {
                 $.ajax({
-                    url: "{{ route('opportunities.probability_close', ':id') }}".replace(':id', opportunityId),
+                    url: "{{ route('opportunities.probability_close', ':id') }}".replace(':id',
+                        opportunityId),
                     type: 'PATCH',
                     data: {
                         probability_to_close_id: selectedValue,
@@ -255,7 +255,8 @@
             var opportunityId = $('#opportunity_id').val();
             if (selectedValue) {
                 $.ajax({
-                    url: "{{ route('opportunities.stages', ':id') }}".replace(':id', opportunityId),
+                    url: "{{ route('opportunities.stages', ':id') }}".replace(':id',
+                        opportunityId),
                     type: 'PATCH',
                     data: {
                         opportunity_stage_id: selectedValue,
@@ -292,7 +293,7 @@
             taxCodeContainer.style.display = "none";
             taxCodeSelect.removeAttribute("required");
             taxCodeSelect.classList.remove("is-invalid");
-            taxCodeSelect.value = ""; 
+            taxCodeSelect.value = "";
         }
     }
 </script>

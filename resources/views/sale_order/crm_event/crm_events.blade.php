@@ -1,7 +1,8 @@
 <div class="tab-pane" id="CRMEvent" role="tabpanel">
     <h5 class="">CRM</h5>
     <div class="row">
-        <input type="text" class="form-control" hidden name="sales_order_id" id="sales_order_id" value="{{ $sale_order->id }}">
+        <input type="text" class="form-control" hidden name="sales_order_id" id="sales_order_id"
+            value="{{ $sale_order->id }}">
     </div>
     <table class="datatables-basic table tables-basic border-top table-striped" id="saleOrderCrmEvent">
         <thead class="table-header-bold">
@@ -29,11 +30,15 @@
         <form id="addCrmEventForm" enctype="multipart/form-data">
             <div class="row">
                 <div class="col">
-                    <input type="hidden" class="form-control" id="entered_by_id" name="entered_by_id" value="{{Auth::id()}}">
-                    <input type="hidden" class="form-control" id="party_name" name="party_name" value="{{$customer->customer_name}}">
+                    <input type="hidden" class="form-control" id="entered_by_id" name="entered_by_id"
+                        value="{{ Auth::id() }}">
+                    <input type="hidden" class="form-control" id="party_name" name="party_name"
+                        value="{{ $customer->customer_name }}">
                     <input type="hidden" class="form-control" id="type" name="type" value="saleorder">
-                    <input type="hidden" class="form-control" id="type_id" name="type_id" value="{{$sale_order->id}}">
-                    <label class="form-label">Entered On: <span id="currentDateTime" class="fw-bold text-dark"></span></label>
+                    <input type="hidden" class="form-control" id="type_id" name="type_id"
+                        value="{{ $sale_order->id }}">
+                    <label class="form-label">Entered On: <span id="currentDateTime"
+                            class="fw-bold text-dark"></span></label>
                 </div>
             </div>
             <div class="row mt-3">
@@ -41,8 +46,8 @@
                     <label class="form-label">Type</label>
                     <select class="form-select" id="event_type_id" name="event_type_id">
                         <option value="">--select--</option>
-                        @foreach($data['eventTypes'] as $id => $event_type_name)
-                        <option value="{{ $id }}">{{ $event_type_name }}</option>
+                        @foreach ($data['eventTypes'] as $id => $event_type_name)
+                            <option value="{{ $id }}">{{ $event_type_name }}</option>
                         @endforeach
                     </select>
                     <span class="text-danger error-text event_type_id_error"></span>
@@ -65,8 +70,9 @@
                     <label class="form-label">Assigned To</label>
                     <select class="form-select" id="assigned_to_id" name="assigned_to_id">
                         <option value="">--select--</option>
-                        @foreach($data['users'] as $id => $first_name)
-                        <option value="{{ $id }}" {{ Auth::id() == $id ? 'selected' : '' }}>{{ $first_name }}</option>
+                        @foreach ($data['users'] as $id => $first_name)
+                            <option value="{{ $id }}" {{ Auth::id() == $id ? 'selected' : '' }}>
+                                {{ $first_name }}</option>
                         @endforeach
                     </select>
                     <span class="text-danger error-text assigned_to_id_error"></span>
@@ -77,8 +83,8 @@
                     <label class="form-label">Followers (CC)</label>
                     <select class="form-select" id="follower_id" name="follower_id">
                         <option value="">--select--</option>
-                        @foreach($data['users'] as $id => $first_name)
-                        <option value="{{ $id }}">{{ $first_name }}</option>
+                        @foreach ($data['users'] as $id => $first_name)
+                            <option value="{{ $id }}">{{ $first_name }}</option>
                         @endforeach
                     </select>
                     <span class="text-danger error-text follower_id_error"></span>
@@ -95,9 +101,13 @@
                 <div class="col">
                     <label class="form-label">Product</label>
                     <div class="input-group">
-                        <input type="hidden" class="form-control bg-label-secondary" readonly id="product_id" name="product_id" />
-                        <input type="text" class="form-control bg-label-secondary cursor-pointer" readonly id="product_name" name="product_name" data-bs-toggle="modal" data-bs-target="#searchProduct" />
-                        <span class="input-group-text bg-primary cursor-pointer" data-bs-toggle="modal" data-bs-target="#searchProduct">
+                        <input type="hidden" class="form-control bg-label-secondary" readonly id="product_id"
+                            name="product_id" />
+                        <input type="text" class="form-control bg-label-secondary cursor-pointer" readonly
+                            id="product_name" name="product_name" data-bs-toggle="modal"
+                            data-bs-target="#searchProduct" />
+                        <span class="input-group-text bg-primary cursor-pointer" data-bs-toggle="modal"
+                            data-bs-target="#searchProduct">
                             <i class="fi fi-rr-search text-white"></i>
                         </span>
                         <span class="text-danger error-text product_id_error"></span>
@@ -139,11 +149,13 @@
                 <div class="row accountFilter">
                     <div class="col-lg-4 col-sm-6 filter-input mb-2">
                         <label class="mb-2 fw-bold">Name:</label>
-                        <input type=" text" class="form-control dt-input dt-full-name" name="productNameFilter" id="productNameFilter" data-allow-clear="true" placeholder="Search by Product Name">
+                        <input type=" text" class="form-control dt-input dt-full-name" name="productNameFilter"
+                            id="productNameFilter" data-allow-clear="true" placeholder="Search by Product Name">
                     </div>
                     <div class="col-lg-4 col-sm-6 filter-input mb-2">
                         <label class="mb-2 fw-bold">Code:</label>
-                        <input type=" text" class="form-control dt-input dt-full-name" id="codeFilter" name="codeFilter" data-allow-clear="true" placeholder="Search by Product Code">
+                        <input type=" text" class="form-control dt-input dt-full-name" id="codeFilter"
+                            name="codeFilter" data-allow-clear="true" placeholder="Search by Product Code">
                     </div>
                 </div>
                 <div class="table-responsive text-nowrap">

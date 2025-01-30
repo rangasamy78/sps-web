@@ -1,7 +1,7 @@
 <style>
     #searchProductsTable tbody tr {
-    cursor: pointer;
-}
+        cursor: pointer;
+    }
 </style>
 <script type="text/javascript">
     $(function() {
@@ -17,13 +17,11 @@
             serverSide: true,
             searching: false,
             ajax: {
-                url: "{{ route('lines.list',':id') }}".replace(':id', $('#sales_order_id').val()),
+                url: "{{ route('lines.list', ':id') }}".replace(':id', $('#sales_order_id').val()),
                 type: 'GET',
-                data: function(d) {
-                },
+                data: function(d) {},
             },
-            columns: [
-                {
+            columns: [{
                     data: 'so_line_no',
                     name: 'so_line_no'
                 },
@@ -83,18 +81,19 @@
                         $('#modelHeading').html("Add Item from Available Inventory");
                     }
                 },
-                    {
-                        text: '<span class="d-none d-sm-inline-block">Add Service</span>',
-                        className: 'create-new btn btn-primary',
-                        attr: {
-                            'data-bs-toggle': 'modal',
-                            'data-bs-target': '#serviceModel',
-                            'aria-controls': 'crmEvent',
-                        },
-                        action: function(e, dt, node, config) {
-                            $('#modelServiceHeading').html("Add Service");
-                        }
-                    }],
+                {
+                    text: '<span class="d-none d-sm-inline-block">Add Service</span>',
+                    className: 'create-new btn btn-primary',
+                    attr: {
+                        'data-bs-toggle': 'modal',
+                        'data-bs-target': '#serviceModel',
+                        'aria-controls': 'crmEvent',
+                    },
+                    action: function(e, dt, node, config) {
+                        $('#modelServiceHeading').html("Add Service");
+                    }
+                }
+            ],
         });
 
         $(document).on('click', '.addContactBtn', function() {
@@ -260,7 +259,8 @@
             e.preventDefault();
             var button = $(this);
             sending(button);
-            var url = $('#so_product_id').val() ? "{{ route('so_item_lines.update', ':id') }}".replace(':id', $('#so_product_id').val()) : "{{ route('so_item_lines.store') }}";
+            var url = $('#so_product_id').val() ? "{{ route('so_item_lines.update', ':id') }}".replace(
+                ':id', $('#so_product_id').val()) : "{{ route('so_item_lines.store') }}";
             var type = $('#so_product_id').val() ? "PUT" : "POST";
             var formData = $('#soProductForm').serializeArray();
 
@@ -282,7 +282,8 @@
             });
             formData.push({
                 name: 'pick_ticket_restriction',
-                value: $('#soProductForm input[name="pick_ticket_restriction"]:checked').val() || '0'
+                value: $('#soProductForm input[name="pick_ticket_restriction"]:checked')
+                .val() || '0'
             });
             var serializedData = $.param(formData);
             $.ajax({
@@ -311,7 +312,8 @@
             e.preventDefault();
             var button = $(this);
             sending(button);
-            var url = $('#so_line_id').val() ? "{{ route('lines.update', ':id') }}".replace(':id', $('#so_line_id').val()) : "{{ route('lines.store') }}";
+            var url = $('#so_line_id').val() ? "{{ route('lines.update', ':id') }}".replace(':id', $(
+                '#so_line_id').val()) : "{{ route('lines.store') }}";
             var type = $('#so_line_id').val() ? "PUT" : "POST";
             var formData = $('#serviceForm').serializeArray();
             formData.push({
@@ -477,21 +479,33 @@
                         if (row.child.isShown()) {
                             row.child.hide();
                             tr.removeClass('shown');
-                        }
-                        else {
+                        } else {
                             $.ajax({
-                            url: "{{ route('so_item_lines.slablist', ':id ') }}".replace(':id', data.product_name),
-                            type: 'GET',
-                            data: { item_name: data.product_name },
-                            success: function(subData) {
-                                var subTable = '<table class="table table-bordered table-striped table-hover table-sm"><thead  class="table-header-bold"><tr><th>Serial Num <br />Barcode</th><th>Lot/Block - Bundle / Supp. Ref</th><th>Location (Bin)</th><th>On Hand</th><th>Available</th><th>N</th><th>select</th></tr></thead><tbody>';
-                                subData.forEach(function(item) {
-                                    subTable += '<tr><td>' + item.serial_no + '<br />' + item.bar_code_no + '</td><td>' + item.lot_block + ' - ' + item.supplier_ref + '</td><td>' + item.present_location + '</td><td>50.00 PCS</td><td>50.00</td><td> </td><td><input type="checkbox" class="form-check-input product_checkbox" ></td></tr>';
-                                });
-                                subTable += '</tbody></table>';
+                                url: "{{ route('so_item_lines.slablist', ':id ') }}"
+                                    .replace(':id', data.product_name),
+                                type: 'GET',
+                                data: {
+                                    item_name: data.product_name
+                                },
+                                success: function(subData) {
+                                    var subTable =
+                                        '<table class="table table-bordered table-striped table-hover table-sm"><thead  class="table-header-bold"><tr><th>Serial Num <br />Barcode</th><th>Lot/Block - Bundle / Supp. Ref</th><th>Location (Bin)</th><th>On Hand</th><th>Available</th><th>N</th><th>select</th></tr></thead><tbody>';
+                                    subData.forEach(function(item) {
+                                        subTable += '<tr><td>' +
+                                            item.serial_no +
+                                            '<br />' + item
+                                            .bar_code_no +
+                                            '</td><td>' + item
+                                            .lot_block + ' - ' +
+                                            item.supplier_ref +
+                                            '</td><td>' + item
+                                            .present_location +
+                                            '</td><td>50.00 PCS</td><td>50.00</td><td> </td><td><input type="checkbox" class="form-check-input product_checkbox" ></td></tr>';
+                                    });
+                                    subTable += '</tbody></table>';
 
-                                row.child(subTable).show();
-                                tr.addClass('shown');
+                                    row.child(subTable).show();
+                                    tr.addClass('shown');
                                 }
                             });
                         }
@@ -500,5 +514,5 @@
 
             });
         });
-});
+    });
 </script>

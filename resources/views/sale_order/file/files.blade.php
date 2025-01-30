@@ -7,14 +7,11 @@
                     <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
                         <span class="d-none d-sm-block">Select File</span>
                         <i class="bx bx-upload d-block d-sm-none"></i>
-                        <input
-                            type="file"
-                            id="upload"
-                            class="account-file-input"
-                            hidden
+                        <input type="file" id="upload" class="account-file-input" hidden
                             accept="image/png, image/jpeg, application/pdf, image/jpg, image/gif, image/bmp" multiple />
                     </label>
-                    <button type="submit" class="btn btn-secondary account-image-reset mb-4" data-id='{{ $sale_order->id }}' id="saveFile" name="saveFile">
+                    <button type="submit" class="btn btn-secondary account-image-reset mb-4"
+                        data-id='{{ $sale_order->id }}' id="saveFile" name="saveFile">
                         <i class="bx bx-reset d-block d-sm-none"></i>
                         <span class="d-none d-sm-block">Upload File</span>
                     </button>
@@ -22,7 +19,8 @@
             </div>
         </div>
         <div class="row">
-            <input type="text" class="form-control" hidden name="sales_order_id" id="sales_order_id" value="{{ $sale_order->id }}">
+            <input type="text" class="form-control" hidden name="sales_order_id" id="sales_order_id"
+                value="{{ $sale_order->id }}">
         </div>
         <table class="datatables-basic table tables-basic border-top table-striped" id="saleOrderFile">
             <thead class="table-header-bold">

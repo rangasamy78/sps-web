@@ -14,10 +14,10 @@
         $('#print_doc_disclaimer_id').on('change', function() {
             var selectedStep = document.getElementById("print_doc_disclaimer_id").value;
             axios.get(`/sps-web/sale_orders/get-record/${selectedStep}`)
-                .then(function (response) {
+                .then(function(response) {
                     document.querySelector('.ql-editor').innerHTML = response.data.data;
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                     console.error("There was an error fetching the record:", error);
                 });
         });
@@ -36,7 +36,8 @@
                 success: function(response) {
                     if (response.status == "success") {
                         $('#formAddNewCustomer').trigger("reset");
-                        $('#customer_type_id, #parent_customer_id, #referred_by_id,#parent_location_id,#sales_person_id,#secondary_sales_person_id,#payment_terms_id,#sales_tax_id,#price_list_label_id').val(null).trigger('change');
+                        $('#customer_type_id, #parent_customer_id, #referred_by_id,#parent_location_id,#sales_person_id,#secondary_sales_person_id,#payment_terms_id,#sales_tax_id,#price_list_label_id')
+                            .val(null).trigger('change');
                         $('#AddNewCustomer').modal('hide');
                         sending(button, true);
                         showToast('success', response.msg);
@@ -51,10 +52,13 @@
 
         document.getElementById('sameAsBillTo').addEventListener('change', function() {
             if (this.checked) {
-                document.getElementById('shipping_address').value = document.getElementById('address').value;
-                document.getElementById('shipping_address_2').value = document.getElementById('address_2').value;
+                document.getElementById('shipping_address').value = document.getElementById('address')
+                    .value;
+                document.getElementById('shipping_address_2').value = document.getElementById(
+                    'address_2').value;
                 document.getElementById('shipping_city').value = document.getElementById('city').value;
-                document.getElementById('shipping_state').value = document.getElementById('state').value;
+                document.getElementById('shipping_state').value = document.getElementById('state')
+                .value;
                 document.getElementById('shipping_zip').value = document.getElementById('zip').value;
             } else {
                 document.getElementById('shipping_address').value = '';
@@ -85,7 +89,8 @@
                 success: function(response) {
                     if (response.status == "success") {
                         $('#formAddNewAssociate').trigger("reset");
-                        $('#associate_type_id,#country_id, #location_id, #primary_sales_id').val(null).trigger('change');
+                        $('#associate_type_id,#country_id, #location_id, #primary_sales_id')
+                            .val(null).trigger('change');
                         $('#AddNewAssociate').modal('hide');
                         sending(button, true);
                         showToast('success', response.msg);
@@ -145,8 +150,10 @@
                     $('#fax').val(data.fax);
                     $('#mobile').val(data.mobile);
                     $('#email').val(data.email);
-                    $('#price_level_label_id').val(data.price_list_label_id).trigger('change');
-                    $('#primary_sales_person_id').val(data.sales_person_id).trigger('change');
+                    $('#price_level_label_id').val(data.price_list_label_id).trigger(
+                        'change');
+                    $('#primary_sales_person_id').val(data.sales_person_id).trigger(
+                        'change');
                     $('#secondary_sales_person_id').val(data.secondary_sales_person_id);
                     $('#sales_tax_id').val(data.sales_tax_id).trigger('change');
                     $('#searchCustomer').modal('hide');
@@ -227,7 +234,8 @@
                 $('#searchShipTo').modal('show');
                 if ($.fn.DataTable.isDataTable('#shipToListTable')) {
                     table_ship_to_list.ajax.url(
-                        "{{ route('opportunities.ship_to_list', ':id') }}".replace(':id', customer_id)
+                        "{{ route('opportunities.ship_to_list', ':id') }}".replace(':id',
+                            customer_id)
                     ).load();
                 } else {
                     table_ship_to_list = $('#shipToListTable').DataTable({
@@ -236,7 +244,8 @@
                         serverSide: true,
                         searching: false,
                         ajax: {
-                            url: "{{ route('opportunities.ship_to_list', ':id') }}".replace(':id', customer_id),
+                            url: "{{ route('opportunities.ship_to_list', ':id') }}".replace(
+                                ':id', customer_id),
                             data: function(d) {
                                 d.name = $('#shipToNameFilter').val();
                                 d.code = $('#shipToCodeFilter').val();
@@ -359,59 +368,61 @@
         document.querySelectorAll('[data-bs-toggle="pill"]').forEach(button => {
             button.addEventListener('click', () => {
                 const type = button.getAttribute('data-type');
-                document.querySelectorAll('.conditional-fields').forEach(field => field.classList.add('d-none'));
+                document.querySelectorAll('.conditional-fields').forEach(field => field
+                    .classList.add('d-none'));
                 document.querySelector(`#${type}-fields`).classList.remove('d-none');
                 document.querySelector(`#${type}-freight-fields`).classList.remove('d-none');
             });
         });
 
 
-    const fullToolbar = [
-        ['bold', 'italic', 'underline', 'strike'],
-        [{
-            color: []
-        }, {
-            background: []
-        }],
-        [{
-            script: 'super'
-        }, {
-            script: 'sub'
-        }],
-        [{
-            header: '1'
-        }, {
-            header: '2'
-        }, 'blockquote', 'code-block'],
-        [{
-            list: 'ordered'
-        }, {
-            list: 'bullet'
-        }, {
-            indent: '-1'
-        }, {
-            indent: '+1'
-        }],
-        [{
-            direction: 'rtl'
-        }],
-        ['clean']
-    ];
+        const fullToolbar = [
+            ['bold', 'italic', 'underline', 'strike'],
+            [{
+                color: []
+            }, {
+                background: []
+            }],
+            [{
+                script: 'super'
+            }, {
+                script: 'sub'
+            }],
+            [{
+                header: '1'
+            }, {
+                header: '2'
+            }, 'blockquote', 'code-block'],
+            [{
+                list: 'ordered'
+            }, {
+                list: 'bullet'
+            }, {
+                indent: '-1'
+            }, {
+                indent: '+1'
+            }],
+            [{
+                direction: 'rtl'
+            }],
+            ['clean']
+        ];
 
-    const descriptionEditor = new Quill('#print_doc_description_editor_content', {
-        bounds: '#print_doc_description_editor_content',
-        placeholder: 'Type Description...',
-        modules: {
-            formula: true,
-            toolbar: fullToolbar
-        },
-        theme: 'snow',
-    });
+        const descriptionEditor = new Quill('#print_doc_description_editor_content', {
+            bounds: '#print_doc_description_editor_content',
+            placeholder: 'Type Description...',
+            modules: {
+                formula: true,
+                toolbar: fullToolbar
+            },
+            theme: 'snow',
+        });
 
-    clearEditor()
-    function clearEditor() {
-        descriptionEditor.setContents([]);
-    }
+        clearEditor()
+
+        function clearEditor() {
+            descriptionEditor.setContents([]);
+        }
 
     });
 </script>

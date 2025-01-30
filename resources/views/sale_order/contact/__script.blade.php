@@ -12,10 +12,10 @@
             serverSide: true,
             searching: false,
             ajax: {
-                url: "{{ route('sale_orders.bill_to_contacts.list',':id') }}".replace(':id', $('#customer_id').val()),
+                url: "{{ route('sale_orders.bill_to_contacts.list', ':id') }}".replace(':id', $(
+                    '#customer_id').val()),
                 type: 'GET',
-                data: function(d) {
-                },
+                data: function(d) {},
             },
             columns: [{
                     data: 'check',
@@ -63,8 +63,7 @@
                     'data-bs-target': '#listCustomerContact',
                     'aria-controls': 'crmEvent',
                 },
-                action: function(e, dt, node, config) {
-                }
+                action: function(e, dt, node, config) {}
             }],
         });
 

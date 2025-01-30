@@ -59,7 +59,8 @@
 
                 if (fileInput) {
                     rowCount++;
-                    let fileURL = fileInput.type.startsWith('image/') ? window.URL.createObjectURL(fileInput) : defaultImage;
+                    let fileURL = fileInput.type.startsWith('image/') ? window.URL.createObjectURL(
+                        fileInput) : defaultImage;
                     let $select = $('#saleOrderFileUploadRow');
                     let newRow = $(`
                 <tr id="row-${rowCount}">
@@ -88,7 +89,8 @@
                     $select.append(newRow);
                     let $newSelect = $(`#file_type_id-${rowCount}`);
                     fileTypes.forEach(function(fileType) {
-                        $newSelect.append(`<option value="${fileType.id}">${fileType.file_Type}</option>`);
+                        $newSelect.append(
+                            `<option value="${fileType.id}">${fileType.file_Type}</option>`);
                     });
                     let newFileInput = newRow.find('input[type="file"]')[0];
                     let dataTransfer = new DataTransfer();
@@ -108,7 +110,7 @@
             var form = $('#uploadsaleOrderFileForm')[0];
             var formData = new FormData(form);
             $.ajax({
-                url: '{{ route("sale_orders_files.store") }}',
+                url: '{{ route('sale_orders_files.store') }}',
                 type: 'POST',
                 data: formData,
                 processData: false,
