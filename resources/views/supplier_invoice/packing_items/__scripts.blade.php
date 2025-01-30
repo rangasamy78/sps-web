@@ -54,7 +54,7 @@
             const row = $(this).find('.list-item').data('column');
             const rowId = $(this).find('.list-item').data('row');
             (row === 1) ? $('#' + userDetailId).hide(): $('#' + userDetailId).show();
-            clearFields(rowId)
+            //clearFields(rowId)
             $listGroupItem.removeClass('active');
             const unitType = $(this).find('.list-item').data('unit');
             $(`#unit_type_name_${rowId}`).val(unitType);
@@ -68,12 +68,13 @@
             $(`#${userDetailId}`).toggle();
             $(".list-group-item").removeClass('active');
             $(`#group_${row}`).find('.list-group-item:first').addClass('active');
+            $(`#select_th_${row}`).length ? $("#select_th_0").hide() : '';
             const productIds = @json($products);
             fetchProducts(productIds);
-            setTimeout(() => {
-                $(`#block_${row}, #bundle_${row}, #supplier_ref_${row}`).val('');
-                console.log(`Cleared fields for row ${row}`);
-            }, 600);
+            // setTimeout(() => {
+            //     $(`#block_${row}, #bundle_${row}, #supplier_ref_${row}`).val('');
+            //     console.log(`Cleared fields for row ${row}`);
+            // }, 600);
         });
 
         const handleButtonClick = (isIncrement, $btn) => {
@@ -239,7 +240,6 @@
                 data: serializedData,
                 dataType: 'json',
                 success: function(response) {
-                    console.log(response);
                     if (response.status === "success") {
                         $(`#main_group_${row}`).hide();
                         $(".list-group-item").removeClass('active');
@@ -345,7 +345,6 @@
                 },
                 dataType: 'json',
                 success: function(response) {
-                    console.log(response);
                     if (response.status === "success") {
                         updateTableHeader(`product_item_${formId}`, row);
                         updateTableBody(`product_item_${formId}`, response.data, row);
@@ -363,7 +362,7 @@
         function updateTableHeader(tableId, rowId) {
             const headerHtml = `
                 <tr>
-                    <th style="width:3%;"><input type="checkbox" id="select_all_${rowId}" data-row="${rowId}" class="selectAll"></th>
+                    <th style="width:3%;" id="select_th_${rowId}"><input type="checkbox" id="select_all_${rowId}" data-row="${rowId}" class="selectAll"></th>
                     <th style="font-size: 14px;text-align: left;text-transform: capitalize !important;width:5%;">S.no</th>
                     <th style="font-size: 14px;text-align: left;text-transform: capitalize !important;width:15%;">Lot/Block</th>
                     <th style="font-size: 14px;text-align: left;text-transform: capitalize !important;width:13%;">Bundle</th>
@@ -750,7 +749,6 @@
                     </tr>
 
                 `);
-                console.log('product', data.product.product_price);
                 $('#showSupplierInvoicePackingItemForm #productsTableBody').empty();
                 $('#showSupplierInvoicePackingItemForm #productsTableBody').append(`
                     <tr>
@@ -912,8 +910,8 @@
                 : generateImgTag('import.png', 'copyAll', rowId, `${prefix}_${rowId}_${index}`, finalTitles.copyAll);
         };
 
-        function clearFields(rowId) {
-            $(`#unit_pack_length_${rowId}, #unit_pack_width_${rowId}, #pack_length_${rowId}, #pack_width_${rowId}, #rec_length_${rowId}, #rec_width_${rowId}, #block_${rowId}, #bundle_${rowId}, #supplier_ref_${rowId}`).val('');
-        }
+        // function clearFields(rowId) {
+        //     $(`#unit_pack_length_${rowId}, #unit_pack_width_${rowId}, #pack_length_${rowId}, #pack_width_${rowId}, #rec_length_${rowId}, #rec_width_${rowId}, #block_${rowId}, #bundle_${rowId}, #supplier_ref_${rowId}`).val('');
+        // }
     });
 </script>

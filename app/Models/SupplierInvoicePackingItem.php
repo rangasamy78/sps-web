@@ -20,6 +20,7 @@ class SupplierInvoicePackingItem extends Model
      * @var array<int, string>
      */
     protected $_fillable = [
+        'po_product_id',
         'product_id',
         'po_id',
         'bar_code_no',
@@ -51,20 +52,6 @@ class SupplierInvoicePackingItem extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
-    }
-
-    public function updatePackingItem($selectedData)
-    {
-        $this->update([
-            'lot_block'    => $selectedData['lot_block'],
-            'bundle'       => $selectedData['bundle'],
-            'supplier_ref' => $selectedData['supplier_ref'],
-            'pack_length'  => $selectedData['pack_length'],
-            'pack_width'   => $selectedData['pack_width'],
-            'rec_length'   => $selectedData['rec_length'],
-            'rec_width'    => $selectedData['rec_width'],
-            'notes'        => $selectedData['notes'],
-        ]);
     }
 
     public function updateNoteItem($data)

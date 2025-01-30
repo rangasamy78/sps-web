@@ -21,12 +21,13 @@ class SupplierInvoicePackingItemService
     public function getSupplierInvoiceAddPackingItem($data)
     {
         $productRowId = $data['row_id'];
-        $data = $this->__extractData($data);
+        $data = $this->__extractData($data, $productRowId);
         list($lotBlockFirst, $lotBlockSecond)       = $this->__extractNumberFromString($data['lot_block']);
         list($bundleFirst, $bundleSecond)           = $this->__extractNumberFromString($data['bundle']);
         list($supplierRefFirst, $supplierRefSecond) = $this->__extractNumberFromString($data['supplier_ref']);
 
         $insertData = $this->__generatePackingItems(
+            $data['po_product_id'],
             $data['product_id'],
             $data['po_id'],
             $data['unit_type_name'],
@@ -74,6 +75,7 @@ class SupplierInvoicePackingItemService
             ->get();
         } else {
             $records = SupplierInvoicePackingItem::query()
+            ->where('po_product_id', $productRowId)
             ->where('po_id', $data['po_id'])
             ->where('product_id', $data['product_id'])
             ->get();
@@ -114,9 +116,10 @@ class SupplierInvoicePackingItemService
         return $matches ? [$matches[1], (int)$matches[2]] : [$value, 0];
     }
 
-    private function __extractData($data)
+    private function __extractData($data, $productRowId)
     {
         return [
+            'po_product_id'    => $productRowId ?? null,
             'product_id'       => $data['product_id'] ?? null,
             'po_id'            => $data['po_id'] ?? null,
             'unit_type_name'   => $data['unit_type_name'] ?? null,
@@ -143,6 +146,7 @@ class SupplierInvoicePackingItemService
     }
 
     private function __generatePackingItems(
+        $productRowId,
         $productId,
         $poId,
         $unitTypeName,
@@ -171,6 +175,7 @@ class SupplierInvoicePackingItemService
     ) {
         // Generate the packing items using Laravel collections for better readability
         return collect(range(0, $count - 1))->map(function ($i) use (
+            $productRowId,
             $productId,
             $poId,
             $unitTypeName,
@@ -205,6 +210,7 @@ class SupplierInvoicePackingItemService
                 'bar_code_no'        => $barcodes[$i],
                 'packing_list_sizes' => $this->__calculatePackingSize($packLength, $packWidth),
                 'received_sizes'     => $this->__calculatePackingSize($recLength, $recWidth),
+                'po_product_id'      => $productRowId,
                 'product_id'         => $productId,
                 'po_id'              => $poId,
                 'lot_block'          => $this->__generateItemIdentifier($lotBlockFirst, $lotBlockSecond, $isSeqBlock, $i),
@@ -276,18 +282,20 @@ class SupplierInvoicePackingItemService
     public function __getSupplierInvoicePackingItem($data)
     {
         return SupplierInvoicePackingItem::query()
+            ->where('po_product_id', $data['formId'])
             ->where('po_id', $data['po_id'])
             ->where('product_id', $data['product_id'])
             ->get();
     }
 
     public function getSupplierInvoiceEditPackingItem( $data ){
-        $records = collect($data)->only(['po_id','product_id']);
+        $records = collect($data)->only(['po_id','product_id','formId']);
         $results = $this->__getSupplierInvoicePackingItem($records);
         return [$results];
     }
 
     public function getSupplierInvoiceUpdatePackingItem( $data ){
+        //dd($data);
         $selectedData = $data['selectedData'];
         $firstRow = collect($selectedData)->first();
         $record['id'] = collect($selectedData)->pluck('id')->all();
@@ -316,7 +324,7 @@ class SupplierInvoicePackingItemService
         }
         $i = 1;
         foreach ($data['products'] as $product) {
-            $records = collect($product)->only(['po_id','product_id']);
+            $records = collect($product)->only(['id','po_id','product_id']);
             $packingItemDetails = $this->getPackingItemDetails($records,  $i);
             $products[] = $packingItemDetails;
             $i++;
@@ -335,10 +343,17 @@ class SupplierInvoicePackingItemService
     protected function updateSinglePackingItem(array $record)
     {
         $item = SupplierInvoicePackingItem::find($record['id']);
-
         if ($item) {
             try {
-                $item->updatePackingItem($record);
+                $item->lot_block   = $record['lot_block'];
+                $item->bundle       = $record['bundle'];
+                $item->supplier_ref = $record['supplier_ref'];
+                $item->pack_length  = $record['pack_length'];
+                $item->pack_width   = $record['pack_width'];
+                $item->rec_length   = $record['rec_length'];
+                $item->rec_width    = $record['rec_width'];
+                $item->notes        = $record['notes'];
+                $item->save();
             } catch (\Exception $e) {
                 Log::error("Error updating record ID {$record['id']}: " . $e->getMessage());
             }
