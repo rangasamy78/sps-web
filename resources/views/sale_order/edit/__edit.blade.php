@@ -3,10 +3,10 @@
 @section('title', 'Edit Sale Order')
 
 @section('styles')
-<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>
 <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-rounded/css/uicons-solid-rounded.css'>
-<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-straight/css/uicons-regular-straight.css'>
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>
 <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-straight/css/uicons-regular-straight.css'>
 <link rel="stylesheet" href="{{asset('public/assets/vendor/libs/quill/typography.css')}}" />
 <link rel="stylesheet" href="{{asset('public/assets/vendor/libs/quill/katex.css')}}" />
 <link rel="stylesheet" href="{{asset('public/assets/vendor/libs/quill/editor.css')}}" />
@@ -14,7 +14,6 @@
 @endsection
 @section('content')
 <div class="content-wrapper">
-    <!-- Content -->
     <form id="saleOrderEditForm">
         <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="py-3 mb-4"><a href="{{route('sale_orders.index')}}" class="text-decoration-none text-dark"><span class="text-muted fw-light">Sale Order /</span>
@@ -36,7 +35,6 @@
                                     </div>
                                     <div class="col-lg-2 col-sm-4 col-md-3 pt-sm-2">
                                         <input type="hidden" class="form-control" id="sales_order_id" name="sales_order_id" value="{{$sale_order->id}}">
-                                        {{-- <input type="hidden" class="form-control" id="sales_order_code" name="sales_order_code" value="{{$sale_order->sales_order_code}}"> --}}
                                         <input type="hidden" class="form-control" id="entered_by_id" name="entered_by_id" value="{{ Auth::id() }}">
                                         <label class="form-label" for="sales_order_date">Date <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                                         <input type="date" class="form-control" id="sales_order_date" name="sales_order_date" aria-label="date" value="{{$sale_order->sales_order_date}}" />
@@ -64,9 +62,7 @@
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <!-- First column-->
                     <div class="col-12 col-lg-5">
-                        <!-- Account Information -->
                         <div class="card mb-4">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <h5 class="card-title mb-0">Bill To</h5>
@@ -289,13 +285,9 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- /Instruction information -->
                     </div>
-                    <!-- /Second column -->
 
-                    <!-- Second column -->
                     <div class="col-12 col-lg-7">
-                        <!-- Contact Information Card -->
                         <div class="card mb-4">
                             <div class="card-header">
                                 <h5 class="card-title mb-0">Ship To</h5>
@@ -315,7 +307,6 @@
                                 </ul>
 
                                 <div class="tab-content">
-                                    <!-- Common Fields -->
                                     <div id="common-fields">
                                         <div class="row mb-2">
                                             <div class="col-8">
@@ -335,7 +326,6 @@
                                         </div>
                                     </div>
 
-                                    <!-- Delivery-Specific Fields -->
                                     <div id="delivery-fields" class="conditional-fields">
                                         <div class="row mb-2">
                                             <div class="col">
@@ -470,22 +460,17 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Pick-Up Specific Fields -->
                                     <div id="pickup-fields" class="conditional-fields d-none">
-                                        <!-- feature update -->
                                     </div>
                                 </div>
                             </div>
 
                         </div>
-                        <!-- /Contact Card -->
-                        <!-- Remit to address Card -->
                         <div class="card mb-4">
                             <div class="card-header">
                                 <h5 class="card-title mb-0">Associates:</h5>
                             </div>
                             <div class="card-body">
-                                <!-- Base Price -->
                                 <div class="row">
                                     <div class="mb-3 col-lg-11">
                                         <div class="d-flex justify-content-between align-items-center">
@@ -563,10 +548,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- /remit to address Card -->
-                        <!-- /Organize Card -->
                     </div>
-                    <!-- /Second column -->
                 </div>
                 <div class="row">
                     <div class="col-12 d-flex justify-content-end gap-2">
@@ -576,7 +558,6 @@
                 </div>
             </div>
         </div>
-        <!-- / Content -->
         <div class="content-backdrop fade">
         </div>
     </form>

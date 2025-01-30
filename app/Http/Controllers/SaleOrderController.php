@@ -7,22 +7,27 @@ use App\Models\County;
 use App\Models\Company;
 use App\Models\Country;
 use App\Models\TaxCode;
+use App\Models\Service;
 use App\Models\Customer;
 use App\Models\FileType;
 use App\Models\SaleOrder;
 use App\Models\EventType;
 use App\Models\Associate;
 use App\Models\Opportunity;
+use App\Models\Consignment;
 use App\Models\ProjectType;
+use App\Models\ProductType;
 use App\Models\Expenditure;
 use Illuminate\Http\Request;
 use App\Models\CustomerType;
+use App\Models\ProductGroup;
 use App\Models\AboutUsOption;
 use App\Models\EndUseSegment;
 use App\Models\PriceListLabel;
+use App\Models\ProductCategory;
 use App\Models\OpportunityStage;
-use App\Models\AccountPaymentTerm;
 use App\Models\SaleOrderContact;
+use App\Models\AccountPaymentTerm;
 use App\Models\ProbabilityToClose;
 use App\Models\printDocDisclaimer;
 use Illuminate\Support\Facades\DB;
@@ -77,7 +82,13 @@ class SaleOrderController extends Controller
         $eventTypes         = EventType::query()->pluck('event_type_name', 'id');
         $expenditures       = Expenditure::query()->select('expenditure_name', 'expenditure_code', 'id')->where('is_frieght_expenditure', 1)->get();
         $printDocDisclaimer = PrintDocDisclaimer::query()->pluck('title', 'id');
-        return compact('companies', 'paymentTerms', 'users', 'priceListLabels', 'customerTypes', 'customers', 'customerCount', 'associates', 'countries', 'counties', 'salesTaxs', 'aboutUsOptions', 'probabilityCloses', 'eventTypes', 'expenditures', 'printDocDisclaimer');
+        $services           = Service::query()->pluck('service_name', 'id');
+        $productTypes       = ProductType::query()->pluck('product_type', 'id');
+        $productCategories  = ProductCategory::query()->pluck('product_category_name', 'id');
+        $productGroups      = ProductGroup::query()->pluck('product_group_name', 'id');
+        $locations          = Consignment::with('customer')->get()->pluck('customer.customer_name');
+        // dd($locations);
+        return compact('companies', 'paymentTerms', 'users', 'priceListLabels', 'customerTypes', 'customers', 'customerCount', 'associates', 'countries', 'counties', 'salesTaxs', 'aboutUsOptions', 'probabilityCloses', 'eventTypes', 'expenditures', 'printDocDisclaimer', 'services', 'productTypes', 'productCategories', 'productGroups', 'locations');
     }
 
     public function getRecord($step)
@@ -225,5 +236,9 @@ class SaleOrderController extends Controller
     public function getAllShipToDataTableList(Request $request, $id)
     {
         return $this->saleOrderRepository->dataTableAllShipTo($request, $id);
+    }
+    public function searchProduct(Request $request)
+    {
+        return $this->saleOrderRepository->searchProductDataTable($request);
     }
 }

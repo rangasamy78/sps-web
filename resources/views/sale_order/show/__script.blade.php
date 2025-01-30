@@ -15,36 +15,33 @@
             ajax: {
                 url: "{{ route('sale_orders.contacts.list', ':id') }}".replace(':id', $('#customer_id').val()),
                 data: function(d) {
-                    // You can add additional parameters to the request if needed
                 }
             },
             columns: [{
                     data: 'select_all',
-                    name: 'select_all', // This column should be orderable as false
-                    orderable: false // Checkbox column should not be orderable
+                    name: 'select_all',
+                    orderable: false
                 },
                 {
                     data: 'contact_name',
                     name: 'contact_name',
-                    orderable: true // Enable ordering for the contact name column
+                    orderable: true
                 },
                 {
                     data: 'lot_subdivision',
                     name: 'lot_subdivision',
-                    orderable: true // Enable ordering for lot/subdivision
+                    orderable: true
                 },
                 {
                     data: 'phone',
                     name: 'phone',
-                    orderable: true // Enable ordering for the phone number column
+                    orderable: true
                 }
             ],
             rowCallback: function(row, data, index) {
-                // Optional: Add any row-specific logic if needed
             }
         });
 
-        // Select All Checkbox Functionality
         $('#selectAllCheckbox').on('click', function() {
             var checked = this.checked;
             $('.contact-checkbox').each(function() {
@@ -52,12 +49,10 @@
             });
         });
 
-
-        // Save Contact - Collects selected contacts and sends them to the server
         $('#saveContact').click(function() {
             let selectedContactIds = [];
             $('.contact-checkbox:checked').each(function() {
-                selectedContactIds.push($(this).data('id')); // Collect IDs from data-id attribute
+                selectedContactIds.push($(this).data('id'));
             });
 
             if (selectedContactIds.length > 0) {
@@ -107,7 +102,6 @@
             document.getElementById('selectAllCheckbox').checked = false;
         }
 
-        // Delete opportunity contact using delegated event handler
         $(document).on('click', '.delete-contact', function() {
             var id = $(this).data('id');
             confirmDelete(id, function() {
@@ -125,7 +119,6 @@
                 },
                 success: function(response) {
                     if (response.status === 'success') {
-                        // Remove the deleted contact from the DOM
                         $(`#contact_${id}`).remove();
                         showToast('success', response.msg);
                         $('#listCustomerContact').modal('hide');
@@ -149,14 +142,13 @@
             let fieldName = $(this).attr('name');
             $('.' + fieldName + '_error').text('');
         });
-        //reset customer contact form
         $('#setupNewContact').on('click', function(e) {
             document.getElementById("taxCodeContainer").style.display = 'none';
-            $('#saveCustomerContactForm')[0].reset(); // Reset form
+            $('#saveCustomerContactForm')[0].reset();
         });
 
         $('#saveCustContact').on('click', function(e) {
-            e.preventDefault(); // Prevent default form submission
+            e.preventDefault();
             var button = $(this);
             sending(button);
             var url = $('#contact_id').val() ? "{{ route('customers.contacts.update', ':id') }}".replace(':id', $('#contact_id').val()) : "{{ route('customers.contacts.save') }}";
@@ -164,22 +156,20 @@
             $.ajax({
                 type: type,
                 url: url,
-                data: $('#saveCustomerContactForm').serialize(), // Serialize form data
+                data: $('#saveCustomerContactForm').serialize(),
                 headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}' // CSRF token for Laravel
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
                 success: function(response) {
-                    // Check if response indicates success
                     if (response.status == "success") {
                         showToast('success', response.msg);
                         $('#saveCustomerContactForm').trigger("reset");
                         $('#saveCustomerContactModal').modal('hide');
                         opportunity_contact_list.row.add([
-                            response.data.contact_name, // Adjust these based on your response structure
+                            response.data.contact_name,
                             response.data.title,
                             response.data.primary_phone,
                             response.data.email,
-                            // Add other fields as needed
                         ]).draw(false)
                         sending(button, true);
                     }
@@ -195,7 +185,6 @@
             $('#saveCustContact').html("Save Contact");
         });
 
-        //internal notes update
         $('#updateInternalNote').click(function() {
             var internalNotes = $('#internal_notes').val();
             var opportunityId = $('#sales_order_id').val();
@@ -231,18 +220,18 @@
                 alert('Please enter some notes');
             }
         });
-        //probability close
+
         $('#probability_to_close_id').change(function() {
-            var selectedValue = $(this).val(); // Get the selected value
-            var opportunityId = $('#opportunity_id').val(); // Get the opportunity ID
+            var selectedValue = $(this).val();
+            var opportunityId = $('#opportunity_id').val();
 
             if (selectedValue) {
                 $.ajax({
                     url: "{{ route('opportunities.probability_close', ':id') }}".replace(':id', opportunityId),
                     type: 'PATCH',
                     data: {
-                        probability_to_close_id: selectedValue, // Send the selected value
-                        _token: '{{ csrf_token() }}' // CSRF token for security
+                        probability_to_close_id: selectedValue,
+                        _token: '{{ csrf_token() }}'
                     },
                     success: function(response) {
                         if (response.status === 'success') {
@@ -260,18 +249,17 @@
                 });
             }
         });
-        //opportunity stage
-        $('#opportunity_stage_id').change(function() {
-            var selectedValue = $(this).val(); // Get the selected value
-            var opportunityId = $('#opportunity_id').val(); // Get the opportunity ID
 
+        $('#opportunity_stage_id').change(function() {
+            var selectedValue = $(this).val();
+            var opportunityId = $('#opportunity_id').val();
             if (selectedValue) {
                 $.ajax({
                     url: "{{ route('opportunities.stages', ':id') }}".replace(':id', opportunityId),
                     type: 'PATCH',
                     data: {
-                        opportunity_stage_id: selectedValue, // Send the selected value
-                        _token: '{{ csrf_token() }}' // CSRF token for security
+                        opportunity_stage_id: selectedValue,
+                        _token: '{{ csrf_token() }}'
                     },
                     success: function(response) {
                         if (response.status === 'success') {
@@ -299,12 +287,12 @@
         if (checkbox.checked) {
             taxCodeContainer.style.display = "block";
             taxCodeSelect.setAttribute("required", "required");
-            taxCodeSelect.classList.add("is-invalid"); // Add Bootstrap's red border
+            taxCodeSelect.classList.add("is-invalid");
         } else {
             taxCodeContainer.style.display = "none";
             taxCodeSelect.removeAttribute("required");
-            taxCodeSelect.classList.remove("is-invalid"); // Remove Bootstrap's red border
-            taxCodeSelect.value = ""; // Optionally clear the selection
+            taxCodeSelect.classList.remove("is-invalid");
+            taxCodeSelect.value = ""; 
         }
     }
 </script>

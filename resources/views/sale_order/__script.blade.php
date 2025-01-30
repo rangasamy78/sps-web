@@ -147,7 +147,6 @@
         data: data,
         dataType: 'json',
         success: function(response) {
-          // alert(response.msg);
           if (response.status == "success") {
             $('#supplierForm').trigger("reset");
             table_sales_order.draw();

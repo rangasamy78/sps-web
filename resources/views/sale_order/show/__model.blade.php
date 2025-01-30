@@ -39,9 +39,7 @@
         </div>
     </div>
 </div>
-<!-- end pop up customer contact -->
 
-<!-- pop up Save Customer contact -->
 <div class="modal fade" id="saveCustomerContactModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <form id="saveCustomerContactForm">
@@ -198,4 +196,3 @@
         </form>
     </div>
 </div>
-<!-- end pop up customer contact -->

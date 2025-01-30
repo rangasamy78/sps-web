@@ -1,6 +1,5 @@
 <script type="text/javascript">
     $(function() {
-        // Set CSRF token for all AJAX requests
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -16,7 +15,6 @@
                 url: "{{ route('events.list', ':id') }}".replace(':id', $('#sales_order_id').val()),
                 type: 'GET',
                 data: function(d) {
-                    // Optional data to be sent with the request
                 },
             },
             columns: [{
@@ -62,12 +60,10 @@
                     'aria-controls': 'crmEvent',
                 },
                 action: function(e, dt, node, config) {
-                    // Custom action here
                 }
             }],
         });
 
-        // Save Event button functionality
         $('#saveEvent').click(function(e) {
             e.preventDefault();
             var button = $(this);
@@ -79,7 +75,6 @@
                 data: data,
                 dataType: 'json',
                 success: function(response) {
-                    // alert(response.msg);
                     if (response.status == "success") {
                         $('#addCrmEventForm').trigger("reset");
                         sending(button, true);
@@ -96,20 +91,19 @@
         });
 
         $(document).on("change", ".event_check", function() {
-            var id = $(this).data('id'); // Get the ID of the checkbox that triggered the event
+            var id = $(this).data('id');
 
             var data = {
-                mark_as_complete: $(this).is(":checked") ? 1 : 0 // Send 1 if checked, otherwise 0
+                mark_as_complete: $(this).is(":checked") ? 1 : 0
             };
 
             $.ajax({
-                url: '{{ route("events.update", ":id") }}'.replace(':id', id), // Replace ":id" with the actual id
+                url: '{{ route("events.update", ":id") }}'.replace(':id', id),
                 type: 'PUT',
                 data: data,
                 dataType: 'json',
                 success: function(response) {
                     if (response.status === "success") {
-                        // Optionally reset the form and refresh the data table if needed
                         table_sales_order_event.draw();
                         showToast('success', response.msg);
                     }
@@ -121,7 +115,6 @@
         });
 
 
-        // Initialize DataTable for productListTable with search filters
         $(' #productNameFilter,#codeFilter').on('keyup change', function(e) {
             e.preventDefault();
             table_product_list.draw();
@@ -162,7 +155,6 @@
             }
         });
 
-        // Function to update date and time
         const updateDateTime = () => {
             const now = new Date();
             const date = now.toLocaleDateString('en-US', {

@@ -453,9 +453,7 @@
         </div>
     </form>
 </div>
-<!-- /end add ASSOCIATE -->
 
-<!-- pop up billing customer -->
 <div class="modal fade" id="searchCustomer" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
@@ -499,8 +497,7 @@
         </div>
     </div>
 </div>
-<!-- end pop up billing customer -->
-<!-- pop up associate -->
+
 <div class="modal fade" id="searchAssociate" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
@@ -544,13 +541,11 @@
         </div>
     </div>
 </div>
-<!-- end pop up Associate -->
-<!-- pop up ship to -->
+
 <div class="modal fade" id="searchShipTo" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <!-- <h5 class="modal-title" id="modalCenterTitle">List of Contact</h5> -->
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -584,4 +579,3 @@
         </div>
     </div>
 </div>
-<!-- end pop up ship to -->

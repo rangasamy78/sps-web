@@ -91,14 +91,11 @@
             });
         });
 
-        //pop up customer list
         $(' #customerNameFilter,#customerCodeFilter,#contactFilter', ).on('keyup change', function(e) {
             e.preventDefault();
             table_customer_list.draw();
         });
         var table_customer_list = $('#customerListTable').DataTable({
-            // scrollX: true, // Enable horizontal scrolling
-            // paging: true,
             responsive: true,
             processing: true,
             serverSide: true,
@@ -150,24 +147,19 @@
             },
         });
 
-
-
-        //associate pop up
         $(' #nameFilter,#codeFilter,#phoneFilter', ).on('keyup change', function(e) {
             e.preventDefault();
             table_associate_list.draw();
         });
-        let currentNameField = null; // Track the name input field
-        let currentIdField = null; // Track the corresponding hidden ID input field
+        let currentNameField = null;
+        let currentIdField = null;
 
-        // Handle search icon click to store the correct input fields
         $('.input-group-text').on('click', function() {
-            const container = $(this).closest('.d-flex'); // Get the container of the clicked element
-            currentNameField = container.find('input[type="text"]'); // Name field (readonly)
-            currentIdField = container.find('input[type="hidden"]'); // Hidden ID field
+            const container = $(this).closest('.d-flex');
+            currentNameField = container.find('input[type="text"]');
+            currentIdField = container.find('input[type="hidden"]');
         });
 
-        // DataTable initialization
         var table_associate_list = $('#associateListTable').DataTable({
             responsive: true,
             processing: true,
@@ -199,30 +191,24 @@
                 },
             ],
             rowCallback: function(row, data, index) {
-                $(row).attr('data-associate-id', data.id); // Store associate ID in the row attribute
+                $(row).attr('data-associate-id', data.id);
 
-                // Handle row click to insert data into the correct fields
                 $(row).on('click', function() {
                     if (currentNameField && currentIdField) {
-                        currentNameField.val(data.associate_name); // Set the name in the text field
-                        currentIdField.val(data.id); // Set the ID in the hidden field
-
-                        // Close the modal
+                        currentNameField.val(data.associate_name);
+                        currentIdField.val(data.id);
                         $('#searchAssociate').modal('hide');
                     }
                 });
             },
         });
-        //  clear button
         $('.clear-associate').on('click', function(event) {
-            event.preventDefault(); // Prevent any default action, just in case
+            event.preventDefault();
             const target = $(this).data('target');
-            // Clear the ID and name fields dynamically
             $(`#${target}_id`).val('');
             $(`#${target}_name`).val('');
         });
 
-        //pop up ship to
         $(' #shipToNameFilter,#shipToCodeFilter', ).on('keyup change', function(e) {
             e.preventDefault();
             table_ship_to_list.draw();
@@ -230,12 +216,9 @@
         $('#ship_to').click(function() {
             let customer_id = $('#billing_customer_id').val();
             if (customer_id) {
-                // Check if DataTable is already initialized
                 if ($.fn.DataTable.isDataTable('#shipToListTable')) {
-                    // If already initialized, just clear and draw
                     table_ship_to_list.clear().draw();
                 } else {
-                    // Initialize DataTable
                     table_ship_to_list = $('#shipToListTable').DataTable({
                         responsive: true,
                         processing: true,
@@ -267,7 +250,6 @@
                                 $('#ship_to').val(data.customer_name);
                                 $('#ship_to_name').val(data.customer_name_1);
                                 $('#sales_tax_id').val(data.tax_code_id);
-                                // Close the modal
                                 $('#searchShipTo').modal('hide');
                             });
                         }

@@ -67,4 +67,12 @@ class Service extends Model
     {
         return $this->hasMany(VisitService::class, 'service_id');
     }
+    // public function sale_order_line()
+    // {
+    //     return $this->hasMany(SaleOrderLine::class, 'item_id');
+    // }
+    public function unit_measures_so()
+    {
+        return $this->belongsTo(UnitMeasure::class, 'unit_of_measure_id');
+    }
 }

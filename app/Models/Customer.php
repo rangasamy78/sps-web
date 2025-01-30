@@ -164,4 +164,8 @@ class Customer extends Model
     {
         return $this->hasMany(SaleOrder::class, 'billing_customer_id', 'id');
     }
+    public function consignments()
+    {
+        return $this->hasMany(Consignment::class, 'consignment_location_id', 'id');
+    }
 }

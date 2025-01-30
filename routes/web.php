@@ -26,6 +26,7 @@ use App\Http\Controllers\SaleOrderController;
 use App\Http\Controllers\AssociateController;
 use App\Http\Controllers\EventTypeController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\PickTicketController;
 use App\Http\Controllers\SubHeadingController;
 use App\Http\Controllers\VendorTypeController;
 use App\Http\Controllers\AccountFileController;
@@ -111,15 +112,16 @@ use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
 use App\Http\Controllers\PrePurchaseRequestSupplierRequestController;
 use App\Http\Controllers\Visit\EventController as VisitEventController;
 use App\Http\Controllers\Visit\ContactController as VisitContactController;
-use App\Http\Controllers\Supplier\ContactController as SupplierContactController;
-use App\Http\Controllers\Customer\ContactController as CustomerContactController;
-use App\Http\Controllers\Associate\ContactController as AssociateContactController;
-use App\Http\Controllers\Opportunity\EventController as OpportunityEventController;
 use App\Http\Controllers\SaleOrder\LineController as SaleOrderLineController;
 use App\Http\Controllers\SaleOrder\EventController as SaleOrderEventController;
+use App\Http\Controllers\Supplier\ContactController as SupplierContactController;
+use App\Http\Controllers\Customer\ContactController as CustomerContactController;
+use App\Http\Controllers\SaleOrder\ContactController as SaleOrderContactController;
+use App\Http\Controllers\Associate\ContactController as AssociateContactController;
+use App\Http\Controllers\Opportunity\EventController as OpportunityEventController;
+use App\Http\Controllers\SaleOrder\ItemLineController as SaleOrderItemLineController;
 use App\Http\Controllers\Expenditure\ContactController as ExpenditureContactController;
 use App\Http\Controllers\Opportunity\ContactController as OpportunityContactController;
-use App\Http\Controllers\SaleOrder\ContactController as SaleOrderContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -630,6 +632,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/sale_order/list', [SaleOrderController::class, 'getSaleOrderDataTableList'])->name('sale_orders.list');
     Route::get('/sale_orders/get-record/{step}', [SaleOrderController::class, 'getRecord']);
     Route::patch('/sale_order/internal_notes/{id}', [SaleOrderController::class, 'updateInternalNotes'])->name('sale_orders.internal_notes');
+    Route::get('/sale_order/search_product', [SaleOrderController::class, 'searchProduct'])->name('sale_orders.search_product');
     Route::prefix('sale_orders')->name('sale_orders.')->group(function () {
         Route::post('/contact/save', [SaleOrderContactController::class, 'save'])->name('contact.save');
         Route::get('/contact/list/{id}', [SaleOrderContactController::class, 'getSaleOrderContactDataTableList'])->name('contacts.list');
@@ -647,7 +650,14 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('lines')->group(function () {
         Route::resource('lines', SaleOrderLineController::class);
         Route::get('/line/list/{id}', [SaleOrderLineController::class, 'getLineDataTableList'])->name('lines.list');
-        Route::get('/product_list', [SaleOrderLineController::class, 'getAllProductDataTableList'])->name('lines.product_list');
+        // Route::get('/product_list', [SaleOrderLineController::class, 'getAllProductDataTableList'])->name('lines.product_list');
     });
+    Route::get('/so_item_lines/slablist/{id}', [SaleOrderItemLineController::class, 'getProductSlabList'])->name('so_item_lines.slablist');
+    Route::prefix('so_item_lines')->group(function () {
+        Route::resource('so_item_lines', SaleOrderItemLineController::class);
+        // Route::get('/Item_lines/list/{id}', [SaleOrderLineController::class, 'getLineDataTableList'])->name('item_lines.list');
+    });
+    Route::resource('pick_tickets', PickTicketController::class);
+    Route::get('/pick_ticket/list/{id}', [PickTicketController::class, 'getPickTicketDataTableList'])->name('pick_tickets.list');
 
 });

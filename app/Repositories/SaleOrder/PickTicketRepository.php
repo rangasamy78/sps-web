@@ -8,10 +8,9 @@ use App\Models\Service;
 use App\Models\UnitMeasure;
 use Illuminate\Http\Request;
 use App\Models\SaleOrderLine;
-use App\Models\SupplierInvoicePackingItem;
 use App\Interfaces\CrudRepositoryInterface;
 
-class LineRepository implements CrudRepositoryInterface
+class PickTicketRepository implements CrudRepositoryInterface
 {
     public function findOrFail(int $id)
     {
@@ -21,6 +20,7 @@ class LineRepository implements CrudRepositoryInterface
 
     public function store(array $data)
     {
+
         return SaleOrderLine::create($data);
     }
 
@@ -40,20 +40,9 @@ class LineRepository implements CrudRepositoryInterface
         $this->findOrFail($id)->delete();
     }
 
-    public function getSlabList($request)
-    {
-        // dd($request);
-        $product = Product::where('product_name', $request)->first();
-// dd($product_id->id);
-        $query = SupplierInvoicePackingItem::where('product_id', $product->id);
-        // return $query;
-        return $query->get();
-    }
-
-
     public function getLineList(Request $request, $id)
     {
-        $query = SaleOrderLine::with(['service', 'unit_measures_so'])
+        $query = SaleOrderLine::with(['service', 'unit_measures'])
                             ->where('sales_order_id', $id);
         return $query;
         // return $query->get();
@@ -82,17 +71,23 @@ class LineRepository implements CrudRepositoryInterface
         $arrData     = $arrData->orderBy($columnName, $columnSortOrder);
         $arrData = $arrData->get();
         $arrData->map(function ($value) {
-            $value->so_line_no          = $value->so_line_no ?? '';
-            $value->item                = $value->service->service_name ?? '';
-            $value->sku                 = $value->service->service_sku ?? '';
-            $value->item_description    = $value->item_description ?? '';
-            $value->quantity            = number_format($value->quantity, 2).' '.$value->unit_measures_so->unit_measure_name ?? '';
-            $value->unit_price          = '$'.number_format($value->unit_price, 2) ?? '';
-            $value->extended_amount     = '$'.number_format($value->extended_amount, 2) ?? '';
-            $value->is_taxable          = $value->is_taxable == 1 ? '<i class="fas fa-check-circle fa-lg" style="color: green;font-weight: normal;"></i>' : '<i class="fas fa-times-circle fa-lg" style="color: red;font-weight: normal;"></i>';
-            $value->is_hideon_print     = $value->is_hideon_print == 1 ? "<i class='bx bxs-low-vision'></i>" : '';
-            $value->action                  = "<div class='dropup'><button type='button' class='btn p-0 dropdown-toggle hide-arrow' data-bs-toggle='dropdown'><i class='bx bx-dots-vertical-rounded icon-color'></i></button><div class='dropdown-menu'><a class='dropdown-item editbtn text-success' href='javascript:void(0);' data-id='" . $value->id . "' > <i class='bx bx-edit-alt me-1 icon-success'></i> Edit </a><a class='dropdown-item deletebtn text-danger' href='javascript:void(0);' data-id='" . $value->id . "' ><i class='bx bx-trash me-1 icon-danger'></i> Delete</a> </div> </div>";
+            $value->check_item = "<input type='checkbox' name='item_ids[]' id='{$value->id}_item_id' class='form-check-input' value='$value->id' checked>";
+            $value->so_line_no = $value->so_line_no ?? '';
+            $value->item =($value->service->service_name ?? '') . (($value->service->service_sku ?? '') ? ' (' . $value->service->service_sku . ')' : '');
+            $value->description = "<input type='checkbox' name='is_sold_as_ids[]' value='$value->id'" . ($value->is_sold_as == 1 ? ' checked' : '') . ">".'<span style="font-style: italic;font-size: small;"> Sold As </span>'."<input type='text' name='description' class='form-control form-control-sm' value='".$value->description."' >";
+            $value->quantity_val = number_format($value->quantity, 2).' '.$value->unit_measures->unit_measure_name ?? '';
+            $value->un_invoiced_qty = "<span id='{$value->id}_un_invoiced_qty'>" . (number_format($value->quantity, 2) ?? '') . "</span>";
+            $check_unit = '';
+            if ($value->unit_measures->unit_measure_name != 'IN') {
+                $check_unit = 'readonly';
+            }
+            $value->pick_qty = "<input $check_unit type='number' name='{$value->id}_pick_qty' id='{$value->id}_pick_qty' class='form-control form-control-sm' value='" . number_format($value->quantity, 2) . "'  max='" . $value->quantity . "'>";
+            $value->unit_price = "<input type='number' name='{$value->id}_unit_price' id='{$value->id}_unit_price' class='form-control form-control-sm'   value='" . number_format($value->unit_price, 2) . "' >";
+            $value->extended_amount = "<input type='number' name='{$value->id}_extended_amount' id='{$value->id}_extended_amount' class='form-control form-control-sm' value='" . number_format($value->extended_amount, 2) . "' readonly>";
+            $value->is_taxable = "<input type='checkbox' name='is_taxable_ids[]' class='checkbox' value='$value->id'" . ($value->is_taxable == 1 ? ' checked' : '') . ">";
+            $value->is_hideon_print = "<input type='checkbox' name='is_hideon_print_ids[]' class='checkbox' value='$value->id'" . ($value->is_hideon_print == 1 ? ' checked' : '') . ">";
         });
+
         $response = array(
             "draw"            => intval($draw),
             "recordsTotal"    => $total,
@@ -151,3 +146,4 @@ class LineRepository implements CrudRepositoryInterface
         return response()->json($response);
     }
 }
+

@@ -85,14 +85,11 @@
                     </td>
                 </tr>
                 `);
-                    // Append the new row
                     $select.append(newRow);
-                    // Populate the select with fileTypes
                     let $newSelect = $(`#file_type_id-${rowCount}`);
                     fileTypes.forEach(function(fileType) {
                         $newSelect.append(`<option value="${fileType.id}">${fileType.file_Type}</option>`);
                     });
-                    // Attach the file to the newly created file input
                     let newFileInput = newRow.find('input[type="file"]')[0];
                     let dataTransfer = new DataTransfer();
                     dataTransfer.items.add(fileInput);
@@ -101,7 +98,6 @@
             }
         });
 
-        // Remove the row when the delete button is clicked
         $(document).on('click', '.deleteRow', function() {
             const rowId = $(this).data('row');
             $(`#${rowId}`).remove();
@@ -109,16 +105,16 @@
 
         $('#saveFile').click(function(e) {
             e.preventDefault();
-            var form = $('#uploadsaleOrderFileForm')[0]; // Get the form element
-            var formData = new FormData(form); // Create FormData object
+            var form = $('#uploadsaleOrderFileForm')[0];
+            var formData = new FormData(form);
             $.ajax({
-                url: '{{ route("sale_orders_files.store") }}', // Your upload route
+                url: '{{ route("sale_orders_files.store") }}',
                 type: 'POST',
                 data: formData,
-                processData: false, // Important for sending FormData
-                contentType: false, // Important for file uploads
+                processData: false,
+                contentType: false,
                 headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}' // CSRF token for Laravel
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
                 success: function(response) {
                     if (response.status === 'success') {
@@ -157,7 +153,6 @@
             var row = $('.row-' + id);
             var notesInput = row.find('input[name="notes"]');
             var fileTypeSelect = row.find('select[name="file_type_id"]');
-            // Ensure file_type_id is included in formData
             var formData = {
                 notes: notesInput.val(),
                 file_type_id: fileTypeSelect.val(),

@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\SaleOrder;
 
 use Exception;
-use App\Models\SaleOrderLine;
 use Illuminate\Http\Request;
+use App\Models\SaleOrderLine;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Repositories\SaleOrder\LineRepository;
-// use App\Http\Requests\SaleOrder\Event\CreateEventRequest;
+use App\Http\Requests\SaleOrder\Line\CreateLineRequest;
 
 class LineController extends Controller
 {
@@ -17,45 +17,51 @@ class LineController extends Controller
     {
         $this->lineRepository = $lineRepository;
     }
-/*
-    public function store(CreateEventRequest $request)
+
+    public function store(CreateLineRequest $request)
     {
         try {
-            $this->lineRepository->store($request->only('entered_by_id', 'event_type_id', 'schedule_date', 'schedule_time', 'assigned_to_id', 'follower_id', 'event_title', 'party_name', 'product_id', 'price', 'description', 'type', 'type_id',));
-            return response()->json(['status' => 'success', 'msg' => 'CRM Event saved successfully.']);
+            $this->lineRepository->store($request->only('sales_order_id', 'item_id', 'so_line_no', 'item_description', 'quantity', 'unit_price', 'extended_amount', 'is_taxable', 'is_sold_as', 'is_hideon_print', 'line_item'));
+            return response()->json(['status' => 'success', 'msg' => 'Service saved successfully.']);
         } catch (Exception $e) {
-            Log::error('Error saving CRM Event: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the CRM Event.']);
+            Log::error('Error saving Service: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the Service.']);
         }
     }
 
-    public function update(Request $request, Event $event)
+    public function edit($id)
+    {
+        $model = $this->lineRepository->findOrFail($id);
+        return response()->json($model);
+    }
+
+    public function update(Request $request, $id)
     {
         try {
-            $this->lineRepository->update($request->only('mark_as_complete'), $event->id);
-            return response()->json(['status' => 'success', 'msg' => 'CRM Event updated successfully.']);
+            $this->lineRepository->update($request->only('sales_order_id', 'item_id', 'so_line_no', 'item_description', 'quantity', 'unit_price', 'extended_amount', 'is_taxable', 'is_sold_as', 'is_hideon_print', 'line_item'), $id);
+            return response()->json(['status' => 'success', 'msg' => 'Service updated successfully.']);
         } catch (Exception $e) {
-            Log::error('Error updating CRM Event: ' . $e->getMessage());
-            return response()->json(['status' => 'error', 'msg' => 'An error occurred while updating the CRM Event.']);
+            Log::error('Error updating Service: ' . $e->getMessage());
+            return response()->json(['status' => 'error', 'msg' => 'An error occurred while updating the Service.']);
         }
     }
 
     public function destroy($id)
     {
         try {
-            $saleOrderContact = $this->lineRepository->findOrFail($id);
-            if ($saleOrderContact) {
+            $saleOrderService = $this->lineRepository->findOrFail($id);
+            if ($saleOrderService) {
                 $this->lineRepository->delete($id);
-                return response()->json(['status' => 'success', 'msg' => 'Sales Order Contact deleted successfully.']);
+                return response()->json(['status' => 'success', 'msg' => 'Sales Order Service deleted successfully.']);
             } else {
-                return response()->json(['status' => 'false', 'msg' => 'Sales Order Contact not found.']);
+                return response()->json(['status' => 'false', 'msg' => 'Sales Order Service not found.']);
             }
         } catch (Exception $e) {
-            Log::error('Error deleting Sales Order Contact: ' . $e->getMessage());
-            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Sales Order Contact.']);
+            Log::error('Error deleting Sales Order Service: ' . $e->getMessage());
+            return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the Sales Order Service.']);
         }
     }
-*/
+
     public function getAllProductDataTableList(Request $request)
     {
         return $this->lineRepository->dataTableGetProduct($request);

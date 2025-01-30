@@ -20,7 +20,6 @@
     </table>
 </div>
 
-<!-- offcanvas for add crm event -->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="crmEvent" aria-labelledby="crmEventLabel">
     <div class="offcanvas-header">
         <h5 id="crmEventLabel" class="offcanvas-title">New Event</h5>
@@ -129,8 +128,6 @@
     </div>
 </div>
 
-<!-- end offcanvas of crm event -->
-<!-- pop up product -->
 <div class="modal fade" id="searchProduct" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
@@ -169,4 +166,3 @@
         </div>
     </div>
 </div>
-<!-- end pop up product -->

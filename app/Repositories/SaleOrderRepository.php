@@ -5,6 +5,7 @@ namespace App\Repositories;
 use Carbon\Carbon;
 use App\Models\Contact;
 use App\Models\Company;
+use App\Models\Product;
 use App\Models\Customer;
 use App\Models\Associate;
 use App\Models\SaleOrder;
@@ -77,7 +78,6 @@ class SaleOrderRepository implements CrudRepositoryInterface, DatatableRepositor
         $arrData = $arrData->get();
 
         $arrData->map(function ($value) {
-            // dd($value);
             $value->sales_order_code           = "<a href='" . route('sale_orders.show', $value->id) . "' class='text-secondary'>" . ($value->sales_order_code ?? '') . "</a>";
             $value->sales_order_date           = "<a href='" . route('sale_orders.show', $value->id) . "' class='text-secondary'>" . ($value->sales_order_date ?? '') . "</a>";
             $value->customer_po_code           = "<a href='" . route('sale_orders.show', $value->id) . "' class='text-secondary'>" . ($value->customer_po_code ?? '') . "</a>";
@@ -88,12 +88,6 @@ class SaleOrderRepository implements CrudRepositoryInterface, DatatableRepositor
             $value->billing_customer           = "<a href='" . route('sale_orders.show', $value->id) . "'class='text-secondary'>" . ($value->customer->customer_name ?? '') . "</a>";
             $value->location                   = "<a href='" . route('sale_orders.show', $value->id) . "'class='text-secondary'>" . (Company::find($value->customer->parent_location_id)->company_name ?? '') . "</a>";
             $value->sales_person = "<a href='" . route('sale_orders.show', $value->id) . "' class='text-secondary'><ul style='list-style-type: none; padding: 0; margin: 0;'><li><i class='fi fi-rr-user'></i> " . e($value->primary_user?->first_name ?? '') . "</li><li><i class='fi fi-rr-user'></i> " . e($value->secondary_user?->first_name ?? '') . "</li></ul></a>";
-            // $value->endUseSegment              = "<a href='" . route('sale_orders.show', $value->id) . "'class='text-secondary'>" . ($value->end_use_segment->end_use_segment ?? '') . "</a>";
-            // $value->projectTypeName            = "<a href='" . route('sale_orders.show', $value->id) . "'class='text-secondary'>" . ($value->project_type->project_type_name ?? '') . "</a>";
-            // $value->associates = "<a href='" . route('sale_orders.show', $value->id) . "' class='text-secondary'><ul style='list-style-type: none; padding: 0; margin: 0;font-size:8pt'><li><i class='fi fi-rr-user'></i> " . e($this->getAssociate($value->fabricator_id)) . "</li><li><i class='fi fi-rr-user'></i> " . e($this->getAssociate($value->designer_id)) . "</li><li><i class='fi fi-rr-user'></i> " . e($this->getAssociate($value->builder_id)) . "</li></ul></a>";
-            // $value->days = "<a href='" . route('sale_orders.show', $value->id) . "' class='text-secondary'>" . ($value->sales_order_code ?? '') . " (" . Carbon::parse($value->created_at)->diffInDays(Carbon::now()) . " days)</a>";
-            // $value->sub_transaction = "<a href='" . route('sale_orders.show', $value->id) . "' class='text-secondary' style='display: block; margin-bottom: 10px;'><div style='display: flex; align-items: center; gap: 10px;'><span>" . e($value->primary_user?->first_name ?? '') . "</span><img src='" . asset('public/images/get-quotes.png') . "' alt='Image 1' style='width: 30px; height: 30px;'><img src='" . asset('public/images/location.png') . "' alt='Image 2' style='width: 30px; height: 30px;'><img src='" . asset('public/images/privacy.png') . "' alt='Image 3' style='width: 30px; height: 30px;'><img src='" . asset('public/images/get-quotes.png') . "' alt='Image 4' style='width: 30px; height: 30px;'></div></a>";
-            // $value->internal_notes             = "<a href='" . route('sale_orders.show', $value->id) . "' class='text-secondary'>" . ($value->internal_notes ?? '') . "</a>";
             $value->action                     = "<div class='dropup'><button type='button' class='btn p-0 dropdown-toggle hide-arrow' data-bs-toggle='dropdown'><i class='bx bx-dots-vertical-rounded icon-color'></i></button><div class='dropdown-menu'><a class='dropdown-item showbtn text-warning' href='" . route('sale_orders.show', $value->id) . "' data-id='" . $value->id . "' ><i class='bx bx-show me-1 icon-warning'></i> Show</a><a class='dropdown-item editbtn text-success'  href='" . route('sale_orders.edit', $value->id) . "' data-id='" . $value->id . "' > <i class='bx bx-edit-alt me-1 icon-success'></i> Edit </a></div> </div>";
         });
         $response = array(
@@ -223,7 +217,6 @@ class SaleOrderRepository implements CrudRepositoryInterface, DatatableRepositor
         return response()->json($response);
     }
 
-    //pop up ship to
     public function getShipToList(Request $request, $id)
     {
         $query = Contact::join('customers', 'contacts.type_id', '=', 'customers.id')
@@ -280,5 +273,64 @@ class SaleOrderRepository implements CrudRepositoryInterface, DatatableRepositor
         ];
 
         return response()->json($response);
+    }
+    public function getProductList($request)
+    {
+        $name = $request->get('name');
+        $type = $request->get('type');
+        $category = $request->get('category');
+        $group = $request->get('group');
+        $products = Product::with('product_type:id,product_type','product_item')->select('id','product_name', 'product_type_id');
+        if (!empty($name)) {
+            $products->where('product_name', 'LIKE', "%{$name}%");
+        }
+        if (!empty($type)) {
+            $products->where('product_type_id', $type);
+        }
+        if (!empty($category)) {
+            $products->where('product_category_id', $category);
+        }
+        if (!empty($group)) {
+            $products->where('product_group_id', $group);
+        }
+        $products->whereHas('product_type', function ($query) {
+            $query->where('product_type', 'slab');
+        });
+        return $products;
+    }
+
+    public function searchProductDataTable(Request $request)
+    {
+        $draw            = $request->get('draw');
+        $start           = $request->get("start");
+        $rowPerPage      = $request->get("length");
+        $orderArray      = $request->get('order');
+        $columnNameArray = $request->get('columns');
+        $columnIndex     = $orderArray[0]['column'] ?? '0';
+        $columnName      = $columnNameArray[$columnIndex]['data'] ?? 'created_at';
+        $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
+
+        $query = $this->getProductList($request);
+        $totalRecords = $query->count();
+        $filteredData = $query
+            ->orderBy($columnName, $columnSortOrder)
+            ->skip($start)
+            ->take($rowPerPage)
+            ->get();
+        $data = $filteredData->map(function ($product) {
+            return [
+                'product_name' => $product->product_name ?? '',
+                'product_sku'  => $product->product_sku ?? 'N/A',
+                'type'         => $product->product_type->product_type ?? 'N/A',
+                'icon' => '<img src="' . asset('public/images/icon_detail.gif') . '" class="me-1" alt="image not found" style="width: 20px; height: 20px;cursor: pointer;" onclick="window.location.href=\'' . route('products.show', $product->id) . '\'">',
+            ];
+
+        });
+        return response()->json([
+            "draw"            => intval($draw),
+            "recordsTotal"    => $totalRecords,
+            "recordsFiltered" => $totalRecords,
+            "data"            => $data,
+        ]);
     }
 }

@@ -1,14 +1,11 @@
 <script type="text/javascript">
     $(function() {
-        // Set CSRF token for all AJAX requests
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
 
-        // Initialize DataTable for sales_orderCrmEvent
-        // var $id = $('#sales_order_id').val();
         var table_sales_order_bill_to_contact = $('#sales_orderBillToContact').DataTable({
             responsive: true,
             processing: true,
@@ -18,7 +15,6 @@
                 url: "{{ route('sale_orders.bill_to_contacts.list',':id') }}".replace(':id', $('#customer_id').val()),
                 type: 'GET',
                 data: function(d) {
-                    // Optional data to be sent with the request
                 },
             },
             columns: [{
@@ -63,16 +59,15 @@
                 text: ' <span class="d-none d-sm-inline-block">Attach Contact</span>',
                 className: 'create-new btn btn-primary',
                 attr: {
-                    'data-bs-toggle': 'modal', // Corrected from 'model' to 'modal'
+                    'data-bs-toggle': 'modal',
                     'data-bs-target': '#listCustomerContact',
                     'aria-controls': 'crmEvent',
                 },
                 action: function(e, dt, node, config) {
-                    // Custom action here
                 }
             }],
         });
-        // Save bill to contact
+
         $(document).on('click', '.addContactBtn', function() {
             var contact_id = $(this).data('id');
             var sales_order_id = $('input[name="sales_order_id"]').val();
@@ -116,7 +111,6 @@
 
         $('body').on('click', '.editContactBtn', function() {
             var id = $(this).data('id');
-            // $("#modalCenterTitle").html("");
             $.get("{{ route('customers.contacts.edit', ':id') }}".replace(':id', id), function(data) {
                 $('#modalTitle').html("Update Contact");
                 $('#saveCustContact').html("Update Contact");
@@ -149,7 +143,7 @@
                 }
             });
         });
-        // Delete sales_order contact using delegated event handler
+
         $(document).on('click', '.deleteBillToContactBtn', function() {
             var id = $(this).data('id');
             confirmDelete(id, function() {
@@ -167,7 +161,6 @@
                 },
                 success: function(response) {
                     if (response.status === 'success') {
-                        // Remove the deleted contact from the DOM
                         handleAjaxResponse(response, table_sales_order_bill_to_contact);
                         $(`#contact_${response.id}`).remove();
                     } else {

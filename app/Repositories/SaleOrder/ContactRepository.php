@@ -69,7 +69,7 @@ class ContactRepository
             if (!$saleOrderContact) {
                 $value->select_all = '<div class="form-check"><input type="checkbox" class="form-check-input contact-checkbox" id="contact_' . $contactId . '" name="contact_id[]" value="' . $contactId . '" data-id="' . $contactId . '"></div>';
             } else {
-                $value->select_all = '<div class=""><button class="btn btn-danger btn-sm rounded-circle delete-contact p-2" data-id="' . $saleOrderContact->id . '"><i class="fi fi-rr-cross"></i></button></div>';
+                $value->select_all = '<div class=""><button class="btn btn-danger btn-sm rounded-circle delete-contact p-1" data-id="' . $saleOrderContact->id . '"><i class="fi fi-rr-cross"></i></button></div>';
             }
             $value->contact_name = $value->contact_name ?? '';
             $value->lot_subdivision = ($value->lot ?? '') . '-' . ($value->sub_division ?? '');

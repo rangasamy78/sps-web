@@ -3,28 +3,23 @@
 @section('title', 'Show Sale Order')
 
 @section('styles')
-<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
 <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
 <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-straight/css/uicons-regular-straight.css'>
 @endsection
 @section('content')
 <div class="content-wrapper">
-    <!-- Content -->
-
     <div class="container-xxl flex-grow-1 container-p-y">
-
         <h4 class="py-3 mb-4"><a href="{{route('sale_orders.index')}}" class="text-decoration-none text-dark "><span class="text-muted fw-light">Sale Order /</span><span> Show Sale Order</span></a></h4>
-
         <div class="app-ecommerce">
             <div class="row">
-                <!-- first column -->
                 <div class="col-12">
                     <div class="card mb-4">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h4 class="card-title mb-0 fw-bold">
-                                <span class="text-dark fw-bold">Delivery Sale Order# {{$sale_order->sales_order_code}} {{$sale_order->ship_to_job_name}} @ <a href="{{route('companies.index')}}">{{$company->company_name}}</a></span>
+                                <span class="text-dark fw-bold">Delivery Sale Order # {{$sale_order->sales_order_code}} {{$sale_order->ship_to_job_name}} @ <a href="{{route('companies.index')}}">{{$company->company_name}}</a></span>
                             </h4>
-                            <div class="d-flex align-items-center"> <!-- Container for buttons -->
+                            <div class="d-flex align-items-center">
                                 <a href="{{ route('sale_orders.edit', $sale_order->id) }}"
                                     data-id="{{ $sale_order->id }}"
                                     class="btn btn-primary rounded-circle editbtn"
@@ -32,7 +27,7 @@
                                     style="width: 35px; height: 38px; display: flex; align-items: center; justify-content: center;">
                                     <i class="fi fi-rr-pencil fs-4" style="font-size: 18px;"></i>
                                 </a>
-                                <div class='dropdown ms-2'> <!-- Add margin to separate buttons -->
+                                <div class='dropdown ms-2'>
                                     <button type='button' class='btn p-0 dropdown-toggle hide-arrow btn-primary rounded-circle' data-bs-toggle='dropdown' aria-expanded="false" style="width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;">
                                         <i class='fi fi-rr-redo icon-color fs-4' data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-dark" title="More"></i> <!-- Icon inside the button -->
                                     </button>
@@ -262,7 +257,7 @@
                                             <div class="contact-item d-flex justify-content-between border-bottom align-items-center p-1 rounded mb-1" style="font-size:0.75rem;" id="contact_{{ $contact['sale_order_contact_id'] }}">
                                                 <span class="fw-semibold">{{ $contact['name'] }}</span>
                                                 <button class="btn btn-label-danger btn-sm rounded-circle delete-contact p-2" data-id="{{ $contact['sale_order_contact_id'] }}">
-                                                    <i class="fas fa-trash-alt fa-xs"></i> <!-- Apply the size class here -->
+                                                    <i class="fas fa-trash-alt fa-xs"></i>
                                                 </button>
                                             </div>
                                             @endforeach
@@ -342,9 +337,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- /first column -->
             </div>
-            <!-- buttons for visit,holds,sample order,quotes -->
             <div class="row mb-3">
                 <div class="col-3   ">
                     <label for="survey-rating" class="form-label">Survey Rating:</label>
@@ -377,7 +370,6 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <!-- Options -->
                         <div class="col-12">
                             <div class="tab-content p-0 pe-md-5">
                                 <div class="tab-pane fade show active" id="allOpportunity" role="tabpanel">
@@ -402,15 +394,12 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- /Options-->
                     </div>
                 </div>
             </div>
 
-            <!-- //tab of crm event,files and contacts -->
             <div class="row">
                 <div class="col-12 order-0 order-md-1">
-                    <!-- Navigation -->
                     <div class="col-12  mx-auto card-separator">
                         <div class="d-flex justify-content-between mb-3 pe-md-3">
                             <ul class="nav nav-pills flex-column flex-md-row mb-4">
@@ -442,25 +431,19 @@
                         </div>
                     </div>
 
-                    <!-- /Navigation -->
                     <div class="card mb-4">
                         <div class="card-header">
-                            <!-- <h5 class="card-title mb-0">Inventory</h5> -->
                         </div>
                         <div class="card-body">
                             <div class="row">
-
-                                <!-- Options -->
                                 <div class="col-12 pt-4 pt-md-0">
                                     <div class="tab-content p-0 pe-md-5 ps-md-3">
                                         @include('sale_order.line.lines')
                                         @include('sale_order.file.files')
                                         @include('sale_order.crm_event.crm_events')
                                         @include('sale_order.contact.contacts')
-                                        <!-- /Advanced Tab -->
                                     </div>
                                 </div>
-                                <!-- /Options-->
                             </div>
                         </div>
                     </div>
@@ -468,9 +451,9 @@
             </div>
         </div>
     </div>
-    <!-- / Content -->
     <div class="content-backdrop fade"></div>
     @include('sale_order.show.__model')
+    @include('sale_order.line.__model')
 </div>
 
 @endsection

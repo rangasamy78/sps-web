@@ -10,13 +10,10 @@
 @endsection
 @section('content')
 <div class="content-wrapper">
-  <!-- Content -->
   <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="py-3 mb-4"><a href="{{route('lists')}}" class="text-decoration-none text-dark"><span class="text-muted fw-light">Home /</span> Sale Order</a></h4>
-    <!-- Product List Widget -->
     <div class="row">
       <div class="col-12 order-0 order-md-1">
-        <!-- Navigation -->
         <div class="col-12  mx-auto card-separator">
           <div class="d-flex justify-content-between mb-3">
             <ul class="nav nav-pills flex-column flex-md-row mb-4">
@@ -29,34 +26,27 @@
             </ul>
           </div>
         </div>
-        <!-- /Navigation -->
         <div class="card mb-4">
           <div class="card-header">
           </div>
           <div class="card-body">
             <div class="row">
-              <!-- Options -->
               <div class="col-12">
                 <div class="tab-content p-0 pe-md-5  ">
                   @include('sale_order.all_sale_order.all_sale_orders')
-                  {{-- @include('sale_order.all_visit.all_visits') --}}
                 </div>
               </div>
-              <!-- /Options-->
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <!-- / Content -->
   <div class="content-backdrop fade"></div>
-  {{-- @include('sale_order.all_visit.__model') --}}
 </div>
 @endsection
 @section('scripts')
 @include('sale_order.__script')
-{{-- @include('sale_order.all_visit.__script') --}}
 <script src="{{asset('public/assets/vendor/libs/quill/katex.js')}}"></script>
 <script src="{{asset('public/assets/vendor/libs/quill/quill.js')}}"></script>
 @endsection
