@@ -19,7 +19,8 @@ class SupplierInvoicePackingItem extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = [
+    protected $_fillable = [
+        'po_product_id',
         'product_id',
         'po_id',
         'bar_code_no',
@@ -53,4 +54,8 @@ class SupplierInvoicePackingItem extends Model
         return $this->belongsTo(Product::class, 'product_id');
     }
 
+    public function updateNoteItem($data)
+    {
+        return $this->update(['notes' => $data['note']]);
+    }
 }
