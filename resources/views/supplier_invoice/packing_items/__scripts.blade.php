@@ -45,7 +45,7 @@
 
         $(document).on('click', '.cancel_slab', function(e) {
             e.preventDefault();
-            window.location.reload();
+            //window.location.reload();
         });
 
         $listGroupItem.on('click', function(e) {
