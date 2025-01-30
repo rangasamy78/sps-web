@@ -320,7 +320,7 @@
                                             </div>
                                             <div class="d-flex justify-content-between w-100">
                                                 <div class="col-11 text-center">
-                                                    <a href="{{ route('products.index') }}" class="text-decoration-none">
+                                                    <a href="{{ route('inventories.index') }}" class="text-decoration-none">
                                                         <h6 class="card-title mb-1 text-dark">Inventory</h6>
                                                     </a>
                                                 </div>

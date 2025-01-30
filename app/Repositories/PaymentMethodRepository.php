@@ -79,7 +79,7 @@ class PaymentMethodRepository implements CrudRepositoryInterface, DatatableRepos
 
         $arrData->map(function ($value) {
             $value->payment_method_name = $value->payment_method_name ?? '';
-            $value->linked_account_id   = $value->linked_account_details ?? '';
+            $value->linked_account_id   =  $value->linked_account->account_number. '-' .$value->linked_account->account_name;
             $value->account_type_id     = $value->account_type ? $value->account_type->account_type_name : '';
             $value->action              = "<div class='dropup'><button type='button' class='btn p-0 dropdown-toggle hide-arrow' data-bs-toggle='dropdown'><i class='bx bx-dots-vertical-rounded icon-color'></i></button><div class='dropdown-menu'><a class='dropdown-item showbtn text-warning' href='javascript:void(0);' data-id='" . $value->id . "' ><i class='bx bx-show me-1 icon-warning'></i> Show</a><a class='dropdown-item editbtn text-success' href='javascript:void(0);' data-id='" . $value->id . "' > <i class='bx bx-edit-alt me-1 icon-success'></i> Edit </a><a class='dropdown-item deletebtn text-danger' href='javascript:void(0);' data-id='" . $value->id . "' ><i class='bx bx-trash me-1 icon-danger'></i> Delete</a> </div> </div>";
         });

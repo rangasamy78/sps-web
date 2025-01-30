@@ -42,12 +42,12 @@
                                         <i class='bx bx-trash me-1 icon-danger'></i> Delete this Customer
                                     </a>
                                     @if($consignment->contains($customer->id))
-                                    <!-- Show 'Remove Consignment Location' button -->
+                                    
                                     <button type="button" class="btn dropdown-item text-dark deleteconsignment" id="deleteconsignment" name="deleteconsignment" data-id="{{ $customer->id }}">
                                         <i class='bx bx-check-circle'></i> Remove Consignment Location
                                     </button>
                                     @else
-                                    <!-- Show 'Setup as Consignment Location' button -->
+                                    
                                     <button type="button" class="btn dropdown-item text-dark" data-bs-toggle="modal" data-bs-target="#ConsignmentModel">
                                         <i class='bx bx-check-circle'></i> Setup as Consignment Location
                                     </button>
@@ -86,6 +86,7 @@
                                         @if($customer->delivery_instructions)
                                         <p class="mb-1"><span class="text-dark fw-bold">Parent Location </span>:</p>
                                         <p class="mb-1">{{ $customer->parent_location->company_name ?? '' }}</p>
+                                        @endif
                                 </div>
                             </div>
                         </div>

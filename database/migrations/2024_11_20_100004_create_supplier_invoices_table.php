@@ -25,7 +25,7 @@ return new class extends Migration
             $table->date('due_date')->nullable();
             $table->date('eta_date')->nullable();
             $table->string('container_number')->nullable();
-            $table->bigInteger('delivery_method_id')->unsigned()->nullable();
+            $table->string('delivery_method')->nullable();
             $table->bigInteger('shipment_term_id')->unsigned()->nullable();
             $table->string('payment_hold')->nullable();
             $table->string('payment_hold_reason')->nullable();

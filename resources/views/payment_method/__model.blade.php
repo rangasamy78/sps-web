@@ -19,8 +19,8 @@
                         <label for="linked_account_id" class="col form-label pb-1">Account</label>
                         <div class="col-sm-12">
                             <select class="form-select select2" name="linked_account_id" id="linked_account_id" data-allow-clear="true">
-                                @foreach($data['linkedAccounts'] as $key => $linkedAccount)
-                                <option value="{{ $linkedAccount['value'] }}">{{ $linkedAccount['label'] }}</option>
+                                @foreach($linked_accounts as $acc)
+                                    <option value="{{ $acc->id }}">{{ $acc->account_number }}-{{ $acc->account_name }}</option>
                                 @endforeach
                             </select>
                         </div>

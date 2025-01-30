@@ -33,7 +33,7 @@ class ExpenseCategory extends Model
     }
     function linked_account()
     {
-        return $this->belongsTo(LinkedAccount::class, 'expense_account');
+        return $this->belongsTo(Account::class, 'expense_account');
     }
     
     public function getLinkedAccountDetailsAttribute()

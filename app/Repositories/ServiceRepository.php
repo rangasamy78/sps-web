@@ -36,10 +36,15 @@ class ServiceRepository implements CrudRepositoryInterface, DatatableRepositoryI
 
     public function update(array $data, int $id)
     {
+      
         try {
             if ($id) {
+               
                 $data['service_id'] = 1;
-                $servicePrice = ServicePrice::findOrFail($id);
+             
+                $servicePrice = ServicePrice::where('service_id', $id)->get();
+
+               
                 $servicePrice->update($data['priceData']);
             } else {
                 $priceData['service_id'] = $service->id;

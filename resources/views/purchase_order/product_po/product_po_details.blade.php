@@ -49,13 +49,20 @@
                 </tr>
                 <tr>
                     <td colspan="9" class="text-end"><strong>Total:</strong></td>
-                    <td colspan="2">${{ number_format($total ?? 0, 2) }}</td>
+                    <td colspan="2">${{ number_format($subTotal ?? 0, 2) }}</td>
                 </tr>
                 <tr>
                     <td colspan="9" class="text-end"><strong>Balance Due:</strong></td>
-                    <td colspan="2">${{ number_format($balanceDue ?? 0, 2) }}</td>
+                    <td colspan="2">${{ number_format($subTotal ?? 0, 2) }}</td>
                 </tr>
             </tfoot>
         </table>
+    </div>
+</div>
+
+<!-- Prepayment Button -->
+<div class="row mt-4">
+    <div class="col text-end">
+        <button class="btn btn-primary" id="prepayment-btn">Make Prepayment</button>
     </div>
 </div>

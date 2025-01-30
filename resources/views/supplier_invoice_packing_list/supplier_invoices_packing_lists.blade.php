@@ -50,5 +50,5 @@
 
 @endsection
 @section('scripts')
-@include('supplier_invoice_packing_list.__scripts')
+@include('supplier_invoice_packing_list.supplier_invoice_list.__scripts')
 @endsection

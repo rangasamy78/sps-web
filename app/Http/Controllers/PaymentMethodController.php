@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Exception;
 use Illuminate\Http\Request;
+use App\Models\Account;
 use App\Models\PaymentMethod;
 use Illuminate\Support\Facades\Log;
 use App\Repositories\PaymentMethodRepository;
@@ -24,7 +25,8 @@ class PaymentMethodController extends Controller
     public function index()
     {
         return view('payment_method.payment_methods', [
-            'data' => $this->paymentMethodService->getAllData()
+            'data' => $this->paymentMethodService->getAllData(),
+            'linked_accounts' => Account::query()->get()
         ]);
     }
 

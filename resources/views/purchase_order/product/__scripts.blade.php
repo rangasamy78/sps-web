@@ -16,7 +16,6 @@ $(function() {
         ajax: {
             url: "{{ route('vendor_pos.po_details') }}",
             data: function(d) {
-                d.vendor_po_search = $('#vendorPoFilter').val();
                 sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
                 d.order = [{
                     column: 1,

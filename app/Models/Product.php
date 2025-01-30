@@ -142,4 +142,25 @@ class Product extends Model
     {
         return $this->hasMany(VisitProduct::class, 'product_id');
     }
+    function linked_account_inventory_gl()
+    {
+        return $this->belongsTo(Account::class, 'gl_inventory_link_account_id');
+    }
+
+    function linked_account_sales_gl()
+    {
+        return $this->belongsTo(Account::class, 'gl_income_account_id');
+    }
+
+    function linked_account_cogs_gl()
+    {
+        return $this->belongsTo(Account::class, 'gl_cogs_account_id');
+    }
+    
+    public function purchaseOrderProducts()
+    {
+        return $this->hasMany(PurchaseOrderProduct::class, 'product_id'); 
+    }
+
+
 }

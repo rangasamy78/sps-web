@@ -1,7 +1,11 @@
 @extends('layouts.admin')
 
 @section('title', 'Purchase Order')
-
+@section('styles')
+<link rel="stylesheet" href="{{asset('public/assets/vendor/libs/quill/typography.css')}}" />
+<link rel="stylesheet" href="{{asset('public/assets/vendor/libs/quill/katex.css')}}" />
+<link rel="stylesheet" href="{{asset('public/assets/vendor/libs/quill/editor.css')}}" />
+@endsection
 @section('content')
 <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
@@ -20,19 +24,17 @@
                                     <span class="text-danger error-text po_number_error"></span>
                                 </div>
                                 <div class="col">
-                                    <label class="form-label" for="P.O. Date">P.O. Date:
+                                    <label class="form-label" for="P.O.Date">P.O.Date:
                                         <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                                     <input type="date" class="form-control" id="po_date" placeholder="P.O. Date"
-                                        name="po_date" aria-label="P.O. Date" value="{{ now()->format('Y-m-d') }}" />
+                                        name="po_date" aria-label="P.O.Date" value="{{ now()->format('Y-m-d') }}" />
                                     <span class="text-danger error-text po_date_error"></span>
                                 </div>
                                 <div class="col">
                                     <label class="form-label" for="Supplier SO#">Supplier SO#:
                                     </label>
                                     <input type="text" class="form-control" id="supplier_so_number"
-                                        placeholder="Supplier SO#" name="supplier_so_number"
-                                        aria-label="Supplier SO#" />
-
+                                        placeholder="Supplier SO#" name="supplier_so_number" aria-label="Supplier SO#" />
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -45,14 +47,12 @@
                                 </div>
                                 <div class="col">
                                     <label class="form-label" for="Referred By">ETA Date:
-
                                     </label>
                                     <input type="date" class="form-control" id="eta_date" placeholder="ETA Date"
                                         name="eta_date" aria-label="Required Ship Date" />
-
                                 </div>
                                 <div class="col">
-                                    <label class="form-label" for="Base Colors">P.O Expiry Date:
+                                    <label class="form-label" for="P.O Expiry Date">P.O Expiry Date:
                                     </label>
                                     <input type="date" class="form-control" id="po_expiry_date"
                                         placeholder="P.O Expiry Date" name="po_expiry_date"
@@ -61,8 +61,7 @@
                             </div>
                             <div class="row mb-3">
                                 <div class="col-4">
-                                    <label class="form-label" for="Origin">Container#:
-
+                                    <label class="form-label" for="Container#">Container#:
                                     </label>
                                     <input type="text" class="form-control" id="container_number"
                                         placeholder="Container#" name="container_number" aria-label="Container#" />
@@ -89,7 +88,7 @@
                         <div class="card-body">
                             <div class="row mb-3">
                                 <div class="col">
-                                    <label class="form-label" for="Units of Measure">Supplier <sup
+                                    <label class="form-label" for="Supplier">Supplier:<sup
                                             style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                                     <select class="form-select select2" name="supplier_id" id="supplier_id"
                                         data-allow-clear="true">
@@ -139,15 +138,18 @@
                             <div class="row mb-3">
                                 <div class="col">
                                     <label class="form-label" for="Zip">Zip:</label>
-                                    <input type="text" class="form-control" readonly id="zip" placeholder="Zip" name="zip"
+                                    <input type="text" class="form-control" readonly id="supplier_zip" placeholder="Zip" name="supplier_zip"
                                         aria-label="Zip" />
                                 </div>
                                 <div class="col">
                                     <label class="form-label" for="Country">Country:
                                     </label>
-                                    <select class="form-select select2" readonly name="country_id" id="country_id"
+                                    <select class="form-select select2" readonly name="supplier_country_id" id="supplier_country_id"
                                         data-allow-clear="true">
                                         <option value="">--Select Country--</option>
+                                        @foreach($country as $cntry)
+                                        <option value="{{ $cntry->id }}">{{ $cntry->country_name  }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
 
@@ -178,13 +180,13 @@
                         <div class="card-body">
                             <div class="row mb-3">
                                 <div class="col">
-                                    <label class="form-label" for="Location">Location <sup
+                                    <label class="form-label" for="Location">Location: <sup
                                             style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                                     <select class="form-select select2" name="purchase_location_id"
                                         id="purchase_location_id" data-allow-clear="true">
                                         <option value="">--Select Location --</option>
-                                        @foreach($location as $loc)
-                                        <option value="{{ $loc->id }}">{{ $loc->company_name  }}</option>
+                                        @foreach($consignment_location as $loc)
+                                        <option value="{{ $loc->customer->id }}">{{ $loc->customer->customer_name  }}</option>
                                         @endforeach
 
                                     </select>
@@ -215,7 +217,7 @@
                                         placeholder="City" name="purchase_location_city" aria-label="City" />
                                 </div>
                                 <div class="col">
-                                    <label class="form-label" for="State">State </label>
+                                    <label class="form-label" for="State">State: </label>
                                     <input type="text" class="form-control" id="purchase_location_state"
                                         placeholder="State" name="purchase_location_state" aria-label="State" />
 
@@ -236,7 +238,7 @@
                                     </label>
                                     <select class="form-select select2" name="purchase_location_country_id"
                                         id="purchase_location_country_id" data-allow-clear="true">
-                                        <option value="">--Select Location --</option>
+                                        <option value="">--Select Country --</option>
                                         @foreach($country as $cntry)
                                         <option value="{{ $cntry->id }}">{{ $cntry->country_name  }}</option>
                                         @endforeach
@@ -264,8 +266,8 @@
                                     <select class="form-select select2" name="ship_to_location_id"
                                         id="ship_to_location_id" data-allow-clear="true">
                                         <option value="">--Select Ship To Location--</option>
-                                        @foreach($location as $loc)
-                                        <option value="{{ $loc->id }}">{{ $loc->company_name  }}</option>
+                                        @foreach($consignment_location as $loc)
+                                        <option value="{{ $loc->customer->id }}">{{ $loc->customer->customer_name  }}</option>
                                         @endforeach
 
                                     </select>
@@ -291,7 +293,7 @@
                             </div>
                             <div class="row mb-3">
                                 <div class="col">
-                                    <label class="form-label" for="Size">Suite / Unit#: :
+                                    <label class="form-label" for="Size">Suite / Unit#: 
 
                                     </label>
                                     <input type="text" class="form-control" id="ship_to_location_suite"
@@ -299,7 +301,7 @@
                                         aria-label="Suite / Unit#" />
                                 </div>
                                 <div class="col">
-                                    <label class="form-label" for="City">City </label>
+                                    <label class="form-label" for="City">City: </label>
                                     <input type="text" class="form-control" id="ship_to_location_city"
                                         placeholder="City" name="ship_to_location_city" aria-label="Size" />
 
@@ -356,18 +358,23 @@
                                     <select class="form-select select2" name="pre_purchase_term_id"
                                         id="pre_purchase_term_id" data-allow-clear="true">
                                         <option value="">--Select P.O.Terms--</option>
+                                        @foreach($printdoc as $cat)
+                                        <option value="{{ $cat->id }}">{{ $cat->title  }}</option>
+                                        @endforeach
 
                                     </select>
 
                                 </div>
-                                <div class="col">
-                                    <label class="form-label" for="Attn">&nbsp;
-                                    </label>
-                                    <div class="input-group">
-                                        <textarea type="text" class="form-control" id="terms" placeholder=""
-                                            name="terms" aria-label="Attn"></textarea>
-                                    </div>
-                                </div>
+                                <div class="form-group mb-2 p-1">
+                        <label for="description" class="col-sm-6 form-label pb-1">Description</label>
+                        <div class="col-12">
+                            <div id="descriptionEditor">&nbsp;</div>
+                        </div>
+                        <span class="text-danger error-text description_error"></span>
+                    </div>
+                    <div class="col-sm-12">
+                        <textarea class="form-control" id="terms" name="terms" rows="2" style="resize:none;display:none" placeholder="Enter Description"></textarea>
+                    </div>
                             </div>
 
                             <div>
@@ -397,7 +404,7 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="vessel">Vessel</label>
+                                <label class="form-label" for="vessel">Vessel:</label>
                                 <input type="text" class="form-control" id="vessel" placeholder="vessel" name="vessel"
                                     aria-label="vessel" />
 
@@ -484,7 +491,7 @@
 
                     <div class="card mb-4">
                         <div class="card-header">
-                            <label class="form-label" for="Country">Notes:
+                            <label class="form-label" for="Country">Notes
                             </label>
                         </div>
                         <div class="card-body">
@@ -519,7 +526,6 @@
 
                                     </select>
                                 </div>
-
                             </div>
 
                             <div class="row mb-3">
@@ -555,5 +561,7 @@
 </div>
 @endsection
 @section('scripts')
+<script src="{{asset('public/assets/vendor/libs/quill/katex.js')}}"></script>
+<script src="{{asset('public/assets/vendor/libs/quill/quill.js')}}"></script>
 @include('purchase_order.__scripts')
 @endsection

@@ -94,11 +94,14 @@
                                         <select class="form-select select2" name="gl_sales_account_id"
                                             id="gl_sales_account_id" data-allow-clear="true">
                                             <option value="">--Select Sales/Income Account--</option>
-                                            @foreach ($linked_accounts as $key => $value)
-                                                <option value="{{ $key }}"
-                                                    @if ($type->id == old('gl_sales_account_id', $service->gl_sales_account_id)) selected @endif>{{ $value }}
+                                  
+                                            @foreach($linked_accounts as $acc)
+                                                <option value="{{ $acc->id }}" 
+                                                    {{ $acc->id == $service->gl_sales_account_id ? 'selected' : '' }}>
+                                                    {{ $acc->account_number }} - {{ $acc->account_name }}
                                                 </option>
                                             @endforeach
+
                                         </select>
                                         <span class="text-danger error-text gl_sales_account_id_error"></span>
                                     </div>
@@ -108,9 +111,11 @@
                                         <select class="form-select select2" name="gl_cost_of_sales_account_id"
                                             id="gl_cost_of_sales_account_id" data-allow-clear="true">
                                             <option value="">--Select Category / Nature--</option>
-                                            @foreach ($linked_accounts as $key => $value)
-                                                <option value="{{ $key }}"
-                                                    @if ($type->id == old('gl_cost_of_sales_account_id', $service->gl_cost_of_sales_account_id)) selected @endif>{{ $value }}
+                                        
+                                            @foreach($linked_accounts as $acc)
+                                                <option value="{{ $acc->id }}" 
+                                                    {{ $acc->id == $service->gl_cost_of_sales_account_id ? 'selected' : '' }}>
+                                                    {{ $acc->account_number }} - {{ $acc->account_name }}
                                                 </option>
                                             @endforeach
                                         </select>

@@ -27,7 +27,7 @@ class SupplierInvoice extends Model
         'due_date',
         'eta_date',
         'container_number',
-        'delivery_method_id',
+        'delivery_method',
         'shipment_term_id',
         'payment_hold',
         'payment_hold_reason',
@@ -74,4 +74,40 @@ class SupplierInvoice extends Model
     {
         return $this->belongsTo(PurchaseOrder::class, 'po_id');
     }
+
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
+    }
+
+    public function shipment_term()
+    {
+        return $this->belongsTo(ShipmentTerm::class, 'shipment_term_id');
+    }
+    public function location()
+    {
+        return $this->belongsTo(Company::class, 'ship_to_location_id');
+       
+    }
+    public function purchase_locations()
+    {
+        return $this->belongsTo(Company::class, 'purchase_location_id');
+       
+    }
+    public function ship_locations()
+    {
+        return $this->belongsTo(Company::class, 'ship_to_location_id');
+       
+    }
+    public function payment_terms()
+    {
+        return $this->belongsTo(AccountPaymentTerm::class, 'payment_term_id');
+       
+    }
+    public function expenditure()
+    {
+        return $this->belongsTo(Expenditure::class, 'freight_forwarder_id');
+       
+    }
+    
 }

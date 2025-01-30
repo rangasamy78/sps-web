@@ -6,7 +6,8 @@ $(function() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-
+    
+   
     $('#purchaseOrderForm').on('input change', 'input, select', function() {
         let fieldName = $(this).attr('name');
         $('.' + fieldName + '_error').text('');
@@ -16,6 +17,158 @@ $(function() {
         let fieldName = $(this).attr('name');
         $('.' + fieldName + '_error').text('');
     });
+
+
+    $('#shipment_term_id').select2({
+            placeholder: 'Select Shipment Terms',
+            dropdownParent: $('#shipment_term_id').parent()
+    });
+
+    $('#supplier_id').select2({
+            placeholder: 'Select Supplier',
+            dropdownParent: $('#supplier_id').parent()
+    });
+
+    $('#supplier_address_id').select2({
+            placeholder: 'Select Address',
+            dropdownParent: $('#supplier_address_id').parent()
+    });
+
+    $('#country_id').select2({
+            placeholder: 'Select Country',
+            dropdownParent: $('#country_id').parent()
+    });
+
+    $('#payment_term_id').select2({
+            placeholder: 'Select Payment Terms',
+            dropdownParent: $('#payment_term_id').parent()
+    });
+    $('#purchase_location_id').select2({
+            placeholder: 'Select Location',
+            dropdownParent: $('#purchase_location_id').parent()
+    });
+
+    $('#purchase_location_country_id').select2({
+            placeholder: 'Select Country',
+            dropdownParent: $('#purchase_location_country_id').parent()
+    });
+    $('#ship_to_location_id').select2({
+            placeholder: 'Select Location',
+            dropdownParent: $('#ship_to_location_id').parent()
+    });
+    $('#ship_to_location_country_id').select2({
+            placeholder: 'Select Country',
+            dropdownParent: $('#ship_to_location_country_id').parent()
+    });
+    $('#pre_purchase_term_id').select2({
+            placeholder: 'Select P.O.Terms',
+            dropdownParent: $('#pre_purchase_term_id').parent()
+    });
+
+    $('#freight_forwarder_id').select2({
+            placeholder: 'Select Freight Forwarder',
+            dropdownParent: $('#freight_forwarder_id').parent()
+    });
+
+    $('#departure_port_id').select2({
+            placeholder: 'Select Departure Port',
+            dropdownParent: $('#departure_port_id').parent()
+    });  $('#arrival_port_id').select2({
+            placeholder: 'Select Arrival Port',
+            dropdownParent: $('#arrival_port_id').parent()
+    });
+
+    $('#discharge_port_id').select2({
+            placeholder: 'Select Discharge Port',
+            dropdownParent: $('#discharge_port_id').parent()
+    });  $('#special_instruction_id').select2({
+            placeholder: 'Select Special Instructions',
+            dropdownParent: $('#special_instruction_id').parent()
+    });
+    $('#closePOBtn').click(function() {
+    
+      if (confirm("Are you sure you want to Close this PO?")) {
+
+        var po_id = $("#po_id").val();
+       
+            if (po_id) {
+                var url = "{{ route('close_po', ':id') }}";
+                url = url.replace(':id', po_id);
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        $("#po_status").val('Closed');
+                        var approved_state = $('#approved_state_val').val();
+                            
+
+                            $("#closePOBtn, #addMoreLinesBtn, #prepayment-btn, #product_supplier").hide();
+
+                            if (approved_state === "0") {
+                                const closedMessage = `
+                                    <div style="padding: 20px; border: 1px solid #ccc; width: 320px; text-align: center; font-family: Arial, sans-serif;">
+                                        <p>
+                                            <strong>Approval Status:</strong><br>
+                                            This PO needed approval because the PO total is &gt; $5,000.00.
+                                        </p>
+                                    </div>
+                                `;
+                                $('#parent-container').html(closedMessage);
+                                $('#product_supplier').hide(); 
+                            }
+                            else{
+
+                            }
+
+                       
+       
+                    },
+                    error: function(xhr, status, error) {
+                        console.log('Error:', error);
+                    }
+                });
+            }
+
+            }
+                
+    });
+    $(document).ready(function () {
+    var po_status = $("#po_status").val();
+
+    function updateStatusBar(status) {
+        $(".status-item").removeClass("active").addClass("inactive");
+        
+        if (status === "Pending") {
+            $("#pendingStatus").removeClass("inactive").addClass("active");
+        } else if (status === "Fulfilled") {
+            $("#fulfilledStatus").removeClass("inactive").addClass("active");
+        } else if (status === "Closed") {
+            $("#closedStatus").removeClass("inactive").addClass("active");
+        }
+    }
+
+    
+    updateStatusBar(po_status);
+
+    if (po_status === "Closed") {
+     
+        $("#closePOBtn, #addMoreLinesBtn, #prepayment-btn, #product_supplier").hide();
+    } else {
+        $("#closePOBtn, #addMoreLinesBtn, #prepayment-btn, #product_supplier").show();
+    }
+
+   
+    $("#closePOBtn").click(function () {
+        po_status = "Closed";
+        $("#po_status").val(po_status);
+        updateStatusBar(po_status);
+        if (po_status === "Closed") {
+            $(this).hide();
+        }
+    });
+});
+
 
     var table = $('#datatable').DataTable({
         responsive: true,
@@ -69,47 +222,22 @@ $(function() {
                 data: 'supplier_type',
                 name: 'supplier_type'
             },
-            {
-                data: 'container',
-                name: 'container'
-            }, {
-                data: 'payment_terms',
-                name: 'payment_terms'
-            },
-
+          
             {
                 data: 'purchase_location',
                 name: 'purchase_location'
             },
             {
-                data: 'status',
-                name: 'status'
-            },
-            {
                 data: 'ship_location',
                 name: 'ship_location'
             },
-            {
-                data: 'total',
-                name: 'total'
-            },
+          
 
             {
                 data: 'approval_status',
                 name: 'approval_status'
             },
-            {
-                data: 'no_inv',
-                name: 'no_inv'
-            },
-            {
-                data: 'internal_note',
-                name: 'internal_note'
-            },
-            {
-                data: 'special_note',
-                name: 'special_note'
-            },
+      
             {
                 data: 'action',
                 name: 'action',
@@ -133,6 +261,259 @@ $(function() {
         }, ],
     });
 
+
+
+    $('body').on('click', '.deletebtn', function() {
+       
+       var id = $(this).data('id');
+       confirmDelete(id, function() {
+           deletePO(id);
+       });
+   });
+
+   function deletePO(id) {
+       var url = "{{ route('purchase_orders.destroy', ':id') }}".replace(':id', id);
+       $.ajax({
+           url: url,
+           type: "DELETE",
+           data: {
+               id: id,
+               _token: '{{ csrf_token() }}'
+           },
+           success: function(response) {
+
+                   window.location.href = "{{ route('purchase_orders.index') }}";
+           },
+           error: function(xhr) {
+               console.error('Error:', xhr.statusText);
+               showError('Oops!', 'Failed to fetch data.');
+           }
+       });
+   }
+
+
+    const fullToolbar = [
+      [{
+          font: []
+        },
+        {
+          size: []
+        }
+      ],
+      ['bold', 'italic', 'underline', 'strike'],
+      [{
+          color: []
+        },
+        {
+          background: []
+        }
+      ],
+      [{
+          script: 'super'
+        },
+        {
+          script: 'sub'
+        }
+      ],
+      [{
+          header: '1'
+        },
+        {
+          header: '2'
+        },
+        'blockquote',
+        'code-block'
+      ],
+      [{
+          list: 'ordered'
+        },
+        {
+          list: 'bullet'
+        },
+        {
+          indent: '-1'
+        },
+        {
+          indent: '+1'
+        }
+      ],
+      [{
+        direction: 'rtl'
+      }],
+      
+      ['clean']
+    ];
+    const descriptionEditor = new Quill('#descriptionEditor', {
+      bounds: '#descriptionEditor',
+      placeholder: 'Type Description...',
+      modules: {
+        formula: true,
+        toolbar: fullToolbar
+      },
+      theme: 'snow',
+    });
+
+    descriptionEditor.on('text-change', function() {
+      document.getElementById('description').value = descriptionEditor.root.innerHTML;
+    });
+
+    function clearEditor() {
+      descriptionEditor.setContents([]);
+    }
+
+    
+    
+    $('#pre_purchase_term_id').on('change', function() {
+
+            var selectId = $(this).val();
+
+            if (selectId) {
+                var url = "{{ route('fetch_policy', ':id') }}";
+                url = url.replace(':id', selectId);
+              
+
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                       
+                        descriptionEditor.root.innerHTML = response.policy;
+                        
+                            $('#terms').val(response.policy)
+                       
+                    },
+                    error: function(xhr, status, error) {
+                        console.log('Error:', error);
+                    }
+                });
+            }
+        }); 
+        
+        $(document).ready(function() {
+        $('#supplier_id').on('change', function() {
+            var SupplierId = $(this).val();
+
+            if (SupplierId) {
+                var url = "{{ route('fetch_supplier_details', ':id') }}";
+                url = url.replace(':id', SupplierId);
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                        
+                            $('#supplier_address').val(response.data.ship_address)
+                                .prop('readonly', true);
+                            $('#supplier_suite').val(response.data.ship_suite).prop(
+                                'readonly', true);
+                            $('#supplier_city').val(response.data.ship_city).prop(
+                                'readonly', true);
+                            $('#supplier_state').val(response.data.ship_state).prop(
+                                'readonly', true);
+                            $('#supplier_zip').val(response.data.ship_zip).prop('readonly',
+                                true);
+                            $('#supplier_country_id').val(response.data.ship_country_id)
+                                .trigger('change')
+                                .prop('readonly', true);
+                            $('#payment_term_id').val(response.data
+                                .payment_terms_id).trigger('change');
+                        } else {
+                            alert('Supplier details not found.');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.log('Error:', error);
+                    }
+                });
+            }
+        });
+
+        $('#purchase_location_id').on('change', function() {
+            var locationId = $(this).val();
+            if (locationId) {
+                var url = "{{ route('purchase_location_details', ':id') }}";
+                url = url.replace(':id', locationId);
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                       
+                            $('#purchase_location_address').val(response.data.address)
+                                .prop('readonly', true);
+                            $('#purchase_location_suite').val(response.data.address_2).prop(
+                                'readonly', true);
+                            $('#purchase_location_city').val(response.data.city).prop(
+                                'readonly', true);
+                            $('#purchase_location_state').val(response.data.state).prop(
+                                'readonly', true);
+                            $('#purchase_location_zip').val(response.data.zip).prop('readonly',
+                                true);
+                            $('#purchase_location_country_id').val(response.data.country_id)
+                            .trigger('change')
+                           
+                           
+                        } else {
+                            alert(' details not found.');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.log('Error:', error);
+                    }
+                });
+            }
+        });
+
+
+        $('#ship_to_location_id').on('change', function() {
+            
+            var locationId = $(this).val();
+            if (locationId) {
+                var url = "{{ route('ship_location_details', ':id') }}";
+                url = url.replace(':id', locationId);
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        
+                        if (response.success) {
+                         
+                            $('#ship_to_location_address').val(response.data.shipping_address)
+                                .prop('readonly', true);
+                            $('#ship_to_location_attn').val(response.data.shipping_address_2).prop(
+                                'readonly', true);
+                            $('#ship_to_location_suite').val(response.data.shipping_address_2).prop(
+                                'readonly', true);
+                            $('#ship_to_location_city').val(response.data.shipping_city).prop(
+                                'readonly', true);
+                            $('#ship_to_location_state').val(response.data.shipping_state).prop(
+                                'readonly', true);
+                            $('#ship_to_location_zip').val(response.data.shipping_zip).prop('readonly',
+                                true);
+                            $('#ship_to_location_country_id').val(response.data.shipping_country_id)
+                            .trigger('change')
+                           
+                        } else {
+                            alert(' details not found.');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.log('Error:', error);
+                    }
+                });
+            }
+        });
+
+
+
+
+
+    });
+        
     $('#savedata').click(function(e) {
         e.preventDefault();
         var button = $(this);
@@ -164,325 +545,15 @@ $(function() {
         });
     });
 
-    $(document).ready(function() {
-        $('#supplier_id').on('change', function() {
-            var SupplierId = $(this).val();
 
-            if (SupplierId) {
-                var url = "{{ route('fetch_supplier_details', ':id') }}";
-                url = url.replace(':id', SupplierId);
-
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.success) {
-                            $('#supplier_address').val(response.data.ship_address)
-                                .prop('readonly', true);
-                            $('#supplier_suite').val(response.data.ship_suite).prop(
-                                'readonly', true);
-                            $('#supplier_city').val(response.data.ship_city).prop(
-                                'readonly', true);
-                            $('#supplier_state').val(response.data.ship_state).prop(
-                                'readonly', true);
-                            $('#zip').val(response.data.ship_zip).prop('readonly',
-                                true);
-                            $('#country_id').val(response.data.ship_country_id)
-                                .trigger('change').prop('readonly', true);
-                            $('#payment_term_id').val(response.data
-                                .payment_terms_id).trigger('change');
-                        } else {
-                            alert('Supplier details not found.');
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.log('Error:', error);
-                    }
-                });
-            }
-        });
-    });
-    $(document).ready(function() {
-
-        $('#product_data_update').hide();
-        $('#product_data').hide();
-        $('#product_id').change(function() {
-
-            var productId = $(this).val();
-            var productName = $(this).find('option:selected').text();;
-
-            if (productId) {
-                $('#product_id_hid').val(productId)
-                $('#product_name').val(productName).prop('disabled', true);
-                $('#product_data').show();
-                $('#product_data_update').hide();
-
-            } else {
-
-                $('#product_data').hide();
-                $('#product_data_update').hide();
-            }
-        });
-    });
-    $('.edit-btn-po').click(function() {
-
-        $('#product_data').hide();
-        $('#product_data_update').show();
-        var productId = $(this).data('id');
-        var productName = $(this).data('product_name');
-
-        if (productId) {
-            var url = "{{ route('fetch_product_po_details', ':id') }}";
-            url = url.replace(':id', productId);
-            $.ajax({
-                url: url,
-                type: 'GET',
-                dataType: 'json',
-                success: function(response) {
-                    if (response.success) {
-                        $('#edit_id').val(productId);
-                        $('#edit_po_id').val(response.data.po_id);
-                        $('#edit_product_id_hid').val(response.data.product_id);
-                        $('#edit_product_name').val(productName).prop('disabled', true);
-                        $('#edit_so').val(response.data.so);
-                        $('#edit_description').val(response.data.description);
-                        $('#edit_supplier_purchasng_note').val(response.data
-                            .supplier_purchasng_note);
-                        $('#edit_length').val(response.data.length);
-                        $('#edit_width').val(response.data.width);
-                        $('#edit_bundles').val(response.data.bundles);
-                        $('#edit_slabs').val(response.data.slab);
-                        $('#edit_slab_bundles').val(response.data.slab_bundles);
-                        $('#edit_unit_price').val(response.data.unit_price);
-                        $('#edit_quantity').val(response.data.quantity);
-                        $('#edit_extended').val(response.data.extended);
-                    } else {
-                        alert('Product details not found.');
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.log('Error:', error);
-                }
-            });
-        }
-    });
-
-    $('#canceldata').click(function(event) {
-        event.preventDefault();
-        $('#product_data input[type="text"]').val('');
-        $('#product_data').hide();
-        $('#product_id').select2({
-            allowClear: true,
-        });
-
-        const defaultProductId = "";
-        $('#product_id').val(defaultProductId).trigger('change');
-    });
+   
 
 
-    $('#savedataProduct').on('click', function(e) {
-        e.preventDefault();
-
-        var po_id = $('#po_id').val();
-
-        $.ajax({
-            url: '{{ route("purchase_orders.po_product_save") }}',
-            type: 'POST',
-            data: $('#poProductForm').serialize(),
-            success: function(response) {
-                if (response.status === 'success') {
-                    showToast('success', response.msg);
-                    $('#poProductForm')[0].reset();
-
-                    const newRow = `
-                <tr>
-                    <td>${response.product.so || ''}</td>
-                    <td>${response.product.product_name || ''}</td>
-                    <td>${response.product.description || ''}</td>
-                    <td class="quantity">${response.product.quantity || ''}</td>
-                    <td class="unit_price">${response.product.unit_price || ''}</td>
-                    <td class="extended">${(response.product.quantity && response.product.unit_price) ? (response.product.quantity * response.product.unit_price).toFixed(2) : 'empty'}</td>
-                      <td>
-                        <button class="btn btn-warning btn-sm edit-btn-po" data-id="${response.product.id}">Edit</button>
-                        <button class="btn btn-danger btn-sm delete-btn" data-id="${response.product.id}">Delete</button>
-                    </td>
-                </tr>
-            `;
-                    $('#product_details_table tbody').append(newRow);
-
-                    updateSubtotalAndTotal();
-                } else {
-                    showToast('error', response.msg);
-                }
-            },
-            error: function(xhr) {
-                console.error(xhr.responseText);
-                showToast('error', 'An error occurred while saving the product.');
-            }
-        });
 
 
-        function updateSubtotalAndTotal() {
-            let subtotal = 0;
-            let total = 0;
-
-            $('#product_details_table tbody tr').each(function() {
-                const quantity = parseFloat($(this).find('.quantity').text()) || 0;
-                const unit_price = parseFloat($(this).find('.unit_price').text()) || 0;
-                const extended = quantity * unit_price;
-                $(this).find('.extended').text(extended.toFixed(2));
-
-                subtotal += extended;
-            });
-
-            $('#subtotal').text(subtotal.toFixed(2));
-            $('#total').text(subtotal.toFixed(
-                2));
-            $('#product_data').hide();
-        }
-
-    });
-
-    $(document).ready(function() {
-
-        const $quantityInput = $('#quantity');
-        const $unitPriceInput = $('#unit_price');
-        const $extendedInput = $('#extended');
-
-        function updateExtendedPrice() {
-            const quantity = parseFloat($quantityInput.val()) || 0;
-            const unitPrice = parseFloat($unitPriceInput.val()) || 0;
-            const extendedPrice = quantity * unitPrice;
-            $extendedInput.val(extendedPrice.toFixed(2));
-        }
-
-        $quantityInput.on('input', updateExtendedPrice);
-        $unitPriceInput.on('input', updateExtendedPrice);
-
-        function calculateTotals() {
-            let subtotal = 0;
-
-            $('.extended').each(function() {
-                const extendedValue = parseFloat($(this).text()) || 0;
-                subtotal += extendedValue;
-            });
-
-            $('#subtotal').text(subtotal.toFixed(2));
-            $('#total').text(subtotal.toFixed(
-                2));
-        }
-
-        calculateTotals();
-
-        $(document).on('input change', '.quantity, .unit_price', function() {
-            const row = $(this).closest('tr');
-            const quantity = parseFloat(row.find('.quantity').text()) || 0;
-            const unitPrice = parseFloat(row.find('.unit_price').text()) || 0;
-            const extended = quantity * unitPrice;
-            row.find('.extended').text(extended.toFixed(2));
-            calculateTotals();
-        });
-    });
-    document.getElementById('saveButton').addEventListener('click', function() {
-
-        var poId = $('#purchase_order_id').val();
-
-        window.location.href = "{{ route('purchase_orders.po_details', ':id') }}".replace(':id', poId);
-
-    });
-
-});
-$(document).on('click', '.delete-btn', function() {
-    var poId = $(this).data('id');
-    if (poId) {
-        var url = "{{ route('deletePo', ':id') }}".replace(':id', poId);
-
-        $.ajax({
-            url: url,
-            type: 'DELETE',
-            dataType: 'json',
-            success: function(response) {
-                if (response.status === 'success') {
-                    showToast('success', response.msg);
-                    $(`button[data-id="${poId}"]`).closest('tr').remove();
-
-                    updateSubtotalAndTotal();
-                } else {
-                    showToast('error', response.msg);
-                }
-            },
-            error: function(xhr) {
-                console.error(xhr.responseText);
-                showToast('error', 'An error occurred while deleting the product.');
-            }
-        });
-    }
-});
-
-function updateSubtotalAndTotal() {
-    let subtotal = 0;
-
-    $('#product_details_table tbody tr').each(function() {
-        const quantity = parseFloat($(this).find('.quantity').text()) || 0;
-        const unitPrice = parseFloat($(this).find('.unit_price').text()) || 0;
-
-        const extended = quantity * unitPrice;
-        subtotal += extended;
-
-        $(this).find('.extended').text(extended.toFixed(2));
-    });
-
-    $('#subtotal').text(subtotal.toFixed(2));
-    const tax = parseFloat($('#tax').val()) || 0;
-    const total = subtotal + tax;
-    $('#total').text(total.toFixed(2));
-}
-
-$('#updatedataProduct').on('click', function(e) {
-    e.preventDefault();
-
-    var po_id = $('#po_id').val();
-
-    $.ajax({
-        url: '{{ route("purchase_orders.po_product_update") }}',
-        type: 'PUT',
-        data: $('#poProductFormUpdate').serialize(),
-        success: function(response) {
-            if (response.status === 'success') {
-                showToast('success', response.msg);
-                $('#poProductFormUpdate')[0].reset();
-
-                updateSubtotalAndTotal();
-            } else {
-                showToast('error', response.msg);
-            }
-        },
-        error: function(xhr) {
-            console.error(xhr.responseText);
-            showToast('error', 'An error occurred while saving the product.');
-        }
-    });
-
-    function updateSubtotalAndTotal() {
-        let subtotal = 0;
-        let total = 0;
-
-        $('#product_details_table tbody tr').each(function() {
-            const quantity = parseFloat($(this).find('.quantity').text()) || 0;
-            const unit_price = parseFloat($(this).find('.unit_price').text()) || 0;
-            const extended = quantity * unit_price;
-
-            $(this).find('.extended').text(extended.toFixed(2));
 
 
-            subtotal += extended;
-        });
 
-        $('#subtotal').text(subtotal.toFixed(2));
-        $('#total').text(subtotal.toFixed(2));
-        $('#product_data_update').hide();
-    }
 
 });
 </script>

@@ -33,8 +33,9 @@
                         <div class="col-sm-12">
                             <select id="income_expense_account_id" class="form-select select2" name="income_expense_account_id" data-allow-clear="true">
                                 <option value="">--Select Income Expense Account--</option>
-                                @foreach($linked_accounts as $key => $linkedAccount)
-                                    <option value="{{ $linkedAccount['value'] }}">{{ $linkedAccount['label'] }}</option>
+                             
+                                @foreach($linked_accounts as $acc)
+                                    <option value="{{ $acc->id }}">{{ $acc->account_number }}-{{ $acc->account_name }}</option>
                                 @endforeach
                             </select>
                         </div>

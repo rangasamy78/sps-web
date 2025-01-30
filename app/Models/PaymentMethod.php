@@ -36,7 +36,7 @@ class PaymentMethod extends Model
 
     function linked_account()
     {
-        return $this->belongsTo(LinkedAccount::class);
+        return $this->belongsTo(Account::class);
     }
 
     function account_type()
