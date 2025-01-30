@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\SaleOrder;
 
 use Exception;
@@ -8,8 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\SaleOrderContact;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use App\Repositories\SaleOrder\ContactRepository;
 use App\Http\Requests\SaleOrder\Contact\CreateContactRequest;
+use App\Repositories\SaleOrder\ContactRepository;
 
 class ContactController extends Controller
 {
@@ -29,21 +28,21 @@ class ContactController extends Controller
                 ->get();
             $formattedContacts = $contacts->map(function ($contact) {
                 return [
-                    'id' => $contact->contact->id,
-                    'name' => $contact->contact->contact_name,
+                    'id'                     => $contact->contact->id,
+                    'name'                   => $contact->contact->contact_name,
                     'sales_order_contact_id' => $contact->id,
                 ];
             });
             return response()->json([
-                'status' => 'success',
-                'msg' => 'Sale Order Contact saved successfully.',
-                'contacts' => $formattedContacts
+                'status'   => 'success',
+                'msg'      => 'Sale Order Contact saved successfully.',
+                'contacts' => $formattedContacts,
             ]);
         } catch (Exception $e) {
             Log::error('Error saving Sale Order Contact: ' . $e->getMessage());
             return response()->json([
                 'status' => 'error',
-                'msg' => 'An error occurred while saving the Sale Order Contact.'
+                'msg'    => 'An error occurred while saving the Sale Order Contact.',
             ]);
         }
     }
