@@ -30,6 +30,7 @@ class SupplierInvoicePackingItemService
             $data['po_product_id'],
             $data['product_id'],
             $data['po_id'],
+            $data['sipl_id'],
             $data['unit_type_name'],
             $data['unit_pack_length'],
             $data['unit_pack_width'],
@@ -67,24 +68,38 @@ class SupplierInvoicePackingItemService
         ];
     }
 
+    public function getPackingLastItemDetails($data)
+    {
+        $record = SupplierInvoicePackingItem::query()
+            ->where('po_id', $data['po_id'])
+            ->where('product_id', $data['product_id'])
+            ->orderBy('id', 'DESC')
+            ->first();
+        return $record;
+    }
+
     public function getPackingItemDetails($data, $productRowId)
     {
-        if(isset($data['update']) && !empty($data['update'])) {
+        if(isset($data['update']) && $data['update'] = 'update') {
+            $id[] = $data['id'];
             $records = SupplierInvoicePackingItem::query()
-            ->whereIn('id', $data['id'])
+            ->whereIn('id', $id)
+            //->orderBy('id', 'DESC')
             ->get();
+
         } else {
             $records = SupplierInvoicePackingItem::query()
             ->where('po_product_id', $productRowId)
             ->where('po_id', $data['po_id'])
             ->where('product_id', $data['product_id'])
+            //->orderBy('id', 'DESC')
             ->get();
         }
 
         $maxLotBlock = $maxBundle = $maxSupplierRef = '';
 
         if ($records->isNotEmpty()) {
-            $lastRecord = $records->last();
+            $lastRecord = $this->getPackingLastItemDetails($data);
             $maxLotBlock = $this->generateNewCode($lastRecord->lot_block, $data['isSeqBlock']??'');
             $maxBundle = $this->generateNewCode($lastRecord->bundle, $data['isSeqBundle']??'');
             $maxSupplierRef = $this->generateNewCode($lastRecord->supplier_ref, $data['isSeqSupplier']??'');
@@ -122,6 +137,7 @@ class SupplierInvoicePackingItemService
             'po_product_id'    => $productRowId ?? null,
             'product_id'       => $data['product_id'] ?? null,
             'po_id'            => $data['po_id'] ?? null,
+            'sipl_id'            => $data['sipl_id'] ?? null,
             'unit_type_name'   => $data['unit_type_name'] ?? null,
             'unit_pack_length' => $data['unit_pack_length'] ?? null,
             'unit_pack_width'  => $data['unit_pack_width'] ?? null,
@@ -149,6 +165,7 @@ class SupplierInvoicePackingItemService
         $productRowId,
         $productId,
         $poId,
+        $siplId,
         $unitTypeName,
         $unitPackLength,
         $unitPackWidth,
@@ -173,11 +190,11 @@ class SupplierInvoicePackingItemService
         $isSeqBundle,
         $isSeqSupplier
     ) {
-        // Generate the packing items using Laravel collections for better readability
         return collect(range(0, $count - 1))->map(function ($i) use (
             $productRowId,
             $productId,
             $poId,
+            $siplId,
             $unitTypeName,
             $unitPackLength,
             $unitPackWidth,
@@ -213,6 +230,7 @@ class SupplierInvoicePackingItemService
                 'po_product_id'      => $productRowId,
                 'product_id'         => $productId,
                 'po_id'              => $poId,
+                'sipl_id'            => $siplId,
                 'lot_block'          => $this->__generateItemIdentifier($lotBlockFirst, $lotBlockSecond, $isSeqBlock, $i),
                 'bundle'             => $this->__generateItemIdentifier($bundleFirst, $bundleSecond, $isSeqBundle, $i),
                 'supplier_ref'       => $this->__generateItemIdentifier($supplierRefFirst, $supplierRefSecond, $isSeqSupplier, $i),
@@ -295,7 +313,6 @@ class SupplierInvoicePackingItemService
     }
 
     public function getSupplierInvoiceUpdatePackingItem( $data ){
-        //dd($data);
         $selectedData = $data['selectedData'];
         $firstRow = collect($selectedData)->first();
         $record['id'] = collect($selectedData)->pluck('id')->all();
@@ -324,8 +341,7 @@ class SupplierInvoicePackingItemService
         }
         $i = 1;
         foreach ($data['products'] as $product) {
-            $records = collect($product)->only(['id','po_id','product_id']);
-            $packingItemDetails = $this->getPackingItemDetails($records,  $i);
+            $packingItemDetails = $this->getPackingItemDetails($product,  $i);
             $products[] = $packingItemDetails;
             $i++;
         }
@@ -364,10 +380,16 @@ class SupplierInvoicePackingItemService
 
     protected function fetchUpdatedPackingItemDetails(array $selectedData, int $productRowId)
     {
-        $record = [
-            'id' => collect($selectedData)->pluck('id')->all(),
-            'update' => 'update',
-        ];
+        $record = [];
+        if(!empty($selectedData)){
+            $record = [
+                'id' => $selectedData[0]['id'],
+                'product_id' => $selectedData[0]['product_id'],
+                'po_id' => $selectedData[0]['po_id'],
+                'po_product_id' => $selectedData[0]['row_id'],
+                'update' => 'update',
+            ];
+        }
 
         $packingItemDetails = $this->getPackingItemDetails($record, $productRowId);
 

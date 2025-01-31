@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('supplier_invoice_packing_items', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('product_id');
+            $table->string('po_product_id', 255)->nullable();
             $table->string('po_id', 255)->nullable();
+            $table->string('sipl_id', 255)->nullable();
             $table->string('seq_no', 255)->nullable();
             $table->string('bar_code_no', 255)->nullable();
             $table->string('packing_list_sizes', 255)->nullable();
@@ -39,6 +41,8 @@ return new class extends Migration
             $table->boolean('isSeqBlock')->default(false);
             $table->boolean('isSeqBundle')->default(false);
             $table->boolean('isSeqSupplier')->default(false);
+            $table->enum('inventory_status', ['Received', 'Not Received'])->default('Not Received');
+            $table->enum('inventory_travel_status', ['Transit', 'Intransit'])->default('Transit');
             $table->timestamps();
         });
     }

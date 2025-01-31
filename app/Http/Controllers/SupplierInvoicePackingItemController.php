@@ -29,13 +29,14 @@ class SupplierInvoicePackingItemController extends Controller
         $poProducts = PurchaseOrderProduct::query()->where('po_id', $request->po_id) ->with(['product'])->get();
         $products = [];
         if($poProducts->isNotEmpty()){
-            $products = $poProducts->map(function ($product) {
-                return [
-                    'id' => $product->id,
-                    'po_id' => $product->po_id,
-                    'product_id' => $product->product_id,
-                ];
-            })->toArray();
+            $products = $poProducts->map(fn($product) => array_merge(
+                $product->only(['id', 'po_id', 'product_id']),
+                [
+                    'isSeqBlock' => PurchaseOrderProduct::IS_SEQ_BLOCK,
+                    'isSeqBundle' => PurchaseOrderProduct::IS_SEQ_BUNDLE,
+                    'isSeqSupplier' => PurchaseOrderProduct::IS_SEQ_SUPPLIER,
+                ]
+            ))->toArray();
         }
         return view('supplier_invoice.packing_items', compact('poProducts','binTypes','products'));
     }

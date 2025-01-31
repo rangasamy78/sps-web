@@ -23,6 +23,7 @@ class SupplierInvoicePackingItem extends Model
         'po_product_id',
         'product_id',
         'po_id',
+        'sipl_id',
         'bar_code_no',
         'seq_no',
         'packing_list_sizes',
@@ -47,6 +48,8 @@ class SupplierInvoicePackingItem extends Model
         'isSeqBlock',
         'isSeqBundle',
         'isSeqSupplier',
+        'inventory_status',
+        'inventory_travel_status'
     ];
 
     public function product()

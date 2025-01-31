@@ -45,7 +45,7 @@
 
         $(document).on('click', '.cancel_slab', function(e) {
             e.preventDefault();
-            //window.location.reload();
+            window.location.reload();
         });
 
         $listGroupItem.on('click', function(e) {
@@ -61,14 +61,25 @@
             $(this).addClass('active');
         });
 
+        function handleRowToggle(row, userDetailId) {
+            $(`#${userDetailId}`).toggle();
+            $(".list-group-item").removeClass('active');
+            $(`#group_${row}`).find('.list-group-item:first').addClass('active');
+            $('[id^="select_th_"]').each(function() {
+                var rowId = $(this).attr('id').split('_')[2];  // Extract row number from the ID
+                if ($(`#select_th_${rowId}`).length) {
+                    $(`#select_th_${rowId}`).hide();
+                } else {
+                    $(`#select_th_0`).hide();
+                }
+            });
+        }
+
         $addBtnProduct.on('click', function (e) {
             e.preventDefault();
             var row = $(this).data('row');
             const userDetailId = $(this).data('user');
-            $(`#${userDetailId}`).toggle();
-            $(".list-group-item").removeClass('active');
-            $(`#group_${row}`).find('.list-group-item:first').addClass('active');
-            $(`#select_th_${row}`).length ? $("#select_th_0").hide() : '';
+            handleRowToggle(row, userDetailId);
             const productIds = @json($products);
             fetchProducts(productIds);
             // setTimeout(() => {
