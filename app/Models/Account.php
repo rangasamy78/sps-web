@@ -41,6 +41,10 @@ class Account extends Model
 
     protected $table = 'accounts';
 
+    const TYPE_INVENTORY = 'Inventory';
+    const TYPE_SALES = 'Sales';
+    const TYPE_COGS = 'Cogs';
+
     public function account_type()
     {
         return $this->belongsTo(AccountType::class, 'account_type_id');
