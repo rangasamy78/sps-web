@@ -88,14 +88,11 @@
             });
         });
 
-        //pop up customer list
         $(' #customerNameFilter,#customerCodeFilter,#contactFilter', ).on('keyup change', function(e) {
             e.preventDefault();
             table_customer_list.draw();
         });
         var table_customer_list = $('#customerListTable').DataTable({
-            // scrollX: true, // Enable horizontal scrolling
-            // paging: true,
             responsive: true,
             processing: true,
             serverSide: true,
@@ -147,7 +144,6 @@
             },
         });
 
-        //associate pop up
         $(' #nameFilter,#codeFilter,#phoneFilter', ).on('keyup change', function(e) {
             e.preventDefault();
             table_associate_list.draw();
@@ -155,14 +151,12 @@
         let currentNameField = null;
         let currentIdField = null;
 
-        // Handle search icon click to store the correct input fields
         $('.input-group-text').on('click', function() {
             const container = $(this).closest('.d-flex');
             currentNameField = container.find('input[type="text"]');
             currentIdField = container.find('input[type="hidden"]');
         });
 
-        // DataTable initialization
         var table_associate_list = $('#associateListTable').DataTable({
             responsive: true,
             processing: true,
@@ -194,30 +188,24 @@
                 },
             ],
             rowCallback: function(row, data, index) {
-                $(row).attr('data-associate-id', data.id); // Store associate ID in the row attribute
-
-                // Handle row click to insert data into the correct fields
+                $(row).attr('data-associate-id', data.id);
                 $(row).on('click', function() {
                     if (currentNameField && currentIdField) {
-                        currentNameField.val(data.associate_name); // Set the name in the text field
-                        currentIdField.val(data.id); // Set the ID in the hidden field
-
-                        // Close the modal
+                        currentNameField.val(data.associate_name);
+                        currentIdField.val(data.id);
                         $('#searchAssociate').modal('hide');
                     }
                 });
             },
         });
 
-        //  clear button
         $('.clear-associate').on('click', function(event) {
-            event.preventDefault(); // Prevent any default action, just in case
+            event.preventDefault();
             const target = $(this).data('target');
             $(`#${target}_id`).val('');
             $(`#${target}_name`).val('');
         });
 
-        //pop up ship to
         $(' #shipToNameFilter,#shipToCodeFilter', ).on('keyup change', function(e) {
             e.preventDefault();
             table_ship_to_list.draw();
@@ -263,8 +251,6 @@
                                 $('#ship_to').val(data.customer_name);
                                 $('#ship_to_name').val(data.customer_name_1);
                                 $('#sales_tax_id').val(data.tax_code_id);
-
-                                // Close the modal
                                 $('#searchShipTo').modal('hide');
                             });
                         }
@@ -279,13 +265,11 @@
             window.location.href = "{{ route('opportunities.index') }}";
         });
 
-        // Function to copy the billing customer name to a target field
         function copyBillingCustomer(target) {
             let billingCustomer = $('#billing_customer_name').val();
             $(target).val(billingCustomer || '');
         }
 
-        // Function to concatenate lot and sub-division with the billing customer name
         function setCustomerWithLotAndDivision(lotSelector, subDivisionSelector, target) {
             let billingCustomer = $('#billing_customer_name').val();
             let lot = $(lotSelector).val();
@@ -297,7 +281,6 @@
             $(target).val(formattedCustomer);
         }
 
-        // Event listeners for pick and delivery operations
         $('#copy_bill_to').click(function() {
             copyBillingCustomer('#ship_to_job_name');
         });
@@ -355,7 +338,6 @@
                 }
             ];
 
-            // Loop through each field and copy the values
             fields.forEach(({
                 from,
                 to
@@ -364,7 +346,6 @@
             });
         });
 
-        //ship to fields hide and show
         document.querySelectorAll('[data-bs-toggle="pill"]').forEach(button => {
             button.addEventListener('click', () => {
                 const type = button.getAttribute('data-type');

@@ -629,6 +629,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/batch_close_quote/updatestatus', [BatchCloseQuoteController::class, 'updatestatus'])->name('batch_close_quotes.updatestatus');
 
     Route::resource('sale_orders', SaleOrderController::class);
+    Route::get('/sale_order/associate_list', [SaleOrderController::class, 'getAllAssociateDataTableList'])->name('sale_orders.associate_list');
+    Route::get('/sale_order/customer_list', [SaleOrderController::class, 'getAllCustomerDataTableList'])->name('sale_orders.customer_list');
+    Route::get('/sale_order/ship_to_list/{id}', [SaleOrderController::class, 'getAllShipToDataTableList'])->name('sale_orders.ship_to_list');
     Route::get('/sale_order/list', [SaleOrderController::class, 'getSaleOrderDataTableList'])->name('sale_orders.list');
     Route::get('/sale_orders/get-record/{step}', [SaleOrderController::class, 'getRecord']);
     Route::patch('/sale_order/internal_notes/{id}', [SaleOrderController::class, 'updateInternalNotes'])->name('sale_orders.internal_notes');
@@ -650,12 +653,10 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('lines')->group(function () {
         Route::resource('lines', SaleOrderLineController::class);
         Route::get('/line/list/{id}', [SaleOrderLineController::class, 'getLineDataTableList'])->name('lines.list');
-        // Route::get('/product_list', [SaleOrderLineController::class, 'getAllProductDataTableList'])->name('lines.product_list');
     });
     Route::get('/so_item_lines/slablist/{id}', [SaleOrderItemLineController::class, 'getProductSlabList'])->name('so_item_lines.slablist');
     Route::prefix('so_item_lines')->group(function () {
         Route::resource('so_item_lines', SaleOrderItemLineController::class);
-        // Route::get('/Item_lines/list/{id}', [SaleOrderLineController::class, 'getLineDataTableList'])->name('item_lines.list');
     });
     Route::resource('pick_tickets', PickTicketController::class);
     Route::get('/pick_ticket/list/{id}', [PickTicketController::class, 'getPickTicketDataTableList'])->name('pick_tickets.list');

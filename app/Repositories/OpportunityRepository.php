@@ -227,7 +227,6 @@ class OpportunityRepository implements CrudRepositoryInterface, DatatableReposit
         return response()->json($response);
     }
 
-    //pop up ship to 
     public function getShipToList(Request $request, $id)
     {
         $query = Contact::join('customers', 'contacts.type_id', '=', 'customers.id')

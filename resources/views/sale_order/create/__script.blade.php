@@ -113,7 +113,7 @@
             serverSide: true,
             searching: false,
             ajax: {
-                url: "{{ route('opportunities.customer_list') }}",
+                url: "{{ route('sale_orders.customer_list') }}",
                 data: function(d) {
                     d.customerName = $('#customerNameFilter').val();
                     d.customerCode = $('#customerCodeFilter').val();
@@ -145,7 +145,9 @@
                     $('#suite').val(data.address_2);
                     $('#city').val(data.city);
                     $('#zip').val(data.zip);
-                    $('#country').val(data.country_id);
+                    $('#state').val(data.state);
+                    $('#country').val(data.country_id).trigger(
+                        'change');
                     $('#phone').val(data.phone);
                     $('#fax').val(data.fax);
                     $('#mobile').val(data.mobile);
@@ -180,7 +182,7 @@
             serverSide: true,
             searching: false,
             ajax: {
-                url: "{{ route('opportunities.associate_list') }}",
+                url: "{{ route('sale_orders.associate_list') }}",
                 data: function(d) {
                     d.associateName = $('#nameFilter').val();
                     d.associateCode = $('#codeFilter').val();
@@ -234,7 +236,7 @@
                 $('#searchShipTo').modal('show');
                 if ($.fn.DataTable.isDataTable('#shipToListTable')) {
                     table_ship_to_list.ajax.url(
-                        "{{ route('opportunities.ship_to_list', ':id') }}".replace(':id',
+                        "{{ route('sale_orders.ship_to_list', ':id') }}".replace(':id',
                             customer_id)
                     ).load();
                 } else {
@@ -244,7 +246,7 @@
                         serverSide: true,
                         searching: false,
                         ajax: {
-                            url: "{{ route('opportunities.ship_to_list', ':id') }}".replace(
+                            url: "{{ route('sale_orders.ship_to_list', ':id') }}".replace(
                                 ':id', customer_id),
                             data: function(d) {
                                 d.name = $('#shipToNameFilter').val();
@@ -281,7 +283,7 @@
         });
 
         $('#cancelButton').click(function() {
-            window.location.href = "{{ route('opportunities.index') }}";
+            window.location.href = "{{ route('sale_orders.index') }}";
         });
 
         function copyBillingCustomer(target) {
@@ -361,7 +363,7 @@
                 from,
                 to
             }) => {
-                $(`#${to}`).val($(`#${from}`).val());
+                $(`#${to}`).val($(`#${from}`).val()).trigger('change');
             });
         });
 

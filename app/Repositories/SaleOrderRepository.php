@@ -45,6 +45,39 @@ class SaleOrderRepository implements CrudRepositoryInterface, DatatableRepositor
     {
         $query = SaleOrder::with(['primary_user', 'secondary_user', 'customer'])
                             ->orderBy('id', 'desc');
+        if (!empty($request->sales_order_code)) {
+            $query->where('sales_order_code', 'like', '%' . $request->sales_order_code . '%');
+        }
+        if (!empty($request->sales_order_date)) {
+            $query->where('sales_order_date', $request->sales_order_date);
+        }
+        if (!empty($request->customer_po_code)) {
+            $query->where('customer_po_code', 'like', '%' . $request->customer_po_code. '%');
+        }
+        if (!empty($request->ship_to_job_name)) {
+            $query->where('ship_to_job_name', 'like', '%' . $request->ship_to_job_name. '%');
+        }
+        if (!empty($request->ship_to_type)) {
+            $query->where('ship_to_type', 'like', '%' . $request->ship_to_type. '%');
+        }
+        if (!empty($request->requested_ship_date)) {
+            $query->where('requested_ship_date', $request->requested_ship_date);
+        }
+        if (!empty($request->est_delivery_date)) {
+            $query->where('est_delivery_date', $request->est_delivery_date);
+        }
+        if (!empty($request->billing_customer)) {
+            $query->where('billing_customer_id', $request->billing_customer);
+        }
+        if (!empty($request->location)) {
+            $query->where('location_id', $request->location);
+        }
+        if (!empty($request->sales_person)) {
+            $query->where(function($query) use ($request) {
+                $query->where('primary_sales_person_id', $request->sales_person)
+                      ->orWhere('secondary_sales_person_id', $request->sales_person);
+            });
+        }
         return $query;
     }
 

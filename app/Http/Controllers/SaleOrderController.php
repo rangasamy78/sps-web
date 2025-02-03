@@ -46,12 +46,10 @@ class SaleOrderController extends Controller
     }
     public function index()
     {
-        return view('sale_order.sale_orders');
+        $data = $this->getDropDownData();
+        return view('sale_order.sale_orders', compact('data'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $data = $this->getDropDownData();
@@ -87,16 +85,13 @@ class SaleOrderController extends Controller
         $productCategories  = ProductCategory::query()->pluck('product_category_name', 'id');
         $productGroups      = ProductGroup::query()->pluck('product_group_name', 'id');
         $locations          = Consignment::with('customer')->get()->pluck('customer.customer_name');
-        // dd($locations);
         return compact('companies', 'paymentTerms', 'users', 'priceListLabels', 'customerTypes', 'customers', 'customerCount', 'associates', 'countries', 'counties', 'salesTaxs', 'aboutUsOptions', 'probabilityCloses', 'eventTypes', 'expenditures', 'printDocDisclaimer', 'services', 'productTypes', 'productCategories', 'productGroups', 'locations');
     }
 
     public function getRecord($step)
     {
-        // Fetch the record based on the selected step
         $record = PrintDocDisclaimer::where('id', $step)->first();
 
-        // Return the data as a JSON response
         if ($record) {
             return response()->json(['data' => $record->policy]);
         } else {
@@ -104,9 +99,6 @@ class SaleOrderController extends Controller
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(CreateSaleOrderRequest $request)
     {
         try {
@@ -118,15 +110,11 @@ class SaleOrderController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show($id)
     {
         $sale_order = SaleOrder::findOrFail($id);
         $customer = Customer::find($sale_order->billing_customer_id);
         $company = $sale_order ? Company::find($sale_order->location_id) : null;
-        // $user = User::find($sale_order->entered_by_id);
         $primary_sales = $sale_order->primary_sales_person_id ? User::find($sale_order->primary_sales_person_id) : null;
         $secondary_sales = $sale_order->secondary_sales_person_id ? User::find($sale_order->secondary_sales_person_id) : null;
         $user = $sale_order ? User::find($sale_order->entered_by_id) : null;
@@ -140,10 +128,6 @@ class SaleOrderController extends Controller
         $reffered_by = Associate::find($sale_order->builder_id);
         $freight_carrier = Expenditure::find($sale_order->freight_carrier_id);
         $route = County::find($sale_order->route_id);
-        // $how_did_hear = $opportunity->how_did_hear_about_us_id ? AboutUsOption::find($opportunity->how_did_hear_about_us_id) : null;
-        // $sale_order_contacts = OpportunityContact::where('opportunity_id', $id)
-        //     ->with('contact')
-        //     ->get();
         $sale_order_contacts = SaleOrderContact::where('sales_order_id', $id)
             ->with('contact')
             ->get();
@@ -159,9 +143,6 @@ class SaleOrderController extends Controller
         return view('sale_order.show.__show', compact('sale_order', 'customer', 'company', 'date', 'sales_order_date', 'user', 'primary_sales', 'secondary_sales', 'taxcode', 'price_list', 'payment_term', 'reffered_by', 'fabricator', 'designer', 'freight_carrier', 'route', 'contacts', 'fileTypes', 'data'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit($id)
     {
         $data = $this->getDropDownData();
@@ -180,12 +161,8 @@ class SaleOrderController extends Controller
         ));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateSaleOrderRequest $request, SaleOrder $saleOrder)
     {
-        // dd($request->all());
         try {
             $this->saleOrderRepository->update($request->only('sales_order_code', 'sales_order_date', 'customer_po_code', 'location_id', 'billing_customer_id', 'attn', 'payment_term_id', 'price_level_label_id', 'primary_sales_person_id', 'secondary_sales_person_id', 'is_cod', 'sales_tax_id', 'ship_to_type', 'ship_to_job_name', 'ship_to_attn', 'ship_to_id', 'ship_to_name', 'ship_to_address', 'ship_to_suite', 'ship_to_city', 'ship_to_state', 'ship_to_zip', 'ship_to_county_id', 'ship_to_country_id', 'ship_to_phone', 'ship_to_fax', 'ship_to_mobile', 'ship_to_lot', 'ship_to_sub_division', 'ship_to_email', 'requested_ship_date', 'est_delivery_date', 'ship_to_is_do_not_send_email', 'fabricator_id', 'designer_id', 'builder_id', 'commission_amount', 'commission_notes', 'special_instructions', 'internal_notes', 'printed_notes', 'survey_rating_notes', 'freight_carrier_id', 'route_id', 'shipping_tracking_number', 'print_doc_disclaimer_id', 'print_doc_description_editor', 'entered_by_id'), $saleOrder->id);
             return response()->json(['status' => 'success', 'msg' => 'sales order updated successfully.']);
@@ -214,12 +191,9 @@ class SaleOrderController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(SaleOrder $saleOrder)
     {
-        //
+
     }
     public function getSaleOrderDataTableList(Request $request)
     {

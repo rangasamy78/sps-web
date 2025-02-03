@@ -7,6 +7,11 @@
             }
         });
 
+        $('#salesOrderNumberFilter, #salesOrderDateFilter, #customerPoNumberFilter, #jobNameFilter, #shipToTypeFilter, #requestedShipDateFilter, #estDeliveryDateFilter, #billingCustomerFilter, #locationIdFilter, #salesPersonFilter').on('keyup change', function(e) {
+            e.preventDefault();
+            table_sales_order.draw();
+        });
+
         var table_sales_order = $('#datatablesSalesOrder').DataTable({
             responsive: true,
             processing: true,
@@ -14,7 +19,23 @@
             searching: false,
             ajax: {
                 url: "{{ route('sale_orders.list') }}",
-                data: function(d) {}
+                data: function(d) {
+                    d.sales_order_code = $('#salesOrderNumberFilter').val();
+                    d.sales_order_date = $('#salesOrderDateFilter').val();
+                    d.customer_po_code = $('#customerPoNumberFilter').val();
+                    d.ship_to_job_name = $('#jobNameFilter').val();
+                    d.ship_to_type = $('#shipToTypeFilter').val();
+                    d.requested_ship_date = $('#requestedShipDateFilter').val();
+                    d.est_delivery_date = $('#estDeliveryDateFilter').val();
+                    d.billing_customer = $('#billingCustomerFilter').val();
+                    d.location = $('#locationIdFilter').val();
+                    d.sales_person = $('#salesPersonFilter').val();
+                    sort = (d.order[0].dir == 'asc') ? "asc" : "desc";
+                    d.order = [{
+                        column: 1,
+                        dir: sort
+                    }];
+                }
             },
             columns: [{
                     data: 'sales_order_code',
@@ -147,6 +168,49 @@
                 }
             });
         });
+
+        $(document).ready(function() {
+      $('#saleOrderSearch').on('change', function() {
+        const selectedValues = $(this).val();
+        $('.filter-input').hide();
+        selectedValues.forEach(function(value) {
+          switch (value) {
+            case '1':
+              $('#salesOrderNumberDiv').show();
+              break;
+            case '2':
+              $('#salesOrderDateDiv').show();
+              break;
+            case '3':
+              $('#customerPoNumberDiv').show();
+              break;
+            case '4':
+              $('#jobNameDiv').show();
+              break;
+            case '5':
+              $('#shipToTypeDiv').show();
+              break;
+            case '6':
+              $('#requestedShipDateDiv').show();
+              break;
+            case '7':
+              $('#estDeliveryDateDiv').show();
+              break;
+            case '8':
+              $('#billingCustomerDiv').show();
+              break;
+            case '9':
+              $('#locationIdDiv').show();
+              break;
+            case '10':
+              $('#salesPersonDiv').show();
+              break;
+            default:
+              break;
+          }
+        });
+      });
+    });
 
     });
 </script>
