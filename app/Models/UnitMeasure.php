@@ -19,11 +19,11 @@ class UnitMeasure extends Model
         'unit_measure_entity',
         'unit_measure_name'
     ];
-     
+
     protected static  $predefinedUnitMeasureOptions = [
-        1 => 'Area', 
-        2 => 'Count', 
-        3 => 'Length', 
+        1 => 'Area',
+        2 => 'Count',
+        3 => 'Length',
         4 => 'Weight',
     ];
 
@@ -31,7 +31,7 @@ class UnitMeasure extends Model
     {
         return self::$predefinedUnitMeasureOptions;
     }
-    
+
     public static function getUnitMeasureOptions($id)
     {
         switch ($id) {
@@ -42,8 +42,18 @@ class UnitMeasure extends Model
             case 3:
                 return 'Length';
             case 4:
-                return 'Weight';   
+                return 'Weight';
         }
     }
-    
+
+    // public function service_unit()
+    // {
+    //     return $this->belongsTo(Service::class, 'item_id');
+    // }
+
+    public function unit_measures_so()
+    {
+        return $this->hasMany(Service::class, 'unit_of_measure_id');
+    }
+
 }

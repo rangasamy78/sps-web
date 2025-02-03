@@ -145,7 +145,7 @@
                 });
             }
         });
-        //opportunity stage 
+        //opportunity stage
         $('#opportunity_stage_id').change(function() {
             var selectedValue = $(this).val(); // Get the selected value
             var opportunityId = $('#opportunity_id').val(); // Get the opportunity ID

@@ -1,5 +1,5 @@
 <div class="modal fade" id="visitCalendarModel" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-md" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modelHeading">Visit Detail</h5>
@@ -38,6 +38,11 @@
                         <label for="internal_notes" class="col-sm-6 form-label mt-2">Internal Notes</label>
                         <div class="col-sm-12">
                             <textarea id="internal_notes" name="internal_notes" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label><span id="product_details" style="color: black; font-weight: bold;"></span></label>
                         </div>
                     </div>
                 </form>

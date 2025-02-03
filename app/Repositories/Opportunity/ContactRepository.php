@@ -13,7 +13,7 @@ class ContactRepository
         return OpportunityContact::query()
             ->findOrFail($id);
     }
-    
+
     public function save(array $data)
     {
         $opportunityId = $data['opportunity_id'];

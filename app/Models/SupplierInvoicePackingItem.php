@@ -1,8 +1,11 @@
 <?php
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 class SupplierInvoicePackingItem extends Model
 {
@@ -19,6 +22,7 @@ class SupplierInvoicePackingItem extends Model
      *
      * @var array<int, string>
      */
+
     protected $_fillable = [
         'po_product_id',
         'product_id',
@@ -48,9 +52,12 @@ class SupplierInvoicePackingItem extends Model
         'isSeqBlock',
         'isSeqBundle',
         'isSeqSupplier',
-        'inventory_status',
-        'inventory_travel_status'
     ];
+
+    function product_item()
+    {
+        return $this->belongsTo(Product::class, 'id');
+    }        
 
     public function product()
     {

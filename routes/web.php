@@ -23,10 +23,12 @@ use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TermTypeController;
 use App\Http\Controllers\VendorPoController;
+use App\Http\Controllers\SaleOrderController;
 use App\Http\Controllers\AssociateController;
 use App\Http\Controllers\EventTypeController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\PickTicketController;
 use App\Http\Controllers\SubHeadingController;
 use App\Http\Controllers\VendorTypeController;
 use App\Http\Controllers\AccountFileController;
@@ -117,6 +119,7 @@ use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\PrePurchaseRequestProductController;
 use App\Http\Controllers\SupplierInvoicePackingItemController;
 use App\Http\Controllers\Opportunity\OpportunityFileController;
+use App\Http\Controllers\SaleOrder\SaleOrderFileController;
 use App\Http\Controllers\SampleOrder\SampleOrderFileController;
 use App\Http\Controllers\AccountReceivableAgingPeriodController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
@@ -130,6 +133,14 @@ use App\Http\Controllers\Quote\EventController as QuoteEventController;
 use App\Http\Controllers\Hold\ContactController as HoldContactController;
 use App\Http\Controllers\Quote\ContactController as QuoteContactController;
 use App\Http\Controllers\Visit\ContactController as VisitContactController;
+use App\Http\Controllers\SaleOrder\LineController as SaleOrderLineController;
+use App\Http\Controllers\SaleOrder\EventController as SaleOrderEventController;
+use App\Http\Controllers\Supplier\ContactController as SupplierContactController;
+use App\Http\Controllers\Customer\ContactController as CustomerContactController;
+use App\Http\Controllers\SaleOrder\ContactController as SaleOrderContactController;
+use App\Http\Controllers\Associate\ContactController as AssociateContactController;
+use App\Http\Controllers\Opportunity\EventController as OpportunityEventController;
+use App\Http\Controllers\SaleOrder\ItemLineController as SaleOrderItemLineController;
 use App\Http\Controllers\Quote\Lines\QuoteProductPriceCalculatorController;
 use App\Http\Controllers\Customer\ContactController as CustomerContactController;
 use App\Http\Controllers\Supplier\ContactController as SupplierContactController;
@@ -536,6 +547,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/my_event/list', [MyEventController::class, 'getMyEventDataTableList'])->name('my_events.list');
     Route::post('/set_as_complete/{id}', [MyEventController::class, 'setAsComplete'])->name('my_events.set_as_complete');
     Route::get('/my_events/{event}', [MyEventController::class, 'show'])->name('my_event.show');
+    Route::get('/my_events/create/{date}', [MyEventController::class, 'create'])->name('my_event.create');
 
     Route::resource('vendor_pos', VendorPoController::class);
     Route::get('/vendor_po/list', [VendorPoController::class, 'getVendorPoDataTableList'])->name('vendor_pos.list');
@@ -773,6 +785,40 @@ Route::middleware(['auth'])->group(function () {
     Route::get('batch_close_quotes', [BatchCloseQuoteController::class, 'index'])->name('batch_close_quotes.index');
     Route::get('/batch_close_quote/list', [BatchCloseQuoteController::class, 'getBatchCloseQuoteDataTableList'])->name('batch_close_quotes.list');
     Route::post('/batch_close_quote/updatestatus', [BatchCloseQuoteController::class, 'updatestatus'])->name('batch_close_quotes.updatestatus');
+
+    Route::resource('sale_orders', SaleOrderController::class);
+    Route::get('/sale_order/associate_list', [SaleOrderController::class, 'getAllAssociateDataTableList'])->name('sale_orders.associate_list');
+    Route::get('/sale_order/customer_list', [SaleOrderController::class, 'getAllCustomerDataTableList'])->name('sale_orders.customer_list');
+    Route::get('/sale_order/ship_to_list/{id}', [SaleOrderController::class, 'getAllShipToDataTableList'])->name('sale_orders.ship_to_list');
+    Route::get('/sale_order/list', [SaleOrderController::class, 'getSaleOrderDataTableList'])->name('sale_orders.list');
+    Route::get('/sale_orders/get-record/{step}', [SaleOrderController::class, 'getRecord']);
+    Route::patch('/sale_order/internal_notes/{id}', [SaleOrderController::class, 'updateInternalNotes'])->name('sale_orders.internal_notes');
+    Route::get('/sale_order/search_product', [SaleOrderController::class, 'searchProduct'])->name('sale_orders.search_product');
+    Route::prefix('sale_orders')->name('sale_orders.')->group(function () {
+        Route::post('/contact/save', [SaleOrderContactController::class, 'save'])->name('contact.save');
+        Route::get('/contact/list/{id}', [SaleOrderContactController::class, 'getSaleOrderContactDataTableList'])->name('contacts.list');
+        Route::delete('/contacts/{id}/delete', [SaleOrderContactController::class, 'destroy'])->name('contacts.destroy');
+        Route::get('/bill_to_contact/list/{id}', [SaleOrderContactController::class, 'getSaleOrderBillToContactDataTableList'])->name('bill_to_contacts.list');
+        Route::delete('/bill_to_contact/{id}/delete', [SaleOrderContactController::class, 'billTodestroy'])->name('bill_to_contacts.destroy');
+    });
+    Route::resource('sale_orders_files', SaleOrderFileController::class);
+    Route::get('/sale_orders_file/list/{id}', [SaleOrderFileController::class, 'getSaleOrderFileDataTableList'])->name('sale_orders_files.list');
+    Route::prefix('events')->group(function () {
+        Route::resource('events', SaleOrderEventController::class);
+        Route::get('/event/list/{id}', [SaleOrderEventController::class, 'getEventDataTableList'])->name('events.list');
+        Route::get('/product_list', [SaleOrderEventController::class, 'getAllProductDataTableList'])->name('events.product_list');
+    });
+    Route::prefix('lines')->group(function () {
+        Route::resource('lines', SaleOrderLineController::class);
+        Route::get('/line/list/{id}', [SaleOrderLineController::class, 'getLineDataTableList'])->name('lines.list');
+    });
+    Route::get('/so_item_lines/slablist/{id}', [SaleOrderItemLineController::class, 'getProductSlabList'])->name('so_item_lines.slablist');
+    Route::prefix('so_item_lines')->group(function () {
+        Route::resource('so_item_lines', SaleOrderItemLineController::class);
+    });
+    Route::resource('pick_tickets', PickTicketController::class);
+    Route::get('/pick_ticket/list/{id}', [PickTicketController::class, 'getPickTicketDataTableList'])->name('pick_tickets.list');
+
     /* SUPPLIER INVOICE PACKING ITEMS */
     Route::resource('supplier_invoice_packing_items', SupplierInvoicePackingItemController::class);
     Route::post('supplier_invoice_packing_items/update-multiple', [SupplierInvoicePackingItemController::class, 'updateMultiple'])->name('supplier_invoice_packing_items.update_multiple');

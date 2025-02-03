@@ -6,7 +6,6 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-
         $('#calendar').fullCalendar({
                 header: {
                     left: 'prev, next today',
@@ -35,6 +34,7 @@
                     $('#secondary_sales_person_name').html(event.secondary_sales_person_name);
                     $('#ship_to_address').html(event.ship_to_address);
                     $('#company_name').html(event.company_name);
+                    $('#product_details').html(event.product_details);
 
                     $('#savedata').click(function(e) {
                     e.preventDefault();

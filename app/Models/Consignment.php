@@ -13,9 +13,7 @@ class Consignment extends Model
     protected $table = 'consignments';
 
     public function customer()
-{
-    return $this->belongsTo(Customer::class, 'consignment_location_id', 'id');
-}
-
-    
+    {
+        return $this->belongsTo(Customer::class, 'consignment_location_id', 'id');
+    }
 }
