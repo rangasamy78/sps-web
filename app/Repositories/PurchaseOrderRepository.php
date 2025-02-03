@@ -3,9 +3,12 @@
 namespace App\Repositories;
 
 use App\Models\Supplier;
+use App\Models\Company;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Models\PurchaseOrder;
 use App\Models\SupplierInvoice;
+use App\Models\PoInternalNote;
 use App\Models\PurchaseOrderProduct;
 use App\Interfaces\CrudRepositoryInterface;
 use App\Interfaces\DatatableRepositoryInterface;
@@ -34,7 +37,10 @@ class PurchaseOrderRepository implements CrudRepositoryInterface, DatatableRepos
 
     public function delete(int $id)
     {
+        \DB::table('purchase_order_products')->where('po_id', $id)->delete();
+        \DB::table('supplier_invoices')->where('po_id', $id)->delete();
         $query = $this->findOrFail($id)->delete();
+     
         return $query;
     }
 
@@ -68,31 +74,55 @@ class PurchaseOrderRepository implements CrudRepositoryInterface, DatatableRepos
         $arrData = $arrData->get();
 
         $arrData->map(function ($value, $i) {
+            $value->sno                     = ++$i;
             $value->sno                = ++$i;
-            $value->po_number          = $value->po_number ?? '';
-            $value->po_date            = $value->po_date ?? '';
-            $value->required_ship_date = $value->required_ship_date ?? '';
+            $value->po_number            = "<a href='" . route('purchase_orders.po_details', $value->id) . "' class='text-secondary'>" . ($value->po_number ?? '') . "</a>";
+            $value->po_date            = "<a href='" . route('purchase_orders.po_details', $value->id) . "' class='text-secondary'>" . ($value->po_date ?? '') . "</a>";
+            $value->required_ship_date = "<a href='" . route('purchase_orders.po_details', $value->id) . "' class='text-secondary'>" . ($value->required_ship_date ?? '') . "</a>";
+
             $value->supplier_so_number = $value->supplier_so_number ?? '';
             $value->supplier_id        = $value->supplier->supplier_name ?? '';
             $value->age                 ='';
             $value->supplier_so_number        ='';
-            $value->inventory_supplier        =$value->supplier->supplier_name ?? '';
+            $value->inventory_supplier = "<a href='" . route('suppliers.show', $value->supplier->id) . "' class='text-secondary'>" . ($value->supplier->supplier_name ?? '') . "</a>";
+
+            $value->supplier_type = "<a href='" . route('suppliers.show', $value->supplier->id) . "' class='text-secondary'></a>";
+            $value->container = "<a href='" . route('suppliers.show', $value->supplier->id) . "' class='text-secondary'>" . ($value->container_number ?? '') . "</a>";
+
+
+            
             $value->supplier_type        ='';
             $value->container        =$value->container_number ?? '';
-            $value->payment_terms        =$value->payment_term->payment_label ?? '';
+            $value->payment_terms        =$value->payment_terms->payment_label ?? '';
             $value->status        =$value->status ?? '';
+           
             $value->purchase_location        =$value->purchase_locations->company_name ?? '';
             $value->ship_location        =$value->ship_locations->company_name ?? '';
             $value->total        =$value->extended_total ?? '';
-            $value->approval_status        ='';
+            $value->approval_status        =$value->status ?? '';
             $value->no_inv        ='';
             $value->internal_note        ='';
             $value->special_note        ='';
            
-            $value->container_number   = $value->container_number ?? '';
+           
             $value->payment_term_id    = $value->payment_terms->payment_label ?? '';
+            $value->action = "<div class='dropup'>
+            <button type='button' class='btn p-0 dropdown-toggle hide-arrow' data-bs-toggle='dropdown'>
+                <i class='bx bx-dots-vertical-rounded icon-color'></i>
+            </button>";
+            $value->action .= "<div class='dropdown-menu'>
+            <a class='dropdown-item showbtn text-warning' href='" . route('purchase_orders.po_details', $value->id) . "' data-id='" . $value->id . "'>
+                <i class='bx bx-show me-1 icon-warning'></i> Show
+            </a>
+            <a class='dropdown-item editbtn text-success' href='" . route('purchase_orders.edit', $value->id) . "' data-id='" . $value->id . "'>
+                <i class='bx bx-edit-alt me-1 icon-success'></i> Edit
+            </a>
+            <a class='dropdown-item deletebtn text-danger' href='javascript:void(0);' data-id='" . $value->id . "'>
+                <i class='bx bx-trash me-1 icon-danger'></i> Delete
+            </a>
+        </div>
+        </div>";
 
-            $value->action = "<div class='dropup'><button type='button' class='btn p-0 dropdown-toggle hide-arrow' data-bs-toggle='dropdown'><i class='bx bx-dots-vertical-rounded icon-color'></i></button><div class='dropdown-menu'><a class='dropdown-item showbtn text-warning' href='javascript:void(0);' data-id='" . $value->id . "' ><i class='bx bx-show me-1 icon-warning'></i> Show</a><a class='dropdown-item editbtn text-success' href='javascript:void(0);' data-id='" . $value->id . "' > <i class='bx bx-edit-alt me-1 icon-success'></i> Edit </a><a class='dropdown-item deletebtn text-danger' href='javascript:void(0);' data-id='" . $value->id . "' ><i class='bx bx-trash me-1 icon-danger'></i> Delete</a> </div></div>";
         });
 
         $response = array(
@@ -106,6 +136,7 @@ class PurchaseOrderRepository implements CrudRepositoryInterface, DatatableRepos
     }
     public function dataFetchFromSupplier($id)
     {
+        
         $supplier = Supplier::where('id', $id)->first();
         return $supplier;
     }
@@ -198,8 +229,58 @@ class PurchaseOrderRepository implements CrudRepositoryInterface, DatatableRepos
     }
     public function dataFetchFromProduct($id)
     {
-        $prd = PurchaseOrderProduct::where('id', $id)->first();
+        $prd = PurchaseOrderProduct::with('product')
+            ->where('id', $id)
+            ->orderBy('id', 'asc') 
+            ->first();
         return $prd;
     }
+    
+    public function poInternalNoteSave(array $data)
+    {
+        return PoInternalNote::query()
+            ->create($data);
+    }
+
+    public function getPoInternalNotes($id){
+        $results = PoInternalNote::query()->where('purchase_order_id',$id)->get();
+        $output = '';
+        if(!empty($results)){
+            foreach($results as $result){
+                $output .= '<div>' . e($result['po_internal_notes']) . '</div>';
+            }
+        }
+        return $output;
+    }
+    public function dataFetchFromProductApprove($id)
+    {
+        $totalExtended = PurchaseOrderProduct::where('po_id', $id)->sum('extended');
+        
+        $purchaseOrder = PurchaseOrder::find($id);
+        if ($purchaseOrder) {
+            $purchaseOrder->sub_total = $totalExtended;
+            $purchaseOrder->extended_total = $totalExtended;
+          
+            if ($totalExtended > 5000) {
+                $purchaseOrder->approval_status = 'Disapprove';
+                $purchaseOrder->approved_state = 0;
+            }
+    
+            $purchaseOrder->save();
+            return $purchaseOrder;
+        }
+    }
+    public function dataFetchFromLocation($id)
+    {
+        $location = Customer::where('id', $id)->first();
+        return $location;
+    }
+
+
+   
+    
+    
+    
+    
 
 }

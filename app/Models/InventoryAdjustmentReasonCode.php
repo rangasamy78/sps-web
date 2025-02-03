@@ -22,7 +22,7 @@ class InventoryAdjustmentReasonCode extends Model
 
     function linked_adjustment_type()
     {
-        return $this->belongsTo(LinkedAccount::class, 'income_expense_account_id');
+        return $this->belongsTo(Account::class, 'income_expense_account_id');
     }
 
 }

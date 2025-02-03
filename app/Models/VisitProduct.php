@@ -16,10 +16,9 @@ class VisitProduct extends Model
     {
         return $this->belongsTo(Visit::class);
     }
-    public function product_23()
+    public function product()
     {
-        dd('asdasfdsa');
-        $a = $this->belongsTo(Product::class, 'product_id');
+        return $this->belongsTo(Product::class, 'product_id');
     }
     public function product_price()
     {

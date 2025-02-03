@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Exception;
 use Illuminate\Http\Request;
 use App\Models\ExpenseCategory;
+use App\Models\Account;
 use Illuminate\Support\Facades\Log;
 use App\Repositories\ExpenseCategoryRepository;
 use App\Services\ExpenseCategory\ExpenseCategoryService;
@@ -22,8 +23,10 @@ class ExpenseCategoryController extends Controller
 
     public function index()
     {
+        
         return view('expense_category.expense_categories', [
-            'data' => $this->expenseCategoryService->getAllData()
+            'data' => $this->expenseCategoryService->getAllData(),
+            'linked_accounts' => Account::query()->get()
         ]);
     }
 

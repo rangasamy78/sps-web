@@ -63,4 +63,28 @@ class Associate extends Model
     {
         return $this->hasMany(Opportunity::class, 'builder_id');
     }
+    public function hold_fabricator()
+    {
+        return $this->hasMany(Hold::class, 'fabricator_id');
+    }
+    public function hold_designer()
+    {
+        return $this->hasMany(Hold::class, 'designer_id');
+    }
+    public function hold_builder()
+    {
+        return $this->hasMany(Hold::class, 'builder_id');
+    }
+    public function hold_brand()
+    {
+        return $this->hasMany(Hold::class, 'brand_id');
+    }
+    public function hold_general_contractor()
+    {
+        return $this->hasMany(Hold::class, 'general_contractor_id');
+    }
+    public function hold_referred_by()
+    {
+        return $this->hasMany(Hold::class, 'referred_by_id');
+    }
 }

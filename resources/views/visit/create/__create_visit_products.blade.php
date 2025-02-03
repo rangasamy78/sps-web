@@ -6,17 +6,6 @@
 <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
 <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
 <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-straight/css/uicons-regular-straight.css'>
-<style>
-    .thin-scrollbar::-webkit-scrollbar {
-        width: 4px;
-    }
-
-    .thin-scrollbar::-webkit-scrollbar-thumb {
-        background-color: #0d6efd;
-        border-radius: 10px;
-    }
-</style>
-
 @endsection
 @section('content')
 <div class="content-wrapper">
@@ -37,21 +26,31 @@
                                             <span class="text-dark fw-bold">Visit <span class="text-primary">#{{$opportunity->opportunity_code}}</span> {{$opportunity->ship_to_job_name}} </span><br>
                                         </h5>
                                         <div class="row p-1">
-                                            <span style="font-size:9pt">{{$opportunity_date}}&nbsp;|&nbsp;{{$opportunity->ship_to_type}}</span>
+                                            <span style="font-size:9pt">{{$opportunity_date}}
+                                                @if(optional($opportunity)->ship_to_type)
+                                                &nbsp;|&nbsp;{{$opportunity->ship_to_type}}
+                                                @endif
+                                            </span>
                                         </div>
+                                        @if(optional($price_list)->price_label)
                                         <div class="row p-1">
                                             <span style="font-size:10pt">Price:<span class="text-dark fw-bold ms-3">{{$price_list->price_label}}-{{$price_list->price_code}}</span>
                                         </div>
+                                        @endif
+                                        @if(optional($customer)->customer_name)
                                         <div class="row p-1">
                                             <span style="font-size:10pt">Bill to:<span class="text-dark fw-bold ms-2">{{$customer->customer_name}}</span></span>
                                         </div>
+                                        @endif
+                                        @if(optional($opportunity)->ship_to_job_name)
                                         <div class="row p-1">
                                             <span style="font-size:10pt">Job:<span class="text-dark fw-bold ms-4">{{$opportunity->ship_to_job_name}}</span></span>
                                         </div>
+                                        @endif
                                     </div>
                                     <div class="col-lg-6 col-md-12 col-sm-12">
                                         <h5 class="card-title mb-0 fw-bold">
-                                            <span class="text-dark fw-bold">{{$company->company_name}} </span><br>
+                                            <div class="text-dark fw-bold">{{$company->company_name}} </div>
                                         </h5>
 
                                         <div class="row p-1">
@@ -461,6 +460,7 @@
                 <div class="row">
                     <div class="col">
                         <div class="d-flex justify-content-end">
+                            <input type="hidden" class="form-control  border-0 w-25" id="total" name="total" value="">
                             <label class="text-dark fw-bold mt-2">Total:</label>
                             <span class="mt-2 ms-4 fw-bold" id="visit_total">$</span>
                         </div>

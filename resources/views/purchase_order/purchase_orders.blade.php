@@ -25,17 +25,10 @@
                     <th>Supplier SO#</th>
                     <th>Inventory Supplier</th>
                     <th>Supplier Type</th>
-                    <th>Container#	</th>
-                    <th>Customer Reference	</th>
-                    <th>Payment Terms	</th>
-                    <th>Status	</th>
                     <th>Purchase Location		</th>
                     <th>Ship To		</th>
-                    <th>Total	</th>
                     <th>Approval Status		</th>
-                    <th>No. of Inv		</th>
-                    <th>	</th>
-                    <th>	</th>
+                    <th>Action		</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -51,5 +44,5 @@
 @endsection
 @section('scripts')
 @include('purchase_order.__scripts')
-@include('purchase_order.product.__scripts')
+
 @endsection

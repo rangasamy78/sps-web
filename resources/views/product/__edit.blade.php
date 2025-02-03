@@ -283,10 +283,10 @@
                             <label class="form-label" for="GL Inventory Link Account">GL Inventory Link Account</label>
                             <select class="form-select select2" name="gl_inventory_link_account_id" id="gl_inventory_link_account_id" data-allow-clear="true">
                               <option value="">--Select GL Inventory Link Account--</option>
-                              @foreach($inventories as $key => $inventory)
-                                  <option value="{{ $inventory['value'] }}"
-                                      @if(isset($product) && $product->gl_inventory_link_account_id == $inventory['value']) selected @endif>
-                                      {{ $inventory['label'] }}
+                              @foreach($inventories as $acc)
+                                  <option value="{{ $acc->id }}" 
+                                      {{ $acc->id == $product->gl_inventory_link_account_id ? 'selected' : '' }}>
+                                      {{ $acc->account_number }} - {{ $acc->account_name }}
                                   </option>
                               @endforeach
                               </select>
@@ -296,12 +296,13 @@
                             <label class="form-label" for="GL Income Account">GL Income Account</label>
                             <select class="form-select select2" name="gl_income_account_id" id="gl_income_account_id" data-allow-clear="true">
                           <option value="">--Select GL Income Account--</option>
-                          @foreach($sales as $key => $sale)
-                              <option value="{{ $sale['value'] }}"
-                                  @if(isset($product) && $product->gl_income_account_id == $sale['value']) selected @endif>
-                                  {{ $sale['label'] }}
-                              </option>
-                          @endforeach
+                          @foreach($sales as $acc)
+                                <option value="{{ $acc->id }}" 
+                                    {{ $acc->id == $product->gl_income_account_id ? 'selected' : '' }}>
+                                    {{ $acc->account_number }} - {{ $acc->account_name }}
+                                </option>
+                            @endforeach
+
                             </select>
                             <span class="text-danger error-text gl_income_account_id_error"></span>
                           </div>
@@ -310,12 +311,12 @@
                             </label>
                             <select class="form-select select2" name="gl_cogs_account_id" id="gl_cogs_account_id" data-allow-clear="true">
                             <option value="">--Select GL Cost Of Goods Sold Account--</option>
-                            @foreach($cogs as $key => $cog)
-                                  <option value="{{ $cog['value'] }}"
-                                      @if(isset($product) && $product->gl_cogs_account_id == $cog['value']) selected @endif>
-                                      {{ $cog['label'] }}
-                                  </option>
-                              @endforeach
+                            @foreach($cogs as $acc)
+                                <option value="{{ $acc->id }}" 
+                                    {{ $acc->id == $product->gl_cogs_account_id ? 'selected' : '' }}>
+                                    {{ $acc->account_number }} - {{ $acc->account_name }}
+                                </option>
+                            @endforeach
 
                             </select>
                               <span class="text-danger error-text gl_cogs_account_id_error"></span>

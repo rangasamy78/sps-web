@@ -53,4 +53,8 @@ class Company extends Model
     {
         return $this->hasMany(Opportunity::class, 'location_id');
     }
+    public function hold()
+    {
+        return $this->hasMany(Opportunity::class, 'location_id');
+    }
 }

@@ -6,6 +6,7 @@ use Exception;
 use App\Models\Country;
 use App\Models\Product;
 use App\Models\Supplier;
+use App\Models\Account;
 use App\Models\ProductKind;
 use App\Models\ProductType;
 use App\Models\ProductColor;
@@ -38,9 +39,22 @@ class ProductController extends Controller
     {
 
         $linkedAccountRecords = $this->dropDownRepository->dropDownPopulate('linked_account_inventory_gl');
-        $inventories          = $linkedAccountRecords->where('type', '=', 'Inventory');
-        $sales                = $linkedAccountRecords->where('type', '=', 'Sales');
-        $cogs                 = $linkedAccountRecords->where('type', '=', 'Cogs');
+        $inventories                =  Account::query()
+        ->join('account_types', 'accounts.account_type_id', '=', 'account_types.id')
+        ->where('account_types.account_type_name', '=', 'Inventory')
+        ->select('accounts.*') 
+        ->get();
+
+        $sales                      =  Account::query()
+            ->join('account_types', 'accounts.account_type_id', '=', 'account_types.id')
+            ->where('account_types.account_type_name', '=', 'Sales')
+            ->select('accounts.*') 
+            ->get();
+        $cogs                       = Account::query()
+            ->join('account_types', 'accounts.account_type_id', '=', 'account_types.id')
+            ->where('account_types.account_type_name', '=', 'Cogs')
+            ->select('accounts.*') 
+            ->get();
         $supplier             = Supplier::query()->get();
         $product_kind         = ProductKind::query()->get();
         $product_type         = ProductType::query()->get();
@@ -124,9 +138,22 @@ class ProductController extends Controller
     public function create()
     {
         $linkedAccountRecords = $this->dropDownRepository->dropDownPopulate('linked_account_inventory_gl');
-        $inventories          = $linkedAccountRecords->where('type', '=', 'Inventory');
-        $sales                = $linkedAccountRecords->where('type', '=', 'Sales');
-        $cogs                 = $linkedAccountRecords->where('type', '=', 'Cogs');
+        $inventories                =  Account::query()
+            ->join('account_types', 'accounts.account_type_id', '=', 'account_types.id')
+            ->where('account_types.account_type_name', '=', 'Inventory')
+            ->select('accounts.*') 
+            ->get();
+
+        $sales                      =  Account::query()
+            ->join('account_types', 'accounts.account_type_id', '=', 'account_types.id')
+            ->where('account_types.account_type_name', '=', 'Sales')
+            ->select('accounts.*') 
+            ->get();
+        $cogs                       = Account::query()
+            ->join('account_types', 'accounts.account_type_id', '=', 'account_types.id')
+            ->where('account_types.account_type_name', '=', 'Cogs')
+            ->select('accounts.*') 
+            ->get();
         $supplier             = Supplier::query()->get();
         $product_kind         = ProductKind::query()->get();
         $product_type         = ProductType::query()->get();
@@ -182,9 +209,22 @@ class ProductController extends Controller
     {
         $supplier             = Supplier::query()->get();
         $linkedAccountRecords = $this->dropDownRepository->dropDownPopulate('linked_account_inventory_gl');
-        $inventories          = $linkedAccountRecords->where('type', '=', 'Inventory');
-        $sales                = $linkedAccountRecords->where('type', '=', 'Sales');
-        $cogs                 = $linkedAccountRecords->where('type', '=', 'Cogs');
+        $inventories                =  Account::query()
+            ->join('account_types', 'accounts.account_type_id', '=', 'account_types.id')
+            ->where('account_types.account_type_name', '=', 'Inventory')
+            ->select('accounts.*') 
+            ->get();
+
+        $sales                      =  Account::query()
+            ->join('account_types', 'accounts.account_type_id', '=', 'account_types.id')
+            ->where('account_types.account_type_name', '=', 'Sales')
+            ->select('accounts.*') 
+            ->get();
+        $cogs                       = Account::query()
+            ->join('account_types', 'accounts.account_type_id', '=', 'account_types.id')
+            ->where('account_types.account_type_name', '=', 'Cogs')
+            ->select('accounts.*') 
+            ->get();
         $product              = Product::with('product_price')->findOrFail($id);
         $product_kind         = ProductKind::query()->get();
         $product_type         = ProductType::query()->get();

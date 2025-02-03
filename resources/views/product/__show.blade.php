@@ -85,21 +85,21 @@
                                         <div class="col">
                                             <label for="GL Inventory Link Account"><span class="text-dark fw-bold">GL
                                                     Inventory Link Account:
-                                                </span>{{ $product->product_type->product_type ?? '' }}</label>
+                                                </span>{{  $product->linked_account_inventory_gl->account_number . '-' . $product->linked_account_inventory_gl->account_name ?? '' }}</label>
                                         </div>
                                     </div>
                                     <div class="row mb-2">
                                         <div class="col">
                                             <label for="GL Income Account"><span class="text-dark fw-bold">GL Income
                                                     Account: </span>
-                                                {{ $product->product_type->product_type ?? '' }}</label>
+                                                {{  $product->linked_account_sales_gl->account_number . '-' . $product->linked_account_sales_gl->account_name ?? '' }}</label>
                                         </div>
                                     </div>
                                     <div class="row mb-2">
                                         <div class="col">
                                             <label for="GL Cost Of Goods Sold Account"><span
                                                     class="text-dark fw-bold">GL Cost Of Goods Sold Account:
-                                                </span>{{ $product->product_type->product_type ?? '' }}</label>
+                                                </span>{{  $product->linked_account_cogs_gl->account_number . '-' . $product->linked_account_cogs_gl->account_name ?? '' }}</label>
                                         </div>
                                     </div>
                                     <div class="row mb-2">

@@ -55,8 +55,17 @@ class Contact extends Model
     {
         return $this->hasMany(VisitContact::class, 'contact_id');
     }
-    public function sale_order_contact()
+
+    public function sample_order_contact()
     {
-        return $this->hasMany(SaleOrderContact::class, 'contact_id');
+        return $this->hasMany(SampleOrderContact::class, 'contact_id');
+    }
+    public function quote_contact()
+    {
+        return $this->hasMany(QuoteContact::class, 'contact_id');
+    }
+    public function hold_contact()
+    {
+        return $this->hasMany(HoldContact::class, 'contact_id');
     }
 }

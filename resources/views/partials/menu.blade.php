@@ -31,7 +31,7 @@
         </li>
 
         <!-- System Setting -->
-        <li class="menu-item {{ request()->is('companies')||request()->is('states*') || request()->is('bin_types*') || request()->is('file_types*') || request()->is('transaction_startings*') || request()->is('currencies*') || request()->is('select_type_categories*') ||request()->is('select_type_sub_categories*') ||request()->is('print_doc_disclaimers*') ||request()->is('departments*')|| request()->is('designations*') ||request()->is('product_types*') ||request()->is('product_price_ranges*')|| request()->is('product_categories*') || request()->is('product_groups*') || request()->is('product_colors*') || request()->is('product_finishes*') || request()->is('pick_ticket_restrictions*') || request()->is('countries*') ||request()->is('price_list_labels')|| request()->is('project_types*') || request()->is('sub_headings*')||request()->is('calculate_measurement_labels*')||request()->is('event_types*')||request()->is('opportunity_stages*')||request()->is('probability_to_closes*')||request()->is('release_reason_codes*')|| request()->is('inventory_adjustment_reason_codes*')|| request()->is('adjustment_types*')||  request()->is('end_use_segments*')||request()->is('about_us_options*')||request()->is('product_thicknesses*')||request()->is('customer_types*') || request()->is('shipment_methods*')||request()->is('customer_contact_titles*')||request()->is('unit_measures*')||request()->is('survey_questions')||request()->is('credit_check_settings')||request()->is('return_reason_codes')||request()->is('supplier_types')||request()->is('vendor_types')||request()->is('shipment_terms') ||request()->is('supplier_ports')||request()->is('supplier_return_statuses')||request()->is('purchase_shipment_methods')||request()->is('supplier_cost_list_labels')|| request()->is('receiving_qc_notes')|| request()->is('default_link_accounts')|| request()->is('expense_categories')|| request()->is('account_payment_terms')|| request()->is('payment_methods')|| request()->is('account_receivable_aging_periods')|| request()->is('aging_periods_aps') || request()->is('linked_accounts')|| request()->is('account_types')||request()->is('account_sub_types')||request()->is('tax_exempt_reasons')||request()->is('account_payable_aging_periods')||request()->is('users*')||request()->is('special_account_types')||request()->is('product_kinds*')|| request()->is('counties')||request()->is('languages') ? 'active open' : '' }}">
+        <li class="menu-item {{ request()->is('companies')||request()->is('states*') || request()->is('bin_types*') || request()->is('file_types*') || request()->is('transaction_startings*') || request()->is('currencies*') || request()->is('select_type_categories*') ||request()->is('select_type_sub_categories*') ||request()->is('print_doc_disclaimers*') ||request()->is('departments*')|| request()->is('designations*') ||request()->is('product_types*') ||request()->is('product_price_ranges*')|| request()->is('product_categories*') || request()->is('product_groups*') || request()->is('product_colors*') || request()->is('product_finishes*') || request()->is('pick_ticket_restrictions*') || request()->is('countries*') ||request()->is('price_list_labels')|| request()->is('project_types*') || request()->is('sub_headings*')||request()->is('calculate_measurement_labels*')||request()->is('event_types*')||request()->is('opportunity_stages*')||request()->is('probability_to_closes*')||request()->is('release_reason_codes*')|| request()->is('inventory_adjustment_reason_codes*')|| request()->is('adjustment_types*')||  request()->is('end_use_segments*')||request()->is('about_us_options*')||request()->is('product_thicknesses*')||request()->is('customer_types*') || request()->is('shipment_methods*')||request()->is('customer_contact_titles*')||request()->is('unit_measures*')||request()->is('survey_questions')||request()->is('credit_check_settings')||request()->is('return_reason_codes')||request()->is('supplier_types')||request()->is('vendor_types')||request()->is('shipment_terms') ||request()->is('supplier_ports')||request()->is('supplier_return_statuses')||request()->is('purchase_shipment_methods')||request()->is('supplier_cost_list_labels')|| request()->is('receiving_qc_notes')|| request()->is('default_link_accounts')|| request()->is('expense_categories')|| request()->is('account_payment_terms')|| request()->is('payment_methods')|| request()->is('account_receivable_aging_periods')|| request()->is('aging_periods_aps') || request()->is('linked_accounts')|| request()->is('account_types')||request()->is('account_sub_types')||request()->is('tax_exempt_reasons')||request()->is('account_payable_aging_periods')||request()->is('users*')||request()->is('special_account_types')||request()->is('product_kinds*')|| request()->is('counties')||request()->is('languages')||request()->is('quote_headers')||request()->is('quote_footers')||request()->is('quote_printed_notes') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="bx bx-cog menu-icon"></i>
                 <div class="text-truncate" data-i18n="System Setting">System Setting</div>
@@ -223,7 +223,7 @@
 
 
                     <!-- Pre Sales/CRM -->
-                    <li class="menu-item {{ request()->is('project_types*') || request()->is('sub_headings*')||request()->is('calculate_measurement_labels*')||request()->is('event_types*')||request()->is('opportunity_stages*')||request()->is('probability_to_closes*')||request()->is('release_reason_codes*')|| request()->is('end_use_segments*')||request()->is('about_us_options*') ? 'active open' : '' }}">
+                    <li class="menu-item {{ request()->is('project_types*') || request()->is('sub_headings*')||request()->is('calculate_measurement_labels*')||request()->is('event_types*')||request()->is('opportunity_stages*')||request()->is('probability_to_closes*')||request()->is('release_reason_codes*')|| request()->is('end_use_segments*')||request()->is('about_us_options*')||request()->is('quote_footers*')||request()->is('quote_headers*')||request()->is('quote_printed_notes*') ? 'active open' : '' }}">
                         <a href="javascript:void(0);" class="menu-link menu-toggle ps-4">
                             <i class="bx bx-message-square menu-icon"></i>
                             <div class="text-truncate ps-1" data-i18n="Pre Sales/CRM">Pre Sales/CRM</div>
@@ -277,7 +277,28 @@
                                     <div class="text-truncate" data-i18n="Hold Release Reason Codes" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-secondary" title="Hold Release Reason Codes">Hold Release Reason Codes</div>
                                 </a>
                             </li>
-
+                            <li class="menu-item {{ request()->is('quote_headers')||request()->is('quote_footers')||request()->is('quote_printed_notes')  ? 'active open' : '' }}">
+                                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                    <div class="text-truncate" data-i18n="Quotes">Quotes</div>
+                                </a>
+                                <ul class="menu-sub">
+                                    <li class="menu-item {{ request()->is('quote_headers') ? 'active open' : '' }}">
+                                        <a href="{{ route('quote_headers.index') }}" class="menu-link">
+                                            <div class="text-truncate" data-i18n="Quote Headers">Quote Headers</div>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item {{ request()->is('quote_footers') ? 'active open' : '' }}">
+                                        <a href="{{ route('quote_footers.index') }}" class="menu-link">
+                                            <div class="text-truncate" data-i18n="Quote Footers">Quote Footers</div>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item {{ request()->is('quote_printed_notes') ? 'active open' : '' }}">
+                                        <a href="{{ route('quote_printed_notes.index') }}" class="menu-link">
+                                            <div class="text-truncate" data-i18n="Quote Printed Notes" data-bs-toggle="tooltip" data-bs-offset="0,8" data-bs-placement="right" data-bs-custom-class="tooltip-secondary" title="Quote Printed Notes">Quote Printed Notes </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
 
@@ -498,21 +519,30 @@
             </ul>
         </li>
         <!-- Lists -->
-        <li class="menu-item {{ request()->is('lists*')||request()->is('products*') || request()->is('products.stock')|| request()->is('products.stock_list') || request()->is('products.price_list_product') || request()->is('products.customer_price_list_product*') || request()->is('associates*') || request()->is('expenditures*') || request()->is('accounts*') || request()->is('suppliers*') || request()->is('customers*') || request()->is('tax_codes*')|| request()->is('tax_authorities*') || request()->is('services*')|| request()->is('consignments*') ? 'active open' : '' }}">
+        <li class="menu-item {{ (request()->is('lists*') ||request()->is('associates*') ||request()->is('expenditures*') ||request()->is('accounts*') ||request()->is('suppliers*') ||request()->is('customers*') ||request()->is('products*') ||request()->is('tax_codes*') ||request()->is('tax_authorities*') ||request()->is('services*') ||request()->is('consignments*')) ? 'active open' : '' }}">
             <a href="{{ route(name: 'lists') }}" class="menu-link">
                 <i class="bx bx-shield menu-icon"></i>
                 <div class="text-truncate" data-i18n="Lists">Lists</div>
             </a>
         </li>
-        <!-- pre sales -->
-        <li class="menu-item {{ request()->is('pre_sales*')||request()->is('products*') || request()->is('products.stock')|| request()->is('products.stock_list') || request()->is('products.price_list_product') || request()->is('products.customer_price_list_product*') || request()->is('associates*')  || request()->is('customers*') || request()->is('tax_codes*')|| request()->is('tax_authorities*') ? 'active open' : '' }}">
+
+        <!-- Pre Sales -->
+        <li class="menu-item {{ (request()->is('pre_sales*') ||request()->is('opportunities*') ||request()->is('opportunities.index') ||request()->is('opportunities.create') ||request()->is('visit*') ||request()->is('visit.opportunities.index') ||request()->is('visit_events*') ||request()->is('visit_opportunities*') ||request()->is('visit_lists*') ||request()->is('visit.opportunities.index') ||request()->is('visits*')||request()->is('sample_orders*')||request()->is('quotes*') ||request()->is('holds*') ||request()->is('converts*') ||request()->is('visit_calendars.index') ||request()->is('my_events*') ||request()->is('event_calendars*') ||request()->is('quote_stages_dashboard*') ||request()->is('follow_ups*'))? 'active open' : '' }}">
             <a href="{{ route(name: 'pre_sales') }}" class="menu-link">
                 <i class="bx bx-cart menu-icon"></i>
                 <div class="text-truncate" data-i18n="Pre Sales">Pre Sales</div>
             </a>
         </li>
+
         <!-- Purchase -->
-        <li class="menu-item {{ request()->is('purchases*')||request()->is('products*') || request()->is('products.stock')|| request()->is('products.stock_list') || request()->is('products.price_list_product') || request()->is('products.customer_price_list_product*') || request()->is('suppliers*') ? 'active open' : '' }}">
+        <li class="menu-item {{ request()->is('purchases*')
+        || request()->is('pre_purchase_requests*') || 
+        request()->is('vendor_pos*') ||
+         request()->is('freight_bills*') || 
+         request()->is('purchase_orders*') || 
+         request()->is('event_calendars*') || 
+         request()->is('supplier_invoices*') || 
+         request()->is('freight_vendors*') ? 'active open' : '' }}">
             <a href="{{ route(name: 'purchases') }}" class="menu-link">
                 <i class="bx bx-shopping-bag menu-icon"></i>
                 <div class="text-truncate" data-i18n="Purchase">Purchase</div>

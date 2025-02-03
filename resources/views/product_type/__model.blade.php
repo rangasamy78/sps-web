@@ -42,8 +42,8 @@
                                 <label class="form-label" for="Inventory GL Account">Inventory GL Account <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                                 <select id="inventory_gl_account_id" class="form-select select2" name="inventory_gl_account_id" data-allow-clear="true">
                                     <option value="">--Select Inventory GL Account--</option>
-                                    @foreach($inventories as $key => $inventory)
-                                        <option value="{{ $inventory['value'] }}">{{ $inventory['label'] }}</option>
+                                    @foreach($inventories as $acc)
+                                    <option value="{{ $acc->id }}">{{ $acc->account_number }}-{{ $acc->account_name }}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger error-text inventory_gl_account_id_error"></span>
@@ -52,8 +52,8 @@
                                 <label class="form-label" for="Sales GL Account">Sales GL Account <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                                 <select id="sales_gl_account_id" class="form-select select2" name="sales_gl_account_id" data-allow-clear="true">
                                     <option value="">--Select Sales GL Account--</option>
-                                    @foreach($sales as $key => $sale)
-                                        <option value="{{ $sale['value'] }}">{{ $sale['label'] }}</option>
+                                    @foreach($sales as $acc)
+                                    <option value="{{ $acc->id }}">{{ $acc->account_number }}-{{ $acc->account_name }}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger error-text sales_gl_account_id_error"></span>
@@ -62,10 +62,10 @@
                                 <label class="form-label" for="Cogs GL Account">Cogs GL Account <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
                                 <select id="cogs_gl_account_id" class="form-select select2" name="cogs_gl_account_id" data-allow-clear="true">
                                     <option value="">--Select Cogs GL Account--</option>
-                                    @foreach($cogs as $key => $cog)
-                                        <option value="{{ $cog['value'] }}">{{ $cog['label'] }}</option>
+                                    @foreach($cogs as $acc)
+                                    <option value="{{ $acc->id }}">{{ $acc->account_number }}-{{ $acc->account_name }}</option>
                                     @endforeach
-                                </select>
+                                                    </select>
                                 <span class="text-danger error-text cogs_gl_account_id_error"></span>
                             </div>
                         </div>

@@ -30,10 +30,18 @@ class TaxCode extends Model
 
     public function tax_code_component()
     {
-        return $this->hasMany(TaxCodeComponent::class);
+        return $this->hasMany(TaxCodeComponent::class, 'tax_code_id');
     }
     public function opportunity()
     {
         return $this->hasMany(Opportunity::class, 'sales_tax_id');
+    }
+    public function quote()
+    {
+        return $this->hasMany(Quote::class, 'sales_tax_id');
+    }
+    public function hold()
+    {
+        return $this->hasMany(hold::class, 'sales_tax_id');
     }
 }

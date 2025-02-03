@@ -3,10 +3,14 @@
 namespace App\Repositories;
 
 use Carbon\Carbon;
+use App\Models\Hold;
+use App\Models\Visit;
+use App\Models\Quote;
 use App\Models\Contact;
 use App\Models\Company;
 use App\Models\Customer;
 use App\Models\Associate;
+use App\Models\SampleOrder;
 use App\Models\Opportunity;
 use Illuminate\Http\Request;
 use App\Interfaces\CrudRepositoryInterface;
@@ -283,5 +287,126 @@ class OpportunityRepository implements CrudRepositoryInterface, DatatableReposit
         ];
 
         return response()->json($response);
+    }
+
+    //subtransactions 
+    public function getSubtransactionList($id)
+    {
+        if (!$id) {
+            throw new \InvalidArgumentException('Opportunity ID is required');
+        }
+
+        $currentDate = Carbon::now();
+
+        // Fetch data from all models and map
+        $visits = Visit::with('project_type', 'end_use_segments')->where('opportunity_id', $id)->get()->map(function ($visit, $index) use ($currentDate) {
+            $visitDate = Carbon::parse($visit->visit_date);
+            $visitTime = Carbon::parse($visit->visit_time);
+            $checkoutStatus = ($visit->checkout == 1)
+                ? '<span class="text-danger fw-bold">(Closed)</span>'
+                : '';
+            return [
+                'date' => $visitDate->format('M d, Y'),
+                'time' => $visitTime->format('g:i a'),
+                'days' => $visitDate->diffInDays($currentDate),
+                'expiryDate' => null,
+                'transaction' => "<a class='dropdown-item showbtn text-dark fw-bold' href='" . route('visits.show', $visit->id) . "' data-id='{$visit->id}'>Visit {$checkoutStatus}: {$visit->id}-" . ($index + 1) . "</a>",
+                'projectType' => $visit->project_type->project_type_name ?? null,
+                'endUseSegment' => $visit->end_use_segment_id->end_use_segment ?? null,
+                'label' => $visit->visit_label,
+                'total' => $visit->total,
+                'salesOrder' => null,
+                'name' => 'visit',
+                'action' => "<a class='dropdown-item showbtn text-dark' href='" . route('visits.edit', $visit->id) . "' data-id='{$visit->id}'><i class='fi fi-rr-pen-circle fs-3'></i></a>",
+            ];
+        });
+
+        $sampleOrders = SampleOrder::with('project_type', 'end_use_segments')->where('opportunity_id', $id)->get()->map(function ($sampleOrder, $index) use ($currentDate) {
+            $orderDate = Carbon::parse($sampleOrder->sample_order_date);
+            $orderTime = Carbon::parse($sampleOrder->sample_order_time);
+            return [
+
+                'date' => $orderDate->format('M d, Y'),
+                'time' => $orderTime->format('g:i a'),
+                'days' => $orderDate->diffInDays($currentDate),
+                'expiryDate' => null,
+                'transaction' => "<a class='dropdown-item showbtn text-dark fw-bold' href='" . route('create.sample_orders.show', $sampleOrder->id) . "' data-id='{$sampleOrder->id}'>Sample Order: " . ($sampleOrder->id) . '-' . ($index + 1) . "</a>",
+                'projectType' => $sampleOrder->project_type->project_type_name ?? null,
+                'endUseSegment' => $sampleOrder->end_use_segment_id->end_use_segment ?? null,
+                'label' => $sampleOrder->sample_order_label,
+                'total' => $sampleOrder->total,
+                'salesOrder' => null,
+                'name' => 'sampleOrder',
+                'action' => "<a class='dropdown-item showbtn text-dark' href='" . route('create.sample_orders.edit', $sampleOrder->id) . "' data-id='{$sampleOrder->id}'><i class='fi fi-rr-pen-circle fs-3'></i></a>",
+            ];
+        });
+
+        $quotes = Quote::with('project_type', 'end_use_segments')->where('opportunity_id', $id)->get()->map(function ($quote, $index) use ($currentDate) {
+            $quoteDate = Carbon::parse($quote->quote_date);
+            $quoteTime = Carbon::parse($quote->quote_time);
+            return [
+                'date' => $quoteDate->format('M d, Y'),
+                'time' => $quoteTime->format('g:i a'),
+                'days' => $quoteDate->diffInDays($currentDate),
+                'expiryDate' => $quote->expiry_date ? Carbon::parse($quote->expiry_date)->format('M d, Y') : null,
+                'transaction' => "<a class='dropdown-item showbtn text-dark fw-bold' href='" . route('quote.quotes.show', $quote->id) . "' data-id='{$quote->id}'>Quote: " . ($quote->id) . '-' . ($index + 1) . "</a>",
+                'projectType' => $quote->project_type->project_type_name ?? null,
+                'endUseSegment' => $quote->end_use_segments->end_use_segment ?? null,
+                'label' => $quote->quote_label,
+                'total' => $quote->total,
+                'salesOrder' => null,
+                'name' => 'quote',
+                'action' => "<a class='dropdown-item showbtn text-dark' href='" . route('quote.quotes.edit', $quote->id) . "' data-id='{$quote->id}'><i class='fi fi-rr-pen-circle fs-3'></i></a>",
+            ];
+        });
+
+        $holds = Hold::with('project_type')->where('opportunity_id', $id)->get()->map(function ($hold, $index) use ($currentDate) {
+            $holdDate = Carbon::parse($hold->hold_date);
+            $holdTime = Carbon::parse($hold->hold_time);
+            $expiryDate = $hold->expiry_date ? Carbon::parse($hold->expiry_date) : null;
+            $releasedStatus = ($hold->is_released == 1)
+                ? '<span class="text-danger fw-bold">Released:</span>'
+                : '';
+            $expiredStatus = ($expiryDate && $expiryDate->lt($currentDate))
+                ? '<span class="text-danger">Hold Expired</span>'
+                : '';
+            $action = ($hold->is_released == 1)
+                ? ''
+                : "<a class='dropdown-item showbtn text-dark' href='" . route('hold.holds.edit', $hold->id) . "' data-id='{$hold->id}'><i class='fi fi-rr-pen-circle fs-3'></i></a>";
+            return [
+                'date' => $holdDate->format('M d, Y'),
+                'time' => $holdTime->format('g:i a'),
+                'days' => $holdDate->diffInDays($currentDate),
+                'expiryDate' => $expiryDate ? $expiryDate->format('M d, Y') : null,
+                'transaction' => "<a class='dropdown-item showbtn text-dark fw-bold' href='" . route('hold.holds.show', $hold->id) . "' data-id='{$hold->id}'>hold: " . ($hold->id) . '-' . ($index + 1) . " {$releasedStatus} {$expiredStatus}</a>",
+                'projectType' => $hold->project_type->project_type_name ?? null,
+                'endUseSegment' => null,
+                'label' => $hold->hold_label,
+                'total' => $hold->total,
+                'salesOrder' => null,
+                'name' => 'hold',
+                'action' => $action,
+            ];
+        });
+        return $visits->merge($sampleOrders)->merge($quotes)->merge($holds);
+    }
+
+    public function dataTableAllSubtransaction(Request $request, $id)
+    {
+        $draw = $request->get('draw');
+        $start = $request->get("start");
+        $rowPerPage = $request->get("length");
+
+        $subtransactions = $this->getSubtransactionList($id);
+        $totalRecords = $subtransactions->count();
+
+        $filteredData = $subtransactions->slice($start, $rowPerPage)->values();
+
+        return response()->json([
+            "draw" => intval($draw),
+            "recordsTotal" => $totalRecords,
+            "recordsFiltered" => $totalRecords,
+            "data" => $filteredData,
+        ]);
     }
 }

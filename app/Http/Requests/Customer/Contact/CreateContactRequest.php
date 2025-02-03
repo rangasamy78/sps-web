@@ -23,8 +23,11 @@ class CreateContactRequest extends FormRequest
     {
         return [
             'contact_name' => 'required|string|max:255|unique:contacts,contact_name',
+            'is_ship_to_address' => 'nullable|boolean',
+            'tax_code_id' => 'required_if:is_ship_to_address,true',
         ];
     }
+
 
     public function messages()
     {

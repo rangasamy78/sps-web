@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\County;
+use App\Models\Account;
 use App\Models\Company;
 use App\Models\Country;
 use App\Models\VendorType;
@@ -38,11 +39,7 @@ class ExpenditureController extends Controller
         $company                     = Company::query()->pluck('company_name', 'id');
         $country                     = Country::query()->pluck('country_name', 'id');
         $payment_methods             = PaymentMethod::query()->pluck('payment_method_name', 'id');
-        $linked_accounts = LinkedAccount::query()
-            ->get()
-            ->mapWithKeys(function ($item) {
-                return [$item->id => $item->account_code . ' - ' . $item->account_name];
-            });
+        $linked_accounts = Account::query()->get();
         $account_payment_terms       = AccountPaymentTerm::query()->pluck('payment_label', 'id');
         return view('expenditure.create', compact('vendor_types','company','country','payment_methods','linked_accounts','account_payment_terms'));
     }
@@ -78,11 +75,7 @@ class ExpenditureController extends Controller
         $company                     = Company::query()->pluck('company_name', 'id');
         $country                     = Country::query()->pluck('country_name', 'id');
         $payment_methods             = PaymentMethod::query()->pluck('payment_method_name', 'id');
-        $linked_accounts = LinkedAccount::query()
-            ->get()
-            ->mapWithKeys(function ($item) {
-                return [$item->id => $item->account_code . ' - ' . $item->account_name];
-            });
+        $linked_accounts = Account::query()->get();
         $account_payment_terms       = AccountPaymentTerm::query()->pluck('payment_label', 'id');
         return view('expenditure.edit', compact('expenditure','vendor_types','company','country','payment_methods','linked_accounts','account_payment_terms'));
     }

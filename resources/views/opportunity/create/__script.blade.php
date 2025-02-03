@@ -29,6 +29,7 @@
                         $('#customer_type_id, #parent_customer_id, #referred_by_id,#parent_location_id,#sales_person_id,#secondary_sales_person_id,#payment_terms_id,#sales_tax_id,#price_list_label_id').val(null).trigger('change');
                         $('#AddNewCustomer').modal('hide');
                         sending(button, true);
+                        table_customer_list.draw();
                         showToast('success', response.msg);
                     }
                 },
@@ -39,21 +40,22 @@
             });
         });
 
-        document.getElementById('sameAsBillTo').addEventListener('change', function() {
-            if (this.checked) {
-                document.getElementById('shipping_address').value = document.getElementById('address').value;
-                document.getElementById('shipping_address_2').value = document.getElementById('address_2').value;
-                document.getElementById('shipping_city').value = document.getElementById('city').value;
-                document.getElementById('shipping_state').value = document.getElementById('state').value;
-                document.getElementById('shipping_zip').value = document.getElementById('zip').value;
+        $('#sameAsBillTo').on('change', function() {
+            if ($(this).is(':checked')) {
+                $('#formAddNewCustomer #shipping_address').val($('#formAddNewCustomer #address').val());
+                $('#formAddNewCustomer #shipping_address_2').val($('#formAddNewCustomer #address_2').val());
+                $('#formAddNewCustomer #shipping_city').val($('#formAddNewCustomer #city').val());
+                $('#formAddNewCustomer #shipping_state').val($('#formAddNewCustomer #state').val());
+                $('#formAddNewCustomer #shipping_zip').val($('#formAddNewCustomer #zip').val());
             } else {
-                document.getElementById('shipping_address').value = '';
-                document.getElementById('shipping_address_2').value = '';
-                document.getElementById('shipping_city').value = '';
-                document.getElementById('shipping_state').value = '';
-                document.getElementById('shipping_zip').value = '';
+                $('#formAddNewCustomer #shipping_address').val('');
+                $('#formAddNewCustomer #shipping_address_2').val('');
+                $('#formAddNewCustomer #shipping_city').val('');
+                $('#formAddNewCustomer #shipping_state').val('');
+                $('#formAddNewCustomer #shipping_zip').val('');
             }
         });
+
 
         $('#formAddNewAssociate input, #formAddNewAssociate select').on('keyup change', function() {
             var inputName = $(this).attr('name');
@@ -291,6 +293,10 @@
             const fields = [{
                     from: 'billing_customer_id',
                     to: 'ship_to_id'
+                },
+                {
+                    from: 'billing_customer_name',
+                    to: 'ship_to'
                 },
                 {
                     from: 'billing_customer_name',

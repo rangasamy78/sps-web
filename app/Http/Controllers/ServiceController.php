@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\Service;
+use App\Models\Account;
 use App\Models\UnitMeasure;
 use App\Models\ServiceType;
 use App\Models\Expenditure;
@@ -31,11 +32,7 @@ class ServiceController extends Controller
         $service_categories     = ServiceCategory::query()->get();
         $service_types          = ServiceType::query()->get();
         $product_groups         = ProductGroup::all();
-        $linked_accounts        = LinkedAccount::query()
-            ->get()
-            ->mapWithKeys(function ($item) {
-                return [$item->id => $item->account_code . ' - ' . $item->account_name];
-            });
+        $linked_accounts        = Account::query()->get();
         $service_expenditures = Expenditure::all();
         $product_price_ranges = ProductPriceRange::all();
         return view('service.services', compact('unit_measures', 'service_categories', 'service_types', 'product_groups', 'linked_accounts', 'service_expenditures', 'product_price_ranges'));
@@ -47,11 +44,7 @@ class ServiceController extends Controller
         $service_categories     = ServiceCategory::query()->get();
         $service_types          = ServiceType::query()->get();
         $product_groups         = ProductGroup::all();
-        $linked_accounts        = LinkedAccount::query()
-            ->get()
-            ->mapWithKeys(function ($item) {
-                return [$item->id => $item->account_code . ' - ' . $item->account_name];
-            });
+        $linked_accounts        =Account::query()->get();
         $service_expenditures = Expenditure::all();
         $product_price_ranges = ProductPriceRange::all();
         return view('service.__create', compact('unit_measures', 'service_categories', 'service_types', 'product_groups', 'linked_accounts', 'service_expenditures', 'product_price_ranges'));
@@ -125,11 +118,7 @@ class ServiceController extends Controller
         $service_categories     = ServiceCategory::query()->get();
         $service_types          = ServiceType::query()->get();
         $product_groups         = ProductGroup::all();
-        $linked_accounts        = LinkedAccount::query()
-            ->get()
-            ->mapWithKeys(function ($item) {
-                return [$item->id => $item->account_code . ' - ' . $item->account_name];
-            });
+        $linked_accounts        = Account::query()->get();
         $service_expenditures = Expenditure::all();
         $product_price_ranges = ProductPriceRange::all();
         return view('service.__edit', compact('service','unit_measures', 'service_categories', 'service_types', 'product_groups', 'linked_accounts', 'service_expenditures', 'product_price_ranges'));
@@ -144,6 +133,7 @@ class ServiceController extends Controller
      */
     public function update(UpdateServiceRequest $request, Service $service)
     {
+      
         try {
 
             $data = [
@@ -162,9 +152,9 @@ class ServiceController extends Controller
             $data['serviceData']['frequent_in_customer_cm'] = $request->has('frequent_in_customer_cm') ? 1 : 0;
             $data['serviceData']['frequent_in_po']          = $request->has('frequent_in_po') ? 1 : 0;
             $data['serviceData']['frequent_in_supplier_cm'] = $request->has('frequent_in_supplier_cm') ? 1 : 0;
-
+            
             $this->serviceRepository->update($data, $service->id);
-
+          
             return response()->json(['status' => 'success', 'msg' => 'Service updated successfully.']);
         } catch (Exception $e) {
             Log::error('Error updating service: ' . $e->getMessage());
@@ -186,7 +176,7 @@ class ServiceController extends Controller
                 if ($service->status == 0) {
                     return response()->json(['status' => 'false', 'msg' => 'Service is already inactive.']);
                 }
-                // Mark service as inactive
+                
                 $service->status = 0;
                 $service->save();
 
@@ -195,7 +185,7 @@ class ServiceController extends Controller
                 return response()->json(['status' => 'false', 'msg' => 'Service not found.']);
             }
         } catch (Exception $e) {
-            // Log the exception for debugging purposes
+            
             Log::error('Error updating service status: ' . $e->getMessage());
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the service status.']);
         }

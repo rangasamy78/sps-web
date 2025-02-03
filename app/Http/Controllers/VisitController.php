@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\User;
+use App\Models\Hold;
+use App\Models\Quote;
 use App\Models\Visit;
 use App\Models\County;
 use App\Models\Service;
 use App\Models\TaxCode;
 use App\Models\Company;
-use App\Models\Product;
 use App\Models\Country;
 use App\Models\Customer;
 use App\Models\Supplier;
@@ -19,18 +20,21 @@ use App\Models\Associate;
 use App\Models\Opportunity;
 use App\Models\ProjectType;
 use App\Models\ProductType;
+use App\Models\QuoteFooter;
+use App\Models\QuoteHeader;
+use App\Models\SampleOrder;
 use App\Models\VisitProduct;
 use App\Models\VisitService;
 use Illuminate\Http\Request;
 use App\Models\VisitContact;
 use App\Models\TaxComponent;
-use App\Models\ProductPrice;
 use App\Models\CustomerType;
 use App\Models\EndUseSegment;
 use App\Models\AboutUsOption;
 use App\Models\PriceListLabel;
 use App\Models\ProductCategory;
 use App\Models\OpportunityStage;
+use App\Models\QuotePrintedNote;
 use App\Models\ProbabilityToClose;
 use Illuminate\Support\Facades\DB;
 use App\Models\AccountPaymentTerm;
@@ -38,26 +42,29 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Repositories\VisitRepository;
 use App\Repositories\OpportunityRepository;
+use App\Repositories\SampleOrderRepository;
+use App\Repositories\QuoteRepository;
 use App\Http\Requests\Visit\{CreateVisitRequest, UpdateVisitRequest};
 use App\Http\Requests\Visit\Opportunity\UpdateOpportunityVisitRequest;
 use App\Http\Requests\Visit\VisitProduct\{CreateVisitProductRequest, UpdateVisitProductRequest};
 use App\Http\Requests\Visit\VisitService\{CreateVisitServiceRequest, UpdateVisitServiceRequest};
-use App\Http\Requests\Opportunity\{CreateOpportunityRequest, UpdateOpportunityRequest};
+use App\Http\Requests\Opportunity\CreateOpportunityRequest;
+
 
 class VisitController extends Controller
 {
     private VisitRepository $visitRepository;
     private OpportunityRepository $opportunityRepository;
-    public function __construct(VisitRepository $visitRepository, OpportunityRepository $opportunityRepository)
+    private SampleOrderRepository $sampleOrderRepository;
+    private QuoteRepository $quoteRepository;
+    public function __construct(VisitRepository $visitRepository, OpportunityRepository $opportunityRepository, SampleOrderRepository $sampleOrderRepository, QuoteRepository $quoteRepository)
     {
         $this->opportunityRepository = $opportunityRepository;
         $this->visitRepository = $visitRepository;
+        $this->sampleOrderRepository = $sampleOrderRepository;
+        $this->quoteRepository = $quoteRepository;
     }
 
-    public function index()
-    {
-        // return view('visit.create.__create_visits');
-    }
     public function getOpportunityDetail($id)
     {
         $data = $this->getDropDownData();
@@ -106,7 +113,10 @@ class VisitController extends Controller
         $primary_sales = $opportunity?->primary_user;
         $secondary_sales = $opportunity?->secondary_user;
         $taxCode = $opportunity?->sales_tax;
-        $taxAmount = $taxCode?->tax_code_component()->first();
+        $taxAmount = null;
+        if ($taxCode) {
+            $taxAmount = TaxComponent::where('tax_code_id', $taxCode->id)->first();
+        }
         return view('visit.create.__create_visit_products', compact(
             'data',
             'visit',
@@ -122,48 +132,6 @@ class VisitController extends Controller
         ));
     }
 
-    public function searchProduct(Request $request)
-    {
-        return $this->visitRepository->searchProductDataTable($request);
-    }
-
-    public function getProduct(Request $request)
-    {
-        try {
-            $id = $request->get('id');
-            $product = Product::with('price')->findOrFail($id);
-            return response()->json([
-                'status' => 'success',
-                'data' => $product,
-            ]);
-        } catch (Exception $e) {
-            Log::error('Error in searchProduct: ' . $e->getMessage());
-            return response()->json([
-                'status' => 'error',
-                'message' => 'An error occurred while fetching products.',
-            ], 500);
-        }
-    }
-
-    public function getProductPrice(Request $request)
-    {
-        try {
-            $id = $request->get('id');
-            $product = Product::findOrFail($id);
-            $price = ProductPrice::where('product_id', $product->id)->firstOrFail();
-            return response()->json([
-                'status' => 'success',
-                'data' => $price
-            ]);
-        } catch (Exception $e) {
-            Log::error('Error in searchProduct: ' . $e->getMessage());
-            return response()->json([
-                'status' => 'error',
-                'message' => 'An error occurred while fetching products.',
-            ], 500);
-        }
-    }
-
     public function saveVisitProduct(Request $request, CreateVisitProductRequest $createVisitProductRequest, CreateVisitServiceRequest $createVisitServiceRequest)
     {
         DB::beginTransaction();  // Start the transaction
@@ -174,6 +142,7 @@ class VisitController extends Controller
             $visit = Visit::findOrFail($request->input('visit_id'));
             $visit->update([
                 'visit_printed_notes' => $request->input('visit_printed_notes'),
+                'total' => $request->input('total'),
             ]);
             $opportunity = Opportunity::findOrFail($request->input('opportunity_id'));
             $opportunity->update([
@@ -297,6 +266,7 @@ class VisitController extends Controller
             // Update visit data
             $visit->update([
                 'visit_printed_notes' => $request->input('visit_printed_notes'),
+                'total' => $request->input('total'),
             ]);
             // Update opportunity
             $opportunity = Opportunity::findOrFail($request->input('opportunity_id'));
@@ -391,7 +361,10 @@ class VisitController extends Controller
         $position = $visits->search(function ($item) use ($id) {
             return $item->id == $id;
         }) + 1;
-        $visit_count = Visit::where('opportunity_id', $visit->opportunity_id)->count();
+        $visitCount = Visit::where('opportunity_id', $visit->opportunity_id)->count();
+        $holdCount = Hold::where('opportunity_id', $visit->opportunity_id)->count();
+        $quoteCount = Quote::where('opportunity_id', $visit->opportunity_id)->count();
+        $sampleOrderCount = SampleOrder::where('opportunity_id', $visit->opportunity_id)->count();
         $visit_date = $visit->created_at ? \Carbon\Carbon::parse($visit->created_at)->format('M d Y g:iA') : null;
         $opportunity_date = $opportunity->created_at ? \Carbon\Carbon::parse($opportunity->created_at)->format('M d Y g:iA') : null;
         $company = optional(Company::find($opportunity->location_id));
@@ -435,7 +408,10 @@ class VisitController extends Controller
             'designer',
             'builder',
             'howDidHear',
-            'visit_count',
+            'visitCount',
+            'holdCount',
+            'quoteCount',
+            'sampleOrderCount',
             'fileTypes',
             'contacts'
         ));
@@ -595,6 +571,7 @@ class VisitController extends Controller
         $builder = $opportunity?->builder;
         return view('visit.edit.__edit_oppotunity_visits', compact('data', 'visit', 'opportunity', 'billCustomer', 'fabricator', 'designer', 'builder'));
     }
+
     public function updateOpportunityVisit(Request $request, $id, UpdateOpportunityVisitRequest $updateOpportunityVisitRequest)
     {
         try {
@@ -623,6 +600,36 @@ class VisitController extends Controller
                 'status' => 'error',
                 'msg' => 'An error occurred while updating the opportunity or visit. Please try again.',
             ], 500);
+        }
+    }
+
+    public function indexConvertSampleAndQuote($id,  Request $request)
+    {
+        $type = $request->query('type');
+        $data = $this->getDropDownData();
+        $visit = Visit::findOrFail($id);
+        $opportunity = $visit->opportunities;
+        $customer = $opportunity?->customer;
+        $opportunity_date = $opportunity?->created_at ? $opportunity->created_at->format('M d Y g:iA') : null;
+        $taxcode = $opportunity?->sales_tax;
+        $taxAmount = $taxcode ? TaxComponent::where('tax_code_id', $taxcode->id)->first() : null;
+        $price_list = $opportunity?->price_list;
+        $payment_term = $customer?->payment_term;
+        $endUseSegment = $opportunity?->end_use_segment;
+        $howDidHear = $opportunity?->how_did_you_hear;
+        $projectType = $opportunity?->project_type;
+        $company = $opportunity?->location;
+        $primarySale = $opportunity?->primary_user;
+        $secondarySale = $opportunity?->secondary_user;
+        $fabricator = $opportunity?->fabricator;
+        $designer = $opportunity?->designer;
+        $builder = $opportunity?->builder;
+        $visitProducts = VisitProduct::with(['product.unit_measure'])->where('visit_id', $id)->get();
+        $visitServices = VisitService::with(['service.unit_measure'])->where('visit_id', $id)->get();
+        if ($type == 'sample') {
+            return view('opportunity.opportunity_convert.visit_converts.sample_order', compact('data', 'visit', 'opportunity', 'customer', 'opportunity_date', 'taxcode', 'taxAmount', 'price_list', 'payment_term', 'endUseSegment', 'howDidHear', 'projectType', 'company', 'primarySale', 'secondarySale', 'fabricator', 'designer', 'builder', 'visitProducts', 'visitServices'));
+        } else if ($type == 'quote') {
+            return view('opportunity.opportunity_convert.visit_converts.quote', compact('data', 'visit', 'opportunity', 'customer', 'opportunity_date', 'taxcode', 'taxAmount', 'price_list', 'payment_term', 'endUseSegment', 'howDidHear', 'projectType', 'company', 'primarySale', 'secondarySale', 'fabricator', 'designer', 'builder', 'visitProducts', 'visitServices'));
         }
     }
 
@@ -664,6 +671,9 @@ class VisitController extends Controller
         $productCategories = ProductCategory::query()->pluck('product_category_name', 'id');
         $suppliers = Supplier::query()->pluck('supplier_name', 'id');
         $services = Service::query()->pluck('service_name', 'id');
-        return compact('companies', 'paymentTerms', 'users', 'priceListLabels', 'customerTypes', 'customers', 'customerCount', 'associates', 'countries', 'counties', 'salesTaxs', 'endUseSegments', 'projectTypes', 'opportunityStages', 'aboutUsOptions', 'probabilityCloses', 'eventTypes', 'productTypes', 'productCategories', 'suppliers', 'services');
+        $quoteFooter = QuoteFooter::query()->pluck('quote_footer_name', 'id');
+        $quoteHeader = QuoteHeader::query()->pluck('quote_header_name', 'id');
+        $quotePrintedNote = QuotePrintedNote::query()->pluck('quote_printed_notes_name', 'id');
+        return compact('companies', 'paymentTerms', 'users', 'priceListLabels', 'customerTypes', 'customers', 'customerCount', 'associates', 'countries', 'counties', 'salesTaxs', 'endUseSegments', 'projectTypes', 'opportunityStages', 'aboutUsOptions', 'probabilityCloses', 'eventTypes', 'productTypes', 'productCategories', 'suppliers', 'services', 'quoteFooter', 'quoteHeader', 'quotePrintedNote');
     }
 }

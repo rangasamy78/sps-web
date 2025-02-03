@@ -24,4 +24,8 @@ class AboutUsOption extends Model
     {
         return $this->hasMany(Opportunity::class, 'how_did_hear_about_us_id');
     }
+    public function hold()
+    {
+        return $this->hasMany(Hold::class, 'how_did_hear_about_us_id');
+    }
 }

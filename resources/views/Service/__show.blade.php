@@ -91,15 +91,15 @@
                                         <div class="row mb-2">
                                             <div class="col">
                                                 <label for="GLIncome_sccount"><span class="text-dark fw-bold">GLIncome
-                                                        Account: </span> {{ $gl_sales_accounts->account_code ?? '' }} -
-                                                    {{ $gl_sales_accounts->account_name ?? '' }}</label>
+                                                        Account: </span> 
+                                                        {{  $service->linked_account_gl->account_number . '-' . $service->linked_account_gl->account_name ?? '' }}</label>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
                                             <div class="col">
                                                 <label for="Thickness"><span class="text-dark fw-bold">GLExpense Account:
-                                                    </span> {{ $gl_cost_of_sales_accounts->account_code ?? '' }} -
-                                                    {{ $gl_cost_of_sales_accounts->account_name ?? '' }}</label>
+                                                    </span> 
+                                                    {{  $service->linked_account->account_number . '-' . $service->linked_account->account_name ?? '' }}</label>
                                             </div>
                                         </div>
                                         <div class="row mb-2">

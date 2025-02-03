@@ -66,7 +66,10 @@ return new class extends Migration
             $table->float('sub_total')->nullable();
             $table->float('extended_total')->nullable();
             $table->enum('status', ['Pending', 'Fullfilled', 'Closed'])->default('Pending');
-
+            $table->enum('approval_status', ['Approve', 'Disapprove','Nill'])->default('Nill');
+            $table->text('approval_status_note')->nullable();
+            $table->dateTime('approval_date')->nullable();
+            $table->text('approved_state')->default(0);
             $table->timestamps();
 
         });

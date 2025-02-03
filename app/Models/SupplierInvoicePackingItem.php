@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+
 class SupplierInvoicePackingItem extends Model
 {
     use HasFactory;
@@ -21,9 +22,12 @@ class SupplierInvoicePackingItem extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = [
+
+    protected $_fillable = [
+        'po_product_id',
         'product_id',
         'po_id',
+        'sipl_id',
         'bar_code_no',
         'seq_no',
         'packing_list_sizes',
@@ -53,6 +57,15 @@ class SupplierInvoicePackingItem extends Model
     function product_item()
     {
         return $this->belongsTo(Product::class, 'id');
+    }        
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
     }
 
+    public function updateNoteItem($data)
+    {
+        return $this->update(['notes' => $data['note']]);
+    }
 }

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Purchase Order')
+@section('title', 'Supplier Invoice')
 
 @section('content')
 <div class="content-wrapper">
@@ -14,7 +14,7 @@
                             <div class="row mb-3">
                                 <div class="col">
                                     <label class="form-label" for="SIPL/Bill#">SIPL/Bill#:
-                                        <sup style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                                        <sup style="color:red; font-size: 0.9rem;"></label>
                                         <input type="hidden" name="supplier_invoice_id" id="supplier_invoice_id">
                                     <input type="text" class="form-control" id="sipl_bill" value="{{$newPo}}"  readonly 
                                         name="sipl_bill" aria-label="SIPL/Bill#" />
@@ -101,13 +101,14 @@
                                 <div class="col-4">
                                     <label class="form-label" for="Shipment Terms">Delivery Method:
                                     </label>
-                                    <select class="form-select select2" name="delivery_method_id"
-                                        id="delivery_method_id" data-allow-clear="true">
-                                        <option value="">--Select Shipment Terms--</option>
-                                        @foreach($shipment_terms as $ship)
-                                        <option value="{{ $ship->id }}">{{ $ship->shipment_term_name  }}</option>
-                                        @endforeach
-                                    </select>
+                                    <select class="form-select select2" name="delivery_method" id="delivery_method" data-allow-clear="true">
+                                    <option value="">--Select Shipment Terms--</option>
+                                    <option value="pickup">Pickup</option>
+                                    <option value="delivery">Delivery</option>
+                                    <option value="other">Other</option>
+                                
+                                </select>
+
                                 </div>
                                 <div class="col-4">
                                     <label class="form-label" for="Shipment Terms">Shipment Terms:
@@ -126,7 +127,7 @@
                                     <label class="form-label" for="Shipment Terms">Payment Hold:
                                     </label>
                                     <input type="checkbox" id="payment_hold" name="payment_hold"
-                                        aria-label="Payment Hold"  />
+                                        aria-label="Payment Hold"  value="off"/>
                                 </div>
 
                                 <div class="col-4">
@@ -149,6 +150,8 @@
                                 <div class="col">
                                     <label class="form-label" for="Units of Measure">Supplier <sup
                                             style="color:red; font-size: 0.9rem;"><strong>*</strong></label>
+                                       
+                                       
                                     <select class="form-select select2" name="supplier_id" id="supplier_id"
                                         data-allow-clear="true">
                                         <option value="">--Select Supplier--</option>
@@ -200,6 +203,9 @@
                                     <select class="form-select select2" name="supplier_country_id"
                                         id="supplier_country_id" data-allow-clear="true">
                                         <option value="">--Select Country--</option>
+                                        @foreach($country as $cntry)
+                                        <option value="{{ $cntry->id }}">{{ $cntry->country_name  }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -222,8 +228,8 @@
                                     <select class="form-select select2" name="purchase_location_id"
                                         id="purchase_location_id" data-allow-clear="true">
                                         <option value="">--Select Location --</option>
-                                        @foreach($location as $loc)
-                                        <option value="{{ $loc->id }}">{{ $loc->company_name  }}</option>
+                                        @foreach($consignment_location as $loc)
+                                        <option value="{{ $loc->customer->id }}">{{ $loc->customer->customer_name  }}</option>
                                         @endforeach
 
                                     </select>
@@ -301,8 +307,8 @@
                                     <select class="form-select select2" name="ship_to_location_id"
                                         id="ship_to_location_id" data-allow-clear="true">
                                         <option value="">--Select Ship To Location--</option>
-                                        @foreach($location as $loc)
-                                        <option value="{{ $loc->id }}">{{ $loc->company_name  }}</option>
+                                        @foreach($consignment_location as $loc)
+                                        <option value="{{ $loc->customer->id }}">{{ $loc->customer->customer_name  }}</option>
                                         @endforeach
 
                                     </select>
@@ -384,6 +390,9 @@
                                 <select class="form-select select2" name="freight_forwarder_id"
                                     id="freight_forwarder_id" data-allow-clear="true">
                                     <option value="">--Select Freight Forwarder--</option>
+                                    @foreach($freight as $fr)
+                                        <option value="{{ $fr->id }}">{{ $fr->expenditure_name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="mb-3">
@@ -415,6 +424,9 @@
                                 <select class="form-select select2" name="departure_port_id" id="departure_port_id"
                                     data-allow-clear="true">
                                     <option value="">--Select Departure Port--</option>
+                                    @foreach($departure as $port)
+                                        <option value="{{ $port->id }}">{{ $port->supplier_port_name  }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="mb-3">
@@ -428,6 +440,9 @@
                                 <select class="form-select select2" name="arrival_port_id" id="arrival_port_id"
                                     data-allow-clear="true">
                                     <option value="">--Select Departure Port--</option>
+                                    @foreach($arrival as $port)
+                                        <option value="{{ $port->id }}">{{ $port->supplier_port_name  }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="mb-3">
@@ -440,6 +455,10 @@
                                 <select class="form-select select2" name="discharge_port_id" id="discharge_port_id"
                                     data-allow-clear="true">
                                     <option value="">--Select Departure Port--</option>
+                                    @foreach($discharge as $port)
+                                        <option value="{{ $port->id }}">{{ $port->supplier_port_name  }}</option>
+                                    @endforeach
+
                                 </select>
                             </div>
                             <div class="mb-3">
@@ -495,34 +514,39 @@
                                 <div class="tab-content p-0 pe-md-5 ps-md-3">
                                     <div class="" id="product_details">
                                     
-                                        <table class="datatables-basic table tables-basic border-top table-striped" id="supplierProducts">
+                                    
+                                    <table class="datatables-basic table tables-basic border-top table-striped" id="supplierProducts">
                                         <thead class="table-header-bold">
                                             <tr>
-                                            <td> <input type="checkbox" class="form-check-input" id="wiring_instruction_id" name="wiring_instruction_id" /></td>
-                                            <th>PO# </th>
-                                            <th>Product</th>
-                                            <th>Description</th>
-                                            <th>Supp./Pur. Note </th>
-                                            <th>Alt.Qty </th>
-                                            <th>Pr./Alt.UOM </th>
-                                            <th>Qty</th>
-                                            <th>Unit Price </th>
-                                            <th></th>
-                                            <th></th>
-                                            <th>Extended</th>
+                                                <td><input type="checkbox" class="form-check-input"  id="selectAll"  name="product_check_ids" /></td>
+                                                <th>PO#</th>
+                                                <th>Location</th>
+                                                <th>Product</th>
+                                                <th>Description</th>
+                                                <th>Supp./Pur. Note</th>
+                                                <th>Alt.Qty</th>
+                                                <th>Pr./Alt.UOM</th>
+                                                <th>Qty</th>
+                                                <th>Unit Price</th>
+                                                <th></th>
+                                                <th>Extended</th>
                                             </tr>
-                                    </thead>
-                                    <tbody>
-                            </tbody>
-                                   
-                                    
-                                </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                                        </thead>
+                                        <tbody id="tbody_supplier_products">
+                                          
+                                        </tbody>
+                                    </table>
+
+                                  
+                                    <button type="button" id="addMoreButton" class="btn btn-primary">Add More</button>
+
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
 
                              
@@ -534,70 +558,54 @@
                                 <div class="tab-content p-0 pe-md-5 ps-md-3">
                                     <div class="" id="product_details">
                                     <table class="datatables-basic table tables-basic border-top table-striped" id="productFile">
-                <thead class="table-header-bold">
-                    <tr>
-                        <th>Service</th>
-                        <th>Account</th>
-                        <th>Description</th>
-                        <th>Extended</th>
-                    </tr>
-                </thead>
-                <tbody id="fileUploadRow">
-                    <tr>
-                    <td> <select class="form-select select2" name="freight_forwarder_id"
-                                            id="freight_forwarder_id" data-allow-clear="true">
-                                            <option value="">--Select --</option>
-                                        </select></td>
-                                        <td> <select class="form-select select2" name="freight_forwarder_id"
-                                            id="freight_forwarder_id" data-allow-clear="true">
-                                            <option value="">--Select --</option>
-                                        </select></td>
-                        <td><input type="text" class="form-control" id="description" placeholder="Description"
-                        name="description" aria-label="Description" /></td>
-                        <td><input type="text" class="form-control" id="extended" placeholder=""
-                        name="extended" aria-label="" /></td>
-                    </tr>
-                    <tr>
-                    <td> <select class="form-select select2" name="freight_forwarder_id"
-                                            id="freight_forwarder_id" data-allow-clear="true">
-                                            <option value="">--Select --</option>
-                                        </select></td>
-                                        <td> <select class="form-select select2" name="freight_forwarder_id"
-                                            id="freight_forwarder_id" data-allow-clear="true">
-                                            <option value="">--Select --</option>
-                                        </select></td>
-                        <td><input type="text" class="form-control" id="description" placeholder="Description"
-                        name="description" aria-label="Description" /></td>
-                        <td><input type="text" class="form-control" id="extended" placeholder=""
-                        name="extended" aria-label="" /></td>
-                    </tr>
-                    <tr>
-                    <td> <select class="form-select select2" name="freight_forwarder_id"
-                                            id="freight_forwarder_id" data-allow-clear="true">
-                                            <option value="">--Select --</option>
-                                        </select></td>
-                                        <td> <select class="form-select select2" name="freight_forwarder_id"
-                                            id="freight_forwarder_id" data-allow-clear="true">
-                                            <option value="">--Select --</option>
-                                        </select></td>
-                        <td><input type="text" class="form-control" id="description" placeholder="Description"
-                        name="description" aria-label="Description" /></td>
-                        <td><input type="text" class="form-control" id="extended" placeholder=""
-                        name="extended" aria-label="" /></td>
-                    </tr>
-                </tbody>
+                                    <thead class="table-header-bold">
+                                        <tr>
+                                            <th>Service</th>
+                                            <th>Account</th>
+                                            <th>Description</th>
+                                            <th>Extended</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="fileUploadRow">
+                        @for ($i = 0; $i < 3; $i++)
+                        <tr>
+                            <td>
+                                <select class="form-select" name="service_id[]" id="service_id{{ $i }}" data-allow-clear="true" onchange="fetchAccounts({{ $i }})">
+                                    <option value="">--Select--</option>
+                                    @foreach($service as $ser)
+                                    <option value="{{ $ser->id }}">{{ $ser->service_name }}</option>
+                                    @endforeach
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-select" name="account_id[]" id="account_id{{ $i }}" data-allow-clear="true">
+                                    <option value="">--Select--</option>
+                                    @foreach($account as $acc)
+                                    <option value="{{ $acc->id }}">{{ $acc->account_number }}-{{ $acc->account_name }}</option>
+                                    @endforeach
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="description_{{ $i }}" placeholder="Description" name="service_description[]" aria-label="Description" />
+                            </td>
+                            <td>
+                                <input type="number" class="form-control extended" id="extended_{{ $i }}" placeholder="" name="service_extended[]" aria-label="" oninput="calculateTotal()" />
+                            </td>
+                        </tr>
+                        @endfor
+                    </tbody>
                 <tfoot>
         <tr>
             <td colspan="3" style="text-align: right;"><strong>Items Total:</strong></td>
-            <td>$00.00</td>
+            <td id="itemTotal">$00.00</td>
         </tr>
         <tr>
             <td colspan="3" style="text-align: right;"><strong>Other Total:</strong></td>
-            <td>$00.00</td>
+            <td id="otherTotal">$00.00</td>
         </tr>
         <tr>
             <td colspan="3" style="text-align: right;"><strong>Total:</strong></td>
-            <td>$00.00</td>
+            <td id="total">$00.00</td>
         </tr>
     </tfoot>
             </table>

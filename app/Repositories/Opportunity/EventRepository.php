@@ -116,7 +116,7 @@ class EventRepository
         $columnName      = $columnNameArray[$columnIndex]['data'];
         $columnSortOrder = $orderArray[0]['dir'] ?? 'desc';
 
-        $columnName     = 'created_at';
+        $columnName     = 'products.created_at';
         $aboutUsOptions = $this->getProductList($request);
         $total          = $aboutUsOptions->count();
 
@@ -132,6 +132,7 @@ class EventRepository
             $value->product_name = $value->product_name ?? '';
             $value->product_sku = $value->product_sku ?? '';
             $value->type = $value->product_type->product_type ?? '';
+            $value->homeowner_price = $value->homeowner_price ?? '';
         });
         $response = array(
             "draw"            => intval($draw),

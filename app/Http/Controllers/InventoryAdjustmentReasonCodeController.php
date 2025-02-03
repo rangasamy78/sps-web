@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Exception;
 use Illuminate\Http\Request;
+use App\Models\Account;
 use Illuminate\Support\Facades\Log;
 use App\Models\InventoryAdjustmentReasonCode;
 use App\Repositories\{ InventoryAdjustmentReasonCodeRepository, DropDownRepository };
@@ -26,7 +27,7 @@ class InventoryAdjustmentReasonCodeController extends Controller
     public function index()
     {
         $adjustment_types   = $this->dropDownRepository->dropDownPopulate('adjustment_types');
-        $linked_accounts    = $this->dropDownRepository->dropDownPopulate('linked_accounts');
+        $linked_accounts    = Account::query()->get();
         return view('inventory_adjustment_reason_code.inventory_adjustment_reason_codes', compact('adjustment_types','linked_accounts'));
     }
 

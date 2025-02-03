@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -32,5 +33,9 @@ class ServicePrice extends Model
     public function service()
     {
         return $this->belongsTo(Service::class, 'service_id');
+    }
+    public function price_range()
+    {
+        return $this->belongsTo(ProductPriceRange::class, 'price_range_id');
     }
 }

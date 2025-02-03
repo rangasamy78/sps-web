@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use App\Models\Account;
 use App\Models\ProductType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -25,9 +26,23 @@ class ProductTypeController extends Controller
     public function index()
     {
         $linkedAccountRecords       = $this->dropDownRepository->dropDownPopulate('linked_account_inventory_gl');
-        $inventories                = $linkedAccountRecords->where('type', '=', 'Inventory');
-        $sales                      = $linkedAccountRecords->where('type', '=', 'Sales');
-        $cogs                       = $linkedAccountRecords->where('type', '=', 'Cogs');
+        $inventories                =  Account::query()
+                                        ->join('account_types', 'accounts.account_type_id', '=', 'account_types.id')
+                                        ->where('account_types.account_type_name', '=', 'Inventory')
+                                        ->select('accounts.*') 
+                                        ->get();
+
+        $sales                      =  Account::query()
+                                        ->join('account_types', 'accounts.account_type_id', '=', 'account_types.id')
+                                        ->where('account_types.account_type_name', '=', 'Sales')
+                                        ->select('accounts.*') 
+                                        ->get();
+        $cogs                       = Account::query()
+                                        ->join('account_types', 'accounts.account_type_id', '=', 'account_types.id')
+                                        ->where('account_types.account_type_name', '=', 'Cogs')
+                                        ->select('accounts.*') 
+                                        ->get();
+        
         return view('product_type.product_types', compact('inventories', 'sales', 'cogs'));
     }
 
@@ -40,7 +55,7 @@ class ProductTypeController extends Controller
             $this->productTypeRepository->store($request->only('product_type', 'indivisible', 'non_serialized', 'inventory_gl_account_id', 'sales_gl_account_id', 'cogs_gl_account_id'));
             return response()->json(['status' => 'success', 'msg' => 'Product type saved successfully.']);
         } catch (Exception $e) {
-            // Log the exception for debugging purposes
+           
             Log::error('Error saving product type: ' . $e->getMessage());
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while saving the product type.']);
         }
@@ -91,7 +106,7 @@ class ProductTypeController extends Controller
             $this->productTypeRepository->update($data, $productType->id);
             return response()->json(['status' => 'success', 'msg' => 'Product type updated successfully.']);
         } catch (Exception $e) {
-            // Log the exception for debugging purposes
+           
             Log::error('Error updating product type: ' . $e->getMessage());
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while updating the product type.']);
         }
@@ -114,7 +129,7 @@ class ProductTypeController extends Controller
                 return response()->json(['status' => 'false', 'msg' => 'Product type not found.']);
             }
         } catch (Exception $e) {
-            // Log the exception for debugging purposes
+           
             Log::error('Error deleting product type: ' . $e->getMessage());
             return response()->json(['status' => 'false', 'msg' => 'An error occurred while deleting the product type.']);
         }

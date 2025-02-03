@@ -545,6 +545,7 @@
                 <div class="row">
                     <div class="col">
                         <div class="d-flex justify-content-end">
+                            <input type="hidden" class="form-control  border-0 w-25" id="total" name="total" value="">
                             <label class="text-dark fw-bold mt-2">Total:</label>
                             <span class="mt-2 ms-4 fw-bold" id="visit_total">$</span>
                         </div>

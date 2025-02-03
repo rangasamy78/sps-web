@@ -80,6 +80,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Event::class, 'assigned_to_id');
     }
+    public function hold_primary()
+    {
+        return $this->hasMany(Hold::class, 'primary_sales_person_id');
+    }
+    public function hold_secondary()
+    {
+        return $this->hasMany(Hold::class, 'secondary_sales_person_id');
+    }
     public function getFullNameAttribute()
     {
         return trim($this->first_name . ' ' . $this->last_name);

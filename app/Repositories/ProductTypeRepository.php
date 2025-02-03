@@ -88,9 +88,9 @@ class ProductTypeRepository implements CrudRepositoryInterface, DatatableReposit
         $arrData->map(function ($value, $i) {
             $value->sno                 = ++$i;
             $value->product_type        = $value->product_type ?? '';
-            $inventory_gl               = $value->linked_account_inventory_gl->account_code . '-' . $value->linked_account_inventory_gl->account_name;
-            $sales_gl                   = $value->linked_account_sales_gl->account_code . '-' . $value->linked_account_sales_gl->account_name;
-            $cogs_gl                    = $value->linked_account_cogs_gl->account_code . '-' . $value->linked_account_cogs_gl->account_name;
+            $inventory_gl               = $value->linked_account_inventory_gl->account_number . '-' . $value->linked_account_inventory_gl->account_name;
+            $sales_gl                   = $value->linked_account_sales_gl->account_number . '-' . $value->linked_account_sales_gl->account_name;
+            $cogs_gl                    = $value->linked_account_cogs_gl->account_number . '-' . $value->linked_account_cogs_gl->account_name;
             $value->default_gl_accounts = $this->productTypeService->getDefaultGLAccounts($inventory_gl, $sales_gl, $cogs_gl);
             $value->default_values      = $this->productTypeService->getDefaultValues($value->indivisible, $value->non_serialized, $value->id);
             $value->action              = "<div class='dropup'><button type='button' class='btn p-0 dropdown-toggle hide-arrow' data-bs-toggle='dropdown'><i class='bx bx-dots-vertical-rounded icon-color'></i></button><div class='dropdown-menu'><a class='dropdown-item showbtn text-warning' href='javascript:void(0);' data-id='" . $value->id . "' ><i class='bx bx-show me-1 icon-warning'></i> Show</a><a class='dropdown-item editbtn text-success' href='javascript:void(0);' data-id='" . $value->id . "' > <i class='bx bx-edit-alt me-1 icon-success'></i> Edit </a><a class='dropdown-item deletebtn text-danger' href='javascript:void(0);' data-id='" . $value->id . "' ><i class='bx bx-trash me-1 icon-danger'></i> Delete</a> </div> </div>";

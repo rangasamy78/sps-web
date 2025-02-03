@@ -1,8 +1,9 @@
 <?php
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\HoldController;
+use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\VisitController;
 use App\Http\Controllers\CountyController;
@@ -25,6 +26,7 @@ use App\Http\Controllers\VendorPoController;
 use App\Http\Controllers\SaleOrderController;
 use App\Http\Controllers\AssociateController;
 use App\Http\Controllers\EventTypeController;
+use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\PickTicketController;
 use App\Http\Controllers\SubHeadingController;
@@ -42,6 +44,9 @@ use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\ProjectTypeController;
 use App\Http\Controllers\ServiceTypeController;
 use App\Http\Controllers\UnitMeasureController;
+use App\Http\Controllers\QuoteFooterController;
+use App\Http\Controllers\QuoteHeaderController;
+use App\Http\Controllers\SampleOrderController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\CustomerTypeController;
 use App\Http\Controllers\ProductColorController;
@@ -52,6 +57,7 @@ use App\Http\Controllers\SupplierTypeController;
 use App\Http\Controllers\TaxAuthorityController;
 use App\Http\Controllers\TaxComponentController;
 use App\Http\Controllers\VendorPoFileController;
+use App\Http\Controllers\Hold\HoldFileController;
 use App\Http\Controllers\AboutUsOptionController;
 use App\Http\Controllers\AgingPeriodAPController;
 use App\Http\Controllers\EndUseSegmentController;
@@ -68,15 +74,18 @@ use App\Http\Controllers\PriceListLabelController;
 use App\Http\Controllers\ShipmentMethodController;
 use App\Http\Controllers\SurveyQuestionController;
 use App\Http\Controllers\BatchCloseQuoteController;
+use App\Http\Controllers\CustomerBinTypeController;
+use App\Http\Controllers\SupplierInvoiceController;
 use App\Http\Controllers\ExpenseCategoryController;
 use App\Http\Controllers\PrePurchaseTermController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ReceivingQcNoteController;
 use App\Http\Controllers\ServiceCategoryController;
 use App\Http\Controllers\Visit\VisitFileController;
-use App\Http\Controllers\SupplierInvoiceController;
 use App\Http\Controllers\TaxExemptReasonController;
+use App\Http\Controllers\Quote\QuoteFileController;
 use App\Http\Controllers\OpportunityStageController;
+use App\Http\Controllers\QuotePrintedNoteController;
 use App\Http\Controllers\ProductThicknessController;
 use App\Http\Controllers\ReturnReasonCodeController;
 use App\Http\Controllers\ProductPriceRangeController;
@@ -92,6 +101,7 @@ use App\Http\Controllers\SelectTypeCategoryController;
 use App\Http\Controllers\SpecialAccountTypeController;
 use App\Http\Controllers\SpecialInstructionController;
 use App\Http\Controllers\QuoteStageDashboardController;
+use App\Http\Controllers\SupplierInvoiceFileController;
 use App\Http\Controllers\TransactionStartingController;
 use App\Http\Controllers\CustomerContactTitleController;
 use App\Http\Controllers\SupplierReturnStatusController;
@@ -103,14 +113,25 @@ use App\Http\Controllers\PrePurchaseRequestFileController;
 use App\Http\Controllers\PurchaseShipmentMethodController;
 use App\Http\Controllers\PrePurchaseRequestEventController;
 use App\Http\Controllers\PrePurchaseResponseTermController;
+use App\Http\Controllers\Quote\Lines\QuoteServiceController;
+use App\Http\Controllers\SupplierInvoiceContainerController;
 use App\Http\Controllers\CalculateMeasurementLabelController;
 use App\Http\Controllers\PrePurchaseRequestProductController;
+use App\Http\Controllers\SupplierInvoicePackingItemController;
 use App\Http\Controllers\Opportunity\OpportunityFileController;
 use App\Http\Controllers\SaleOrder\SaleOrderFileController;
+use App\Http\Controllers\SampleOrder\SampleOrderFileController;
 use App\Http\Controllers\AccountReceivableAgingPeriodController;
 use App\Http\Controllers\InventoryAdjustmentReasonCodeController;
+use App\Http\Controllers\Quote\Lines\QuoteReceiveDepositController;
 use App\Http\Controllers\PrePurchaseRequestSupplierRequestController;
+use App\Http\Controllers\Quote\Lines\QuoteOptionLineServiceController;
+use App\Http\Controllers\Quote\Lines\QuoteOptionLineProductController;
+use App\Http\Controllers\Hold\EventController as HoldEventController;
 use App\Http\Controllers\Visit\EventController as VisitEventController;
+use App\Http\Controllers\Quote\EventController as QuoteEventController;
+use App\Http\Controllers\Hold\ContactController as HoldContactController;
+use App\Http\Controllers\Quote\ContactController as QuoteContactController;
 use App\Http\Controllers\Visit\ContactController as VisitContactController;
 use App\Http\Controllers\SaleOrder\LineController as SaleOrderLineController;
 use App\Http\Controllers\SaleOrder\EventController as SaleOrderEventController;
@@ -120,8 +141,18 @@ use App\Http\Controllers\SaleOrder\ContactController as SaleOrderContactControll
 use App\Http\Controllers\Associate\ContactController as AssociateContactController;
 use App\Http\Controllers\Opportunity\EventController as OpportunityEventController;
 use App\Http\Controllers\SaleOrder\ItemLineController as SaleOrderItemLineController;
+use App\Http\Controllers\Quote\Lines\QuoteProductPriceCalculatorController;
+use App\Http\Controllers\Customer\ContactController as CustomerContactController;
+use App\Http\Controllers\Supplier\ContactController as SupplierContactController;
+use App\Http\Controllers\Associate\ContactController as AssociateContactController;
+use App\Http\Controllers\Opportunity\EventController as OpportunityEventController;
+use App\Http\Controllers\SampleOrder\EventController as SampleOrderEventController;
+use App\Http\Controllers\Quote\Lines\QuoteProductController as QuoteProductController;
+use App\Http\Controllers\SampleOrder\ContactController as SampleOrderContactController;
 use App\Http\Controllers\Expenditure\ContactController as ExpenditureContactController;
 use App\Http\Controllers\Opportunity\ContactController as OpportunityContactController;
+use App\Http\Controllers\Opportunity\OpportunityConvertController as ConvertController;
+use App\Http\Controllers\Opportunity\ProductDetail\ProductListController as OpportunityProductListcontroller;
 
 /*
 |--------------------------------------------------------------------------
@@ -143,9 +174,7 @@ Auth::routes();
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
     Route::get('/user_profiles', [UserProfileController::class, 'index'])->name('user_profiles');
-
     Route::get('/user_profile_updates', [UserProfileUpdateController::class, 'index'])->name('user_profile_updates');
     Route::post('/user_profile_updates/{id}', [UserProfileUpdateController::class, 'update'])->name('user_profile_updates.update');
 
@@ -554,17 +583,20 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/purchase_order/purchase_details/{id}', [PurchaseOrderController::class, 'deletePoDetails'])->name('deletePo');
     Route::get('/fetch_product_po_details/{id}', [PurchaseOrderController::class, 'FetchProductPoData'])->name('fetch_product_po_details');
     Route::get('/fetch_po_products/{id}', [PurchaseOrderController::class, 'FetchPoproductDetails'])->name('fetch_po_products');
-    //OPPORTUNITY , VISIT AND HOME PAGE
+    //OPPORTUNITY,VISIT,SAMPLE ORDER, QUOTE AND HOME PAGE
     Route::view('/pre_sales', 'pre_sales.home')->name('pre_sales');
     Route::view('/purchases', 'purchases.home')->name('purchases');
     Route::resource('opportunities', OpportunityController::class);
     Route::get('/opportunity/list', [OpportunityController::class, 'getOpportunityDataTableList'])->name('opportunities.list');
+    Route::get('/subtransaction/list/{id}', [OpportunityController::class, 'getAllSubtransactionDataTableList'])->name('subtransactions.list');
+
     Route::get('/opportunity/ship_to_list/{id}', [OpportunityController::class, 'getAllShipToDataTableList'])->name('opportunities.ship_to_list');
     Route::get('/opportunity/customer_list', [OpportunityController::class, 'getAllCustomerDataTableList'])->name('opportunities.customer_list');
     Route::get('/opportunity/associate_list', [OpportunityController::class, 'getAllAssociateDataTableList'])->name('opportunities.associate_list');
     Route::patch('/opportunity/internal_notes/{id}', [OpportunityController::class, 'updateInternalNotes'])->name('opportunities.internal_notes');
     Route::patch('/opportunity/probability_close/{id}', [OpportunityController::class, 'updateProbabilityClose'])->name('opportunities.probability_close');
     Route::patch('/opportunity/stages/{id}', [OpportunityController::class, 'updateStages'])->name('opportunities.stages');
+    Route::patch('/survey/{id}', [OpportunityController::class, 'updateSurveyRate'])->name('opportunities.survey');
     Route::prefix('opportunities')->name('opportunities.')->group(function () {
         Route::post('/contact/save', [OpportunityContactController::class, 'save'])->name('contact.save');
         Route::get('/contact/list/{id}', [OpportunityContactController::class, 'getOpportunityContactDataTableList'])->name('contacts.list');
@@ -572,6 +604,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/bill_to_contact/list/{id}', [OpportunityContactController::class, 'getOpportunityBillToContactDataTableList'])->name('bill_to_contacts.list');
         Route::delete('/bill_to_contact/{id}/delete', [OpportunityContactController::class, 'billTodestroy'])->name('bill_to_contacts.destroy');
     });
+
     Route::resource('opportunity_files', OpportunityFileController::class);
     Route::get('/opportunity_file/list/{id}', [OpportunityFileController::class, 'getOpportunityFileDataTableList'])->name('opportunity_files.list');
     Route::prefix('events')->group(function () {
@@ -579,48 +612,173 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/event/list/{id}', [OpportunityEventController::class, 'getEventDataTableList'])->name('events.list');
         Route::get('/product_list', [OpportunityEventController::class, 'getAllProductDataTableList'])->name('events.product_list');
     });
+    Route::prefix('product_lists')->name('products.')->group(function () {
+        Route::get('/search_product', [OpportunityProductListcontroller::class, 'searchProduct'])->name('search_product');
+        Route::get('/get-product', [OpportunityProductListcontroller::class, 'getProduct'])->name('get_product');
+        Route::get('/get-product-price', [OpportunityProductListcontroller::class, 'getProductPrice'])->name('get_product_price');
+        Route::get('/get-service-price', [OpportunityProductListcontroller::class, 'getServicePrice'])->name('get_service_price');
+    });
+
     Route::resource('visits', VisitController::class);
     Route::get('/visit/opportunity_detail/{id}', [VisitController::class, 'getOpportunityDetail'])->name('visits.opportunity_detail');
     Route::get('/visit/list/{id}', [VisitController::class, 'getVisitProductDataTableList'])->name('visits.list');
     Route::get('/visit/show_add_product/{id}', [VisitController::class, 'showAddProduct'])->name('visits.show_add_product');
-    Route::get('/visit/search_product', [VisitController::class, 'searchProduct'])->name('visits.search_product');
-    Route::get('/get-product', [VisitController::class, 'getProduct'])->name('visits.get_product');
-    Route::get('/get-product-price', [VisitController::class, 'getProductPrice'])->name('visits.get_product_price');
     Route::post('/save_visit_product', [VisitController::class, 'saveVisitProduct'])->name('visits.save_visit_product');
     Route::get('/edit_visit_product/{id}', [VisitController::class, 'editVisitProduct'])->name('visits.edit_visit_product');
     Route::put('/update_visit_product/{id}', [VisitController::class, 'updateVisitProduct'])->name('visits.update_visit_product');
     Route::delete('/delete_visit_product/{id}', [VisitController::class, 'deleteVisitProduct'])->name('visits.delete_visit_product');
     Route::patch('/update_visit_checkout/{id}', [VisitController::class, 'updateCheckout'])->name('visits.checkout');
     Route::patch('/update_visit_survey/{id}', [VisitController::class, 'updateSurveyRate'])->name('visits.survey');
-
     Route::prefix('visit_lists')->name('visit.lists.')->group(function () {
         Route::get('/list', [VisitController::class, 'getVisitDataTableList'])->name('list');
         Route::get('/list/{id}', [VisitController::class, 'getAllVisitDataTableList'])->name('list_all');
     });
-
     Route::prefix('visit_opportunities')->name('visit.opportunities.')->group(function () {
         Route::get('/index', [VisitController::class, 'indexOpportunityVisit'])->name('index');
         Route::post('/save', [VisitController::class, 'saveOpportunityVisit'])->name('save');
         Route::get('/edit/{id}', [VisitController::class, 'editOpportunityVisit'])->name('edit');
         Route::put('/update/{id}', [VisitController::class, 'updateOpportunityVisit'])->name('update');
     });
-
     Route::resource('visit_files', VisitFileController::class);
     Route::get('/visit_file/list/{id}', [VisitFileController::class, 'getVisitFileDataTableList'])->name('visit_files.list');
-
     Route::prefix('visit_events')->group(function () {
         Route::resource('visit_events', VisitEventController::class);
         Route::get('/visit_event/list/{id}', [VisitEventController::class, 'getVisitEventDataTableList'])->name('visit_events.list');
     });
-
     Route::prefix('visits')->name('visits.')->group(function () {
         Route::post('/contact/save', [VisitContactController::class, 'save'])->name('contact.save');
         Route::get('/contact/list/{id}', [VisitContactController::class, 'getCustomerContactDataTableList'])->name('contacts.list');
         Route::delete('/contacts/{id}/delete', [VisitContactController::class, 'destroy'])->name('contacts.destroy');
         Route::patch('/probability_close/{id}', [VisitController::class, 'updateProbabilityClose'])->name('probability_close');
     });
-    //END OPPORTUNITY , VISIT AND HOME PAGE
-
+    Route::prefix('sample_orders')->name('create.')->group(function () {
+        Route::resource('sample_orders', SampleOrderController::class);
+        Route::get('/list', [SampleOrderController::class, 'getSampleOrderDataTableList'])->name('list');
+        Route::get('/list/{id}', [SampleOrderController::class, 'getAllSampleOrderDataTableList'])->name('list_all');
+        Route::get('/index/{id}', [SampleOrderController::class, 'indexSampleOrder'])->name('index_sample_order');
+        Route::get('/index/product/{id}', [SampleOrderController::class, 'indexProductSampleOrder'])->name('index_product');
+        Route::post('/save_product', [SampleOrderController::class, 'saveSampleOrderProduct'])->name('save_product');
+        Route::get('/product/list/{id}', [SampleOrderController::class, 'getSampleOrderProductDataTableList'])->name('products.list');
+        Route::get('/edit_product/{id}', [SampleOrderController::class, 'editSampleOrderProduct'])->name('edit_product');
+        Route::put('/update_product/{id}', [SampleOrderController::class, 'updateSampleOrderProduct'])->name('update_product');
+        Route::delete('/delete_product/{id}', [SampleOrderController::class, 'deleteSampleOrderProduct'])->name('delete_product');
+        Route::patch('/probability_close/{id}', [SampleOrderController::class, 'updateProbabilityClose'])->name('probability_close');
+        Route::patch('/status/{id}', [SampleOrderController::class, 'updateStatus'])->name('status');
+        //sample order and opportunity
+        Route::get('/index', [SampleOrderController::class, 'indexOpportunitySampleOrder'])->name('index');
+        Route::post('/save', [SampleOrderController::class, 'saveOpportunitySampleOrder'])->name('save');
+        Route::get('/edit/{id}', [SampleOrderController::class, 'editOpportunitySampleOrder'])->name('edit');
+        Route::put('/update/{id}', [SampleOrderController::class, 'updateOpportunitySampleOrder'])->name('update');
+        //sample order
+        Route::resource('sample_order_files', SampleOrderFileController::class);
+        Route::get('/sample_order_file/list/{id}', [SampleOrderFileController::class, 'getSampleOrderFileDataTableList'])->name('sample_order_files.list');
+        //event
+        Route::resource('sample_order_events', SampleOrderEventController::class);
+        Route::get('/sample_order_event/list/{id}', [SampleOrderEventController::class, 'getSampleOrderEventDataTableList'])->name('sample_order_events.list');
+        //contact
+        Route::post('/contact/save', [SampleOrderContactController::class, 'save'])->name('contact.save');
+        Route::get('/contact/list/{id}', [SampleOrderContactController::class, 'getCustomerContactDataTableList'])->name('contacts.list');
+        Route::delete('/contacts/{id}/delete', [SampleOrderContactController::class, 'destroy'])->name('contacts.destroy');
+    });
+    //quote header
+    Route::resource('quote_headers', QuoteHeaderController::class);
+    Route::get('/quote_header/list', [QuoteHeaderController::class, 'getQuoteHeaderDataTableList'])->name('quote_headers.list');
+    //quote footer
+    Route::resource('quote_footers', QuoteFooterController::class);
+    Route::get('/quote_footer/list', [QuoteFooterController::class, 'getQuoteFooterDataTableList'])->name('quote_footers.list');
+    //quote printed note
+    Route::resource('quote_printed_notes', QuotePrintedNoteController::class);
+    Route::get('/quote_printed_note/list', [QuotePrintedNoteController::class, 'getQuotePrintedNoteDataTableList'])->name('quote_printed_notes.list');
+    //quote
+    Route::prefix('quotes')->name('quote.')->group(function () {
+        Route::resource('quotes', QuoteController::class);
+        Route::get('/index/{id}', [QuoteController::class, 'indexQuote'])->name('index_quote');
+        Route::get('/list', [QuoteController::class, 'getQuoteDataTableList'])->name('list');
+        Route::get('/list_all/{id}', [QuoteController::class, 'getAllQuoteDataTableList'])->name('list_all');
+        Route::patch('internal_notes/{id}', [QuoteController::class, 'updateInternalNotes'])->name('internal_notes');
+        Route::patch('/probability_close/{id}', [QuoteController::class, 'updateProbabilityClose'])->name('probability_close');
+        Route::patch('/survey/{id}', [QuoteController::class, 'updateSurveyRate'])->name('survey');
+        Route::patch('/status/{id}', [QuoteController::class, 'updateQuoteStatus'])->name('status');
+        //quote and opportunity
+        Route::get('/index', [QuoteController::class, 'indexOpportunityQuote'])->name('index');
+        Route::post('/save', [QuoteController::class, 'saveOpportunityQuote'])->name('save');
+        // quote Product
+        Route::resource('quote_products', QuoteProductController::class);
+        Route::get('/product_list', [QuoteProductController::class, 'getAllProductDataTableList'])->name('product_list');
+        Route::get('/service_product_list/{id}', [QuoteProductController::class, 'getAllServiceProductDataTableList'])->name('service_product_list');
+        //optinal line product
+        Route::resource('quote_option_line_products', QuoteOptionLineProductController::class);
+        Route::get('/option_line_product', [QuoteOptionLineProductController::class, 'getAllOptionLineProductDataTableList'])->name('option_line_product');
+        Route::get('lists/{id}', [QuoteOptionLineProductController::class, 'show'])->name('option_line_product_lists');
+        // quote Service
+        Route::resource('quote_services', QuoteServiceController::class);
+        Route::get('/service_list', [QuoteServiceController::class, 'getAllServiceDataTableList'])->name('service_list');
+        //optinal line service
+        Route::resource('quote_option_line_services', QuoteOptionLineServiceController::class);
+        Route::get('/option_line_service', [QuoteOptionLineServiceController::class, 'getAllOptionLineServiceDataTableList'])->name('option_line_service');
+        Route::get('/get-service', [QuoteOptionLineServiceController::class, 'getService'])->name('get_service');
+        Route::get('option_line_service_list/{id}', [QuoteOptionLineServiceController::class, 'show'])->name('option_line_service_lists');
+        //price calulator from cost
+        Route::get('supplier_detail/{id}', [QuoteProductPriceCalculatorController::class, 'getSupplierDetail'])->name('supplier_detail');
+        Route::get('tax_amount/{id}', [QuoteProductPriceCalculatorController::class, 'getTaxAmount'])->name('tax_amount');
+        Route::Post('price_calculator_store', [QuoteProductPriceCalculatorController::class, 'store'])->name('price_calculator_store');
+        Route::get('price_calculator_show/{id}', [QuoteProductPriceCalculatorController::class, 'show'])->name('price_calculator_show');
+        Route::delete('/price_calculator_inventory/{id}', [QuoteProductPriceCalculatorController::class, 'destroy'])->name('price_calculator_inventory_delete');
+        //recieve deposit
+        Route::get('/receive_deposit/index/{id}', [QuoteReceiveDepositController::class, 'index'])->name('receive_index');
+        Route::post('/receive_deposit/store', [QuoteReceiveDepositController::class, 'store'])->name('receive_store');
+        // contact
+        Route::resource('contacts', QuoteContactController::class);
+        Route::get('/list/{id}', [QuoteContactController::class, 'getAllQuoteContactDataTableList'])->name('contact_list');
+        Route::get('/customer_contact/list/{id}', [QuoteContactController::class, 'getCustomerContactDataTableList'])->name('customer_contact_list');
+        Route::delete('/customer_contact/{id}/delete', [QuoteContactController::class, 'customerContactDestroy'])->name('customer_contact.destroy');
+        //file
+        Route::resource('files', QuoteFileController::class);
+        Route::get('/quote_file/list/{id}', [QuoteFileController::class, 'getQuoteFileDataTableList'])->name('quote_file.list');
+        //event
+        Route::resource('events', QuoteEventController::class);
+        Route::get('/event/list/{id}', [QuoteEventController::class, 'getQuoteEventDataTableList'])->name('events.list');
+    });
+    //hold
+    Route::prefix('holds')->name('hold.')->group(function () {
+        Route::resource('holds', HoldController::class);
+        Route::get('/index/{id}', [HoldController::class, 'indexHold'])->name('index_hold');
+        Route::get('/list', [HoldController::class, 'getHoldDataTableList'])->name('hold_list');
+        Route::get('/index_product/{id}', [HoldController::class, 'indexProductHold'])->name('index_product');
+        Route::post('/save_product', [HoldController::class, 'saveHoldProduct'])->name('save_product');
+        Route::get('/product/list/{id}', [HoldController::class, 'getHoldProductDataTableList'])->name('products.list');
+        Route::get('/edit_product/{id}', [HoldController::class, 'editHoldProduct'])->name('edit_product');
+        Route::delete('/delete_product/{id}', [HoldController::class, 'deleteHoldProduct'])->name('delete_product');
+        Route::patch('/probability_close/{id}', [HoldController::class, 'updateProbabilityClose'])->name('probability_close');
+        Route::patch('internal_notes/{id}', [HoldController::class, 'updateInternalNotes'])->name('internal_notes');
+        Route::patch('/survey/{id}', [HoldController::class, 'updateSurveyRate'])->name('survey');
+        Route::get('/index_release/{id}', [HoldController::class, 'indexHoldRelease'])->name('index_release');
+        Route::post('/update_release', [HoldController::class, 'updateHoldRelease'])->name('update_release');
+        //hold and opportunity
+        Route::get('/index', [HoldController::class, 'indexOpportunityHold'])->name('index');
+        Route::post('/save', [HoldController::class, 'saveOpportunityHold'])->name('save');
+        //hold file
+        Route::resource('hold_files', HoldFileController::class);
+        Route::get('/hold_file/list/{id}', [HoldFileController::class, 'getHoldFileDataTableList'])->name('hold_files.list');
+        //event
+        Route::resource('hold_events', HoldEventController::class);
+        Route::get('/hold_event/list/{id}', [HoldEventController::class, 'getHoldEventDataTableList'])->name('hold_events.list');
+        Route::post('/contact/save', [HoldContactController::class, 'save'])->name('contact.save');
+        Route::get('/contact/list/{id}', action: [HoldContactController::class, 'getCustomerContactDataTableList'])->name('contacts.list');
+        Route::delete('/contacts/{id}/delete', [HoldContactController::class, 'destroy'])->name('contacts.destroy');
+    });
+    Route::prefix('converts')->name('convert.')->group(function () {
+        //visits converts
+        Route::get('/convert_visit/index/{id}', [VisitController::class, 'indexConvertSampleAndQuote'])->name('convert_visit');
+        Route::post('/save_convert_visit', [ConvertController::class, 'saveConvertVisit'])->name('save_convert_visit');
+        //sample order converts
+        Route::get('/convert_sample_order/index/{id}', [SampleOrderController::class, 'indexConvertVisitAndQuote'])->name('convert_sample_order');
+        Route::post('/save_convert_sample_order', [ConvertController::class, 'saveConvertSampleOrder'])->name('save_convert_sample_order');
+        // quote converts
+        Route::get('/convert_quote/index/{id}', [QuoteController::class, 'indexConvertVisitAndSample'])->name('convert_quote');
+        Route::post('/save_convert_quote', [ConvertController::class, 'saveConvertQuote'])->name('save_convert_quote');
+    });
+    //END OPPORTUNITY , VISIT, sample order ,quote AND HOME PAGE
     Route::get('/purchase_order/po_details', [PurchaseOrderController::class, 'getPoProductPoDataTableList'])->name('purchase_orders.po_product_details');
     Route::resource('supplier_invoices', SupplierInvoiceController::class);
     Route::get('/supplier_invoice/list', [SupplierInvoiceController::class, 'getSupplierInvoiceDataTableList'])->name('supplier_invoices.list');
@@ -661,4 +819,47 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('pick_tickets', PickTicketController::class);
     Route::get('/pick_ticket/list/{id}', [PickTicketController::class, 'getPickTicketDataTableList'])->name('pick_tickets.list');
 
+    /* SUPPLIER INVOICE PACKING ITEMS */
+    Route::resource('supplier_invoice_packing_items', SupplierInvoicePackingItemController::class);
+    Route::post('supplier_invoice_packing_items/update-multiple', [SupplierInvoicePackingItemController::class, 'updateMultiple'])->name('supplier_invoice_packing_items.update_multiple');
+    Route::post('supplier_invoice_packing_items/delete-multiple', [SupplierInvoicePackingItemController::class, 'deleteMultiple'])->name('supplier_invoice_packing_items.delete_multiple');
+    Route::get('/supplier_invoice_packing_fetch_all', [SupplierInvoicePackingItemController::class, 'fetchProductsAll'])->name('supplier_invoice_packing_items.fetch_products_all');
+    Route::post('supplier_invoice_packing_items/note-update', [SupplierInvoicePackingItemController::class, 'updateNote'])->name('supplier_invoice_packing_items.note_update');
+    Route::post('supplier_invoice_packing_items/get_assign_slab_multiple', [SupplierInvoicePackingItemController::class, 'getAssignSlabMultiple'])->name('supplier_invoice_packing_items.assign_slab_multiple');
+    Route::post('supplier_invoice_packing_items/get_update_slab_multiple', [SupplierInvoicePackingItemController::class, 'getUpdateSlabMultiple'])->name('supplier_invoice_packing_items.update_slab_multiple');
+    Route::resource('customer_bin_types', CustomerBinTypeController::class);
+    Route::get('/customer_bin_type/list', [CustomerBinTypeController::class, 'getCustomerBinTypeDataTableList'])->name('customer_bin_types.list');
+    Route::get('/visit/opportunity_detail/{id}', [VisitController::class, 'getOpportunityDetail'])->name('visits.opportunity_detail');
+    Route::get('/purchase_order/po_details', [PurchaseOrderController::class, 'getPoProductPoDataTableList'])->name('purchase_orders.po_product_details');
+    Route::resource('supplier_invoices', SupplierInvoiceController::class);
+    Route::get('/supplier_invoice/list', [SupplierInvoiceController::class, 'getSupplierInvoiceDataTableList'])->name('supplier_invoices.list');
+     /* SUPPLIER INVOICE PACKING ITEMS */
+    Route::get('/fetch-policy/{id}', [PurchaseOrderController::class, 'fetchPolicy'])->name('fetch_policy');
+    Route::post('/po_internal_note/save', [PurchaseOrderController::class, 'poInternalNoteSave'])->name('po_internal_notes.store');
+    Route::get('/po_internal_note/list', [PurchaseOrderController::class, 'poGetInternalNotes'])->name('po_internal_notes.list');
+    Route::get('/po_approve_check/{id}', [PurchaseOrderController::class, 'poApproveCheck'])->name('po_approve_check');
+    Route::post('/update_po_status', [PurchaseOrderController::class, 'updatePoStatus'])->name('update_po_status');
+    Route::get('/close_po/{id}', [PurchaseOrderController::class, 'closePo'])->name('close_po');
+    Route::get('/purchase_location_details/{id}', [PurchaseOrderController::class, 'FetchPurchaseData'])->name('purchase_location_details');
+    Route::get('/ship_location_details/{id}', [PurchaseOrderController::class, 'FetchShipLocationData'])->name('ship_location_details');
+    Route::get('/fetch_supplier_details_product/{id}', [SupplierInvoiceController::class, 'FetchSupplierProductData'])->name('fetch_supplier_details_product');
+    Route::get('/fetch_service_account_details/{id}', [SupplierInvoiceController::class, 'FetchServiceData'])->name('fetch_service_account_details');
+     /* INVENTORY */
+    Route::resource('inventories', InventoryController::class);
+    Route::get('/inventory/list', [InventoryController::class, 'getInventoryDataTableList'])->name('inventories.list');
+    Route::get('/fetch_product_details/{id}', [SupplierInvoiceController::class, 'FetchProductDetailsData'])->name('fetch_product_details');
+    Route::get('/fetch_other_details/{id}', [SupplierInvoiceController::class, 'FetchOtherDetailsData'])->name('fetch_other_details');
+    Route::get('/fetch_bills_data/{id}', [SupplierInvoiceController::class, 'FetchFreightBillsData'])->name('fetch_bills_data');
+    Route::resource('supplier_invoice_files', SupplierInvoiceFileController::class);
+    Route::get('/supplier_invoice_file/list', [SupplierInvoiceFileController::class, 'getSupplierInvoiceFileDataTableList'])->name(name: 'supplier_invoice_files.list');
+    Route::resource('supplier_invoice_containers', SupplierInvoiceContainerController::class);
+    Route::get('/supplier_invoice_container/list', [SupplierInvoiceContainerController::class, 'getSupplierInvoiceContainerDataTableList'])->name(name: 'supplier_invoice_containers.list');
+    Route::get('/fetch_supplier_slab_details/{id}', [SupplierInvoiceContainerController::class, 'FetchSupplierSlabData'])->name('fetch_supplier_slab_details');
+    Route::get('/receive_inventory/{id}', [SupplierInvoiceController::class, 'receive_inventory'])->name('supplier_invoice.receive_inventory');
+    Route::post('/receive_inventory_details/{po_id}', [SupplierInvoiceController::class, 'receiveInventoryDetails'])->name('receive_inventory_details');
+    Route::get('/receive_inventory_view/{id}', [SupplierInvoiceController::class, 'receiveInventoryView'])->name('supplier_invoice.receive_inventory_view');
+    Route::post('/receive_inventory_details_update/{po_id}', [SupplierInvoiceController::class, 'receiveInventoryDetailsUpdate'])->name('receive_inventory_details_update');
+    Route::get('/unreceive_inventory/{id}', [SupplierInvoiceController::class, 'unreceive_inventory'])->name('supplier_invoice.unreceive_inventory');
+    Route::get('/fetch_unreceive_data/{id}', [SupplierInvoiceController::class, 'FetchUnreceivedDetails'])->name('fetch_unreceive_data');
+    Route::post('/unreceive_inventory_details/{po_id}', [SupplierInvoiceController::class, 'unreceiveInventoryDetails'])->name('unreceive_inventory_details');
 });

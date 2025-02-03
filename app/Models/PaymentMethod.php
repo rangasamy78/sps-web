@@ -30,13 +30,13 @@ class PaymentMethod extends Model
     protected function paymentMethodName(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => ucfirst($value),
+            get: fn(string $value) => ucfirst($value),
         );
     }
 
     function linked_account()
     {
-        return $this->belongsTo(LinkedAccount::class);
+        return $this->belongsTo(Account::class);
     }
 
     function account_type()
@@ -48,5 +48,10 @@ class PaymentMethod extends Model
     {
         $linkedAccount = $this->linked_account()->first();
         return $linkedAccount ? $linkedAccount->account_code . '-' . $linkedAccount->account_name : '';
+    }
+
+    public function quote_receive_deposit()
+    {
+        return $this->has(QuoteReceiveDeposit::class, 'payment_method_id');
     }
 }
