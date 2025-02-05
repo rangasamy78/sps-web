@@ -2,7 +2,7 @@
 @section('title', 'PO Details')
 @section('styles')
 <style>
-    
+
     </style>
 @endsection
 @section('content')
@@ -27,9 +27,7 @@
                                                 </span> </label>
                                             <div class="form-group">
                                                 <label for="Type">
-
-                                                    <a href="#" style="color: black; margin-left: 20px;">Enter Packing
-                                                        List</a>
+                                                    <a href="<?php echo route('supplier_invoice_packing_items.index', ['po_id' => $supplier_invoice->po_id ?? '', 'id' => $supplier_invoice->id ?? '']); ?>" style="color: black; margin-left: 20px;">Enter Packing List</a>
                                                 </label>
                                             </div>
                                         </div>
@@ -112,7 +110,7 @@
                                         </div>
                                     </div>
                                     @endif
-                                    
+
                                     <div class="row mb-2">
                                         <div class="col">
                                             <label for="Location"><span class="text-dark fw-bold"> Created By on
@@ -200,7 +198,7 @@
                                     <div class="row mb-2">
                                         <div class="col">
                                             <label for="primary_phone"><span class="text-dark fw-bold">Freight
-                                                    Forwarder:</span> 
+                                                    Forwarder:</span>
                                                     {{ $supplier_invoice->expenditure->expenditure_name ?? '' }}</label>
                                         </div>
                                     </div>
@@ -213,7 +211,7 @@
                                     <div class="row mb-2">
                                         <div class="col">
                                             <label for="primary_phone"><span class="text-dark fw-bold">Planned Ex
-                                                    Factory / Ex Factory Date:</span> 
+                                                    Factory / Ex Factory Date:</span>
                                                     {{ $supplier_invoice->planned_ex_factory ?? '' }}</label>
                                         </div>
                                     </div>
@@ -248,7 +246,7 @@
                                         <div class="col">
                                             <label for="primary_phone"><span class="text-dark fw-bold">Shipment
                                                     Terms:</span> {{ $supplier_invoice->shipment_term->shipment_term_name ?? '' }}
-                                            </label> 
+                                            </label>
                                         </div>
                                     </div>
                                     <div class="row mb-2">
@@ -295,13 +293,13 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-12 col-md-4 col-lg-4">
-                                    
+
                                     <div class="invoice-summary">
-                                        
+
                                         <p><strong>Invoice Total:</strong> $<span id="invoiceTotal">0.00</span> </p>
                                         <p><strong>Applied Payments:</strong> $0.00</p>
                                         <p><strong>Balance Due:</strong> $<span id="balanceDue">0.00</span> </p>
-                                      
+
                                     </div>
                                 </div>
 
@@ -366,7 +364,7 @@
                                         <div class="tab-pane fade show active" id="items">
                                         @include('supplier_invoice_packing_list.item.item_details')
                                         </div>
-                                   
+
                                         <div class="tab-pane fade" id="freight_bills">
                                         @include('supplier_invoice_packing_list.freight_bills.freight_bills_details')
                                         </div>

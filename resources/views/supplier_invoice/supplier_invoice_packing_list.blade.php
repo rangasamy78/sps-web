@@ -23,7 +23,7 @@
                                                 </span> </label>
                                             <div class="form-group">
                                                 <label for="Type">
-                                                    <a href="<?php echo route('supplier_invoice_packing_items.index', ['po_id' => $supplier_invoice->po_id ?? '']); ?>" style="color: black; margin-left: 20px;">Enter Packing List</a>
+                                                    <a href="<?php echo route('supplier_invoice_packing_items.index', ['po_id' => $supplier_invoice->po_id ?? '', 'id' => $supplier_invoice->id ?? '']); ?>" style="color: black; margin-left: 20px;">Enter Packing List</a>
                                                 </label>
                                             </div>
                                         </div>

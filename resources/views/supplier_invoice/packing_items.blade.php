@@ -106,7 +106,7 @@
                                         <input type="text" name="supplier_invoice_packing_item_id" value="" hidden>
                                         <input type="text" name="product_id" value="{{ $poProduct->product->id }}" hidden>
                                         <input type="text" name="po_id" value="{{ $poProduct->po_id }}" hidden>
-                                        <input type="text" name="sipl_id" value="{{ $poProduct->po_id }}" hidden>
+                                        <input type="text" name="sipl_id" value="{{ $sup_invoice_id }}" hidden>
                                         <input type="text" name="row_id" value="{{ $j }}" hidden>
                                         <td colspan="10" id="main_group_{{ $key }}" style="display: none;">
                                             <div class="container mt-3">

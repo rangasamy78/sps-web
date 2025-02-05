@@ -25,6 +25,7 @@ class SupplierInvoicePackingItemController extends Controller
      */
     public function index(Request $request)
     {
+        $sup_invoice_id = isset($request->id) ? $request->id : '';
         $binTypes   = BinType::query()->pluck('bin_type', 'id');
         $poProducts = PurchaseOrderProduct::query()->where('po_id', $request->po_id) ->with(['product'])->get();
         $products = [];
@@ -38,7 +39,7 @@ class SupplierInvoicePackingItemController extends Controller
                 ]
             ))->toArray();
         }
-        return view('supplier_invoice.packing_items', compact('poProducts','binTypes','products'));
+        return view('supplier_invoice.packing_items', compact('poProducts','binTypes','products','sup_invoice_id'));
     }
 
     /**
