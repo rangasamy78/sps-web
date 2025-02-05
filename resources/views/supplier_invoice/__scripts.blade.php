@@ -6,12 +6,10 @@ $(function() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-
     $('#supplierInvoiceForm').on('input change', 'input, select', function() {
         let fieldName = $(this).attr('name');
         $('.' + fieldName + '_error').text('');
     });
-
     $('#supplierInvoiceForm').on('input change', 'input[type="date"]', function() {
         let fieldName = $(this).attr('name');
         $('.' + fieldName + '_error').text('');
