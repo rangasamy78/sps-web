@@ -133,20 +133,16 @@ use App\Http\Controllers\Quote\EventController as QuoteEventController;
 use App\Http\Controllers\Hold\ContactController as HoldContactController;
 use App\Http\Controllers\Quote\ContactController as QuoteContactController;
 use App\Http\Controllers\Visit\ContactController as VisitContactController;
+use App\Http\Controllers\Quote\Lines\QuoteProductPriceCalculatorController;
 use App\Http\Controllers\SaleOrder\LineController as SaleOrderLineController;
 use App\Http\Controllers\SaleOrder\EventController as SaleOrderEventController;
 use App\Http\Controllers\Supplier\ContactController as SupplierContactController;
 use App\Http\Controllers\Customer\ContactController as CustomerContactController;
 use App\Http\Controllers\SaleOrder\ContactController as SaleOrderContactController;
 use App\Http\Controllers\Associate\ContactController as AssociateContactController;
+use App\Http\Controllers\SampleOrder\EventController as SampleOrderEventController;
 use App\Http\Controllers\Opportunity\EventController as OpportunityEventController;
 use App\Http\Controllers\SaleOrder\ItemLineController as SaleOrderItemLineController;
-use App\Http\Controllers\Quote\Lines\QuoteProductPriceCalculatorController;
-use App\Http\Controllers\Customer\ContactController as CustomerContactController;
-use App\Http\Controllers\Supplier\ContactController as SupplierContactController;
-use App\Http\Controllers\Associate\ContactController as AssociateContactController;
-use App\Http\Controllers\Opportunity\EventController as OpportunityEventController;
-use App\Http\Controllers\SampleOrder\EventController as SampleOrderEventController;
 use App\Http\Controllers\Quote\Lines\QuoteProductController as QuoteProductController;
 use App\Http\Controllers\SampleOrder\ContactController as SampleOrderContactController;
 use App\Http\Controllers\Expenditure\ContactController as ExpenditureContactController;
@@ -779,13 +775,13 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/save_convert_quote', [ConvertController::class, 'saveConvertQuote'])->name('save_convert_quote');
     });
     //END OPPORTUNITY , VISIT, sample order ,quote AND HOME PAGE
-    Route::get('/purchase_order/po_details', [PurchaseOrderController::class, 'getPoProductPoDataTableList'])->name('purchase_orders.po_product_details');
+    Route::get('/purchase_order/po_details', [PurchaseOrderController::class, 'getPoProductPoDataTableList'])->name('purchase_orders.po_productdetails');
     Route::resource('supplier_invoices', SupplierInvoiceController::class);
     Route::get('/supplier_invoice/list', [SupplierInvoiceController::class, 'getSupplierInvoiceDataTableList'])->name('supplier_invoices.list');
     Route::get('batch_close_quotes', [BatchCloseQuoteController::class, 'index'])->name('batch_close_quotes.index');
     Route::get('/batch_close_quote/list', [BatchCloseQuoteController::class, 'getBatchCloseQuoteDataTableList'])->name('batch_close_quotes.list');
     Route::post('/batch_close_quote/updatestatus', [BatchCloseQuoteController::class, 'updatestatus'])->name('batch_close_quotes.updatestatus');
-
+    /*SALE ORDERS */
     Route::resource('sale_orders', SaleOrderController::class);
     Route::get('/sale_order/associate_list', [SaleOrderController::class, 'getAllAssociateDataTableList'])->name('sale_orders.associate_list');
     Route::get('/sale_order/customer_list', [SaleOrderController::class, 'getAllCustomerDataTableList'])->name('sale_orders.customer_list');
@@ -818,7 +814,7 @@ Route::middleware(['auth'])->group(function () {
     });
     Route::resource('pick_tickets', PickTicketController::class);
     Route::get('/pick_ticket/list/{id}', [PickTicketController::class, 'getPickTicketDataTableList'])->name('pick_tickets.list');
-
+    /*SALE ORDERS - END*/
     /* SUPPLIER INVOICE PACKING ITEMS */
     Route::resource('supplier_invoice_packing_items', SupplierInvoicePackingItemController::class);
     Route::post('supplier_invoice_packing_items/update-multiple', [SupplierInvoicePackingItemController::class, 'updateMultiple'])->name('supplier_invoice_packing_items.update_multiple');
@@ -827,13 +823,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('supplier_invoice_packing_items/note-update', [SupplierInvoicePackingItemController::class, 'updateNote'])->name('supplier_invoice_packing_items.note_update');
     Route::post('supplier_invoice_packing_items/get_assign_slab_multiple', [SupplierInvoicePackingItemController::class, 'getAssignSlabMultiple'])->name('supplier_invoice_packing_items.assign_slab_multiple');
     Route::post('supplier_invoice_packing_items/get_update_slab_multiple', [SupplierInvoicePackingItemController::class, 'getUpdateSlabMultiple'])->name('supplier_invoice_packing_items.update_slab_multiple');
+    /* SUPPLIER INVOICE PACKING ITEMS - END */
     Route::resource('customer_bin_types', CustomerBinTypeController::class);
     Route::get('/customer_bin_type/list', [CustomerBinTypeController::class, 'getCustomerBinTypeDataTableList'])->name('customer_bin_types.list');
-    Route::get('/visit/opportunity_detail/{id}', [VisitController::class, 'getOpportunityDetail'])->name('visits.opportunity_detail');
-    Route::get('/purchase_order/po_details', [PurchaseOrderController::class, 'getPoProductPoDataTableList'])->name('purchase_orders.po_product_details');
-    Route::resource('supplier_invoices', SupplierInvoiceController::class);
-    Route::get('/supplier_invoice/list', [SupplierInvoiceController::class, 'getSupplierInvoiceDataTableList'])->name('supplier_invoices.list');
-     /* SUPPLIER INVOICE PACKING ITEMS */
+
+    /* SUPPLIER INVOICE PACKING ITEMS - PURCHASE ORDER */
     Route::get('/fetch-policy/{id}', [PurchaseOrderController::class, 'fetchPolicy'])->name('fetch_policy');
     Route::post('/po_internal_note/save', [PurchaseOrderController::class, 'poInternalNoteSave'])->name('po_internal_notes.store');
     Route::get('/po_internal_note/list', [PurchaseOrderController::class, 'poGetInternalNotes'])->name('po_internal_notes.list');
