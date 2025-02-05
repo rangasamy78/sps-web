@@ -91,6 +91,7 @@ use App\Http\Controllers\ReturnReasonCodeController;
 use App\Http\Controllers\ProductPriceRangeController;
 use App\Http\Controllers\ReleaseReasonCodeController;
 use App\Http\Controllers\UserProfileUpdateController;
+use App\Http\Controllers\InventoryIntransitController;
 use App\Http\Controllers\AccountPaymentTermController;
 use App\Http\Controllers\CreditCheckSettingController;
 use App\Http\Controllers\DefaultLinkAccountController;
@@ -856,4 +857,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/unreceive_inventory/{id}', [SupplierInvoiceController::class, 'unreceive_inventory'])->name('supplier_invoice.unreceive_inventory');
     Route::get('/fetch_unreceive_data/{id}', [SupplierInvoiceController::class, 'FetchUnreceivedDetails'])->name('fetch_unreceive_data');
     Route::post('/unreceive_inventory_details/{po_id}', [SupplierInvoiceController::class, 'unreceiveInventoryDetails'])->name('unreceive_inventory_details');
+
+    Route::resource('inventory_intransits', InventoryIntransitController::class);
+    Route::get('/inventory_intransit/list', [InventoryIntransitController::class, 'getInventoryIntransitTableList'])->name('inventory_intransits.list');
 });
