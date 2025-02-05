@@ -8,7 +8,7 @@
         });
 
  
-        var table = $('#datatable').DataTable({
+    var table = $('#datatable').DataTable({
     responsive: true,
     processing: true,
     serverSide: true,
@@ -42,12 +42,12 @@
             name: 'inventory'
         },
         {
-            data: 'product_type',
-            name: 'product_type'
+            data: 'product_type_id',
+            name: 'product_type_id'
         },
         {
-            data: 'product_category',
-            name: 'product_category'
+            data: 'product_category_id',
+            name: 'product_category_id'
         },
         {
             data: 'product_origin',
@@ -58,8 +58,8 @@
             name: 'product_colors'
         },
         {
-            data: 'product_group',
-            name: 'product_group'
+            data: 'product_group_id',
+            name: 'product_group_id'
         },
         {
             data: 'action',
@@ -77,7 +77,6 @@
         var rowDetail = $('#details-' + rowIndex);
 
         if (!rowDetail.length) {
-           
             var url = "{{ route('fetch_supplier_slab_details', ':id') }}";
             url = url.replace(':id', product_id);
 
@@ -86,7 +85,7 @@
                 type: 'GET',
                 dataType: 'json',
                 success: function(response) {
-                   
+                    var slabsBySipl = {}; // Grouped data by sipl_id
                     var detailsRow = '<tr id="details-' + rowIndex + '"><td colspan="9">';
                     detailsRow += '<table class="table table-bordered">';
                     detailsRow += '<tr>';
@@ -102,25 +101,59 @@
                     detailsRow += '<td><strong>N</strong></td>';
                     detailsRow += '<td><strong>D</strong></td>';
                     detailsRow += '</tr>';
+                    
+                    var lastSiplId = null;
+                    response.data.forEach(function (item, index) {
+                        // If new sipl_id, store last one and insert total before switching
+                        if (lastSiplId !== null && lastSiplId !== item.sipl_id) {
+                            var slabData = slabsBySipl[lastSiplId];
+                            detailsRow += '<tr style="background-color: #f8f9fa; font-weight: bold;">';
+                            detailsRow += '<td colspan="7">Total ' + slabData.totalSlabs + ' Slabs (SIPL ID: ' + lastSiplId + ')</td>';
+                            detailsRow += '<td colspan="4">' + slabData.totalSF.toFixed(2) + ' SF</td>';
+                            detailsRow += '</tr>';
+                        }
 
-                    response.data.forEach(function (item) {
+                        // Add row data
                         detailsRow += '<tr>';
                         detailsRow += '<td>' + item.serial_no + '</td>';
-                        detailsRow += '<td> </td>';
+                        detailsRow += '<td>' + item.bar_code_no + '</td>';
                         detailsRow += '<td>' + item.lot_block + '</td>';
                         detailsRow += '<td>' + item.bundle + '</td>';
                         detailsRow += '<td>' + item.supplier_ref + '</td>';
                         detailsRow += '<td>' + item.present_location + '</td>';
                         detailsRow += '<td>' + item.bin_type_name + '</td>';
-                        detailsRow += '<td></td>';
+                        detailsRow += '<td>' + item.received_sizes + '</td>';
                         detailsRow += '<td></td>';
                         detailsRow += '<td></td>';
                         detailsRow += '<td></td>';
                         detailsRow += '</tr>';
+
+                        // Group received_sizes by sipl_id
+                        if (item.sipl_id) {
+                            if (!slabsBySipl[item.sipl_id]) {
+                                slabsBySipl[item.sipl_id] = {
+                                    totalSlabs: 0,
+                                    totalSF: 0
+                                };
+                            }
+                            slabsBySipl[item.sipl_id].totalSlabs++;
+                            slabsBySipl[item.sipl_id].totalSF += parseFloat(item.received_sizes || 0);
+                        }
+
+                        // Store last sipl_id to track changes
+                        lastSiplId = item.sipl_id;
                     });
 
-                    detailsRow += '</table></td></tr>';
+                    // Ensure last sipl_id total row is inserted
+                    if (lastSiplId !== null) {
+                        var slabData = slabsBySipl[lastSiplId];
+                        detailsRow += '<tr style="background-color: #f8f9fa; font-weight: bold;">';
+                        detailsRow += '<td colspan="7">Total ' + slabData.totalSlabs + ' Slabs (SIPL ID: ' + lastSiplId + ')</td>';
+                        detailsRow += '<td colspan="4">' + slabData.totalSF.toFixed(2) + ' SF</td>';
+                        detailsRow += '</tr>';
+                    }
 
+                    detailsRow += '</table></td></tr>';
                     $(row).after(detailsRow);
                 },
                 error: function(xhr, status, error) {
@@ -129,12 +162,10 @@
                 }
             });
         } else {
-       
             rowDetail.toggle();
         }
     });
 }
-
 
 });
 

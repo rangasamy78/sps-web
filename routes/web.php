@@ -78,6 +78,7 @@ use App\Http\Controllers\ReturnReasonCodeController;
 use App\Http\Controllers\ProductPriceRangeController;
 use App\Http\Controllers\ReleaseReasonCodeController;
 use App\Http\Controllers\UserProfileUpdateController;
+use App\Http\Controllers\InventoryIntransitController;
 use App\Http\Controllers\AccountPaymentTermController;
 use App\Http\Controllers\CreditCheckSettingController;
 use App\Http\Controllers\DefaultLinkAccountController;
@@ -577,7 +578,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/update_visit_product/{id}', [VisitController::class, 'updateVisitProduct'])->name('visits.update_visit_product');
     Route::delete('/delete_visit_product/{id}', [VisitController::class, 'deleteVisitProduct'])->name('visits.delete_visit_product');
     Route::get('/visit/opportunity_detail/{id}', [VisitController::class, 'getOpportunityDetail'])->name('visits.opportunity_detail');
-    Route::get('/purchase_order/po_details', [PurchaseOrderController::class, 'getPoProductPoDataTableList'])->name('purchase_orders.po_product_details');
+    Route::get('/purchase_order/po_details', [PurchaseOrderController::class, 'getPoProductPoDataTableList'])->name('purchase_orders.po_productdetails');
     Route::resource('supplier_invoices', SupplierInvoiceController::class);
     Route::get('/supplier_invoice/list', [SupplierInvoiceController::class, 'getSupplierInvoiceDataTableList'])->name('supplier_invoices.list');
      /* SUPPLIER INVOICE PACKING ITEMS */
@@ -609,6 +610,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/unreceive_inventory/{id}', [SupplierInvoiceController::class, 'unreceive_inventory'])->name('supplier_invoice.unreceive_inventory');
     Route::get('/fetch_unreceive_data/{id}', [SupplierInvoiceController::class, 'FetchUnreceivedDetails'])->name('fetch_unreceive_data');
     Route::post('/unreceive_inventory_details/{po_id}', [SupplierInvoiceController::class, 'unreceiveInventoryDetails'])->name('unreceive_inventory_details');
+    
+    Route::resource('inventory_intransits', InventoryIntransitController::class);
+    Route::get('/inventory_intransit/list', [InventoryIntransitController::class, 'getInventoryIntransitTableList'])->name('inventory_intransits.list');
 
 
 });

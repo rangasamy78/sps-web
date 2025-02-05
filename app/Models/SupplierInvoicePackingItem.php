@@ -52,5 +52,14 @@ class SupplierInvoicePackingItem extends Model
     {
         return $this->belongsTo(Product::class, 'product_id');
     }
+    public function purchase_order()
+    {
+        return $this->belongsTo(PurchaseOrder::class, 'po_id');
+    }
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'ship_location_id', 'id');
+    }
+
 
 }
